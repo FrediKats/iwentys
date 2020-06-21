@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using Iwentys.Core.Tools;
 using Iwentys.Models.Exceptions;
-using Iwentys.Models.Types;
+using Iwentys.Models.Types.Github;
+using Newtonsoft.Json;
 using Octokit;
 
 namespace Iwentys.Core.GithubIntegration
@@ -47,6 +49,26 @@ namespace Iwentys.Core.GithubIntegration
                 .Get(githubUsername)
                 .Result
                 .Maybe(u => new GithubUser(u.Name, u.AvatarUrl, u.Bio, u.Company)) ?? throw EntityNotFoundException.Create(nameof(GithubUser), githubUsername);
+        }
+
+        public ContributionFullInfo GetUserActivity(string githubUsername)
+        {
+            using (var http = new HttpClient())
+            {
+                string info = http.GetStringAsync($"https://github-contributions-api.now.sh/v1/{githubUsername}").Result;
+                var result = JsonConvert.DeserializeObject<ActivityInfo>(info);
+                List<ContributionsInfo> perMonth = result
+                    .Contributions
+                    .GroupBy(c => c.Date.Substring(0, 7))
+                    .Select(c => new ContributionsInfo(c.Key, c.Sum(_ => _.Count)))
+                    .ToList();
+
+                return new ContributionFullInfo()
+                {
+                    PerMonthActivity = perMonth,
+                    RawActivity = result
+                };
+            }
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using Iwentys.Models.Types;
-using Octokit;
+using Iwentys.Models.Types.Github;
 
 namespace Iwentys.Core.GithubIntegration
 {
@@ -10,5 +9,7 @@ namespace Iwentys.Core.GithubIntegration
         IReadOnlyList<GithubRepository> GetUserRepositories(string username);
 
         GithubUser GetGithubUser(string githubUsername);
+
+        ContributionFullInfo GetUserActivity(string githubUsername);
     }
 }
