@@ -12,6 +12,8 @@ namespace Iwentys.Core.GithubIntegration
 {
     public class GithubApiAccessor : IGithubApiAccessor
     {
+        private const string GithubContributionsApiUrl = "https://github-contributions-api.now.sh/v1/";
+
         private readonly GitHubClient _client;
 
         public GithubApiAccessor()
@@ -55,7 +57,7 @@ namespace Iwentys.Core.GithubIntegration
         {
             using (var http = new HttpClient())
             {
-                string info = http.GetStringAsync($"https://github-contributions-api.now.sh/v1/{githubUsername}").Result;
+                string info = http.GetStringAsync(GithubContributionsApiUrl + githubUsername).Result;
                 var result = JsonConvert.DeserializeObject<ActivityInfo>(info);
                 List<ContributionsInfo> perMonth = result
                     .Contributions
@@ -63,7 +65,7 @@ namespace Iwentys.Core.GithubIntegration
                     .Select(c => new ContributionsInfo(c.Key, c.Sum(_ => _.Count)))
                     .ToList();
 
-                return new ContributionFullInfo()
+                return new ContributionFullInfo
                 {
                     PerMonthActivity = perMonth,
                     RawActivity = result
