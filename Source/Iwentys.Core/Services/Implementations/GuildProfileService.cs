@@ -1,24 +1,24 @@
-﻿using Iwentys.Core.Services.Abstractions;
+﻿using System.Linq;
+using Iwentys.Core.Services.Abstractions;
+using Iwentys.Core.Tools;
 using Iwentys.Database.Entities;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Abstractions;
-using Iwentys.Models.Transferable.Guilds;
+using Iwentys.Database.Transferable.Guilds;
 
 namespace Iwentys.Core.Services.Implementations
 {
     public class GuildProfileService : IGuildProfileService
     {
-        private readonly IUserProfileRepository _userProfileRepository;
         private readonly IGuildProfileRepository _guildProfileRepository;
 
-        public GuildProfileService(IUserProfileRepository userProfileRepository, IGuildProfileRepository guildProfileRepository)
+        public GuildProfileService(IGuildProfileRepository guildProfileRepository)
         {
-            _userProfileRepository = userProfileRepository;
             _guildProfileRepository = guildProfileRepository;
         }
 
 
-        public GuildProfile Create(int creator, GuildCreateArgumentDto arguments)
+        public GuildProfileDto Create(int creator, GuildCreateArgumentDto arguments)
         {
             //TODO: check if user already in guild
             var newGuild = new GuildProfile
@@ -29,27 +29,27 @@ namespace Iwentys.Core.Services.Implementations
                 Title = arguments.Title
             };
 
-            return _guildProfileRepository.Create(newGuild);
+            return _guildProfileRepository.Create(newGuild).To(GuildProfileDto.Create);
         }
 
-        public GuildProfile Update(int creator, GuildUpdateArgumentDto arguments)
+        public GuildProfileDto Update(int creator, GuildUpdateArgumentDto arguments)
         {
             //TODO: check permission
             GuildProfile info = _guildProfileRepository.Get(arguments.Id);
             info.Bio = arguments.Bio ?? info.Bio;
             info.LogoUrl = arguments.LogoUrl?? info.LogoUrl;
             info.HiringPolicy = arguments.HiringPolicy ?? info.HiringPolicy;
-            return _guildProfileRepository.Update(info);
+            return _guildProfileRepository.Update(info).To(GuildProfileDto.Create);
         }
 
-        public GuildProfile[] Get()
+        public GuildProfileDto[] Get()
         {
-            return _guildProfileRepository.Read();
+            return _guildProfileRepository.Read().Select(GuildProfileDto.Create).ToArray();
         }
 
-        public GuildProfile Get(int id)
+        public GuildProfileDto Get(int id)
         {
-            return _guildProfileRepository.Get(id);
+            return _guildProfileRepository.Get(id).To(GuildProfileDto.Create);
         }
     }
 }

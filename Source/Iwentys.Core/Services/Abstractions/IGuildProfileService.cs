@@ -1,15 +1,13 @@
-﻿using Iwentys.Database.Entities;
-using Iwentys.Database.Repositories;
-using Iwentys.Models.Transferable.Guilds;
+﻿using Iwentys.Database.Transferable.Guilds;
 
 namespace Iwentys.Core.Services.Abstractions
 {
     public interface IGuildProfileService
     {
-        GuildProfile Create(int creator, GuildCreateArgumentDto arguments);
-        GuildProfile Update(int creator, GuildUpdateArgumentDto arguments);
+        GuildProfileDto Create(int creator, GuildCreateArgumentDto arguments);
+        GuildProfileDto Update(int creator, GuildUpdateArgumentDto arguments);
 
-        GuildProfile[] Get();
-        GuildProfile Get(int id);
+        GuildProfileDto[] Get();
+        GuildProfileDto Get(int id);
     }
 }

@@ -8,5 +8,10 @@ namespace Iwentys.Core.Tools
         {
             return value == null ? default : just(value);
         }
+
+        public static TResult To<TValue, TResult>(this TValue value, Func<TValue, TResult> convertor) where TValue : class
+        {
+            return convertor(value);
+        }
     }
 }

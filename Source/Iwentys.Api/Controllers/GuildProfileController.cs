@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Core.Services.Abstractions;
-using Iwentys.Database.Entities;
-using Iwentys.Models.Transferable.Guilds;
+using Iwentys.Database.Transferable.Guilds;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -19,25 +18,25 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet]
-        public GuildProfile Get(int creatorId, [FromBody] GuildCreateArgumentDto arguments)
+        public GuildProfileDto Get([FromQuery] int creatorId, [FromBody] GuildCreateArgumentDto arguments)
         {
             return _guildProfileService.Create(creatorId, arguments);
         }
 
         [HttpGet]
-        public GuildProfile Update(int userId, [FromBody] GuildUpdateArgumentDto arguments)
+        public GuildProfileDto Update([FromQuery]int userId, [FromBody] GuildUpdateArgumentDto arguments)
         {
             return _guildProfileService.Update(userId, arguments);
         }
 
         [HttpGet]
-        public IEnumerable<GuildProfile> Get()
+        public IEnumerable<GuildProfileDto> Get()
         {
             return _guildProfileService.Get();
         }
 
         [HttpGet("{id}")]
-        public GuildProfile Get(int id)
+        public GuildProfileDto Get(int id)
         {
             return _guildProfileService.Get(id);
         }

@@ -2,6 +2,7 @@
 using Iwentys.Database.Context;
 using Iwentys.Database.Entities;
 using Iwentys.Database.Repositories.Abstractions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Implementations
@@ -24,12 +25,16 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public GuildProfile[] Read()
         {
-            return _dbContext.GuildProfiles.ToArray();
+            return _dbContext.GuildProfiles
+                .Include(g => g.Members)
+                .ToArray();
         }
 
         public GuildProfile ReadById(int key)
         {
-            return _dbContext.GuildProfiles.Find(key);
+            return _dbContext.GuildProfiles
+                .Include(g => g.Members)
+                .FirstOrDefault(g => g.Id == key);
         }
 
         public GuildProfile Update(GuildProfile entity)
