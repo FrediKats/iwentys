@@ -5,10 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Context\" />
-    <Folder Include="Models\" />
-    <Folder Include="Repositories\Abstractions\" />
-    <Folder Include="Repositories\Implementations\" />
+    <Folder Include="Entities\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Iwentys.Models\Iwentys.Models.csproj" />
   </ItemGroup>
 
 </Project>
