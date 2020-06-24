@@ -22,11 +22,14 @@ namespace Iwentys.Core.Services.Implementations
             _userProfileRepository = userProfileRepository;
         }
 
-        public GuildProfileDto Create(int creator, GuildCreateArgumentDto arguments)
+        public GuildProfileDto Create(int creatorId, GuildCreateArgumentDto arguments)
         {
-            UserProfile creatorUser = _userProfileRepository.Get(creator);
-            
-            //TODO: check if user already in guild
+            UserProfile creatorUser = _userProfileRepository.Get(creatorId);
+
+            var userGuild = _guildProfileRepository.ReadForUser(creatorId);
+            if (userGuild != null)
+                throw new InnerLogicException("User already in guild");
+
             var newGuild = new GuildProfile
             {
                 Bio = arguments.Bio,
@@ -76,6 +79,11 @@ namespace Iwentys.Core.Services.Implementations
         public GuildProfileDto Get(int id)
         {
             return _guildProfileRepository.Get(id).To(GuildProfileDto.Create);
+        }
+
+        public GuildProfileDto GetUserProfile(int userId)
+        {
+            return _guildProfileRepository.ReadForUser(userId).To(GuildProfileDto.Create);
         }
     }
 }

@@ -60,5 +60,14 @@ namespace Iwentys.Database.Repositories.Implementations
                 .Where(g => g.GuildType == GuildType.Pending)
                 .ToArray();
         }
+
+        public GuildProfile ReadForUser(int userId)
+        {
+            return _dbContext.GuildMembers
+                .Where(gm => gm.MemberId == userId)
+                .Include(gm => gm.Guild)
+                .SingleOrDefault()
+                ?.Guild;
+        }
     }
 }
