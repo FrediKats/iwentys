@@ -2,6 +2,7 @@
 using Iwentys.Database.Context;
 using Iwentys.Database.Entities;
 using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.Models.Types;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -27,6 +28,7 @@ namespace Iwentys.Database.Repositories.Implementations
         {
             return _dbContext.GuildProfiles
                 .Include(g => g.Members)
+                .Where(g => g.GuildType == GuildType.Created)
                 .ToArray();
         }
 
@@ -49,6 +51,14 @@ namespace Iwentys.Database.Repositories.Implementations
             GuildProfile user = this.Get(key);
             _dbContext.GuildProfiles.Remove(user);
             _dbContext.SaveChanges();
+        }
+
+        public GuildProfile[] ReadPending()
+        {
+            return _dbContext.GuildProfiles
+                .Include(g => g.Members)
+                .Where(g => g.GuildType == GuildType.Pending)
+                .ToArray();
         }
     }
 }

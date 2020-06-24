@@ -6,6 +6,7 @@ using Iwentys.Database.Entities;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Database.Transferable.Guilds;
+using Iwentys.Models.Exceptions;
 using Iwentys.Models.Types;
 
 namespace Iwentys.Core.Services.Implementations
@@ -31,7 +32,8 @@ namespace Iwentys.Core.Services.Implementations
                 Bio = arguments.Bio,
                 HiringPolicy = arguments.HiringPolicy,
                 LogoUrl = arguments.LogoUrl,
-                Title = arguments.Title
+                Title = arguments.Title,
+                GuildType = GuildType.Pending
             };
 
             newGuild.Members = new List<GuildMember>
@@ -50,6 +52,20 @@ namespace Iwentys.Core.Services.Implementations
             info.LogoUrl = arguments.LogoUrl?? info.LogoUrl;
             info.HiringPolicy = arguments.HiringPolicy ?? info.HiringPolicy;
             return _guildProfileRepository.Update(info).To(GuildProfileDto.Create);
+        }
+
+        public GuildProfileDto ApproveGuildCreating(int adminId, int guildId)
+        {
+            UserProfile admin = _userProfileRepository.Get(adminId);
+            if (admin.Role != UserType.Admin)
+                throw InnerLogicException.NotEnoughPermission(adminId);
+
+            GuildProfile guild = _guildProfileRepository.Get(guildId);
+            if (guild.GuildType == GuildType.Created)
+                throw new InnerLogicException("Guild already approved");
+
+            guild.GuildType = GuildType.Created;
+            return _guildProfileRepository.Update(guild).To(GuildProfileDto.Create);
         }
 
         public GuildProfileDto[] Get()

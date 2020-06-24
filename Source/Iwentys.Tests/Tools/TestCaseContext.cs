@@ -12,6 +12,7 @@ namespace Iwentys.Tests.Tools
     public class TestCaseContext
     {
         public readonly IUserProfileRepository UserProfileRepository;
+        public readonly IGuildProfileRepository GuildProfileRepository;
 
         public readonly IUserProfileService UserProfileService;
         public readonly IGuildProfileService GuildProfileService;
@@ -22,9 +23,10 @@ namespace Iwentys.Tests.Tools
         {
             IwentysDbContext context = TestDatabaseProvider.GetDatabaseContext();
             UserProfileRepository = new UserProfileRepository(context);
+            GuildProfileRepository = new GuildProfileRepository(context);
 
             UserProfileService = new UserProfileService(UserProfileRepository);
-            GuildProfileService = new GuildProfileService(new GuildProfileRepository(context), UserProfileRepository);
+            GuildProfileService = new GuildProfileService(GuildProfileRepository, UserProfileRepository);
         }
 
         public TestCaseContext WithNewUser(out UserProfile userInfo, UserType userType = UserType.Common)

@@ -11,6 +11,7 @@ namespace Iwentys.Database.Entities
         public string LogoUrl { get; set; }
         
         public GuildHiringPolicy HiringPolicy { get; set; }
+        public GuildType GuildType { get; set; }
 
         public List<GuildMember> Members { get; set; }
     }
