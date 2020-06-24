@@ -17,13 +17,13 @@ namespace Iwentys.Api.Controllers
             _guildProfileService = guildProfileService;
         }
 
-        [HttpGet]
-        public GuildProfileDto Get([FromQuery] int creatorId, [FromBody] GuildCreateArgumentDto arguments)
+        [HttpPost]
+        public GuildProfileDto Create([FromQuery] int creatorId, [FromBody] GuildCreateArgumentDto arguments)
         {
             return _guildProfileService.Create(creatorId, arguments);
         }
 
-        [HttpGet]
+        [HttpPost]
         public GuildProfileDto Update([FromQuery]int userId, [FromBody] GuildUpdateArgumentDto arguments)
         {
             return _guildProfileService.Update(userId, arguments);
