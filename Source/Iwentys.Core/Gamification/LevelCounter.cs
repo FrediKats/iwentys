@@ -7,7 +7,10 @@ namespace Iwentys.Core.Gamification
     public class LevelCounter
     {
         private const int MaxLevel = 35;
-        
+        private const int ExperienceCounterExponentBase = 2;
+        private const double ExperienceCounterExponentDefaultStep = 5.7;
+        private const double ExperienceCounterExponentStepPerLevelIncrease = 1 / 20.0;
+
         private static readonly List<int> ExperienceForLevel = Enumerable.Range(0, MaxLevel + 1).Select(ConvertLevelToExperienceBound).ToList();
 
         public int CurrentExperience { get; }
@@ -19,6 +22,9 @@ namespace Iwentys.Core.Gamification
             CurrentExperience = currentExperience;
         }
 
-        public static int ConvertLevelToExperienceBound(int level) => (int)(level * Math.Pow(2, 5.7 + level / 20.0));
+        public static int ConvertLevelToExperienceBound(int level)
+        {
+            return (int) (level * Math.Pow(ExperienceCounterExponentBase, ExperienceCounterExponentDefaultStep + level * ExperienceCounterExponentStepPerLevelIncrease));
+        }
     }
 }
