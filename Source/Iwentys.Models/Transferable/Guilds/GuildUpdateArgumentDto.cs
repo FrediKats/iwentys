@@ -1,6 +1,6 @@
 ﻿using Iwentys.Models.Types;
 
-namespace Iwentys.Database.Transferable.Guilds
+namespace Iwentys.Models.Transferable.Guilds
 {
     public class GuildUpdateArgumentDto
     {

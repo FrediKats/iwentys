@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Iwentys.Models.Types;
 
-namespace Iwentys.Database.Entities
+namespace Iwentys.Models.Entities
 {
     public class UserProfile
     {

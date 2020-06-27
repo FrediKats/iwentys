@@ -2,11 +2,11 @@
 using System.Linq;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Core.Tools;
-using Iwentys.Database.Entities;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Abstractions;
-using Iwentys.Database.Transferable.Guilds;
+using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;
+using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Types;
 
 namespace Iwentys.Core.Services.Implementations

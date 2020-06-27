@@ -1,4 +1,4 @@
-﻿using Iwentys.Database.Entities;
+﻿using Iwentys.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Context

@@ -1,7 +1,7 @@
 ﻿using Iwentys.Core.Services.Abstractions;
-using Iwentys.Database.Entities;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.Models.Entities;
 
 namespace Iwentys.Core.Services.Implementations
 {

@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using Iwentys.Database.Entities;
 using Iwentys.Database.Repositories;
-using Iwentys.Database.Transferable.Guilds;
+using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;
+using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Types;
 using Iwentys.Tests.Tools;
 using NUnit.Framework;
@@ -57,7 +57,7 @@ namespace Iwentys.Tests.Core.Services
             var context = TestCaseContext
                 .Case()
                 .WithNewUser(out UserProfile user)
-                .WithNewUser(out var admin, UserType.Admin)
+                .WithNewUser(out UserProfile _, UserType.Admin)
                 .WithGuild(user, out GuildProfileDto _);
 
             Assert.Catch<InnerLogicException>(() => context.WithGuild(user, out GuildProfileDto _));

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Core.Services.Abstractions;
-using Iwentys.Database.Transferable.Guilds;
+using Iwentys.Models.Transferable.Guilds;
 using Microsoft.AspNetCore.Mvc;
 
 

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Database.Entities;
+using Iwentys.Models.Entities;
 using Iwentys.Models.Types;
 
-namespace Iwentys.Database.Transferable.Guilds
+namespace Iwentys.Models.Transferable.Guilds
 {
     public class GuildProfileDto
     {

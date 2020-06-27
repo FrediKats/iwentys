@@ -1,4 +1,4 @@
-﻿using Iwentys.Database.Entities;
+﻿using Iwentys.Models.Entities;
 
 namespace Iwentys.Database.Repositories.Abstractions
 {

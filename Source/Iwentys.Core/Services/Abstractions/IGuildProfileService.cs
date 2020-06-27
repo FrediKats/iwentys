@@ -1,4 +1,4 @@
-﻿using Iwentys.Database.Transferable.Guilds;
+﻿using Iwentys.Models.Transferable.Guilds;
 
 namespace Iwentys.Core.Services.Abstractions
 {

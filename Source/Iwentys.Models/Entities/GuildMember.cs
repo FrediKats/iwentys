@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Iwentys.Models.Types;
 
-namespace Iwentys.Database.Entities
+namespace Iwentys.Models.Entities
 {
     public class GuildMember
     {

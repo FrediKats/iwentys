@@ -1,10 +1,10 @@
 ﻿using Iwentys.Core.Services.Abstractions;
 using Iwentys.Core.Services.Implementations;
 using Iwentys.Database.Context;
-using Iwentys.Database.Entities;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Database.Repositories.Implementations;
-using Iwentys.Database.Transferable.Guilds;
+using Iwentys.Models.Entities;
+using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Types;
 
 namespace Iwentys.Tests.Tools
