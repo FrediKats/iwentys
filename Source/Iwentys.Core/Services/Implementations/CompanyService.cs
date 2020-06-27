@@ -1,6 +1,8 @@
 ﻿using Iwentys.Core.Services.Abstractions;
+using Iwentys.Core.Tools;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Transferable.Companies;
 
 namespace Iwentys.Core.Services.Implementations
 {
@@ -13,14 +15,20 @@ namespace Iwentys.Core.Services.Implementations
             _companyRepository = companyRepository;
         }
 
-        public Company[] Get()
+        public CompanyInfoDto[] Get()
         {
-            return _companyRepository.Read();
+            return _companyRepository.Read().SelectToArray(WrapToDto);
         }
 
-        public Company Get(int id)
+        public CompanyInfoDto Get(int id)
         {
-            return _companyRepository.ReadById(id);
+            return _companyRepository.ReadById(id).To(WrapToDto);
+        }
+
+        private CompanyInfoDto WrapToDto(Company company)
+        {
+            UserProfile[] workers = _companyRepository.ReadMembers(company.Id);
+            return CompanyInfoDto.Create(company, workers);
         }
     }
 }

@@ -49,5 +49,14 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.Companies.Remove(entity);
             _dbContext.SaveChanges();
         }
+
+        public UserProfile[] ReadMembers(int companyId)
+        {
+            return _dbContext
+                .CompanyWorkers
+                .Where(cw => cw.CompanyId == companyId)
+                .Select(cw => cw.Worker)
+                .ToArray();
+        }
     }
 }

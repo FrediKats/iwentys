@@ -4,6 +4,6 @@ namespace Iwentys.Database.Repositories.Abstractions
 {
     public interface ICompanyRepository : IGenericRepository<Company, int>
     {
-        
+        UserProfile[] ReadMembers(int companyId);
     }
 }

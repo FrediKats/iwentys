@@ -1,10 +1,10 @@
-﻿using Iwentys.Models.Entities;
+﻿using Iwentys.Models.Transferable.Companies;
 
 namespace Iwentys.Core.Services.Abstractions
 {
     public interface ICompanyService
     {
-        Company[] Get();
-        Company Get(int id);
+        CompanyInfoDto[] Get();
+        CompanyInfoDto Get(int id);
     }
 }

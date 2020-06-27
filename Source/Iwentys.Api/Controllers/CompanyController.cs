@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Core.Services.Abstractions;
-using Iwentys.Models.Entities;
+using Iwentys.Models.Transferable.Companies;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Api.Controllers
@@ -17,13 +17,13 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Company> Get()
+        public IEnumerable<CompanyInfoDto> Get()
         {
             return _companyService.Get();
         }
 
         [HttpGet("{id}")]
-        public Company Get(int id)
+        public CompanyInfoDto Get(int id)
         {
             return _companyService.Get(id);
         }
