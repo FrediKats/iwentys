@@ -9,6 +9,9 @@ namespace Iwentys.Database.Context
         public DbSet<GuildProfile> GuildProfiles { get; set; }
         public DbSet<GuildMember> GuildMembers { get; set; }
 
+        public DbSet<Company> Companies { get; set; }
+
+
         public IwentysDbContext(DbContextOptions options) : base(options)
         {
         }
