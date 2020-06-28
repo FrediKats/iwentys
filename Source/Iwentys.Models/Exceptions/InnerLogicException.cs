@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace Iwentys.Models.Exceptions
+﻿namespace Iwentys.Models.Exceptions
 {
-    public class InnerLogicException : Exception
+    public class InnerLogicException : IwentysException
     {
         public InnerLogicException(string message) : base(message)
         {
