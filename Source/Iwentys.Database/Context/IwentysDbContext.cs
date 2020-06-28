@@ -6,6 +6,8 @@ namespace Iwentys.Database.Context
     public class IwentysDbContext : DbContext
     {
         public DbSet<UserProfile> UserProfile { get; set; }
+        public DbSet<BarsPointTransactionLog> BarsPointTransactionLogs { get; set; }
+
         public DbSet<GuildProfile> GuildProfiles { get; set; }
         public DbSet<GuildMember> GuildMembers { get; set; }
 

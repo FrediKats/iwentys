@@ -17,5 +17,6 @@ namespace Iwentys.Models.Entities
         public string GithubUsername { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime LastOnlineTime { get; set; }
+        public int BarsPoints { get; set; }
     }
 }
