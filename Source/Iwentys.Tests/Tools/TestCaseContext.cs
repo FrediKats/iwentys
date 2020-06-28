@@ -1,5 +1,4 @@
-﻿using System;
-using Iwentys.Core.Services.Abstractions;
+﻿using Iwentys.Core.Services.Abstractions;
 using Iwentys.Core.Services.Implementations;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
@@ -34,7 +33,7 @@ namespace Iwentys.Tests.Tools
 
             UserProfileService = new UserProfileService(UserProfileRepository);
             GuildProfileService = new GuildProfileService(GuildProfileRepository, UserProfileRepository);
-            CompanyService = new CompanyService(CompanyRepository);
+            CompanyService = new CompanyService(CompanyRepository, UserProfileRepository);
         }
 
         public TestCaseContext WithNewUser(out UserProfile userInfo, UserType userType = UserType.Common)
@@ -60,14 +59,14 @@ namespace Iwentys.Tests.Tools
         {
             var company = new Company();
             company = CompanyRepository.Create(company);
-            companyInfo = CompanyInfoDto.Create(company, Array.Empty<UserProfile>());
+            companyInfo = CompanyInfoDto.Create(company);
             return this;
         }
 
         public TestCaseContext WithCompanyWorker(CompanyInfoDto companyInfo, out UserProfile userInfo)
         {
             WithNewUser(out userInfo);
-            _context.CompanyWorkers.Add(new CompanyWorker {CompanyId = companyInfo.Id, WorkerId = userInfo.Id});
+            _context.CompanyWorkers.Add(new CompanyWorker {CompanyId = companyInfo.Id, WorkerId = userInfo.Id, Type = CompanyWorkerType.Accepted});
             _context.SaveChanges();
             return this;
         }

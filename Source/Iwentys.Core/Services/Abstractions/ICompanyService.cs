@@ -6,5 +6,9 @@ namespace Iwentys.Core.Services.Abstractions
     {
         CompanyInfoDto[] Get();
         CompanyInfoDto Get(int id);
+
+        CompanyWorkRequestDto[] GetCompanyWorkRequest();
+        void RequestAdding(int companyId, int userId);
+        void ApproveAdding(int userId, int adminId);
     }
 }
