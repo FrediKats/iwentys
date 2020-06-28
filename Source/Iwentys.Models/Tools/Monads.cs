@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iwentys.Core.Tools
+namespace Iwentys.Models.Tools
 {
     public static class Monads
     {

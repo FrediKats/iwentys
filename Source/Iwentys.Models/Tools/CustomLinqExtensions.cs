@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Iwentys.Core.Tools
+namespace Iwentys.Models.Tools
 {
     public static class CustomLinqExtensions
     {
