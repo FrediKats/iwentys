@@ -29,8 +29,12 @@ namespace Iwentys.Api
             services.AddDbContext<IwentysDbContext>(o => o.UseInMemoryDatabase(Guid.NewGuid().ToString()));
 
             services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+            services.AddScoped<IGuildProfileRepository, GuildProfileRepository>();
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
 
             services.AddScoped<IUserProfileService, UserProfileService>();
+            services.AddScoped<IGuildProfileService, GuildProfileService>();
+            services.AddScoped<ICompanyService, CompanyService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
