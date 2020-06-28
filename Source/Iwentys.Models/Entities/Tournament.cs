@@ -1,4 +1,5 @@
 ﻿using System;
+using Iwentys.Models.Types;
 
 namespace Iwentys.Models.Entities
 {
@@ -9,5 +10,6 @@ namespace Iwentys.Models.Entities
         public string Description { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+        public TournamentType Type { get; set; }
     }
 }
