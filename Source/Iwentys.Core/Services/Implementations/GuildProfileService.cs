@@ -1,8 +1,9 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.Models.DomainModel;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
@@ -59,9 +60,9 @@ namespace Iwentys.Core.Services.Implementations
 
         public GuildProfileDto ApproveGuildCreating(int adminId, int guildId)
         {
-            UserProfile admin = _userProfileRepository.Get(adminId);
-            if (admin.Role != UserType.Admin)
-                throw InnerLogicException.NotEnoughPermission(adminId);
+            _userProfileRepository
+                .Get(adminId)
+                .EnsureIsAdmin();
 
             GuildProfile guild = _guildProfileRepository.Get(guildId);
             if (guild.GuildType == GuildType.Created)
