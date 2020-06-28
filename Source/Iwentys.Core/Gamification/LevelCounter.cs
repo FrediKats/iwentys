@@ -13,14 +13,14 @@ namespace Iwentys.Core.Gamification
 
         private static readonly List<int> ExperienceForLevel = Enumerable.Range(0, MaxLevel + 1).Select(ConvertLevelToExperienceBound).ToList();
 
-        public int CurrentExperience { get; }
-        public int Level => ExperienceForLevel.FindLastIndex(exp => exp <= CurrentExperience);
-        public int ExperienceToNextLevel => ExperienceForLevel[Level + 1];
-
         public LevelCounter(int currentExperience)
         {
             CurrentExperience = currentExperience;
         }
+
+        public int CurrentExperience { get; }
+        public int Level => ExperienceForLevel.FindLastIndex(exp => exp <= CurrentExperience);
+        public int ExperienceToNextLevel => ExperienceForLevel[Level + 1];
 
         public static int ConvertLevelToExperienceBound(int level)
         {

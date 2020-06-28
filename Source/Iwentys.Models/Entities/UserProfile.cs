@@ -10,6 +10,7 @@ namespace Iwentys.Models.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
+
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string SecondName { get; set; }
@@ -17,5 +18,6 @@ namespace Iwentys.Models.Entities
         public string GithubUsername { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime LastOnlineTime { get; set; }
+        public int BarsPoints { get; set; }
     }
 }

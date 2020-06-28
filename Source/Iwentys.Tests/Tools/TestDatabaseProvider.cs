@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-using System;
+﻿using System;
 using Iwentys.Database.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Tests.Tools
 {
@@ -9,8 +8,8 @@ namespace Iwentys.Tests.Tools
     {
         public static IwentysDbContext GetDatabaseContext()
         {
-            var options = new DbContextOptionsBuilder<IwentysDbContext>()
-                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            DbContextOptions<IwentysDbContext> options = new DbContextOptionsBuilder<IwentysDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
             var databaseContext = new IwentysDbContext(options);
             databaseContext.Database.EnsureCreated();

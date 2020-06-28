@@ -8,6 +8,5 @@ namespace Iwentys.Models.Transferable.Tournaments
     {
         public Tournament Tournament { get; set; }
         public Dictionary<GuildProfileDto, int> Result { get; set; }
-        
     }
 }

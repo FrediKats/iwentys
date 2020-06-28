@@ -3,7 +3,6 @@ using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Transferable.Guilds;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace Iwentys.Api.Controllers
 {
     [Route("api/[controller]")]
@@ -24,7 +23,7 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpPost]
-        public GuildProfileDto Update([FromQuery]int userId, [FromBody] GuildUpdateArgumentDto arguments)
+        public GuildProfileDto Update([FromQuery] int userId, [FromBody] GuildUpdateArgumentDto arguments)
         {
             return _guildProfileService.Update(userId, arguments);
         }

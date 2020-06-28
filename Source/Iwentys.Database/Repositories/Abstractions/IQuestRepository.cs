@@ -2,7 +2,7 @@
 
 namespace Iwentys.Database.Repositories.Abstractions
 {
-    public interface IUserProfileRepository : IGenericRepository<UserProfile, int>
+    public interface IQuestRepository : IGenericRepository<Quest, int>
     {
     }
 }

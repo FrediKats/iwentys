@@ -9,7 +9,7 @@ namespace Iwentys.Models.Entities
         public string Title { get; set; }
         public string Bio { get; set; }
         public string LogoUrl { get; set; }
-        
+
         public GuildHiringPolicy HiringPolicy { get; set; }
         public GuildType GuildType { get; set; }
 

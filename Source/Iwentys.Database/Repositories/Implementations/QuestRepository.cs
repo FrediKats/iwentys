@@ -6,43 +6,42 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Implementations
 {
-    public class UserProfileRepository : IUserProfileRepository
+    public class QuestRepository : IQuestRepository
     {
         private readonly IwentysDbContext _dbContext;
 
-        public UserProfileRepository(IwentysDbContext dbContext)
+        public QuestRepository(IwentysDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public UserProfile Create(UserProfile entity)
+        public Quest Create(Quest entity)
         {
-            EntityEntry<UserProfile> createdEntity = _dbContext.UserProfile.Add(entity);
+            EntityEntry<Quest> createdEntity = _dbContext.Quests.Add(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
-        public UserProfile[] Read()
+        public Quest[] Read()
         {
-            return _dbContext.UserProfile.ToArray();
+            return _dbContext.Quests.ToArray();
         }
 
-        public UserProfile ReadById(int key)
+        public Quest ReadById(int key)
         {
-            return _dbContext.UserProfile.Find(key);
+            return _dbContext.Quests.Find(key);
         }
 
-        public UserProfile Update(UserProfile entity)
+        public Quest Update(Quest entity)
         {
-            EntityEntry<UserProfile> createdEntity = _dbContext.UserProfile.Update(entity);
+            EntityEntry<Quest> createdEntity = _dbContext.Quests.Update(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
         public void Delete(int key)
         {
-            UserProfile user = this.Get(key);
-            _dbContext.UserProfile.Remove(user);
+            _dbContext.Quests.Remove(this.Get(key));
             _dbContext.SaveChanges();
         }
     }

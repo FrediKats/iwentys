@@ -10,10 +10,10 @@ namespace Iwentys.Core.DomainModel
 {
     public class CodeMarathonTournament : ITournamentDomain
     {
-        private readonly Tournament _tournament;
+        private readonly IGithubApiAccessor _githubApiAccessor;
 
         private readonly IGuildProfileService _guildProfileService;
-        private readonly IGithubApiAccessor _githubApiAccessor;
+        private readonly Tournament _tournament;
 
         public CodeMarathonTournament(Tournament tournament, IGuildProfileService guildProfileService, IGithubApiAccessor githubApiAccessor)
         {

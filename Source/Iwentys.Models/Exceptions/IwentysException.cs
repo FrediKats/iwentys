@@ -6,7 +6,6 @@ namespace Iwentys.Models.Exceptions
     {
         public IwentysException(string message) : base(message)
         {
-            
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Iwentys.Core.Services.Abstractions;
+using Iwentys.Core.Services.Abstractions;
 using Iwentys.Core.Services.Implementations;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
@@ -41,7 +41,7 @@ namespace Iwentys.Tests.Tools
             userInfo = new UserProfile
             {
                 Id = RandomProvider.Random.Next(999999),
-                Role =  userType
+                Role = userType
             };
             userInfo = UserProfileRepository.Create(userInfo);
 

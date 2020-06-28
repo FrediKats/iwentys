@@ -11,10 +11,10 @@ namespace Iwentys.Tests.Core.Services
         [Test]
         public void CreateCompanyWithWorker_ShouldReturnOneWorker()
         {
-            var testCase = TestCaseContext
+            TestCaseContext testCase = TestCaseContext
                 .Case()
-                .WithCompany(out var company)
-                .WithCompanyWorker(company, out var user);
+                .WithCompany(out CompanyInfoDto company)
+                .WithCompanyWorker(company, out UserProfile user);
 
             UserProfile[] companyMembers = testCase.CompanyService.Get(company.Id).Workers;
 
@@ -25,10 +25,10 @@ namespace Iwentys.Tests.Core.Services
         [Test]
         public void SendCompanyWorkerRequest_RequestWillExists()
         {
-            var testCase = TestCaseContext
+            TestCaseContext testCase = TestCaseContext
                 .Case()
-                .WithCompany(out var company)
-                .WithNewUser(out var worker);
+                .WithCompany(out CompanyInfoDto company)
+                .WithNewUser(out UserProfile worker);
 
             testCase.CompanyService.RequestAdding(company.Id, worker.Id);
             CompanyWorkRequestDto[] request = testCase.CompanyService.GetCompanyWorkRequest();
