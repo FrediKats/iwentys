@@ -12,6 +12,8 @@ namespace Iwentys.Database.Context
         public DbSet<Company> Companies { get; set; }
         public DbSet<CompanyWorker> CompanyWorkers { get; set; }
 
+        public DbSet<Tournament> Tournaments { get; set; }
+
         public IwentysDbContext(DbContextOptions options) : base(options)
         {
         }

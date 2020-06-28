@@ -31,10 +31,12 @@ namespace Iwentys.Api
             services.AddScoped<IUserProfileRepository, UserProfileRepository>();
             services.AddScoped<IGuildProfileRepository, GuildProfileRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<ITournamentRepository, TournamentRepository>();
 
             services.AddScoped<IUserProfileService, UserProfileService>();
             services.AddScoped<IGuildProfileService, GuildProfileService>();
             services.AddScoped<ICompanyService, CompanyService>();
+            services.AddScoped<ITournamentService, TournamentService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
