@@ -2,9 +2,6 @@
 {
     public class ContributionsInfo
     {
-        public string Date { get; set; }
-        public int Count { get; set; }
-
         public ContributionsInfo(string date, int count) : this()
         {
             Date = date;
@@ -14,5 +11,8 @@
         private ContributionsInfo()
         {
         }
+
+        public string Date { get; set; }
+        public int Count { get; set; }
     }
 }

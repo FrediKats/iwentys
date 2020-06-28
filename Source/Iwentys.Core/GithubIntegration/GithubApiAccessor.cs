@@ -55,22 +55,21 @@ namespace Iwentys.Core.GithubIntegration
 
         public ContributionFullInfo GetUserActivity(string githubUsername)
         {
-            using (var http = new HttpClient())
-            {
-                string info = http.GetStringAsync(GithubContributionsApiUrl + githubUsername).Result;
-                var result = JsonConvert.DeserializeObject<ActivityInfo>(info);
-                List<ContributionsInfo> perMonth = result
-                    .Contributions
-                    .GroupBy(c => c.Date.Substring(0, 7))
-                    .Select(c => new ContributionsInfo(c.Key, c.Sum(_ => _.Count)))
-                    .ToList();
+            using var http = new HttpClient();
 
-                return new ContributionFullInfo
-                {
-                    PerMonthActivity = perMonth,
-                    RawActivity = result
-                };
-            }
+            string info = http.GetStringAsync(GithubContributionsApiUrl + githubUsername).Result;
+            var result = JsonConvert.DeserializeObject<ActivityInfo>(info);
+            List<ContributionsInfo> perMonth = result
+                .Contributions
+                .GroupBy(c => c.Date.Substring(0, 7))
+                .Select(c => new ContributionsInfo(c.Key, c.Sum(_ => _.Count)))
+                .ToList();
+
+            return new ContributionFullInfo
+            {
+                PerMonthActivity = perMonth,
+                RawActivity = result
+            };
         }
 
         public int GetUserActivity(string githubUsername, DateTime from, DateTime to)
@@ -79,7 +78,7 @@ namespace Iwentys.Core.GithubIntegration
                 .RawActivity
                 .Contributions
                 .Select(c => (Date: DateTime.Parse(c.Date), c.Count))
-                .Where(c => c.Date >= @from && c.Date <= to)
+                .Where(c => c.Date >= from && c.Date <= to)
                 .Sum(c => c.Count);
         }
     }

@@ -14,8 +14,8 @@ namespace Iwentys.Core.Services.Implementations
 {
     public class GuildProfileService : IGuildProfileService
     {
-        private readonly IUserProfileRepository _userProfileRepository;
         private readonly IGuildProfileRepository _guildProfileRepository;
+        private readonly IUserProfileRepository _userProfileRepository;
 
         public GuildProfileService(IGuildProfileRepository guildProfileRepository, IUserProfileRepository userProfileRepository)
         {
@@ -27,7 +27,7 @@ namespace Iwentys.Core.Services.Implementations
         {
             UserProfile creatorUser = _userProfileRepository.Get(creatorId);
 
-            var userGuild = _guildProfileRepository.ReadForUser(creatorId);
+            GuildProfile userGuild = _guildProfileRepository.ReadForUser(creatorId);
             if (userGuild != null)
                 throw new InnerLogicException("User already in guild");
 
@@ -53,7 +53,7 @@ namespace Iwentys.Core.Services.Implementations
             //TODO: check permission
             GuildProfile info = _guildProfileRepository.Get(arguments.Id);
             info.Bio = arguments.Bio ?? info.Bio;
-            info.LogoUrl = arguments.LogoUrl?? info.LogoUrl;
+            info.LogoUrl = arguments.LogoUrl ?? info.LogoUrl;
             info.HiringPolicy = arguments.HiringPolicy ?? info.HiringPolicy;
             return _guildProfileRepository.Update(info).To(GuildProfileDto.Create);
         }
@@ -82,7 +82,7 @@ namespace Iwentys.Core.Services.Implementations
             return _guildProfileRepository.Get(id).To(GuildProfileDto.Create);
         }
 
-        public GuildProfileDto GetUserProfile(int userId)
+        public GuildProfileDto GetUserGuild(int userId)
         {
             return _guildProfileRepository.ReadForUser(userId).To(GuildProfileDto.Create);
         }

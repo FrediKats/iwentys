@@ -2,6 +2,7 @@
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Implementations
 {
@@ -16,7 +17,7 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public Tournament Create(Tournament entity)
         {
-            var createdEntity = _dbContext.Tournaments.Add(entity);
+            EntityEntry<Tournament> createdEntity = _dbContext.Tournaments.Add(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
@@ -33,7 +34,7 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public Tournament Update(Tournament entity)
         {
-            var createdEntity = _dbContext.Tournaments.Update(entity);
+            EntityEntry<Tournament> createdEntity = _dbContext.Tournaments.Update(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }

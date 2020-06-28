@@ -10,6 +10,6 @@ namespace Iwentys.Core.Services.Abstractions
 
         GuildProfileDto[] Get();
         GuildProfileDto Get(int id);
-        GuildProfileDto GetUserProfile(int userId);
+        GuildProfileDto GetUserGuild(int userId);
     }
 }

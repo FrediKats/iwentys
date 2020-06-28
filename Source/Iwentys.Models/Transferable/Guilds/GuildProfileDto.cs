@@ -21,7 +21,7 @@ namespace Iwentys.Models.Transferable.Guilds
         {
             return new GuildProfileDto
             {
-                Id =  profile.Id,
+                Id = profile.Id,
                 Bio = profile.Bio,
                 HiringPolicy = profile.HiringPolicy,
                 LogoUrl = profile.LogoUrl,

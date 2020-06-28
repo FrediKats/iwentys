@@ -2,6 +2,7 @@
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Implementations
 {
@@ -16,7 +17,7 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public BarsPointTransactionLog Create(BarsPointTransactionLog entity)
         {
-            var createdEntity = _dbContext.BarsPointTransactionLogs.Add(entity);
+            EntityEntry<BarsPointTransactionLog> createdEntity = _dbContext.BarsPointTransactionLogs.Add(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
@@ -33,7 +34,7 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public BarsPointTransactionLog Update(BarsPointTransactionLog entity)
         {
-            var createdEntity = _dbContext.BarsPointTransactionLogs.Update(entity);
+            EntityEntry<BarsPointTransactionLog> createdEntity = _dbContext.BarsPointTransactionLogs.Update(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }

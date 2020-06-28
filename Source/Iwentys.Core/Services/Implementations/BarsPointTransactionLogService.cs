@@ -9,8 +9,8 @@ namespace Iwentys.Core.Services.Implementations
 {
     public class BarsPointTransactionLogService : IBarsPointTransactionLogService
     {
-        private readonly IUserProfileRepository _userProfileRepository;
         private readonly IBarsPointTransactionLogRepository _barsPointTransactionLogRepository;
+        private readonly IUserProfileRepository _userProfileRepository;
 
         public BarsPointTransactionLogService(IUserProfileRepository userProfileRepository, IBarsPointTransactionLogRepository barsPointTransactionLogRepository)
         {

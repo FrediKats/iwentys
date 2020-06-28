@@ -2,6 +2,7 @@
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Implementations
 {
@@ -16,7 +17,7 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public Quest Create(Quest entity)
         {
-            var createdEntity = _dbContext.Quests.Add(entity);
+            EntityEntry<Quest> createdEntity = _dbContext.Quests.Add(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
@@ -33,7 +34,7 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public Quest Update(Quest entity)
         {
-            var createdEntity = _dbContext.Quests.Update(entity);
+            EntityEntry<Quest> createdEntity = _dbContext.Quests.Update(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }

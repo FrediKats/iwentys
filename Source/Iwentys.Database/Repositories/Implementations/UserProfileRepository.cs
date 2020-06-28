@@ -8,7 +8,7 @@ namespace Iwentys.Database.Repositories.Implementations
 {
     public class UserProfileRepository : IUserProfileRepository
     {
-        private IwentysDbContext _dbContext;
+        private readonly IwentysDbContext _dbContext;
 
         public UserProfileRepository(IwentysDbContext dbContext)
         {

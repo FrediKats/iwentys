@@ -6,6 +6,9 @@
         {
         }
 
-        public static EntityNotFoundException Create<TType, TKey>(TType type, TKey key) => new EntityNotFoundException($"[{type}] Entity was not found for key: [{key}]");
+        public static EntityNotFoundException Create<TType, TKey>(TType type, TKey key)
+        {
+            return new EntityNotFoundException($"[{type}] Entity was not found for key: [{key}]");
+        }
     }
 }

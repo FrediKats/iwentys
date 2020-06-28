@@ -5,6 +5,10 @@ namespace Iwentys.Database.Context
 {
     public class IwentysDbContext : DbContext
     {
+        public IwentysDbContext(DbContextOptions options) : base(options)
+        {
+        }
+
         public DbSet<UserProfile> UserProfile { get; set; }
         public DbSet<BarsPointTransactionLog> BarsPointTransactionLogs { get; set; }
 
@@ -16,10 +20,6 @@ namespace Iwentys.Database.Context
 
         public DbSet<Tournament> Tournaments { get; set; }
         public DbSet<Quest> Quests { get; set; }
-
-        public IwentysDbContext(DbContextOptions options) : base(options)
-        {
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,7 +34,7 @@ namespace Iwentys.Database.Context
         private void SetCompositeKeys(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<GuildMember>().HasKey(g => new {g.GuildId, g.MemberId});
-            modelBuilder.Entity<CompanyWorker>().HasKey(g => new { g.CompanyId, g.WorkerId});
+            modelBuilder.Entity<CompanyWorker>().HasKey(g => new {g.CompanyId, g.WorkerId});
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Iwentys.Models.Entities
         public int Price { get; set; }
         public DateTime CreationTime { get; set; }
         public QuestState State { get; set; }
-        
+
 
         public int AuthorId { get; set; }
         public UserProfile Author { get; set; }

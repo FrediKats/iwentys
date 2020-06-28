@@ -6,12 +6,12 @@ namespace Iwentys.Core.DomainModel
 {
     public class AdminUser : UserProfile
     {
-        public UserProfile UserProfile { get; }
-
         public AdminUser(UserProfile userProfile)
         {
             UserProfile = userProfile;
         }
+
+        public UserProfile UserProfile { get; }
     }
 
     public static class AdminUserExtensions

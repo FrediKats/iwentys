@@ -1,4 +1,5 @@
-﻿using Iwentys.Core.Services.Abstractions;
+﻿using System;
+using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
@@ -26,12 +27,12 @@ namespace Iwentys.Core.Services.Implementations
 
         public UserProfile GetOrCreate(int profileId)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public UserProfile AddGithubUsername(int profileId, string githubUsername)
         {
-            throw new System.NotImplementedException("Need to validate github credentials");
+            throw new NotImplementedException("Need to validate github credentials");
         }
 
         public UserProfile RemoveGithubUsername(int profileId, string githubUsername)

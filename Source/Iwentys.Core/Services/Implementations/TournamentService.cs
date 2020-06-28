@@ -11,9 +11,9 @@ namespace Iwentys.Core.Services.Implementations
 {
     public class TournamentService : ITournamentService
     {
-        private readonly ITournamentRepository _tournamentRepository;
-        private readonly IGuildProfileService _guildProfileService;
         private readonly IGithubApiAccessor _githubApi;
+        private readonly IGuildProfileService _guildProfileService;
+        private readonly ITournamentRepository _tournamentRepository;
 
         public TournamentService(ITournamentRepository tournamentRepository, IGuildProfileService guildProfileService, IGithubApiAccessor githubApi)
         {
