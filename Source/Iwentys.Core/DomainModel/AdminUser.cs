@@ -2,7 +2,7 @@
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Types;
 
-namespace Iwentys.Models.DomainModel
+namespace Iwentys.Core.DomainModel
 {
     public class AdminUser : UserProfile
     {

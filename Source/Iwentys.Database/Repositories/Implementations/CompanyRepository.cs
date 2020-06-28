@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
-using Iwentys.Models.DomainModel;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Types;
@@ -83,7 +82,7 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.SaveChanges();
         }
 
-        public void ApproveRequest(UserProfile user, AdminUser admin)
+        public void ApproveRequest(UserProfile user)
         {
             CompanyWorker worker = _dbContext.CompanyWorkers.SingleOrDefault(cw => cw.WorkerId == user.Id) ?? throw EntityNotFoundException.Create(nameof(CompanyWorker), user.Id);
             worker.Type = CompanyWorkerType.Accepted;

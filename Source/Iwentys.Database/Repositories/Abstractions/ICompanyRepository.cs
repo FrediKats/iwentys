@@ -1,5 +1,4 @@
-﻿using Iwentys.Models.DomainModel;
-using Iwentys.Models.Entities;
+﻿using Iwentys.Models.Entities;
 
 namespace Iwentys.Database.Repositories.Abstractions
 {
@@ -8,6 +7,6 @@ namespace Iwentys.Database.Repositories.Abstractions
         UserProfile[] ReadWorkers(Company company);
         CompanyWorker[] ReadWorkerRequest();
         void AddCompanyWorkerRequest(Company company, UserProfile worker);
-        void ApproveRequest(UserProfile user, AdminUser admin);
+        void ApproveRequest(UserProfile user);
     }
 }

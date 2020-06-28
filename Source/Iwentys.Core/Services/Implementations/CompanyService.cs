@@ -1,7 +1,7 @@
-﻿using Iwentys.Core.Services.Abstractions;
+﻿using Iwentys.Core.DomainModel;
+using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Abstractions;
-using Iwentys.Models.DomainModel;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Companies;
@@ -45,13 +45,13 @@ namespace Iwentys.Core.Services.Implementations
 
         public void ApproveAdding(int userId, int adminId)
         {
-            AdminUser admin = _userProfileRepository
+            _userProfileRepository
                 .Get(adminId)
                 .EnsureIsAdmin();
 
             UserProfile user = _userProfileRepository.Get(userId);
 
-            _companyRepository.ApproveRequest(user, admin);
+            _companyRepository.ApproveRequest(user);
         }
 
         private CompanyInfoDto WrapToDto(Company company)

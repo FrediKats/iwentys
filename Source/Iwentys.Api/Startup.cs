@@ -1,4 +1,5 @@
 using System;
+using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Core.Services.Implementations;
 using Iwentys.Database.Context;
@@ -28,13 +29,18 @@ namespace Iwentys.Api
 
             services.AddDbContext<IwentysDbContext>(o => o.UseInMemoryDatabase(Guid.NewGuid().ToString()));
 
+            //TODO: replace with GithubApiAccessor implementation
+            services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();
+
             services.AddScoped<IUserProfileRepository, UserProfileRepository>();
             services.AddScoped<IGuildProfileRepository, GuildProfileRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<ITournamentRepository, TournamentRepository>();
 
             services.AddScoped<IUserProfileService, UserProfileService>();
             services.AddScoped<IGuildProfileService, GuildProfileService>();
             services.AddScoped<ICompanyService, CompanyService>();
+            services.AddScoped<ITournamentService, TournamentService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
