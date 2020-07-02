@@ -88,7 +88,7 @@ namespace Iwentys.Core.Services.Implementations
             return _guildRepository.ReadForUser(userId).To(GuildProfileDto.Create);
         }
 
-        public VotingInfoDto StartVotingForLeader(AuthorizedUser user, int guildId, VotingCreateDto votingCreateDto)
+        public VotingInfoDto StartVotingForLeader(AuthorizedUser user, int guildId, GuildLeaderVotingCreateDto votingCreateDto)
         {
             throw new System.NotImplementedException();
         }
