@@ -13,6 +13,9 @@ namespace Iwentys.Models.Entities
         public GuildHiringPolicy HiringPolicy { get; set; }
         public GuildType GuildType { get; set; }
 
+        public UserProfile Totem { get; set; }
+        public int TotemId { get; set; }
+
         public List<GuildMember> Members { get; set; }
     }
 }

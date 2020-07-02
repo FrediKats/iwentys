@@ -8,6 +8,7 @@ using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Guilds;
+using Iwentys.Models.Transferable.Voting;
 using Iwentys.Models.Types;
 
 namespace Iwentys.Core.Services.Implementations
@@ -85,6 +86,16 @@ namespace Iwentys.Core.Services.Implementations
         public GuildProfileDto GetUserGuild(int userId)
         {
             return _guildProfileRepository.ReadForUser(userId).To(GuildProfileDto.Create);
+        }
+
+        public VotingInfoDto StartVotingForLeader(int initiatorId, int guildId, VotingCreateDto votingCreateDto)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public VotingInfoDto StartVotingForTotem(int initiatorId, int guildId, VotingCreateDto votingCreateDto)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

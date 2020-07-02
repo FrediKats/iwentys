@@ -14,6 +14,7 @@ namespace Iwentys.Models.Transferable.Guilds
 
         public GuildHiringPolicy HiringPolicy { get; set; }
 
+        public UserProfile Totem { get; set; }
         public List<UserProfile> Members { get; set; }
 
 
@@ -26,6 +27,7 @@ namespace Iwentys.Models.Transferable.Guilds
                 HiringPolicy = profile.HiringPolicy,
                 LogoUrl = profile.LogoUrl,
                 Title = profile.Title,
+                Totem = profile.Totem,
                 Members = profile.Members.Select(m => m.Member).ToList()
             };
         }

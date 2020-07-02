@@ -1,4 +1,5 @@
 ﻿using Iwentys.Models.Transferable.Guilds;
+using Iwentys.Models.Transferable.Voting;
 
 namespace Iwentys.Core.Services.Abstractions
 {
@@ -11,5 +12,10 @@ namespace Iwentys.Core.Services.Abstractions
         GuildProfileDto[] Get();
         GuildProfileDto Get(int id);
         GuildProfileDto GetUserGuild(int userId);
+
+        //TODO: customize dto for different voting
+        VotingInfoDto StartVotingForLeader(int initiatorId, int guildId, VotingCreateDto votingCreateDto);
+        VotingInfoDto StartVotingForTotem(int initiatorId, int guildId, VotingCreateDto votingCreateDto);
+
     }
 }
