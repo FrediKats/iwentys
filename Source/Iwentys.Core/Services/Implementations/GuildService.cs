@@ -17,21 +17,21 @@ namespace Iwentys.Core.Services.Implementations
     public class GuildService : IGuildService
     {
         private readonly IGuildRepository _guildRepository;
-        private readonly IUserProfileRepository _userProfileRepository;
+        private readonly IStudentRepository _studentRepository;
 
-        public GuildService(IGuildRepository guildRepository, IUserProfileRepository userProfileRepository)
+        public GuildService(IGuildRepository guildRepository, IStudentRepository studentRepository)
         {
             _guildRepository = guildRepository;
-            _userProfileRepository = userProfileRepository;
+            _studentRepository = studentRepository;
         }
 
         public GuildProfileDto Create(AuthorizedUser creator, GuildCreateArgumentDto arguments)
         {
-            UserProfile creatorUser = _userProfileRepository.Get(creator.Id);
+            Student creatorUser = _studentRepository.Get(creator.Id);
 
-            Guild userGuild = _guildRepository.ReadForUser(creatorUser.Id);
+            Guild userGuild = _guildRepository.ReadForStudent(creatorUser.Id);
             if (userGuild != null)
-                throw new InnerLogicException("User already in guild");
+                throw new InnerLogicException("Student already in guild");
 
             var newGuild = new Guild
             {
@@ -62,7 +62,7 @@ namespace Iwentys.Core.Services.Implementations
 
         public GuildProfileDto ApproveGuildCreating(AuthorizedUser user, int guildId)
         {
-            _userProfileRepository
+            _studentRepository
                 .Get(user.Id)
                 .EnsureIsAdmin();
 
@@ -84,9 +84,9 @@ namespace Iwentys.Core.Services.Implementations
             return _guildRepository.Get(id).To(GuildProfileDto.Create);
         }
 
-        public GuildProfileDto GetUserGuild(int userId)
+        public GuildProfileDto GetStudentGuild(int userId)
         {
-            return _guildRepository.ReadForUser(userId).To(GuildProfileDto.Create);
+            return _guildRepository.ReadForStudent(userId).To(GuildProfileDto.Create);
         }
 
         public VotingInfoDto StartVotingForLeader(AuthorizedUser user, int guildId, GuildLeaderVotingCreateDto votingCreateDto)

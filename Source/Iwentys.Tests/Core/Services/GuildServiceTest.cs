@@ -17,7 +17,7 @@ namespace Iwentys.Tests.Core.Services
         {
             TestCaseContext
                 .Case()
-                .WithNewUser(out AuthorizedUser user)
+                .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out GuildProfileDto guild);
 
             Assert.IsTrue(guild.Members.Any(m => m.Id == user.Id));
@@ -28,7 +28,7 @@ namespace Iwentys.Tests.Core.Services
         {
             var context = TestCaseContext
                 .Case()
-                .WithNewUser(out AuthorizedUser user)
+                .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out GuildProfileDto guild);
 
             var createdGuild = context.GuildRepository.Get(guild.Id);
@@ -41,8 +41,8 @@ namespace Iwentys.Tests.Core.Services
         {
             var context = TestCaseContext
                 .Case()
-                .WithNewUser(out AuthorizedUser user)
-                .WithNewUser(out AuthorizedUser admin, UserType.Admin)
+                .WithNewStudent(out AuthorizedUser user)
+                .WithNewStudent(out AuthorizedUser admin, UserType.Admin)
                 .WithGuild(user, out GuildProfileDto guild);
 
             context.GuildService.ApproveGuildCreating(admin, guild.Id);
@@ -56,8 +56,8 @@ namespace Iwentys.Tests.Core.Services
         {
             var context = TestCaseContext
                 .Case()
-                .WithNewUser(out AuthorizedUser user)
-                .WithNewUser(out AuthorizedUser _, UserType.Admin)
+                .WithNewStudent(out AuthorizedUser user)
+                .WithNewStudent(out AuthorizedUser _, UserType.Admin)
                 .WithGuild(user, out GuildProfileDto _);
 
             Assert.Catch<InnerLogicException>(() => context.WithGuild(user, out GuildProfileDto _));

@@ -15,11 +15,11 @@ namespace Iwentys.Tests.Tools
     {
         private readonly IwentysDbContext _context;
 
-        public readonly IUserProfileRepository UserProfileRepository;
+        public readonly IStudentRepository StudentRepository;
         public readonly IGuildRepository GuildRepository;
         public readonly ICompanyRepository CompanyRepository;
 
-        public readonly IUserProfileService UserProfileService;
+        public readonly IStudentService StudentService;
         public readonly IGuildService GuildService;
         public readonly CompanyService CompanyService;
 
@@ -28,24 +28,24 @@ namespace Iwentys.Tests.Tools
         public TestCaseContext()
         {
             _context = TestDatabaseProvider.GetDatabaseContext();
-            UserProfileRepository = new UserProfileRepository(_context);
+            StudentRepository = new StudentRepository(_context);
             GuildRepository = new GuildRepository(_context);
             CompanyRepository = new CompanyRepository(_context);
 
-            UserProfileService = new UserProfileService(UserProfileRepository);
-            GuildService = new GuildService(GuildRepository, UserProfileRepository);
-            CompanyService = new CompanyService(CompanyRepository, UserProfileRepository);
+            StudentService = new StudentService(StudentRepository);
+            GuildService = new GuildService(GuildRepository, StudentRepository);
+            CompanyService = new CompanyService(CompanyRepository, StudentRepository);
         }
 
-        public TestCaseContext WithNewUser(out AuthorizedUser user, UserType userType = UserType.Common)
+        public TestCaseContext WithNewStudent(out AuthorizedUser user, UserType userType = UserType.Common)
         {
-            var userInfo = new UserProfile
+            var userInfo = new Student
             {
                 Id = RandomProvider.Random.Next(999999),
                 Role = userType
             };
 
-            user = AuthorizedUser.DebugAuth(UserProfileRepository.Create(userInfo));
+            user = AuthorizedUser.DebugAuth(StudentRepository.Create(userInfo));
             return this;
         }
 
@@ -66,7 +66,7 @@ namespace Iwentys.Tests.Tools
 
         public TestCaseContext WithCompanyWorker(CompanyInfoDto companyInfo, out AuthorizedUser userInfo)
         {
-            WithNewUser(out userInfo);
+            WithNewStudent(out userInfo);
             _context.CompanyWorkers.Add(new CompanyWorker {CompanyId = companyInfo.Id, WorkerId = userInfo.Id, Type = CompanyWorkerType.Accepted});
             _context.SaveChanges();
             return this;

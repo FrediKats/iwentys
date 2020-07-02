@@ -14,9 +14,9 @@ namespace Iwentys.Models.Entities
 
 
         public int AuthorId { get; set; }
-        public UserProfile Author { get; set; }
+        public Student Author { get; set; }
 
-        public static Quest New(string title, string description, int price, UserProfile author)
+        public static Quest New(string title, string description, int price, Student author)
         {
             return new Quest
             {

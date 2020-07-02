@@ -5,8 +5,8 @@
         public Voting Voting { get; set; }
         public int VotingId { get; set; }
 
-        public UserProfile UserProfile { get; set; }
-        public int UserProfileId { get; set; }
+        public Student Student { get; set; }
+        public int StudentId { get; set; }
         public int SelectedVariant { get; set; }
     }
 }

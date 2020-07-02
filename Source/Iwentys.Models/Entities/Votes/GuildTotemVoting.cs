@@ -10,7 +10,7 @@ namespace Iwentys.Models.Entities.Votes
         public Voting Voting { get; set; }
         public int VotingId { get; set; }
 
-        public UserProfile TotemCandidate { get; set; }
+        public Student TotemCandidate { get; set; }
         public int TotemCandidateId { get; set; }
     }
 }

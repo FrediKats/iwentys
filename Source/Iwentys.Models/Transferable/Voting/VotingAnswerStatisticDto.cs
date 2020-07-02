@@ -8,6 +8,6 @@ namespace Iwentys.Models.Transferable.Voting
         public int VariantId { get; set; }
         public string VariantText { get; set; }
 
-        public List<UserProfile> Users { get; set; }
+        public List<Student> Students { get; set; }
     }
 }

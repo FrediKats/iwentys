@@ -10,14 +10,14 @@ namespace Iwentys.Models.Transferable.Companies
         public double Latitude { get; set; }
         public double Longitude { get; set; }
 
-        public UserProfile[] Workers { get; set; }
+        public Student[] Workers { get; set; }
 
         public static CompanyInfoDto Create(Company company)
         {
-            return Create(company, Array.Empty<UserProfile>());
+            return Create(company, Array.Empty<Student>());
         }
 
-        public static CompanyInfoDto Create(Company company, UserProfile[] workers)
+        public static CompanyInfoDto Create(Company company, Student[] workers)
         {
             return new CompanyInfoDto
             {

@@ -8,11 +8,11 @@ namespace Iwentys.Models.Entities
         public Company Company { get; set; }
 
         public int WorkerId { get; set; }
-        public UserProfile Worker { get; set; }
+        public Student Worker { get; set; }
 
         public CompanyWorkerType Type { get; set; }
 
-        public static CompanyWorker NewRequest(Company company, UserProfile worker)
+        public static CompanyWorker NewRequest(Company company, Student worker)
         {
             return new CompanyWorker
             {

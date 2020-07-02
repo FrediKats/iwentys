@@ -32,12 +32,12 @@ namespace Iwentys.Api
             //TODO: replace with GithubApiAccessor implementation
             services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();
 
-            services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<IGuildRepository, GuildRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<ITournamentRepository, TournamentRepository>();
 
-            services.AddScoped<IUserProfileService, UserProfileService>();
+            services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IGuildService, GuildService>();
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<ITournamentService, TournamentService>();

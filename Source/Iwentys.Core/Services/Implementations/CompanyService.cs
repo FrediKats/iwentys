@@ -11,12 +11,12 @@ namespace Iwentys.Core.Services.Implementations
     public class CompanyService : ICompanyService
     {
         private readonly ICompanyRepository _companyRepository;
-        private readonly IUserProfileRepository _userProfileRepository;
+        private readonly IStudentRepository _studentRepository;
 
-        public CompanyService(ICompanyRepository companyRepository, IUserProfileRepository userProfileRepository)
+        public CompanyService(ICompanyRepository companyRepository, IStudentRepository studentRepository)
         {
             _companyRepository = companyRepository;
-            _userProfileRepository = userProfileRepository;
+            _studentRepository = studentRepository;
         }
 
         public CompanyInfoDto[] Get()
@@ -39,24 +39,24 @@ namespace Iwentys.Core.Services.Implementations
         public void RequestAdding(int companyId, int userId)
         {
             Company company = _companyRepository.Get(companyId);
-            UserProfile profile = _userProfileRepository.Get(userId);
+            Student profile = _studentRepository.Get(userId);
             _companyRepository.AddCompanyWorkerRequest(company, profile);
         }
 
         public void ApproveAdding(int userId, int adminId)
         {
-            _userProfileRepository
+            _studentRepository
                 .Get(adminId)
                 .EnsureIsAdmin();
 
-            UserProfile user = _userProfileRepository.Get(userId);
+            Student user = _studentRepository.Get(userId);
 
             _companyRepository.ApproveRequest(user);
         }
 
         private CompanyInfoDto WrapToDto(Company company)
         {
-            UserProfile[] workers = _companyRepository.ReadWorkers(company);
+            Student[] workers = _companyRepository.ReadWorkers(company);
             return CompanyInfoDto.Create(company, workers);
         }
     }

@@ -61,10 +61,10 @@ namespace Iwentys.Database.Repositories.Implementations
                 .ToArray();
         }
 
-        public Guild ReadForUser(int userId)
+        public Guild ReadForStudent(int studentId)
         {
             return _dbContext.GuildMembers
-                .Where(gm => gm.MemberId == userId)
+                .Where(gm => gm.MemberId == studentId)
                 .Include(gm => gm.Guild)
                 .SingleOrDefault()
                 ?.Guild;

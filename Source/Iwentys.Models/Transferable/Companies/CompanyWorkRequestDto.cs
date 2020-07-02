@@ -8,7 +8,7 @@ namespace Iwentys.Models.Transferable.Companies
     public class CompanyWorkRequestDto
     {
         public CompanyInfoDto Company { get; set; }
-        public UserProfile Worker { get; set; }
+        public Student Worker { get; set; }
 
         public static CompanyWorkRequestDto Create(CompanyWorker worker)
         {

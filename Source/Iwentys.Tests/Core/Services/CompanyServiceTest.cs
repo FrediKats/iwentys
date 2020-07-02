@@ -17,7 +17,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithCompany(out CompanyInfoDto company)
                 .WithCompanyWorker(company, out AuthorizedUser user);
 
-            UserProfile[] companyMembers = testCase.CompanyService.Get(company.Id).Workers;
+            Student[] companyMembers = testCase.CompanyService.Get(company.Id).Workers;
 
             Assert.IsTrue(companyMembers.Length == 1);
             Assert.AreEqual(user.Id, companyMembers.Single().Id);
@@ -29,11 +29,11 @@ namespace Iwentys.Tests.Core.Services
             TestCaseContext testCase = TestCaseContext
                 .Case()
                 .WithCompany(out CompanyInfoDto company)
-                .WithNewUser(out AuthorizedUser worker);
+                .WithNewStudent(out AuthorizedUser worker);
 
             testCase.CompanyService.RequestAdding(company.Id, worker.Id);
             CompanyWorkRequestDto[] request = testCase.CompanyService.GetCompanyWorkRequest();
-            UserProfile[] companyMembers = testCase.CompanyService.Get(company.Id).Workers;
+            Student[] companyMembers = testCase.CompanyService.Get(company.Id).Workers;
 
             Assert.IsTrue(companyMembers.Length == 0);
             Assert.IsTrue(request.Length == 1);

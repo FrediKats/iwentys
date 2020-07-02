@@ -10,7 +10,7 @@ namespace Iwentys.Database.Context
         {
         }
 
-        public DbSet<UserProfile> UserProfile { get; set; }
+        public DbSet<Student> Students { get; set; }
         public DbSet<BarsPointTransactionLog> BarsPointTransactionLogs { get; set; }
 
         public DbSet<Guild> GuildProfiles { get; set; }

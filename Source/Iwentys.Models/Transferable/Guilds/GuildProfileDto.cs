@@ -15,8 +15,8 @@ namespace Iwentys.Models.Transferable.Guilds
 
         public GuildHiringPolicy HiringPolicy { get; set; }
 
-        public UserProfile Totem { get; set; }
-        public List<UserProfile> Members { get; set; }
+        public Student Totem { get; set; }
+        public List<Student> Members { get; set; }
 
 
         public static GuildProfileDto Create(Guild profile)

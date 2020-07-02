@@ -4,19 +4,19 @@ using Iwentys.Models.Types;
 
 namespace Iwentys.Core.DomainModel
 {
-    public class AdminUser : UserProfile
+    public class AdminUser : Student
     {
-        public AdminUser(UserProfile userProfile)
+        public AdminUser(Student student)
         {
-            UserProfile = userProfile;
+            Student = student;
         }
 
-        public UserProfile UserProfile { get; }
+        public Student Student { get; }
     }
 
     public static class AdminUserExtensions
     {
-        public static AdminUser EnsureIsAdmin(this UserProfile profile)
+        public static AdminUser EnsureIsAdmin(this Student profile)
         {
             if (profile.Role != UserType.Admin)
                 throw InnerLogicException.NotEnoughPermission(profile.Id);

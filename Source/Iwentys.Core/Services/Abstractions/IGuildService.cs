@@ -12,7 +12,7 @@ namespace Iwentys.Core.Services.Abstractions
 
         GuildProfileDto[] Get();
         GuildProfileDto Get(int id);
-        GuildProfileDto GetUserGuild(int userId);
+        GuildProfileDto GetStudentGuild(int userId);
 
         //TODO: customize dto for different voting
         VotingInfoDto StartVotingForLeader(AuthorizedUser creator, int guildId, GuildLeaderVotingCreateDto votingCreateDto);

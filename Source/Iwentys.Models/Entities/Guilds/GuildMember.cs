@@ -9,7 +9,7 @@ namespace Iwentys.Models.Entities.Guilds
         public Guild Guild { get; set; }
 
         public int MemberId { get; set; }
-        public UserProfile Member { get; set; }
+        public Student Member { get; set; }
 
         [Required]
         public GuildMemberType MemberType { get; set; }

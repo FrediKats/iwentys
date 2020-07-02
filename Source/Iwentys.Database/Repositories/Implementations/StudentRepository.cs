@@ -6,43 +6,43 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Implementations
 {
-    public class UserProfileRepository : IUserProfileRepository
+    public class StudentRepository : IStudentRepository
     {
         private readonly IwentysDbContext _dbContext;
 
-        public UserProfileRepository(IwentysDbContext dbContext)
+        public StudentRepository(IwentysDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public UserProfile Create(UserProfile entity)
+        public Student Create(Student entity)
         {
-            EntityEntry<UserProfile> createdEntity = _dbContext.UserProfile.Add(entity);
+            EntityEntry<Student> createdEntity = _dbContext.Students.Add(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
-        public UserProfile[] Read()
+        public Student[] Read()
         {
-            return _dbContext.UserProfile.ToArray();
+            return _dbContext.Students.ToArray();
         }
 
-        public UserProfile ReadById(int key)
+        public Student ReadById(int key)
         {
-            return _dbContext.UserProfile.Find(key);
+            return _dbContext.Students.Find(key);
         }
 
-        public UserProfile Update(UserProfile entity)
+        public Student Update(Student entity)
         {
-            EntityEntry<UserProfile> createdEntity = _dbContext.UserProfile.Update(entity);
+            EntityEntry<Student> createdEntity = _dbContext.Students.Update(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
         public void Delete(int key)
         {
-            UserProfile user = this.Get(key);
-            _dbContext.UserProfile.Remove(user);
+            Student user = this.Get(key);
+            _dbContext.Students.Remove(user);
             _dbContext.SaveChanges();
         }
     }

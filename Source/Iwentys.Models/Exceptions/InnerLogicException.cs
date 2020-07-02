@@ -20,7 +20,7 @@ namespace Iwentys.Models.Exceptions
 
         public static InnerLogicException NotEnoughBarsPoints()
         {
-            return new InnerLogicException("User don't have enough points for this operation.");
+            return new InnerLogicException("Student don't have enough points for this operation.");
         }
     }
 }

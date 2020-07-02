@@ -10,11 +10,11 @@ namespace Iwentys.Core.Services.Implementations
     public class BarsPointTransactionLogService : IBarsPointTransactionLogService
     {
         private readonly IBarsPointTransactionLogRepository _barsPointTransactionLogRepository;
-        private readonly IUserProfileRepository _userProfileRepository;
+        private readonly IStudentRepository _studentRepository;
 
-        public BarsPointTransactionLogService(IUserProfileRepository userProfileRepository, IBarsPointTransactionLogRepository barsPointTransactionLogRepository)
+        public BarsPointTransactionLogService(IStudentRepository studentRepository, IBarsPointTransactionLogRepository barsPointTransactionLogRepository)
         {
-            _userProfileRepository = userProfileRepository;
+            _studentRepository = studentRepository;
             _barsPointTransactionLogRepository = barsPointTransactionLogRepository;
         }
 
@@ -22,8 +22,8 @@ namespace Iwentys.Core.Services.Implementations
         public Result<BarsPointTransactionLog> Transfer(int fromId, int toId, int value)
         {
             //TODO: Use transaction for whole method
-            UserProfile from = _userProfileRepository.Get(fromId);
-            UserProfile to = _userProfileRepository.Get(toId);
+            Student from = _studentRepository.Get(fromId);
+            Student to = _studentRepository.Get(toId);
 
             Result<BarsPointTransactionLog> transaction;
             if (from.BarsPoints < value)
@@ -36,8 +36,8 @@ namespace Iwentys.Core.Services.Implementations
                 from.BarsPoints -= value;
                 to.BarsPoints += value;
 
-                _userProfileRepository.Update(from);
-                _userProfileRepository.Update(to);
+                _studentRepository.Update(from);
+                _studentRepository.Update(to);
             }
 
             _barsPointTransactionLogRepository.Create(transaction.Value);
