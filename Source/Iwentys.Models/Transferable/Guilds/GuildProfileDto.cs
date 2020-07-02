@@ -18,7 +18,7 @@ namespace Iwentys.Models.Transferable.Guilds
         public List<UserProfile> Members { get; set; }
 
 
-        public static GuildProfileDto Create(GuildProfile profile)
+        public static GuildProfileDto Create(Guild profile)
         {
             return new GuildProfileDto
             {

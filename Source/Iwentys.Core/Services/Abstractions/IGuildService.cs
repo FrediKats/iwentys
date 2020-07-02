@@ -3,7 +3,7 @@ using Iwentys.Models.Transferable.Voting;
 
 namespace Iwentys.Core.Services.Abstractions
 {
-    public interface IGuildProfileService
+    public interface IGuildService
     {
         GuildProfileDto Create(int creatorId, GuildCreateArgumentDto arguments);
         GuildProfileDto Update(int creator, GuildUpdateArgumentDto arguments);

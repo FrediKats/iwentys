@@ -12,19 +12,19 @@ namespace Iwentys.Core.DomainModel
     {
         private readonly IGithubApiAccessor _githubApiAccessor;
 
-        private readonly IGuildProfileService _guildProfileService;
+        private readonly IGuildService _guildService;
         private readonly Tournament _tournament;
 
-        public CodeMarathonTournament(Tournament tournament, IGuildProfileService guildProfileService, IGithubApiAccessor githubApiAccessor)
+        public CodeMarathonTournament(Tournament tournament, IGuildService guildService, IGithubApiAccessor githubApiAccessor)
         {
             _tournament = tournament;
-            _guildProfileService = guildProfileService;
+            _guildService = guildService;
             _githubApiAccessor = githubApiAccessor;
         }
 
         public TournamentLeaderboardDto GetLeaderboard()
         {
-            Dictionary<GuildProfileDto, int> result = _guildProfileService
+            Dictionary<GuildProfileDto, int> result = _guildService
                 .Get()
                 .ToDictionary(c => c, CalculateGuildPoints);
 

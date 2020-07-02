@@ -12,7 +12,7 @@ namespace Iwentys.Database.Context
         public DbSet<UserProfile> UserProfile { get; set; }
         public DbSet<BarsPointTransactionLog> BarsPointTransactionLogs { get; set; }
 
-        public DbSet<GuildProfile> GuildProfiles { get; set; }
+        public DbSet<Guild> GuildProfiles { get; set; }
         public DbSet<GuildMember> GuildMembers { get; set; }
 
         public DbSet<Company> Companies { get; set; }
@@ -25,7 +25,7 @@ namespace Iwentys.Database.Context
         {
             SetCompositeKeys(modelBuilder);
 
-            modelBuilder.Entity<GuildProfile>().HasIndex(g => g.Title).IsUnique();
+            modelBuilder.Entity<Guild>().HasIndex(g => g.Title).IsUnique();
 
             modelBuilder.Entity<GuildMember>().HasIndex(g => g.MemberId).IsUnique();
             modelBuilder.Entity<CompanyWorker>().HasIndex(g => g.WorkerId).IsUnique();

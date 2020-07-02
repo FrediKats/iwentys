@@ -3,7 +3,7 @@ using Iwentys.Models.Types;
 
 namespace Iwentys.Models.Entities
 {
-    public class GuildProfile
+    public class Guild
     {
         public int Id { get; set; }
         public string Title { get; set; }

@@ -15,11 +15,11 @@ namespace Iwentys.Tests.Tools
         private readonly IwentysDbContext _context;
 
         public readonly IUserProfileRepository UserProfileRepository;
-        public readonly IGuildProfileRepository GuildProfileRepository;
+        public readonly IGuildRepository GuildRepository;
         public readonly ICompanyRepository CompanyRepository;
 
         public readonly IUserProfileService UserProfileService;
-        public readonly IGuildProfileService GuildProfileService;
+        public readonly IGuildService GuildService;
         public readonly CompanyService CompanyService;
 
         public static TestCaseContext Case() => new TestCaseContext();
@@ -28,11 +28,11 @@ namespace Iwentys.Tests.Tools
         {
             _context = TestDatabaseProvider.GetDatabaseContext();
             UserProfileRepository = new UserProfileRepository(_context);
-            GuildProfileRepository = new GuildProfileRepository(_context);
+            GuildRepository = new GuildRepository(_context);
             CompanyRepository = new CompanyRepository(_context);
 
             UserProfileService = new UserProfileService(UserProfileRepository);
-            GuildProfileService = new GuildProfileService(GuildProfileRepository, UserProfileRepository);
+            GuildService = new GuildService(GuildRepository, UserProfileRepository);
             CompanyService = new CompanyService(CompanyRepository, UserProfileRepository);
         }
 
@@ -50,7 +50,7 @@ namespace Iwentys.Tests.Tools
 
         public TestCaseContext WithGuild(UserProfile userInfo, out GuildProfileDto guildProfile)
         {
-            guildProfile = GuildProfileService.Create(userInfo.Id, new GuildCreateArgumentDto());
+            guildProfile = GuildService.Create(userInfo.Id, new GuildCreateArgumentDto());
 
             return this;
         }

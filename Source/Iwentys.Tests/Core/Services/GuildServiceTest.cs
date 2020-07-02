@@ -31,7 +31,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithNewUser(out UserProfile user)
                 .WithGuild(user, out GuildProfileDto guild);
 
-            var createdGuild = context.GuildProfileRepository.Get(guild.Id);
+            var createdGuild = context.GuildRepository.Get(guild.Id);
 
             Assert.AreEqual(GuildType.Pending, createdGuild.GuildType);
         }
@@ -45,8 +45,8 @@ namespace Iwentys.Tests.Core.Services
                 .WithNewUser(out var admin, UserType.Admin)
                 .WithGuild(user, out GuildProfileDto guild);
 
-            context.GuildProfileService.ApproveGuildCreating(admin.Id, guild.Id);
-            var createdGuild = context.GuildProfileRepository.Get(guild.Id);
+            context.GuildService.ApproveGuildCreating(admin.Id, guild.Id);
+            var createdGuild = context.GuildRepository.Get(guild.Id);
 
             Assert.AreEqual(GuildType.Created, createdGuild.GuildType);
         }

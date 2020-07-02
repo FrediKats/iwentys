@@ -7,37 +7,37 @@ namespace Iwentys.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GuildProfileController : ControllerBase
+    public class GuildController : ControllerBase
     {
-        private readonly IGuildProfileService _guildProfileService;
+        private readonly IGuildService _guildService;
 
-        public GuildProfileController(IGuildProfileService guildProfileService)
+        public GuildController(IGuildService guildService)
         {
-            _guildProfileService = guildProfileService;
+            _guildService = guildService;
         }
 
         [HttpPost]
         public GuildProfileDto Create([FromQuery] int creatorId, [FromBody] GuildCreateArgumentDto arguments)
         {
-            return _guildProfileService.Create(creatorId, arguments);
+            return _guildService.Create(creatorId, arguments);
         }
 
         [HttpPost]
         public GuildProfileDto Update([FromQuery] int userId, [FromBody] GuildUpdateArgumentDto arguments)
         {
-            return _guildProfileService.Update(userId, arguments);
+            return _guildService.Update(userId, arguments);
         }
 
         [HttpGet]
         public IEnumerable<GuildProfileDto> Get()
         {
-            return _guildProfileService.Get();
+            return _guildService.Get();
         }
 
         [HttpGet("{id}")]
         public GuildProfileDto Get(int id)
         {
-            return _guildProfileService.Get(id);
+            return _guildService.Get(id);
         }
     }
 }

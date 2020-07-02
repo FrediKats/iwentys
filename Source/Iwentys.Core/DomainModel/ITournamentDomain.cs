@@ -14,11 +14,11 @@ namespace Iwentys.Core.DomainModel
 
     public static class TournamentDomainHelper
     {
-        public static ITournamentDomain WrapToDomain(this Tournament tournament, IGuildProfileService guildProfileService, IGithubApiAccessor githubApiAccessor)
+        public static ITournamentDomain WrapToDomain(this Tournament tournament, IGuildService guildService, IGithubApiAccessor githubApiAccessor)
         {
             return tournament.Type switch
             {
-                TournamentType.CodeMarathon => new CodeMarathonTournament(tournament, guildProfileService, githubApiAccessor),
+                TournamentType.CodeMarathon => new CodeMarathonTournament(tournament, guildService, githubApiAccessor),
                 _ => throw InnerLogicException.NotSupportedEnumValue(tournament.Type)
             };
         }

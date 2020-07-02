@@ -4,7 +4,7 @@ namespace Iwentys.Models.Entities.Votes
 {
     public class GuildLeaderVoting
     {
-        public GuildProfile GuildProfile { get; set; }
+        public Guild Guild { get; set; }
         public int GuildProfileId { get; set; }
 
         public Voting Voting { get; set; }
