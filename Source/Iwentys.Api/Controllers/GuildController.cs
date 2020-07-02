@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Transferable.Guilds;
+using Iwentys.Models.Transferable.Voting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Api.Controllers
@@ -17,15 +19,17 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpPost]
-        public GuildProfileDto Create([FromQuery] int creatorId, [FromBody] GuildCreateArgumentDto arguments)
+        public GuildProfileDto Create([FromBody] GuildCreateArgumentDto arguments)
         {
-            return _guildService.Create(creatorId, arguments);
+            AuthorizedUser creator = AuthorizedUser.DebugAuth();
+            return _guildService.Create(creator, arguments);
         }
 
         [HttpPost]
-        public GuildProfileDto Update([FromQuery] int userId, [FromBody] GuildUpdateArgumentDto arguments)
+        public GuildProfileDto Update([FromBody] GuildUpdateArgumentDto arguments)
         {
-            return _guildService.Update(userId, arguments);
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            return _guildService.Update(user, arguments);
         }
 
         [HttpGet]

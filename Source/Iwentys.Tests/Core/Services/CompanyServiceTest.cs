@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Iwentys.Core.DomainModel;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Transferable.Companies;
 using Iwentys.Tests.Tools;
@@ -14,7 +15,7 @@ namespace Iwentys.Tests.Core.Services
             TestCaseContext testCase = TestCaseContext
                 .Case()
                 .WithCompany(out CompanyInfoDto company)
-                .WithCompanyWorker(company, out UserProfile user);
+                .WithCompanyWorker(company, out AuthorizedUser user);
 
             UserProfile[] companyMembers = testCase.CompanyService.Get(company.Id).Workers;
 
@@ -28,7 +29,7 @@ namespace Iwentys.Tests.Core.Services
             TestCaseContext testCase = TestCaseContext
                 .Case()
                 .WithCompany(out CompanyInfoDto company)
-                .WithNewUser(out UserProfile worker);
+                .WithNewUser(out AuthorizedUser worker);
 
             testCase.CompanyService.RequestAdding(company.Id, worker.Id);
             CompanyWorkRequestDto[] request = testCase.CompanyService.GetCompanyWorkRequest();

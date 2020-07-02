@@ -24,11 +24,11 @@ namespace Iwentys.Core.Services.Implementations
             _userProfileRepository = userProfileRepository;
         }
 
-        public GuildProfileDto Create(int creatorId, GuildCreateArgumentDto arguments)
+        public GuildProfileDto Create(AuthorizedUser creator, GuildCreateArgumentDto arguments)
         {
-            UserProfile creatorUser = _userProfileRepository.Get(creatorId);
+            UserProfile creatorUser = _userProfileRepository.Get(creator.Id);
 
-            Guild userGuild = _guildRepository.ReadForUser(creatorId);
+            Guild userGuild = _guildRepository.ReadForUser(creatorUser.Id);
             if (userGuild != null)
                 throw new InnerLogicException("User already in guild");
 
@@ -49,7 +49,7 @@ namespace Iwentys.Core.Services.Implementations
             return _guildRepository.Create(newGuild).To(GuildProfileDto.Create);
         }
 
-        public GuildProfileDto Update(int creator, GuildUpdateArgumentDto arguments)
+        public GuildProfileDto Update(AuthorizedUser user, GuildUpdateArgumentDto arguments)
         {
             //TODO: check permission
             Guild info = _guildRepository.Get(arguments.Id);
@@ -59,10 +59,10 @@ namespace Iwentys.Core.Services.Implementations
             return _guildRepository.Update(info).To(GuildProfileDto.Create);
         }
 
-        public GuildProfileDto ApproveGuildCreating(int adminId, int guildId)
+        public GuildProfileDto ApproveGuildCreating(AuthorizedUser user, int guildId)
         {
             _userProfileRepository
-                .Get(adminId)
+                .Get(user.Id)
                 .EnsureIsAdmin();
 
             Guild guild = _guildRepository.Get(guildId);
@@ -88,12 +88,12 @@ namespace Iwentys.Core.Services.Implementations
             return _guildRepository.ReadForUser(userId).To(GuildProfileDto.Create);
         }
 
-        public VotingInfoDto StartVotingForLeader(int initiatorId, int guildId, VotingCreateDto votingCreateDto)
+        public VotingInfoDto StartVotingForLeader(AuthorizedUser user, int guildId, VotingCreateDto votingCreateDto)
         {
             throw new System.NotImplementedException();
         }
 
-        public VotingInfoDto StartVotingForTotem(int initiatorId, int guildId, VotingCreateDto votingCreateDto)
+        public VotingInfoDto StartVotingForTotem(AuthorizedUser user, int guildId, GuildTotemVotingCreateDto votingCreateDto)
         {
             throw new System.NotImplementedException();
         }
