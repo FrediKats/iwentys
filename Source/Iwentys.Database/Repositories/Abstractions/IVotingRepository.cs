@@ -2,8 +2,7 @@
 
 namespace Iwentys.Database.Repositories.Abstractions
 {
-    public interface IVotingRepository
+    public interface IVotingRepository : IGenericRepository<Voting, int>
     {
-        Voting GetVoting(int votingId);
     }
 }
