@@ -1,7 +1,7 @@
 ﻿using System;
 using Iwentys.Models.Types;
 
-namespace Iwentys.Models.Entities
+namespace Iwentys.Models.Entities.Guilds
 {
     public class Tournament
     {

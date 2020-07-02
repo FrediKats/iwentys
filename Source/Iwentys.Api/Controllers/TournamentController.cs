@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Core.Services.Abstractions;
-using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Guilds;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Api.Controllers

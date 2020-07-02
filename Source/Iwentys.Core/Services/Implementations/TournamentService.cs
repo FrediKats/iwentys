@@ -4,7 +4,7 @@ using Iwentys.Core.DomainModel;
 using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Repositories.Abstractions;
-using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Tournaments;
 
 namespace Iwentys.Core.Services.Implementations

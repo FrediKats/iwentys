@@ -1,4 +1,6 @@
-﻿namespace Iwentys.Models.Entities.Votes
+﻿using Iwentys.Models.Entities.Guilds;
+
+namespace Iwentys.Models.Entities.Votes
 {
     public class GuildTotemVoting
     {

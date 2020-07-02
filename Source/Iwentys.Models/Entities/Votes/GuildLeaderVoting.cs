@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Iwentys.Models.Entities.Guilds;
 
 namespace Iwentys.Models.Entities.Votes
 {

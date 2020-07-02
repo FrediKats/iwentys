@@ -1,4 +1,5 @@
 ﻿using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Guilds;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Context

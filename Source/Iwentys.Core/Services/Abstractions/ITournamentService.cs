@@ -1,4 +1,4 @@
-﻿using Iwentys.Models.Entities;
+﻿using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Tournaments;
 
 namespace Iwentys.Core.Services.Abstractions
