@@ -8,23 +8,23 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Implementations
 {
-    public class GuildProfileRepository : IGuildProfileRepository
+    public class GuildRepository : IGuildRepository
     {
         private readonly IwentysDbContext _dbContext;
 
-        public GuildProfileRepository(IwentysDbContext dbContext)
+        public GuildRepository(IwentysDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public GuildProfile Create(GuildProfile entity)
+        public Guild Create(Guild entity)
         {
-            EntityEntry<GuildProfile> createdEntity = _dbContext.GuildProfiles.Add(entity);
+            EntityEntry<Guild> createdEntity = _dbContext.GuildProfiles.Add(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
-        public GuildProfile[] Read()
+        public Guild[] Read()
         {
             return _dbContext.GuildProfiles
                 .Include(g => g.Members)
@@ -32,28 +32,28 @@ namespace Iwentys.Database.Repositories.Implementations
                 .ToArray();
         }
 
-        public GuildProfile ReadById(int key)
+        public Guild ReadById(int key)
         {
             return _dbContext.GuildProfiles
                 .Include(g => g.Members)
                 .FirstOrDefault(g => g.Id == key);
         }
 
-        public GuildProfile Update(GuildProfile entity)
+        public Guild Update(Guild entity)
         {
-            EntityEntry<GuildProfile> createdEntity = _dbContext.GuildProfiles.Update(entity);
+            EntityEntry<Guild> createdEntity = _dbContext.GuildProfiles.Update(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
         public void Delete(int key)
         {
-            GuildProfile user = this.Get(key);
+            Guild user = this.Get(key);
             _dbContext.GuildProfiles.Remove(user);
             _dbContext.SaveChanges();
         }
 
-        public GuildProfile[] ReadPending()
+        public Guild[] ReadPending()
         {
             return _dbContext.GuildProfiles
                 .Include(g => g.Members)
@@ -61,7 +61,7 @@ namespace Iwentys.Database.Repositories.Implementations
                 .ToArray();
         }
 
-        public GuildProfile ReadForUser(int userId)
+        public Guild ReadForUser(int userId)
         {
             return _dbContext.GuildMembers
                 .Where(gm => gm.MemberId == userId)

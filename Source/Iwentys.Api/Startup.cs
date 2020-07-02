@@ -33,12 +33,12 @@ namespace Iwentys.Api
             services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();
 
             services.AddScoped<IUserProfileRepository, UserProfileRepository>();
-            services.AddScoped<IGuildProfileRepository, GuildProfileRepository>();
+            services.AddScoped<IGuildRepository, GuildRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<ITournamentRepository, TournamentRepository>();
 
             services.AddScoped<IUserProfileService, UserProfileService>();
-            services.AddScoped<IGuildProfileService, GuildProfileService>();
+            services.AddScoped<IGuildService, GuildService>();
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<ITournamentService, TournamentService>();
         }

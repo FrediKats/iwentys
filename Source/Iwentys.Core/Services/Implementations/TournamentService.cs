@@ -12,13 +12,13 @@ namespace Iwentys.Core.Services.Implementations
     public class TournamentService : ITournamentService
     {
         private readonly IGithubApiAccessor _githubApi;
-        private readonly IGuildProfileService _guildProfileService;
+        private readonly IGuildService _guildService;
         private readonly ITournamentRepository _tournamentRepository;
 
-        public TournamentService(ITournamentRepository tournamentRepository, IGuildProfileService guildProfileService, IGithubApiAccessor githubApi)
+        public TournamentService(ITournamentRepository tournamentRepository, IGuildService guildService, IGithubApiAccessor githubApi)
         {
             _tournamentRepository = tournamentRepository;
-            _guildProfileService = guildProfileService;
+            _guildService = guildService;
             _githubApi = githubApi;
         }
 
@@ -43,7 +43,7 @@ namespace Iwentys.Core.Services.Implementations
         public TournamentLeaderboardDto GetLeaderboard(int tournamentId)
         {
             return Get(tournamentId)
-                .WrapToDomain(_guildProfileService, _githubApi)
+                .WrapToDomain(_guildService, _githubApi)
                 .GetLeaderboard();
         }
     }

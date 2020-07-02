@@ -1,6 +1,6 @@
 ﻿using System.Linq;
+using Iwentys.Core.DomainModel;
 using Iwentys.Database.Repositories;
-using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Types;
@@ -17,7 +17,7 @@ namespace Iwentys.Tests.Core.Services
         {
             TestCaseContext
                 .Case()
-                .WithNewUser(out UserProfile user)
+                .WithNewUser(out AuthorizedUser user)
                 .WithGuild(user, out GuildProfileDto guild);
 
             Assert.IsTrue(guild.Members.Any(m => m.Id == user.Id));
@@ -28,10 +28,10 @@ namespace Iwentys.Tests.Core.Services
         {
             var context = TestCaseContext
                 .Case()
-                .WithNewUser(out UserProfile user)
+                .WithNewUser(out AuthorizedUser user)
                 .WithGuild(user, out GuildProfileDto guild);
 
-            var createdGuild = context.GuildProfileRepository.Get(guild.Id);
+            var createdGuild = context.GuildRepository.Get(guild.Id);
 
             Assert.AreEqual(GuildType.Pending, createdGuild.GuildType);
         }
@@ -41,12 +41,12 @@ namespace Iwentys.Tests.Core.Services
         {
             var context = TestCaseContext
                 .Case()
-                .WithNewUser(out UserProfile user)
-                .WithNewUser(out var admin, UserType.Admin)
+                .WithNewUser(out AuthorizedUser user)
+                .WithNewUser(out AuthorizedUser admin, UserType.Admin)
                 .WithGuild(user, out GuildProfileDto guild);
 
-            context.GuildProfileService.ApproveGuildCreating(admin.Id, guild.Id);
-            var createdGuild = context.GuildProfileRepository.Get(guild.Id);
+            context.GuildService.ApproveGuildCreating(admin, guild.Id);
+            var createdGuild = context.GuildRepository.Get(guild.Id);
 
             Assert.AreEqual(GuildType.Created, createdGuild.GuildType);
         }
@@ -56,8 +56,8 @@ namespace Iwentys.Tests.Core.Services
         {
             var context = TestCaseContext
                 .Case()
-                .WithNewUser(out UserProfile user)
-                .WithNewUser(out UserProfile _, UserType.Admin)
+                .WithNewUser(out AuthorizedUser user)
+                .WithNewUser(out AuthorizedUser _, UserType.Admin)
                 .WithGuild(user, out GuildProfileDto _);
 
             Assert.Catch<InnerLogicException>(() => context.WithGuild(user, out GuildProfileDto _));

@@ -14,10 +14,11 @@ namespace Iwentys.Models.Transferable.Guilds
 
         public GuildHiringPolicy HiringPolicy { get; set; }
 
+        public UserProfile Totem { get; set; }
         public List<UserProfile> Members { get; set; }
 
 
-        public static GuildProfileDto Create(GuildProfile profile)
+        public static GuildProfileDto Create(Guild profile)
         {
             return new GuildProfileDto
             {
@@ -26,6 +27,7 @@ namespace Iwentys.Models.Transferable.Guilds
                 HiringPolicy = profile.HiringPolicy,
                 LogoUrl = profile.LogoUrl,
                 Title = profile.Title,
+                Totem = profile.Totem,
                 Members = profile.Members.Select(m => m.Member).ToList()
             };
         }

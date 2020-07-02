@@ -6,7 +6,7 @@ namespace Iwentys.Models.Entities
     public class GuildMember
     {
         public int GuildId { get; set; }
-        public GuildProfile Guild { get; set; }
+        public Guild Guild { get; set; }
 
         public int MemberId { get; set; }
         public UserProfile Member { get; set; }

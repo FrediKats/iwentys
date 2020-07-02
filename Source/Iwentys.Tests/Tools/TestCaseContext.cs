@@ -1,3 +1,4 @@
+using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Core.Services.Implementations;
 using Iwentys.Database.Context;
@@ -15,11 +16,11 @@ namespace Iwentys.Tests.Tools
         private readonly IwentysDbContext _context;
 
         public readonly IUserProfileRepository UserProfileRepository;
-        public readonly IGuildProfileRepository GuildProfileRepository;
+        public readonly IGuildRepository GuildRepository;
         public readonly ICompanyRepository CompanyRepository;
 
         public readonly IUserProfileService UserProfileService;
-        public readonly IGuildProfileService GuildProfileService;
+        public readonly IGuildService GuildService;
         public readonly CompanyService CompanyService;
 
         public static TestCaseContext Case() => new TestCaseContext();
@@ -28,29 +29,29 @@ namespace Iwentys.Tests.Tools
         {
             _context = TestDatabaseProvider.GetDatabaseContext();
             UserProfileRepository = new UserProfileRepository(_context);
-            GuildProfileRepository = new GuildProfileRepository(_context);
+            GuildRepository = new GuildRepository(_context);
             CompanyRepository = new CompanyRepository(_context);
 
             UserProfileService = new UserProfileService(UserProfileRepository);
-            GuildProfileService = new GuildProfileService(GuildProfileRepository, UserProfileRepository);
+            GuildService = new GuildService(GuildRepository, UserProfileRepository);
             CompanyService = new CompanyService(CompanyRepository, UserProfileRepository);
         }
 
-        public TestCaseContext WithNewUser(out UserProfile userInfo, UserType userType = UserType.Common)
+        public TestCaseContext WithNewUser(out AuthorizedUser user, UserType userType = UserType.Common)
         {
-            userInfo = new UserProfile
+            var userInfo = new UserProfile
             {
                 Id = RandomProvider.Random.Next(999999),
                 Role = userType
             };
-            userInfo = UserProfileRepository.Create(userInfo);
 
+            user = AuthorizedUser.DebugAuth(UserProfileRepository.Create(userInfo));
             return this;
         }
 
-        public TestCaseContext WithGuild(UserProfile userInfo, out GuildProfileDto guildProfile)
+        public TestCaseContext WithGuild(AuthorizedUser user, out GuildProfileDto guildProfile)
         {
-            guildProfile = GuildProfileService.Create(userInfo.Id, new GuildCreateArgumentDto());
+            guildProfile = GuildService.Create(user, new GuildCreateArgumentDto());
 
             return this;
         }
@@ -63,7 +64,7 @@ namespace Iwentys.Tests.Tools
             return this;
         }
 
-        public TestCaseContext WithCompanyWorker(CompanyInfoDto companyInfo, out UserProfile userInfo)
+        public TestCaseContext WithCompanyWorker(CompanyInfoDto companyInfo, out AuthorizedUser userInfo)
         {
             WithNewUser(out userInfo);
             _context.CompanyWorkers.Add(new CompanyWorker {CompanyId = companyInfo.Id, WorkerId = userInfo.Id, Type = CompanyWorkerType.Accepted});
