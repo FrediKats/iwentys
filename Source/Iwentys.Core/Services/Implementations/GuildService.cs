@@ -18,11 +18,15 @@ namespace Iwentys.Core.Services.Implementations
     {
         private readonly IGuildRepository _guildRepository;
         private readonly IStudentRepository _studentRepository;
+        private readonly ITributeRepository _tributeRepository;
+        private readonly IStudentProjectRepository _studentProjectRepository;
 
-        public GuildService(IGuildRepository guildRepository, IStudentRepository studentRepository)
+        public GuildService(IGuildRepository guildRepository, IStudentRepository studentRepository, IStudentProjectRepository studentProjectRepository, ITributeRepository tributeRepository)
         {
             _guildRepository = guildRepository;
             _studentRepository = studentRepository;
+            _studentProjectRepository = studentProjectRepository;
+            _tributeRepository = tributeRepository;
         }
 
         public GuildProfileDto Create(AuthorizedUser creator, GuildCreateArgumentDto arguments)
@@ -97,6 +101,27 @@ namespace Iwentys.Core.Services.Implementations
         public VotingInfoDto StartVotingForTotem(AuthorizedUser user, int guildId, GuildTotemVotingCreateDto votingCreateDto)
         {
             throw new System.NotImplementedException();
+        }
+
+        public void SendTribute(AuthorizedUser user, int guildId, int projectId)
+        {
+            Student student = _studentRepository.Get(user.Id);
+            Guild guild = _guildRepository.Get(guildId);
+            StudentProject project = _studentProjectRepository.Get(projectId);
+            
+            if (_tributeRepository.Read().Any(t => t.ProjectId == projectId))
+                throw new InnerLogicException("Repository already used for tribute");
+
+            //TODO: add check for user in guild, that Totem is exists
+
+            var tribute = new Tribute
+            {
+                GuildId =  guild.Id,
+                TotemId = guild.TotemId,
+                ProjectId = project.Id
+            };
+
+            _tributeRepository.Create(tribute);
         }
     }
 }

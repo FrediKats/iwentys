@@ -17,5 +17,7 @@ namespace Iwentys.Core.Services.Abstractions
         //TODO: customize dto for different voting
         VotingInfoDto StartVotingForLeader(AuthorizedUser creator, int guildId, GuildLeaderVotingCreateDto votingCreateDto);
         VotingInfoDto StartVotingForTotem(AuthorizedUser creator, int guildId, GuildTotemVotingCreateDto votingCreateDto);
+
+        void SendTribute(AuthorizedUser user, int guildId, int projectId);
     }
 }

@@ -16,6 +16,7 @@ namespace Iwentys.Database.Context
 
         public DbSet<Guild> GuildProfiles { get; set; }
         public DbSet<GuildMember> GuildMembers { get; set; }
+        public DbSet<Tribute> Tributes { get; set; }
 
         public DbSet<Company> Companies { get; set; }
         public DbSet<CompanyWorker> CompanyWorkers { get; set; }

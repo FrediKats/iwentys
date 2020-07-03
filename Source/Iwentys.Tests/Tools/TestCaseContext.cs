@@ -18,6 +18,8 @@ namespace Iwentys.Tests.Tools
         public readonly IStudentRepository StudentRepository;
         public readonly IGuildRepository GuildRepository;
         public readonly ICompanyRepository CompanyRepository;
+        public readonly IStudentProjectRepository StudentProjectRepository;
+        public readonly ITributeRepository TributeRepository;
 
         public readonly IStudentService StudentService;
         public readonly IGuildService GuildService;
@@ -31,9 +33,11 @@ namespace Iwentys.Tests.Tools
             StudentRepository = new StudentRepository(_context);
             GuildRepository = new GuildRepository(_context);
             CompanyRepository = new CompanyRepository(_context);
+            StudentProjectRepository = new StudentProjectRepository(_context);
+            TributeRepository = new TributeRepository(_context);
 
             StudentService = new StudentService(StudentRepository);
-            GuildService = new GuildService(GuildRepository, StudentRepository);
+            GuildService = new GuildService(GuildRepository, StudentRepository, StudentProjectRepository, TributeRepository);
             CompanyService = new CompanyService(CompanyRepository, StudentRepository);
         }
 
