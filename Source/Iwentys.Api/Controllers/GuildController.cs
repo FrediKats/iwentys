@@ -3,6 +3,7 @@ using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Voting;
+using Iwentys.Models.Types.Guilds;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Api.Controllers
@@ -70,6 +71,13 @@ namespace Iwentys.Api.Controllers
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
             _guildService.CancelTribute(user, tributeId);
+        }
+
+        [HttpPost("{guildId}/CompleteTribute}")]
+        public void CompleteTribute(int guildId, [FromBody] TributeCompleteDto tributeCompleteDto)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            _guildService.CompleteTribute(user, tributeCompleteDto);
         }
     }
 }

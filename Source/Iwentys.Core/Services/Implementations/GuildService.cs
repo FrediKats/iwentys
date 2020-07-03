@@ -103,7 +103,7 @@ namespace Iwentys.Core.Services.Implementations
             throw new System.NotImplementedException();
         }
 
-        public void SendTribute(AuthorizedUser user, int guildId, int projectId)
+        public Tribute SendTribute(AuthorizedUser user, int guildId, int projectId)
         {
             Student student = _studentRepository.Get(user.Id);
             Guild guild = _guildRepository.Get(guildId);
@@ -115,19 +115,23 @@ namespace Iwentys.Core.Services.Implementations
             //TODO: add check for user in guild, that Totem is exists
 
             var tribute = Tribute.New(guild.Id, guild.TotemId, project.Id);
-            _tributeRepository.Create(tribute);
+            return _tributeRepository.Create(tribute);
         }
 
-        public void CancelTribute(AuthorizedUser user, int tributeId)
+        public Tribute CancelTribute(AuthorizedUser user, int tributeId)
         {
             Tribute tribute = _tributeRepository.Get(tributeId);
-            int totemId = _guildRepository.Get(tribute.GuildId).TotemId;
-            
-            if (tributeId != totemId)
-                throw InnerLogicException.NotEnoughPermission(tributeId);
+            user.EnsureIsTotem(_guildRepository, tribute.GuildId);
+            tribute.SetCanceled();
+            return _tributeRepository.Update(tribute);
+        }
 
-            tribute.State = TributeState.Canceled;
-            _tributeRepository.Update(tribute);
+        public Tribute CompleteTribute(AuthorizedUser user, TributeCompleteDto tributeCompleteDto)
+        {
+            Tribute tribute = _tributeRepository.Get(tributeCompleteDto.TributeId);
+            user.EnsureIsTotem(_guildRepository, tribute.GuildId);
+            tribute.SetCompleted(tributeCompleteDto.DifficultLevel, tribute.Mark);
+            return _tributeRepository.Update(tribute);
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Iwentys.Core.DomainModel;
+using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Voting;
+using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Core.Services.Abstractions
 {
@@ -18,7 +20,8 @@ namespace Iwentys.Core.Services.Abstractions
         VotingInfoDto StartVotingForLeader(AuthorizedUser creator, int guildId, GuildLeaderVotingCreateDto votingCreateDto);
         VotingInfoDto StartVotingForTotem(AuthorizedUser creator, int guildId, GuildTotemVotingCreateDto votingCreateDto);
 
-        void SendTribute(AuthorizedUser user, int guildId, int projectId);
-        void CancelTribute(AuthorizedUser user, int tributeId);
+        Tribute SendTribute(AuthorizedUser user, int guildId, int projectId);
+        Tribute CancelTribute(AuthorizedUser user, int tributeId);
+        Tribute CompleteTribute(AuthorizedUser user, TributeCompleteDto tributeCompleteDto);
     }
 }

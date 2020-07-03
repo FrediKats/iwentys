@@ -1,4 +1,5 @@
-﻿using Iwentys.Models.Types.Guilds;
+﻿using Iwentys.Models.Exceptions;
+using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Models.Entities.Guilds
 {
@@ -14,6 +15,8 @@ namespace Iwentys.Models.Entities.Guilds
         public int ProjectId { get; set; }
 
         public TributeState State { get; set; }
+        public int DifficultLevel { get; set; }
+        public int Mark { get; set; }
 
         public static Tribute New(int guildId, int totemId, int projectId)
         {
@@ -24,6 +27,21 @@ namespace Iwentys.Models.Entities.Guilds
                 ProjectId = projectId,
                 State = TributeState.Created
             };
+        }
+
+        public void SetCanceled()
+        {
+            State = TributeState.Canceled;
+        }
+
+        public void SetCompleted(int difficultLevel, int mark)
+        {
+            if (State == TributeState.Created)
+                throw new InnerLogicException($"Can't completed tribute. It's in state [{State}]");
+
+            DifficultLevel = difficultLevel;
+            Mark = mark;
+            State = TributeState.Completed;
         }
     }
 }
