@@ -19,5 +19,6 @@ namespace Iwentys.Core.Services.Abstractions
         VotingInfoDto StartVotingForTotem(AuthorizedUser creator, int guildId, GuildTotemVotingCreateDto votingCreateDto);
 
         void SendTribute(AuthorizedUser user, int guildId, int projectId);
+        void CancelTribute(AuthorizedUser user, int tributeId);
     }
 }

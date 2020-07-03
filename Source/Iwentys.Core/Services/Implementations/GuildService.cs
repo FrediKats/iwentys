@@ -10,7 +10,7 @@ using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Voting;
-using Iwentys.Models.Types;
+using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Core.Services.Implementations
 {
@@ -114,14 +114,20 @@ namespace Iwentys.Core.Services.Implementations
 
             //TODO: add check for user in guild, that Totem is exists
 
-            var tribute = new Tribute
-            {
-                GuildId =  guild.Id,
-                TotemId = guild.TotemId,
-                ProjectId = project.Id
-            };
-
+            var tribute = Tribute.New(guild.Id, guild.TotemId, project.Id);
             _tributeRepository.Create(tribute);
+        }
+
+        public void CancelTribute(AuthorizedUser user, int tributeId)
+        {
+            Tribute tribute = _tributeRepository.Get(tributeId);
+            int totemId = _guildRepository.Get(tribute.GuildId).TotemId;
+            
+            if (tributeId != totemId)
+                throw InnerLogicException.NotEnoughPermission(tributeId);
+
+            tribute.State = TributeState.Canceled;
+            _tributeRepository.Update(tribute);
         }
     }
 }

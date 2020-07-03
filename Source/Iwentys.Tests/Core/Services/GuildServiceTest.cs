@@ -4,6 +4,7 @@ using Iwentys.Database.Repositories;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Types;
+using Iwentys.Models.Types.Guilds;
 using Iwentys.Tests.Tools;
 using NUnit.Framework;
 
