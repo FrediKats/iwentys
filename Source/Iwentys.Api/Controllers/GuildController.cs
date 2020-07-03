@@ -44,29 +44,29 @@ namespace Iwentys.Api.Controllers
             return _guildService.Get(id);
         }
 
-        [HttpPost("id/VotingForTotem}")]
-        public void VotingForLeader(int guildId, GuildLeaderVotingCreateDto guildLeaderVotingCreateDto)
+        [HttpPost("{guildId}/VotingForTotem}")]
+        public void VotingForLeader(int guildId, [FromBody] GuildLeaderVotingCreateDto guildLeaderVotingCreateDto)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
             _guildService.StartVotingForLeader(user, guildId, guildLeaderVotingCreateDto);
         }
 
-        [HttpPost("id/VotingForTotem}")]
-        public void VotingForTotem(int guildId, GuildTotemVotingCreateDto guildTotemVotingCreateDto)
+        [HttpPost("{guildId}/VotingForTotem}")]
+        public void VotingForTotem(int guildId, [FromBody] GuildTotemVotingCreateDto guildTotemVotingCreateDto)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
             _guildService.StartVotingForTotem(user, guildId, guildTotemVotingCreateDto);
         }
 
-        [HttpPost("id/SendTribute}")]
-        public void SendTribute(int guildId, int repositoryId)
+        [HttpPost("{guildId}/SendTribute}")]
+        public void SendTribute(int guildId, [FromBody] int repositoryId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
             _guildService.SendTribute(user, guildId, repositoryId);
         }
 
-        [HttpPost("id/CancelTribute}")]
-        public void CancelTribute(int tributeId)
+        [HttpPost("{guildId}/CancelTribute}")]
+        public void CancelTribute(int guildId, [FromBody] int tributeId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
             _guildService.CancelTribute(user, tributeId);
