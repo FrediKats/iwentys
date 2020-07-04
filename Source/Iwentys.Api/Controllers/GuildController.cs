@@ -44,18 +44,25 @@ namespace Iwentys.Api.Controllers
             return _guildService.Get(id);
         }
 
-        [HttpPost("id/VotingForTotem}")]
-        public void VotingForLeader(int guildId, GuildLeaderVotingCreateDto guildLeaderVotingCreateDto)
+        [HttpPost("{guildId}/VotingForTotem}")]
+        public void VotingForLeader(int guildId, [FromBody] GuildLeaderVotingCreateDto guildLeaderVotingCreateDto)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
             _guildService.StartVotingForLeader(user, guildId, guildLeaderVotingCreateDto);
         }
 
-        [HttpPost("id/VotingForTotem}")]
-        public void VotingForTotem(int guildId, GuildTotemVotingCreateDto guildTotemVotingCreateDto)
+        [HttpPost("{guildId}/VotingForTotem}")]
+        public void VotingForTotem(int guildId, [FromBody] GuildTotemVotingCreateDto guildTotemVotingCreateDto)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
             _guildService.StartVotingForTotem(user, guildId, guildTotemVotingCreateDto);
+        }
+
+        [HttpPost("{guildId}/VotingForTotem}")]
+        public void SetTotem(int guildId, [FromBody] int totemId)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            _guildService.SetTotem(user, guildId, totemId);
         }
     }
 }

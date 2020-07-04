@@ -4,7 +4,7 @@ using Iwentys.Models.Types;
 
 namespace Iwentys.Core.DomainModel
 {
-    public class AdminUser : Student
+    public class AdminUser
     {
         public AdminUser(Student student)
         {
@@ -22,6 +22,11 @@ namespace Iwentys.Core.DomainModel
                 throw InnerLogicException.NotEnoughPermission(profile.Id);
 
             return new AdminUser(profile);
+        }
+
+        public static AdminUser EnsureIsAdmin(this AuthorizedUser user)
+        {
+            return EnsureIsAdmin(user.Profile);
         }
     }
 }

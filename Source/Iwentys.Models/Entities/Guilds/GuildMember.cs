@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Iwentys.Models.Types;
+using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Models.Entities.Guilds
 {
@@ -13,5 +13,15 @@ namespace Iwentys.Models.Entities.Guilds
 
         [Required]
         public GuildMemberType MemberType { get; set; }
+
+        public static GuildMember NewMember(int guildId, int memberId)
+        {
+            return new GuildMember
+            {
+                GuildId = guildId,
+                MemberId = memberId,
+                MemberType = GuildMemberType.Member
+            };
+        }
     }
 }

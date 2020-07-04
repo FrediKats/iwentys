@@ -2,7 +2,7 @@
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.Types;
+using Iwentys.Models.Types.Guilds;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -19,14 +19,14 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public Guild Create(Guild entity)
         {
-            EntityEntry<Guild> createdEntity = _dbContext.GuildProfiles.Add(entity);
+            EntityEntry<Guild> createdEntity = _dbContext.Guilds.Add(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
         public Guild[] Read()
         {
-            return _dbContext.GuildProfiles
+            return _dbContext.Guilds
                 .Include(g => g.Members)
                 .Where(g => g.GuildType == GuildType.Created)
                 .ToArray();
@@ -34,14 +34,14 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public Guild ReadById(int key)
         {
-            return _dbContext.GuildProfiles
+            return _dbContext.Guilds
                 .Include(g => g.Members)
                 .FirstOrDefault(g => g.Id == key);
         }
 
         public Guild Update(Guild entity)
         {
-            EntityEntry<Guild> createdEntity = _dbContext.GuildProfiles.Update(entity);
+            EntityEntry<Guild> createdEntity = _dbContext.Guilds.Update(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
@@ -49,13 +49,13 @@ namespace Iwentys.Database.Repositories.Implementations
         public void Delete(int key)
         {
             Guild user = this.Get(key);
-            _dbContext.GuildProfiles.Remove(user);
+            _dbContext.Guilds.Remove(user);
             _dbContext.SaveChanges();
         }
 
         public Guild[] ReadPending()
         {
-            return _dbContext.GuildProfiles
+            return _dbContext.Guilds
                 .Include(g => g.Members)
                 .Where(g => g.GuildType == GuildType.Pending)
                 .ToArray();
@@ -68,6 +68,11 @@ namespace Iwentys.Database.Repositories.Implementations
                 .Include(gm => gm.Guild)
                 .SingleOrDefault()
                 ?.Guild;
+        }
+
+        public Guild ReadForTotem(int totemId)
+        {
+            return _dbContext.Guilds.SingleOrDefault(g => g.TotemId == totemId);
         }
     }
 }

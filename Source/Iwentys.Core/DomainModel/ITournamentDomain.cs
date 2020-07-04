@@ -3,7 +3,7 @@ using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Transferable.Tournaments;
-using Iwentys.Models.Types;
+using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Core.DomainModel
 {
