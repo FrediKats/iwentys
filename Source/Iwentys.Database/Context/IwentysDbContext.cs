@@ -14,7 +14,7 @@ namespace Iwentys.Database.Context
         public DbSet<StudentProject> StudentProjects { get; set; }
         public DbSet<BarsPointTransactionLog> BarsPointTransactionLogs { get; set; }
 
-        public DbSet<Guild> GuildProfiles { get; set; }
+        public DbSet<Guild> Guilds { get; set; }
         public DbSet<GuildMember> GuildMembers { get; set; }
         public DbSet<Tribute> Tributes { get; set; }
 

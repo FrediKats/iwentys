@@ -18,10 +18,10 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet]
-        public void Get()
+        public void GetPendingTributes()
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
-            _guildService.GetTributes(user);
+            _guildService.GetPendingTributes(user);
         }
 
         [HttpPost("create")]

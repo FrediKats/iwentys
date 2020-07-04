@@ -2,7 +2,7 @@
 {
     public enum TributeState
     {
-        Created = 1,
+        Pending = 1,
         Canceled,
         Completed
     }

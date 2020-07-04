@@ -117,11 +117,14 @@ namespace Iwentys.Core.Services.Implementations
             _guildRepository.Update(guild);
         }
 
-        public Tribute[] GetTributes(AuthorizedUser user)
+        public Tribute[] GetPendingTributes(AuthorizedUser user)
         {
-            Guild guild = _guildRepository.ReadForStudent(user.Id);
-            user.EnsureIsTotem(_guildRepository, guild.Id);
-            return _tributeRepository.ReadForGuild(guild.Id);
+            Guild guild = _guildRepository.ReadForTotem(user.Id) ?? throw new InnerLogicException("User is not totem in any guild");
+
+            return _tributeRepository
+                .ReadForGuild(guild.Id)
+                .Where(t => t.State == TributeState.Pending)
+                .ToArray();
         }
 
         public Tribute CreateTribute(AuthorizedUser user, int projectId)
@@ -134,7 +137,7 @@ namespace Iwentys.Core.Services.Implementations
             if (allTributes.Any(t => t.ProjectId == projectId))
                 throw new InnerLogicException("Repository already used for tribute");
 
-            if (allTributes.Any(t => t.State == TributeState.Created && t.Project.StudentId == student.Id))
+            if (allTributes.Any(t => t.State == TributeState.Pending && t.Project.StudentId == student.Id))
                 throw new InnerLogicException("Other tribute already created and waiting for check");
 
             if (guild.TotemId is null)
@@ -148,7 +151,7 @@ namespace Iwentys.Core.Services.Implementations
         {
             Tribute tribute = _tributeRepository.Get(tributeId);
 
-            if (tribute.State != TributeState.Created)
+            if (tribute.State != TributeState.Pending)
                 throw new InnerLogicException($"Can't cancel tribute. It's state is: {tribute.State}");
 
             if (tribute.Project.StudentId == user.Id)
@@ -167,7 +170,7 @@ namespace Iwentys.Core.Services.Implementations
             Tribute tribute = _tributeRepository.Get(tributeCompleteDto.TributeId);
             GuildTotemUser totem = user.EnsureIsTotem(_guildRepository, tribute.GuildId);
 
-            if (tribute.State != TributeState.Created)
+            if (tribute.State != TributeState.Pending)
                 throw new InnerLogicException($"Can't complete tribute. It's state is: {tribute.State}");
 
             tribute.SetCompleted(totem.Student.Id, tributeCompleteDto.DifficultLevel, tribute.Mark);
