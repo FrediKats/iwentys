@@ -103,6 +103,20 @@ namespace Iwentys.Core.Services.Implementations
             throw new System.NotImplementedException();
         }
 
+        public void SetTotem(AuthorizedUser user, int guildId, int totemId)
+        {
+            //TODO: ensure user is not totem in other guilds
+            user.EnsureIsAdmin();
+            Student totem = _studentRepository.Get(totemId);
+            Guild guild = _guildRepository.Get(guildId);
+
+            if (guild.TotemId != null)
+                throw new InnerLogicException("Guild already has totem.");
+
+            guild.TotemId = totem.Id;
+            _guildRepository.Update(guild);
+        }
+
         public Tribute SendTribute(AuthorizedUser user, int guildId, int projectId)
         {
             Student student = _studentRepository.Get(user.Id);

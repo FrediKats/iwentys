@@ -59,6 +59,13 @@ namespace Iwentys.Api.Controllers
             _guildService.StartVotingForTotem(user, guildId, guildTotemVotingCreateDto);
         }
 
+        [HttpPost("{guildId}/VotingForTotem}")]
+        public void SetTotem(int guildId, [FromBody] int totemId)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            _guildService.SetTotem(user, guildId, totemId);
+        }
+
         [HttpPost("{guildId}/SendTribute}")]
         public void SendTribute(int guildId, [FromBody] int repositoryId)
         {
