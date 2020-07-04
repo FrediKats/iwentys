@@ -14,7 +14,7 @@ namespace Iwentys.Models.Entities.Guilds
         public GuildType GuildType { get; set; }
 
         public Student Totem { get; set; }
-        public int TotemId { get; set; }
+        public int? TotemId { get; set; }
 
         public List<GuildMember> Members { get; set; }
     }

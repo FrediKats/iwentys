@@ -106,31 +106,50 @@ namespace Iwentys.Core.Services.Implementations
         public Tribute SendTribute(AuthorizedUser user, int guildId, int projectId)
         {
             Student student = _studentRepository.Get(user.Id);
-            Guild guild = _guildRepository.Get(guildId);
+            Guild guild = _guildRepository.ReadForStudent(student.Id);
             StudentProject project = _studentProjectRepository.Get(projectId);
-            
-            if (_tributeRepository.Read().Any(t => t.ProjectId == projectId))
+            Tribute[] allTributes = _tributeRepository.Read();
+
+            if (allTributes.Any(t => t.ProjectId == projectId))
                 throw new InnerLogicException("Repository already used for tribute");
 
-            //TODO: add check for user in guild, that Totem is exists
+            if (allTributes.Any(t => t.State == TributeState.Created && t.Project.StudentId == student.Id))
+                throw new InnerLogicException("Other tribute already created and waiting for check");
 
-            var tribute = Tribute.New(guild.Id, guild.TotemId, project.Id);
+            if (guild.TotemId is null)
+                throw new InnerLogicException("Can't send tribute. There is no totem in guild");
+
+            var tribute = Tribute.New(guild.Id, project.Id);
             return _tributeRepository.Create(tribute);
         }
 
         public Tribute CancelTribute(AuthorizedUser user, int tributeId)
         {
             Tribute tribute = _tributeRepository.Get(tributeId);
-            user.EnsureIsTotem(_guildRepository, tribute.GuildId);
-            tribute.SetCanceled();
+
+            if (tribute.State != TributeState.Created)
+                throw new InnerLogicException($"Can't cancel tribute. It's state is: {tribute.State}");
+
+            if (tribute.Project.StudentId == user.Id)
+                tribute.SetCanceled();
+            else
+            {
+                user.EnsureIsTotem(_guildRepository, tribute.GuildId);
+                tribute.SetCanceled();
+            }
+            
             return _tributeRepository.Update(tribute);
         }
 
         public Tribute CompleteTribute(AuthorizedUser user, TributeCompleteDto tributeCompleteDto)
         {
             Tribute tribute = _tributeRepository.Get(tributeCompleteDto.TributeId);
-            user.EnsureIsTotem(_guildRepository, tribute.GuildId);
-            tribute.SetCompleted(tributeCompleteDto.DifficultLevel, tribute.Mark);
+            GuildTotemUser totem = user.EnsureIsTotem(_guildRepository, tribute.GuildId);
+
+            if (tribute.State != TributeState.Created)
+                throw new InnerLogicException($"Can't complete tribute. It's state is: {tribute.State}");
+
+            tribute.SetCompleted(totem.Student.Id, tributeCompleteDto.DifficultLevel, tribute.Mark);
             return _tributeRepository.Update(tribute);
         }
     }
