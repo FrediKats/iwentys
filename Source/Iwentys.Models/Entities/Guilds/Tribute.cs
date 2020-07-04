@@ -1,4 +1,5 @@
-﻿using Iwentys.Models.Exceptions;
+﻿using System.ComponentModel.DataAnnotations;
+using Iwentys.Models.Exceptions;
 using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Models.Entities.Guilds
@@ -9,6 +10,7 @@ namespace Iwentys.Models.Entities.Guilds
         public int GuildId { get; set; }
 
         public StudentProject Project { get; set; }
+        [Key]
         public int ProjectId { get; set; }
 
         public TributeState State { get; set; }

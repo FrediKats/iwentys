@@ -44,5 +44,10 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.Tributes.Remove(this.Get(key));
             _dbContext.SaveChanges();
         }
+
+        public Tribute[] ReadForGuild(int guildId)
+        {
+            return _dbContext.Tributes.Where(t => t.GuildId == guildId).ToArray();
+        }
     }
 }

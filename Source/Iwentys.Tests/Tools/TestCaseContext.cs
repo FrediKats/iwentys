@@ -5,6 +5,7 @@ using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Database.Repositories.Implementations;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Companies;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Types;
@@ -56,7 +57,21 @@ namespace Iwentys.Tests.Tools
         public TestCaseContext WithGuild(AuthorizedUser user, out GuildProfileDto guildProfile)
         {
             guildProfile = GuildService.Create(user, new GuildCreateArgumentDto());
+            return this;
+        }
 
+        public TestCaseContext WithGuildMember(GuildProfileDto guild, out AuthorizedUser user)
+        {
+            WithNewStudent(out user);
+            _context.GuildMembers.Add(GuildMember.NewMember(guild.Id, user.Id));
+            _context.SaveChanges();
+            return this;
+        }
+
+        public TestCaseContext WithTotem(GuildProfileDto guild, AuthorizedUser admin, out AuthorizedUser totem)
+        {
+            WithGuildMember(guild, out totem);
+            GuildService.SetTotem(admin, guild.Id, totem.Id);
             return this;
         }
 
@@ -73,6 +88,23 @@ namespace Iwentys.Tests.Tools
             WithNewStudent(out userInfo);
             _context.CompanyWorkers.Add(new CompanyWorker {CompanyId = companyInfo.Id, WorkerId = userInfo.Id, Type = CompanyWorkerType.Accepted});
             _context.SaveChanges();
+            return this;
+        }
+
+        public TestCaseContext WithStudentProject(AuthorizedUser userInfo, out StudentProject studentProject)
+        {
+            var project = new StudentProject
+            {
+                StudentId = userInfo.Id
+            };
+            studentProject = StudentProjectRepository.Create(project);
+
+            return this;
+        }
+
+        public TestCaseContext WithTribute(AuthorizedUser userInfo, StudentProject project, out Tribute tribute)
+        {
+            tribute = GuildService.CreateTribute(userInfo, project.Id);
             return this;
         }
     }

@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using Iwentys.Core.DomainModel;
 using Iwentys.Database.Repositories;
+using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Types;
@@ -62,6 +64,24 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuild(user, out GuildProfileDto _);
 
             Assert.Catch<InnerLogicException>(() => context.WithGuild(user, out GuildProfileDto _));
+        }
+
+        [Test]
+        public void CreateTribute_TributeExists()
+        {
+            var context = TestCaseContext
+                .Case()
+                .WithNewStudent(out AuthorizedUser user)
+                .WithGuild(user, out GuildProfileDto guild)
+                .WithNewStudent(out AuthorizedUser admin, UserType.Admin)
+                .WithTotem(guild, admin, out AuthorizedUser totem)
+                .WithStudentProject(user, out StudentProject project)
+                .WithTribute(user, project, out Tribute _);
+
+            Tribute[] tributes = context.GuildService.GetTributes(totem);
+            
+            Assert.IsNotEmpty(tributes);
+            Assert.True(tributes.Any(t => t.ProjectId == project.Id));
         }
     }
 }

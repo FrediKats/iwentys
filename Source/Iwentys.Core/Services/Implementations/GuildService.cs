@@ -117,7 +117,14 @@ namespace Iwentys.Core.Services.Implementations
             _guildRepository.Update(guild);
         }
 
-        public Tribute SendTribute(AuthorizedUser user, int guildId, int projectId)
+        public Tribute[] GetTributes(AuthorizedUser user)
+        {
+            Guild guild = _guildRepository.ReadForStudent(user.Id);
+            user.EnsureIsTotem(_guildRepository, guild.Id);
+            return _tributeRepository.ReadForGuild(guild.Id);
+        }
+
+        public Tribute CreateTribute(AuthorizedUser user, int projectId)
         {
             Student student = _studentRepository.Get(user.Id);
             Guild guild = _guildRepository.ReadForStudent(student.Id);
