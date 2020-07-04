@@ -22,6 +22,7 @@ namespace Iwentys.Core.Services.Abstractions
         void SetTotem(AuthorizedUser user, int guildId, int totemId);
 
         Tribute[] GetPendingTributes(AuthorizedUser user);
+        Tribute[] GetStudentTributeResult(AuthorizedUser user);
         Tribute CreateTribute(AuthorizedUser user, int projectId);
         Tribute CancelTribute(AuthorizedUser user, int tributeId);
         Tribute CompleteTribute(AuthorizedUser user, TributeCompleteDto tributeCompleteDto);

@@ -127,6 +127,15 @@ namespace Iwentys.Core.Services.Implementations
                 .ToArray();
         }
 
+        public Tribute[] GetStudentTributeResult(AuthorizedUser user)
+        {
+            Guild guild = _guildRepository.ReadForStudent(user.Id);
+            if (guild is null)
+                throw InnerLogicException.Guild.IsNotGuildMember(user.Id);
+
+            return _tributeRepository.ReadStudentInGuildTributes(guild.Id, user.Id);
+        }
+
         public Tribute CreateTribute(AuthorizedUser user, int projectId)
         {
             Student student = _studentRepository.Get(user.Id);

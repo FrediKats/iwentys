@@ -24,6 +24,13 @@ namespace Iwentys.Api.Controllers
             _guildService.GetPendingTributes(user);
         }
 
+        [HttpGet]
+        public void GetStudentTributeResult()
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            _guildService.GetStudentTributeResult(user);
+        }
+
         [HttpPost("create")]
         public void SendTribute([FromBody] int projectId)
         {

@@ -49,5 +49,14 @@ namespace Iwentys.Database.Repositories.Implementations
         {
             return _dbContext.Tributes.Where(t => t.GuildId == guildId).ToArray();
         }
+
+        public Tribute[] ReadStudentInGuildTributes(int guildId, int studentId)
+        {
+            return _dbContext
+                .Tributes
+                .Where(t => t.GuildId == guildId)
+                .Where(t => t.Project.StudentId == studentId)
+                .ToArray();
+        }
     }
 }

@@ -22,5 +22,10 @@ namespace Iwentys.Models.Exceptions
         {
             return new InnerLogicException("Student don't have enough points for this operation.");
         }
+
+        public static class Guild
+        {
+            public static InnerLogicException IsNotGuildMember(int studentId) => new InnerLogicException($"Student is not guild member. Id: [{studentId}]");
+        }
     }
 }
