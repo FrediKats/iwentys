@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Abstractions;
@@ -17,7 +18,7 @@ namespace Iwentys.Core.Services.Implementations
 
         public Student[] Get()
         {
-            return _studentRepository.Read();
+            return _studentRepository.Read().ToArray();
         }
 
         public Student Get(int id)

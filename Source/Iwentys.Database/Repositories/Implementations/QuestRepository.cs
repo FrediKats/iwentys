@@ -22,9 +22,9 @@ namespace Iwentys.Database.Repositories.Implementations
             return createdEntity.Entity;
         }
 
-        public Quest[] Read()
+        public IQueryable<Quest> Read()
         {
-            return _dbContext.Quests.ToArray();
+            return _dbContext.Quests;
         }
 
         public Quest ReadById(int key)

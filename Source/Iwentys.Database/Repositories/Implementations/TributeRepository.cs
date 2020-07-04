@@ -22,9 +22,9 @@ namespace Iwentys.Database.Repositories.Implementations
             return createdEntity.Entity;
         }
 
-        public Tribute[] Read()
+        public IQueryable<Tribute> Read()
         {
-            return _dbContext.Tributes.ToArray();
+            return _dbContext.Tributes;
         }
 
         public Tribute ReadById(int key)

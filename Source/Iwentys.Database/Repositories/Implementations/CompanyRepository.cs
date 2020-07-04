@@ -25,11 +25,9 @@ namespace Iwentys.Database.Repositories.Implementations
             return createdEntity.Entity;
         }
 
-        public Company[] Read()
+        public IQueryable<Company> Read()
         {
-            return _dbContext
-                .Companies
-                .ToArray();
+            return _dbContext.Companies;
         }
 
         public Company ReadById(int key)

@@ -1,4 +1,5 @@
-﻿using Iwentys.Core.Services.Abstractions;
+﻿using System.Linq;
+using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
 
@@ -16,7 +17,7 @@ namespace Iwentys.Core.Services.Implementations
 
         public Quest[] Get()
         {
-            return _questRepository.Read();
+            return _questRepository.Read().ToArray();
         }
     }
 }

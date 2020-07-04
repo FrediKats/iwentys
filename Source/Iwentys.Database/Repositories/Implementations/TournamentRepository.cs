@@ -22,9 +22,9 @@ namespace Iwentys.Database.Repositories.Implementations
             return createdEntity.Entity;
         }
 
-        public Tournament[] Read()
+        public IQueryable<Tournament> Read()
         {
-            return _dbContext.Tournaments.ToArray();
+            return _dbContext.Tournaments;
         }
 
         public Tournament ReadById(int key)

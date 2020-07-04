@@ -80,7 +80,7 @@ namespace Iwentys.Core.Services.Implementations
 
         public GuildProfileDto[] Get()
         {
-            return _guildRepository.Read().Select(GuildProfileDto.Create).ToArray();
+            return _guildRepository.Read().AsEnumerable().Select(GuildProfileDto.Create).ToArray();
         }
 
         public GuildProfileDto Get(int id)
@@ -141,7 +141,7 @@ namespace Iwentys.Core.Services.Implementations
             Student student = _studentRepository.Get(user.Id);
             Guild guild = _guildRepository.ReadForStudent(student.Id);
             StudentProject project = _studentProjectRepository.Get(projectId);
-            Tribute[] allTributes = _tributeRepository.Read();
+            Tribute[] allTributes = _tributeRepository.Read().ToArray();
 
             if (allTributes.Any(t => t.ProjectId == projectId))
                 throw new InnerLogicException("Repository already used for tribute");

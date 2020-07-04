@@ -24,7 +24,7 @@ namespace Iwentys.Core.Services.Implementations
 
         public Tournament[] Get()
         {
-            return _tournamentRepository.Read();
+            return _tournamentRepository.Read().ToArray();
         }
 
         public Tournament[] GetActive()

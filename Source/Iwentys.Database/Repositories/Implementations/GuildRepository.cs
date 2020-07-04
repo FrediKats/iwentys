@@ -24,12 +24,11 @@ namespace Iwentys.Database.Repositories.Implementations
             return createdEntity.Entity;
         }
 
-        public Guild[] Read()
+        public IQueryable<Guild> Read()
         {
             return _dbContext.Guilds
                 .Include(g => g.Members)
-                .Where(g => g.GuildType == GuildType.Created)
-                .ToArray();
+                .Where(g => g.GuildType == GuildType.Created);
         }
 
         public Guild ReadById(int key)

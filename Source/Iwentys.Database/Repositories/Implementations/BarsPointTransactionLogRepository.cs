@@ -22,9 +22,9 @@ namespace Iwentys.Database.Repositories.Implementations
             return createdEntity.Entity;
         }
 
-        public BarsPointTransactionLog[] Read()
+        public IQueryable<BarsPointTransactionLog> Read()
         {
-            return _dbContext.BarsPointTransactionLogs.ToArray();
+            return _dbContext.BarsPointTransactionLogs;
         }
 
         public BarsPointTransactionLog ReadById(int key)
