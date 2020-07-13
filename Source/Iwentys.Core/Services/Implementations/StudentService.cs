@@ -4,6 +4,8 @@ using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Tools;
+using Iwentys.Models.Transferable.Students;
 
 namespace Iwentys.Core.Services.Implementations
 {
@@ -16,31 +18,31 @@ namespace Iwentys.Core.Services.Implementations
             _studentRepository = studentRepository;
         }
 
-        public Student[] Get()
+        public StudentFullProfileDto[] Get()
         {
-            return _studentRepository.Read().ToArray();
+            return _studentRepository.Read().Select(s => new StudentFullProfileDto(s)).ToArray();
         }
 
-        public Student Get(int id)
+        public StudentFullProfileDto Get(int id)
         {
-            return _studentRepository.Get(id);
+            return _studentRepository.Get(id).To(s => new StudentFullProfileDto(s));
         }
 
-        public Student GetOrCreate(int id)
+        public StudentFullProfileDto GetOrCreate(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Student AddGithubUsername(int id, string githubUsername)
+        public StudentFullProfileDto AddGithubUsername(int id, string githubUsername)
         {
             throw new NotImplementedException("Need to validate github credentials");
         }
 
-        public Student RemoveGithubUsername(int id, string githubUsername)
+        public StudentFullProfileDto RemoveGithubUsername(int id, string githubUsername)
         {
             Student user = _studentRepository.Get(id);
             user.GithubUsername = null;
-            return _studentRepository.Update(user);
+            return _studentRepository.Update(user).To(s => new StudentFullProfileDto(s));
         }
     }
 }
