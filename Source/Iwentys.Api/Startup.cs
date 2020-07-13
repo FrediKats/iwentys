@@ -36,6 +36,8 @@ namespace Iwentys.Api
             services.AddScoped<IGuildRepository, GuildRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<ITournamentRepository, TournamentRepository>();
+            services.AddScoped<IStudentProjectRepository, StudentProjectRepository>();
+            services.AddScoped<ITributeRepository, TributeRepository>();
 
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IGuildService, GuildService>();

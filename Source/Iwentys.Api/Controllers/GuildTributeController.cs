@@ -24,7 +24,7 @@ namespace Iwentys.Api.Controllers
             _guildService.GetPendingTributes(user);
         }
 
-        [HttpGet]
+        [HttpGet("GetFroStudent")]
         public void GetStudentTributeResult()
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
