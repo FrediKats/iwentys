@@ -15,9 +15,18 @@ namespace Iwentys.Models.Transferable.Guilds
 
         public GuildHiringPolicy HiringPolicy { get; set; }
 
+        public Student Leader { get; set; }
         public Student Totem { get; set; }
+
+        public int TotalRate { get; set; }
         public List<Student> Members { get; set; }
 
+        //TODO: add newsfeeds
+        //TODO: wrap with DTO
+        public Tribute Tribute { get; set; }
+        public List<AchievementInfoDto> Achievements { get; set; }
+        public List<GuildPinnedRepositoryDto> PinnedRepositories { get; set; }
+        
 
         public static GuildProfileDto Create(Guild profile)
         {
