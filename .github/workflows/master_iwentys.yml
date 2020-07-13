@@ -11,6 +11,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: windows-latest
+    env:
+      working-directory: ./Source
 
     steps:
     - uses: actions/checkout@master
@@ -22,9 +24,11 @@ jobs:
 
     - name: Build with dotnet
       run: dotnet build --configuration Release
+      working-directory: ${{env.working-directory}}
 
     - name: dotnet publish
       run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      working-directory: ${{env.working-directory}}
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v1
