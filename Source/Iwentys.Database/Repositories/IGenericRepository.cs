@@ -1,11 +1,12 @@
-﻿using Iwentys.Models.Exceptions;
+﻿using System.Linq;
+using Iwentys.Models.Exceptions;
 
 namespace Iwentys.Database.Repositories
 {
     public interface IGenericRepository<TEntity, TKey>
     {
         TEntity Create(TEntity entity);
-        TEntity[] Read();
+        IQueryable<TEntity> Read();
         TEntity ReadById(TKey key);
         TEntity Update(TEntity entity);
         void Delete(TKey key);

@@ -1,4 +1,5 @@
 using System;
+using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Core.Services.Implementations;
 using Iwentys.Database.Context;
@@ -25,20 +26,36 @@ namespace Iwentys.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSwaggerGen();
 
             services.AddDbContext<IwentysDbContext>(o => o.UseInMemoryDatabase(Guid.NewGuid().ToString()));
 
-            services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+            //TODO: replace with GithubApiAccessor implementation
+            services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();
 
-            services.AddScoped<IUserProfileService, UserProfileService>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IGuildRepository, GuildRepository>();
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<ITournamentRepository, TournamentRepository>();
+            services.AddScoped<IStudentProjectRepository, StudentProjectRepository>();
+            services.AddScoped<ITributeRepository, TributeRepository>();
+
+            services.AddScoped<IStudentService, StudentService>();
+            services.AddScoped<IGuildService, GuildService>();
+            services.AddScoped<ICompanyService, CompanyService>();
+            services.AddScoped<ITournamentService, TournamentService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
             {
-                app.UseDeveloperExceptionPage();
-            }
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.RoutePrefix = string.Empty;
+            });
 
             app.UseHttpsRedirection();
 
@@ -46,10 +63,7 @@ namespace Iwentys.Api
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

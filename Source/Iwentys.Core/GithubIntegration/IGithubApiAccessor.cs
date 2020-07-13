@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Iwentys.Models.Types.Github;
 
 namespace Iwentys.Core.GithubIntegration
@@ -11,5 +12,6 @@ namespace Iwentys.Core.GithubIntegration
         GithubUser GetGithubUser(string githubUsername);
 
         ContributionFullInfo GetUserActivity(string githubUsername);
+        int GetUserActivity(string githubUsername, DateTime from, DateTime to);
     }
 }
