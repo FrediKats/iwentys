@@ -31,7 +31,7 @@ namespace Iwentys.Core.GithubIntegration
                 .Repository
                 .Get(username, repositoryName)
                 .Result
-                .Maybe(r => new GithubRepository(r.Id, r.Name, r.Description, r.Url)) ?? throw EntityNotFoundException.Create(nameof(GithubRepository), repositoryName);
+                .Maybe(r => new GithubRepository(r.Id, r.Name, r.Description, r.Url, r.StargazersCount)) ?? throw EntityNotFoundException.Create(nameof(GithubRepository), repositoryName);
         }
 
         public IReadOnlyList<GithubRepository> GetUserRepositories(string username)
@@ -40,7 +40,7 @@ namespace Iwentys.Core.GithubIntegration
                 .Repository
                 .GetAllForUser(username)
                 .Result
-                .Select(r => new GithubRepository(r.Id, r.Name, r.Description, r.Url))
+                .Select(r => new GithubRepository(r.Id, r.Name, r.Description, r.Url, r.StargazersCount))
                 .ToList();
         }
 

@@ -2,6 +2,7 @@
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Voting;
+using Iwentys.Models.Types.Github;
 using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Core.Services.Abstractions
@@ -26,5 +27,8 @@ namespace Iwentys.Core.Services.Abstractions
         Tribute CreateTribute(AuthorizedUser user, int projectId);
         Tribute CancelTribute(AuthorizedUser user, int tributeId);
         Tribute CompleteTribute(AuthorizedUser user, TributeCompleteDto tributeCompleteDto);
+
+        GithubRepository AddPinnedRepository(AuthorizedUser user, int guildId, string repositoryUrl);
+        GithubRepository DeletePinnedRepository(AuthorizedUser user, int guildId, string repositoryUrl);
     }
 }

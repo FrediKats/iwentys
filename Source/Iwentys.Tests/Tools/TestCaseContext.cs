@@ -1,4 +1,5 @@
 using Iwentys.Core.DomainModel;
+using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Core.Services.Implementations;
 using Iwentys.Database.Context;
@@ -37,8 +38,19 @@ namespace Iwentys.Tests.Tools
             StudentProjectRepository = new StudentProjectRepository(_context);
             TributeRepository = new TributeRepository(_context);
 
+            var accessor = new DatabaseAccessor(
+                _context,
+                StudentRepository,
+                GuildRepository,
+                CompanyRepository,
+                new TournamentRepository(_context),
+                StudentProjectRepository,
+                TributeRepository,
+                new BarsPointTransactionLogRepository(_context),
+                new QuestRepository(_context));
+
             StudentService = new StudentService(StudentRepository);
-            GuildService = new GuildService(GuildRepository, StudentRepository, StudentProjectRepository, TributeRepository);
+            GuildService = new GuildService(GuildRepository, StudentRepository, StudentProjectRepository, TributeRepository, accessor, new DummyGithubApiAccessor());
             CompanyService = new CompanyService(CompanyRepository, StudentRepository);
         }
 

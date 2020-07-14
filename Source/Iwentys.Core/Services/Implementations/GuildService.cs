@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.DomainModel;
+using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
+using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
@@ -10,23 +12,33 @@ using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Voting;
+using Iwentys.Models.Types.Github;
 using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Core.Services.Implementations
 {
     public class GuildService : IGuildService
     {
+        private readonly IGithubApiAccessor _apiAccessor;
+
         private readonly IGuildRepository _guildRepository;
         private readonly IStudentRepository _studentRepository;
         private readonly ITributeRepository _tributeRepository;
+        private readonly DatabaseAccessor _databaseAccessor;
         private readonly IStudentProjectRepository _studentProjectRepository;
 
-        public GuildService(IGuildRepository guildRepository, IStudentRepository studentRepository, IStudentProjectRepository studentProjectRepository, ITributeRepository tributeRepository)
+        public GuildService(IGuildRepository guildRepository,
+            IStudentRepository studentRepository,
+            IStudentProjectRepository studentProjectRepository,
+            ITributeRepository tributeRepository,
+            DatabaseAccessor databaseAccessor, IGithubApiAccessor apiAccessor)
         {
             _guildRepository = guildRepository;
             _studentRepository = studentRepository;
             _studentProjectRepository = studentProjectRepository;
             _tributeRepository = tributeRepository;
+            _databaseAccessor = databaseAccessor;
+            _apiAccessor = apiAccessor;
         }
 
         public GuildProfileDto Create(AuthorizedUser creator, GuildCreateArgumentDto arguments)
@@ -51,7 +63,7 @@ namespace Iwentys.Core.Services.Implementations
                 new GuildMember {Guild = newGuild, Member = creatorUser, MemberType = GuildMemberType.Creator}
             };
 
-            return _guildRepository.Create(newGuild).To(GuildProfileDto.Create);
+            return _guildRepository.Create(newGuild).To(ToGuildProfileDto);
         }
 
         public GuildProfileDto Update(AuthorizedUser user, GuildUpdateArgumentDto arguments)
@@ -61,7 +73,7 @@ namespace Iwentys.Core.Services.Implementations
             info.Bio = arguments.Bio ?? info.Bio;
             info.LogoUrl = arguments.LogoUrl ?? info.LogoUrl;
             info.HiringPolicy = arguments.HiringPolicy ?? info.HiringPolicy;
-            return _guildRepository.Update(info).To(GuildProfileDto.Create);
+            return _guildRepository.Update(info).To(ToGuildProfileDto);
         }
 
         public GuildProfileDto ApproveGuildCreating(AuthorizedUser user, int guildId)
@@ -75,22 +87,22 @@ namespace Iwentys.Core.Services.Implementations
                 throw new InnerLogicException("Guild already approved");
 
             guild.GuildType = GuildType.Created;
-            return _guildRepository.Update(guild).To(GuildProfileDto.Create);
+            return _guildRepository.Update(guild).To(ToGuildProfileDto);
         }
 
         public GuildProfileDto[] Get()
         {
-            return _guildRepository.Read().AsEnumerable().Select(GuildProfileDto.Create).ToArray();
+            return _guildRepository.Read().AsEnumerable().Select(ToGuildProfileDto).ToArray();
         }
 
         public GuildProfileDto Get(int id)
         {
-            return _guildRepository.Get(id).To(GuildProfileDto.Create);
+            return _guildRepository.Get(id).To(ToGuildProfileDto);
         }
 
         public GuildProfileDto GetStudentGuild(int userId)
         {
-            return _guildRepository.ReadForStudent(userId).To(GuildProfileDto.Create);
+            return _guildRepository.ReadForStudent(userId).To(ToGuildProfileDto);
         }
 
         public VotingInfoDto StartVotingForLeader(AuthorizedUser user, int guildId, GuildLeaderVotingCreateDto votingCreateDto)
@@ -184,6 +196,31 @@ namespace Iwentys.Core.Services.Implementations
 
             tribute.SetCompleted(totem.Student.Id, tributeCompleteDto.DifficultLevel, tribute.Mark);
             return _tributeRepository.Update(tribute);
+        }
+
+        public GithubRepository AddPinnedRepository(AuthorizedUser user, int guildId, string repositoryUrl)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public GithubRepository DeletePinnedRepository(AuthorizedUser user, int guildId, string repositoryUrl)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public GuildProfileDto ToGuildProfileDto(Guild profile)
+        {
+            return new GuildProfileDto
+            {
+                Id = profile.Id,
+                Bio = profile.Bio,
+                HiringPolicy = profile.HiringPolicy,
+                LogoUrl = profile.LogoUrl,
+                Title = profile.Title,
+                Totem = profile.Totem,
+                Members = profile.Members.Select(m => m.Member).ToList(),
+                PinnedRepositories = profile.PinnedProjects.SelectToList(p => _apiAccessor.GetRepository(p.RepositoryOwner, p.RepositoryName))
+            };
         }
     }
 }

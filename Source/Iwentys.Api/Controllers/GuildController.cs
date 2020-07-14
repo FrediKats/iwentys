@@ -3,6 +3,7 @@ using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Voting;
+using Iwentys.Models.Types.Github;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Api.Controllers
@@ -63,6 +64,20 @@ namespace Iwentys.Api.Controllers
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
             _guildService.SetTotem(user, guildId, totemId);
+        }
+
+        [HttpPost("{guildId}/pinned")]
+        public GithubRepository AddPinnedProject(int guildId, [FromBody] string repositoryUrl)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            return _guildService.AddPinnedRepository(user, guildId, repositoryUrl);
+        }
+
+        [HttpDelete("{guildId}/pinned")]
+        public GithubRepository DeletePinnedProject(int guildId, [FromBody] string repositoryUrl)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            return _guildService.DeletePinnedRepository(user, guildId, repositoryUrl);
         }
     }
 }
