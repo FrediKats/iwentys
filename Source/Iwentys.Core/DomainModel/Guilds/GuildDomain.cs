@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.GithubIntegration;
 using Iwentys.Database.Repositories.Abstractions;
@@ -51,7 +51,7 @@ namespace Iwentys.Core.DomainModel.Guilds
             };
 
             if (userId != null && _profile.Members.Any(m => m.MemberId == userId))
-                info.Tribute = ActiveTributeDto.Create(_tributeRepository.ReadStudentActiveTribute(_profile.Id, userId.Value));
+                info.Tribute = _tributeRepository.ReadStudentActiveTribute(_profile.Id, userId.Value)?.To(ActiveTributeDto.Create);
 
             return info;
         }

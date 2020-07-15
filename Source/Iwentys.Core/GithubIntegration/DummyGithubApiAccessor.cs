@@ -23,7 +23,7 @@ namespace Iwentys.Core.GithubIntegration
 
         public ContributionFullInfo GetUserActivity(string githubUsername)
         {
-            return default;
+            return new ContributionFullInfo {PerMonthActivity = new List<ContributionsInfo>()};
         }
 
         public int GetUserActivity(string githubUsername, DateTime from, DateTime to)

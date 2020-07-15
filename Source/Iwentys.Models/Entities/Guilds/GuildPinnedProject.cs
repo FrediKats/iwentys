@@ -2,6 +2,8 @@
 {
     public class GuildPinnedProject
     {
+        public int Id { get; set; }
+
         public Guild Guild { get; set; }
         public int GuildId { get; set; }
 
