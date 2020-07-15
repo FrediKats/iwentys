@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Iwentys.Core.GithubIntegration;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities.Guilds;
@@ -32,15 +33,30 @@ namespace Iwentys.Core.DomainModel.Guilds
                 Title = _profile.Title,
                 Totem = _profile.Totem,
                 Leader = _profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member,
-                Members = _profile.Members.Select(m => m.Member).ToList(),
-                PinnedRepositories = _profile.PinnedProjects.SelectToList(p => _apiAccessor.GetRepository(p.RepositoryOwner, p.RepositoryName))
+                MemberLeaderBoard = GetMemberDashboard(),
+                PinnedRepositories = _profile.PinnedProjects.SelectToList(p => _apiAccessor.GetRepository(p.RepositoryOwner, p.RepositoryName)),
+                
             };
 
-            if (userId != null && info.Members.Any(m => m.Id == userId))
+            if (userId != null && _profile.Members.Any(m => m.MemberId == userId))
                 info.Tribute = ActiveTributeDto.Create(_tributeRepository.ReadStudentActiveTribute(_profile.Id, userId.Value));
 
             return info;
         }
 
+        private GuildMemberLeaderBoard GetMemberDashboard()
+        {
+            List<(string ghName, int Total)> members = _profile.Members
+                .Select(m => m.Member.GithubUsername)
+                .Select(ghName => (ghName, _apiAccessor.GetUserActivity(ghName).Total))
+                .ToList();
+
+            return new GuildMemberLeaderBoard
+            {
+                TotalRate = members.Sum(m => m.Total),
+                MembersImpact = members,
+                Members = _profile.Members.SelectToList(m => m.Member)
+            };
+        }
     }
 }

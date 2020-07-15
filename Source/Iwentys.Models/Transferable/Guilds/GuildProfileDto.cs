@@ -17,8 +17,7 @@ namespace Iwentys.Models.Transferable.Guilds
         public Student Leader { get; set; }
         public Student Totem { get; set; }
 
-        public int TotalRate { get; set; }
-        public List<Student> Members { get; set; }
+        public GuildMemberLeaderBoard MemberLeaderBoard { get; set; }
 
         //TODO: add newsfeeds
         public ActiveTributeDto Tribute { get; set; }

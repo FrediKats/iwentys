@@ -23,7 +23,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out GuildProfileDto guild);
 
-            Assert.IsTrue(guild.Members.Any(m => m.Id == user.Id));
+            Assert.IsTrue(guild.MemberLeaderBoard.Members.Any(m => m.Id == user.Id));
         }
 
         [Test]
