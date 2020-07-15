@@ -118,13 +118,15 @@ namespace Iwentys.Core.Services.Implementations
 
         public void SetTotem(AuthorizedUser user, int guildId, int totemId)
         {
-            //TODO: ensure user is not totem in other guilds
             user.EnsureIsAdmin();
             Student totem = _studentRepository.Get(totemId);
             Guild guild = _guildRepository.Get(guildId);
 
             if (guild.TotemId != null)
                 throw new InnerLogicException("Guild already has totem.");
+
+            if (_guildRepository.ReadForTotem(totemId) != null)
+                throw new InnerLogicException("Member is already totem in other guild.");
 
             guild.TotemId = totem.Id;
             _guildRepository.Update(guild);

@@ -5,7 +5,6 @@ using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Models.Entities.Guilds
 {
-    //TODO: add creation time
     public class Tribute
     {
         public Guild Guild { get; set; }
