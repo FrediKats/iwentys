@@ -40,9 +40,9 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public GuildProfileDto Get(int id)
+        public GuildProfileDto Get(int id, int? userId)
         {
-            return _guildService.Get(id);
+            return _guildService.Get(id, userId);
         }
 
         [HttpPost("{guildId}/VotingForLeader")]

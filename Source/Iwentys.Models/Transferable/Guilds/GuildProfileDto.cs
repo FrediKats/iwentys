@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Types.Github;
 using Iwentys.Models.Types.Guilds;
 
@@ -22,8 +21,7 @@ namespace Iwentys.Models.Transferable.Guilds
         public List<Student> Members { get; set; }
 
         //TODO: add newsfeeds
-        //TODO: wrap with DTO
-        public Tribute Tribute { get; set; }
+        public ActiveTributeDto Tribute { get; set; }
         public List<AchievementInfoDto> Achievements { get; set; }
         public List<GithubRepository> PinnedRepositories { get; set; }
     }

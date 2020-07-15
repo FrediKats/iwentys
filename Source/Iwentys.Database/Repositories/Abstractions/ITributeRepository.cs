@@ -6,5 +6,6 @@ namespace Iwentys.Database.Repositories.Abstractions
     {
         Tribute[] ReadForGuild(int guildId);
         Tribute[] ReadStudentInGuildTributes(int guildId, int studentId);
+        Tribute ReadStudentActiveTribute(int guildId, int studentId);
     }
 }

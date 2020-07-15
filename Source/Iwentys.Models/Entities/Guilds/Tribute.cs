@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Types.Guilds;
 
@@ -17,6 +18,8 @@ namespace Iwentys.Models.Entities.Guilds
         public TributeState State { get; set; }
         public int DifficultLevel { get; set; }
         public int Mark { get; set; }
+        public DateTime CreationTime { get; set; }
+
         public Student Totem { get; set; }
         public int TotemId { get; set; }
 
@@ -26,7 +29,8 @@ namespace Iwentys.Models.Entities.Guilds
             {
                 GuildId = guildId,
                 ProjectId = projectId,
-                State = TributeState.Pending
+                State = TributeState.Pending,
+                CreationTime = DateTime.UtcNow
             };
         }
 

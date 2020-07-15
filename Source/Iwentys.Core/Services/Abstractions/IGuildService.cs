@@ -14,7 +14,7 @@ namespace Iwentys.Core.Services.Abstractions
         GuildProfileDto ApproveGuildCreating(AuthorizedUser user, int guildId);
 
         GuildProfileDto[] Get();
-        GuildProfileDto Get(int id);
+        GuildProfileDto Get(int id, int? userId);
         GuildProfileDto GetStudentGuild(int userId);
 
         //TODO: customize dto for different voting

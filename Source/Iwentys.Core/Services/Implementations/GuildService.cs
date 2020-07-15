@@ -95,9 +95,14 @@ namespace Iwentys.Core.Services.Implementations
             return _guildRepository.Read().AsEnumerable().Select(ToGuildProfileDto).ToArray();
         }
 
-        public GuildProfileDto Get(int id)
+        public GuildProfileDto Get(int id, int? userId)
         {
-            return _guildRepository.Get(id).To(ToGuildProfileDto);
+            GuildProfileDto guildProfile = _guildRepository.Get(id).To(ToGuildProfileDto);
+
+            if (userId != null && guildProfile.Members.Any(m => m.Id == userId))
+                guildProfile.Tribute = ActiveTributeDto.Create(_tributeRepository.ReadStudentActiveTribute(id, userId.Value));
+
+            return guildProfile;
         }
 
         public GuildProfileDto GetStudentGuild(int userId)
@@ -218,6 +223,7 @@ namespace Iwentys.Core.Services.Implementations
                 LogoUrl = profile.LogoUrl,
                 Title = profile.Title,
                 Totem = profile.Totem,
+                Leader = profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member,
                 Members = profile.Members.Select(m => m.Member).ToList(),
                 PinnedRepositories = profile.PinnedProjects.SelectToList(p => _apiAccessor.GetRepository(p.RepositoryOwner, p.RepositoryName))
             };
