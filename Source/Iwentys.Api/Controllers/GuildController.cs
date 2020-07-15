@@ -20,14 +20,14 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpPost]
-        public GuildProfileDto Create([FromBody] GuildCreateArgumentDto arguments)
+        public GuildProfileShortInfoDto Create([FromBody] GuildCreateArgumentDto arguments)
         {
             AuthorizedUser creator = AuthorizedUser.DebugAuth();
             return _guildService.Create(creator, arguments);
         }
 
         [HttpPost("update")]
-        public GuildProfileDto Update([FromBody] GuildUpdateArgumentDto arguments)
+        public GuildProfileShortInfoDto Update([FromBody] GuildUpdateArgumentDto arguments)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
             return _guildService.Update(user, arguments);

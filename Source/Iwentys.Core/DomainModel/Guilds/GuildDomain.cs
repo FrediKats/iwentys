@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.GithubIntegration;
 using Iwentys.Database.Repositories.Abstractions;
@@ -20,6 +20,18 @@ namespace Iwentys.Core.DomainModel.Guilds
             _profile = profile;
             _tributeRepository = tributeRepository;
             _apiAccessor = apiAccessor;
+        }
+
+        public GuildProfileShortInfoDto ToGuildProfileShortInfoDto()
+        {
+            return new GuildProfileShortInfoDto
+            {
+                Id = _profile.Id,
+                Bio = _profile.Bio,
+                HiringPolicy = _profile.HiringPolicy,
+                LogoUrl = _profile.LogoUrl,
+                Title = _profile.Title,
+            };
         }
 
         public GuildProfileDto ToGuildProfileDto(int? userId = null)
@@ -46,7 +58,8 @@ namespace Iwentys.Core.DomainModel.Guilds
 
         private GuildMemberLeaderBoard GetMemberDashboard()
         {
-            List<(string ghName, int Total)> members = _profile.Members
+            List<(string ghName, int Total)> members = _profile
+                .Members
                 .Select(m => m.Member.GithubUsername)
                 .Select(ghName => (ghName, _apiAccessor.GetUserActivity(ghName).Total))
                 .ToList();

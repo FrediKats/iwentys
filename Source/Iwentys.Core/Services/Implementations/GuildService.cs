@@ -42,7 +42,7 @@ namespace Iwentys.Core.Services.Implementations
             _apiAccessor = apiAccessor;
         }
 
-        public GuildProfileDto Create(AuthorizedUser creator, GuildCreateArgumentDto arguments)
+        public GuildProfileShortInfoDto Create(AuthorizedUser creator, GuildCreateArgumentDto arguments)
         {
             Student creatorUser = _studentRepository.Get(creator.Id);
 
@@ -64,20 +64,20 @@ namespace Iwentys.Core.Services.Implementations
                 new GuildMember {Guild = newGuild, Member = creatorUser, MemberType = GuildMemberType.Creator}
             };
 
-            return _guildRepository.Create(newGuild).To(g => new GuildDomain(g, _tributeRepository, _apiAccessor)).ToGuildProfileDto(creator.Id);
+            return _guildRepository.Create(newGuild).To(g => new GuildDomain(g, _tributeRepository, _apiAccessor)).ToGuildProfileShortInfoDto();
         }
 
-        public GuildProfileDto Update(AuthorizedUser user, GuildUpdateArgumentDto arguments)
+        public GuildProfileShortInfoDto Update(AuthorizedUser user, GuildUpdateArgumentDto arguments)
         {
             //TODO: check permission
             Guild info = _guildRepository.Get(arguments.Id);
             info.Bio = arguments.Bio ?? info.Bio;
             info.LogoUrl = arguments.LogoUrl ?? info.LogoUrl;
             info.HiringPolicy = arguments.HiringPolicy ?? info.HiringPolicy;
-            return _guildRepository.Update(info).To(g => new GuildDomain(g, _tributeRepository, _apiAccessor)).ToGuildProfileDto();
+            return _guildRepository.Update(info).To(g => new GuildDomain(g, _tributeRepository, _apiAccessor)).ToGuildProfileShortInfoDto();
         }
 
-        public GuildProfileDto ApproveGuildCreating(AuthorizedUser user, int guildId)
+        public GuildProfileShortInfoDto ApproveGuildCreating(AuthorizedUser user, int guildId)
         {
             _studentRepository
                 .Get(user.Id)
@@ -88,7 +88,7 @@ namespace Iwentys.Core.Services.Implementations
                 throw new InnerLogicException("Guild already approved");
 
             guild.GuildType = GuildType.Created;
-            return _guildRepository.Update(guild).To(g => new GuildDomain(g, _tributeRepository, _apiAccessor)).ToGuildProfileDto(user.Id);
+            return _guildRepository.Update(guild).To(g => new GuildDomain(g, _tributeRepository, _apiAccessor)).ToGuildProfileShortInfoDto();
         }
 
         public GuildProfileDto[] Get()

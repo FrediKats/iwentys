@@ -9,9 +9,9 @@ namespace Iwentys.Core.Services.Abstractions
 {
     public interface IGuildService
     {
-        GuildProfileDto Create(AuthorizedUser creator, GuildCreateArgumentDto arguments);
-        GuildProfileDto Update(AuthorizedUser user, GuildUpdateArgumentDto arguments);
-        GuildProfileDto ApproveGuildCreating(AuthorizedUser user, int guildId);
+        GuildProfileShortInfoDto Create(AuthorizedUser creator, GuildCreateArgumentDto arguments);
+        GuildProfileShortInfoDto Update(AuthorizedUser user, GuildUpdateArgumentDto arguments);
+        GuildProfileShortInfoDto ApproveGuildCreating(AuthorizedUser user, int guildId);
 
         GuildProfileDto[] Get();
         GuildProfileDto Get(int id, int? userId);
