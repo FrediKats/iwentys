@@ -15,7 +15,7 @@ namespace Iwentys.Models.Entities
         public string MiddleName { get; set; }
         public string SecondName { get; set; }
         public UserType Role { get; set; }
-        public StudentGraduationYear StudentGraduationYear { get; set; }
+        public string Group { get; set; }
         public string GithubUsername { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime LastOnlineTime { get; set; }

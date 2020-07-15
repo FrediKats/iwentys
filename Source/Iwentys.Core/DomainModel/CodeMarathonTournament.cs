@@ -26,21 +26,13 @@ namespace Iwentys.Core.DomainModel
         {
             Dictionary<GuildProfileDto, int> result = _guildService
                 .Get()
-                .ToDictionary(c => c, CalculateGuildPoints);
+                .ToDictionary(c => c, g => g.MemberLeaderBoard.TotalRate);
 
             return new TournamentLeaderboardDto
             {
                 Tournament = _tournament,
                 Result = result
             };
-        }
-
-        private int CalculateGuildPoints(GuildProfileDto guildProfile)
-        {
-            return guildProfile
-                .Members
-                .Where(m => m.GithubUsername != null)
-                .Sum(m => _githubApiAccessor.GetUserActivity(m.GithubUsername, _tournament.StartTime, _tournament.EndTime));
         }
     }
 }

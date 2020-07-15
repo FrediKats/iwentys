@@ -1,36 +1,19 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.Types.Guilds;
+using Iwentys.Models.Types.Github;
 
 namespace Iwentys.Models.Transferable.Guilds
 {
-    public class GuildProfileDto
+    public class GuildProfileDto : GuildProfileShortInfoDto
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Bio { get; set; }
-        public string LogoUrl { get; set; }
-
-        public GuildHiringPolicy HiringPolicy { get; set; }
-
+        public Student Leader { get; set; }
         public Student Totem { get; set; }
-        public List<Student> Members { get; set; }
 
+        public GuildMemberLeaderBoard MemberLeaderBoard { get; set; }
 
-        public static GuildProfileDto Create(Guild profile)
-        {
-            return new GuildProfileDto
-            {
-                Id = profile.Id,
-                Bio = profile.Bio,
-                HiringPolicy = profile.HiringPolicy,
-                LogoUrl = profile.LogoUrl,
-                Title = profile.Title,
-                Totem = profile.Totem,
-                Members = profile.Members.Select(m => m.Member).ToList()
-            };
-        }
+        //TODO: add newsfeeds
+        public ActiveTributeDto Tribute { get; set; }
+        public List<AchievementInfoDto> Achievements { get; set; }
+        public List<GithubRepository> PinnedRepositories { get; set; }
     }
 }

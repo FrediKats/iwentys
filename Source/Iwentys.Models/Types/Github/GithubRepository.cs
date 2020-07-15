@@ -2,12 +2,13 @@
 {
     public class GithubRepository
     {
-        public GithubRepository(long id, string name, string description, string url) : this()
+        public GithubRepository(long id, string name, string description, string url, int starCount) : this()
         {
             Id = id;
             Name = name;
             Description = description;
             Url = url;
+            StarCount = starCount;
         }
 
         private GithubRepository()
@@ -18,5 +19,6 @@
         public string Name { get; set; }
         public string Description { get; set; }
         public string Url { get; set; }
+        public int StarCount { get; set; }
     }
 }

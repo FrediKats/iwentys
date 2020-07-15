@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.DomainModel;
+using Iwentys.Core.DomainModel.Guilds;
+using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
+using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
@@ -10,26 +13,36 @@ using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Voting;
+using Iwentys.Models.Types.Github;
 using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Core.Services.Implementations
 {
     public class GuildService : IGuildService
     {
+        private readonly IGithubApiAccessor _apiAccessor;
+
         private readonly IGuildRepository _guildRepository;
         private readonly IStudentRepository _studentRepository;
         private readonly ITributeRepository _tributeRepository;
+        private readonly DatabaseAccessor _databaseAccessor;
         private readonly IStudentProjectRepository _studentProjectRepository;
 
-        public GuildService(IGuildRepository guildRepository, IStudentRepository studentRepository, IStudentProjectRepository studentProjectRepository, ITributeRepository tributeRepository)
+        public GuildService(IGuildRepository guildRepository,
+            IStudentRepository studentRepository,
+            IStudentProjectRepository studentProjectRepository,
+            ITributeRepository tributeRepository,
+            DatabaseAccessor databaseAccessor, IGithubApiAccessor apiAccessor)
         {
             _guildRepository = guildRepository;
             _studentRepository = studentRepository;
             _studentProjectRepository = studentProjectRepository;
             _tributeRepository = tributeRepository;
+            _databaseAccessor = databaseAccessor;
+            _apiAccessor = apiAccessor;
         }
 
-        public GuildProfileDto Create(AuthorizedUser creator, GuildCreateArgumentDto arguments)
+        public GuildProfileShortInfoDto Create(AuthorizedUser creator, GuildCreateArgumentDto arguments)
         {
             Student creatorUser = _studentRepository.Get(creator.Id);
 
@@ -51,20 +64,20 @@ namespace Iwentys.Core.Services.Implementations
                 new GuildMember {Guild = newGuild, Member = creatorUser, MemberType = GuildMemberType.Creator}
             };
 
-            return _guildRepository.Create(newGuild).To(GuildProfileDto.Create);
+            return _guildRepository.Create(newGuild).To(g => new GuildDomain(g, _tributeRepository, _apiAccessor)).ToGuildProfileShortInfoDto();
         }
 
-        public GuildProfileDto Update(AuthorizedUser user, GuildUpdateArgumentDto arguments)
+        public GuildProfileShortInfoDto Update(AuthorizedUser user, GuildUpdateArgumentDto arguments)
         {
             //TODO: check permission
             Guild info = _guildRepository.Get(arguments.Id);
             info.Bio = arguments.Bio ?? info.Bio;
             info.LogoUrl = arguments.LogoUrl ?? info.LogoUrl;
             info.HiringPolicy = arguments.HiringPolicy ?? info.HiringPolicy;
-            return _guildRepository.Update(info).To(GuildProfileDto.Create);
+            return _guildRepository.Update(info).To(g => new GuildDomain(g, _tributeRepository, _apiAccessor)).ToGuildProfileShortInfoDto();
         }
 
-        public GuildProfileDto ApproveGuildCreating(AuthorizedUser user, int guildId)
+        public GuildProfileShortInfoDto ApproveGuildCreating(AuthorizedUser user, int guildId)
         {
             _studentRepository
                 .Get(user.Id)
@@ -75,22 +88,22 @@ namespace Iwentys.Core.Services.Implementations
                 throw new InnerLogicException("Guild already approved");
 
             guild.GuildType = GuildType.Created;
-            return _guildRepository.Update(guild).To(GuildProfileDto.Create);
+            return _guildRepository.Update(guild).To(g => new GuildDomain(g, _tributeRepository, _apiAccessor)).ToGuildProfileShortInfoDto();
         }
 
         public GuildProfileDto[] Get()
         {
-            return _guildRepository.Read().AsEnumerable().Select(GuildProfileDto.Create).ToArray();
+            return _guildRepository.Read().AsEnumerable().Select(g => new GuildDomain(g, _tributeRepository, _apiAccessor).ToGuildProfileDto()).ToArray();
         }
 
-        public GuildProfileDto Get(int id)
+        public GuildProfileDto Get(int id, int? userId)
         {
-            return _guildRepository.Get(id).To(GuildProfileDto.Create);
+            return _guildRepository.Get(id).To(g => new GuildDomain(g, _tributeRepository, _apiAccessor)).ToGuildProfileDto(userId);
         }
 
         public GuildProfileDto GetStudentGuild(int userId)
         {
-            return _guildRepository.ReadForStudent(userId).To(GuildProfileDto.Create);
+            return _guildRepository.ReadForStudent(userId).To(g => new GuildDomain(g, _tributeRepository, _apiAccessor)).ToGuildProfileDto(userId);
         }
 
         public VotingInfoDto StartVotingForLeader(AuthorizedUser user, int guildId, GuildLeaderVotingCreateDto votingCreateDto)
@@ -105,13 +118,15 @@ namespace Iwentys.Core.Services.Implementations
 
         public void SetTotem(AuthorizedUser user, int guildId, int totemId)
         {
-            //TODO: ensure user is not totem in other guilds
             user.EnsureIsAdmin();
             Student totem = _studentRepository.Get(totemId);
             Guild guild = _guildRepository.Get(guildId);
 
             if (guild.TotemId != null)
                 throw new InnerLogicException("Guild already has totem.");
+
+            if (_guildRepository.ReadForTotem(totemId) != null)
+                throw new InnerLogicException("Member is already totem in other guild.");
 
             guild.TotemId = totem.Id;
             _guildRepository.Update(guild);
@@ -184,6 +199,16 @@ namespace Iwentys.Core.Services.Implementations
 
             tribute.SetCompleted(totem.Student.Id, tributeCompleteDto.DifficultLevel, tribute.Mark);
             return _tributeRepository.Update(tribute);
+        }
+
+        public GithubRepository AddPinnedRepository(AuthorizedUser user, int guildId, string repositoryUrl)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public GithubRepository DeletePinnedRepository(AuthorizedUser user, int guildId, string repositoryUrl)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

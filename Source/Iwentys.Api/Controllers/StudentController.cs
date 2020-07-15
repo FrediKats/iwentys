@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Core.Services.Abstractions;
-using Iwentys.Models.Entities;
+using Iwentys.Models.Transferable.Students;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Api.Controllers
@@ -17,13 +17,13 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Student> Get()
+        public IEnumerable<StudentFullProfileDto> Get()
         {
             return _studentService.Get();
         }
 
         [HttpGet("{id}")]
-        public Student Get(int id)
+        public StudentFullProfileDto Get(int id)
         {
             return _studentService.Get(id);
         }

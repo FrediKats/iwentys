@@ -39,16 +39,23 @@ namespace Iwentys.Api
             services.AddScoped<ITournamentRepository, TournamentRepository>();
             services.AddScoped<IStudentProjectRepository, StudentProjectRepository>();
             services.AddScoped<ITributeRepository, TributeRepository>();
+            services.AddScoped<IBarsPointTransactionLogRepository, BarsPointTransactionLogRepository>();
+            services.AddScoped<IQuestRepository, QuestRepository>();
+
+            services.AddScoped<DatabaseAccessor>();
 
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IGuildService, GuildService>();
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<ITournamentService, TournamentService>();
+            services.AddScoped<IBarsPointTransactionLogService, BarsPointTransactionLogService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+            //FYI: We need to remove dev exception page after release
+            //if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+            app.UseDeveloperExceptionPage();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

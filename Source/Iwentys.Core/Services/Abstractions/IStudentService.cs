@@ -1,14 +1,14 @@
-﻿using Iwentys.Models.Entities;
+﻿using Iwentys.Models.Transferable.Students;
 
 namespace Iwentys.Core.Services.Abstractions
 {
     public interface IStudentService
     {
-        Student[] Get();
-        Student Get(int id);
-        Student GetOrCreate(int id);
+        StudentFullProfileDto[] Get();
+        StudentFullProfileDto Get(int id);
+        StudentFullProfileDto GetOrCreate(int id);
 
-        Student AddGithubUsername(int id, string githubUsername);
-        Student RemoveGithubUsername(int id, string githubUsername);
+        StudentFullProfileDto AddGithubUsername(int id, string githubUsername);
+        StudentFullProfileDto RemoveGithubUsername(int id, string githubUsername);
     }
 }

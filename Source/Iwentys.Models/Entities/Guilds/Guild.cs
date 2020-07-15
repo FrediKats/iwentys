@@ -17,5 +17,6 @@ namespace Iwentys.Models.Entities.Guilds
         public int? TotemId { get; set; }
 
         public List<GuildMember> Members { get; set; }
+        public List<GuildPinnedProject> PinnedProjects { get; set; }
     }
 }

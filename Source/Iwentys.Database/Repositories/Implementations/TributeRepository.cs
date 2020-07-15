@@ -2,6 +2,7 @@
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities.Guilds;
+using Iwentys.Models.Types.Guilds;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Implementations
@@ -57,6 +58,15 @@ namespace Iwentys.Database.Repositories.Implementations
                 .Where(t => t.GuildId == guildId)
                 .Where(t => t.Project.StudentId == studentId)
                 .ToArray();
+        }
+
+        public Tribute ReadStudentActiveTribute(int guildId, int studentId)
+        {
+            return _dbContext
+                .Tributes
+                .Where(t => t.GuildId == guildId)
+                .Where(t => t.Project.StudentId == studentId)
+                .SingleOrDefault(t => t.State == TributeState.Pending);
         }
     }
 }

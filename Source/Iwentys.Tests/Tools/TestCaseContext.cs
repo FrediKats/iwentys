@@ -1,4 +1,5 @@
 using Iwentys.Core.DomainModel;
+using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Core.Services.Implementations;
 using Iwentys.Database.Context;
@@ -6,6 +7,7 @@ using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Database.Repositories.Implementations;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
+using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Companies;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Types;
@@ -37,8 +39,19 @@ namespace Iwentys.Tests.Tools
             StudentProjectRepository = new StudentProjectRepository(_context);
             TributeRepository = new TributeRepository(_context);
 
+            var accessor = new DatabaseAccessor(
+                _context,
+                StudentRepository,
+                GuildRepository,
+                CompanyRepository,
+                new TournamentRepository(_context),
+                StudentProjectRepository,
+                TributeRepository,
+                new BarsPointTransactionLogRepository(_context),
+                new QuestRepository(_context));
+
             StudentService = new StudentService(StudentRepository);
-            GuildService = new GuildService(GuildRepository, StudentRepository, StudentProjectRepository, TributeRepository);
+            GuildService = new GuildService(GuildRepository, StudentRepository, StudentProjectRepository, TributeRepository, accessor, new DummyGithubApiAccessor());
             CompanyService = new CompanyService(CompanyRepository, StudentRepository);
         }
 
@@ -56,7 +69,7 @@ namespace Iwentys.Tests.Tools
 
         public TestCaseContext WithGuild(AuthorizedUser user, out GuildProfileDto guildProfile)
         {
-            guildProfile = GuildService.Create(user, new GuildCreateArgumentDto());
+            guildProfile = GuildService.Create(user, new GuildCreateArgumentDto()).To(g => GuildService.Get(g.Id, user.Id));
             return this;
         }
 
