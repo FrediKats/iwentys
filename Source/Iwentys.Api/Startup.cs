@@ -53,7 +53,9 @@ namespace Iwentys.Api
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+            //FYI: We need to remove dev exception page after release
+            //if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+            app.UseDeveloperExceptionPage();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
