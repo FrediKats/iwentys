@@ -1,5 +1,6 @@
 ﻿using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
+using Iwentys.Models.Entities.Study;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Context
@@ -10,19 +11,33 @@ namespace Iwentys.Database.Context
         {
         }
 
-        public DbSet<Student> Students { get; set; }
-        public DbSet<StudentProject> StudentProjects { get; set; }
-        public DbSet<BarsPointTransactionLog> BarsPointTransactionLogs { get; set; }
+        #region Guilds
 
         public DbSet<Guild> Guilds { get; set; }
         public DbSet<GuildMember> GuildMembers { get; set; }
-        public DbSet<Tribute> Tributes { get; set; }
         public DbSet<GuildPinnedProject> GuildPinnedProjects { get; set; }
+        public DbSet<Tournament> Tournaments { get; set; }
+        public DbSet<Tribute> Tributes { get; set; }
 
+        #endregion
+
+        #region Study
+
+        public DbSet<StudyGroup> StudyGroups { get; set; }
+        public DbSet<StudyProgram> StudyPrograms { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
+        public DbSet<SubjectActivity> SubjectActivities { get; set; }
+        public DbSet<SubjectForGroup> SubjectForGroups { get; set; }
+        public DbSet<Teacher> Teachers { get; set; }
+
+        #endregion
+
+        public DbSet<Student> Students { get; set; }
+        public DbSet<StudentProject> StudentProjects { get; set; }
+        public DbSet<BarsPointTransactionLog> BarsPointTransactionLogs { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<CompanyWorker> CompanyWorkers { get; set; }
 
-        public DbSet<Tournament> Tournaments { get; set; }
         public DbSet<Quest> Quests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
