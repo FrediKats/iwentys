@@ -1,4 +1,3 @@
-using System;
 using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Core.Services.Implementations;
@@ -10,7 +9,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 namespace Iwentys.Api
 {
@@ -51,11 +49,13 @@ namespace Iwentys.Api
             services.AddScoped<IBarsPointTransactionLogService, BarsPointTransactionLogService>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IwentysDbContext db)
         {
             //FYI: We need to remove dev exception page after release
             //if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
             app.UseDeveloperExceptionPage();
+
+            db.Database.EnsureCreated();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
