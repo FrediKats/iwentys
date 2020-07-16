@@ -45,6 +45,13 @@ namespace Iwentys.Api.Controllers
             return _guildService.Get(id, userId);
         }
 
+        [HttpDelete("{guildId}/leave")]
+        public void Leave(int guildId)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            _guildService.LeaveGuild(user, guildId);
+        }
+
         [HttpPost("{guildId}/VotingForLeader")]
         public void VotingForLeader(int guildId, [FromBody] GuildLeaderVotingCreateDto guildLeaderVotingCreateDto)
         {

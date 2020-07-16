@@ -17,6 +17,8 @@ namespace Iwentys.Core.Services.Abstractions
         GuildProfileDto Get(int id, int? userId);
         GuildProfileDto GetStudentGuild(int userId);
 
+        void LeaveGuild(AuthorizedUser user, int guildId);
+
         VotingInfoDto StartVotingForLeader(AuthorizedUser creator, int guildId, GuildLeaderVotingCreateDto votingCreateDto);
         VotingInfoDto StartVotingForTotem(AuthorizedUser creator, int guildId, GuildTotemVotingCreateDto votingCreateDto);
         void SetTotem(AuthorizedUser user, int guildId, int totemId);

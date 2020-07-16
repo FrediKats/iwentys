@@ -2,6 +2,7 @@
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities.Guilds;
+using Iwentys.Models.Exceptions;
 using Iwentys.Models.Types.Guilds;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -76,6 +77,14 @@ namespace Iwentys.Database.Repositories.Implementations
         public Guild ReadForTotem(int totemId)
         {
             return _dbContext.Guilds.SingleOrDefault(g => g.TotemId == totemId);
+        }
+
+        public void RemoveMember(int guildId, int userId)
+        {
+            GuildMember guildMember = _dbContext.GuildMembers.Single(gm => gm.GuildId == guildId && gm.MemberId == userId);
+            if (guildMember.MemberType == GuildMemberType.Creator)
+                throw new InnerLogicException($"Creator can't leave guild. UserId: {userId}; GuildId: {guildId}");
+            _dbContext.GuildMembers.Remove(guildMember);
         }
     }
 }

@@ -106,6 +106,20 @@ namespace Iwentys.Core.Services.Implementations
             return _guildRepository.ReadForStudent(userId).To(g => new GuildDomain(g, _tributeRepository, _apiAccessor)).ToGuildProfileDto(userId);
         }
 
+        public void LeaveGuild(AuthorizedUser user, int guildId)
+        {
+            Guild studentGuild = _guildRepository.ReadForStudent(user.Id);
+            if (studentGuild == null || studentGuild.Id != guildId)
+                throw InnerLogicException.Guild.IsNotGuildMember(user.Id);
+
+            //TODO: we need transaction with rollback on fail
+            Tribute userTribute = _tributeRepository.ReadStudentActiveTribute(studentGuild.Id, user.Id);
+            if (userTribute != null)
+                _tributeRepository.Delete(userTribute.ProjectId);
+
+            _guildRepository.RemoveMember(guildId, user.Id);
+        }
+
         public VotingInfoDto StartVotingForLeader(AuthorizedUser user, int guildId, GuildLeaderVotingCreateDto votingCreateDto)
         {
             throw new System.NotImplementedException();
