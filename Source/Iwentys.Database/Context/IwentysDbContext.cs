@@ -1,4 +1,4 @@
-﻿using Iwentys.Models.Entities;
+using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Entities.Study;
 using Microsoft.EntityFrameworkCore;
@@ -48,12 +48,23 @@ namespace Iwentys.Database.Context
 
             modelBuilder.Entity<GuildMember>().HasIndex(g => g.MemberId).IsUnique();
             modelBuilder.Entity<CompanyWorker>().HasIndex(g => g.WorkerId).IsUnique();
+
+            //TODO: fix
+            var cascadeFKs = modelBuilder.Model.GetEntityTypes()
+                .SelectMany(t => t.GetForeignKeys())
+                .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
+
+            foreach (var fk in cascadeFKs)
+                fk.DeleteBehavior = DeleteBehavior.Restrict;
+
+            base.OnModelCreating(modelBuilder);
         }
 
         private void SetCompositeKeys(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<GuildMember>().HasKey(g => new {g.GuildId, g.MemberId});
             modelBuilder.Entity<CompanyWorker>().HasKey(g => new {g.CompanyId, g.WorkerId});
+            modelBuilder.Entity<SubjectActivity>().HasKey(s => new {s.SubjectForGroupId, s.StudentId});
         }
     }
 }
