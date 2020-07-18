@@ -1,4 +1,4 @@
-#NB
+# KB
 Чо юзаем:
 - Компоненты: [ant design](https://ant.design/components/overview/)
 - Менеджмент стейтов: [redux toolkit](https://redux-toolkit.js.org/introduction/quick-start)
