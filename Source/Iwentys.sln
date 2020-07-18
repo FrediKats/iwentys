@@ -9,11 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Database", "Iwentys
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Api", "Iwentys.Api\Iwentys.Api.csproj", "{EBE58243-5985-42DF-9454-40EF2EE1DCDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.IsuIntagrator", "Iwentys.IsuIntagrator\Iwentys.IsuIntagrator.csproj", "{CF4FAEA8-CBD6-4B19-8D24-256F8A4F668E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.IsuIntagrator", "Iwentys.IsuIntagrator\Iwentys.IsuIntagrator.csproj", "{CF4FAEA8-CBD6-4B19-8D24-256F8A4F668E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Tests", "Iwentys.Tests\Iwentys.Tests.csproj", "{9A8CBC0D-E60F-4346-9548-9F9CECDB2503}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Tests", "Iwentys.Tests\Iwentys.Tests.csproj", "{9A8CBC0D-E60F-4346-9548-9F9CECDB2503}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Models", "Iwentys.Models\Iwentys.Models.csproj", "{2D60BE47-B793-481F-8A87-E076BD4C2692}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Models", "Iwentys.Models\Iwentys.Models.csproj", "{2D60BE47-B793-481F-8A87-E076BD4C2692}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Polygon", "Iwentys.Polygon\Iwentys.Polygon.csproj", "{5AAA44F2-958B-4A3B-A846-7F15F6F5E2B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{2D60BE47-B793-481F-8A87-E076BD4C2692}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D60BE47-B793-481F-8A87-E076BD4C2692}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D60BE47-B793-481F-8A87-E076BD4C2692}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AAA44F2-958B-4A3B-A846-7F15F6F5E2B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AAA44F2-958B-4A3B-A846-7F15F6F5E2B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AAA44F2-958B-4A3B-A846-7F15F6F5E2B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AAA44F2-958B-4A3B-A846-7F15F6F5E2B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

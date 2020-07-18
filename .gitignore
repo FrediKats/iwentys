@@ -358,3 +358,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Personal credentials
+Source/Iwentys.Polygon/credentials.json
