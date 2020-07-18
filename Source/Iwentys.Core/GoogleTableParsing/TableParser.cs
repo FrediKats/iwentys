@@ -7,41 +7,48 @@ using Newtonsoft.Json;
 
 namespace Iwentys.Core.GoogleTableParsing
 {
-    public class TableParser
+    public class TableParser : ITableParser
     {
         private SheetsService _service;
         private ValueRange _data;
         private TableStringHelper _helper;
         public TableParser(SheetsService service, string id, string sheetName,
-            int firstRow, int lastRow,
-            string groupColumn, string nameColumn, string scoreColumn)
+            int firstRow, int lastRow, string groupColumn, string nameColumn, string scoreColumn)
         {
             _service = service;
 
-            _helper = new TableStringHelper(sheetName, firstRow, lastRow, groupColumn, nameColumn, scoreColumn);
-
-            var request = _service.Spreadsheets.Values.Get(id, _helper.Range);
-
-            _data = request.Execute();
+            _helper = new TableStringHelper(id, sheetName, firstRow, lastRow, groupColumn, nameColumn, scoreColumn);
         }
 
-        private List<Student> GetStudentsList()
+        private void GetDataFromTable()
         {
-            var result = new List<Student>();
+            if (_data == null)
+            {
+                var request = _service.Spreadsheets.Values.Get(_helper.Id, _helper.Range);
+                _data = request.Execute();
+            }
+        }
+
+        public List<StudentSubjectScore> GetStudentsList()
+        {
+            GetDataFromTable();
+
+            var result = new List<StudentSubjectScore>();
             foreach (var row in _data.Values)
             {
-                try
+                var group = row[_helper.GroupColumnNum];
+                var name = row[_helper.NameColumnNum];
+                var score = row[_helper.ScoreColumnNum];
+                if (group != null && name != null && score != null)
                 {
-                    result.Add(new Student()
-                    {
-                        Group = row[_helper.GroupColumnNum].ToString(),
-                        Name = row[_helper.NameColumnNum].ToString(),
-                        Score = row[_helper.ScoreColumnNum].ToString()
-                    });
+                    result.Add(new StudentSubjectScore(
+                        row[_helper.GroupColumnNum].ToString(),
+                        row[_helper.NameColumnNum].ToString(),
+                        row[_helper.ScoreColumnNum].ToString()));
                 }
-                catch (Exception)
+                else
                 {
-                    // Appear when range contains empty row
+                    //TODO: add logging
                 }
             }
 

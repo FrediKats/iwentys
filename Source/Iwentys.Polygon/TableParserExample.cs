@@ -6,7 +6,7 @@ using Google.Apis.Sheets.v4;
 
 namespace Iwentys.Polygon
 {
-    class TableParserExample
+    internal class TableParserExample
     {
         /// <summary>
         /// Пример того, как можно работать с существующим парсером таблиц.

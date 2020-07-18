@@ -5,16 +5,18 @@ using System.Text;
 
 namespace Iwentys.Core.GoogleTableParsing
 {
-    class TableStringHelper
+    internal class TableStringHelper
     {
+        public string Id { get; }
         public int GroupColumnNum { get; }
         public int NameColumnNum { get; }
         public int ScoreColumnNum { get; }
         public string Range { get; }
 
-        public TableStringHelper(string sheetName, int startingRow, int lastRow,
+        public TableStringHelper(string id, string sheetName, int startingRow, int lastRow,
             string groupColumn, string nameColumn, string scoreColumn)
         {
+            Id = id;
             var tmpSortList = new List<string>() { groupColumn, nameColumn, scoreColumn };
 
             string firstColumn = tmpSortList.OrderBy(s => s).First();
@@ -26,7 +28,15 @@ namespace Iwentys.Core.GoogleTableParsing
             ScoreColumnNum = FormatStringToInt(scoreColumn) - FormatStringToInt(firstColumn);
         }
 
-        public int FormatStringToInt(string str)
+        /// <summary>
+        /// Examples of conversion:
+        /// "A" -> 1
+        /// "AB" -> 28
+        /// "ABA" -> 729
+        /// </summary>
+        /// <param name="str">GoogleTable format string</param>
+        /// <returns>Integer associated with the given string</returns>
+        private int FormatStringToInt(string str)
         {
             int result = 0;
             for (int i = str.Length - 1; i >= 0; i--)

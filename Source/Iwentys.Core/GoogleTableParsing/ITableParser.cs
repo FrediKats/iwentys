@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Google.Apis.Sheets.v4.Data;
 
 namespace Iwentys.Core.GoogleTableParsing
 {
-    class Student
+    public interface ITableParser
     {
-        public string Group;
-        public string Name;
-        public string Score;
+        List<StudentSubjectScore> GetStudentsList();
     }
 }
