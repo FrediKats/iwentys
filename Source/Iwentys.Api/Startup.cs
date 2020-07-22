@@ -84,10 +84,11 @@ namespace Iwentys.Api
             {
                 spa.Options.SourcePath = "../../frontend";
 
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
+                //TODO: 
+                //if (env.IsDevelopment())
+                //{
+                spa.UseReactDevelopmentServer(npmScript: "start");
+                //}
             });
         }
     }
