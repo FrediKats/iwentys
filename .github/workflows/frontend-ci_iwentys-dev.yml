@@ -11,9 +11,12 @@ on:
 jobs:
   build-and-deploy:
     runs-on: windows-latest
+    env:
+      working-directory: ./Source
+      NODE_VERSION: "10.x"
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@frontend-ci
 
     - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
@@ -21,10 +24,12 @@ jobs:
         dotnet-version: '3.1.102'
 
     - name: Build with dotnet
-      run: dotnet build --configuration Release
+      run: dotnet build --configuration Debug
+      working-directory: ${{env.working-directory}}
 
     - name: dotnet publish
-      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      run: dotnet publish -c Debug -o ${{env.DOTNET_ROOT}}/myapp
+      working-directory: ${{env.working-directory}}
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v1
