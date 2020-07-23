@@ -5,7 +5,7 @@ import App from './App';
 import { Provider } from 'react-redux';
 import { configureStore } from "@reduxjs/toolkit";
 import {rootReducer} from "./redux/reducers";
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 const store = configureStore({
       reducer: rootReducer,
@@ -14,11 +14,9 @@ const store = configureStore({
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router>
-            <Route path="/" component={App} />
-            <Route path="/guild" component={App} />
-            <Route path="/profile" component={App} />
-        </Router>
+        <BrowserRouter>
+            <App/>
+        </BrowserRouter>
     </Provider>,
   document.getElementById('root')
 );
