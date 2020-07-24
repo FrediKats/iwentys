@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - iwentys
+name: Build and deploy ASP.Net Core app to Azure Web App - iwentys-dev
 
 on:
   push:
@@ -24,11 +24,6 @@ jobs:
       with:
         dotnet-version: '3.1.102'
 
-    - name: Use Node.js 
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-
     - name: Build with dotnet
       run: dotnet build --configuration Debug
       working-directory: ${{env.working-directory}}
@@ -40,7 +35,7 @@ jobs:
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v1
       with:
-        app-name: 'iwentys'
+        app-name: 'iwentys-dev'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_a2aad1ea5cc8491993076769528bbb5e }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_f55f72046fdd4898a3415e6654cb6d92 }}
         package: ${{env.DOTNET_ROOT}}/myapp 
