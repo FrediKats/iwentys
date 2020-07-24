@@ -30,11 +30,11 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
 
     - name: Build with dotnet
-      run: dotnet build --configuration Debug
+      run: dotnet build --configuration Release
       working-directory: ${{env.working-directory}}
 
     - name: dotnet publish
-      run: dotnet publish -c Debug -o ${{env.DOTNET_ROOT}}/myapp
+      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
       working-directory: ${{env.working-directory}}
 
     - name: Deploy to Azure Web App

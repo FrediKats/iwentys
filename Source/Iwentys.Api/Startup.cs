@@ -53,7 +53,7 @@ namespace Iwentys.Api
 
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "../../frontend/build";
+                configuration.RootPath = "Client";
             });
         }
 
@@ -82,13 +82,13 @@ namespace Iwentys.Api
 
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "../../frontend";
+                spa.Options.SourcePath = "Client";
 
-                //TODO: 
-                //if (env.IsDevelopment())
-                //{
-                spa.UseReactDevelopmentServer(npmScript: "start");
-                //}
+                //TODO:
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
             });
         }
     }
