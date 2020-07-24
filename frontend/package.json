@@ -25,7 +25,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && copy . ",
+    "build": "react-scripts build && xcopy . %npm_config_first% /Y /E /Q",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

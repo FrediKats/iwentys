@@ -41,7 +41,7 @@
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- $(PublishDir)front " />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build --first=$(PublishDir)front\" />
 
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
