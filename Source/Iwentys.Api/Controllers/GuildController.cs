@@ -1,9 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
+using Iwentys.Models.Entities;
+using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Voting;
+using Iwentys.Models.Types;
 using Iwentys.Models.Types.Github;
+using Iwentys.Models.Types.Guilds;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Api.Controllers
@@ -42,7 +47,82 @@ namespace Iwentys.Api.Controllers
         [HttpGet("{id}")]
         public GuildProfileDto Get(int id, int? userId)
         {
-            return _guildService.Get(id, userId);
+            var students = new List<Student>
+            {
+                new Student()
+                {
+                    Id = 1,
+                    FirstName = "Fredi",
+                    MiddleName = "String",
+                    SecondName = "Kats",
+                    Role = UserType.Common,
+                    Group = "M3XXX",
+                    GithubUsername = "InRedikaWB",
+                    CreationTime = DateTime.Now,
+                    LastOnlineTime = DateTime.Now,
+                    BarsPoints = Int16.MaxValue
+                },
+                new Student()
+                {
+                    Id = 1,
+                    FirstName = "Jon",
+                    MiddleName = String.Empty,
+                    SecondName = "Skeet",
+                    Role = UserType.Common,
+                    Group = "M3XXX",
+                    GithubUsername = "jskeet",
+                    CreationTime = DateTime.Now,
+                    LastOnlineTime = DateTime.Now,
+                    BarsPoints = 0
+                }
+            };
+            var leaderBoard = new GuildMemberLeaderBoard
+            {
+                TotalRate = 100,
+                Members = students,
+                MembersImpact = new List<(String Username, Int32 TotalRate)>
+                {
+                    ("InRedikaWB", 70),
+                    ("jskeet", 30)
+                }
+            };
+            var achievements = new List<AchievementInfoDto>
+            {
+                new AchievementInfoDto
+                {
+                    Url = "#",
+                    Name = "The first!",
+                    Description = "The first guild in university."
+                },
+                new AchievementInfoDto
+                {
+                    Url = "#",
+                    Name = "The best!",
+                    Description = "The best guild in university."
+                }
+
+            };
+            var repositories = new List<GithubRepository>
+            {
+                new GithubRepository(1, "Main","Место, где будет хранится основная информация связанная с жизнью TEF", "https://github.com/TEF-Dev/Main", 0),
+                new GithubRepository(2, "Recademy",String.Empty, "https://github.com/TEF-Dev/Recademy", 3),
+            };
+            return new GuildProfileDto()
+            {
+                Id = 1,
+                Title = "TEF",
+                Bio = "Best ITMO C# community!",
+                LogoUrl = "https://sun9-58.userapi.com/AbGPM3TA6R82X3Jj2F-GY2d-NrzFAgC0_fmkiA/XlxgCXVtyiM.jpg",
+                HiringPolicy = GuildHiringPolicy.Open,
+
+                Leader = students[0],
+                Totem = students[1],
+
+                MemberLeaderBoard = leaderBoard,
+                Achievements = achievements,
+                PinnedRepositories = repositories
+            };
+            //return _guildService.Get(id, userId);
         }
 
         [HttpPost("{guildId}/VotingForLeader")]
