@@ -54,7 +54,7 @@ namespace Iwentys.Tests.Core.DomainModels
                         MemberType = GuildMemberType.Creator,
                         Member = new Student()
                         {
-                            GithubUsername = String.Empty
+                            GithubUsername = string.Empty
                         }
                     }
                 },
@@ -65,28 +65,28 @@ namespace Iwentys.Tests.Core.DomainModels
 
             _tributeRepository = new Mock<ITributeRepository>();
             _tributeRepository
-                .Setup(r => r.ReadStudentActiveTribute(It.IsAny<int>(), It.IsAny<int>()))
+                .Setup(r => r.ReadStudentActiveTribute(It.IsAny<Int32>(), It.IsAny<Int32>()))
                 .Returns(default(Tribute));
 
             _githubApiAccessor = new Mock<IGithubApiAccessor>();
             _githubApiAccessor
-                .Setup(a => a.GetRepository(It.IsAny<string>(), It.IsAny<string>()))
+                .Setup(a => a.GetRepository(It.IsAny<String>(), It.IsAny<String>()))
                 .Returns(default(GithubRepository));
             _githubApiAccessor
-                .Setup(a => a.GetUserActivity(It.IsAny<string>()))
+                .Setup(a => a.GetUserActivity(It.IsAny<String>()))
                 .Returns(new ContributionFullInfo() {PerMonthActivity = new List<ContributionsInfo>()});
 
             _guildRepository = new Mock<IGuildRepository>();
             _guildRepository
-                .Setup(r => r.ReadForStudent(It.IsAny<int>()))
+                .Setup(r => r.ReadForStudent(It.IsAny<Int32>()))
                 .Returns(default(Guild));
             _guildRepository
-                .Setup(r => r.IsStudentHaveRequest(It.IsAny<int>()))
+                .Setup(r => r.IsStudentHaveRequest(It.IsAny<Int32>()))
                 .Returns(false);
 
             _studentRepository = new Mock<IStudentRepository>();
             _studentRepository
-                .Setup(r => r.ReadById(It.IsAny<int>()))
+                .Setup(r => r.ReadById(It.IsAny<Int32>()))
                 .Returns(_student);
 
             _guildDomain = new GuildDomain(_guild, _tributeRepository.Object, _guildRepository.Object, _studentRepository.Object, _githubApiAccessor.Object);
