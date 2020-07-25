@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.DomainModel.Guilds;
@@ -64,7 +65,9 @@ namespace Iwentys.Core.Services.Implementations
                 new GuildMember {Guild = newGuild, Member = creatorUser, MemberType = GuildMemberType.Creator}
             };
 
-            return _guildRepository.Create(newGuild).To(g => new GuildDomain(g, _tributeRepository, _apiAccessor)).ToGuildProfileShortInfoDto();
+            return _guildRepository.Create(newGuild)
+                .To(g => new GuildDomain(g, _tributeRepository, _guildRepository, _studentRepository, _apiAccessor))
+                .ToGuildProfileShortInfoDto();
         }
 
         public GuildProfileShortInfoDto Update(AuthorizedUser user, GuildUpdateArgumentDto arguments)
@@ -74,7 +77,9 @@ namespace Iwentys.Core.Services.Implementations
             info.Bio = arguments.Bio ?? info.Bio;
             info.LogoUrl = arguments.LogoUrl ?? info.LogoUrl;
             info.HiringPolicy = arguments.HiringPolicy ?? info.HiringPolicy;
-            return _guildRepository.Update(info).To(g => new GuildDomain(g, _tributeRepository, _apiAccessor)).ToGuildProfileShortInfoDto();
+            return _guildRepository.Update(info)
+                .To(g => new GuildDomain(g, _tributeRepository, _guildRepository, _studentRepository, _apiAccessor))
+                .ToGuildProfileShortInfoDto();
         }
 
         public GuildProfileShortInfoDto ApproveGuildCreating(AuthorizedUser user, int guildId)
@@ -88,22 +93,30 @@ namespace Iwentys.Core.Services.Implementations
                 throw new InnerLogicException("Guild already approved");
 
             guild.GuildType = GuildType.Created;
-            return _guildRepository.Update(guild).To(g => new GuildDomain(g, _tributeRepository, _apiAccessor)).ToGuildProfileShortInfoDto();
+            return _guildRepository.Update(guild)
+                .To(g => new GuildDomain(g, _tributeRepository, _guildRepository, _studentRepository, _apiAccessor))
+                .ToGuildProfileShortInfoDto();
         }
 
         public GuildProfileDto[] Get()
         {
-            return _guildRepository.Read().AsEnumerable().Select(g => new GuildDomain(g, _tributeRepository, _apiAccessor).ToGuildProfileDto()).ToArray();
+            return _guildRepository.Read().AsEnumerable().Select(g =>
+                new GuildDomain(g, _tributeRepository, _guildRepository, _studentRepository, _apiAccessor)
+                    .ToGuildProfileDto()).ToArray();
         }
 
         public GuildProfileDto Get(int id, int? userId)
         {
-            return _guildRepository.Get(id).To(g => new GuildDomain(g, _tributeRepository, _apiAccessor)).ToGuildProfileDto(userId);
+            return _guildRepository.Get(id)
+                .To(g => new GuildDomain(g, _tributeRepository, _guildRepository, _studentRepository, _apiAccessor))
+                .ToGuildProfileDto(userId);
         }
 
         public GuildProfileDto GetStudentGuild(int userId)
         {
-            return _guildRepository.ReadForStudent(userId).To(g => new GuildDomain(g, _tributeRepository, _apiAccessor)).ToGuildProfileDto(userId);
+            return _guildRepository.ReadForStudent(userId).To(g =>
+                    new GuildDomain(g, _tributeRepository, _guildRepository, _studentRepository, _apiAccessor))
+                .ToGuildProfileDto(userId);
         }
 
         public void LeaveGuild(AuthorizedUser user, int guildId)

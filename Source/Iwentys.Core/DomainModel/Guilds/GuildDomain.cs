@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.GithubIntegration;
+using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Guilds;
@@ -13,12 +16,17 @@ namespace Iwentys.Core.DomainModel.Guilds
     {
         private readonly Guild _profile;
         private readonly ITributeRepository _tributeRepository;
+        private readonly IGuildRepository _guildRepository;
+        private readonly IStudentRepository _studentRepository;
         private readonly IGithubApiAccessor _apiAccessor;
 
-        public GuildDomain(Guild profile, ITributeRepository tributeRepository, IGithubApiAccessor apiAccessor)
+        public GuildDomain(Guild profile, ITributeRepository tributeRepository, IGuildRepository guildRepository,
+            IStudentRepository studentRepository, IGithubApiAccessor apiAccessor)
         {
             _profile = profile;
             _tributeRepository = tributeRepository;
+            _guildRepository = guildRepository;
+            _studentRepository = studentRepository;
             _apiAccessor = apiAccessor;
         }
 
@@ -53,6 +61,8 @@ namespace Iwentys.Core.DomainModel.Guilds
             if (userId != null && _profile.Members.Any(m => m.MemberId == userId))
                 info.Tribute = _tributeRepository.ReadStudentActiveTribute(_profile.Id, userId.Value)?.To(ActiveTributeDto.Create);
 
+            info.UserCapability = GetUserCapabilityInGuild(userId);
+
             return info;
         }
 
@@ -70,6 +80,41 @@ namespace Iwentys.Core.DomainModel.Guilds
                 MembersImpact = members,
                 Members = _profile.Members.SelectToList(m => m.Member)
             };
+        }
+
+        
+        private UserCapability GetUserCapabilityInGuild(Int32? userId)
+        {
+            if (userId is null)
+                return UserCapability.Blocked;
+            Student user = _studentRepository.Get(userId.Value);
+
+            Guild userGuild = _guildRepository.ReadForStudent(user.Id);
+            if(_guildRepository.IsStudentHaveRequest(userId.Value))
+            {
+                if (_profile.Members
+                        .Find(m => m.Member.Id == user.Id && m.MemberType == GuildMemberType.Requested) != null)
+                    return UserCapability.Requested;
+                return UserCapability.Blocked;
+            }
+            if (userGuild is null)
+            {
+                if (_profile.Members.Find(m => m.Member.Id == user.Id && m.MemberType == GuildMemberType.Blocked) != null)
+                    return UserCapability.Blocked;
+                if (DateTime.Now < user.GuildLeftTime.AddHours(24))
+                    return UserCapability.Blocked;
+
+                return _profile.HiringPolicy == GuildHiringPolicy.Open ? UserCapability.CanEnter : UserCapability.CanRequest;
+            }
+
+            if (userGuild.Id == _profile.Id)
+            {
+                return UserCapability.Entered;
+            }
+            else 
+            {
+                return UserCapability.Blocked;
+            }
         }
     }
 }

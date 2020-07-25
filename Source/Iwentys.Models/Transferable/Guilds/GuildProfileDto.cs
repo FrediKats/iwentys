@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Types.Github;
+using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Models.Transferable.Guilds
 {
@@ -15,5 +16,7 @@ namespace Iwentys.Models.Transferable.Guilds
         public ActiveTributeDto Tribute { get; set; }
         public List<AchievementInfoDto> Achievements { get; set; }
         public List<GithubRepository> PinnedRepositories { get; set; }
+
+        public UserCapability UserCapability { get; set; }
     }
 }

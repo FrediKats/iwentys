@@ -45,7 +45,7 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public GuildProfileDto Get(int id, int? userId)
+        public GuildProfileDto Get(int id, [FromQuery]int? userId)
         {
             var students = new List<Student>
             {
