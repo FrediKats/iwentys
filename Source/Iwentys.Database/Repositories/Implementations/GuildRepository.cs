@@ -88,12 +88,30 @@ namespace Iwentys.Database.Repositories.Implementations
                 .Any(m => m.MemberType == GuildMemberType.Requested);
         }
 
+        public void AddMember(Int32 guildId, Int32 userId)
+        {
+            GuildMember guildMember = GuildMember.NewMember(guildId, userId);
+            _dbContext.GuildMembers.Add(guildMember);
+
+            _dbContext.SaveChanges();
+        }
+
+        public void AddRequest(Int32 guildId, Int32 userId)
+        {
+            GuildMember guildMember = GuildMember.NewRequest(guildId, userId);
+            _dbContext.GuildMembers.Add(guildMember);
+
+            _dbContext.SaveChanges();
+        }
+
         public void RemoveMember(int guildId, int userId)
         {
             GuildMember guildMember = _dbContext.GuildMembers.Single(gm => gm.GuildId == guildId && gm.MemberId == userId);
             if (guildMember.MemberType == GuildMemberType.Creator)
                 throw new InnerLogicException($"Creator can't leave guild. UserId: {userId}; GuildId: {guildId}");
             _dbContext.GuildMembers.Remove(guildMember);
+
+            _dbContext.SaveChanges();
         }
     }
 }

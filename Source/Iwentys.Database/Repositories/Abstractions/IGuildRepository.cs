@@ -11,6 +11,8 @@ namespace Iwentys.Database.Repositories.Abstractions
 
         Boolean IsStudentHaveRequest(int studentId);
 
+        void AddMember(int guildId, int userId);
+        void AddRequest(int guildId, int userId);
         void RemoveMember(int guildId, int userId);
     }
 }

@@ -119,7 +119,33 @@ namespace Iwentys.Core.Services.Implementations
                 .ToGuildProfileDto(userId);
         }
 
-        public void LeaveGuild(AuthorizedUser user, int guildId)
+        public GuildProfileDto EnterGuild(AuthorizedUser user, Int32 guildId)
+        {
+            GuildDomain guild = _guildRepository.Get(guildId).To(g =>
+                new GuildDomain(g, _tributeRepository, _guildRepository, _studentRepository, _apiAccessor));
+
+            if (guild.GetUserCapabilityInGuild(user.Id) != UserCapability.CanEnter)
+                throw new InnerLogicException($"Student unable to enter this guild! UserId: {user.Id} GuildId: {guildId}");
+
+            _guildRepository.AddMember(guildId, user.Id);
+
+            return Get(guildId, user.Id);
+        }
+
+        public GuildProfileDto RequestGuild(AuthorizedUser user, Int32 guildId)
+        {
+            GuildDomain guild = _guildRepository.Get(guildId).To(g =>
+                new GuildDomain(g, _tributeRepository, _guildRepository, _studentRepository, _apiAccessor));
+
+            if (guild.GetUserCapabilityInGuild(user.Id) != UserCapability.CanRequest)
+                throw new InnerLogicException($"Student unable to send request to this guild! UserId: {user.Id} GuildId: {guildId}");
+
+            _guildRepository.AddRequest(guildId, user.Id);
+
+            return Get(guildId, user.Id);
+        }
+
+        public GuildProfileDto LeaveGuild(AuthorizedUser user, int guildId)
         {
             Guild studentGuild = _guildRepository.ReadForStudent(user.Id);
             if (studentGuild == null || studentGuild.Id != guildId)
@@ -131,6 +157,8 @@ namespace Iwentys.Core.Services.Implementations
                 _tributeRepository.Delete(userTribute.ProjectId);
 
             _guildRepository.RemoveMember(guildId, user.Id);
+
+            return Get(guildId, user.Id);
         }
 
         public VotingInfoDto StartVotingForLeader(AuthorizedUser user, int guildId, GuildLeaderVotingCreateDto votingCreateDto)

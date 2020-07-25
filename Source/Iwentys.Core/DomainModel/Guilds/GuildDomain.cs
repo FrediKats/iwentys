@@ -83,7 +83,7 @@ namespace Iwentys.Core.DomainModel.Guilds
         }
 
         
-        private UserCapability GetUserCapabilityInGuild(Int32? userId)
+        public UserCapability GetUserCapabilityInGuild(Int32? userId)
         {
             if (userId is null)
                 return UserCapability.Blocked;
