@@ -1,4 +1,5 @@
 ﻿using Iwentys.Models.Types;
+using Newtonsoft.Json;
 
 namespace Iwentys.Models.Entities.Study
 {
@@ -15,6 +16,9 @@ namespace Iwentys.Models.Entities.Study
         public int LecturerId { get; set; }
         public Teacher Lecturer { get; set; }
 
+        public string SerializedGoogleTableConfig { get; set; }
+
+        public GoogleTableData GetGoogleTableDataConfig => JsonConvert.DeserializeObject<GoogleTableData>(SerializedGoogleTableConfig);
 
         public StudySemester StudySemester { get; set; }
     }
