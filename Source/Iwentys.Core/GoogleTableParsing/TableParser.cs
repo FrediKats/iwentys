@@ -20,7 +20,7 @@ namespace Iwentys.Core.GoogleTableParsing
             _helper = new TableStringHelper(id, sheetName, firstRow, lastRow, groupColumn, nameColumn, scoreColumn);
         }
 
-        private void GetDataFromTable()
+        private void InitDataFromTable()
         {
             if (_data == null)
             {
@@ -31,7 +31,7 @@ namespace Iwentys.Core.GoogleTableParsing
 
         public List<StudentSubjectScore> GetStudentsList()
         {
-            GetDataFromTable();
+            InitDataFromTable();
 
             var result = new List<StudentSubjectScore>();
             foreach (var row in _data.Values)
