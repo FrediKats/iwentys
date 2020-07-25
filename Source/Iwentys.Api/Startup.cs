@@ -25,6 +25,15 @@ namespace Iwentys.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //TODO: Temp fix for CORS
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            {
+                builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
+
             services.AddControllers();
             services.AddSwaggerGen();
 
@@ -53,6 +62,9 @@ namespace Iwentys.Api
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //TODO: Temp fix for CORS
+            app.UseCors("CorsPolicy");
+
             //FYI: We need to remove dev exception page after release
             //if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
             app.UseDeveloperExceptionPage();
