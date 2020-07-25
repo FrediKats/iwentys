@@ -3,9 +3,9 @@ import {Row, Col} from 'antd';
 import {NewsFeed} from "../../components/NewsFeed/NewsFeed";
 import {Achievements} from "../../components/Achievements/Achievements";
 import {GuildInfo} from "../../components/GuildInfo/GuildInfo";
-import {GuildsRating} from "../../components/GuildsRating/GuildsRating";
+import {GuildLeaderboard} from "../../components/GuildsRating/GuildLeaderboard";
 import {useDispatch, useSelector} from "react-redux";
-import {getGuildById} from "../../redux/thunks/guildThunk";
+import {getGuildById} from "../../redux/guild/guildThunk";
 import {IState} from "../../redux/typings";
 
 interface IGuildPageProps {
@@ -17,20 +17,25 @@ export const GuildPage: React.FC<IGuildPageProps> = () => {
     React.useEffect(() => {
         dispatch(getGuildById(1));
     }, [dispatch]);
-
-    const guildData = useSelector((state: IState) => state.guild);
+    // TODO: add guild fetching state
+    const guild = useSelector((state: IState) => state.guild);
+    if(!guild.title) return null;
 
     return (
         <Row justify="space-between">
             <Col span={6}>
-                <GuildInfo title={guildData.title} bio={guildData.bio}/>
+                <GuildInfo title={guild.title} bio={guild.bio} logoUrl={guild.logoUrl}/>
             </Col>
             <Col span={12}>
-                <Achievements/>
+                <Achievements achievements={guild.achievements}/>
                 <NewsFeed/>
             </Col>
             <Col span={6}>
-                <GuildsRating/>
+                <GuildLeaderboard
+                    totalRate={guild.memberLeaderBoard.totalRate}
+                    members={guild.memberLeaderBoard.members}
+                    contribution={guild.memberLeaderBoard.membersImpact}
+                />
             </Col>
         </Row>
     );

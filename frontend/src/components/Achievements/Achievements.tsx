@@ -1,34 +1,26 @@
 import React from "react";
 import {Card, Row} from "antd";
-import { MehOutlined, BugOutlined, CoffeeOutlined } from '@ant-design/icons';
+import {CoffeeOutlined} from '@ant-design/icons';
 import './Achievements.css';
+import {IAchievement} from "../../redux/typings";
 
-const { Meta } = Card;
-export const Achievements: React.FC = () => {
+const {Meta} = Card;
+
+export interface IAchievementsProps {
+    achievements: IAchievement[];
+}
+
+export const Achievements: React.FC<IAchievementsProps> = ({achievements = []}) => {
     return (
         <div>
             <h2>Achievements</h2>
             <Row>
-                <Card
-                    // @ts-ignore
-                    cover={<MehOutlined />}
-
-                >
-                    <Meta title="achievement 1"/>
-                </Card>
-                <Card
-                    // @ts-ignore
-                    cover={<BugOutlined />}
-                >
-                    <Meta title="achievement 2"/>
-                </Card>
-                <Card
-                    // @ts-ignore
-                    cover={<CoffeeOutlined />}
-                >
-                    <Meta title="achievement 3"/>
-                </Card>
+                {achievements.slice(0, 2).map((achievement) => (
+                    <Card cover={<CoffeeOutlined/>} key={achievement.name}>
+                        <Meta title={achievement.name} description={achievement.description}/>
+                    </Card>))
+                }
             </Row>
         </div>
     );
-}
+};
