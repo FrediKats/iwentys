@@ -28,7 +28,8 @@ function App() {
           </Header>
           <Content>
               <Router>
-                <Route path="/guild" component={GuildPage} />
+                  <Route path="/" component={GuildPage} />
+                  <Route path="/guild" component={GuildPage} />
                 <Route path="/profile" component={GuildPage} />
               </Router>
           </Content>
