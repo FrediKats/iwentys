@@ -127,21 +127,21 @@ namespace Iwentys.Api.Controllers
             //return _guildService.Get(id, user.Profile.Id);
         }
 
-        [HttpGet("{guildId}/enter")]
+        [HttpPut("{guildId}/enter")]
         public GuildProfileDto Enter(int guildId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
             return _guildService.EnterGuild(user, guildId);
         }
 
-        [HttpGet("{guildId}/request")]
+        [HttpPut("{guildId}/request")]
         public GuildProfileDto SendRequest(int guildId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
             return _guildService.RequestGuild(user, guildId);
         }
 
-        [HttpGet("{guildId}/leave")]
+        [HttpPut("{guildId}/leave")]
         public GuildProfileDto Leave(int guildId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
