@@ -1,4 +1,6 @@
-﻿namespace Iwentys.Models.Types.Guilds
+﻿using System;
+
+namespace Iwentys.Models.Types.Guilds
 {
     public enum GuildMemberType
     {
@@ -7,5 +9,13 @@
         Mentor = 3,
         Creator = 4,
         Blocked = 5
+    }
+
+    public static class GuildMemberTypeExtension
+    {
+        public static Boolean IsMember(this GuildMemberType guildMemberType)
+        {
+            return guildMemberType != GuildMemberType.Blocked && guildMemberType != GuildMemberType.Blocked;
+        }
     }
 }

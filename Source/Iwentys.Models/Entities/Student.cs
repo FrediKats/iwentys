@@ -20,5 +20,7 @@ namespace Iwentys.Models.Entities
         public DateTime CreationTime { get; set; }
         public DateTime LastOnlineTime { get; set; }
         public int BarsPoints { get; set; }
+
+        public DateTime GuildLeftTime { get; set; }
     }
 }

@@ -45,7 +45,7 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public GuildProfileDto Get(int id, int? userId)
+        public GuildProfileDto Get(int id)
         {
             var students = new List<Student>
             {
@@ -122,14 +122,30 @@ namespace Iwentys.Api.Controllers
                 Achievements = achievements,
                 PinnedRepositories = repositories
             };
-            //return _guildService.Get(id, userId);
+
+            //AuthorizedUser user = AuthorizedUser.DebugAuth();
+            //return _guildService.Get(id, user.Profile.Id);
         }
 
-        [HttpDelete("{guildId}/leave")]
-        public void Leave(int guildId)
+        [HttpPut("{guildId}/enter")]
+        public GuildProfileDto Enter(int guildId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
-            _guildService.LeaveGuild(user, guildId);
+            return _guildService.EnterGuild(user, guildId);
+        }
+
+        [HttpPut("{guildId}/request")]
+        public GuildProfileDto SendRequest(int guildId)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            return _guildService.RequestGuild(user, guildId);
+        }
+
+        [HttpPut("{guildId}/leave")]
+        public GuildProfileDto Leave(int guildId)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            return _guildService.LeaveGuild(user, guildId);
         }
 
         [HttpPost("{guildId}/VotingForLeader")]
