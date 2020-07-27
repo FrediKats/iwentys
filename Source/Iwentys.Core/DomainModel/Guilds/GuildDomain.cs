@@ -110,7 +110,7 @@ namespace Iwentys.Core.DomainModel.Guilds
 
             if (userGuild is null &&
                 userStatusInGuild != GuildMemberType.Requested &&
-                DateTime.Now < user.GuildLeftTime.AddHours(24))
+                DateTime.Now.ToUniversalTime() < user.GuildLeftTime.AddHours(24))
                 return UserMembershipState.Blocked;
 
             if (userGuild is null && _profile.HiringPolicy == GuildHiringPolicy.Open)

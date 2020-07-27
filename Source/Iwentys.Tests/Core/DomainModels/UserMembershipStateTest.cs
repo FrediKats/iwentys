@@ -41,7 +41,7 @@ namespace Iwentys.Tests.Core.DomainModels
             _student = new Student()
             {
                 Id = 1,
-                LastOnlineTime = DateTime.MinValue
+                LastOnlineTime = DateTime.MinValue.ToUniversalTime()
             };
 
             _guild = new Guild()
@@ -160,7 +160,7 @@ namespace Iwentys.Tests.Core.DomainModels
         [Test]
         public void GetGuild_ForUserWhichLeftGuild23hoursAgo_UserMembershipStateIsBlocked()
         {
-            _student.GuildLeftTime = DateTime.Now.AddHours(-23);
+            _student.GuildLeftTime = DateTime.Now.AddHours(-23).ToUniversalTime();
 
             Assert.That(_guildDomain.ToGuildProfileDto(1).UserMembershipState, Is.EqualTo(UserMembershipState.Blocked));
         }
