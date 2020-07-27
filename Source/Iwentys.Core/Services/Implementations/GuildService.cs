@@ -124,7 +124,7 @@ namespace Iwentys.Core.Services.Implementations
             GuildDomain guild = _guildRepository.Get(guildId).To(g =>
                 new GuildDomain(g, _tributeRepository, _guildRepository, _studentRepository, _apiAccessor));
 
-            if (guild.GetUserCapabilityInGuild(user.Id) != UserCapability.CanEnter)
+            if (guild.GetUserCapabilityInGuild(user.Id) != UserMembershipState.CanEnter)
                 throw new InnerLogicException($"Student unable to enter this guild! UserId: {user.Id} GuildId: {guildId}");
 
             _guildRepository.AddMember(guildId, user.Id);
@@ -137,7 +137,7 @@ namespace Iwentys.Core.Services.Implementations
             GuildDomain guild = _guildRepository.Get(guildId).To(g =>
                 new GuildDomain(g, _tributeRepository, _guildRepository, _studentRepository, _apiAccessor));
 
-            if (guild.GetUserCapabilityInGuild(user.Id) != UserCapability.CanRequest)
+            if (guild.GetUserCapabilityInGuild(user.Id) != UserMembershipState.CanRequest)
                 throw new InnerLogicException($"Student unable to send request to this guild! UserId: {user.Id} GuildId: {guildId}");
 
             _guildRepository.AddRequest(guildId, user.Id);

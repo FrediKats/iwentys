@@ -17,6 +17,6 @@ namespace Iwentys.Models.Transferable.Guilds
         public List<AchievementInfoDto> Achievements { get; set; }
         public List<GithubRepository> PinnedRepositories { get; set; }
 
-        public UserCapability UserCapability { get; set; }
+        public UserMembershipState UserMembershipState { get; set; }
     }
 }

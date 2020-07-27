@@ -1,6 +1,6 @@
 ﻿namespace Iwentys.Models.Types.Guilds
 {
-    public enum UserCapability
+    public enum UserMembershipState
     {
         CanEnter = 1,
         CanRequest = 2,

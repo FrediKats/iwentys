@@ -61,7 +61,7 @@ namespace Iwentys.Core.DomainModel.Guilds
             if (userId != null && _profile.Members.Any(m => m.MemberId == userId))
                 info.Tribute = _tributeRepository.ReadStudentActiveTribute(_profile.Id, userId.Value)?.To(ActiveTributeDto.Create);
 
-            info.UserCapability = GetUserCapabilityInGuild(userId);
+            info.UserMembershipState = GetUserCapabilityInGuild(userId);
 
             return info;
         }
@@ -83,10 +83,10 @@ namespace Iwentys.Core.DomainModel.Guilds
         }
 
         
-        public UserCapability GetUserCapabilityInGuild(Int32? userId)
+        public UserMembershipState GetUserCapabilityInGuild(Int32? userId)
         {
             if (userId is null)
-                return UserCapability.Blocked;
+                return UserMembershipState.Blocked;
             Student user = _studentRepository.Get(userId.Value);
 
             Guild userGuild = _guildRepository.ReadForStudent(user.Id);
@@ -94,26 +94,26 @@ namespace Iwentys.Core.DomainModel.Guilds
             {
                 if (_profile.Members
                         .Find(m => m.Member.Id == user.Id && m.MemberType == GuildMemberType.Requested) != null)
-                    return UserCapability.Requested;
-                return UserCapability.Blocked;
+                    return UserMembershipState.Requested;
+                return UserMembershipState.Blocked;
             }
             if (userGuild is null)
             {
                 if (_profile.Members.Find(m => m.Member.Id == user.Id && m.MemberType == GuildMemberType.Blocked) != null)
-                    return UserCapability.Blocked;
+                    return UserMembershipState.Blocked;
                 if (DateTime.Now < user.GuildLeftTime.AddHours(24))
-                    return UserCapability.Blocked;
+                    return UserMembershipState.Blocked;
 
-                return _profile.HiringPolicy == GuildHiringPolicy.Open ? UserCapability.CanEnter : UserCapability.CanRequest;
+                return _profile.HiringPolicy == GuildHiringPolicy.Open ? UserMembershipState.CanEnter : UserMembershipState.CanRequest;
             }
 
             if (userGuild.Id == _profile.Id)
             {
-                return UserCapability.Entered;
+                return UserMembershipState.Entered;
             }
             else 
             {
-                return UserCapability.Blocked;
+                return UserMembershipState.Blocked;
             }
         }
     }

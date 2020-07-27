@@ -17,7 +17,7 @@ using NUnit.Framework;
 namespace Iwentys.Tests.Core.DomainModels
 {
     [TestFixture]
-    public class UserCapabilityTest
+    public class UserMembershipStateTest
     {
         private Guild _guild;
         private GuildDomain _guildDomain;
@@ -93,21 +93,21 @@ namespace Iwentys.Tests.Core.DomainModels
         }
 
         [Test]
-        public void GetGuild_ForUserWithNoGuildAndForOpenedGuild_UserCapabilityIsCanEnter()
+        public void GetGuild_ForUserWithNoGuildAndForOpenedGuild_UserMembershipStateIsCanEnter()
         {
-            Assert.That(_guildDomain.ToGuildProfileDto(_student.Id).UserCapability, Is.EqualTo(UserCapability.CanEnter));
+            Assert.That(_guildDomain.ToGuildProfileDto(_student.Id).UserMembershipState, Is.EqualTo(UserMembershipState.CanEnter));
         }
 
         [Test]
-        public void GetGuild_ForUserWithNoGuildAndForClosedGuild_UserCapabilityIsCanRequest()
+        public void GetGuild_ForUserWithNoGuildAndForClosedGuild_UserMembershipStateIsCanRequest()
         {
             _guild.HiringPolicy = GuildHiringPolicy.Close;
 
-            Assert.That(_guildDomain.ToGuildProfileDto(_student.Id).UserCapability, Is.EqualTo(UserCapability.CanRequest));
+            Assert.That(_guildDomain.ToGuildProfileDto(_student.Id).UserMembershipState, Is.EqualTo(UserMembershipState.CanRequest));
         }
 
         [Test]
-        public void GetGuild_ForGuildMember_UserCapabilityIsEntered()
+        public void GetGuild_ForGuildMember_UserMembershipStateIsEntered()
         {
             _guild.Members.Add(new GuildMember() {Guild = _guild, Member = _student, MemberType = GuildMemberType.Member});
             _guildRepository
@@ -115,54 +115,54 @@ namespace Iwentys.Tests.Core.DomainModels
                 .Returns(_guild);
 
 
-            Assert.That(_guildDomain.ToGuildProfileDto(1).UserCapability, Is.EqualTo(UserCapability.Entered));
+            Assert.That(_guildDomain.ToGuildProfileDto(1).UserMembershipState, Is.EqualTo(UserMembershipState.Entered));
         }
 
         [Test]
-        public void GetGuild_ForBlockedUser_UserCapabilityIsBlocked()
+        public void GetGuild_ForBlockedUser_UserMembershipStateIsBlocked()
         {
             _guild.Members.Add(new GuildMember() {Guild = _guild, Member = _student, MemberType = GuildMemberType.Blocked});
 
-            Assert.That(_guildDomain.ToGuildProfileDto(1).UserCapability, Is.EqualTo(UserCapability.Blocked));
+            Assert.That(_guildDomain.ToGuildProfileDto(1).UserMembershipState, Is.EqualTo(UserMembershipState.Blocked));
         }
 
         [Test]
-        public void GetGuild_ForUserInAnotherGuild_UserCapabilityIsBlocked()
+        public void GetGuild_ForUserInAnotherGuild_UserMembershipStateIsBlocked()
         {
             _guildRepository
                 .Setup(r => r.ReadForStudent(_student.Id))
                 .Returns(new Guild() {Id = 2});
 
-            Assert.That(_guildDomain.ToGuildProfileDto(1).UserCapability, Is.EqualTo(UserCapability.Blocked));
+            Assert.That(_guildDomain.ToGuildProfileDto(1).UserMembershipState, Is.EqualTo(UserMembershipState.Blocked));
         }
 
         [Test]
-        public void GetGuild_ForUserWithRequestToThisGuild_UserCapabilityIsRequested()
+        public void GetGuild_ForUserWithRequestToThisGuild_UserMembershipStateIsRequested()
         {
             _guild.Members.Add(new GuildMember() {Guild = _guild, Member = _student, MemberType = GuildMemberType.Requested});
             _guildRepository
                 .Setup(r => r.IsStudentHaveRequest(_student.Id))
                 .Returns(true);
 
-            Assert.That(_guildDomain.ToGuildProfileDto(1).UserCapability, Is.EqualTo(UserCapability.Requested));
+            Assert.That(_guildDomain.ToGuildProfileDto(1).UserMembershipState, Is.EqualTo(UserMembershipState.Requested));
         }
 
         [Test]
-        public void GetGuild_ForUserWithRequestToAnotherGuild_UserCapabilityIsBlocked()
+        public void GetGuild_ForUserWithRequestToAnotherGuild_UserMembershipStateIsBlocked()
         {
             _guildRepository
                 .Setup(r => r.IsStudentHaveRequest(_student.Id))
                 .Returns(true);
 
-            Assert.That(_guildDomain.ToGuildProfileDto(1).UserCapability, Is.EqualTo(UserCapability.Blocked));
+            Assert.That(_guildDomain.ToGuildProfileDto(1).UserMembershipState, Is.EqualTo(UserMembershipState.Blocked));
         }
 
         [Test]
-        public void GetGuild_ForUserWhichLeftGuild23hoursAgo_UserCapabilityIsBlocked()
+        public void GetGuild_ForUserWhichLeftGuild23hoursAgo_UserMembershipStateIsBlocked()
         {
             _student.GuildLeftTime = DateTime.Now.AddHours(-23);
 
-            Assert.That(_guildDomain.ToGuildProfileDto(1).UserCapability, Is.EqualTo(UserCapability.Blocked));
+            Assert.That(_guildDomain.ToGuildProfileDto(1).UserMembershipState, Is.EqualTo(UserMembershipState.Blocked));
         }
     }
 }
