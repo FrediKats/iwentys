@@ -7,6 +7,6 @@ namespace Iwentys.Models.Transferable.Guilds
     {
         public int TotalRate { get; set; }
         public List<Student> Members { get; set; }
-        public List<(string Username, int TotalRate)> MembersImpact { get; set; }
+        public List<MemberImpact> MembersImpact { get; set; }
     }
 }
