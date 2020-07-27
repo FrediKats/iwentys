@@ -58,15 +58,15 @@ namespace Iwentys.Core.DomainModel.Guilds
 
         private GuildMemberLeaderBoard GetMemberDashboard()
         {
-            List<(string ghName, int Total)> members = _profile
+            List<GuildMemberImpact> members = _profile
                 .Members
                 .Select(m => m.Member.GithubUsername)
-                .Select(ghName => (ghName, _apiAccessor.GetUserActivity(ghName).Total))
+                .Select(ghName => new GuildMemberImpact(ghName, _apiAccessor.GetUserActivity(ghName).Total))
                 .ToList();
 
             return new GuildMemberLeaderBoard
             {
-                TotalRate = members.Sum(m => m.Total),
+                TotalRate = members.Sum(m => m.TotalRate),
                 MembersImpact = members,
                 Members = _profile.Members.SelectToList(m => m.Member)
             };
