@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Iwentys.Core.DomainModel.Guilds;
 using Iwentys.Core.GithubIntegration;
+using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
@@ -89,7 +90,17 @@ namespace Iwentys.Tests.Core.DomainModels
                 .Setup(r => r.ReadById(It.IsAny<Int32>()))
                 .Returns(_student);
 
-            _guildDomain = new GuildDomain(_guild, _tributeRepository.Object, _guildRepository.Object, _studentRepository.Object, _githubApiAccessor.Object);
+            DatabaseAccessor databaseAccessor = new DatabaseAccessor(null,
+                _studentRepository.Object,
+                _guildRepository.Object,
+                null,
+                null,
+                null,
+                _tributeRepository.Object,
+                null,
+                null);
+
+            _guildDomain = new GuildDomain(_guild, databaseAccessor, _githubApiAccessor.Object);
         }
 
         [Test]

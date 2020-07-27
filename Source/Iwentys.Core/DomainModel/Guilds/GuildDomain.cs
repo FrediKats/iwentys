@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.GithubIntegration;
+using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
@@ -15,18 +16,13 @@ namespace Iwentys.Core.DomainModel.Guilds
     public class GuildDomain
     {
         private readonly Guild _profile;
-        private readonly ITributeRepository _tributeRepository;
-        private readonly IGuildRepository _guildRepository;
-        private readonly IStudentRepository _studentRepository;
+        private readonly DatabaseAccessor _dbAccessor;
         private readonly IGithubApiAccessor _apiAccessor;
 
-        public GuildDomain(Guild profile, ITributeRepository tributeRepository, IGuildRepository guildRepository,
-            IStudentRepository studentRepository, IGithubApiAccessor apiAccessor)
+        public GuildDomain(Guild profile, DatabaseAccessor dbAccessor, IGithubApiAccessor apiAccessor)
         {
             _profile = profile;
-            _tributeRepository = tributeRepository;
-            _guildRepository = guildRepository;
-            _studentRepository = studentRepository;
+            _dbAccessor = dbAccessor;
             _apiAccessor = apiAccessor;
         }
 
@@ -59,7 +55,7 @@ namespace Iwentys.Core.DomainModel.Guilds
             };
 
             if (userId != null && _profile.Members.Any(m => m.MemberId == userId))
-                info.Tribute = _tributeRepository.ReadStudentActiveTribute(_profile.Id, userId.Value)?.To(ActiveTributeDto.Create);
+                info.Tribute = _dbAccessor.TributeRepository.ReadStudentActiveTribute(_profile.Id, userId.Value)?.To(ActiveTributeDto.Create);
             if (userId != null)
                 info.UserMembershipState = GetUserMembershipState(userId.Value);
 
@@ -85,8 +81,8 @@ namespace Iwentys.Core.DomainModel.Guilds
         
         public UserMembershipState GetUserMembershipState(Int32 userId)
         {
-            Student user = _studentRepository.Get(userId);
-            Guild userGuild = _guildRepository.ReadForStudent(user.Id);
+            Student user = _dbAccessor.Student.Get(userId);
+            Guild userGuild = _dbAccessor.GuildRepository.ReadForStudent(user.Id);
             GuildMemberType? userStatusInGuild = _profile.Members.Find(m => m.Member.Id == user.Id)?.MemberType;
 
             if (userStatusInGuild == GuildMemberType.Blocked)
@@ -100,11 +96,11 @@ namespace Iwentys.Core.DomainModel.Guilds
                 userGuild.Id == _profile.Id)
                 return UserMembershipState.Entered;
 
-            if (_guildRepository.IsStudentHaveRequest(userId) && 
+            if (_dbAccessor.GuildRepository.IsStudentHaveRequest(userId) && 
                 userStatusInGuild != GuildMemberType.Requested)
                 return UserMembershipState.Blocked;
 
-            if (_guildRepository.IsStudentHaveRequest(userId) && 
+            if (_dbAccessor.GuildRepository.IsStudentHaveRequest(userId) && 
                 userStatusInGuild == GuildMemberType.Requested)
                 return UserMembershipState.Requested;
 
