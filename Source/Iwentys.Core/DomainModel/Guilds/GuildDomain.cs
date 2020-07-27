@@ -60,8 +60,8 @@ namespace Iwentys.Core.DomainModel.Guilds
 
             if (userId != null && _profile.Members.Any(m => m.MemberId == userId))
                 info.Tribute = _tributeRepository.ReadStudentActiveTribute(_profile.Id, userId.Value)?.To(ActiveTributeDto.Create);
-
-            info.UserMembershipState = GetUserCapabilityInGuild(userId);
+            if (userId != null)
+                info.UserMembershipState = GetUserMembershipState(userId.Value);
 
             return info;
         }
@@ -83,38 +83,43 @@ namespace Iwentys.Core.DomainModel.Guilds
         }
 
         
-        public UserMembershipState GetUserCapabilityInGuild(Int32? userId)
+        public UserMembershipState GetUserMembershipState(Int32 userId)
         {
-            if (userId is null)
-                return UserMembershipState.Blocked;
-            Student user = _studentRepository.Get(userId.Value);
-
+            Student user = _studentRepository.Get(userId);
             Guild userGuild = _guildRepository.ReadForStudent(user.Id);
-            if(_guildRepository.IsStudentHaveRequest(userId.Value))
-            {
-                if (_profile.Members
-                        .Find(m => m.Member.Id == user.Id && m.MemberType == GuildMemberType.Requested) != null)
-                    return UserMembershipState.Requested;
+            GuildMemberType? userStatusInGuild = _profile.Members.Find(m => m.Member.Id == user.Id)?.MemberType;
+
+            if (userStatusInGuild == GuildMemberType.Blocked)
                 return UserMembershipState.Blocked;
-            }
-            if (userGuild is null)
-            {
-                if (_profile.Members.Find(m => m.Member.Id == user.Id && m.MemberType == GuildMemberType.Blocked) != null)
-                    return UserMembershipState.Blocked;
-                if (DateTime.Now < user.GuildLeftTime.AddHours(24))
-                    return UserMembershipState.Blocked;
 
-                return _profile.HiringPolicy == GuildHiringPolicy.Open ? UserMembershipState.CanEnter : UserMembershipState.CanRequest;
-            }
+            if (userGuild != null && 
+                userGuild.Id != _profile.Id)
+                return UserMembershipState.Blocked;
 
-            if (userGuild.Id == _profile.Id)
-            {
+            if (userGuild != null && 
+                userGuild.Id == _profile.Id)
                 return UserMembershipState.Entered;
-            }
-            else 
-            {
+
+            if (_guildRepository.IsStudentHaveRequest(userId) && 
+                userStatusInGuild != GuildMemberType.Requested)
                 return UserMembershipState.Blocked;
-            }
+
+            if (_guildRepository.IsStudentHaveRequest(userId) && 
+                userStatusInGuild == GuildMemberType.Requested)
+                return UserMembershipState.Requested;
+
+            if (userGuild is null &&
+                userStatusInGuild != GuildMemberType.Requested &&
+                DateTime.Now < user.GuildLeftTime.AddHours(24))
+                return UserMembershipState.Blocked;
+
+            if (userGuild is null && _profile.HiringPolicy == GuildHiringPolicy.Open)
+                return UserMembershipState.CanEnter;
+
+            if (userGuild is null && _profile.HiringPolicy == GuildHiringPolicy.Close)
+                return UserMembershipState.CanRequest;
+
+            return UserMembershipState.Blocked;
         }
     }
 }
