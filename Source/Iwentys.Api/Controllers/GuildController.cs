@@ -80,10 +80,10 @@ namespace Iwentys.Api.Controllers
             {
                 TotalRate = 100,
                 Members = students,
-                MembersImpact = new List<MemberImpact>
+                MembersImpact = new List<GuildMemberImpact>
                 {
-                    new MemberImpact("InRedikaWB", 70),
-                    new MemberImpact("jskeet", 30),
+                    new GuildMemberImpact("InRedikaWB", 70),
+                    new GuildMemberImpact("jskeet", 30),
                 }
             };
             var achievements = new List<AchievementInfoDto>

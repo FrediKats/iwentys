@@ -2,12 +2,12 @@
 
 namespace Iwentys.Models.Transferable.Guilds
 {
-    public class MemberImpact
+    public class GuildMemberImpact
     {
         public String Username { get; set; }
         public Int32 TotalRate { get; set; }
 
-        public MemberImpact(String username, Int32 totalRate)
+        public GuildMemberImpact(String username, Int32 totalRate)
         {
             Username = username;
             TotalRate = totalRate;
