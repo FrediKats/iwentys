@@ -69,7 +69,7 @@ namespace Iwentys.Database.Repositories.Implementations
         {
             return _dbContext.GuildMembers
                 .Where(gm => gm.MemberId == studentId)
-                .Where(gm => gm.MemberType != GuildMemberType.Blocked && gm.MemberType != GuildMemberType.Requested)
+                .Where(gm => gm.MemberType.IsMember())
                 .Include(gm => gm.Guild.Members)
                 .Include(gm => gm.Guild.PinnedProjects)
                 .Select(gm => gm.Guild)
