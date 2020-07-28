@@ -187,6 +187,7 @@ namespace Iwentys.Core.Services.Implementations
             GuildEditor editor = user.EnsureIsGuildEditor(guild);
 
             GuildMember member = guild.Members.Find(m => m.MemberId == memberId);
+            GuildMember userMember = guild.Members.Find(m => m.MemberId == user.Id);
 
             if (member is null || !member.MemberType.IsMember())
                 throw InnerLogicException.Guild.IsNotGuildMember(memberId);
@@ -194,7 +195,10 @@ namespace Iwentys.Core.Services.Implementations
             if (member.MemberType == GuildMemberType.Creator)
                 throw new InnerLogicException("Unable to block guild creator!");
 
-            member.Member.GuildLeftTime = DateTime.Now.ToUniversalTime();
+            if (member.MemberType == GuildMemberType.Mentor && userMember.MemberType == GuildMemberType.Mentor)
+                throw new InnerLogicException("Mentor unable to kick mentor!");
+
+            member.Member.GuildLeftTime = DateTime.UtcNow.ToUniversalTime();
 
             member.MemberType = GuildMemberType.Blocked;
             _guildRepository.UpdateMember(member);
@@ -219,6 +223,7 @@ namespace Iwentys.Core.Services.Implementations
             GuildEditor editor = user.EnsureIsGuildEditor(guild);
 
             GuildMember member = guild.Members.Find(m => m.MemberId == memberId);
+            GuildMember userMember = guild.Members.Find(m => m.MemberId == user.Id);
 
             if (member is null || !member.MemberType.IsMember())
                 throw InnerLogicException.Guild.IsNotGuildMember(memberId);
@@ -226,7 +231,10 @@ namespace Iwentys.Core.Services.Implementations
             if (member.MemberType == GuildMemberType.Creator)
                 throw new InnerLogicException("Unable to kick guild creator!");
 
-            member.Member.GuildLeftTime = DateTime.Now.ToUniversalTime();
+            if (member.MemberType == GuildMemberType.Mentor && userMember.MemberType == GuildMemberType.Mentor)
+                throw new InnerLogicException("Mentor unable to kick mentor!");
+
+            member.Member.GuildLeftTime = DateTime.UtcNow.ToUniversalTime();
 
             _guildRepository.RemoveMember(guildId, memberId);
         }

@@ -82,6 +82,14 @@ namespace Iwentys.Tests.Tools
             return this;
         }
 
+        public TestCaseContext WithGuildMentor(GuildProfileDto guild, out AuthorizedUser user)
+        {
+            WithNewStudent(out user);
+            _context.GuildMembers.Add(new GuildMember() {GuildId = guild.Id, MemberId = user.Id, MemberType = GuildMemberType.Mentor});
+            _context.SaveChanges();
+            return this;
+        }
+
         public TestCaseContext WithGuildRequest(GuildProfileDto guild, out AuthorizedUser user)
         {
             WithNewStudent(out user);

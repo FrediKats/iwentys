@@ -199,6 +199,19 @@ namespace Iwentys.Tests.Core.Services
         }
 
         [Test]
+        public void BlockGuildMember_BlockMentorByMentor_ThrowsInnerLogicException()
+        {
+            var context = TestCaseContext
+                .Case()
+                .WithNewStudent(out AuthorizedUser user)
+                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuildMentor(guild, out AuthorizedUser mentor)
+                .WithGuildMentor(guild, out AuthorizedUser anotherMentor);
+
+            Assert.Throws<InnerLogicException>(() =>  context.GuildService.BlockGuildMember(mentor, guild.Id, anotherMentor.Id));
+        }
+
+        [Test]
         public void KickGuildMember_KickMemberFromGuild()
         {
             var context = TestCaseContext
@@ -211,6 +224,19 @@ namespace Iwentys.Tests.Core.Services
             Guild memberGuild = context.GuildRepository.ReadForStudent(member.Id);
 
             Assert.That(memberGuild, Is.Null);
+        }
+
+        [Test]
+        public void KickGuildMember_KickMentorByMentor_ThrowsInnerLogicException()
+        {
+            var context = TestCaseContext
+                .Case()
+                .WithNewStudent(out AuthorizedUser user)
+                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuildMentor(guild, out AuthorizedUser mentor)
+                .WithGuildMentor(guild, out AuthorizedUser anotherMentor);
+
+            Assert.Throws<InnerLogicException>(() =>  context.GuildService.KickGuildMember(mentor, guild.Id, anotherMentor.Id));
         }
 
         [Test]
