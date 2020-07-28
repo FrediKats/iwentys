@@ -161,6 +161,22 @@ namespace Iwentys.Core.Services.Implementations
             return Get(guildId, user.Id);
         }
 
+        public GuildMember[] GetGuildRequests(AuthorizedUser user, Int32 guildId)
+        {
+            Guild guild = _guildRepository.Get(guildId);
+            GuildMember member = guild.Members.Find(m => m.MemberId == user.Id);
+
+            if (member is null)
+                throw InnerLogicException.Guild.IsNotGuildMember(user.Id);
+
+            if (!member.MemberType.IsEditor())
+                throw InnerLogicException.Guild.IsNotGuildEditor(user.Id);
+
+            return guild.Members
+                .Where(m => m.MemberType == GuildMemberType.Requested)
+                .ToArray();
+        }
+
         public VotingInfoDto StartVotingForLeader(AuthorizedUser user, int guildId, GuildLeaderVotingCreateDto votingCreateDto)
         {
             throw new System.NotImplementedException();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Voting;
@@ -146,6 +147,13 @@ namespace Iwentys.Api.Controllers
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
             return _guildService.LeaveGuild(user, guildId);
+        }
+
+        [HttpGet("{guildId}/requests")]
+        public GuildMember[] GetGuildRequests(int guildId)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            return _guildService.GetGuildRequests(user, guildId);
         }
 
         [HttpPost("{guildId}/VotingForLeader")]
