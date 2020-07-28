@@ -240,5 +240,63 @@ namespace Iwentys.Tests.Core.Services
 
             Assert.Throws<InnerLogicException>(() => context.GuildService.UnblockStudent(user, guild.Id, student.Id));
         }
+
+        [Test]
+        public void AcceptRequest_RemoveFromRequestListAndAddToMembers()
+        {
+            var context = TestCaseContext
+                .Case()
+                .WithNewStudent(out AuthorizedUser user)
+                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuildRequest(guild, out AuthorizedUser student);
+
+            context.GuildService.AcceptRequest(user, guild.Id, student.Id);
+            GuildMember member = context.GuildRepository.Get(guild.Id).Members.Find(m => m.MemberId == student.Id);
+            List<GuildMember> requests = context.GuildService.GetGuildRequests(user, guild.Id).ToList();
+
+            Assert.That(member.MemberType, Is.EqualTo(GuildMemberType.Member));
+            Assert.That(requests.Find(m => m.MemberId == student.Id), Is.Null);
+        }
+
+        [Test]
+        public void AcceptRequest_ForStudentWithoutRequest_ThrowsInnerLogicException()
+        {
+            var context = TestCaseContext
+                .Case()
+                .WithNewStudent(out AuthorizedUser user)
+                .WithGuild(user, out GuildProfileDto guild)
+                .WithNewStudent(out AuthorizedUser student);
+
+            Assert.Throws<InnerLogicException>(() => context.GuildService.AcceptRequest(user, guild.Id, student.Id));
+        }
+
+        [Test]
+        public void RejectRequest_RemoveFromRequestList()
+        {
+            var context = TestCaseContext
+                .Case()
+                .WithNewStudent(out AuthorizedUser user)
+                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuildRequest(guild, out AuthorizedUser student);
+
+            context.GuildService.RejectRequest(user, guild.Id, student.Id);
+            GuildMember member = context.GuildRepository.Get(guild.Id).Members.Find(m => m.MemberId == student.Id);
+            List<GuildMember> requests = context.GuildService.GetGuildRequests(user, guild.Id).ToList();
+
+            Assert.That(member, Is.Null);
+            Assert.That(requests.Find(m => m.MemberId == student.Id), Is.Null);
+        }
+
+        [Test]
+        public void RejectRequest_ForStudentWithoutRequest_ThrowsInnerLogicException()
+        {
+            var context = TestCaseContext
+                .Case()
+                .WithNewStudent(out AuthorizedUser user)
+                .WithGuild(user, out GuildProfileDto guild)
+                .WithNewStudent(out AuthorizedUser student);
+
+            Assert.Throws<InnerLogicException>(() => context.GuildService.RejectRequest(user, guild.Id, student.Id));
+        }
     }
 }

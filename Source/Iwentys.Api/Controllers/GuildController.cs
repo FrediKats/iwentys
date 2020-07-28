@@ -184,6 +184,20 @@ namespace Iwentys.Api.Controllers
             _guildService.KickGuildMember(user, guildId, memberId);
         }
 
+        [HttpPut("{guildId}/requests/{studentId}/accept")]
+        public void AcceptRequest(int guildId, int studentId)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            _guildService.AcceptRequest(user, guildId, studentId);
+        }
+
+        [HttpPut("{guildId}/requests/{studentId}/reject")]
+        public void RejectRequest(int guildId, int studentId)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            _guildService.RejectRequest(user, guildId, studentId);
+        }
+
         [HttpPost("{guildId}/VotingForLeader")]
         public void VotingForLeader(int guildId, [FromBody] GuildLeaderVotingCreateDto guildLeaderVotingCreateDto)
         {

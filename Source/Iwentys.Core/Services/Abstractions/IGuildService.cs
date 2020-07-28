@@ -28,6 +28,8 @@ namespace Iwentys.Core.Services.Abstractions
         void BlockGuildMember(AuthorizedUser user, int guildId, int memberId);
         void UnblockStudent(AuthorizedUser user, int guildId, int studentId);
         void KickGuildMember(AuthorizedUser user, int guildId, int memberId);
+        void AcceptRequest(AuthorizedUser user, int guildId, int studentId);
+        void RejectRequest(AuthorizedUser user, int guildId, int studentId);
 
         VotingInfoDto StartVotingForLeader(AuthorizedUser creator, int guildId, GuildLeaderVotingCreateDto votingCreateDto);
         VotingInfoDto StartVotingForTotem(AuthorizedUser creator, int guildId, GuildTotemVotingCreateDto votingCreateDto);

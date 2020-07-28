@@ -231,6 +231,36 @@ namespace Iwentys.Core.Services.Implementations
             _guildRepository.RemoveMember(guildId, memberId);
         }
 
+        public void AcceptRequest(AuthorizedUser user, Int32 guildId, Int32 studentId)
+        {
+            Guild guild = _guildRepository.Get(guildId);
+            GuildEditor editor = user.EnsureIsGuildEditor(guild);
+
+            GuildMember member = guild.Members.Find(m => m.MemberId == studentId);
+
+            if (member is null || member.MemberType != GuildMemberType.Requested)
+                throw new InnerLogicException(
+                    $"No request from student to guild! StudentId: {studentId} GuildId: {guildId}");
+
+            member.MemberType = GuildMemberType.Member;
+
+            _guildRepository.UpdateMember(member);
+        }
+
+        public void RejectRequest(AuthorizedUser user, Int32 guildId, Int32 studentId)
+        {
+            Guild guild = _guildRepository.Get(guildId);
+            GuildEditor editor = user.EnsureIsGuildEditor(guild);
+
+            GuildMember member = guild.Members.Find(m => m.MemberId == studentId);
+
+            if (member is null || member.MemberType != GuildMemberType.Requested)
+                throw new InnerLogicException(
+                    $"No request from student to guild! StudentId: {studentId} GuildId: {guildId}");
+
+            _guildRepository.RemoveMember(guildId, studentId);
+        }
+
         public VotingInfoDto StartVotingForLeader(AuthorizedUser user, int guildId, GuildLeaderVotingCreateDto votingCreateDto)
         {
             throw new System.NotImplementedException();
