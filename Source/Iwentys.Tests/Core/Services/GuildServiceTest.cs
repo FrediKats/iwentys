@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Iwentys.Core.DomainModel;
 using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
@@ -8,6 +9,7 @@ using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Types;
 using Iwentys.Models.Types.Guilds;
 using Iwentys.Tests.Tools;
+using LanguageExt;
 using NUnit.Framework;
 
 namespace Iwentys.Tests.Core.Services
@@ -92,7 +94,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out GuildProfileDto guild);
 
-            GuildMember[] requests = context.GuildService.GetGuildRequests(user, guild.Id);
+            List<GuildMember> requests = context.GuildService.GetGuildRequests(user, guild.Id).ToList();
 
             Assert.That(requests, Is.Not.Null);
             Assert.That(requests.Any(), Is.False);
@@ -131,7 +133,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuild(user, out GuildProfileDto guild)
                 .WithGuildRequest(guild, out AuthorizedUser student);
 
-            GuildMember[] requests = context.GuildService.GetGuildRequests(user, guild.Id);
+            List<GuildMember> requests = context.GuildService.GetGuildRequests(user, guild.Id).ToList();
 
             Assert.That(requests, Is.Not.Null);
             Assert.That(requests.Length, Is.EqualTo(1));
@@ -148,7 +150,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuild(user, out GuildProfileDto guild)
                 .WithGuildBlocked(guild, out AuthorizedUser student);
 
-            GuildMember[] blocked = context.GuildService.GetGuildBlocked(user, guild.Id);
+            List<GuildMember> blocked = context.GuildService.GetGuildBlocked(user, guild.Id).ToList();
 
             Assert.That(blocked, Is.Not.Null);
             Assert.That(blocked.Length, Is.EqualTo(1));
@@ -166,7 +168,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuildMember(guild, out AuthorizedUser member);
 
             context.GuildService.BlockGuildMember(user, guild.Id, member.Id);
-            GuildMember[] blocked = context.GuildService.GetGuildBlocked(user, guild.Id);
+            List<GuildMember> blocked = context.GuildService.GetGuildBlocked(user, guild.Id).ToList();
             Guild memberGuild = context.GuildRepository.ReadForStudent(member.Id);
 
             Assert.That(blocked.Find(m => m.MemberId == member.Id), Is.Not.Null);
@@ -209,6 +211,34 @@ namespace Iwentys.Tests.Core.Services
             Guild memberGuild = context.GuildRepository.ReadForStudent(member.Id);
 
             Assert.That(memberGuild, Is.Null);
+        }
+
+        [Test]
+        public void UnblockStudent_RemoveStudentFromListOfBlocked()
+        {
+            var context = TestCaseContext
+                .Case()
+                .WithNewStudent(out AuthorizedUser user)
+                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuildBlocked(guild, out AuthorizedUser student);
+
+            context.GuildService.UnblockStudent(user, guild.Id, student.Id);
+            List<GuildMember> blocked = context.GuildService.GetGuildBlocked(user, guild.Id).ToList();
+
+
+            Assert.That(blocked.Find(m => m.MemberId == student.Id), Is.Null);
+        }
+
+        [Test]
+        public void UnblockStudent_NotBlockedInGuild_ThrowsInnerLogicException()
+        {
+            var context = TestCaseContext
+                .Case()
+                .WithNewStudent(out AuthorizedUser user)
+                .WithGuild(user, out GuildProfileDto guild)
+                .WithNewStudent(out AuthorizedUser student);
+
+            Assert.Throws<InnerLogicException>(() => context.GuildService.UnblockStudent(user, guild.Id, student.Id));
         }
     }
 }

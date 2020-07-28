@@ -200,6 +200,19 @@ namespace Iwentys.Core.Services.Implementations
             _guildRepository.UpdateMember(member);
         }
 
+        public void UnblockStudent(AuthorizedUser user, Int32 guildId, Int32 studentId)
+        {
+            Guild guild = _guildRepository.Get(guildId);
+            GuildEditor editor = user.EnsureIsGuildEditor(guild);
+
+            GuildMember member = guild.Members.Find(m => m.MemberId == studentId);
+
+            if (member is null || member.MemberType != GuildMemberType.Blocked)
+                throw new InnerLogicException($"Student is not blocked in guild! StudentId: {studentId} GuildId: {guildId}");
+
+            _guildRepository.RemoveMember(guildId, studentId);
+        }
+
         public void KickGuildMember(AuthorizedUser user, Int32 guildId, Int32 memberId)
         {
             Guild guild = _guildRepository.Get(guildId);

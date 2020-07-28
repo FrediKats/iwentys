@@ -170,6 +170,13 @@ namespace Iwentys.Api.Controllers
             _guildService.BlockGuildMember(user, guildId, memberId);
         }
 
+        [HttpPut("{guildId}/blocked/{studentId}/unblock")]
+        public void UnblockGuildMember(int guildId, int studentId)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            _guildService.UnblockStudent(user, guildId, studentId);
+        }
+
         [HttpPut("{guildId}/member/{memberId}/kick")]
         public void KickGuildMember(int guildId, int memberId)
         {
