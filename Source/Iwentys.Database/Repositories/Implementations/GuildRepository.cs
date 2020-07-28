@@ -88,11 +88,22 @@ namespace Iwentys.Database.Repositories.Implementations
                 .Any(m => m.MemberType == GuildMemberType.Requested);
         }
 
-        public void AddMember(GuildMember member)
+        public GuildMember AddMember(GuildMember member)
         {
-            _dbContext.GuildMembers.Add(member);
+            EntityEntry<GuildMember> addedEntity =  _dbContext.GuildMembers.Add(member);
 
             _dbContext.SaveChanges();
+
+            return addedEntity.Entity;
+        }
+
+        public GuildMember UpdateMember(GuildMember member)
+        {
+            EntityEntry<GuildMember> updatedEntity =  _dbContext.GuildMembers.Update(member);
+
+            _dbContext.SaveChanges();
+
+            return updatedEntity.Entity;
         }
 
 
