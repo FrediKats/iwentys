@@ -59,8 +59,8 @@ namespace Iwentys.Api.Controllers
                     Role = UserType.Common,
                     Group = "M3XXX",
                     GithubUsername = "InRedikaWB",
-                    CreationTime = DateTime.Now,
-                    LastOnlineTime = DateTime.Now,
+                    CreationTime = DateTime.UtcNow,
+                    LastOnlineTime = DateTime.UtcNow,
                     BarsPoints = Int16.MaxValue
                 },
                 new Student()
@@ -72,8 +72,8 @@ namespace Iwentys.Api.Controllers
                     Role = UserType.Common,
                     Group = "M3XXX",
                     GithubUsername = "jskeet",
-                    CreationTime = DateTime.Now,
-                    LastOnlineTime = DateTime.Now,
+                    CreationTime = DateTime.UtcNow,
+                    LastOnlineTime = DateTime.UtcNow,
                     BarsPoints = 0
                 }
             };
