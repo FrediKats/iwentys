@@ -156,6 +156,13 @@ namespace Iwentys.Api.Controllers
             return _guildService.GetGuildRequests(user, guildId);
         }
 
+        [HttpGet("{guildId}/blocked")]
+        public GuildMember[] GetGuildBlocked(int guildId)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            return _guildService.GetGuildBlocked(user, guildId);
+        }
+
         [HttpPost("{guildId}/VotingForLeader")]
         public void VotingForLeader(int guildId, [FromBody] GuildLeaderVotingCreateDto guildLeaderVotingCreateDto)
         {

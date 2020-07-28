@@ -173,7 +173,12 @@ namespace Iwentys.Core.Services.Implementations
 
         public GuildMember[] GetGuildBlocked(AuthorizedUser user, Int32 guildId)
         {
-            throw new NotImplementedException();
+            Guild guild = _guildRepository.Get(guildId);
+            GuildEditor editor = user.EnsureIsGuildEditor(guild);
+
+            return guild.Members
+                .Where(m => m.MemberType == GuildMemberType.Blocked)
+                .ToArray();
         }
 
         public VotingInfoDto StartVotingForLeader(AuthorizedUser user, int guildId, GuildLeaderVotingCreateDto votingCreateDto)
