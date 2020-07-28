@@ -127,7 +127,7 @@ namespace Iwentys.Core.Services.Implementations
             if (guild.GetUserMembershipState(user.Id) != UserMembershipState.CanEnter)
                 throw new InnerLogicException($"Student unable to enter this guild! UserId: {user.Id} GuildId: {guildId}");
 
-            _guildRepository.AddMember(guildId, user.Id);
+            _guildRepository.AddMember(GuildMember.NewMember(guildId, user.Id));
 
             return Get(guildId, user.Id);
         }
@@ -140,7 +140,7 @@ namespace Iwentys.Core.Services.Implementations
             if (guild.GetUserMembershipState(user.Id) != UserMembershipState.CanRequest)
                 throw new InnerLogicException($"Student unable to send request to this guild! UserId: {user.Id} GuildId: {guildId}");
 
-            _guildRepository.AddRequest(guildId, user.Id);
+            _guildRepository.AddMember(GuildMember.NewRequest(guildId, user.Id));
 
             return Get(guildId, user.Id);
         }
@@ -159,6 +159,114 @@ namespace Iwentys.Core.Services.Implementations
             _guildRepository.RemoveMember(guildId, user.Id);
 
             return Get(guildId, user.Id);
+        }
+
+        public GuildMember[] GetGuildRequests(AuthorizedUser user, Int32 guildId)
+        {
+            Guild guild = _guildRepository.Get(guildId);
+            GuildEditor editor = user.EnsureIsGuildEditor(guild);
+
+            return guild.Members
+                .Where(m => m.MemberType == GuildMemberType.Requested)
+                .ToArray();
+        }
+
+        public GuildMember[] GetGuildBlocked(AuthorizedUser user, Int32 guildId)
+        {
+            Guild guild = _guildRepository.Get(guildId);
+            GuildEditor editor = user.EnsureIsGuildEditor(guild);
+
+            return guild.Members
+                .Where(m => m.MemberType == GuildMemberType.Blocked)
+                .ToArray();
+        }
+
+        public void BlockGuildMember(AuthorizedUser user, Int32 guildId, Int32 memberId)
+        {
+            Guild guild = _guildRepository.Get(guildId);
+            GuildEditor editor = user.EnsureIsGuildEditor(guild);
+
+            GuildMember member = guild.Members.Find(m => m.MemberId == memberId);
+            GuildMember userMember = guild.Members.Find(m => m.MemberId == user.Id);
+
+            if (member is null || !member.MemberType.IsMember())
+                throw InnerLogicException.Guild.IsNotGuildMember(memberId);
+
+            if (member.MemberType == GuildMemberType.Creator)
+                throw new InnerLogicException("Unable to block guild creator!");
+
+            if (member.MemberType == GuildMemberType.Mentor && userMember.MemberType == GuildMemberType.Mentor)
+                throw new InnerLogicException("Mentor unable to kick mentor!");
+
+            member.Member.GuildLeftTime = DateTime.UtcNow.ToUniversalTime();
+
+            member.MemberType = GuildMemberType.Blocked;
+            _guildRepository.UpdateMember(member);
+        }
+
+        public void UnblockStudent(AuthorizedUser user, Int32 guildId, Int32 studentId)
+        {
+            Guild guild = _guildRepository.Get(guildId);
+            GuildEditor editor = user.EnsureIsGuildEditor(guild);
+
+            GuildMember member = guild.Members.Find(m => m.MemberId == studentId);
+
+            if (member is null || member.MemberType != GuildMemberType.Blocked)
+                throw new InnerLogicException($"Student is not blocked in guild! StudentId: {studentId} GuildId: {guildId}");
+
+            _guildRepository.RemoveMember(guildId, studentId);
+        }
+
+        public void KickGuildMember(AuthorizedUser user, Int32 guildId, Int32 memberId)
+        {
+            Guild guild = _guildRepository.Get(guildId);
+            GuildEditor editor = user.EnsureIsGuildEditor(guild);
+
+            GuildMember member = guild.Members.Find(m => m.MemberId == memberId);
+            GuildMember userMember = guild.Members.Find(m => m.MemberId == user.Id);
+
+            if (member is null || !member.MemberType.IsMember())
+                throw InnerLogicException.Guild.IsNotGuildMember(memberId);
+
+            if (member.MemberType == GuildMemberType.Creator)
+                throw new InnerLogicException("Unable to kick guild creator!");
+
+            if (member.MemberType == GuildMemberType.Mentor && userMember.MemberType == GuildMemberType.Mentor)
+                throw new InnerLogicException("Mentor unable to kick mentor!");
+
+            member.Member.GuildLeftTime = DateTime.UtcNow.ToUniversalTime();
+
+            _guildRepository.RemoveMember(guildId, memberId);
+        }
+
+        public void AcceptRequest(AuthorizedUser user, Int32 guildId, Int32 studentId)
+        {
+            Guild guild = _guildRepository.Get(guildId);
+            GuildEditor editor = user.EnsureIsGuildEditor(guild);
+
+            GuildMember member = guild.Members.Find(m => m.MemberId == studentId);
+
+            if (member is null || member.MemberType != GuildMemberType.Requested)
+                throw new InnerLogicException(
+                    $"No request from student to guild! StudentId: {studentId} GuildId: {guildId}");
+
+            member.MemberType = GuildMemberType.Member;
+
+            _guildRepository.UpdateMember(member);
+        }
+
+        public void RejectRequest(AuthorizedUser user, Int32 guildId, Int32 studentId)
+        {
+            Guild guild = _guildRepository.Get(guildId);
+            GuildEditor editor = user.EnsureIsGuildEditor(guild);
+
+            GuildMember member = guild.Members.Find(m => m.MemberId == studentId);
+
+            if (member is null || member.MemberType != GuildMemberType.Requested)
+                throw new InnerLogicException(
+                    $"No request from student to guild! StudentId: {studentId} GuildId: {guildId}");
+
+            _guildRepository.RemoveMember(guildId, studentId);
         }
 
         public VotingInfoDto StartVotingForLeader(AuthorizedUser user, int guildId, GuildLeaderVotingCreateDto votingCreateDto)

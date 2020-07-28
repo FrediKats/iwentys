@@ -9,10 +9,11 @@ namespace Iwentys.Database.Repositories.Abstractions
         Guild ReadForStudent(int studentId);
         Guild ReadForTotem(int totemId);
 
+        // TODO: extract methods below to GuildMemberRepository
         Boolean IsStudentHaveRequest(int studentId);
 
-        void AddMember(int guildId, int userId);
-        void AddRequest(int guildId, int userId);
+        GuildMember AddMember(GuildMember member);
+        GuildMember UpdateMember(GuildMember member);
         void RemoveMember(int guildId, int userId);
     }
 }

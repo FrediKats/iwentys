@@ -4,6 +4,7 @@ using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Voting;
 using Iwentys.Models.Types.Github;
 using Iwentys.Models.Types.Guilds;
+using LanguageExt;
 
 namespace Iwentys.Core.Services.Abstractions
 {
@@ -20,6 +21,15 @@ namespace Iwentys.Core.Services.Abstractions
         GuildProfileDto EnterGuild(AuthorizedUser user, int guildId);
         GuildProfileDto RequestGuild(AuthorizedUser user, int guildId);
         GuildProfileDto LeaveGuild(AuthorizedUser user, int guildId);
+
+        GuildMember[] GetGuildRequests(AuthorizedUser user, int guildId);
+        GuildMember[] GetGuildBlocked(AuthorizedUser user, int guildId);
+
+        void BlockGuildMember(AuthorizedUser user, int guildId, int memberId);
+        void UnblockStudent(AuthorizedUser user, int guildId, int studentId);
+        void KickGuildMember(AuthorizedUser user, int guildId, int memberId);
+        void AcceptRequest(AuthorizedUser user, int guildId, int studentId);
+        void RejectRequest(AuthorizedUser user, int guildId, int studentId);
 
         VotingInfoDto StartVotingForLeader(AuthorizedUser creator, int guildId, GuildLeaderVotingCreateDto votingCreateDto);
         VotingInfoDto StartVotingForTotem(AuthorizedUser creator, int guildId, GuildTotemVotingCreateDto votingCreateDto);

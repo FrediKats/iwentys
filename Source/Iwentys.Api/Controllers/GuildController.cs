@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Voting;
@@ -58,8 +59,8 @@ namespace Iwentys.Api.Controllers
                     Role = UserType.Common,
                     Group = "M3XXX",
                     GithubUsername = "InRedikaWB",
-                    CreationTime = DateTime.Now,
-                    LastOnlineTime = DateTime.Now,
+                    CreationTime = DateTime.UtcNow,
+                    LastOnlineTime = DateTime.UtcNow,
                     BarsPoints = Int16.MaxValue
                 },
                 new Student()
@@ -71,8 +72,8 @@ namespace Iwentys.Api.Controllers
                     Role = UserType.Common,
                     Group = "M3XXX",
                     GithubUsername = "jskeet",
-                    CreationTime = DateTime.Now,
-                    LastOnlineTime = DateTime.Now,
+                    CreationTime = DateTime.UtcNow,
+                    LastOnlineTime = DateTime.UtcNow,
                     BarsPoints = 0
                 }
             };
@@ -120,7 +121,8 @@ namespace Iwentys.Api.Controllers
 
                 MemberLeaderBoard = leaderBoard,
                 Achievements = achievements,
-                PinnedRepositories = repositories
+                PinnedRepositories = repositories,
+                UserMembershipState = UserMembershipState.CanEnter
             };
 
             //AuthorizedUser user = AuthorizedUser.DebugAuth();
@@ -146,6 +148,55 @@ namespace Iwentys.Api.Controllers
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
             return _guildService.LeaveGuild(user, guildId);
+        }
+
+        [HttpGet("{guildId}/request")]
+        public GuildMember[] GetGuildRequests(int guildId)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            return _guildService.GetGuildRequests(user, guildId);
+        }
+
+        [HttpGet("{guildId}/blocked")]
+        public GuildMember[] GetGuildBlocked(int guildId)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            return _guildService.GetGuildBlocked(user, guildId);
+        }
+
+        [HttpPut("{guildId}/member/{memberId}/block")]
+        public void BlockGuildMember(int guildId, int memberId)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            _guildService.BlockGuildMember(user, guildId, memberId);
+        }
+
+        [HttpPut("{guildId}/blocked/{studentId}/unblock")]
+        public void UnblockGuildMember(int guildId, int studentId)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            _guildService.UnblockStudent(user, guildId, studentId);
+        }
+
+        [HttpPut("{guildId}/member/{memberId}/kick")]
+        public void KickGuildMember(int guildId, int memberId)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            _guildService.KickGuildMember(user, guildId, memberId);
+        }
+
+        [HttpPut("{guildId}/request/{studentId}/accept")]
+        public void AcceptRequest(int guildId, int studentId)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            _guildService.AcceptRequest(user, guildId, studentId);
+        }
+
+        [HttpPut("{guildId}/request/{studentId}/reject")]
+        public void RejectRequest(int guildId, int studentId)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            _guildService.RejectRequest(user, guildId, studentId);
         }
 
         [HttpPost("{guildId}/VotingForLeader")]
