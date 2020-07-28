@@ -200,6 +200,24 @@ namespace Iwentys.Core.Services.Implementations
             _guildRepository.UpdateMember(member);
         }
 
+        public void KickGuildMember(AuthorizedUser user, Int32 guildId, Int32 memberId)
+        {
+            Guild guild = _guildRepository.Get(guildId);
+            GuildEditor editor = user.EnsureIsGuildEditor(guild);
+
+            GuildMember member = guild.Members.Find(m => m.MemberId == memberId);
+
+            if (member is null || !member.MemberType.IsMember())
+                throw InnerLogicException.Guild.IsNotGuildMember(memberId);
+
+            if (member.MemberType == GuildMemberType.Creator)
+                throw new InnerLogicException("Unable to kick guild creator!");
+
+            member.Member.GuildLeftTime = DateTime.Now.ToUniversalTime();
+
+            _guildRepository.RemoveMember(guildId, memberId);
+        }
+
         public VotingInfoDto StartVotingForLeader(AuthorizedUser user, int guildId, GuildLeaderVotingCreateDto votingCreateDto)
         {
             throw new System.NotImplementedException();

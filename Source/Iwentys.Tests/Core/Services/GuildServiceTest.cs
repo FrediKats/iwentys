@@ -195,5 +195,20 @@ namespace Iwentys.Tests.Core.Services
 
             Assert.Throws<InnerLogicException>(() =>  context.GuildService.BlockGuildMember(user, guild.Id, student.Id));
         }
+
+        [Test]
+        public void KickGuildMember_KickMemberFromGuild()
+        {
+            var context = TestCaseContext
+                .Case()
+                .WithNewStudent(out AuthorizedUser user)
+                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuildMember(guild, out AuthorizedUser member);
+
+            context.GuildService.KickGuildMember(user, guild.Id, member.Id);
+            Guild memberGuild = context.GuildRepository.ReadForStudent(member.Id);
+
+            Assert.That(memberGuild, Is.Null);
+        }
     }
 }
