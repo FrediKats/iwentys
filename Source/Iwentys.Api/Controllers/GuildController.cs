@@ -149,7 +149,7 @@ namespace Iwentys.Api.Controllers
             return _guildService.LeaveGuild(user, guildId);
         }
 
-        [HttpGet("{guildId}/requests")]
+        [HttpGet("{guildId}/request")]
         public GuildMember[] GetGuildRequests(int guildId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
@@ -184,14 +184,14 @@ namespace Iwentys.Api.Controllers
             _guildService.KickGuildMember(user, guildId, memberId);
         }
 
-        [HttpPut("{guildId}/requests/{studentId}/accept")]
+        [HttpPut("{guildId}/request/{studentId}/accept")]
         public void AcceptRequest(int guildId, int studentId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
             _guildService.AcceptRequest(user, guildId, studentId);
         }
 
-        [HttpPut("{guildId}/requests/{studentId}/reject")]
+        [HttpPut("{guildId}/request/{studentId}/reject")]
         public void RejectRequest(int guildId, int studentId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
