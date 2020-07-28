@@ -148,12 +148,52 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuild(user, out GuildProfileDto guild)
                 .WithGuildBlocked(guild, out AuthorizedUser student);
 
-            GuildMember[] requests = context.GuildService.GetGuildBlocked(user, guild.Id);
+            GuildMember[] blocked = context.GuildService.GetGuildBlocked(user, guild.Id);
 
-            Assert.That(requests, Is.Not.Null);
-            Assert.That(requests.Length, Is.EqualTo(1));
-            Assert.That(requests[0].MemberId, Is.EqualTo(student.Id));
-            Assert.That(requests[0].MemberType, Is.EqualTo(GuildMemberType.Blocked));
+            Assert.That(blocked, Is.Not.Null);
+            Assert.That(blocked.Length, Is.EqualTo(1));
+            Assert.That(blocked[0].MemberId, Is.EqualTo(student.Id));
+            Assert.That(blocked[0].MemberType, Is.EqualTo(GuildMemberType.Blocked));
+        }
+
+        [Test]
+        public void BlockGuildMember_AddUserToBlockedListAndKickFromGuild()
+        {
+            var context = TestCaseContext
+                .Case()
+                .WithNewStudent(out AuthorizedUser user)
+                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuildMember(guild, out AuthorizedUser member);
+
+            context.GuildService.BlockGuildMember(user, guild.Id, member.Id);
+            GuildMember[] blocked = context.GuildService.GetGuildBlocked(user, guild.Id);
+            Guild memberGuild = context.GuildRepository.ReadForStudent(member.Id);
+
+            Assert.That(blocked.Find(m => m.MemberId == member.Id), Is.Not.Null);
+            Assert.That(memberGuild, Is.Null);
+        }
+
+        [Test]
+        public void BlockGuildMember_BlockCreator_ThrowsInnerLogicException()
+        {
+            var context = TestCaseContext
+                .Case()
+                .WithNewStudent(out AuthorizedUser user)
+                .WithGuild(user, out GuildProfileDto guild);
+
+            Assert.Throws<InnerLogicException>(() =>  context.GuildService.BlockGuildMember(user, guild.Id, user.Id));
+        }
+
+        [Test]
+        public void BlockGuildMember_BlockNotGuildMember_ThrowsInnerLogicException()
+        {
+            var context = TestCaseContext
+                .Case()
+                .WithNewStudent(out AuthorizedUser user)
+                .WithGuild(user, out GuildProfileDto guild)
+                .WithNewStudent(out AuthorizedUser student);
+
+            Assert.Throws<InnerLogicException>(() =>  context.GuildService.BlockGuildMember(user, guild.Id, student.Id));
         }
     }
 }

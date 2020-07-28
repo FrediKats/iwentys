@@ -25,6 +25,8 @@ namespace Iwentys.Core.Services.Abstractions
         GuildMember[] GetGuildRequests(AuthorizedUser user, int guildId);
         GuildMember[] GetGuildBlocked(AuthorizedUser user, int guildId);
 
+        void BlockGuildMember(AuthorizedUser user, int guildId, int memberId);
+
         VotingInfoDto StartVotingForLeader(AuthorizedUser creator, int guildId, GuildLeaderVotingCreateDto votingCreateDto);
         VotingInfoDto StartVotingForTotem(AuthorizedUser creator, int guildId, GuildTotemVotingCreateDto votingCreateDto);
         void SetTotem(AuthorizedUser user, int guildId, int totemId);
