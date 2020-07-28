@@ -121,7 +121,8 @@ namespace Iwentys.Api.Controllers
 
                 MemberLeaderBoard = leaderBoard,
                 Achievements = achievements,
-                PinnedRepositories = repositories
+                PinnedRepositories = repositories,
+                UserMembershipState = UserMembershipState.CanEnter
             };
 
             //AuthorizedUser user = AuthorizedUser.DebugAuth();
