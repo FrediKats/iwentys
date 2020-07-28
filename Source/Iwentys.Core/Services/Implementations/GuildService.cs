@@ -127,7 +127,7 @@ namespace Iwentys.Core.Services.Implementations
             if (guild.GetUserMembershipState(user.Id) != UserMembershipState.CanEnter)
                 throw new InnerLogicException($"Student unable to enter this guild! UserId: {user.Id} GuildId: {guildId}");
 
-            _guildRepository.AddMember(guildId, user.Id);
+            _guildRepository.AddMember(GuildMember.NewMember(guildId, user.Id));
 
             return Get(guildId, user.Id);
         }
@@ -140,7 +140,7 @@ namespace Iwentys.Core.Services.Implementations
             if (guild.GetUserMembershipState(user.Id) != UserMembershipState.CanRequest)
                 throw new InnerLogicException($"Student unable to send request to this guild! UserId: {user.Id} GuildId: {guildId}");
 
-            _guildRepository.AddRequest(guildId, user.Id);
+            _guildRepository.AddMember(GuildMember.NewRequest(guildId, user.Id));
 
             return Get(guildId, user.Id);
         }

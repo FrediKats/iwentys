@@ -88,21 +88,13 @@ namespace Iwentys.Database.Repositories.Implementations
                 .Any(m => m.MemberType == GuildMemberType.Requested);
         }
 
-        public void AddMember(Int32 guildId, Int32 userId)
+        public void AddMember(GuildMember member)
         {
-            GuildMember guildMember = GuildMember.NewMember(guildId, userId);
-            _dbContext.GuildMembers.Add(guildMember);
+            _dbContext.GuildMembers.Add(member);
 
             _dbContext.SaveChanges();
         }
 
-        public void AddRequest(Int32 guildId, Int32 userId)
-        {
-            GuildMember guildMember = GuildMember.NewRequest(guildId, userId);
-            _dbContext.GuildMembers.Add(guildMember);
-
-            _dbContext.SaveChanges();
-        }
 
         public void RemoveMember(int guildId, int userId)
         {
