@@ -23,6 +23,7 @@ namespace Iwentys.Core.Services.Abstractions
         GuildProfileDto LeaveGuild(AuthorizedUser user, int guildId);
 
         GuildMember[] GetGuildRequests(AuthorizedUser user, int guildId);
+        GuildMember[] GetGuildBlocked(AuthorizedUser user, int guildId);
 
         VotingInfoDto StartVotingForLeader(AuthorizedUser creator, int guildId, GuildLeaderVotingCreateDto votingCreateDto);
         VotingInfoDto StartVotingForTotem(AuthorizedUser creator, int guildId, GuildTotemVotingCreateDto votingCreateDto);
