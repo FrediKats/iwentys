@@ -15,7 +15,15 @@ namespace Iwentys.Models.Types.Guilds
     {
         public static Boolean IsMember(this GuildMemberType guildMemberType)
         {
-            return guildMemberType != GuildMemberType.Blocked && guildMemberType != GuildMemberType.Blocked;
+            return guildMemberType == GuildMemberType.Creator ||
+                   guildMemberType == GuildMemberType.Mentor || 
+                   guildMemberType == GuildMemberType.Member;
+        }
+
+        public static Boolean IsEditor(this GuildMemberType guildMemberType)
+        {
+            return guildMemberType == GuildMemberType.Creator || 
+                   guildMemberType == GuildMemberType.Mentor;
         }
     }
 }
