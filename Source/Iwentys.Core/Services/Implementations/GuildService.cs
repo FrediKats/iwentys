@@ -72,11 +72,18 @@ namespace Iwentys.Core.Services.Implementations
 
         public GuildProfileShortInfoDto Update(AuthorizedUser user, GuildUpdateArgumentDto arguments)
         {
-            //TODO: check permission
             Guild info = _guildRepository.Get(arguments.Id);
+            GuildEditor editor = user.EnsureIsGuildEditor(info);
+
             info.Bio = arguments.Bio ?? info.Bio;
             info.LogoUrl = arguments.LogoUrl ?? info.LogoUrl;
             info.HiringPolicy = arguments.HiringPolicy ?? info.HiringPolicy;
+
+            if (arguments.HiringPolicy == GuildHiringPolicy.Open)
+                foreach (var guildMember in info.Members)
+                    if (guildMember.MemberType == GuildMemberType.Requested)
+                        guildMember.MemberType = GuildMemberType.Member;
+
             return _guildRepository.Update(info)
                 .To(g => new GuildDomain(g, _databaseAccessor, _apiAccessor))
                 .ToGuildProfileShortInfoDto();
