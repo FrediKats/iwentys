@@ -73,6 +73,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<GuildMember>().HasKey(g => new {g.GuildId, g.MemberId});
             modelBuilder.Entity<CompanyWorker>().HasKey(g => new {g.CompanyId, g.WorkerId});
             modelBuilder.Entity<SubjectActivity>().HasKey(s => new {s.SubjectForGroupId, s.StudentId});
+            modelBuilder.Entity<StudentAssignment>().HasKey(k => new { k.AssignmentId, k.StudentId });
         }
     }
 }

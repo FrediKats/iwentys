@@ -17,7 +17,10 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public Assignment Create(Assignment entity)
         {
-            throw new NotImplementedException();
+            var insertedEntity = _dbContext.Assignments.Add(entity).Entity;
+            _dbContext.SaveChanges();
+
+            return insertedEntity;
         }
 
         public IQueryable<Assignment> Read()
@@ -27,7 +30,7 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public Assignment ReadById(Int32 key)
         {
-            throw new NotImplementedException();
+            return _dbContext.Assignments.Find(key);
         }
 
         public Assignment Update(Assignment entity)
@@ -37,7 +40,8 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public void Delete(Int32 key)
         {
-            throw new NotImplementedException();
+            _dbContext.Assignments.Remove(this.Get(key));
+            _dbContext.SaveChanges();
         }
     }
 }
