@@ -1,5 +1,6 @@
 using System.Linq;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Assignments;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Entities.Study;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,12 @@ namespace Iwentys.Database.Context
 
         #endregion
 
+        #region Assignments
+
+        public DbSet<Assignment> Assignments { get; set; }
+        public DbSet<StudentAssignment> StudentAssignments { get; set; }
+
+        #endregion
         public DbSet<Student> Students { get; set; }
         public DbSet<StudentProject> StudentProjects { get; set; }
         public DbSet<BarsPointTransactionLog> BarsPointTransactionLogs { get; set; }

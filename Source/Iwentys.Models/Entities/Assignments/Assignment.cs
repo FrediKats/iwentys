@@ -8,5 +8,6 @@ namespace Iwentys.Models.Entities.Assignments
         public String Title { get; set; }
         public String Description { get; set; }
         public DateTime CreationTime { get; set; }
+        public DateTime LastUpdateTime { get; set; }
     }
 }
