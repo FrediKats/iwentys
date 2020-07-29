@@ -324,5 +324,33 @@ namespace Iwentys.Tests.Core.Services
 
             Assert.Throws<InnerLogicException>(() => context.GuildService.RejectRequest(user, guild.Id, student.Id));
         }
+
+        [Test]
+        public void UpdateGuild_UpdateHiringPolicyToClose_CloseGuild()
+        {
+            var context = TestCaseContext
+                .Case()
+                .WithNewStudent(out AuthorizedUser user)
+                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuildRequest(guild, out AuthorizedUser student);
+            context.GuildService.Update(user, new GuildUpdateArgumentDto() {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Close});
+
+            Assert.That(context.GuildRepository.Get(guild.Id).HiringPolicy, Is.EqualTo(GuildHiringPolicy.Close));
+        }
+
+        [Test]
+        public void UpdateGuild_UpdateHiringPolicyToOpen_SwitchRequestsToMembers()
+        {
+            var context = TestCaseContext
+                .Case()
+                .WithNewStudent(out AuthorizedUser user)
+                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuildRequest(guild, out AuthorizedUser student);
+            context.GuildService.Update(user, new GuildUpdateArgumentDto() {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Close});
+            context.GuildService.Update(user, new GuildUpdateArgumentDto() {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Open});
+
+            Assert.That(context.GuildRepository.Get(guild.Id).Members.ToList().Find(m => m.MemberId == student.Id).MemberType,
+                Is.EqualTo(GuildMemberType.Member));
+        }
     }
 }
