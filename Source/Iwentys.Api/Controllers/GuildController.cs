@@ -40,12 +40,6 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<GuildProfileDto> Get()
-        {
-            return _guildService.Get();
-        }
-
-        [HttpGet("overview")]
         public IEnumerable<GuildProfilePreviewDto> GetOverview([FromQuery]int skip = 0, [FromQuery]int take = 20)
         {
             return _guildService.GetOverview(skip, take);
