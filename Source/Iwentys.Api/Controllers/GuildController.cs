@@ -45,6 +45,12 @@ namespace Iwentys.Api.Controllers
             return _guildService.Get();
         }
 
+        [HttpGet("overview")]
+        public IEnumerable<GuildProfilePreviewDto> GetOverview([FromQuery]int skip = 0, [FromQuery]int take = 20)
+        {
+            return _guildService.GetOverview(skip, take);
+        }
+
         [HttpGet("{id}")]
         public GuildProfileDto Get(int id)
         {

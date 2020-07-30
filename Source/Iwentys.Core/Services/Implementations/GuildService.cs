@@ -112,6 +112,19 @@ namespace Iwentys.Core.Services.Implementations
                     .ToGuildProfileDto()).ToArray();
         }
 
+        public GuildProfilePreviewDto[] GetOverview(Int32 skippedCount, Int32 takenCount)
+        {
+            return _guildRepository.Read()
+                .AsEnumerable()
+                .Select(g =>
+                new GuildDomain(g, _databaseAccessor, _apiAccessor)
+                    .ToGuildProfilePreviewDto())
+                .OrderByDescending(g => g.Rating)
+                .Skip(skippedCount)
+                .Take(takenCount)
+                .ToArray();
+        }
+
         public GuildProfileDto Get(int id, int? userId)
         {
             return _guildRepository.Get(id)

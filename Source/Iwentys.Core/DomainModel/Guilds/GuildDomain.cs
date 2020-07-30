@@ -62,6 +62,20 @@ namespace Iwentys.Core.DomainModel.Guilds
             return info;
         }
 
+        public GuildProfilePreviewDto ToGuildProfilePreviewDto()
+        {
+            var info = new GuildProfilePreviewDto()
+            {
+                Id = _profile.Id,
+                Title = _profile.Title,
+                LogoUrl = _profile.LogoUrl,
+                Leader = _profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member,
+                Rating = GetMemberDashboard().TotalRate
+            };
+
+            return info;
+        }
+
         private GuildMemberLeaderBoard GetMemberDashboard()
         {
             List<(string ghName, int Total)> members = _profile
