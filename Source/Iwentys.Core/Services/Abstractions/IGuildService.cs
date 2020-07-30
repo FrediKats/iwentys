@@ -15,6 +15,7 @@ namespace Iwentys.Core.Services.Abstractions
         GuildProfileShortInfoDto ApproveGuildCreating(AuthorizedUser user, int guildId);
 
         GuildProfileDto[] Get();
+        GuildProfilePreviewDto[] GetOverview(int skippedCount, int takenCount);
         GuildProfileDto Get(int id, int? userId);
         GuildProfileDto GetStudentGuild(int userId);
 
