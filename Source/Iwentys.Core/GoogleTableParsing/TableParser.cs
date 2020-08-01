@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Iwentys.Models.Types;
 using Newtonsoft.Json;
+using static System.String;
 
 namespace Iwentys.Core.GoogleTableParsing
 {
@@ -41,10 +42,7 @@ namespace Iwentys.Core.GoogleTableParsing
                 var score = row[_helper.ScoreColumnNum];
                 if (group != null && name != null && score != null)
                 {
-                    var fullName = string.Empty;
-                    foreach (var namePart in _helper.NameColumns)
-                        fullName += row[namePart] + " ";
-                    fullName = fullName.Trim();
+                    var fullName = Join(" ", _helper.NameColumns.Select(c => row[c]));
                     result.Add(new StudentSubjectScore(
                         _helper.GroupDefined ? _helper.GroupName : row[_helper.GroupColumnNum].ToString(),
                         fullName,

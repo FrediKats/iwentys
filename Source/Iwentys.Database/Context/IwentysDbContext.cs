@@ -52,11 +52,11 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<GuildMember>().HasIndex(g => g.MemberId).IsUnique();
             modelBuilder.Entity<CompanyWorker>().HasIndex(g => g.WorkerId).IsUnique();
 
-            modelBuilder.Entity<StudyProgram>().HasData(getStudyProgramsList());
-            modelBuilder.Entity<StudyGroup>().HasData(getStudyGroupsList());
-            modelBuilder.Entity<Teacher>().HasData(getTeachersList());
-            modelBuilder.Entity<Subject>().HasData(getSubjectsList());
-            modelBuilder.Entity<SubjectForGroup>().HasData(getSubjectForGroupsList());
+            modelBuilder.Entity<StudyProgram>().HasData(GetStudyProgramsList());
+            modelBuilder.Entity<StudyGroup>().HasData(GetStudyGroupsList());
+            modelBuilder.Entity<Teacher>().HasData(GetTeachersList());
+            modelBuilder.Entity<Subject>().HasData(GetSubjectsList());
+            modelBuilder.Entity<SubjectForGroup>().HasData(GetSubjectForGroupsList());
 
             //TODO: fix
             var cascadeFKs = modelBuilder.Model.GetEntityTypes()
@@ -77,45 +77,45 @@ namespace Iwentys.Database.Context
         }
 
         /// <summary>
-        /// Следующие 5 методов - методы вызываемые при создании базы для того,
-        /// чтобы внести в нее данные о группах, направлениях и т.д.
-        /// Это сделано из расчета на то, что такая информация будет редко меняться и
-        /// по этому ее не нужно получать через API.
-        /// TODO: Нужно создать конфиг файл для каждого подобного набора данных и получать данные оттуда, а не заполнять прямо в коде
+        /// РЎР»РµРґСѓСЋС‰РёРµ 5 РјРµС‚РѕРґРѕРІ - РјРµС‚РѕРґС‹ РІС‹Р·С‹РІР°РµРјС‹Рµ РїСЂРё СЃРѕР·РґР°РЅРёРё Р±Р°Р·С‹ РґР»СЏ С‚РѕРіРѕ,
+        /// С‡С‚РѕР±С‹ РІРЅРµСЃС‚Рё РІ РЅРµРµ РґР°РЅРЅС‹Рµ Рѕ РіСЂСѓРїРїР°С…, РЅР°РїСЂР°РІР»РµРЅРёСЏС… Рё С‚.Рґ.
+        /// Р­С‚Рѕ СЃРґРµР»Р°РЅРѕ РёР· СЂР°СЃС‡РµС‚Р° РЅР° С‚Рѕ, С‡С‚Рѕ С‚Р°РєР°СЏ РёРЅС„РѕСЂРјР°С†РёСЏ Р±СѓРґРµС‚ СЂРµРґРєРѕ РјРµРЅСЏС‚СЊСЃСЏ Рё
+        /// РїРѕ СЌС‚РѕРјСѓ РµРµ РЅРµ РЅСѓР¶РЅРѕ РїРѕР»СѓС‡Р°С‚СЊ С‡РµСЂРµР· API.
+        /// TODO: РќСѓР¶РЅРѕ СЃРѕР·РґР°С‚СЊ РєРѕРЅС„РёРі С„Р°Р№Р» РґР»СЏ РєР°Р¶РґРѕРіРѕ РїРѕРґРѕР±РЅРѕРіРѕ РЅР°Р±РѕСЂР° РґР°РЅРЅС‹С… Рё РїРѕР»СѓС‡Р°С‚СЊ РґР°РЅРЅС‹Рµ РѕС‚С‚СѓРґР°, Р° РЅРµ Р·Р°РїРѕР»РЅСЏС‚СЊ РїСЂСЏРјРѕ РІ РєРѕРґРµ
         /// 
         /// </summary>
-        /// <returns>Список объектов, которые будут помещены в базу при загрузке</returns>
-        private List<StudyProgram> getStudyProgramsList()
+        /// <returns>РЎРїРёСЃРѕРє РѕР±СЉРµРєС‚РѕРІ, РєРѕС‚РѕСЂС‹Рµ Р±СѓРґСѓС‚ РїРѕРјРµС‰РµРЅС‹ РІ Р±Р°Р·Сѓ РїСЂРё Р·Р°РіСЂСѓР·РєРµ</returns>
+        private List<StudyProgram> GetStudyProgramsList()
         {
-            var result = new List<StudyProgram> {new StudyProgram {Id = 1, Name = "ИС"}};
+            var result = new List<StudyProgram> {new StudyProgram {Id = 1, Name = "РРЎ"}};
 
             return result;
         }
-        private List<StudyGroup> getStudyGroupsList()
+        private List<StudyGroup> GetStudyGroupsList()
         {
             var result = new List<StudyGroup>
             {
                 new StudyGroup
                 {
                     Id = 1, StudyProgramId = 1,
-                    NamePattern = "М3201", Year = 2020
+                    NamePattern = "Рњ3201", Year = 2020
                 },
                 new StudyGroup
                 {
                     Id = 2, StudyProgramId = 1,
-                    NamePattern = "М3202", Year = 2020
+                    NamePattern = "Рњ3202", Year = 2020
                 },
                 new StudyGroup
                 {
                     Id = 3, StudyProgramId = 1,
-                    NamePattern = "М3203", Year = 2020
+                    NamePattern = "Рњ3203", Year = 2020
                 }
             };
 
             return result;
         }
 
-        private List<Subject> getSubjectsList()
+        private List<Subject> GetSubjectsList()
         {
             var result = new List<Subject>
             {
@@ -125,18 +125,18 @@ namespace Iwentys.Database.Context
             return result;
         }
 
-        private List<Teacher> getTeachersList()
+        private List<Teacher> GetTeachersList()
         {
             var result = new List<Teacher>
             {
-                new Teacher {Id = 1, Name = "Жмышенко Валерий Альбертович"},
-                new Teacher {Id = 2, Name = "Сухачев Денис Владимирович"}
+                new Teacher {Id = 1, Name = "Р–РјС‹С€РµРЅРєРѕ Р’Р°Р»РµСЂРёР№ РђР»СЊР±РµСЂС‚РѕРІРёС‡"},
+                new Teacher {Id = 2, Name = "РЎСѓС…Р°С‡РµРІ Р”РµРЅРёСЃ Р’Р»Р°РґРёРјРёСЂРѕРІРёС‡"}
             };
 
             return result;
         }
 
-        private List<SubjectForGroup> getSubjectForGroupsList()
+        private List<SubjectForGroup> GetSubjectForGroupsList()
         {
             var result = new List<SubjectForGroup>
             {
