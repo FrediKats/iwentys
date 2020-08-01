@@ -87,7 +87,7 @@ namespace Iwentys.Database.Context
         /// <returns>Список объектов, которые будут помещены в базу при загрузке</returns>
         private List<StudyProgram> getStudyProgramsList()
         {
-            var result = new List<StudyProgram> {new StudyProgram {Name = "ИС"}};
+            var result = new List<StudyProgram> {new StudyProgram {Id = 1, Name = "ИС"}};
 
             return result;
         }
@@ -97,18 +97,18 @@ namespace Iwentys.Database.Context
             {
                 new StudyGroup
                 {
-                    Id = 1,
-                    NamePattern = "М3201", StudyProgram = new StudyProgram {Id = 1, Name = "ИС"}, Year = 2020
+                    Id = 1, StudyProgramId = 1,
+                    NamePattern = "М3201", Year = 2020
                 },
                 new StudyGroup
                 {
-                    Id = 2,
-                    NamePattern = "М3202", StudyProgram = new StudyProgram {Id = 1, Name = "ИС"}, Year = 2020
+                    Id = 2, StudyProgramId = 1,
+                    NamePattern = "М3202", Year = 2020
                 },
                 new StudyGroup
                 {
-                    Id = 3,
-                    NamePattern = "М3203", StudyProgram = new StudyProgram {Id = 1, Name = "ИС"}, Year = 2020
+                    Id = 3, StudyProgramId = 1,
+                    NamePattern = "М3203", Year = 2020
                 }
             };
 
@@ -119,7 +119,7 @@ namespace Iwentys.Database.Context
         {
             var result = new List<Subject>
             {
-                new Subject {Name = "Programming"}, new Subject {Name = "Physical Culture"}
+                new Subject {Id = 1, Name = "Programming"}, new Subject {Id = 2, Name = "Physical Culture"}
             };
 
             return result;
@@ -129,8 +129,8 @@ namespace Iwentys.Database.Context
         {
             var result = new List<Teacher>
             {
-                new Teacher {Name = "Жмышенко Валерий Альбертович"},
-                new Teacher {Name = "Сухачев Денис Владимирович"}
+                new Teacher {Id = 1, Name = "Жмышенко Валерий Альбертович"},
+                new Teacher {Id = 2, Name = "Сухачев Денис Владимирович"}
             };
 
             return result;
@@ -142,80 +142,26 @@ namespace Iwentys.Database.Context
             {
                 new SubjectForGroup
                 {
-                    Subject = new Subject {Name = "Programming"},
-                    StudyGroup =
-                        new StudyGroup
-                        {
-                            NamePattern = "М3201",
-                            StudyProgram = new StudyProgram {Name = "ИС"},
-                            Year = 2020
-                        },
-                    Lecturer = new Teacher {Name = "Сухачев Денис Владимирович"},
+                    Id = 1,
+                    SubjectId = 1,
+                    StudyGroupId = 1,
+                    TeacherId = 1,
                     StudySemester = StudySemester.Y20H1
                 },
                 new SubjectForGroup
                 {
-                    Subject = new Subject {Name = "Physical Culture"},
-                    StudyGroup =
-                        new StudyGroup
-                        {
-                            NamePattern = "М3201",
-                            StudyProgram = new StudyProgram {Name = "ИС"},
-                            Year = 2020
-                        },
-                    Lecturer = new Teacher {Name = "Жмышенко Валерий Альбертович"},
+                    Id = 2,
+                    SubjectId = 2,
+                    StudyGroupId = 1,
+                    TeacherId = 1,
                     StudySemester = StudySemester.Y20H1
                 },
                 new SubjectForGroup
                 {
-                    Subject = new Subject {Name = "Programming"},
-                    StudyGroup =
-                        new StudyGroup
-                        {
-                            NamePattern = "М3202",
-                            StudyProgram = new StudyProgram {Name = "ИС"},
-                            Year = 2020
-                        },
-                    Lecturer = new Teacher {Name = "Сухачев Денис Владимирович"},
-                    StudySemester = StudySemester.Y20H1
-                },
-                new SubjectForGroup
-                {
-                    Subject = new Subject {Name = "Physical Culture"},
-                    StudyGroup =
-                        new StudyGroup
-                        {
-                            NamePattern = "М3202",
-                            StudyProgram = new StudyProgram {Name = "ИС"},
-                            Year = 2020
-                        },
-                    Lecturer = new Teacher {Name = "Жмышенко Валерий Альбертович"},
-                    StudySemester = StudySemester.Y20H1
-                },
-                new SubjectForGroup
-                {
-                    Subject = new Subject {Name = "Programming"},
-                    StudyGroup =
-                        new StudyGroup
-                        {
-                            NamePattern = "М3203",
-                            StudyProgram = new StudyProgram {Name = "ИС"},
-                            Year = 2020
-                        },
-                    Lecturer = new Teacher {Name = "Сухачев Денис Владимирович"},
-                    StudySemester = StudySemester.Y20H1
-                },
-                new SubjectForGroup
-                {
-                    Subject = new Subject {Name = "Physical Culture"},
-                    StudyGroup =
-                        new StudyGroup
-                        {
-                            NamePattern = "М3203",
-                            StudyProgram = new StudyProgram {Name = "ИС"},
-                            Year = 2020
-                        },
-                    Lecturer = new Teacher {Name = "Жмышенко Валерий Альбертович"},
+                    Id = 3,
+                    SubjectId = 1,
+                    StudyGroupId = 1,
+                    TeacherId = 1,
                     StudySemester = StudySemester.Y20H1
                 }
             };

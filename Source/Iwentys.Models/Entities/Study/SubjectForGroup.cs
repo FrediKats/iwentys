@@ -13,7 +13,7 @@ namespace Iwentys.Models.Entities.Study
         public int StudyGroupId { get; set; }
         public StudyGroup StudyGroup { get; set; }
 
-        public int LecturerId { get; set; }
+        public int TeacherId { get; set; }
         public Teacher Lecturer { get; set; }
 
         public string SerializedGoogleTableConfig { get; set; }
