@@ -7,6 +7,7 @@ using Iwentys.Core.GoogleTableParsing;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities.Study;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace Iwentys.Api.Controllers
 {
@@ -16,11 +17,13 @@ namespace Iwentys.Api.Controllers
     {
         private readonly ISubjectActivityRepository _subjectActivityRepository;
         private readonly ISubjectForGroupRepository _subjectForGroupRepository;
+        private IConfiguration _configuration;
 
-        public DebugCommandController(ISubjectActivityRepository subjectActivityRepository, ISubjectForGroupRepository subjectForGroupRepository)
+        public DebugCommandController(ISubjectActivityRepository subjectActivityRepository, ISubjectForGroupRepository subjectForGroupRepository, IConfiguration configuration)
         {
             _subjectActivityRepository = subjectActivityRepository;
             _subjectForGroupRepository = subjectForGroupRepository;
+            _configuration = configuration;
         }
 
         public void UpdateSubjectActivityData(SubjectActivity activity)
@@ -40,19 +43,14 @@ namespace Iwentys.Api.Controllers
 
             var googleTableData = subjectData.GetGoogleTableDataConfig;
 
-            SheetsService sheetsService;
+            var credential = GoogleCredential.FromJson(_configuration["GoogleTable:Credentials"]).
+                CreateScoped(SheetsService.Scope.SpreadsheetsReadonly);
 
-            using (var stream = new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+            var sheetsService = new SheetsService(new BaseClientService.Initializer()
             {
-                var credential = GoogleCredential.FromStream(stream)
-                    .CreateScoped(SheetsService.Scope.SpreadsheetsReadonly);
-
-                sheetsService = new SheetsService(new BaseClientService.Initializer()
-                {
-                    HttpClientInitializer = credential,
-                    ApplicationName = "IwentysTableParser",
-                });
-            }
+                HttpClientInitializer = credential,
+                ApplicationName = "IwentysTableParser",
+            });
 
             var tableParser = new TableParser(sheetsService, googleTableData);
 
