@@ -87,7 +87,7 @@ namespace Iwentys.Database.Context
         /// <returns>Список объектов, которые будут помещены в базу при загрузке</returns>
         private List<StudyProgram> getStudyProgramsList()
         {
-            var result = new List<StudyProgram> {new StudyProgram {Id = 1, Name = "ИС"}};
+            var result = new List<StudyProgram> {new StudyProgram {Name = "ИС"}};
 
             return result;
         }
@@ -119,7 +119,7 @@ namespace Iwentys.Database.Context
         {
             var result = new List<Subject>
             {
-                new Subject {Id = 1, Name = "Programming"}, new Subject {Id = 2, Name = "Physical Culture"}
+                new Subject {Name = "Programming"}, new Subject {Name = "Physical Culture"}
             };
 
             return result;
@@ -129,8 +129,8 @@ namespace Iwentys.Database.Context
         {
             var result = new List<Teacher>
             {
-                new Teacher {Id = 1, Name = "Жмышенко Валерий Альбертович"},
-                new Teacher {Id = 2, Name = "Сухачев Денис Владимирович"}
+                new Teacher {Name = "Жмышенко Валерий Альбертович"},
+                new Teacher {Name = "Сухачев Денис Владимирович"}
             };
 
             return result;
@@ -142,114 +142,83 @@ namespace Iwentys.Database.Context
             {
                 new SubjectForGroup
                 {
-                    Id = 1,
-                    SubjectId = 1,
-                    Subject = new Subject {Id = 1, Name = "Programming"},
-                    StudyGroupId = 1,
+                    Subject = new Subject {Name = "Programming"},
                     StudyGroup =
                         new StudyGroup
                         {
-                            Id = 1,
                             NamePattern = "М3201",
-                            StudyProgram = new StudyProgram {Id = 1, Name = "ИС"},
+                            StudyProgram = new StudyProgram {Name = "ИС"},
                             Year = 2020
                         },
-                    LecturerId = 2,
-                    Lecturer = new Teacher {Id = 2, Name = "Сухачев Денис Владимирович"},
+                    Lecturer = new Teacher {Name = "Сухачев Денис Владимирович"},
                     StudySemester = StudySemester.Y20H1
                 },
                 new SubjectForGroup
                 {
-                    Id = 2,
-                    SubjectId = 2,
-                    Subject = new Subject {Id = 2, Name = "Physical Culture"},
-                    StudyGroupId = 1,
+                    Subject = new Subject {Name = "Physical Culture"},
                     StudyGroup =
                         new StudyGroup
                         {
-                            Id = 1,
                             NamePattern = "М3201",
-                            StudyProgram = new StudyProgram {Id = 1, Name = "ИС"},
+                            StudyProgram = new StudyProgram {Name = "ИС"},
                             Year = 2020
                         },
-                    LecturerId = 1,
-                    Lecturer = new Teacher {Id = 1, Name = "Жмышенко Валерий Альбертович"},
+                    Lecturer = new Teacher {Name = "Жмышенко Валерий Альбертович"},
                     StudySemester = StudySemester.Y20H1
                 },
                 new SubjectForGroup
                 {
-                    Id = 3,
-                    SubjectId = 1,
-                    Subject = new Subject {Id = 1, Name = "Programming"},
-                    StudyGroupId = 1,
+                    Subject = new Subject {Name = "Programming"},
                     StudyGroup =
                         new StudyGroup
                         {
-                            Id = 2,
                             NamePattern = "М3202",
-                            StudyProgram = new StudyProgram {Id = 1, Name = "ИС"},
+                            StudyProgram = new StudyProgram {Name = "ИС"},
                             Year = 2020
                         },
-                    LecturerId = 2,
-                    Lecturer = new Teacher {Id = 2, Name = "Сухачев Денис Владимирович"},
+                    Lecturer = new Teacher {Name = "Сухачев Денис Владимирович"},
                     StudySemester = StudySemester.Y20H1
                 },
                 new SubjectForGroup
                 {
-                    Id = 4,
-                    SubjectId = 2,
-                    Subject = new Subject {Id = 2, Name = "Physical Culture"},
-                    StudyGroupId = 1,
+                    Subject = new Subject {Name = "Physical Culture"},
                     StudyGroup =
                         new StudyGroup
                         {
-                            Id = 2,
                             NamePattern = "М3202",
-                            StudyProgram = new StudyProgram {Id = 1, Name = "ИС"},
+                            StudyProgram = new StudyProgram {Name = "ИС"},
                             Year = 2020
                         },
-                    LecturerId = 1,
-                    Lecturer = new Teacher {Id = 1, Name = "Жмышенко Валерий Альбертович"},
+                    Lecturer = new Teacher {Name = "Жмышенко Валерий Альбертович"},
                     StudySemester = StudySemester.Y20H1
                 },
                 new SubjectForGroup
                 {
-                    Id = 5,
-                    SubjectId = 1,
-                    Subject = new Subject {Id = 1, Name = "Programming"},
-                    StudyGroupId = 1,
+                    Subject = new Subject {Name = "Programming"},
                     StudyGroup =
                         new StudyGroup
                         {
-                            Id = 3,
                             NamePattern = "М3203",
-                            StudyProgram = new StudyProgram {Id = 1, Name = "ИС"},
+                            StudyProgram = new StudyProgram {Name = "ИС"},
                             Year = 2020
                         },
-                    LecturerId = 2,
-                    Lecturer = new Teacher {Id = 2, Name = "Сухачев Денис Владимирович"},
+                    Lecturer = new Teacher {Name = "Сухачев Денис Владимирович"},
                     StudySemester = StudySemester.Y20H1
                 },
                 new SubjectForGroup
                 {
-                    Id = 6,
-                    SubjectId = 2,
-                    Subject = new Subject {Id = 2, Name = "Physical Culture"},
-                    StudyGroupId = 1,
+                    Subject = new Subject {Name = "Physical Culture"},
                     StudyGroup =
                         new StudyGroup
                         {
-                            Id = 3,
                             NamePattern = "М3203",
-                            StudyProgram = new StudyProgram {Id = 1, Name = "ИС"},
+                            StudyProgram = new StudyProgram {Name = "ИС"},
                             Year = 2020
                         },
-                    LecturerId = 1,
-                    Lecturer = new Teacher {Id = 1, Name = "Жмышенко Валерий Альбертович"},
+                    Lecturer = new Teacher {Name = "Жмышенко Валерий Альбертович"},
                     StudySemester = StudySemester.Y20H1
                 }
             };
-
 
             return result;
         }
