@@ -97,15 +97,18 @@ namespace Iwentys.Database.Context
             {
                 new StudyGroup
                 {
+                    Id = 1,
                     NamePattern = "Ì3201", StudyProgram = new StudyProgram {Id = 1, Name = "ÈÑ"}, Year = 2020
                 },
                 new StudyGroup
                 {
-                    NamePattern = "Ì3202", StudyProgram = new StudyProgram {Id = 2, Name = "ÈÑ"}, Year = 2020
+                    Id = 2,
+                    NamePattern = "Ì3202", StudyProgram = new StudyProgram {Id = 1, Name = "ÈÑ"}, Year = 2020
                 },
                 new StudyGroup
                 {
-                    NamePattern = "Ì3203", StudyProgram = new StudyProgram {Id = 3, Name = "ÈÑ"}, Year = 2020
+                    Id = 3,
+                    NamePattern = "Ì3203", StudyProgram = new StudyProgram {Id = 1, Name = "ÈÑ"}, Year = 2020
                 }
             };
 
