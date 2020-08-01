@@ -1,24 +1,19 @@
 import React from 'react';
 import './App.css';
+import {Route} from "react-router-dom";
+import SwaggerUI from "swagger-ui-react";
+import "swagger-ui-react/swagger-ui.css";
+import {GuildPage} from "./pages/GuildPage/GuildPage";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <>
+            <Route path="/guild" component={GuildPage}/>
+            <Route path="/profile" component={GuildPage}/>
+            <Route exact path="/swagger" component={() =>
+                <SwaggerUI url="https://iwentys.azurewebsites.net/swagger/v1/swagger.json"/>}/>
+        </>
+    );
 }
 
 export default App;
