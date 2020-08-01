@@ -7,6 +7,7 @@ import {GuildLeaderboard} from "../../components/GuildsRating/GuildLeaderboard";
 import {useDispatch, useSelector} from "react-redux";
 import {getGuildById} from "../../redux/guild/guildThunk";
 import {IState} from "../../redux/typings";
+import {PageLayout} from "../../components/PageLayout/PageLayout";
 
 interface IGuildPageProps {
 }
@@ -22,6 +23,7 @@ export const GuildPage: React.FC<IGuildPageProps> = () => {
     if(!guild.title) return null;
 
     return (
+        <PageLayout>
         <Row justify="space-between">
             <Col span={6}>
                 <GuildInfo title={guild.title} bio={guild.bio} logoUrl={guild.logoUrl}/>
@@ -38,5 +40,6 @@ export const GuildPage: React.FC<IGuildPageProps> = () => {
                 />
             </Col>
         </Row>
+        </PageLayout>
     );
 };
