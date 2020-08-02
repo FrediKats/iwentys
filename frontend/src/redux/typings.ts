@@ -32,6 +32,7 @@ export interface IRepository {
 }
 
 export interface IGuildState {
+    requestStatus: string;
     title: string;
     bio: string;
     logoUrl: string;

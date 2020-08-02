@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import {Menu} from 'antd';
 import {Layout} from 'antd';
 import 'antd/dist/antd.css';
+import './PageLayout.css';
 
 const {Header, Content} = Layout;
 
