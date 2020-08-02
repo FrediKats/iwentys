@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Iwentys.Models.Types;
 
 namespace Iwentys.Core.GoogleTableParsing
 {
@@ -12,20 +13,31 @@ namespace Iwentys.Core.GoogleTableParsing
         public int NameColumnNum { get; }
         public int ScoreColumnNum { get; }
         public string Range { get; }
+        public List<int> NameColumns { get; }
+        public bool GroupDefined { get; }
+        public string GroupName { get; }
 
-        public TableStringHelper(string id, string sheetName, int startingRow, int lastRow,
-            string groupColumn, string nameColumn, string scoreColumn)
+        public TableStringHelper(GoogleTableData tableData)
         {
-            Id = id;
-            var tmpSortList = new List<string>() { groupColumn, nameColumn, scoreColumn };
+            NameColumns = new List<int>();
+            Id = tableData.Id;
+            GroupDefined = tableData.GroupDefined;
+            var tmpSortList = new List<string> {tableData.ScoreColumn};
+            if (GroupDefined)
+                GroupName = tableData.GroupName;
+            else
+                tmpSortList.Add(tableData.GroupColumn);
+            tmpSortList.AddRange(tableData.NameColumnsList);
 
             string firstColumn = tmpSortList.OrderBy(s => s).First();
             string lastColumn = tmpSortList.OrderByDescending(s => s).First();
 
-            Range = $"{sheetName}!{firstColumn}{startingRow}:{lastColumn}{lastRow}";
-            GroupColumnNum = FormatStringToInt(groupColumn) - FormatStringToInt(firstColumn);
-            NameColumnNum = FormatStringToInt(nameColumn) - FormatStringToInt(firstColumn);
-            ScoreColumnNum = FormatStringToInt(scoreColumn) - FormatStringToInt(firstColumn);
+            Range = Range = $"{tableData.SheetName}!{firstColumn}{tableData.FirstRow}:{lastColumn}{tableData.LastRow}";
+            if (!GroupDefined)
+                GroupColumnNum = FormatStringToInt(tableData.GroupColumn) - FormatStringToInt(firstColumn);
+            ScoreColumnNum = FormatStringToInt(tableData.ScoreColumn) - FormatStringToInt(firstColumn);
+            foreach (var namePart in tableData.NameColumnsList)
+                NameColumns.Add(FormatStringToInt(namePart) - FormatStringToInt(firstColumn));
         }
 
         /// <summary>

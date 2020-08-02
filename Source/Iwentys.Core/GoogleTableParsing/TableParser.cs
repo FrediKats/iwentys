@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
+using Iwentys.Models.Types;
 using Newtonsoft.Json;
+using static System.String;
 
 namespace Iwentys.Core.GoogleTableParsing
 {
@@ -12,15 +13,15 @@ namespace Iwentys.Core.GoogleTableParsing
         private SheetsService _service;
         private ValueRange _data;
         private TableStringHelper _helper;
-        public TableParser(SheetsService service, string id, string sheetName,
-            int firstRow, int lastRow, string groupColumn, string nameColumn, string scoreColumn)
+
+        public TableParser(SheetsService service, GoogleTableData tableData)
         {
             _service = service;
 
-            _helper = new TableStringHelper(id, sheetName, firstRow, lastRow, groupColumn, nameColumn, scoreColumn);
+            _helper = new TableStringHelper(tableData);
         }
 
-        private void GetDataFromTable()
+        private void InitDataFromTable()
         {
             if (_data == null)
             {
@@ -31,7 +32,7 @@ namespace Iwentys.Core.GoogleTableParsing
 
         public List<StudentSubjectScore> GetStudentsList()
         {
-            GetDataFromTable();
+            InitDataFromTable();
 
             var result = new List<StudentSubjectScore>();
             foreach (var row in _data.Values)
@@ -41,9 +42,10 @@ namespace Iwentys.Core.GoogleTableParsing
                 var score = row[_helper.ScoreColumnNum];
                 if (group != null && name != null && score != null)
                 {
+                    var fullName = Join(" ", _helper.NameColumns.Select(c => row[c]));
                     result.Add(new StudentSubjectScore(
-                        row[_helper.GroupColumnNum].ToString(),
-                        row[_helper.NameColumnNum].ToString(),
+                        _helper.GroupDefined ? _helper.GroupName : row[_helper.GroupColumnNum].ToString(),
+                        fullName,
                         row[_helper.ScoreColumnNum].ToString()));
                 }
                 else
