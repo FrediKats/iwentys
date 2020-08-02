@@ -11,6 +11,7 @@ using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Companies;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Types;
+using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Tests.Tools
 {
@@ -77,6 +78,30 @@ namespace Iwentys.Tests.Tools
         {
             WithNewStudent(out user);
             _context.GuildMembers.Add(GuildMember.NewMember(guild.Id, user.Id));
+            _context.SaveChanges();
+            return this;
+        }
+
+        public TestCaseContext WithGuildMentor(GuildProfileDto guild, out AuthorizedUser user)
+        {
+            WithNewStudent(out user);
+            _context.GuildMembers.Add(new GuildMember() {GuildId = guild.Id, MemberId = user.Id, MemberType = GuildMemberType.Mentor});
+            _context.SaveChanges();
+            return this;
+        }
+
+        public TestCaseContext WithGuildRequest(GuildProfileDto guild, out AuthorizedUser user)
+        {
+            WithNewStudent(out user);
+            _context.GuildMembers.Add(new GuildMember() {GuildId = guild.Id, MemberId = user.Id, MemberType = GuildMemberType.Requested});
+            _context.SaveChanges();
+            return this;
+        }
+
+        public TestCaseContext WithGuildBlocked(GuildProfileDto guild, out AuthorizedUser user)
+        {
+            WithNewStudent(out user);
+            _context.GuildMembers.Add(new GuildMember() {GuildId = guild.Id, MemberId = user.Id, MemberType = GuildMemberType.Blocked});
             _context.SaveChanges();
             return this;
         }
