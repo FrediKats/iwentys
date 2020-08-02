@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getGuildById} from "../../redux/guild/guildThunk";
 import {IState} from "../../redux/typings";
 import {PageLayout} from "../../components/PageLayout/PageLayout";
-import {PinnedRepositories} from "../../components/PinnedRepositories/GuildInfo";
+import {PinnedRepositories} from "../../components/PinnedRepositories/PinnedRepositories";
 
 
 export const GuildPage: React.FC = () => {
@@ -44,7 +44,7 @@ export const GuildPage: React.FC = () => {
             );
             break;
         case 'rejected':
-            guildPageContent = <h2>Oops!</h2>;
+            guildPageContent = <h2>Не удалось загрузить страницу. Попробуйте ещё раз позже</h2>;
             break;
         default:
             guildPageContent = <Spin size='large'/>;

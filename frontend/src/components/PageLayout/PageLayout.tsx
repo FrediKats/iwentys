@@ -14,12 +14,12 @@ export const PageLayout:React.FC = (props) =>  (
                 <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
                     <Menu.Item key="1">
                         <NavLink to={'guild'} key={'guild'}>
-                            Guild
+                            Гильдия
                         </NavLink>
                     </Menu.Item>
                     <Menu.Item key="2">
                         <NavLink to={'profile'} key={'profile'}>
-                            Profile
+                            Профиль
                         </NavLink>
                     </Menu.Item>
                 </Menu>

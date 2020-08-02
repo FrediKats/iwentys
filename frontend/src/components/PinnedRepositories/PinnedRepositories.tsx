@@ -1,6 +1,7 @@
 import React from "react";
 import {IRepository} from "../../redux/typings";
 import { List, Avatar } from 'antd';
+import './PinnedRepositories.css';
 
 interface IPinnedRepositoriesProps {
     pinnedRepositories: IRepository[];
@@ -8,8 +9,8 @@ interface IPinnedRepositoriesProps {
 export const PinnedRepositories: React.FC<IPinnedRepositoriesProps> = ({pinnedRepositories}) => {
     // todo: star count
     return (
-        <section>
-            <h2>Pinned Repositories</h2>
+        <section className={'PinnedRepositories'}>
+            <h2>Репозитории</h2>
             <List
                 itemLayout="horizontal"
                 dataSource={pinnedRepositories}

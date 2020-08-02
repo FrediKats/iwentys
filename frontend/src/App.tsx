@@ -15,7 +15,7 @@ export class App extends React.PureComponent {
     }
     render(){
         if(this.state.error){
-            return <h2>Oops!</h2>;
+            return <h2>Кажется что-то сломалось</h2>;
         }
 
         return (
