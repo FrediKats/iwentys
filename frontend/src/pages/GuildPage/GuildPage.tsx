@@ -8,6 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getGuildById} from "../../redux/guild/guildThunk";
 import {IState} from "../../redux/typings";
 import {PageLayout} from "../../components/PageLayout/PageLayout";
+import {PinnedRepositories} from "../../components/PinnedRepositories/GuildInfo";
 
 interface IGuildPageProps {
 }
@@ -38,6 +39,7 @@ export const GuildPage: React.FC<IGuildPageProps> = () => {
                     members={guild.memberLeaderBoard.members}
                     contribution={guild.memberLeaderBoard.membersImpact}
                 />
+                <PinnedRepositories pinnedRepositories={guild.pinnedRepositories}/>
             </Col>
         </Row>
         </PageLayout>

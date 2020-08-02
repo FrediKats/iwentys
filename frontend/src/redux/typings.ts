@@ -25,6 +25,7 @@ export interface IMemberLeaderBoard {
 
 export interface IRepository {
     id: number;
+    name: string;
     description: string;
     starCount: number;
     url: string;
