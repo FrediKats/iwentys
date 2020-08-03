@@ -25,12 +25,14 @@ export interface IMemberLeaderBoard {
 
 export interface IRepository {
     id: number;
+    name: string;
     description: string;
     starCount: number;
     url: string;
 }
 
 export interface IGuildState {
+    requestStatus: string;
     title: string;
     bio: string;
     logoUrl: string;

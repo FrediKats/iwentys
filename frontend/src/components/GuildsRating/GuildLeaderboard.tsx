@@ -18,12 +18,12 @@ export const GuildLeaderboard: React.FC<IGuildLeaderboardProps> = ({totalRate = 
 
     const columns = [
         {
-            title: 'Name',
+            title: 'Имя',
             dataIndex: 'name',
             key: 'name',
         },
         {
-            title: 'Contribution',
+            title: 'Вклад',
             dataIndex: 'contribution',
             key: 'contribution',
         },
@@ -31,7 +31,7 @@ export const GuildLeaderboard: React.FC<IGuildLeaderboardProps> = ({totalRate = 
 
     return (
         <section>
-            <h2>Total Rate: {totalRate}</h2>
+            <h2>Суммарный вклад: {totalRate}</h2>
             <Table dataSource={dataSource} columns={columns}/>
         </section>);
 }

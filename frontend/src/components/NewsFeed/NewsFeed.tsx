@@ -1,5 +1,6 @@
 import React from "react";
 import {Comment, Tooltip, List} from 'antd';
+import './NewsFeed.css';
 
 export const NewsFeed: React.FC = () => {
 
@@ -48,9 +49,10 @@ export const NewsFeed: React.FC = () => {
         },
     ];
     return (
+         <section className={'NewsFeed'}>
+        <h2>Новостная лента</h2>
         <List
             className="comment-list"
-            header={`News Feed`}
             itemLayout="horizontal"
             dataSource={data}
             renderItem={item => (
@@ -65,5 +67,6 @@ export const NewsFeed: React.FC = () => {
                 </li>
             )}
         />
+        </section>
     );
 }

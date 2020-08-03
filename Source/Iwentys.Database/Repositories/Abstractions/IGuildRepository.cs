@@ -1,4 +1,5 @@
-﻿using Iwentys.Models.Entities.Guilds;
+﻿using System;
+using Iwentys.Models.Entities.Guilds;
 
 namespace Iwentys.Database.Repositories.Abstractions
 {
@@ -7,5 +8,12 @@ namespace Iwentys.Database.Repositories.Abstractions
         Guild[] ReadPending();
         Guild ReadForStudent(int studentId);
         Guild ReadForTotem(int totemId);
+
+        // TODO: extract methods below to GuildMemberRepository
+        Boolean IsStudentHaveRequest(int studentId);
+
+        GuildMember AddMember(GuildMember member);
+        GuildMember UpdateMember(GuildMember member);
+        void RemoveMember(int guildId, int userId);
     }
 }

@@ -1,0 +1,11 @@
+.ant-layout{
+	min-height: 100vh;
+}
+.ant-layout-content{
+	padding: 20px;
+	margin: 0 auto;
+}
+
+.ant-col{
+	padding: 0 10px;
+}
