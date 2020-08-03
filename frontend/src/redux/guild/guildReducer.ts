@@ -6,8 +6,14 @@ export const guildSlice = createSlice({
     initialState: {},
     reducers: {},
     extraReducers: {
+        [getGuildById.rejected.type]: (state) => {
+            return Object.assign({}, state, {requestStatus: 'rejected'});
+        },
+        [getGuildById.pending.type]: (state) => {
+            return Object.assign({}, state, {requestStatus: 'pending'});
+        },
         [getGuildById.fulfilled.type]: (state, action) => {
-            return Object.assign({}, state, action.payload);
+            return Object.assign({}, state, {requestStatus: 'fulfilled', ...action.payload});
         },
     }
 });

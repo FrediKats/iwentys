@@ -13,7 +13,7 @@ export interface IAchievementsProps {
 export const Achievements: React.FC<IAchievementsProps> = ({achievements = []}) => {
     return (
         <div>
-            <h2>Achievements</h2>
+            <h2>Достижения</h2>
             <Row>
                 {achievements.slice(0, 2).map((achievement) => (
                     <Card cover={<CoffeeOutlined/>} key={achievement.name}>
