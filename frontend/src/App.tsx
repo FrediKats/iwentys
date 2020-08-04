@@ -20,6 +20,7 @@ export class App extends React.PureComponent {
 
         return (
             <>
+                <Route path="/" component={GuildPage}/>
                 <Route path="/guild" component={GuildPage}/>
                 <Route path="/profile" component={GuildPage}/>
                 <Route exact path="/swagger" component={() =>

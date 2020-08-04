@@ -69,7 +69,7 @@ namespace Iwentys.Api
             services.AddSpaStaticFiles(configuration =>
             {
 
-                configuration.RootPath = "/front/build";
+                configuration.RootPath = "front/build/";
             });
 #endif
         }
@@ -110,7 +110,7 @@ namespace Iwentys.Api
             app.UseSpa(spa =>
             {
 
-                spa.Options.SourcePath = "../../frontend/";
+                spa.Options.SourcePath = "../../frontend";
 
                 //TODO:
                 if (env.IsDevelopment())
