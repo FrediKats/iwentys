@@ -4,10 +4,9 @@
 name: Build and deploy ASP.Net Core app to Azure Web App - iwentys-dev
 
 on:
-  push:
+  pull_request:
     branches:
-      - master
-      - frontend-ci
+      - dev
 
 jobs:
   build-and-deploy:
