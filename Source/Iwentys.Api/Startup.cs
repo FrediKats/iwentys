@@ -92,7 +92,7 @@ namespace Iwentys.Api
                 c.RoutePrefix = "swagger";
             });
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
 #if DEBUG
             app.UseSpaStaticFiles();
