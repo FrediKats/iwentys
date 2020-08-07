@@ -60,18 +60,18 @@ namespace Iwentys.Api
             services.AddScoped<ITournamentService, TournamentService>();
             services.AddScoped<IBarsPointTransactionLogService, BarsPointTransactionLogService>();
 
-#if DEBUG
+//#if DEBUG
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "../../frontend/build";
+                configuration.RootPath = "ClientApp/build";
             });
-#else
-            services.AddSpaStaticFiles(configuration =>
-            {
+//#else
+//            services.AddSpaStaticFiles(configuration =>
+//            {
 
-                configuration.RootPath = "front/build/";
-            });
-#endif
+//                configuration.RootPath = "front/build/";
+//            });
+//#endif
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IwentysDbContext db)
@@ -106,11 +106,11 @@ namespace Iwentys.Api
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
-#if DEBUG
+//#if DEBUG
             app.UseSpa(spa =>
             {
 
-                spa.Options.SourcePath = "../../frontend";
+                spa.Options.SourcePath = "ClientApp";
 
                 //TODO:
                 if (env.IsDevelopment())
@@ -118,19 +118,19 @@ namespace Iwentys.Api
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
-#else
-            app.UseSpa(spa =>
-            {
+//#else
+//            app.UseSpa(spa =>
+//            {
 
-                spa.Options.SourcePath = "front/";
+//                spa.Options.SourcePath = "front/";
 
-                //TODO:
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
-            });
-#endif
+//                //TODO:
+//                if (env.IsDevelopment())
+//                {
+//                    spa.UseReactDevelopmentServer(npmScript: "start");
+//                }
+//            });
+//#endif
         }
     }
 }
