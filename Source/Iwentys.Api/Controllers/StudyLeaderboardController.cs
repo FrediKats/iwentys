@@ -50,7 +50,7 @@ namespace Iwentys.Api.Controllers
         [HttpGet("getGroupsFromSubject/{subjectId}")]
         public IEnumerable<StudyGroup> GetGroupsForSubject(int subjectId)
         {
-            return _studyLeaderboardService.GetStudyGroupsForDto(new StudySearchDto{StreamId = subjectId});
+            return _studyLeaderboardService.GetStudyGroupsForDto(new StudySearchDto{SubjectId = subjectId});
         }
 
         [HttpGet("GetStudentsRating")]
