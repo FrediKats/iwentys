@@ -3,7 +3,9 @@ using System.Linq;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities.Study;
+using Iwentys.Models.Transferable.Study;
 using Iwentys.Models.Types;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Implementations
@@ -47,46 +49,41 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.SaveChanges();
         }
 
-        public IEnumerable<Subject> GetSubjectsForGroup(int groupId)
+        public IEnumerable<SubjectForGroup> GetSubjectForGroupForDto(StudySearchDto searchDto)
         {
-            return Read().Where(s => s.StudyGroupId == groupId).Select(s => s.Subject);
+            var query = Read();
+            if (searchDto.GroupId != null)
+            {
+                query = query.Where(s => s.StudyGroupId == searchDto.GroupId.Value);
+            }
+
+            if (searchDto.StudySemester != null)
+            {
+                query = query.Where(s => s.StudySemester == searchDto.StudySemester.Value);
+            }
+
+            if (searchDto.SubjectId != null)
+            {
+                query = query.Where(s => s.SubjectId == searchDto.SubjectId.Value);
+            }
+
+            if (searchDto.StreamId != null)
+            {
+                var groupsFromStream = _dbContext.StudyStreams.Find(searchDto.StreamId.Value).Groups;
+                query = query.Where(s => groupsFromStream.Any(g => g.Id == s.StudyGroupId));
+            }
+
+            return query;
         }
 
-        public IEnumerable<Subject> GetSubjectsForGroupAndSemester(int groupId, StudySemester semester)
+        public IEnumerable<Subject> GetSubjectsForDto(StudySearchDto searchDto)
         {
-            return Read().Where(s => s.StudyGroupId == groupId && s.StudySemester == semester)
-                .Select(s => s.Subject);
+            return GetSubjectForGroupForDto(searchDto).Select(s => s.Subject);
         }
 
-        public IEnumerable<SubjectForGroup> GetSubjectForGroupForSubject(int subjectId)
+        public IEnumerable<StudyGroup> GetStudyGroupsForDto(StudySearchDto searchDto)
         {
-            return Read().Where(s => s.SubjectId == subjectId);
-        }
-
-        public IEnumerable<SubjectForGroup> GetSubjectForGroupForSubjectAndSemester(int subjectId, StudySemester semester)
-        {
-            return GetSubjectForGroupForSubject(subjectId).Where(s => s.StudySemester == semester);
-        }
-
-        public IEnumerable<StudyGroup> GetStudyGroupsForSubject(int subjectId)
-        {
-            return GetSubjectForGroupForSubject(subjectId).Select(s => s.StudyGroup);
-        }
-
-        public IEnumerable<StudyGroup> GetStudyGroupsForSubjectAndSemester(int subjectId, StudySemester semester)
-        {
-            return GetSubjectForGroupForSubjectAndSemester(subjectId, semester).Select(s => s.StudyGroup);
-        }
-
-        public IEnumerable<SubjectForGroup> GetSubjectForGroupForStream(int streamId)
-        {
-            var groupsFromStream = _dbContext.StudyStreams.Find(streamId).Groups;
-            return Read().Where(s => groupsFromStream.Any(g => g.Id == s.StudyGroupId));
-        }
-
-        public IEnumerable<Subject> GetSubjectsForStream(int streamId)
-        {
-            return GetSubjectForGroupForStream(streamId).Select(s => s.Subject);
+            return GetSubjectForGroupForDto(searchDto).Select(s => s.StudyGroup);
         }
     }
 }

@@ -3,18 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Iwentys.Models.Entities.Study;
+using Iwentys.Models.Transferable.Study;
 using Iwentys.Models.Types;
 
 namespace Iwentys.Core.Services.Abstractions
 {
     public interface IStudyLeaderboardService
     {
-        IEnumerable<Subject> GetAllSubjects();
-        IEnumerable<Subject> GetSubjectsForStream(int streamId);
-        IEnumerable<Subject> GetSubjectsForStreamAndSemester(int streamId, StudySemester semester);
-        IEnumerable<StudyGroup> GetAllGroups();
-        IEnumerable<StudyGroup> GetGroupsForStream(int streamId);
-        IEnumerable<StudyGroup> GetGroupsForSubject(int subjectId);
-        IEnumerable<SubjectActivity> GetStudentsRatings(int? subjectId, int? streamId, int? groupId, StudySemester? semester);
+        IEnumerable<Subject> GetSubjectsForDto(StudySearchDto searchDto);
+        IEnumerable<StudyGroup> GetStudyGroupsForDto(StudySearchDto searchDto);
+        IEnumerable<SubjectActivity> GetStudentsRatings(StudySearchDto searchDto);
     }
 }

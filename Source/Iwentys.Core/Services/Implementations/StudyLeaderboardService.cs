@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.Services.Abstractions;
-using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities.Study;
+using Iwentys.Models.Transferable.Study;
 using Iwentys.Models.Types;
-using LanguageExt;
 
 namespace Iwentys.Core.Services.Implementations
 {
@@ -21,66 +20,48 @@ namespace Iwentys.Core.Services.Implementations
             _subjectActivityRepository = subjectActivityRepository;
             _studyImmutableDataRepository = studyImmutableDataRepository;
         }
-        public IEnumerable<Subject> GetAllSubjects()
+
+        public IEnumerable<Subject> GetSubjectsForDto(StudySearchDto searchDto)
         {
-            return _studyImmutableDataRepository.GetAllSubjects();
+            return _subjectForGroupRepository.GetSubjectsForDto(searchDto);
         }
 
-        public IEnumerable<Subject> GetSubjectsForStream(int streamId)
+        public IEnumerable<StudyGroup> GetStudyGroupsForDto(StudySearchDto searchDto)
         {
-            return _subjectForGroupRepository.GetSubjectsForGroup(GetGroupFromStream(streamId).Id);
+            return _subjectForGroupRepository.GetStudyGroupsForDto(searchDto);
         }
 
-        public IEnumerable<Subject> GetSubjectsForStreamAndSemester(int streamId, StudySemester semester)
+        public IEnumerable<SubjectActivity> GetStudentsRatings(StudySearchDto searchDto)
         {
-            return _subjectForGroupRepository.GetSubjectsForGroupAndSemester(GetGroupFromStream(streamId).Id, semester);
-        }
-
-        public IEnumerable<StudyGroup> GetAllGroups()
-        {
-            return _studyImmutableDataRepository.GetAllGroups();
-        }
-
-        public IEnumerable<StudyGroup> GetGroupsForStream(int streamId)
-        {
-            return _studyImmutableDataRepository.GetGroupsForStream(streamId);
-        }
-
-        public IEnumerable<StudyGroup> GetGroupsForSubject(int subjectId)
-        {
-            return _subjectForGroupRepository.GetStudyGroupsForSubject(subjectId);
-        }
-
-        public IEnumerable<SubjectActivity> GetStudentsRatings(int? subjectId = null, int? streamId = null, int? groupId = null, StudySemester? semester = null)
-        {
-            if (streamId == null && groupId == null)
+            if (searchDto.StreamId == null && searchDto.GroupId == null ||
+                searchDto.StreamId != null && searchDto.GroupId != null)
             {
-                throw new ValueIsNullException();
+                throw new Exception();
             }
 
-            semester ??= GetCurrentSemester();
+            searchDto.StudySemester ??= GetCurrentSemester();
 
             List<SubjectActivity> result;
-            if (subjectId != null)
-                result = GetStudentsRatingsForSubject((int) subjectId, streamId, groupId, (StudySemester) semester);
+            if (searchDto.SubjectId != null)
+                result = GetStudentsRatingsForSubject(searchDto);
             else
-                result = GetStudentsRatingsForAllSubjects(streamId, groupId, (StudySemester) semester);
+                result = GetStudentsRatingsForAllSubjects(searchDto);
 
             return result.OrderByDescending(s => s.Points);
         }
 
-        private List<SubjectActivity> GetStudentsRatingsForSubject(int subjectId, int? streamId, int? groupId, StudySemester semester)
+        private List<SubjectActivity> GetStudentsRatingsForSubject(StudySearchDto searchDto)
         {
             var result = new List<SubjectActivity>();
 
-            if (groupId != null)
+            if (searchDto.GroupId != null)
             {
-                var subjectForGroup = _subjectForGroupRepository.GetSubjectForGroupForSubjectAndSemester(subjectId, semester).SingleOrDefault(g => g.Id == groupId);
+                var subjectForGroup = _subjectForGroupRepository.GetSubjectForGroupForDto(searchDto).SingleOrDefault();
                 result = GetStudentsFromGroupRatingsForSubject(subjectForGroup);
             }
             else
             {
-                foreach (var subjectForGroup in _subjectForGroupRepository.GetSubjectForGroupForStream((int) streamId))
+                foreach (var subjectForGroup in _subjectForGroupRepository.GetSubjectForGroupForDto(searchDto))
                 {
                     result.AddRange(GetStudentsFromGroupRatingsForSubject(subjectForGroup));
                 }
@@ -102,7 +83,7 @@ namespace Iwentys.Core.Services.Implementations
             foreach (var student in students)
             {
                 var subjectForGroupActivity =
-                    _subjectActivityRepository.GetSubjectActivityForStudentAndSubjectForGroup(student.Id,
+                    _subjectActivityRepository.GetActivityForStudentAndSubject(student.Id,
                         subjectForGroup.Id);
                 if (subjectForGroupActivity == null)
                 {
@@ -117,23 +98,14 @@ namespace Iwentys.Core.Services.Implementations
             return result;
         }
 
-        private List<SubjectActivity> GetStudentsRatingsForAllSubjects(int? streamId, int? groupId, StudySemester semester)
+        private List<SubjectActivity> GetStudentsRatingsForAllSubjects(StudySearchDto searchDto)
         {
             var result = new List<SubjectActivity>();
 
-            if (groupId != null)
+            foreach (var subject in _subjectForGroupRepository.GetSubjectsForDto(searchDto))
             {
-                foreach (var subject in _subjectForGroupRepository.GetSubjectsForGroup((int) groupId))
-                {
-                    result.AddRange(GetStudentsRatingsForSubject(subject.Id, streamId, groupId, semester));
-                }
-            }
-            else
-            {
-                foreach (var subject in _subjectForGroupRepository.GetSubjectsForStream((int) streamId))
-                {
-                    result.AddRange(GetStudentsRatingsForSubject(subject.Id, streamId, null, semester));
-                }
+                searchDto.SubjectId = subject.Id;
+                result.AddRange(GetStudentsRatingsForSubject(searchDto));
             }
 
             return result;
@@ -142,11 +114,6 @@ namespace Iwentys.Core.Services.Implementations
         private static StudySemester GetCurrentSemester()
         {
             throw new NotImplementedException();
-        }
-
-        private StudyGroup GetGroupFromStream(int streamId)
-        {
-            return GetGroupsForStream(streamId).First();
         }
     }
 }
