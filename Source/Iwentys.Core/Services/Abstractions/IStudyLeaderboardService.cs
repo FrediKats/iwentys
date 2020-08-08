@@ -6,12 +6,12 @@ using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Transferable.Study;
 using Iwentys.Models.Types;
 
-namespace Iwentys.Database.Repositories.Abstractions
+namespace Iwentys.Core.Services.Abstractions
 {
-    public interface ISubjectForGroupRepository : IGenericRepository<SubjectForGroup, int>
+    public interface IStudyLeaderboardService
     {
         IEnumerable<Subject> GetSubjectsForDto(StudySearchDto searchDto);
-        IEnumerable<SubjectForGroup> GetSubjectForGroupForDto(StudySearchDto searchDto);
         IEnumerable<StudyGroup> GetStudyGroupsForDto(StudySearchDto searchDto);
+        IEnumerable<SubjectActivity> GetStudentsRatings(StudySearchDto searchDto);
     }
 }
