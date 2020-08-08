@@ -49,18 +49,44 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public IQueryable<Subject> GetSubjectsForGroup(int groupId)
         {
-            return _dbContext.SubjectForGroups.Where(s => s.StudyGroupId == groupId).Select(s => s.Subject);
+            return Read().Where(s => s.StudyGroupId == groupId).Select(s => s.Subject);
         }
 
         public IQueryable<Subject> GetSubjectsForGroupAndSemester(int groupId, StudySemester semester)
         {
-            return _dbContext.SubjectForGroups.Where(s => s.StudyGroupId == groupId && s.StudySemester == semester)
+            return Read().Where(s => s.StudyGroupId == groupId && s.StudySemester == semester)
                 .Select(s => s.Subject);
+        }
+
+        public IQueryable<SubjectForGroup> GetSubjectForGroupForSubject(int subjectId)
+        {
+            return Read().Where(s => s.SubjectId == subjectId);
+        }
+
+        public IQueryable<SubjectForGroup> GetSubjectForGroupForSubjectAndSemester(int subjectId, StudySemester semester)
+        {
+            return GetSubjectForGroupForSubject(subjectId).Where(s => s.StudySemester == semester);
         }
 
         public IQueryable<StudyGroup> GetStudyGroupsForSubject(int subjectId)
         {
-            return _dbContext.SubjectForGroups.Where(s => s.SubjectId == subjectId).Select(s => s.StudyGroup);
+            return GetSubjectForGroupForSubject(subjectId).Select(s => s.StudyGroup);
+        }
+
+        public IQueryable<StudyGroup> GetStudyGroupsForSubjectAndSemester(int subjectId, StudySemester semester)
+        {
+            return GetSubjectForGroupForSubjectAndSemester(subjectId, semester).Select(s => s.StudyGroup);
+        }
+
+        public IQueryable<SubjectForGroup> GetSubjectForGroupForStream(int streamId)
+        {
+            var groupsFromStream = _dbContext.StudyStreams.Find(streamId).Groups;
+            return Read().Where(s => groupsFromStream.Any(g => g.Id == s.StudyGroupId));
+        }
+
+        public IQueryable<Subject> GetSubjectsForStream(int streamId)
+        {
+            return GetSubjectForGroupForStream(streamId).Select(s => s.Subject);
         }
     }
 }

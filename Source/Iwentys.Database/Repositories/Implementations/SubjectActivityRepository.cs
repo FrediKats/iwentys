@@ -44,5 +44,10 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.SubjectActivities.Remove(activity);
             _dbContext.SaveChanges();
         }
+
+        public SubjectActivity GetSubjectActivityForStudentAndSubjectForGroup(int studentId, int subjectForGroupId)
+        {
+            return Read().FirstOrDefault(s => s.StudentId == studentId && s.SubjectForGroupId == subjectForGroupId);
+        }
     }
 }

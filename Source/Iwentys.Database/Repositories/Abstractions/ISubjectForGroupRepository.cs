@@ -11,6 +11,11 @@ namespace Iwentys.Database.Repositories.Abstractions
     {
         IQueryable<Subject> GetSubjectsForGroup(int groupId);
         IQueryable<Subject> GetSubjectsForGroupAndSemester(int groupId, StudySemester semester);
+        IQueryable<SubjectForGroup> GetSubjectForGroupForSubject(int subjectId);
+        IQueryable<SubjectForGroup> GetSubjectForGroupForSubjectAndSemester(int subjectId, StudySemester semester);
         IQueryable<StudyGroup> GetStudyGroupsForSubject(int subjectId);
+        IQueryable<StudyGroup> GetStudyGroupsForSubjectAndSemester(int subjectId, StudySemester semester);
+        IQueryable<SubjectForGroup> GetSubjectForGroupForStream(int streamId);
+        IQueryable<Subject> GetSubjectsForStream(int streamId);
     }
 }
