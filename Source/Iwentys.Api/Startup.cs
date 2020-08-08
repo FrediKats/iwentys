@@ -1,4 +1,5 @@
 using System;
+using System.Text.Json.Serialization;
 using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Core.Services.Implementations;
@@ -35,7 +36,8 @@ namespace Iwentys.Api
                     .AllowAnyHeader();
             }));
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
             services.AddSwaggerGen();
 
             services.AddDbContext<IwentysDbContext>(o => o.UseInMemoryDatabase(Guid.NewGuid().ToString()));
