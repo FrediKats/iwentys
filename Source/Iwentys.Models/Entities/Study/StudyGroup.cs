@@ -8,6 +8,9 @@
 
         public StudyProgram StudyProgram { get; set; }
         public int StudyProgramId { get; set; }
+
+        public StudyStream StudyStream { get; set; }
+        public int StudyStreamId { get; set; }
         
     }
 }
