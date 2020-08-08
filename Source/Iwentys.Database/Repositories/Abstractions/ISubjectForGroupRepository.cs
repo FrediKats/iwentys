@@ -9,13 +9,13 @@ namespace Iwentys.Database.Repositories.Abstractions
 {
     public interface ISubjectForGroupRepository : IGenericRepository<SubjectForGroup, int>
     {
-        IQueryable<Subject> GetSubjectsForGroup(int groupId);
-        IQueryable<Subject> GetSubjectsForGroupAndSemester(int groupId, StudySemester semester);
-        IQueryable<SubjectForGroup> GetSubjectForGroupForSubject(int subjectId);
-        IQueryable<SubjectForGroup> GetSubjectForGroupForSubjectAndSemester(int subjectId, StudySemester semester);
-        IQueryable<StudyGroup> GetStudyGroupsForSubject(int subjectId);
-        IQueryable<StudyGroup> GetStudyGroupsForSubjectAndSemester(int subjectId, StudySemester semester);
-        IQueryable<SubjectForGroup> GetSubjectForGroupForStream(int streamId);
-        IQueryable<Subject> GetSubjectsForStream(int streamId);
+        IEnumerable<Subject> GetSubjectsForGroup(int groupId);
+        IEnumerable<Subject> GetSubjectsForGroupAndSemester(int groupId, StudySemester semester);
+        IEnumerable<SubjectForGroup> GetSubjectForGroupForSubject(int subjectId);
+        IEnumerable<SubjectForGroup> GetSubjectForGroupForSubjectAndSemester(int subjectId, StudySemester semester);
+        IEnumerable<StudyGroup> GetStudyGroupsForSubject(int subjectId);
+        IEnumerable<StudyGroup> GetStudyGroupsForSubjectAndSemester(int subjectId, StudySemester semester);
+        IEnumerable<SubjectForGroup> GetSubjectForGroupForStream(int streamId);
+        IEnumerable<Subject> GetSubjectsForStream(int streamId);
     }
 }

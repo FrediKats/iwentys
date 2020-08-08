@@ -12,18 +12,18 @@ namespace Iwentys.Core.Services.Implementations
 {
     public class StudyLeaderboardService : IStudyLeaderboardService
     {
-        private IwentysDbContext _dbContext;
+        private IStudyImmutableDataRepository _studyImmutableDataRepository;
         private ISubjectForGroupRepository _subjectForGroupRepository;
         private ISubjectActivityRepository _subjectActivityRepository;
-        public StudyLeaderboardService(IwentysDbContext dbContext, ISubjectForGroupRepository subjectForGroupRepository, ISubjectActivityRepository subjectActivityRepository)
+        public StudyLeaderboardService(ISubjectForGroupRepository subjectForGroupRepository, ISubjectActivityRepository subjectActivityRepository, IStudyImmutableDataRepository studyImmutableDataRepository)
         {
-            _dbContext = dbContext;
             _subjectForGroupRepository = subjectForGroupRepository;
             _subjectActivityRepository = subjectActivityRepository;
+            _studyImmutableDataRepository = studyImmutableDataRepository;
         }
         public IEnumerable<Subject> GetAllSubjects()
         {
-            return _dbContext.Subjects;
+            return _studyImmutableDataRepository.GetAllSubjects();
         }
 
         public IEnumerable<Subject> GetSubjectsForStream(int streamId)
@@ -38,12 +38,12 @@ namespace Iwentys.Core.Services.Implementations
 
         public IEnumerable<StudyGroup> GetAllGroups()
         {
-            return _dbContext.StudyGroups;
+            return _studyImmutableDataRepository.GetAllGroups();
         }
 
         public IEnumerable<StudyGroup> GetGroupsForStream(int streamId)
         {
-            return _dbContext.StudyStreams.First(s => s.Id == streamId).Groups;
+            return _studyImmutableDataRepository.GetGroupsForStream(streamId);
         }
 
         public IEnumerable<StudyGroup> GetGroupsForSubject(int subjectId)
@@ -53,15 +53,18 @@ namespace Iwentys.Core.Services.Implementations
 
         public IEnumerable<SubjectActivity> GetStudentsRatings(int? subjectId = null, int? streamId = null, int? groupId = null, StudySemester? semester = null)
         {
-            if (subjectId == null && streamId == null && groupId == null)
+            if (streamId == null && groupId == null)
             {
                 throw new ValueIsNullException();
             }
 
             semester ??= GetCurrentSemester();
 
-            var result = subjectId != null ? GetStudentsRatingsForSubject((int) subjectId, streamId, groupId, (StudySemester) semester).ToList() 
-                : GetStudentsRatingsForAllSubjects(streamId, groupId, (StudySemester) semester);
+            List<SubjectActivity> result;
+            if (subjectId != null)
+                result = GetStudentsRatingsForSubject((int) subjectId, streamId, groupId, (StudySemester) semester);
+            else
+                result = GetStudentsRatingsForAllSubjects(streamId, groupId, (StudySemester) semester);
 
             return result.OrderByDescending(s => s.Points);
         }
@@ -72,7 +75,7 @@ namespace Iwentys.Core.Services.Implementations
 
             if (groupId != null)
             {
-                var subjectForGroup = _subjectForGroupRepository.GetSubjectForGroupForSubjectAndSemester(subjectId, semester).FirstOrDefault(g => g.Id == groupId);
+                var subjectForGroup = _subjectForGroupRepository.GetSubjectForGroupForSubjectAndSemester(subjectId, semester).SingleOrDefault(g => g.Id == groupId);
                 result = GetStudentsFromGroupRatingsForSubject(subjectForGroup);
             }
             else
@@ -94,7 +97,8 @@ namespace Iwentys.Core.Services.Implementations
                 //TODO: Logging
                 return result;
             }
-            var students = _dbContext.Students.Where(s => s.Group == subjectForGroup.StudyGroup.NamePattern);
+
+            var students = _studyImmutableDataRepository.GetStudentsForGroup(subjectForGroup.StudyGroup.NamePattern);
             foreach (var student in students)
             {
                 var subjectForGroupActivity =

@@ -20,43 +20,43 @@ namespace Iwentys.Api.Controllers
             _studyLeaderboardService = studyLeaderboardService;
         }
 
-        [HttpGet]
+        [HttpGet("getAllSubjects")]
         public IEnumerable<Subject> GetAllSubjects()
         {
             return _studyLeaderboardService.GetAllSubjects();
         }
 
-        [HttpGet]
+        [HttpGet("getSubjects/{streamId}")]
         public IEnumerable<Subject> GetSubjectsForStream(int streamId)
         {
             return _studyLeaderboardService.GetSubjectsForStream(streamId);
         }
 
-        [HttpGet]
+        [HttpGet("getSubjects/{streamId}/{semester}")]
         public IEnumerable<Subject> GetSubjectsForStreamAndSemester(int streamId, StudySemester semester)
         {
             return _studyLeaderboardService.GetSubjectsForStreamAndSemester(streamId, semester);
         }
 
-        [HttpGet]
+        [HttpGet("getAllGroups")]
         public IEnumerable<StudyGroup> GetAllGroups()
         {
             return _studyLeaderboardService.GetAllGroups();
         }
 
-        [HttpGet]
+        [HttpGet("getGroupsFromStream/{streamId}")]
         public IEnumerable<StudyGroup> GetGroupsForStream(int streamId)
         {
             return _studyLeaderboardService.GetGroupsForStream(streamId);
         }
 
-        [HttpGet]
+        [HttpGet("getGroupsFromSubject/{subjectId}")]
         public IEnumerable<StudyGroup> GetGroupsForSubject(int subjectId)
         {
             return _studyLeaderboardService.GetGroupsForSubject(subjectId);
         }
 
-        [HttpGet]
+        [HttpGet("GetStudentsRating")]
         public IEnumerable<SubjectActivity> GetStudentsRating(int subjectId, int? streamId, int? groupId,
             StudySemester? semester)
         {
