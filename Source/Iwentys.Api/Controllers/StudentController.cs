@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Iwentys.Core.Services.Abstractions;
+using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Students;
+using Iwentys.Models.Types;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Api.Controllers
@@ -25,7 +28,24 @@ namespace Iwentys.Api.Controllers
         [HttpGet("{id}")]
         public StudentFullProfileDto Get(int id)
         {
-            return _studentService.Get(id);
+            return new StudentFullProfileDto
+            {
+                Id = id,
+                FirstName = "Fredi",
+                MiddleName = "String",
+                SecondName = "Kats",
+                Role = UserType.Common,
+                Group = "M3XXX",
+                GithubUsername = "InRedikaWB",
+                CreationTime = DateTime.UtcNow,
+                LastOnlineTime = DateTime.UtcNow,
+                BarsPoints = Int16.MaxValue,
+                Achievements = new List<AchievementInfoDto>(),
+                GuildName = "TEF", 
+                SocialStatus = "/inredikawb"
+            };
+            //TODO:
+            //return _studentService.Get(id);
         }
     }
 }

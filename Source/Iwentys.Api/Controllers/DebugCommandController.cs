@@ -26,11 +26,13 @@ namespace Iwentys.Api.Controllers
             _configuration = configuration;
         }
 
+        [HttpPost("UpdateSubjectActivityData")]
         public void UpdateSubjectActivityData(SubjectActivity activity)
         {
             _subjectActivityRepository.Update(activity);
         }
 
+        [HttpPost("UpdateSubjectActivityForGroup")]
         public void UpdateSubjectActivityForGroup(int subjectId, int groupId)
         {
             var subjectData = _subjectForGroupRepository

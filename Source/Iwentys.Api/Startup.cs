@@ -7,9 +7,11 @@ using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Database.Repositories.Implementations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Iwentys.Api
 {
@@ -57,6 +59,19 @@ namespace Iwentys.Api
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<ITournamentService, TournamentService>();
             services.AddScoped<IBarsPointTransactionLogService, BarsPointTransactionLogService>();
+
+//#if DEBUG
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/build";
+            });
+//#else
+//            services.AddSpaStaticFiles(configuration =>
+//            {
+
+//                configuration.RootPath = "front/build/";
+//            });
+//#endif
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IwentysDbContext db)
@@ -74,16 +89,48 @@ namespace Iwentys.Api
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                c.RoutePrefix = string.Empty;
+                c.RoutePrefix = "swagger";
             });
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
+            app.UseStaticFiles();
+#if DEBUG
+            app.UseSpaStaticFiles();
+#else
+            app.UseSpaStaticFiles();
+#endif
 
             app.UseRouting();
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
+//#if DEBUG
+            app.UseSpa(spa =>
+            {
+
+                spa.Options.SourcePath = "ClientApp";
+
+                //TODO:
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
+            });
+//#else
+//            app.UseSpa(spa =>
+//            {
+
+//                spa.Options.SourcePath = "front/";
+
+//                //TODO:
+//                if (env.IsDevelopment())
+//                {
+//                    spa.UseReactDevelopmentServer(npmScript: "start");
+//                }
+//            });
+//#endif
         }
     }
 }
