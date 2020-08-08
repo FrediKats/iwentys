@@ -102,34 +102,13 @@ namespace Iwentys.Database.Context
                 {
                     Id = 1,
                     Name = "ИС 1 поток",
-                    StudySemester = StudySemester.Y20H1,
-                    Groups = new List<StudyGroup>
-                    {
-                        new StudyGroup
-                        {
-                            Id = 1, StudyProgramId = 1,
-                            NamePattern = "М3201", Year = 2020
-                        },
-                        new StudyGroup
-                        {
-                            Id = 2, StudyProgramId = 1,
-                            NamePattern = "М3202", Year = 2020
-                        }
-                    }
+                    StudySemester = StudySemester.Y20H1
                 },
                 new StudyStream
                 {
                     Id = 2,
                     Name = "ИС 2 поток",
-                    StudySemester = StudySemester.Y20H1,
-                    Groups = new List<StudyGroup>
-                    {
-                        new StudyGroup
-                        {
-                            Id = 3, StudyProgramId = 1,
-                            NamePattern = "М3203", Year = 2020
-                        }
-                    }
+                    StudySemester = StudySemester.Y20H1
                 }
             };
 
