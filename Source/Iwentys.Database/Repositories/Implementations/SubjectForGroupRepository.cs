@@ -1,7 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities.Study;
+using Iwentys.Models.Transferable.Study;
+using Iwentys.Models.Types;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Implementations
@@ -43,6 +47,43 @@ namespace Iwentys.Database.Repositories.Implementations
             SubjectForGroup subjectForGroup = this.Get(key);
             _dbContext.SubjectForGroups.Remove(subjectForGroup);
             _dbContext.SaveChanges();
+        }
+
+        public IEnumerable<SubjectForGroup> GetSubjectForGroupForDto(StudySearchDto searchDto)
+        {
+            var query = Read();
+            if (searchDto.GroupId != null)
+            {
+                query = query.Where(s => s.StudyGroupId == searchDto.GroupId.Value);
+            }
+
+            if (searchDto.StudySemester != null)
+            {
+                query = query.Where(s => s.StudySemester == searchDto.StudySemester.Value);
+            }
+
+            if (searchDto.SubjectId != null)
+            {
+                query = query.Where(s => s.SubjectId == searchDto.SubjectId.Value);
+            }
+
+            if (searchDto.StreamId != null)
+            {
+                var groupsFromStream = _dbContext.StudyStreams.Find(searchDto.StreamId.Value).Groups;
+                query = query.Where(s => groupsFromStream.Any(g => g.Id == s.StudyGroupId));
+            }
+
+            return query;
+        }
+
+        public IEnumerable<Subject> GetSubjectsForDto(StudySearchDto searchDto)
+        {
+            return GetSubjectForGroupForDto(searchDto).Select(s => s.Subject);
+        }
+
+        public IEnumerable<StudyGroup> GetStudyGroupsForDto(StudySearchDto searchDto)
+        {
+            return GetSubjectForGroupForDto(searchDto).Select(s => s.StudyGroup);
         }
     }
 }

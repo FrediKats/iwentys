@@ -7,20 +7,27 @@ on:
   push:
     branches:
       - master
+      - frontend-ci
 
 jobs:
   build-and-deploy:
     runs-on: windows-latest
     env:
       working-directory: ./Source
+      NODE_VERSION: "10.x"
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@main
 
     - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '3.1.102'
+
+    - name: Use Node.js 
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
 
     - name: Build with dotnet
       run: dotnet build --configuration Release

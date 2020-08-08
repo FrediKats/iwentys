@@ -32,6 +32,7 @@ namespace Iwentys.Database.Context
         public DbSet<SubjectActivity> SubjectActivities { get; set; }
         public DbSet<SubjectForGroup> SubjectForGroups { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<StudyStream> StudyStreams { get; set; }
 
         #endregion
 
@@ -53,6 +54,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<CompanyWorker>().HasIndex(g => g.WorkerId).IsUnique();
 
             modelBuilder.Entity<StudyProgram>().HasData(GetStudyProgramsList());
+            modelBuilder.Entity<StudyStream>().HasData(GetStudyStreamsList());
             modelBuilder.Entity<StudyGroup>().HasData(GetStudyGroupsList());
             modelBuilder.Entity<Teacher>().HasData(GetTeachersList());
             modelBuilder.Entity<Subject>().HasData(GetSubjectsList());
@@ -77,7 +79,7 @@ namespace Iwentys.Database.Context
         }
 
         /// <summary>
-        /// Следующие 5 методов - методы вызываемые при создании базы для того,
+        /// Следующие 6 методов - методы вызываемые при создании базы для того,
         /// чтобы внести в нее данные о группах, направлениях и т.д.
         /// Это сделано из расчета на то, что такая информация будет редко меняться и
         /// по этому ее не нужно получать через API.
@@ -91,23 +93,44 @@ namespace Iwentys.Database.Context
 
             return result;
         }
+
+        private List<StudyStream> GetStudyStreamsList()
+        {
+            var result = new List<StudyStream>
+            {
+                new StudyStream
+                {
+                    Id = 1,
+                    Name = "ИС 1 поток",
+                    StudySemester = StudySemester.Y20H1
+                },
+                new StudyStream
+                {
+                    Id = 2,
+                    Name = "ИС 2 поток",
+                    StudySemester = StudySemester.Y20H1
+                }
+            };
+
+            return result;
+        }
         private List<StudyGroup> GetStudyGroupsList()
         {
             var result = new List<StudyGroup>
             {
                 new StudyGroup
                 {
-                    Id = 1, StudyProgramId = 1,
+                    Id = 1, StudyProgramId = 1, StudyStreamId = 1,
                     NamePattern = "М3201", Year = 2020
                 },
                 new StudyGroup
                 {
-                    Id = 2, StudyProgramId = 1,
+                    Id = 2, StudyProgramId = 1, StudyStreamId = 1,
                     NamePattern = "М3202", Year = 2020
                 },
                 new StudyGroup
                 {
-                    Id = 3, StudyProgramId = 1,
+                    Id = 3, StudyProgramId = 1, StudyStreamId = 2,
                     NamePattern = "М3203", Year = 2020
                 }
             };
