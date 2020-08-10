@@ -46,11 +46,12 @@ namespace Iwentys.Database.Context
         {
             SetCompositeKeys(modelBuilder);
             SetUniqKey(modelBuilder);
-            Seeding(modelBuilder);
             RemoveCascadeDeleting(modelBuilder);
-
+            Seeding(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
+
+
 
         private void SetCompositeKeys(ModelBuilder modelBuilder)
         {
@@ -77,6 +78,12 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<Teacher>().HasData(seedData.Teachers);
             modelBuilder.Entity<Subject>().HasData(seedData.Subjects);
             modelBuilder.Entity<SubjectForGroup>().HasData(seedData.SubjectForGroups);
+
+            modelBuilder.Entity<Student>().HasData(seedData.Students);
+            modelBuilder.Entity<Guild>().HasData(seedData.Guilds);
+            modelBuilder.Entity<GuildMember>().HasData(seedData.GuildMembers);
+            modelBuilder.Entity<GuildPinnedProject>().HasData(seedData.GuildPinnedProjects);
+
         }
 
         //TODO: Hack for removing cascade. Need to rework keys

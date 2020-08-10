@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Types;
+using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Database.Context
 {
@@ -24,9 +28,16 @@ namespace Iwentys.Database.Context
         public List<StudyProgram> StudyPrograms { get; set; }
         public List<SubjectForGroup> SubjectForGroups { get; set; }
 
+        public List<Student> Students { get; set; }
+        public List<Guild> Guilds { get; set; }
+        public List<GuildMember> GuildMembers { get; set; }
+        public List<GuildPinnedProject> GuildPinnedProjects { get; set; }
+
         public DatabaseContextSetup()
         {
             InitStudyTables();
+            InitStudents();
+            InitGuilds();
         }
 
         private void InitStudyTables()
@@ -37,7 +48,7 @@ namespace Iwentys.Database.Context
                 new Teacher {Id = 2, Name = "Сухачев Денис Владимирович"}
             };
 
-            StudyPrograms = new List<StudyProgram> { new StudyProgram { Id = 1, Name = "ИС" } };
+            StudyPrograms = new List<StudyProgram> {new StudyProgram {Id = 1, Name = "ИС"}};
 
             StudyStreams = new List<StudyStream>
             {
@@ -107,5 +118,77 @@ namespace Iwentys.Database.Context
                 }
             };
         }
+
+        private void InitStudents()
+        {
+            Students = new List<Student>
+            {
+                new Student
+                {
+                    Id = 1,
+                    FirstName = "Fredi",
+                    MiddleName = "String",
+                    SecondName = "Kats",
+                    Role = UserType.Common,
+                    Group = "M3405",
+                    GithubUsername = "InRedikaWB",
+                    CreationTime = DateTime.UtcNow,
+                    LastOnlineTime = DateTime.UtcNow,
+                    BarsPoints = Int16.MaxValue
+                },
+                new Student
+                {
+                    Id = 2,
+                    FirstName = "Fredi2",
+                    MiddleName = "String2",
+                    SecondName = "Kats2",
+                    Role = UserType.Common,
+                    Group = "M3405",
+                    GithubUsername = "InRedikaWB",
+                    CreationTime = DateTime.UtcNow,
+                    LastOnlineTime = DateTime.UtcNow,
+                    BarsPoints = Int16.MaxValue
+                }
+            };
+        }
+
+        private void InitGuilds()
+        {
+            Guilds = new List<Guild>
+            {
+                new Guild
+                {
+                    Id = 1,
+                    Title = "TEF",
+                    Bio = "Best ITMO C# community!",
+                    LogoUrl = "https://sun9-58.userapi.com/AbGPM3TA6R82X3Jj2F-GY2d-NrzFAgC0_fmkiA/XlxgCXVtyiM.jpg",
+                    HiringPolicy = GuildHiringPolicy.Open,
+                    GuildType = GuildType.Created,
+                    TotemId = 2
+                }
+            };
+
+            GuildPinnedProjects = new List<GuildPinnedProject>
+            {
+                new GuildPinnedProject
+                {
+                    GuildId = 1,
+                    RepositoryName = "RepoName",
+                    RepositoryOwner = "InredikaWb",
+                    Id = 2
+                }
+            };
+
+            GuildMembers = new List<GuildMember>
+            {
+                new GuildMember
+                {
+                    GuildId = 1,
+                    MemberId = 2,
+                    MemberType = GuildMemberType.Creator
+                }
+            };
+        }
     }
+
 }
