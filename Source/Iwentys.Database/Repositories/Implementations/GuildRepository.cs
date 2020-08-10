@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
@@ -69,7 +69,7 @@ namespace Iwentys.Database.Repositories.Implementations
         {
             return _dbContext.GuildMembers
                 .Where(gm => gm.MemberId == studentId)
-                .Where(gm => gm.MemberType.IsMember())
+                .WhereIsMember()
                 .Include(gm => gm.Guild.Members)
                 .Include(gm => gm.Guild.PinnedProjects)
                 .Select(gm => gm.Guild)
