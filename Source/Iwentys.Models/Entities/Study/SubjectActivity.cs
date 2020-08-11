@@ -8,7 +8,6 @@
         public int StudentId { get; set; }
         public Student Student { get; set; }
 
-        public int Points { get; set; }
-        
+        public double Points { get; set; }
     }
 }

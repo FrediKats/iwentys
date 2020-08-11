@@ -22,7 +22,7 @@ namespace Iwentys.Core.GoogleTableParsing
 
         public void UpdateSubjectActivityForGroup(SubjectForGroup subjectData)
         {
-            GoogleTableData googleTableData = subjectData.GetGoogleTableDataConfig;
+            GoogleTableData googleTableData = subjectData.GetGoogleTableDataConfig();
 
             GoogleCredential credential = GoogleCredential
                 .FromJson(_configuration["GoogleTable:Credentials"])
@@ -52,7 +52,7 @@ namespace Iwentys.Core.GoogleTableParsing
                     return;
                 }
 
-                activity.Points = (int)double.Parse(student.Score);
+                activity.Points = double.Parse(student.Score);
                 _subjectActivityRepository.Update(activity);
             }
         }
