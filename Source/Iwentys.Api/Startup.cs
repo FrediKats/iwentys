@@ -53,6 +53,8 @@ namespace Iwentys.Api
             services.AddScoped<ITributeRepository, TributeRepository>();
             services.AddScoped<IBarsPointTransactionLogRepository, BarsPointTransactionLogRepository>();
             services.AddScoped<IQuestRepository, QuestRepository>();
+            services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
+            services.AddScoped<ISubjectForGroupRepository, SubjectForGroupRepository>();
 
             services.AddScoped<DatabaseAccessor>();
 
