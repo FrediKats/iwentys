@@ -1,5 +1,6 @@
 using System;
 using System.Text.Json.Serialization;
+using Iwentys.Core.Auth;
 using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Core.Services.Implementations;
@@ -35,6 +36,11 @@ namespace Iwentys.Api
                     .AllowAnyMethod()
                     .AllowAnyHeader();
             }));
+
+            // TODO: debug security key
+            const string signingSecurityKey = "0d5b3235a8b403c3dab9c3f4f65c07fcalskd234n1k41230";
+            var signingKey = new SigningSymmetricKey(signingSecurityKey);
+            services.AddSingleton<IJwtSigningEncodingKey>(signingKey);
 
             services.AddControllers()
                 .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
