@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Entities.Study;
-using Iwentys.Models.Types;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Context
@@ -47,29 +45,13 @@ namespace Iwentys.Database.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             SetCompositeKeys(modelBuilder);
-
-            modelBuilder.Entity<Guild>().HasIndex(g => g.Title).IsUnique();
-
-            modelBuilder.Entity<GuildMember>().HasIndex(g => g.MemberId).IsUnique();
-            modelBuilder.Entity<CompanyWorker>().HasIndex(g => g.WorkerId).IsUnique();
-
-            modelBuilder.Entity<StudyProgram>().HasData(GetStudyProgramsList());
-            modelBuilder.Entity<StudyStream>().HasData(GetStudyStreamsList());
-            modelBuilder.Entity<StudyGroup>().HasData(GetStudyGroupsList());
-            modelBuilder.Entity<Teacher>().HasData(GetTeachersList());
-            modelBuilder.Entity<Subject>().HasData(GetSubjectsList());
-            modelBuilder.Entity<SubjectForGroup>().HasData(GetSubjectForGroupsList());
-
-            //TODO: fix
-            var cascadeFKs = modelBuilder.Model.GetEntityTypes()
-                .SelectMany(t => t.GetForeignKeys())
-                .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
-
-            foreach (var fk in cascadeFKs)
-                fk.DeleteBehavior = DeleteBehavior.Restrict;
-
+            SetUniqKey(modelBuilder);
+            RemoveCascadeDeleting(modelBuilder);
+            Seeding(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
+
+
 
         private void SetCompositeKeys(ModelBuilder modelBuilder)
         {
@@ -78,118 +60,41 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<SubjectActivity>().HasKey(s => new {s.SubjectForGroupId, s.StudentId});
         }
 
-        /// <summary>
-        /// Следующие 6 методов - методы вызываемые при создании базы для того,
-        /// чтобы внести в нее данные о группах, направлениях и т.д.
-        /// Это сделано из расчета на то, что такая информация будет редко меняться и
-        /// по этому ее не нужно получать через API.
-        /// TODO: Нужно создать конфиг файл для каждого подобного набора данных и получать данные оттуда, а не заполнять прямо в коде
-        /// 
-        /// </summary>
-        /// <returns>Список объектов, которые будут помещены в базу при загрузке</returns>
-        private List<StudyProgram> GetStudyProgramsList()
+        private void SetUniqKey(ModelBuilder modelBuilder)
         {
-            var result = new List<StudyProgram> {new StudyProgram {Id = 1, Name = "ИС"}};
+            modelBuilder.Entity<Guild>().HasIndex(g => g.Title).IsUnique();
 
-            return result;
+            modelBuilder.Entity<GuildMember>().HasIndex(g => g.MemberId).IsUnique();
+            modelBuilder.Entity<CompanyWorker>().HasIndex(g => g.WorkerId).IsUnique();
         }
 
-        private List<StudyStream> GetStudyStreamsList()
+        private void Seeding(ModelBuilder modelBuilder)
         {
-            var result = new List<StudyStream>
-            {
-                new StudyStream
-                {
-                    Id = 1,
-                    Name = "ИС 1 поток",
-                    StudySemester = StudySemester.Y20H1
-                },
-                new StudyStream
-                {
-                    Id = 2,
-                    Name = "ИС 2 поток",
-                    StudySemester = StudySemester.Y20H1
-                }
-            };
+            var seedData = new DatabaseContextSetup();
 
-            return result;
-        }
-        private List<StudyGroup> GetStudyGroupsList()
-        {
-            var result = new List<StudyGroup>
-            {
-                new StudyGroup
-                {
-                    Id = 1, StudyProgramId = 1, StudyStreamId = 1,
-                    NamePattern = "М3201", Year = 2020
-                },
-                new StudyGroup
-                {
-                    Id = 2, StudyProgramId = 1, StudyStreamId = 1,
-                    NamePattern = "М3202", Year = 2020
-                },
-                new StudyGroup
-                {
-                    Id = 3, StudyProgramId = 1, StudyStreamId = 2,
-                    NamePattern = "М3203", Year = 2020
-                }
-            };
+            modelBuilder.Entity<StudyProgram>().HasData(seedData.StudyPrograms);
+            modelBuilder.Entity<StudyStream>().HasData(seedData.StudyStreams);
+            modelBuilder.Entity<StudyGroup>().HasData(seedData.StudyGroups);
+            modelBuilder.Entity<Teacher>().HasData(seedData.Teachers);
+            modelBuilder.Entity<Subject>().HasData(seedData.Subjects);
+            modelBuilder.Entity<SubjectForGroup>().HasData(seedData.SubjectForGroups);
 
-            return result;
+            modelBuilder.Entity<Student>().HasData(seedData.Students);
+            modelBuilder.Entity<Guild>().HasData(seedData.Guilds);
+            modelBuilder.Entity<GuildMember>().HasData(seedData.GuildMembers);
+            modelBuilder.Entity<GuildPinnedProject>().HasData(seedData.GuildPinnedProjects);
+
         }
 
-        private List<Subject> GetSubjectsList()
+        //TODO: Hack for removing cascade. Need to rework keys
+        private void RemoveCascadeDeleting(ModelBuilder modelBuilder)
         {
-            var result = new List<Subject>
-            {
-                new Subject {Id = 1, Name = "Programming"}, new Subject {Id = 2, Name = "Physical Culture"}
-            };
+            var cascadeFKs = modelBuilder.Model.GetEntityTypes()
+                .SelectMany(t => t.GetForeignKeys())
+                .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
 
-            return result;
-        }
-
-        private List<Teacher> GetTeachersList()
-        {
-            var result = new List<Teacher>
-            {
-                new Teacher {Id = 1, Name = "Жмышенко Валерий Альбертович"},
-                new Teacher {Id = 2, Name = "Сухачев Денис Владимирович"}
-            };
-
-            return result;
-        }
-
-        private List<SubjectForGroup> GetSubjectForGroupsList()
-        {
-            var result = new List<SubjectForGroup>
-            {
-                new SubjectForGroup
-                {
-                    Id = 1,
-                    SubjectId = 1,
-                    StudyGroupId = 1,
-                    TeacherId = 1,
-                    StudySemester = StudySemester.Y20H1
-                },
-                new SubjectForGroup
-                {
-                    Id = 2,
-                    SubjectId = 2,
-                    StudyGroupId = 1,
-                    TeacherId = 1,
-                    StudySemester = StudySemester.Y20H1
-                },
-                new SubjectForGroup
-                {
-                    Id = 3,
-                    SubjectId = 1,
-                    StudyGroupId = 1,
-                    TeacherId = 1,
-                    StudySemester = StudySemester.Y20H1
-                }
-            };
-
-            return result;
+            foreach (var fk in cascadeFKs)
+                fk.DeleteBehavior = DeleteBehavior.Restrict;
         }
     }
 }
