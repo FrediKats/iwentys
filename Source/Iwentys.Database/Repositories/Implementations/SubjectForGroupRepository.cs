@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Implementations
 {
-    class SubjectForGroupRepository : ISubjectForGroupRepository
+    public class SubjectForGroupRepository : ISubjectForGroupRepository
     {
         private readonly IwentysDbContext _dbContext;
 
