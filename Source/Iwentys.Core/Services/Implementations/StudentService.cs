@@ -47,7 +47,11 @@ namespace Iwentys.Core.Services.Implementations
 
         public StudentFullProfileDto AddGithubUsername(int id, string githubUsername)
         {
-            throw new NotImplementedException("Need to validate github credentials");
+            //TODO:
+            //throw new NotImplementedException("Need to validate github credentials");
+            Student user = _studentRepository.Get(id);
+            user.GithubUsername = githubUsername;
+            return _studentRepository.Update(user).To(s => new StudentFullProfileDto(s));
         }
 
         public StudentFullProfileDto RemoveGithubUsername(int id, string githubUsername)
