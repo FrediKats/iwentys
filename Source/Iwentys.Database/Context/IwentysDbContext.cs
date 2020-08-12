@@ -1,5 +1,6 @@
 using System.Linq;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Gamification;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Entities.Study;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,13 @@ namespace Iwentys.Database.Context
 
         #endregion
 
+        #region Achievement
+
+        public DbSet<AchievementModel> Achievements { get; set; }
+        public DbSet<StudentAchievementModel> StudentAchievements { get; set; }
+
+        #endregion
+
         public DbSet<Student> Students { get; set; }
         public DbSet<StudentProject> StudentProjects { get; set; }
         public DbSet<BarsPointTransactionLog> BarsPointTransactionLogs { get; set; }
@@ -58,6 +66,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<GuildMember>().HasKey(g => new {g.GuildId, g.MemberId});
             modelBuilder.Entity<CompanyWorker>().HasKey(g => new {g.CompanyId, g.WorkerId});
             modelBuilder.Entity<SubjectActivity>().HasKey(s => new {s.SubjectForGroupId, s.StudentId});
+            modelBuilder.Entity<StudentAchievementModel>().HasKey(a => new {a.AchievementId, a.StudentId});
         }
 
         private void SetUniqKey(ModelBuilder modelBuilder)
@@ -84,6 +93,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<GuildMember>().HasData(seedData.GuildMembers);
             modelBuilder.Entity<GuildPinnedProject>().HasData(seedData.GuildPinnedProjects);
 
+            modelBuilder.Entity<AchievementModel>().HasData(AchievementList.Achievements);
         }
 
         //TODO: Hack for removing cascade. Need to rework keys
