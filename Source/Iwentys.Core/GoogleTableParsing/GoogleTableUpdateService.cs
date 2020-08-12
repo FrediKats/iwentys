@@ -5,19 +5,16 @@ using Google.Apis.Sheets.v4;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Types;
-using Microsoft.Extensions.Configuration;
 
 namespace Iwentys.Core.GoogleTableParsing
 {
     public class GoogleTableUpdateService
     {
         private readonly ISubjectActivityRepository _subjectActivityRepository;
-        private readonly IConfiguration _configuration;
 
-        public GoogleTableUpdateService(ISubjectActivityRepository subjectActivityRepository, IConfiguration configuration)
+        public GoogleTableUpdateService(ISubjectActivityRepository subjectActivityRepository)
         {
             _subjectActivityRepository = subjectActivityRepository;
-            _configuration = configuration;
         }
 
         public void UpdateSubjectActivityForGroup(SubjectForGroup subjectData)
@@ -25,7 +22,7 @@ namespace Iwentys.Core.GoogleTableParsing
             GoogleTableData googleTableData = subjectData.GetGoogleTableDataConfig();
 
             GoogleCredential credential = GoogleCredential
-                .FromJson(_configuration["GoogleTable:Credentials"])
+                .FromJson(ApplicationOptions.GoogleServiceToken)
                 .CreateScoped(SheetsService.Scope.SpreadsheetsReadonly);
 
             var sheetsService = new SheetsService(new BaseClientService.Initializer()
