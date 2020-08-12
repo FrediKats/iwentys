@@ -39,7 +39,13 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public Guild ReadById(int key)
         {
-            return Read().FirstOrDefault(g => g.Id == key);
+            return _dbContext.Guilds
+                .Include(g => g.Members)
+                .ThenInclude(gm => gm.Member)
+                .Include(g => g.PinnedProjects)
+                .Include(g => g.Achievements)
+                .ThenInclude(a => a.Achievement)
+                .FirstOrDefault(g => g.Id == key);
         }
 
         public Guild Update(Guild entity)
