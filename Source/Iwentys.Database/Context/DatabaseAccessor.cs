@@ -1,4 +1,5 @@
 ﻿using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.Database.Repositories.Implementations;
 
 namespace Iwentys.Database.Context
 {
@@ -13,6 +14,25 @@ namespace Iwentys.Database.Context
         public ITributeRepository TributeRepository { get; }
         public IBarsPointTransactionLogRepository BarsPointTransactionLogRepository { get; }
         public IQuestRepository QuestRepository { get; }
+        
+
+        public ISubjectActivityRepository SubjectActivity { get; }
+        public ISubjectForGroupRepository SubjectForGroup { get; }
+
+        public DatabaseAccessor(IwentysDbContext context) : this(
+            context,
+            new StudentRepository(context),
+            new GuildRepository(context), 
+            new CompanyRepository(context), 
+            new TournamentRepository(context), 
+            new StudentProjectRepository(context), 
+            new TributeRepository(context), 
+            new BarsPointTransactionLogRepository(context), 
+            new QuestRepository(context), 
+            new SubjectActivityRepository(context), 
+            new SubjectForGroupRepository(context))
+        {
+        }
 
         public DatabaseAccessor(IwentysDbContext context,
             IStudentRepository student,
@@ -22,7 +42,9 @@ namespace Iwentys.Database.Context
             IStudentProjectRepository studentProjectRepository,
             ITributeRepository tributeRepository,
             IBarsPointTransactionLogRepository barsPointTransactionLogRepository,
-            IQuestRepository questRepository)
+            IQuestRepository questRepository,
+            ISubjectActivityRepository subjectActivity,
+            ISubjectForGroupRepository subjectForGroup)
         {
             Context = context;
             Student = student;
@@ -33,6 +55,8 @@ namespace Iwentys.Database.Context
             TributeRepository = tributeRepository;
             BarsPointTransactionLogRepository = barsPointTransactionLogRepository;
             QuestRepository = questRepository;
+            SubjectActivity = subjectActivity;
+            SubjectForGroup = subjectForGroup;
         }
     }
 }

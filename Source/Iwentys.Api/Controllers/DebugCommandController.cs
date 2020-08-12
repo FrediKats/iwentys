@@ -1,17 +1,12 @@
-
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.IdentityModel.Tokens.Jwt;
-using System.IO;
 using System.Linq;
 using System.Security.Claims;
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Services;
-using Google.Apis.Sheets.v4;
 using Iwentys.Core.Auth;
 using Iwentys.Core.GoogleTableParsing;
+using Iwentys.Core.Services.Abstractions;
+using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
-using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Transferable.Students;
@@ -25,35 +20,28 @@ namespace Iwentys.Api.Controllers
     [ApiController]
     public class DebugCommandController : ControllerBase
     {
-        private readonly ISubjectActivityRepository _subjectActivityRepository;
-        private readonly ISubjectForGroupRepository _subjectForGroupRepository;
         private readonly GoogleTableUpdateService _googleTableUpdateService;
+        private readonly DatabaseAccessor _databaseAccessor;
+        private readonly IStudentService _studentService;
 
-        private readonly IStudentRepository _studentRepository;
-        private IConfiguration _configuration;
-
-
-        public DebugCommandController(ISubjectActivityRepository subjectActivityRepository, ISubjectForGroupRepository subjectForGroupRepository, IConfiguration configuration, IStudentRepository studentRepository)
+        public DebugCommandController(DatabaseAccessor databaseAccessor, IConfiguration configuration, IStudentService studentService)
         {
-            _subjectActivityRepository = subjectActivityRepository;
-            _subjectForGroupRepository = subjectForGroupRepository;
+            _databaseAccessor = databaseAccessor;
 
-            _googleTableUpdateService = new GoogleTableUpdateService(_subjectActivityRepository, configuration);
-            _configuration = configuration;
-            _studentRepository = studentRepository;
-
+            _googleTableUpdateService = new GoogleTableUpdateService(_databaseAccessor.SubjectActivity, configuration);
+            _studentService = studentService;
         }
 
         [HttpPost("UpdateSubjectActivityData")]
         public void UpdateSubjectActivityData(SubjectActivity activity)
         {
-            _subjectActivityRepository.Update(activity);
+            _databaseAccessor.SubjectActivity.Update(activity);
         }
 
         [HttpPost("UpdateSubjectActivityForGroup")]
         public void UpdateSubjectActivityForGroup(int subjectId, int groupId)
         {
-            SubjectForGroup subjectData = _subjectForGroupRepository
+            SubjectForGroup subjectData = _databaseAccessor.SubjectForGroup
                 .Read()
                 .FirstOrDefault(s => s.SubjectId == subjectId && s.StudyGroupId == groupId);
 
@@ -69,7 +57,14 @@ namespace Iwentys.Api.Controllers
         [HttpGet("login/{userId}")]
         public string Login(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
-            _studentRepository.Get(userId);
+            _databaseAccessor.Student.Get(userId);
+            return GenerateToken(userId, signingEncodingKey);
+        }
+
+        [HttpGet("loginOrCreate/{userId}")]
+        public string LoginOrCreate(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
+        {
+            _studentService.GetOrCreate(userId);
             return GenerateToken(userId, signingEncodingKey);
         }
 
@@ -77,7 +72,7 @@ namespace Iwentys.Api.Controllers
         public string Register([FromBody] StudentCreateArgumentsDto arguments,
             [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
-            var student = new Student()
+            var student = new Student
             {
                 Id = arguments.Id,
                 FirstName = arguments.FirstName,
@@ -92,14 +87,14 @@ namespace Iwentys.Api.Controllers
                 GuildLeftTime = DateTime.MinValue.ToUniversalTime()
             };
 
-            _studentRepository.Create(student);
+            _databaseAccessor.Student.Create(student);
 
             return GenerateToken(student.Id, signingEncodingKey);
         }
 
         private string GenerateToken(int userId, IJwtSigningEncodingKey signingEncodingKey)
         {
-            var claims = new Claim[]
+            var claims = new[]
             {
                 new Claim(ClaimTypes.UserData, userId.ToString())
             };

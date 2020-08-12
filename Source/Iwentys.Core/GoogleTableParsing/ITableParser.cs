@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Google.Apis.Sheets.v4.Data;
+﻿using System.Collections.Generic;
 
 namespace Iwentys.Core.GoogleTableParsing
 {

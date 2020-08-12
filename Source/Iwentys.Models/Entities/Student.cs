@@ -22,5 +22,21 @@ namespace Iwentys.Models.Entities
         public int BarsPoints { get; set; }
 
         public DateTime GuildLeftTime { get; set; }
+
+        public static Student CreateFromIsu(int id, string firstName, string middleName, string secondName, string group)
+        {
+            return new Student
+            {
+                Id = id,
+                FirstName = firstName,
+                MiddleName = middleName,
+                SecondName = secondName,
+                Role = UserType.Common,
+                Group = group,
+                CreationTime = DateTime.UtcNow,
+                LastOnlineTime = DateTime.UtcNow,
+                GuildLeftTime = DateTime.MinValue
+            };
+        }
     }
 }

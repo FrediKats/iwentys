@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Transferable.Study;
-using Iwentys.Models.Types;
 
 namespace Iwentys.Database.Repositories.Abstractions
 {
