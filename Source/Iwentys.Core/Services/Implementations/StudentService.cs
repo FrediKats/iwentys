@@ -6,6 +6,7 @@ using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.IsuIntegrator;
 using Iwentys.IsuIntegrator.Models;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Students;
 
@@ -47,6 +48,9 @@ namespace Iwentys.Core.Services.Implementations
 
         public StudentFullProfileDto AddGithubUsername(int id, string githubUsername)
         {
+            if (_studentRepository.Read().Any(s => s.GithubUsername == githubUsername))
+                throw new InnerLogicException("Username already used for other account");
+
             //TODO:
             //throw new NotImplementedException("Need to validate github credentials");
             Student user = _studentRepository.Get(id);
