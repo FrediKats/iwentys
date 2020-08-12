@@ -1,5 +1,6 @@
 using System;
 using System.Text.Json.Serialization;
+using Iwentys.Core.Daemons;
 using Iwentys.Core.Auth;
 using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
@@ -95,7 +96,6 @@ namespace Iwentys.Api
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
                 c.RoutePrefix = "swagger";
             });
-
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
@@ -116,6 +116,16 @@ namespace Iwentys.Api
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+
+            InitDaemon(app);
+        }
+
+        private static void InitDaemon(IApplicationBuilder app)
+        {
+            DaemonManager.Init(
+                app.ApplicationServices.GetService<ISubjectActivityRepository>(),
+                app.ApplicationServices.GetService<ISubjectForGroupRepository>(),
+                app.ApplicationServices.GetService<IConfiguration>());
         }
     }
 }

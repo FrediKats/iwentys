@@ -1,3 +1,4 @@
+
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.IdentityModel.Tokens.Jwt;
@@ -26,15 +27,21 @@ namespace Iwentys.Api.Controllers
     {
         private readonly ISubjectActivityRepository _subjectActivityRepository;
         private readonly ISubjectForGroupRepository _subjectForGroupRepository;
+        private readonly GoogleTableUpdateService _googleTableUpdateService;
+
         private readonly IStudentRepository _studentRepository;
         private IConfiguration _configuration;
+
 
         public DebugCommandController(ISubjectActivityRepository subjectActivityRepository, ISubjectForGroupRepository subjectForGroupRepository, IConfiguration configuration, IStudentRepository studentRepository)
         {
             _subjectActivityRepository = subjectActivityRepository;
             _subjectForGroupRepository = subjectForGroupRepository;
+
+            _googleTableUpdateService = new GoogleTableUpdateService(_subjectActivityRepository, configuration);
             _configuration = configuration;
             _studentRepository = studentRepository;
+
         }
 
         [HttpPost("UpdateSubjectActivityData")]
@@ -46,43 +53,17 @@ namespace Iwentys.Api.Controllers
         [HttpPost("UpdateSubjectActivityForGroup")]
         public void UpdateSubjectActivityForGroup(int subjectId, int groupId)
         {
-            var subjectData = _subjectForGroupRepository
-                .Read().FirstOrDefault(s => s.SubjectId == subjectId && s.StudyGroupId == groupId);
+            SubjectForGroup subjectData = _subjectForGroupRepository
+                .Read()
+                .FirstOrDefault(s => s.SubjectId == subjectId && s.StudyGroupId == groupId);
+
             if (subjectData == null)
             {
                 // TODO: Some logs
                 return;
             }
-
-            var googleTableData = subjectData.GetGoogleTableDataConfig;
-
-            var credential = GoogleCredential.FromJson(_configuration["GoogleTable:Credentials"]).
-                CreateScoped(SheetsService.Scope.SpreadsheetsReadonly);
-
-            var sheetsService = new SheetsService(new BaseClientService.Initializer()
-            {
-                HttpClientInitializer = credential,
-                ApplicationName = "IwentysTableParser",
-            });
-
-            var tableParser = new TableParser(sheetsService, googleTableData);
-
-            foreach (var student in tableParser.GetStudentsList())
-            {
-                // Это очень плохая проверка, но я пока не придумал,
-                // как по-другому сопоставлять данные с гугл-таблицы со студентом
-                // TODO: Сделать нормальную проверку
-                var activity = _subjectActivityRepository.Read().FirstOrDefault(s =>
-                    student.Name.Contains(s.Student.FirstName) && student.Name.Contains(s.Student.SecondName) &&
-                    s.SubjectForGroupId == subjectData.Id);
-                if (activity == null)
-                {
-                    // TODO: Some logs
-                    return;
-                }
-                activity.Points = (int)double.Parse(student.Score);
-                UpdateSubjectActivityData(activity);
-            }
+            
+            _googleTableUpdateService.UpdateSubjectActivityForGroup(subjectData);
         }
 
         [HttpGet("login/{userId}")]
