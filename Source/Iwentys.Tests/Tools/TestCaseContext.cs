@@ -43,7 +43,7 @@ namespace Iwentys.Tests.Tools
 
             var accessor = new DatabaseAccessor(_context);
 
-            StudentService = new StudentService(StudentRepository);
+            StudentService = new StudentService(StudentRepository, new DebugIsuAccessor());
             GuildService = new GuildService(GuildRepository, StudentRepository, StudentProjectRepository, TributeRepository, accessor, new DummyGithubApiAccessor());
             CompanyService = new CompanyService(CompanyRepository, StudentRepository);
         }
