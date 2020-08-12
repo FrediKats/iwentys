@@ -9,7 +9,6 @@ using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Types;
 using Iwentys.Models.Types.Guilds;
 using Iwentys.Tests.Tools;
-using LanguageExt;
 using NUnit.Framework;
 
 namespace Iwentys.Tests.Core.Services

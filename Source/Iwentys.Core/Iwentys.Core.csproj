@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Google.Apis.Sheets.v4" Version="1.48.0.2014" />
     <PackageReference Include="LanguageExt.Core" Version="3.4.15" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.1.0" />
     <PackageReference Include="morelinq" Version="3.3.2" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Octokit" Version="0.48.0" />
@@ -14,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Iwentys.Database\Iwentys.Database.csproj" />
+    <ProjectReference Include="..\Iwentys.IsuIntagrator\Iwentys.IsuIntegrator.csproj" />
   </ItemGroup>
 
 </Project>

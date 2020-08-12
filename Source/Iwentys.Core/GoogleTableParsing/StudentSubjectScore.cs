@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Iwentys.Core.GoogleTableParsing
+﻿namespace Iwentys.Core.GoogleTableParsing
 {
     public class StudentSubjectScore
     {

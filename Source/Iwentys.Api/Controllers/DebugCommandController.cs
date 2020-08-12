@@ -1,13 +1,18 @@
-﻿using System.IO;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Services;
-using Google.Apis.Sheets.v4;
+using System.Security.Claims;
+using Iwentys.Core.Auth;
 using Iwentys.Core.GoogleTableParsing;
-using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.Core.Services.Abstractions;
+using Iwentys.Database.Context;
+using Iwentys.Database.Repositories;
+using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
+using Iwentys.Models.Transferable.Students;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Iwentys.Api.Controllers
 {
@@ -15,63 +20,96 @@ namespace Iwentys.Api.Controllers
     [ApiController]
     public class DebugCommandController : ControllerBase
     {
-        private readonly ISubjectActivityRepository _subjectActivityRepository;
-        private readonly ISubjectForGroupRepository _subjectForGroupRepository;
-        private IConfiguration _configuration;
+        private readonly GoogleTableUpdateService _googleTableUpdateService;
+        private readonly DatabaseAccessor _databaseAccessor;
+        private readonly IStudentService _studentService;
 
-        public DebugCommandController(ISubjectActivityRepository subjectActivityRepository, ISubjectForGroupRepository subjectForGroupRepository, IConfiguration configuration)
+        public DebugCommandController(DatabaseAccessor databaseAccessor, IConfiguration configuration, IStudentService studentService)
         {
-            _subjectActivityRepository = subjectActivityRepository;
-            _subjectForGroupRepository = subjectForGroupRepository;
-            _configuration = configuration;
+            _databaseAccessor = databaseAccessor;
+
+            _googleTableUpdateService = new GoogleTableUpdateService(_databaseAccessor.SubjectActivity, configuration);
+            _studentService = studentService;
         }
 
         [HttpPost("UpdateSubjectActivityData")]
         public void UpdateSubjectActivityData(SubjectActivity activity)
         {
-            _subjectActivityRepository.Update(activity);
+            _databaseAccessor.SubjectActivity.Update(activity);
         }
 
         [HttpPost("UpdateSubjectActivityForGroup")]
         public void UpdateSubjectActivityForGroup(int subjectId, int groupId)
         {
-            var subjectData = _subjectForGroupRepository
-                .Read().FirstOrDefault(s => s.SubjectId == subjectId && s.StudyGroupId == groupId);
+            SubjectForGroup subjectData = _databaseAccessor.SubjectForGroup
+                .Read()
+                .FirstOrDefault(s => s.SubjectId == subjectId && s.StudyGroupId == groupId);
+
             if (subjectData == null)
             {
                 // TODO: Some logs
                 return;
             }
+            
+            _googleTableUpdateService.UpdateSubjectActivityForGroup(subjectData);
+        }
 
-            var googleTableData = subjectData.GetGoogleTableDataConfig;
+        [HttpGet("login/{userId}")]
+        public string Login(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
+        {
+            _databaseAccessor.Student.Get(userId);
+            return GenerateToken(userId, signingEncodingKey);
+        }
 
-            var credential = GoogleCredential.FromJson(_configuration["GoogleTable:Credentials"]).
-                CreateScoped(SheetsService.Scope.SpreadsheetsReadonly);
+        [HttpGet("loginOrCreate/{userId}")]
+        public string LoginOrCreate(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
+        {
+            _studentService.GetOrCreate(userId);
+            return GenerateToken(userId, signingEncodingKey);
+        }
 
-            var sheetsService = new SheetsService(new BaseClientService.Initializer()
+        [HttpPost("register")]
+        public string Register([FromBody] StudentCreateArgumentsDto arguments,
+            [FromServices] IJwtSigningEncodingKey signingEncodingKey)
+        {
+            var student = new Student
             {
-                HttpClientInitializer = credential,
-                ApplicationName = "IwentysTableParser",
-            });
+                Id = arguments.Id,
+                FirstName = arguments.FirstName,
+                MiddleName = arguments.MiddleName,
+                SecondName = arguments.SecondName,
+                Role = arguments.Role,
+                Group = arguments.Group,
+                GithubUsername = arguments.GithubUsername,
+                CreationTime = DateTime.UtcNow,
+                LastOnlineTime = DateTime.UtcNow,
+                BarsPoints = arguments.BarsPoints,
+                GuildLeftTime = DateTime.MinValue.ToUniversalTime()
+            };
 
-            var tableParser = new TableParser(sheetsService, googleTableData);
+            _databaseAccessor.Student.Create(student);
 
-            foreach (var student in tableParser.GetStudentsList())
+            return GenerateToken(student.Id, signingEncodingKey);
+        }
+
+        private string GenerateToken(int userId, IJwtSigningEncodingKey signingEncodingKey)
+        {
+            var claims = new[]
             {
-                // Это очень плохая проверка, но я пока не придумал,
-                // как по-другому сопоставлять данные с гугл-таблицы со студентом
-                // TODO: Сделать нормальную проверку
-                var activity = _subjectActivityRepository.Read().FirstOrDefault(s =>
-                    student.Name.Contains(s.Student.FirstName) && student.Name.Contains(s.Student.SecondName) &&
-                    s.SubjectForGroupId == subjectData.Id);
-                if (activity == null)
-                {
-                    // TODO: Some logs
-                    return;
-                }
-                activity.Points = (int)double.Parse(student.Score);
-                UpdateSubjectActivityData(activity);
-            }
+                new Claim(ClaimTypes.UserData, userId.ToString())
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: "Iwentys",
+                audience: "IwentysWeb",
+                claims: claims,
+                signingCredentials: new SigningCredentials(
+                    signingEncodingKey.GetKey(),
+                    signingEncodingKey.SigningAlgorithm)
+            );
+
+            string jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
+            return jwtToken;
         }
     }
 }

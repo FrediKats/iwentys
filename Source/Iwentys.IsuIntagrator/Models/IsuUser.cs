@@ -1,4 +1,4 @@
-﻿namespace Iwentys.IsuIntagrator.Models
+﻿namespace Iwentys.IsuIntegrator.Models
 {
     public class IsuUser
     {

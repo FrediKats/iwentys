@@ -30,6 +30,7 @@ namespace Iwentys.Database.Repositories.Implementations
         {
             return _dbContext.Guilds
                 .Include(g => g.Members)
+                .ThenInclude(gm => gm.Member)
                 .Include(g => g.PinnedProjects)
                 .Where(g => g.GuildType == GuildType.Created);
         }
@@ -38,6 +39,7 @@ namespace Iwentys.Database.Repositories.Implementations
         {
             return _dbContext.Guilds
                 .Include(g => g.Members)
+                .ThenInclude(gm => gm.Member)
                 .Include(g => g.PinnedProjects)
                 .FirstOrDefault(g => g.Id == key);
         }
@@ -69,7 +71,7 @@ namespace Iwentys.Database.Repositories.Implementations
         {
             return _dbContext.GuildMembers
                 .Where(gm => gm.MemberId == studentId)
-                .Where(gm => gm.MemberType.IsMember())
+                .WhereIsMember()
                 .Include(gm => gm.Guild.Members)
                 .Include(gm => gm.Guild.PinnedProjects)
                 .Select(gm => gm.Guild)

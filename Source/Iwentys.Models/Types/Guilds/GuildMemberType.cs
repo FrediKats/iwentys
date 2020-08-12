@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Iwentys.Models.Entities.Guilds;
 
 namespace Iwentys.Models.Types.Guilds
 {
@@ -16,8 +18,21 @@ namespace Iwentys.Models.Types.Guilds
         public static Boolean IsMember(this GuildMemberType guildMemberType)
         {
             return guildMemberType == GuildMemberType.Creator ||
-                   guildMemberType == GuildMemberType.Mentor || 
+                   guildMemberType == GuildMemberType.Mentor ||
                    guildMemberType == GuildMemberType.Member;
+        }
+
+        public static IQueryable<GuildMember> WhereIsMember(this IQueryable<GuildMember> queryable)
+        {
+            return queryable.Where(gm => gm.MemberType == GuildMemberType.Creator ||
+                                         gm.MemberType == GuildMemberType.Mentor ||
+                                         gm.MemberType == GuildMemberType.Member);
+        }
+
+        public static IQueryable<GuildMember> WhereIsEditor(this IQueryable<GuildMember> queryable)
+        {
+            return queryable.Where(gm => gm.MemberType == GuildMemberType.Creator ||
+                                         gm.MemberType == GuildMemberType.Mentor);
         }
 
         public static Boolean IsEditor(this GuildMemberType guildMemberType)

@@ -4,7 +4,6 @@ using System.Linq;
 using Iwentys.Core.GithubIntegration;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
-using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Tools;
