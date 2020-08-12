@@ -4,7 +4,6 @@ using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Voting;
 using Iwentys.Models.Types.Github;
 using Iwentys.Models.Types.Guilds;
-using LanguageExt;
 
 namespace Iwentys.Core.Services.Abstractions
 {

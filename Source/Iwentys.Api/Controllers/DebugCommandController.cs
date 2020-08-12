@@ -22,7 +22,6 @@ namespace Iwentys.Api.Controllers
     {
         private readonly GoogleTableUpdateService _googleTableUpdateService;
         private readonly DatabaseAccessor _databaseAccessor;
-        private IConfiguration _configuration;
         private readonly IStudentService _studentService;
 
         public DebugCommandController(DatabaseAccessor databaseAccessor, IConfiguration configuration, IStudentService studentService)
@@ -30,7 +29,6 @@ namespace Iwentys.Api.Controllers
             _databaseAccessor = databaseAccessor;
 
             _googleTableUpdateService = new GoogleTableUpdateService(_databaseAccessor.SubjectActivity, configuration);
-            _configuration = configuration;
             _studentService = studentService;
         }
 
@@ -96,7 +94,7 @@ namespace Iwentys.Api.Controllers
 
         private string GenerateToken(int userId, IJwtSigningEncodingKey signingEncodingKey)
         {
-            var claims = new Claim[]
+            var claims = new[]
             {
                 new Claim(ClaimTypes.UserData, userId.ToString())
             };

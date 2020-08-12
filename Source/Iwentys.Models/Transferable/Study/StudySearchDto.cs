@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Iwentys.Models.Types;
+﻿using Iwentys.Models.Types;
 
 namespace Iwentys.Models.Transferable.Study
 {
