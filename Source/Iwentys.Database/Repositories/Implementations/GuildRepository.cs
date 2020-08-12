@@ -32,16 +32,14 @@ namespace Iwentys.Database.Repositories.Implementations
                 .Include(g => g.Members)
                 .ThenInclude(gm => gm.Member)
                 .Include(g => g.PinnedProjects)
+                .Include(g => g.Achievements)
+                .ThenInclude(a => a.Achievement)
                 .Where(g => g.GuildType == GuildType.Created);
         }
 
         public Guild ReadById(int key)
         {
-            return _dbContext.Guilds
-                .Include(g => g.Members)
-                .ThenInclude(gm => gm.Member)
-                .Include(g => g.PinnedProjects)
-                .FirstOrDefault(g => g.Id == key);
+            return Read().FirstOrDefault(g => g.Id == key);
         }
 
         public Guild Update(Guild entity)

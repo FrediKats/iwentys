@@ -1,4 +1,6 @@
-﻿using Iwentys.Database.Context;
+﻿using System;
+using System.Linq;
+using Iwentys.Database.Context;
 using Iwentys.Models.Entities.Gamification;
 
 namespace Iwentys.Core.Gamification
@@ -14,7 +16,10 @@ namespace Iwentys.Core.Gamification
 
         public void Achieve(AchievementModel achievement, int studentId)
         {
-            _databaseAccessor.Context.StudentAchievements.Add(new StudentAchievementModel {StudentId = studentId, AchievementId = achievement.Id});
+            if (_databaseAccessor.Context.StudentAchievements.Any(s => s.AchievementId == achievement.Id && s.StudentId == studentId))
+                return;
+
+            _databaseAccessor.Context.StudentAchievements.Add(new StudentAchievementModel {StudentId = studentId, AchievementId = achievement.Id, GettingTime = DateTime.UtcNow});
             _databaseAccessor.Context.SaveChanges();
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Iwentys.Models.Entities.Gamification;
 using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Models.Entities.Guilds
@@ -18,5 +19,8 @@ namespace Iwentys.Models.Entities.Guilds
 
         public List<GuildMember> Members { get; set; }
         public List<GuildPinnedProject> PinnedProjects { get; set; }
+
+        public List<GuildAchievementModel> Achievements { get; set; }
+
     }
 }

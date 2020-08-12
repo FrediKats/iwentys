@@ -39,6 +39,7 @@ namespace Iwentys.Database.Context
 
         public DbSet<AchievementModel> Achievements { get; set; }
         public DbSet<StudentAchievementModel> StudentAchievements { get; set; }
+        public DbSet<GuildAchievementModel> GuildAchievements { get; set; }
 
         #endregion
 
@@ -67,6 +68,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<CompanyWorker>().HasKey(g => new {g.CompanyId, g.WorkerId});
             modelBuilder.Entity<SubjectActivity>().HasKey(s => new {s.SubjectForGroupId, s.StudentId});
             modelBuilder.Entity<StudentAchievementModel>().HasKey(a => new {a.AchievementId, a.StudentId});
+            modelBuilder.Entity<GuildAchievementModel>().HasKey(a => new {a.AchievementId, a.GuildId});
         }
 
         private void SetUniqKey(ModelBuilder modelBuilder)

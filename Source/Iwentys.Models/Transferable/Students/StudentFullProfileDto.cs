@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Tools;
 using Iwentys.Models.Types;
 
 namespace Iwentys.Models.Transferable.Students
@@ -46,6 +47,7 @@ namespace Iwentys.Models.Transferable.Students
             CreationTime = student.CreationTime;
             LastOnlineTime = student.LastOnlineTime;
             BarsPoints = student.BarsPoints;
+            Achievements = student.Achievements.SelectToList(AchievementInfoDto.Wrap);
         }
     }
 }
