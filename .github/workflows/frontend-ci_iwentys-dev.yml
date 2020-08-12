@@ -4,7 +4,7 @@
 name: Build and deploy ASP.Net Core app to Azure Web App - iwentys-dev
 
 on:
-  pull_request:
+  push:
     branches:
       - dev
 
