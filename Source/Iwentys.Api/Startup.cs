@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Iwentys.Api
 {
@@ -49,7 +50,8 @@ namespace Iwentys.Api
                 .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
             services.AddSwaggerGen();
 
-            services.AddDbContext<IwentysDbContext>(o => o.UseSqlite("Data Source=Iwentys.db"));
+            services.AddDbContext<IwentysDbContext>(o => o.UseSqlite("Data Source=Iwentys.db")
+                .EnableSensitiveDataLogging(Configuration.GetValue<bool>("Logging:EnableSqlParameterLogging")));
 
             ApplicationOptions.GoogleServiceToken = Configuration["GoogleTable:Credentials"];
 
@@ -90,8 +92,10 @@ namespace Iwentys.Api
             IwentysDbContext db,
             ISubjectActivityRepository subjectActivityRepository,
             ISubjectForGroupRepository subjectForGroupRepository,
-            IConfiguration configuration)
+            ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddFile(Configuration["LogFilePath"]);
+
             //TODO: Temp fix for CORS
             app.UseCors("CorsPolicy");
 
