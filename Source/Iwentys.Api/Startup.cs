@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Iwentys.Core.Daemons;
 using Iwentys.Core.Auth;
+using Iwentys.Core.Gamification;
 using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Core.Services.Implementations;
@@ -65,6 +66,8 @@ namespace Iwentys.Api
             services.AddScoped<ISubjectForGroupRepository, SubjectForGroupRepository>();
 
             services.AddScoped<DatabaseAccessor>();
+            services.AddScoped<AchievementProvider>();
+
 
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IGuildService, GuildService>();
