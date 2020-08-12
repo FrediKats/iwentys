@@ -90,6 +90,7 @@ namespace Iwentys.Tests.Core.DomainModels
                 .Setup(r => r.ReadById(It.IsAny<Int32>()))
                 .Returns(_student);
 
+            //TODO:
             DatabaseAccessor databaseAccessor = new DatabaseAccessor(null,
                 _studentRepository.Object,
                 _guildRepository.Object,
@@ -97,6 +98,8 @@ namespace Iwentys.Tests.Core.DomainModels
                 null,
                 null,
                 _tributeRepository.Object,
+                null,
+                null, 
                 null,
                 null);
 

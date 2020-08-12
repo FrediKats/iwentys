@@ -5,6 +5,7 @@ using Iwentys.Core.Services.Implementations;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Database.Repositories.Implementations;
+using Iwentys.IsuIntegrator;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Tools;
@@ -40,16 +41,7 @@ namespace Iwentys.Tests.Tools
             StudentProjectRepository = new StudentProjectRepository(_context);
             TributeRepository = new TributeRepository(_context);
 
-            var accessor = new DatabaseAccessor(
-                _context,
-                StudentRepository,
-                GuildRepository,
-                CompanyRepository,
-                new TournamentRepository(_context),
-                StudentProjectRepository,
-                TributeRepository,
-                new BarsPointTransactionLogRepository(_context),
-                new QuestRepository(_context));
+            var accessor = new DatabaseAccessor(_context);
 
             StudentService = new StudentService(StudentRepository);
             GuildService = new GuildService(GuildRepository, StudentRepository, StudentProjectRepository, TributeRepository, accessor, new DummyGithubApiAccessor());
