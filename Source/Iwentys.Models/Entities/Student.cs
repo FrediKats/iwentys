@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Iwentys.Models.Entities.Gamification;
 using Iwentys.Models.Types;
 
 namespace Iwentys.Models.Entities
@@ -22,6 +24,8 @@ namespace Iwentys.Models.Entities
         public int BarsPoints { get; set; }
 
         public DateTime GuildLeftTime { get; set; }
+
+        public List<StudentAchievementModel> Achievements { get; set; }
 
         public static Student CreateFromIsu(int id, string firstName, string middleName, string secondName, string group)
         {

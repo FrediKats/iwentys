@@ -1,6 +1,8 @@
 using System.Text.Json.Serialization;
+using Iwentys.Core;
 using Iwentys.Core.Daemons;
 using Iwentys.Core.Auth;
+using Iwentys.Core.Gamification;
 using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Core.Services.Implementations;
@@ -49,6 +51,8 @@ namespace Iwentys.Api
 
             services.AddDbContext<IwentysDbContext>(o => o.UseSqlite("Data Source=Iwentys.db"));
 
+            ApplicationOptions.GoogleServiceToken = Configuration["GoogleTable:Credentials"];
+
             //TODO: replace with GithubApiAccessor implementation
             services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();
             services.AddScoped<IIsuAccessor, DebugIsuAccessor>();
@@ -63,8 +67,9 @@ namespace Iwentys.Api
             services.AddScoped<IQuestRepository, QuestRepository>();
             services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
             services.AddScoped<ISubjectForGroupRepository, SubjectForGroupRepository>();
-
             services.AddScoped<DatabaseAccessor>();
+            services.AddScoped<AchievementProvider>();
+
 
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IGuildService, GuildService>();
@@ -79,7 +84,13 @@ namespace Iwentys.Api
 
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IwentysDbContext db)
+        public void Configure(
+            IApplicationBuilder app,
+            IWebHostEnvironment env,
+            IwentysDbContext db,
+            ISubjectActivityRepository subjectActivityRepository,
+            ISubjectForGroupRepository subjectForGroupRepository,
+            IConfiguration configuration)
         {
             //TODO: Temp fix for CORS
             app.UseCors("CorsPolicy");
@@ -88,8 +99,7 @@ namespace Iwentys.Api
             //if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
             app.UseDeveloperExceptionPage();
 
-            db.Database.EnsureDeleted();
-            db.Database.EnsureCreated();
+            
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -118,15 +128,9 @@ namespace Iwentys.Api
                 }
             });
 
-            InitDaemon(app);
-        }
-
-        private static void InitDaemon(IApplicationBuilder app)
-        {
-            DaemonManager.Init(
-                app.ApplicationServices.GetService<ISubjectActivityRepository>(),
-                app.ApplicationServices.GetService<ISubjectForGroupRepository>(),
-                app.ApplicationServices.GetService<IConfiguration>());
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
+            DaemonManager.Init(subjectActivityRepository, subjectForGroupRepository);
         }
     }
 }

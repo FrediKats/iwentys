@@ -28,7 +28,7 @@ namespace Iwentys.Api.Controllers
         {
             _databaseAccessor = databaseAccessor;
 
-            _googleTableUpdateService = new GoogleTableUpdateService(_databaseAccessor.SubjectActivity, configuration);
+            _googleTableUpdateService = new GoogleTableUpdateService(_databaseAccessor.SubjectActivity);
             _studentService = studentService;
         }
 

@@ -7,6 +7,7 @@ using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Tools;
+using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Types.Guilds;
 
@@ -50,7 +51,7 @@ namespace Iwentys.Core.DomainModel.Guilds
                 Leader = _profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member,
                 MemberLeaderBoard = GetMemberDashboard(),
                 PinnedRepositories = _profile.PinnedProjects.SelectToList(p => _apiAccessor.GetRepository(p.RepositoryOwner, p.RepositoryName)),
-                
+                Achievements = _profile.Achievements.SelectToList(AchievementInfoDto.Wrap)
             };
 
             if (userId != null && _profile.Members.Any(m => m.MemberId == userId))
