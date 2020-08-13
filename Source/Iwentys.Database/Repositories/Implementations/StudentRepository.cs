@@ -26,6 +26,7 @@ namespace Iwentys.Database.Repositories.Implementations
         public IQueryable<Student> Read()
         {
             return _dbContext.Students
+                .Include(s => s.Group)
                 .Include(s => s.Achievements)
                 .ThenInclude(a => a.Achievement);
         }

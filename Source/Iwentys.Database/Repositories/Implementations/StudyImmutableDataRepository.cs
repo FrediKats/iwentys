@@ -33,7 +33,7 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public IEnumerable<Student> GetStudentsForGroup(string group)
         {
-            return _dbContext.Students.Where(s => s.Group == group);
+            return _dbContext.Students.Where(s => s.Group.NamePattern == group);
         }
     }
 }

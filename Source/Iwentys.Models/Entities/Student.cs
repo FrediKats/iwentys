@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Iwentys.Models.Entities.Gamification;
+using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Types;
 
 namespace Iwentys.Models.Entities
@@ -17,7 +18,8 @@ namespace Iwentys.Models.Entities
         public string MiddleName { get; set; }
         public string SecondName { get; set; }
         public UserType Role { get; set; }
-        public string Group { get; set; }
+        public int? GroupId { get; set; }
+        public StudyGroup Group { get; set; }
         public string GithubUsername { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime LastOnlineTime { get; set; }
@@ -27,7 +29,7 @@ namespace Iwentys.Models.Entities
 
         public List<StudentAchievementModel> Achievements { get; set; }
 
-        public static Student CreateFromIsu(int id, string firstName, string middleName, string secondName, string group)
+        public static Student CreateFromIsu(int id, string firstName, string middleName, string secondName, StudyGroup group)
         {
             return new Student
             {
@@ -36,7 +38,7 @@ namespace Iwentys.Models.Entities
                 MiddleName = middleName,
                 SecondName = secondName,
                 Role = UserType.Common,
-                Group = group,
+                GroupId = group?.Id,
                 CreationTime = DateTime.UtcNow,
                 LastOnlineTime = DateTime.UtcNow,
                 GuildLeftTime = DateTime.MinValue
