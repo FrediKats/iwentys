@@ -7,6 +7,7 @@ namespace Iwentys.Database.Context
     {
         public IwentysDbContext Context { get; }
         public IStudentRepository Student { get; }
+        public IStudyGroupRepository StudyGroupRepository { get; }
         public IGuildRepository GuildRepository { get; }
         public ICompanyRepository CompanyRepository { get; }
         public ITournamentRepository TournamentRepository { get; }
@@ -30,7 +31,8 @@ namespace Iwentys.Database.Context
             new BarsPointTransactionLogRepository(context), 
             new QuestRepository(context), 
             new SubjectActivityRepository(context), 
-            new SubjectForGroupRepository(context))
+            new SubjectForGroupRepository(context),
+            new StudyGroupRepository(context))
         {
         }
 
@@ -44,7 +46,8 @@ namespace Iwentys.Database.Context
             IBarsPointTransactionLogRepository barsPointTransactionLogRepository,
             IQuestRepository questRepository,
             ISubjectActivityRepository subjectActivity,
-            ISubjectForGroupRepository subjectForGroup)
+            ISubjectForGroupRepository subjectForGroup,
+            IStudyGroupRepository studyGroupRepository)
         {
             Context = context;
             Student = student;
@@ -57,6 +60,7 @@ namespace Iwentys.Database.Context
             QuestRepository = questRepository;
             SubjectActivity = subjectActivity;
             SubjectForGroup = subjectForGroup;
+            StudyGroupRepository = studyGroupRepository;
         }
     }
 }

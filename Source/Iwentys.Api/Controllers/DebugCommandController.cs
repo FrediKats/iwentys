@@ -94,7 +94,7 @@ namespace Iwentys.Api.Controllers
                 MiddleName = arguments.MiddleName,
                 SecondName = arguments.SecondName,
                 Role = arguments.Role,
-                Group = arguments.Group,
+                GroupId = _databaseAccessor.StudyGroupRepository.ReadByNamePattern(arguments.Group).Id,
                 GithubUsername = arguments.GithubUsername,
                 CreationTime = DateTime.UtcNow,
                 LastOnlineTime = DateTime.UtcNow,
