@@ -76,17 +76,17 @@ namespace Iwentys.Database.Context
                 new StudyGroup
                 {
                     Id = 1, StudyProgramId = 1, StudyStreamId = 1,
-                    NamePattern = "М3201", Year = 2020
+                    GroupName = "М3201", Year = 2020
                 },
                 new StudyGroup
                 {
                     Id = 2, StudyProgramId = 1, StudyStreamId = 1,
-                    NamePattern = "М3202", Year = 2020
+                    GroupName = "М3202", Year = 2020
                 },
                 new StudyGroup
                 {
                     Id = 3, StudyProgramId = 1, StudyStreamId = 2,
-                    NamePattern = "М3203", Year = 2020
+                    GroupName = "М3203", Year = 2020
                 }
             };
 

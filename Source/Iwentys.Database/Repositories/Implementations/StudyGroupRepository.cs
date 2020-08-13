@@ -51,9 +51,9 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.SaveChanges();
         }
 
-        public StudyGroup ReadByNamePattern(String namePattern)
+        public StudyGroup ReadByNamePattern(String groupName)
         {
-            return Read().FirstOrDefault(s => s.NamePattern == namePattern);
+            return Read().FirstOrDefault(s => s.GroupName == groupName);
         }
     }
 }

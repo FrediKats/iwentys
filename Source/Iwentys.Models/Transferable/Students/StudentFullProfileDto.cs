@@ -42,7 +42,7 @@ namespace Iwentys.Models.Transferable.Students
             MiddleName = student.MiddleName;
             SecondName = student.SecondName;
             Role = student.Role;
-            Group = student.Group?.NamePattern;
+            Group = student.Group?.GroupName;
             GithubUsername = student.GithubUsername;
             CreationTime = student.CreationTime;
             LastOnlineTime = student.LastOnlineTime;
