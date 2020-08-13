@@ -31,9 +31,9 @@ namespace Iwentys.Database.Repositories.Implementations
             return _dbContext.StudyStreams.Single(s => s.Id == streamId).Groups;
         }
 
-        public IEnumerable<Student> GetStudentsForGroup(string group)
+        public IEnumerable<Student> GetStudentsForGroup(string groupName)
         {
-            return _dbContext.Students.Where(s => s.Group.NamePattern == group);
+            return _dbContext.Students.Where(s => s.Group.GroupName == groupName);
         }
     }
 }
