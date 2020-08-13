@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Iwentys.Core.Auth;
 using Iwentys.Core.GoogleTableParsing;
 using Iwentys.Core.Services.Abstractions;
@@ -10,8 +11,10 @@ using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Transferable.Students;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Iwentys.Api.Controllers
@@ -70,6 +73,19 @@ namespace Iwentys.Api.Controllers
             return GenerateToken(userId, signingEncodingKey);
         }
 
+        [HttpGet("ValidateToken")]
+        public int ValidateToken()
+        {
+            var token = HttpContext.Request.Headers["Authorization"].ToString();
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var securityToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
+
+            string stringClaimValue = securityToken.Claims.First(claim => claim.Type == ClaimTypes.UserData).Value;
+            return Int32.Parse(stringClaimValue);
+        }
+
+
         [HttpPost("register")]
         public string Register([FromBody] StudentCreateArgumentsDto arguments,
             [FromServices] IJwtSigningEncodingKey signingEncodingKey)
@@ -109,7 +125,7 @@ namespace Iwentys.Api.Controllers
                     signingEncodingKey.GetKey(),
                     signingEncodingKey.SigningAlgorithm)
             );
-
+            
             string jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
             return jwtToken;
         }
