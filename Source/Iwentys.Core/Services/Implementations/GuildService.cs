@@ -169,7 +169,6 @@ namespace Iwentys.Core.Services.Implementations
             if (studentGuild == null || studentGuild.Id != guildId)
                 throw InnerLogicException.Guild.IsNotGuildMember(user.Id);
 
-            //TODO: we need transaction with rollback on fail
             Tribute userTribute = _tributeRepository.ReadStudentActiveTribute(studentGuild.Id, user.Id);
             if (userTribute != null)
                 _tributeRepository.Delete(userTribute.ProjectId);

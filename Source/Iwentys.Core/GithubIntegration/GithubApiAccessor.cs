@@ -18,10 +18,9 @@ namespace Iwentys.Core.GithubIntegration
 
         public GithubApiAccessor()
         {
-            //TODO: Move token to repo secrets
             _client = new GitHubClient(new ProductHeaderValue("Iwentys"))
             {
-                Credentials = new Credentials(String.Empty)
+                Credentials = new Credentials(ApplicationOptions.GithubToken)
             };
         }
 

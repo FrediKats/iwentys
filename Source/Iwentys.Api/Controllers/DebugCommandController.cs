@@ -11,7 +11,7 @@ using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Transferable.Students;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Iwentys.Api.Controllers
@@ -21,14 +21,16 @@ namespace Iwentys.Api.Controllers
     public class DebugCommandController : ControllerBase
     {
         private readonly GoogleTableUpdateService _googleTableUpdateService;
+        private readonly ILogger<DebugCommandController> _logger;
         private readonly DatabaseAccessor _databaseAccessor;
         private readonly IStudentService _studentService;
 
-        public DebugCommandController(DatabaseAccessor databaseAccessor, IConfiguration configuration, IStudentService studentService)
+        public DebugCommandController(ILogger<DebugCommandController> logger, DatabaseAccessor databaseAccessor, IStudentService studentService)
         {
+            _logger = logger;
             _databaseAccessor = databaseAccessor;
 
-            _googleTableUpdateService = new GoogleTableUpdateService(_databaseAccessor.SubjectActivity);
+            _googleTableUpdateService = new GoogleTableUpdateService(_logger, _databaseAccessor.SubjectActivity);
             _studentService = studentService;
         }
 
@@ -47,7 +49,7 @@ namespace Iwentys.Api.Controllers
 
             if (subjectData == null)
             {
-                // TODO: Some logs
+                _logger.LogWarning($"Subject info was not found: subjectId:{subjectId}, groupId:{groupId}");
                 return;
             }
             

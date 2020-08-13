@@ -41,9 +41,7 @@ namespace Iwentys.Api
                     .AllowAnyHeader();
             }));
 
-            // TODO: debug security key
-            const string signingSecurityKey = "0d5b3235a8b403c3dab9c3f4f65c07fcalskd234n1k41230";
-            var signingKey = new SigningSymmetricKey(signingSecurityKey);
+            var signingKey = new SigningSymmetricKey(ApplicationOptions.SigningSecurityKey);
             services.AddSingleton<IJwtSigningEncodingKey>(signingKey);
 
             services.AddControllers()
@@ -54,6 +52,7 @@ namespace Iwentys.Api
                 .EnableSensitiveDataLogging(Configuration.GetValue<bool>("Logging:EnableSqlParameterLogging")));
 
             ApplicationOptions.GoogleServiceToken = Configuration["GoogleTable:Credentials"];
+            ApplicationOptions.GithubToken = Configuration["GithubToken"];
 
             //TODO: replace with GithubApiAccessor implementation
             services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();
@@ -111,6 +110,7 @@ namespace Iwentys.Api
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
                 c.RoutePrefix = "swagger";
             });
+            
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
@@ -134,7 +134,7 @@ namespace Iwentys.Api
 
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
-            DaemonManager.Init(subjectActivityRepository, subjectForGroupRepository);
+            DaemonManager.Init(loggerFactory.CreateLogger("DaemonManager"), subjectActivityRepository, subjectForGroupRepository);
         }
     }
 }

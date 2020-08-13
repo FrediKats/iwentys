@@ -5,15 +5,18 @@ using Google.Apis.Sheets.v4;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Types;
+using Microsoft.Extensions.Logging;
 
 namespace Iwentys.Core.GoogleTableParsing
 {
     public class GoogleTableUpdateService
     {
+        private readonly ILogger _logger;
         private readonly ISubjectActivityRepository _subjectActivityRepository;
 
-        public GoogleTableUpdateService(ISubjectActivityRepository subjectActivityRepository)
+        public GoogleTableUpdateService(ILogger logger, ISubjectActivityRepository subjectActivityRepository)
         {
+            _logger = logger;
             _subjectActivityRepository = subjectActivityRepository;
         }
 
@@ -31,7 +34,7 @@ namespace Iwentys.Core.GoogleTableParsing
                 ApplicationName = "IwentysTableParser",
             });
 
-            var tableParser = new TableParser(sheetsService, googleTableData);
+            var tableParser = new TableParser(_logger, sheetsService, googleTableData);
 
             foreach (StudentSubjectScore student in tableParser.GetStudentsList())
             {
@@ -45,7 +48,7 @@ namespace Iwentys.Core.GoogleTableParsing
                                          && s.SubjectForGroupId == subjectData.Id);
                 if (activity == null)
                 {
-                    // TODO: Some logs
+                    _logger.LogWarning($"Subject info was not found: student:{student.Name}, subjectId:{subjectData.SubjectId}, groupId:{subjectData.StudyGroupId}");
                     return;
                 }
 

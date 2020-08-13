@@ -63,7 +63,6 @@ namespace Iwentys.Core.Services.Implementations
             _studentRepository.Update(user);
 
             _achievementProvider.Achieve(AchievementList.AddGithubAchievement, user.Id);
-            //TODO:
             return new StudentFullProfileDto(_studentRepository.Get(id));
         }
 
