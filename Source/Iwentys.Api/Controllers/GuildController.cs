@@ -130,22 +130,6 @@ namespace Iwentys.Api.Controllers
             return Ok();
         }
 
-        [HttpPost("{guildId}/VotingForTotem")]
-        public IActionResult VotingForTotem(int guildId, [FromBody] GuildTotemVotingCreateDto guildTotemVotingCreateDto)
-        {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
-            _guildService.StartVotingForTotem(user, guildId, guildTotemVotingCreateDto);
-            return Ok();
-        }
-
-        [HttpPost("{guildId}/SetTotem")]
-        public IActionResult SetTotem(int guildId, [FromBody] int totemId)
-        {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
-            _guildService.SetTotem(user, guildId, totemId);
-            return Ok();
-        }
-
         [HttpPost("{guildId}/pinned")]
         public ActionResult<GithubRepository> AddPinnedProject(int guildId, [FromBody] string repositoryUrl)
         {

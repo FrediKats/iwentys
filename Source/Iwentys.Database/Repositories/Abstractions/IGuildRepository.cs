@@ -7,7 +7,6 @@ namespace Iwentys.Database.Repositories.Abstractions
     {
         Guild[] ReadPending();
         Guild ReadForStudent(int studentId);
-        Guild ReadForTotem(int totemId);
 
         // TODO: extract methods below to GuildMemberRepository
         Boolean IsStudentHaveRequest(int studentId);

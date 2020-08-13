@@ -164,7 +164,6 @@ namespace Iwentys.Database.Context
                     LogoUrl = "https://sun9-58.userapi.com/AbGPM3TA6R82X3Jj2F-GY2d-NrzFAgC0_fmkiA/XlxgCXVtyiM.jpg",
                     HiringPolicy = GuildHiringPolicy.Open,
                     GuildType = GuildType.Created,
-                    TotemId = 2
                 }
             };
 

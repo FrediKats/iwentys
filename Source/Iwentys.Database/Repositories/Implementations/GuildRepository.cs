@@ -82,11 +82,6 @@ namespace Iwentys.Database.Repositories.Implementations
                 .SingleOrDefault();
         }
 
-        public Guild ReadForTotem(int totemId)
-        {
-            return _dbContext.Guilds.SingleOrDefault(g => g.TotemId == totemId);
-        }
-
         public Boolean IsStudentHaveRequest(Int32 studentId)
         {
             return !_dbContext.GuildMembers

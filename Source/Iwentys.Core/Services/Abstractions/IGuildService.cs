@@ -32,8 +32,6 @@ namespace Iwentys.Core.Services.Abstractions
         void RejectRequest(AuthorizedUser user, int guildId, int studentId);
 
         VotingInfoDto StartVotingForLeader(AuthorizedUser creator, int guildId, GuildLeaderVotingCreateDto votingCreateDto);
-        VotingInfoDto StartVotingForTotem(AuthorizedUser creator, int guildId, GuildTotemVotingCreateDto votingCreateDto);
-        void SetTotem(AuthorizedUser user, int guildId, int totemId);
 
         Tribute[] GetPendingTributes(AuthorizedUser user);
         Tribute[] GetStudentTributeResult(AuthorizedUser user);

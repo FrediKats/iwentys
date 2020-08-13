@@ -2,7 +2,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Iwentys.Core.Auth;
 using Iwentys.Core.GoogleTableParsing;
 using Iwentys.Core.Services.Abstractions;
@@ -11,10 +10,8 @@ using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Transferable.Students;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Iwentys.Api.Controllers

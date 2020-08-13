@@ -99,10 +99,9 @@ namespace Iwentys.Tests.Tools
             return this;
         }
 
-        public TestCaseContext WithTotem(GuildProfileDto guild, AuthorizedUser admin, out AuthorizedUser totem)
+        public TestCaseContext WithMentor(GuildProfileDto guild, AuthorizedUser admin, out AuthorizedUser mentor)
         {
-            WithGuildMember(guild, out totem);
-            GuildService.SetTotem(admin, guild.Id, totem.Id);
+            WithGuildMember(guild, out mentor);
             return this;
         }
 

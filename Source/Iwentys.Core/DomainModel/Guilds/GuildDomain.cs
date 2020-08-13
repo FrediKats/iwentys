@@ -47,7 +47,6 @@ namespace Iwentys.Core.DomainModel.Guilds
                 HiringPolicy = _profile.HiringPolicy,
                 LogoUrl = _profile.LogoUrl,
                 Title = _profile.Title,
-                Totem = _profile.Totem,
                 Leader = _profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member,
                 MemberLeaderBoard = GetMemberDashboard(),
                 PinnedRepositories = _profile.PinnedProjects.SelectToList(p => _apiAccessor.GetRepository(p.RepositoryOwner, p.RepositoryName)),

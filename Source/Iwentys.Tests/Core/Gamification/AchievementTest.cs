@@ -2,7 +2,6 @@
 using Iwentys.Core.DomainModel;
 using Iwentys.Database;
 using Iwentys.Models.Entities.Gamification;
-using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Tests.Tools;
 using NUnit.Framework;
 

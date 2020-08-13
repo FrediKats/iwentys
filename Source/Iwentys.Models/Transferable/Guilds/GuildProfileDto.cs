@@ -8,7 +8,6 @@ namespace Iwentys.Models.Transferable.Guilds
     public class GuildProfileDto : GuildProfileShortInfoDto
     {
         public Student Leader { get; set; }
-        public Student Totem { get; set; }
 
         public GuildMemberLeaderBoard MemberLeaderBoard { get; set; }
 
