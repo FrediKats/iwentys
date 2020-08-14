@@ -55,14 +55,16 @@ namespace Iwentys.Database.Context
                 new StudyStream
                 {
                     Id = 1,
-                    Name = "ИС 1 поток",
-                    StudySemester = StudySemester.Y20H1
+                    Name = "ИС y20",
+                    GraduationYear = StudentGraduationYear.Y20,
+                    StudyProgramId = 1
                 },
                 new StudyStream
                 {
                     Id = 2,
-                    Name = "ИС 2 поток",
-                    StudySemester = StudySemester.Y20H1
+                    Name = "ИС y21",
+                    GraduationYear = StudentGraduationYear.Y21,
+                    StudyProgramId = 1
                 }
             };
 
@@ -75,18 +77,21 @@ namespace Iwentys.Database.Context
             {
                 new StudyGroup
                 {
-                    Id = 1, StudyProgramId = 1, StudyStreamId = 1,
-                    GroupName = "М3201", Year = 2020
+                    Id = 1,
+                    StudyStreamId = 1,
+                    GroupName = "М3201",
                 },
                 new StudyGroup
                 {
-                    Id = 2, StudyProgramId = 1, StudyStreamId = 1,
-                    GroupName = "М3202", Year = 2020
+                    Id = 2,
+                    StudyStreamId = 1,
+                    GroupName = "М3202",
                 },
                 new StudyGroup
                 {
-                    Id = 3, StudyProgramId = 1, StudyStreamId = 2,
-                    GroupName = "М3203", Year = 2020
+                    Id = 3,
+                    StudyStreamId = 2,
+                    GroupName = "М3203",
                 }
             };
 
