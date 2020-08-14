@@ -10,7 +10,7 @@ namespace Iwentys.Core.DomainModel
         public Student Profile { get; set; }
 
         //TODO: remove
-        public static AuthorizedUser DebugAuth() => DebugAuth(1);
+        public static AuthorizedUser DebugAuth() => DebugAuth(228617);
         public static AuthorizedUser DebugAuth(int id)
         {
             DaemonManager.TryRun();

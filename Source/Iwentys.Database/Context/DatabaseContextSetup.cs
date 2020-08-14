@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Entities.Study;
+using Iwentys.Models.Tools;
 using Iwentys.Models.Types;
 using Iwentys.Models.Types.Guilds;
 
@@ -52,48 +54,26 @@ namespace Iwentys.Database.Context
 
             StudyStreams = new List<StudyStream>
             {
-                new StudyStream
-                {
-                    Id = 1,
-                    Name = "ИС y20",
-                    GraduationYear = StudentGraduationYear.Y20,
-                    StudyProgramId = 1
-                },
-                new StudyStream
-                {
-                    Id = 2,
-                    Name = "ИС y21",
-                    GraduationYear = StudentGraduationYear.Y21,
-                    StudyProgramId = 1
-                }
+                Create.IsStream(StudentGraduationYear.Y20),
+                Create.IsStream(StudentGraduationYear.Y21),
+                Create.IsStream(StudentGraduationYear.Y22),
+                Create.IsStream(StudentGraduationYear.Y23),
+                Create.IsStream(StudentGraduationYear.Y24),
             };
 
             Subjects = new List<Subject>
             {
-                new Subject {Id = 1, Name = "Programming"}, new Subject {Id = 2, Name = "Physical Culture"}
+                new Subject {Id = 1, Name = "Алгоритмы и структуры данных"},
+                new Subject {Id = 2, Name = "Дискретная математика"},
+                new Subject {Id = 3, Name = "Программирование"}
             };
 
-            StudyGroups = new List<StudyGroup>
-            {
-                new StudyGroup
-                {
-                    Id = 1,
-                    StudyStreamId = 1,
-                    GroupName = "М3201",
-                },
-                new StudyGroup
-                {
-                    Id = 2,
-                    StudyStreamId = 1,
-                    GroupName = "М3202",
-                },
-                new StudyGroup
-                {
-                    Id = 3,
-                    StudyStreamId = 2,
-                    GroupName = "М3203",
-                }
-            };
+            List<StudyGroup> secondCourse = Create.StreamGroup(4, 2, 12);
+            StudyGroups = new List<StudyGroup>()
+                .Concat(Create.StreamGroup(3, 3, 9))
+                .Concat(secondCourse)
+                .Concat(Create.StreamGroup(5, 1, 12))
+                .ToList();
 
             SubjectForGroups = new List<SubjectForGroup>
             {
@@ -101,59 +81,57 @@ namespace Iwentys.Database.Context
                 {
                     Id = 1,
                     SubjectId = 1,
-                    StudyGroupId = 1,
+                    StudyGroupId = secondCourse[0].Id,
                     TeacherId = 1,
-                    StudySemester = StudySemester.Y20H1
+                    StudySemester = StudySemester.Y19H2
                 },
                 new SubjectForGroup
                 {
                     Id = 2,
                     SubjectId = 2,
-                    StudyGroupId = 1,
+                    StudyGroupId = secondCourse[0].Id,
                     TeacherId = 1,
-                    StudySemester = StudySemester.Y20H1
+                    StudySemester = StudySemester.Y19H2
                 },
                 new SubjectForGroup
                 {
                     Id = 3,
-                    SubjectId = 1,
-                    StudyGroupId = 1,
+                    SubjectId = 3,
+                    StudyGroupId = secondCourse[0].Id,
                     TeacherId = 1,
-                    StudySemester = StudySemester.Y20H1
+                    StudySemester = StudySemester.Y19H2
                 }
             };
         }
 
         private void InitStudents()
         {
+            StudyGroup m3101 = StudyGroups.First(g => g.GroupName == "M3201");
+            StudyGroup m3105 = StudyGroups.First(g => g.GroupName == "M3205");
+
             Students = new List<Student>
             {
                 new Student
                 {
-                    Id = 1,
-                    FirstName = "Fredi",
-                    MiddleName = "String",
-                    SecondName = "Kats",
-                    Role = UserType.Common,
-                    GroupId = 1,
+                    Id = 228617,
+                    FirstName = "Фреди",
+                    MiddleName = "Кисикович",
+                    SecondName = "Катс",
+                    Role = UserType.Admin,
+                    GroupId = null,
                     GithubUsername = "InRedikaWB",
                     CreationTime = DateTime.UtcNow,
                     LastOnlineTime = DateTime.UtcNow,
                     BarsPoints = Int16.MaxValue
                 },
-                new Student
-                {
-                    Id = 2,
-                    FirstName = "Fredi2",
-                    MiddleName = "String2",
-                    SecondName = "Kats2",
-                    Role = UserType.Common,
-                    GroupId = 1,
-                    GithubUsername = "InRedikaWB",
-                    CreationTime = DateTime.UtcNow,
-                    LastOnlineTime = DateTime.UtcNow,
-                    BarsPoints = Int16.MaxValue
-                }
+                Student.CreateFromIsu(284446, "Максим", "Бастрыкин", m3101),
+                Student.CreateFromIsu(264987, "Вадим", "Гаврилов", m3101),
+                Student.CreateFromIsu(286516, "Леон", "Галстян", m3101),
+                Student.CreateFromIsu(284454, "Николай", "Гридинарь", m3101),
+                Student.CreateFromIsu(284457, "Матвей", "Дудко", m3101),
+                Student.CreateFromIsu(264275, "Аюна", "Дымчикова", m3101),
+                Student.CreateFromIsu(289140, "Сергей", "Миронец", m3101),
+                Student.CreateFromIsu(284479, "Илья", "Кузнецов", m3105),
             };
         }
 
@@ -164,22 +142,31 @@ namespace Iwentys.Database.Context
                 new Guild
                 {
                     Id = 1,
-                    Title = "TEF",
+                    Title = "TEF.C#",
                     Bio = "Best ITMO C# community!",
                     LogoUrl = "https://sun9-58.userapi.com/AbGPM3TA6R82X3Jj2F-GY2d-NrzFAgC0_fmkiA/XlxgCXVtyiM.jpg",
                     HiringPolicy = GuildHiringPolicy.Open,
-                    GuildType = GuildType.Created,
-                }
+                    GuildType = GuildType.Created
+                },
+                new Guild
+                {
+                    Id = 2,
+                    Title = "TEF.Java",
+                    Bio = "Best ITMO Java community!",
+                    LogoUrl = "https://sun9-58.userapi.com/AbGPM3TA6R82X3Jj2F-GY2d-NrzFAgC0_fmkiA/XlxgCXVtyiM.jpg",
+                    HiringPolicy = GuildHiringPolicy.Open,
+                    GuildType = GuildType.Created
+                },
             };
 
             GuildPinnedProjects = new List<GuildPinnedProject>
             {
                 new GuildPinnedProject
                 {
+                    Id = 1,
                     GuildId = 1,
-                    RepositoryName = "RepoName",
+                    RepositoryName = "Fluda",
                     RepositoryOwner = "InredikaWb",
-                    Id = 2
                 }
             };
 
@@ -188,11 +175,52 @@ namespace Iwentys.Database.Context
                 new GuildMember
                 {
                     GuildId = 1,
-                    MemberId = 2,
+                    MemberId = 228617,
+                    MemberType = GuildMemberType.Creator
+                },
+                new GuildMember
+                {
+                    GuildId = 1,
+                    MemberId = 289140,
+                    MemberType = GuildMemberType.Member
+                },
+                new GuildMember
+                {
+                    GuildId = 2,
+                    MemberId = 284479,
                     MemberType = GuildMemberType.Creator
                 }
             };
         }
-    }
 
+        private static class Create
+        {
+            private static readonly IdentifierGenerator StreamIdentifierGenerator = new IdentifierGenerator();
+            private static readonly IdentifierGenerator GroupIdentifierGenerator = new IdentifierGenerator();
+
+            public static StudyStream IsStream(StudentGraduationYear year)
+            {
+                return new StudyStream
+                {
+                    Id = StreamIdentifierGenerator.Next(),
+                    Name = $"ИС {year}",
+                    GraduationYear = year,
+                    StudyProgramId = 1
+                };
+            }
+
+            public static List<StudyGroup> StreamGroup(int streamId, int course, int groupCount)
+            {
+                return Enumerable
+                    .Range(1, groupCount)
+                    .Select(g => new StudyGroup
+                    {
+                        Id = GroupIdentifierGenerator.Next(),
+                        StudyStreamId = streamId,
+                        GroupName = $"M3{course}{g:00}",
+                    })
+                    .ToList();
+            }
+        }
+    }
 }

@@ -29,7 +29,12 @@ namespace Iwentys.Models.Entities
 
         public List<StudentAchievementModel> Achievements { get; set; }
 
-        public static Student CreateFromIsu(int id, string firstName, string middleName, string secondName, StudyGroup group)
+        public static Student CreateFromIsu(int id, string firstName, string secondName, StudyGroup group = null)
+        {
+            return CreateFromIsu(id, firstName, null, secondName, group);
+        }
+
+        public static Student CreateFromIsu(int id, string firstName, string middleName, string secondName, StudyGroup group = null)
         {
             return new Student
             {
