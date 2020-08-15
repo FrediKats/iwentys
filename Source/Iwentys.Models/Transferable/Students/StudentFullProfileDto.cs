@@ -22,14 +22,13 @@ namespace Iwentys.Models.Transferable.Students
         public List<AchievementInfoDto> Achievements { get; set; }
         //TODO: add some guild info?
         public string GuildName { get; set; }
-        public int StudyLeaderBoardPlace { get; set; }
-        public int CodingLeaderBoardPlace { get; set; }
+        //public int StudyLeaderBoardPlace { get; set; }
+        //public int CodingLeaderBoardPlace { get; set; }
         public string SocialStatus { get; set; }
         public string AdditionalLink { get; set; }
         
-        //TODO: add Study diagrams
+        public List<SubjectActivityInfoDto> SubjectActivityInfo { get; set; }
         //TODO: add GH coding stats for diagrams
-
 
         public StudentFullProfileDto()
         {
@@ -48,6 +47,7 @@ namespace Iwentys.Models.Transferable.Students
             LastOnlineTime = student.LastOnlineTime;
             BarsPoints = student.BarsPoints;
             Achievements = student.Achievements.SelectToList(AchievementInfoDto.Wrap);
+            SubjectActivityInfo = student.SubjectActivities.SelectToList(sa => new SubjectActivityInfoDto(sa));
         }
     }
 }
