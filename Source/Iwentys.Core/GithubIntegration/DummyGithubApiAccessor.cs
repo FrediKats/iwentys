@@ -8,7 +8,7 @@ namespace Iwentys.Core.GithubIntegration
     {
         public GithubRepository GetRepository(string username, string repositoryName)
         {
-            return default;
+            return new GithubRepository(-1, $"{username}/{repositoryName}", "No desc", null, 0);
         }
 
         public IReadOnlyList<GithubRepository> GetUserRepositories(string username)
@@ -18,7 +18,7 @@ namespace Iwentys.Core.GithubIntegration
 
         public GithubUser GetGithubUser(string githubUsername)
         {
-            return default;
+            return new GithubUser(githubUsername, null, "No bio", null);
         }
 
         public ContributionFullInfo GetUserActivity(string githubUsername)
