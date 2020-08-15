@@ -14,5 +14,8 @@ namespace Iwentys.Database.Repositories.Abstractions
         GuildMember AddMember(GuildMember member);
         GuildMember UpdateMember(GuildMember member);
         void RemoveMember(int guildId, int userId);
+
+        GuildPinnedProject PinProject(int guildId, string owner, string projectName);
+        void UnpinProject(int pinnedProjectId);
     }
 }

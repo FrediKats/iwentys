@@ -131,17 +131,19 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpPost("{guildId}/pinned")]
-        public ActionResult<GithubRepository> AddPinnedProject(int guildId, [FromBody] string repositoryUrl)
+        public ActionResult<GithubRepository> AddPinnedProject([FromRoute]int guildId, [FromBody]CreatePinnedRepositoryDto createPinnedRepository)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
-            return Ok(_guildService.AddPinnedRepository(user, guildId, repositoryUrl));
+            return Ok(_guildService.AddPinnedRepository(user, guildId, createPinnedRepository.Owner, createPinnedRepository.RepositoryName));
         }
 
         [HttpDelete("{guildId}/pinned")]
-        public ActionResult<GithubRepository> DeletePinnedProject(int guildId, [FromBody] string repositoryUrl)
+        public ActionResult DeletePinnedProject(int guildId, [FromBody] int repositoryId)
         {
+            //TODO: check
             AuthorizedUser user = AuthorizedUser.DebugAuth();
-            return Ok(_guildService.DeletePinnedRepository(user, guildId, repositoryUrl));
+            _guildService.UnpinProject(user, repositoryId);
+            return Ok();
         }
     }
 }

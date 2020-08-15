@@ -117,5 +117,24 @@ namespace Iwentys.Database.Repositories.Implementations
 
             _dbContext.SaveChanges();
         }
+
+        public GuildPinnedProject PinProject(int guildId, string owner, string projectName)
+        {
+            EntityEntry<GuildPinnedProject> entry = _dbContext.GuildPinnedProjects.Add(new GuildPinnedProject
+            {
+                GuildId = guildId,
+                RepositoryName = projectName,
+                RepositoryOwner = owner
+            });
+            _dbContext.SaveChanges();
+            return entry.Entity;
+        }
+
+        public void UnpinProject(int pinnedProjectId)
+        {
+            _dbContext.GuildPinnedProjects.Remove(_dbContext.GuildPinnedProjects.Find(pinnedProjectId));
+            _dbContext.SaveChanges();
+            return;
+        }
     }
 }

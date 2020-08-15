@@ -342,7 +342,7 @@ namespace Iwentys.Core.Services.Implementations
                 user.EnsureIsMentor(_guildRepository, tribute.GuildId);
                 tribute.SetCanceled();
             }
-            
+
             return _tributeRepository.Update(tribute);
         }
 
@@ -358,14 +358,18 @@ namespace Iwentys.Core.Services.Implementations
             return _tributeRepository.Update(tribute);
         }
 
-        public GithubRepository AddPinnedRepository(AuthorizedUser user, int guildId, string repositoryUrl)
+        public GithubRepository AddPinnedRepository(AuthorizedUser user, int guildId, string owner, string projectName)
         {
-            throw new System.NotImplementedException();
+            //TODO: check permission
+            GithubRepository repository = _apiAccessor.GetRepository(owner, projectName);
+            _guildRepository.PinProject(guildId, owner, projectName);
+            return repository;
         }
 
-        public GithubRepository DeletePinnedRepository(AuthorizedUser user, int guildId, string repositoryUrl)
+        public void UnpinProject(AuthorizedUser user, int pinnedProjectId)
         {
-            throw new System.NotImplementedException();
+            //TODO: check permission
+            _guildRepository.UnpinProject(pinnedProjectId);
         }
     }
 }
