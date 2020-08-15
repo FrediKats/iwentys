@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Iwentys.Models.Entities;
+using Iwentys.Models.Transferable.Students;
 using Iwentys.Models.Types.Github;
 using Iwentys.Models.Types.Guilds;
 
@@ -7,7 +7,7 @@ namespace Iwentys.Models.Transferable.Guilds
 {
     public class GuildProfileDto : GuildProfileShortInfoDto
     {
-        public Student Leader { get; set; }
+        public StudentPartialProfileDto Leader { get; set; }
 
         public GuildMemberLeaderBoard MemberLeaderBoard { get; set; }
 
