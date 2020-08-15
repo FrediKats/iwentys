@@ -28,6 +28,7 @@ namespace Iwentys.Models.Entities
         public DateTime GuildLeftTime { get; set; }
 
         public List<StudentAchievementModel> Achievements { get; set; }
+        public List<SubjectActivity> SubjectActivities { get; set; }
 
         public static Student CreateFromIsu(int id, string firstName, string secondName, StudyGroup group = null)
         {

@@ -89,6 +89,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<Teacher>().HasData(seedData.Teachers);
             modelBuilder.Entity<Subject>().HasData(seedData.Subjects);
             modelBuilder.Entity<SubjectForGroup>().HasData(seedData.SubjectForGroups);
+            modelBuilder.Entity<SubjectActivity>().HasData(seedData.SubjectActivitys);
 
             modelBuilder.Entity<Student>().HasData(seedData.Students);
             modelBuilder.Entity<Guild>().HasData(seedData.Guilds);

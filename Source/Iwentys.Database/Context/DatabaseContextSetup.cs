@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Models.Entities;
@@ -29,6 +29,7 @@ namespace Iwentys.Database.Context
         public List<StudyStream> StudyStreams { get; set; }
         public List<StudyProgram> StudyPrograms { get; set; }
         public List<SubjectForGroup> SubjectForGroups { get; set; }
+        public List<SubjectActivity> SubjectActivitys { get; set; }
 
         public List<Student> Students { get; set; }
         public List<Guild> Guilds { get; set; }
@@ -140,7 +141,29 @@ namespace Iwentys.Database.Context
                 Student.CreateFromIsu(264282, "Илья", "Ильменский", m3305),
 
             };
+
+            SubjectActivitys = new List<SubjectActivity>
+            {
+                new SubjectActivity
+                {
+                    StudentId = 289140,
+                    Points = 100,
+                    SubjectForGroupId = 1
+                },
+                new SubjectActivity
+                {
+                    StudentId = 289140,
+                    Points = 60,
+                    SubjectForGroupId = 2
+                },
+                new SubjectActivity
+                {
+                    StudentId = 289140,
+                    Points = 70,
+                    SubjectForGroupId = 3
                 }
+            };
+        }
 
         private void InitGuilds()
         {
