@@ -70,7 +70,9 @@ namespace Iwentys.Api
             services.AddScoped<ISubjectForGroupRepository, SubjectForGroupRepository>();
             services.AddScoped<ITournamentRepository, TournamentRepository>();
             services.AddScoped<ITributeRepository, TributeRepository>();
-
+            services.AddScoped<IGithubUserDataRepository, GithubUserDataRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IStudentProjectRepository, StudentProjectRepository>();
             services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();
 

@@ -13,5 +13,6 @@ namespace Iwentys.Core.Services.Abstractions
         GithubUserData GetUserDataByUsername(string username);
         IEnumerable<GithubRepository> GetGithubRepositories(string username);
         GithubRepository GetCertainRepository(string username, string projectName);
+        IEnumerable<GithubUserData> GetAll();
     }
 }
