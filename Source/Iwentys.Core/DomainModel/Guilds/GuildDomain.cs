@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Core.GithubIntegration;
+using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
@@ -17,13 +17,13 @@ namespace Iwentys.Core.DomainModel.Guilds
     {
         private readonly Guild _profile;
         private readonly DatabaseAccessor _dbAccessor;
-        private readonly IGithubApiAccessor _apiAccessor;
+        private readonly IGithubUserDataService _githubUserDataService;
 
-        public GuildDomain(Guild profile, DatabaseAccessor dbAccessor, IGithubApiAccessor apiAccessor)
+        public GuildDomain(Guild profile, DatabaseAccessor dbAccessor, IGithubUserDataService githubUserDataService)
         {
             _profile = profile;
             _dbAccessor = dbAccessor;
-            _apiAccessor = apiAccessor;
+            _githubUserDataService = githubUserDataService;
         }
 
         public GuildProfileShortInfoDto ToGuildProfileShortInfoDto()
@@ -49,7 +49,7 @@ namespace Iwentys.Core.DomainModel.Guilds
                 Title = _profile.Title,
                 Leader = _profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member,
                 MemberLeaderBoard = GetMemberDashboard(),
-                PinnedRepositories = _profile.PinnedProjects.SelectToList(p => _apiAccessor.GetRepository(p.RepositoryOwner, p.RepositoryName)),
+                PinnedRepositories = _profile.PinnedProjects.SelectToList(p => _githubUserDataService.GetCertainRepository(p.RepositoryOwner, p.RepositoryName)),
                 Achievements = _profile.Achievements.SelectToList(AchievementInfoDto.Wrap)
             };
 
@@ -80,7 +80,7 @@ namespace Iwentys.Core.DomainModel.Guilds
             List<GuildMemberImpact> members = _profile
                 .Members
                 .Select(m => m.Member.GithubUsername)
-                .Select(ghName => new GuildMemberImpact(ghName, _apiAccessor.GetUserActivity(ghName).Total))
+                .Select(ghName => new GuildMemberImpact(ghName, _githubUserDataService.GetUserDataByUsername(ghName).ContributionFullInfo.Total))
                 .ToList();
 
             return new GuildMemberLeaderBoard

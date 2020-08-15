@@ -8,7 +8,7 @@ using Iwentys.Models.Types.Github;
 
 namespace Iwentys.Core.Services.Implementations
 {
-    class GithubUserDataService : IGithubUserDataService
+    public class GithubUserDataService : IGithubUserDataService
     {
         private readonly IGithubUserDataRepository _githubUserDataRepository;
         private readonly IGithubApiAccessor _githubApiAccessor;

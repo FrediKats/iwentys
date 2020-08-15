@@ -21,7 +21,7 @@ namespace Iwentys.Core.Services.Implementations
 {
     public class GuildService : IGuildService
     {
-        private readonly IGithubApiAccessor _apiAccessor;
+        private readonly IGithubUserDataService _githubUserDataService;
 
         private readonly IGuildRepository _guildRepository;
         private readonly IStudentRepository _studentRepository;
@@ -33,14 +33,14 @@ namespace Iwentys.Core.Services.Implementations
             IStudentRepository studentRepository,
             IStudentProjectRepository studentProjectRepository,
             ITributeRepository tributeRepository,
-            DatabaseAccessor databaseAccessor, IGithubApiAccessor apiAccessor)
+            DatabaseAccessor databaseAccessor, IGithubUserDataService githubUserDataService)
         {
             _guildRepository = guildRepository;
             _studentRepository = studentRepository;
             _studentProjectRepository = studentProjectRepository;
             _tributeRepository = tributeRepository;
             _databaseAccessor = databaseAccessor;
-            _apiAccessor = apiAccessor;
+            _githubUserDataService = githubUserDataService;
         }
 
         public GuildProfileShortInfoDto Create(AuthorizedUser creator, GuildCreateArgumentDto arguments)
@@ -66,7 +66,7 @@ namespace Iwentys.Core.Services.Implementations
             };
 
             return _guildRepository.Create(newGuild)
-                .To(g => new GuildDomain(g, _databaseAccessor, _apiAccessor))
+                .To(g => new GuildDomain(g, _databaseAccessor, _githubUserDataService))
                 .ToGuildProfileShortInfoDto();
         }
 
@@ -85,7 +85,7 @@ namespace Iwentys.Core.Services.Implementations
                         guildMember.MemberType = GuildMemberType.Member;
 
             return _guildRepository.Update(info)
-                .To(g => new GuildDomain(g, _databaseAccessor, _apiAccessor))
+                .To(g => new GuildDomain(g, _databaseAccessor, _githubUserDataService))
                 .ToGuildProfileShortInfoDto();
         }
 
@@ -101,14 +101,14 @@ namespace Iwentys.Core.Services.Implementations
 
             guild.GuildType = GuildType.Created;
             return _guildRepository.Update(guild)
-                .To(g => new GuildDomain(g, _databaseAccessor, _apiAccessor))
+                .To(g => new GuildDomain(g, _databaseAccessor, _githubUserDataService))
                 .ToGuildProfileShortInfoDto();
         }
 
         public GuildProfileDto[] Get()
         {
             return _guildRepository.Read().AsEnumerable().Select(g =>
-                new GuildDomain(g, _databaseAccessor, _apiAccessor)
+                new GuildDomain(g, _databaseAccessor, _githubUserDataService)
                     .ToGuildProfileDto()).ToArray();
         }
 
@@ -116,7 +116,7 @@ namespace Iwentys.Core.Services.Implementations
         {
             return _guildRepository.Read()
                 .ToList()
-                .Select(g => new GuildDomain(g, _databaseAccessor, _apiAccessor).ToGuildProfilePreviewDto())
+                .Select(g => new GuildDomain(g, _databaseAccessor, _githubUserDataService).ToGuildProfilePreviewDto())
                 .OrderByDescending(g => g.Rating)
                 .Skip(skippedCount)
                 .Take(takenCount)
@@ -126,21 +126,21 @@ namespace Iwentys.Core.Services.Implementations
         public GuildProfileDto Get(int id, int? userId)
         {
             return _guildRepository.Get(id)
-                .To(g => new GuildDomain(g, _databaseAccessor, _apiAccessor))
+                .To(g => new GuildDomain(g, _databaseAccessor, _githubUserDataService))
                 .ToGuildProfileDto(userId);
         }
 
         public GuildProfileDto GetStudentGuild(int userId)
         {
             return _guildRepository.ReadForStudent(userId).To(g =>
-                    new GuildDomain(g, _databaseAccessor, _apiAccessor))
+                    new GuildDomain(g, _databaseAccessor, _githubUserDataService))
                 .ToGuildProfileDto(userId);
         }
 
         public GuildProfileDto EnterGuild(AuthorizedUser user, Int32 guildId)
         {
             GuildDomain guild = _guildRepository.Get(guildId).To(g =>
-                new GuildDomain(g, _databaseAccessor, _apiAccessor));
+                new GuildDomain(g, _databaseAccessor, _githubUserDataService));
 
             if (guild.GetUserMembershipState(user.Id) != UserMembershipState.CanEnter)
                 throw new InnerLogicException($"Student unable to enter this guild! UserId: {user.Id} GuildId: {guildId}");
@@ -153,7 +153,7 @@ namespace Iwentys.Core.Services.Implementations
         public GuildProfileDto RequestGuild(AuthorizedUser user, Int32 guildId)
         {
             GuildDomain guild = _guildRepository.Get(guildId).To(g =>
-                new GuildDomain(g, _databaseAccessor, _apiAccessor));
+                new GuildDomain(g, _databaseAccessor, _githubUserDataService));
 
             if (guild.GetUserMembershipState(user.Id) != UserMembershipState.CanRequest)
                 throw new InnerLogicException($"Student unable to send request to this guild! UserId: {user.Id} GuildId: {guildId}");
