@@ -47,7 +47,7 @@ namespace Iwentys.Tests.Tools
             var achievementProvider = new AchievementProvider(Accessor);
 
             StudentService = new StudentService(StudentRepository, new DebugIsuAccessor(), achievementProvider);
-            GuildService = new GuildService(GuildRepository, StudentRepository, Accessor.TributeRepository, Accessor, new DummyGithubApiAccessor());
+            GuildService = new GuildService(GuildRepository, StudentRepository, Accessor.TributeRepository, Accessor, default(GithubUserDataService));
             GuildTributeServiceService = new GuildTributeService(Accessor, new DummyGithubApiAccessor());
             CompanyService = new CompanyService(Accessor.CompanyRepository, StudentRepository);
             QuestService = new QuestService(Accessor.QuestRepository, achievementProvider, Accessor);

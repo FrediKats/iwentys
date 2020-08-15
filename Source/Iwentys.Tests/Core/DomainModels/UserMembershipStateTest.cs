@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Iwentys.Core.DomainModel.Guilds;
-using Iwentys.Core.GithubIntegration;
+using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
@@ -25,7 +25,7 @@ namespace Iwentys.Tests.Core.DomainModels
         private Mock<ITributeRepository> _tributeRepository;
         private Mock<IGuildRepository> _guildRepository;
         private Mock<IStudentRepository> _studentRepository;
-        private Mock<IGithubApiAccessor> _githubApiAccessor;
+        private Mock<IGithubUserDataService> _githubUserDataService;
 
         // User without guild
         //      is not in blocked list
@@ -66,13 +66,13 @@ namespace Iwentys.Tests.Core.DomainModels
                 .Setup(r => r.ReadStudentActiveTribute(It.IsAny<Int32>(), It.IsAny<Int32>()))
                 .Returns(default(Tribute));
 
-            _githubApiAccessor = new Mock<IGithubApiAccessor>();
-            _githubApiAccessor
-                .Setup(a => a.GetRepository(It.IsAny<String>(), It.IsAny<String>()))
+            _githubUserDataService = new Mock<IGithubUserDataService>();
+            _githubUserDataService
+                .Setup(a => a.GetCertainRepository(It.IsAny<String>(), It.IsAny<String>()))
                 .Returns(default(GithubRepository));
-            _githubApiAccessor
-                .Setup(a => a.GetUserActivity(It.IsAny<String>()))
-                .Returns(new ContributionFullInfo() {PerMonthActivity = new List<ContributionsInfo>()});
+            _githubUserDataService
+                .Setup(a => a.GetUserDataByUsername(It.IsAny<String>()))
+                .Returns(default(GithubUserData));
 
             _guildRepository = new Mock<IGuildRepository>();
             _guildRepository
@@ -101,7 +101,7 @@ namespace Iwentys.Tests.Core.DomainModels
                 null,
                 null);
 
-            _guildDomain = new GuildDomain(_guild, databaseAccessor, _githubApiAccessor.Object);
+            _guildDomain = new GuildDomain(_guild, databaseAccessor, _githubUserDataService.Object);
         }
 
         [Test]
