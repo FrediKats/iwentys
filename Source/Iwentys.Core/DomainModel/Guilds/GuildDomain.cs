@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Iwentys.Core.GithubIntegration;
 using Iwentys.Database.Context;
@@ -9,6 +10,7 @@ using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Guilds;
+using Iwentys.Models.Transferable.Students;
 using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Core.DomainModel.Guilds
@@ -80,6 +82,7 @@ namespace Iwentys.Core.DomainModel.Guilds
             List<GuildMemberImpact> members = _profile
                 .Members
                 .Select(m => m.Member.GithubUsername)
+                .Where(gh => gh != null)
                 .Select(ghName => new GuildMemberImpact(ghName, _apiAccessor.GetUserActivity(ghName).Total))
                 .ToList();
 
