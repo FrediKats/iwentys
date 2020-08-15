@@ -87,7 +87,14 @@ namespace Iwentys.Core.DomainModel.Guilds
                 .Members
                 .Select(m => m.Member.GithubUsername)
                 .Where(gh => gh != null)
-                .Select(ghName => new GuildMemberImpact(ghName, _githubUserDataService.GetUserDataByUsername(ghName).ContributionFullInfo.Total))
+                .Select(ghName =>
+                {
+                    var total = _githubUserDataService?.GetUserDataByUsername(ghName).ContributionFullInfo.Total;
+                    if (total != null)
+                        return new GuildMemberImpact(ghName,
+                            (int) total);
+                    return new GuildMemberImpact(ghName, 0);
+                })
                 .ToList();
 
             return new GuildMemberLeaderBoard
