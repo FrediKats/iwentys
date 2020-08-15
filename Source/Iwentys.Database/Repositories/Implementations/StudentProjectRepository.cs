@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
@@ -58,6 +59,27 @@ namespace Iwentys.Database.Repositories.Implementations
                 Student = creator,
                 StudentId = creator.Id
             });
+        }
+
+        public void CreateMany(IEnumerable<StudentProject> studentsProjects)
+        {
+            _dbContext.StudentProjects.AddRange(studentsProjects);
+            _dbContext.SaveChanges();
+        }
+
+        public bool Contains(StudentProject project)
+        {
+            return _dbContext.StudentProjects.Contains(project);
+        }
+
+        public IEnumerable<StudentProject> GetProjectsByUserName(string username)
+        {
+            return Read().Where(p => p.UserName == username);
+        }
+
+        public StudentProject GetCertainProject(string username, string projectName)
+        {
+            return Read().SingleOrDefault(p => p.UserName == username && p.Name == projectName);
         }
     }
 }

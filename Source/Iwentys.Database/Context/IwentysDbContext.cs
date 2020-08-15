@@ -45,6 +45,7 @@ namespace Iwentys.Database.Context
 
         public DbSet<Student> Students { get; set; }
         public DbSet<StudentProject> StudentProjects { get; set; }
+        public DbSet<GithubUserData> GithubUsersData { get; set; }
         public DbSet<BarsPointTransactionLog> BarsPointTransactionLogs { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<CompanyWorker> CompanyWorkers { get; set; }
