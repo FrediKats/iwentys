@@ -11,6 +11,7 @@ using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Students;
+using Iwentys.Models.Types.Github;
 using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Core.DomainModel.Guilds
@@ -51,7 +52,13 @@ namespace Iwentys.Core.DomainModel.Guilds
                 Title = _profile.Title,
                 Leader = _profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentPartialProfileDto(s)),
                 MemberLeaderBoard = GetMemberDashboard(),
-                PinnedRepositories = _profile.PinnedProjects.SelectToList(p => _githubUserDataService.GetCertainRepository(p.RepositoryOwner, p.RepositoryName)),
+                PinnedRepositories = _profile.PinnedProjects.SelectToList(p =>
+                {
+                    var tmp = _githubUserDataService?.GetCertainRepository(p.RepositoryOwner, p.RepositoryName);
+                    if (tmp != null)
+                        return tmp;
+                    return new GithubRepository(-1, $"{p.RepositoryOwner}/{p.RepositoryName}", "No desc", null, 0);
+                }),
                 Achievements = _profile.Achievements.SelectToList(AchievementInfoDto.Wrap)
             };
 
@@ -84,7 +91,7 @@ namespace Iwentys.Core.DomainModel.Guilds
                 .Select(m => m.Member.GithubUsername)
                 .Select(ghName =>
                 {
-                    var total = _githubUserDataService?.GetUserDataByUsername(ghName).ContributionFullInfo.Total;
+                    var total = _githubUserDataService?.GetUserDataByUsername(ghName)?.ContributionFullInfo.Total;
                     if (total != null)
                         return new GuildMemberImpact(ghName,
                             (int) total);
