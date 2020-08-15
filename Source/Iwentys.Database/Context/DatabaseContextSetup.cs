@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Models.Entities;
@@ -106,8 +106,9 @@ namespace Iwentys.Database.Context
 
         private void InitStudents()
         {
-            StudyGroup m3101 = StudyGroups.First(g => g.GroupName == "M3201");
-            StudyGroup m3105 = StudyGroups.First(g => g.GroupName == "M3205");
+            StudyGroup m3201 = StudyGroups.First(g => g.GroupName == "M3201");
+            StudyGroup m3205 = StudyGroups.First(g => g.GroupName == "M3205");
+            StudyGroup m3305 = StudyGroups.First(g => g.GroupName == "M3305");
 
             Students = new List<Student>
             {
@@ -124,16 +125,22 @@ namespace Iwentys.Database.Context
                     LastOnlineTime = DateTime.UtcNow,
                     BarsPoints = Int16.MaxValue
                 },
-                Student.CreateFromIsu(284446, "Максим", "Бастрыкин", m3101),
-                Student.CreateFromIsu(264987, "Вадим", "Гаврилов", m3101),
-                Student.CreateFromIsu(286516, "Леон", "Галстян", m3101),
-                Student.CreateFromIsu(284454, "Николай", "Гридинарь", m3101),
-                Student.CreateFromIsu(284457, "Матвей", "Дудко", m3101),
-                Student.CreateFromIsu(264275, "Аюна", "Дымчикова", m3101),
-                Student.CreateFromIsu(289140, "Сергей", "Миронец", m3101),
-                Student.CreateFromIsu(284479, "Илья", "Кузнецов", m3105),
+
+                Student.CreateFromIsu(284446, "Максим", "Бастрыкин", m3201),
+                Student.CreateFromIsu(264987, "Вадим", "Гаврилов", m3201),
+                Student.CreateFromIsu(286516, "Леон", "Галстян", m3201),
+                Student.CreateFromIsu(284454, "Николай", "Гридинарь", m3201),
+                Student.CreateFromIsu(284457, "Матвей", "Дудко", m3201),
+                Student.CreateFromIsu(264275, "Аюна", "Дымчикова", m3201),
+                Student.CreateFromIsu(289140, "Сергей", "Миронец", m3201),
+
+                Student.CreateFromIsu(284479, "Илья", "Кузнецов", m3205),
+
+                Student.CreateFromIsu(264312, "Илья", "Шамов", m3305),
+                Student.CreateFromIsu(264282, "Илья", "Ильменский", m3305),
+
             };
-        }
+                }
 
         private void InitGuilds()
         {
@@ -157,6 +164,15 @@ namespace Iwentys.Database.Context
                     HiringPolicy = GuildHiringPolicy.Open,
                     GuildType = GuildType.Created
                 },
+                new Guild
+                {
+                    Id = 3,
+                    Title = "TEF.ML",
+                    Bio = "Best ITMO ML community!",
+                    LogoUrl = "https://sun9-58.userapi.com/AbGPM3TA6R82X3Jj2F-GY2d-NrzFAgC0_fmkiA/XlxgCXVtyiM.jpg",
+                    HiringPolicy = GuildHiringPolicy.Open,
+                    GuildType = GuildType.Created
+                },
             };
 
             GuildPinnedProjects = new List<GuildPinnedProject>
@@ -169,27 +185,15 @@ namespace Iwentys.Database.Context
                     RepositoryOwner = "InredikaWb",
                 }
             };
-
             GuildMembers = new List<GuildMember>
             {
-                new GuildMember
-                {
-                    GuildId = 1,
-                    MemberId = 228617,
-                    MemberType = GuildMemberType.Creator
-                },
-                new GuildMember
-                {
-                    GuildId = 1,
-                    MemberId = 289140,
-                    MemberType = GuildMemberType.Member
-                },
-                new GuildMember
-                {
-                    GuildId = 2,
-                    MemberId = 284479,
-                    MemberType = GuildMemberType.Creator
-                }
+                Create.GuildMember(1, 228617, GuildMemberType.Creator),
+                Create.GuildMember(1, 289140, GuildMemberType.Member),
+
+                Create.GuildMember(2, 284479, GuildMemberType.Creator),
+
+                Create.GuildMember(3, 264312, GuildMemberType.Creator),
+                Create.GuildMember(3, 264282, GuildMemberType.Member),
             };
         }
 
@@ -220,6 +224,16 @@ namespace Iwentys.Database.Context
                         GroupName = $"M3{course}{g:00}",
                     })
                     .ToList();
+            }
+
+            public static GuildMember GuildMember(int guildId, int memberId, GuildMemberType memberType)
+            {
+                return new GuildMember
+                {
+                    GuildId = guildId,
+                    MemberId = memberId,
+                    MemberType = memberType
+                };
             }
         }
     }
