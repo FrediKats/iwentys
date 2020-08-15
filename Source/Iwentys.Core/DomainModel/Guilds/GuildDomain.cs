@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.GithubIntegration;
@@ -47,7 +47,7 @@ namespace Iwentys.Core.DomainModel.Guilds
                 HiringPolicy = _profile.HiringPolicy,
                 LogoUrl = _profile.LogoUrl,
                 Title = _profile.Title,
-                Leader = _profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member,
+                Leader = _profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentPartialProfileDto(s)),
                 MemberLeaderBoard = GetMemberDashboard(),
                 PinnedRepositories = _profile.PinnedProjects.SelectToList(p => _apiAccessor.GetRepository(p.RepositoryOwner, p.RepositoryName)),
                 Achievements = _profile.Achievements.SelectToList(AchievementInfoDto.Wrap)
@@ -87,7 +87,7 @@ namespace Iwentys.Core.DomainModel.Guilds
             {
                 TotalRate = members.Sum(m => m.TotalRate),
                 MembersImpact = members,
-                Members = _profile.Members.SelectToList(m => m.Member)
+                Members = _profile.Members.SelectToList(m => new StudentPartialProfileDto(m.Member))
             };
         }
 
