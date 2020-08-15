@@ -5,7 +5,6 @@ namespace Iwentys.Models.Entities.Study
 {
     public class SubjectForGroup
     {
-        //TODO: remove this id
         public int Id { get; set; }
 
         public int SubjectId { get; set; }
@@ -15,12 +14,11 @@ namespace Iwentys.Models.Entities.Study
         public StudyGroup StudyGroup { get; set; }
 
         public int TeacherId { get; set; }
-        public Teacher Lecturer { get; set; }
+        public Teacher Teacher { get; set; }
 
         public string SerializedGoogleTableConfig { get; set; }
+        public StudySemester StudySemester { get; set; }
 
         public GoogleTableData GetGoogleTableDataConfig() => JsonConvert.DeserializeObject<GoogleTableData>(SerializedGoogleTableConfig);
-
-        public StudySemester StudySemester { get; set; }
     }
 }

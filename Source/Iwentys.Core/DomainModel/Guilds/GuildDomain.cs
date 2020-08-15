@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
@@ -9,6 +10,7 @@ using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Guilds;
+using Iwentys.Models.Transferable.Students;
 using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Core.DomainModel.Guilds
@@ -47,7 +49,7 @@ namespace Iwentys.Core.DomainModel.Guilds
                 HiringPolicy = _profile.HiringPolicy,
                 LogoUrl = _profile.LogoUrl,
                 Title = _profile.Title,
-                Leader = _profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member,
+                Leader = _profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentPartialProfileDto(s)),
                 MemberLeaderBoard = GetMemberDashboard(),
                 PinnedRepositories = _profile.PinnedProjects.SelectToList(p => _githubUserDataService.GetCertainRepository(p.RepositoryOwner, p.RepositoryName)),
                 Achievements = _profile.Achievements.SelectToList(AchievementInfoDto.Wrap)
@@ -87,7 +89,7 @@ namespace Iwentys.Core.DomainModel.Guilds
             {
                 TotalRate = members.Sum(m => m.TotalRate),
                 MembersImpact = members,
-                Members = _profile.Members.SelectToList(m => m.Member)
+                Members = _profile.Members.SelectToList(m => new StudentPartialProfileDto(m.Member))
             };
         }
 
