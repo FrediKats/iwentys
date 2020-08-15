@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Tools;
 
@@ -17,7 +19,7 @@ namespace Iwentys.Models.Transferable.Students
         //public string AdditionalLink { get; set; }
         
         public List<SubjectActivityInfoDto> SubjectActivityInfo { get; set; }
-        //TODO: add GH coding stats for diagrams
+        public List<CodingActivityInfoDto> CodingActivityInfo { get; set; }
 
         public StudentFullProfileDto()
         {
@@ -29,6 +31,10 @@ namespace Iwentys.Models.Transferable.Students
 
             Achievements = student.Achievements.SelectToList(AchievementInfoDto.Wrap);
             SubjectActivityInfo = student.SubjectActivities.SelectToList(sa => new SubjectActivityInfoDto(sa));
+            CodingActivityInfo = Enumerable
+                .Range(1, 12)
+                .Select(i => new DateTime(2020, i, 1))
+                .SelectToList(v => new CodingActivityInfoDto {Month = $"{v:M}", Activity = 1});
         }
     }
 }
