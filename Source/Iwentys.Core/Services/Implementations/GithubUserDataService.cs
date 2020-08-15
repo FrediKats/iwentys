@@ -101,5 +101,10 @@ namespace Iwentys.Core.Services.Implementations
         {
             return new GithubRepository(_studentProjectRepository.GetCertainProject(username, projectName));
         }
+
+        public IEnumerable<GithubUserData> GetAll()
+        {
+            return _githubUserDataRepository.Read();
+        }
     }
 }

@@ -68,6 +68,9 @@ namespace Iwentys.Api
             services.AddScoped<IQuestRepository, QuestRepository>();
             services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
             services.AddScoped<ISubjectForGroupRepository, SubjectForGroupRepository>();
+            services.AddScoped<IGithubUserDataRepository, GithubUserDataRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IStudentProjectRepository, StudentProjectRepository>();
             services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();
 
@@ -91,6 +94,10 @@ namespace Iwentys.Api
             IwentysDbContext db,
             ISubjectActivityRepository subjectActivityRepository,
             ISubjectForGroupRepository subjectForGroupRepository,
+            IGithubUserDataRepository githubUserDataRepository,
+            IGithubApiAccessor githubApiAccessor,
+            IStudentRepository studentRepository,
+            IStudentProjectRepository studentProjectRepository,
             ILoggerFactory loggerFactory)
         {
             loggerFactory.AddFile(Configuration["LogFilePath"]);
@@ -134,7 +141,8 @@ namespace Iwentys.Api
 
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
-            DaemonManager.Init(loggerFactory.CreateLogger("DaemonManager"), subjectActivityRepository, subjectForGroupRepository);
+            DaemonManager.Init(loggerFactory.CreateLogger("DaemonManager"), subjectActivityRepository, subjectForGroupRepository,
+                githubUserDataRepository, githubApiAccessor, studentRepository, studentProjectRepository);
         }
     }
 }
