@@ -8,7 +8,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "xcopy . %npm_config_first% /Y /E /Q && cd %npm_config_first% && npm install && npm run build",
-    "lint":  "eslint ./src/**/*.ts --fix"
+    "lint": "eslint ./src/**/*.ts --fix"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -27,7 +27,6 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
     }
   },
   "dependencies": {
@@ -51,7 +50,6 @@
     "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.5",
     "@types/swagger-ui-react": "^3.23.2",
-    "eslint": "^7.7.0",
     "eslint-config-react-app": "^5.2.1",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-node": "^11.1.0",
