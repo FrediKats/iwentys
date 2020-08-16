@@ -31,7 +31,9 @@ namespace Iwentys.Database.Repositories.Implementations
                 .ThenInclude(a => a.Achievement)
                 .Include(s => s.SubjectActivities)
                 .ThenInclude(a => a.SubjectForGroup)
-                .ThenInclude(sg => sg.Subject);
+                .ThenInclude(sg => sg.Subject)
+                .Include(s => s.GuildMember)
+                .ThenInclude(gm => gm.Guild);
         }
 
         public Student ReadById(int key)

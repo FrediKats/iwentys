@@ -11,13 +11,12 @@ namespace Iwentys.Models.Transferable.Students
         public string Group { get; set; }
 
         public List<AchievementInfoDto> Achievements { get; set; }
-        //TODO: add some guild info?
-        //public string GuildName { get; set; }
+        public string GuildName { get; set; }
         //public int StudyLeaderBoardPlace { get; set; }
         //public int CodingLeaderBoardPlace { get; set; }
         //public string SocialStatus { get; set; }
         //public string AdditionalLink { get; set; }
-        
+
         public List<SubjectActivityInfoDto> SubjectActivityInfo { get; set; }
         public List<CodingActivityInfoDto> CodingActivityInfo { get; set; }
 
@@ -28,13 +27,17 @@ namespace Iwentys.Models.Transferable.Students
         public StudentFullProfileDto(Student student) : base(student)
         {
             Group = student.Group?.GroupName;
+            //TODO:
+            var random = new Random();
 
             Achievements = student.Achievements.SelectToList(AchievementInfoDto.Wrap);
             SubjectActivityInfo = student.SubjectActivities.SelectToList(sa => new SubjectActivityInfoDto(sa));
+            GuildName = student.GuildMember?.Guild?.Title;
+
             CodingActivityInfo = Enumerable
                 .Range(1, 12)
                 .Select(i => new DateTime(2020, i, 1))
-                .SelectToList(v => new CodingActivityInfoDto {Month = $"{v:M}", Activity = 1});
+                .SelectToList(v => new CodingActivityInfoDto {Month = $"{v:M}", Activity = random.Next() % 100});
         }
     }
 }
