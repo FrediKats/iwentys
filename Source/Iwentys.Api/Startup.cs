@@ -54,8 +54,11 @@ namespace Iwentys.Api
             ApplicationOptions.GoogleServiceToken = Configuration["GoogleTable:Credentials"];
             ApplicationOptions.GithubToken = Configuration["GithubToken"];
 
-            //TODO: replace with GithubApiAccessor implementation
-            services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();
+            if (ApplicationOptions.GithubToken is null)
+                services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();
+            else
+                services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
+
             services.AddScoped<IIsuAccessor, DebugIsuAccessor>();
 
             services.AddScoped<IStudentRepository, StudentRepository>();
