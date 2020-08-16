@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -12,7 +12,7 @@ namespace Iwentys.Core.GithubIntegration
 {
     public class GithubApiAccessor : IGithubApiAccessor
     {
-        private const string GithubContributionsApiUrl = "https://github-contributions-api.now.sh/v1/";
+        private const string GithubContributionsApiUrl = "https://github-contributions.now.sh/api/v1/";
 
         private readonly GitHubClient _client;
 
