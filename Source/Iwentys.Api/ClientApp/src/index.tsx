@@ -6,6 +6,7 @@ import {Provider} from 'react-redux';
 import {configureStore, getDefaultMiddleware} from "@reduxjs/toolkit";
 import {BrowserRouter} from 'react-router-dom';
 import {guildSlice} from "./redux/guild/guildReducer";
+import {userSlice} from "./redux/user/userReducer";
 
 const middleware = getDefaultMiddleware({
     thunk: true,
@@ -14,6 +15,7 @@ const middleware = getDefaultMiddleware({
 const store = configureStore({
     reducer: {
         guild: guildSlice.reducer,
+        user: userSlice.reducer,
     },
     middleware,
     devTools: process.env.NODE_ENV !== 'production',
