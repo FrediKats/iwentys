@@ -12,6 +12,7 @@ using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Students;
 using Iwentys.Models.Types.Guilds;
+using Octokit;
 
 namespace Iwentys.Core.DomainModel.Guilds
 {
@@ -132,6 +133,21 @@ namespace Iwentys.Core.DomainModel.Guilds
                 return UserMembershipState.CanRequest;
 
             return UserMembershipState.Blocked;
+        }
+
+        //TODO: use in daemon
+        public GuildDomain UpdateGuildFromGithub()
+        {
+            Organization organizationInfo = _apiAccessor.FindOrganizationInfo(_profile.Title);
+            if (organizationInfo != null)
+            {
+                //TODO: need to fix after https://github.com/octokit/octokit.net/pull/2239
+                //_profile.Bio = organizationInfo.Bio;
+                _profile.LogoUrl = organizationInfo.Url;
+                _dbAccessor.GuildRepository.Update(_profile);
+            }
+
+            return this;
         }
     }
 }

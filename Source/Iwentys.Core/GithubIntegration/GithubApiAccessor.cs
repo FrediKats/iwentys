@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using Iwentys.Core.DomainModel.Guilds;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Types.Github;
@@ -79,6 +80,12 @@ namespace Iwentys.Core.GithubIntegration
                 .Select(c => (Date: DateTime.Parse(c.Date), c.Count))
                 .Where(c => c.Date >= from && c.Date <= to)
                 .Sum(c => c.Count);
+        }
+
+        public Organization FindOrganizationInfo(string organizationName)
+        {
+            Organization organization = _client.Organization.Get(organizationName).Result;
+            return organization;
         }
     }
 }

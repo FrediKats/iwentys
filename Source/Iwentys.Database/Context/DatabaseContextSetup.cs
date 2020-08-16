@@ -111,6 +111,9 @@ namespace Iwentys.Database.Context
             StudyGroup m3205 = StudyGroups.First(g => g.GroupName == "M3205");
             StudyGroup m3305 = StudyGroups.First(g => g.GroupName == "M3305");
 
+            var user = Student.CreateFromIsu(289140, "Сергей", "Миронец", m3201);
+            user.GithubUsername = "s4xack";
+
             Students = new List<Student>
             {
                 new Student
@@ -133,7 +136,7 @@ namespace Iwentys.Database.Context
                 Student.CreateFromIsu(284454, "Николай", "Гридинарь", m3201),
                 Student.CreateFromIsu(284457, "Матвей", "Дудко", m3201),
                 Student.CreateFromIsu(264275, "Аюна", "Дымчикова", m3201),
-                Student.CreateFromIsu(289140, "Сергей", "Миронец", m3201),
+                user,
 
                 Student.CreateFromIsu(284479, "Илья", "Кузнецов", m3205),
 
@@ -172,7 +175,7 @@ namespace Iwentys.Database.Context
                 new Guild
                 {
                     Id = 1,
-                    Title = "TEF.C#",
+                    Title = "TEF-Dev",
                     Bio = "Best ITMO C# community!",
                     LogoUrl = "https://sun9-58.userapi.com/AbGPM3TA6R82X3Jj2F-GY2d-NrzFAgC0_fmkiA/XlxgCXVtyiM.jpg",
                     HiringPolicy = GuildHiringPolicy.Open,
@@ -181,7 +184,7 @@ namespace Iwentys.Database.Context
                 new Guild
                 {
                     Id = 2,
-                    Title = "TEF.Java",
+                    Title = "javaica",
                     Bio = "Best ITMO Java community!",
                     LogoUrl = "https://sun9-58.userapi.com/AbGPM3TA6R82X3Jj2F-GY2d-NrzFAgC0_fmkiA/XlxgCXVtyiM.jpg",
                     HiringPolicy = GuildHiringPolicy.Open,
@@ -190,7 +193,7 @@ namespace Iwentys.Database.Context
                 new Guild
                 {
                     Id = 3,
-                    Title = "TEF.ML",
+                    Title = "CodingPenguinParty",
                     Bio = "Best ITMO ML community!",
                     LogoUrl = "https://sun9-58.userapi.com/AbGPM3TA6R82X3Jj2F-GY2d-NrzFAgC0_fmkiA/XlxgCXVtyiM.jpg",
                     HiringPolicy = GuildHiringPolicy.Open,

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Iwentys.Models.Types.Github;
+using Octokit;
 
 namespace Iwentys.Core.GithubIntegration
 {
@@ -27,6 +28,11 @@ namespace Iwentys.Core.GithubIntegration
         }
 
         public int GetUserActivity(string githubUsername, DateTime from, DateTime to)
+        {
+            return default;
+        }
+
+        public Organization FindOrganizationInfo(string organizationName)
         {
             return default;
         }
