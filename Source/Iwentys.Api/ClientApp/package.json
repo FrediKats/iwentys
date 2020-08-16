@@ -25,10 +25,7 @@
       "last 1 safari version"
     ]
   },
-  "husky": {
-    "hooks": {
-    }
-  },
+
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
     "@reduxjs/toolkit": "^1.4.0",
