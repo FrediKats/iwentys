@@ -71,7 +71,7 @@ namespace Iwentys.Core.DomainModel.Guilds
                 Id = _profile.Id,
                 Title = _profile.Title,
                 LogoUrl = _profile.LogoUrl,
-                Leader = _profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member,
+                Leader = _profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentPartialProfileDto(s)),
                 Rating = GetMemberDashboard().TotalRate
             };
 
