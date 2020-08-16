@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Gamification;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Tools;
@@ -36,11 +37,15 @@ namespace Iwentys.Database.Context
         public List<GuildMember> GuildMembers { get; set; }
         public List<GuildPinnedProject> GuildPinnedProjects { get; set; }
 
+        public List<GuildAchievementModel> GuildAchievementModels { get; set; }
+        public List<StudentAchievementModel> StudentAchievementModels { get; set; }
+
         public DatabaseContextSetup()
         {
             InitStudyTables();
             InitStudents();
             InitGuilds();
+            InitAchievements();
         }
 
         private void InitStudyTables()
@@ -220,6 +225,29 @@ namespace Iwentys.Database.Context
 
                 Create.GuildMember(3, 264312, GuildMemberType.Creator),
                 Create.GuildMember(3, 264282, GuildMemberType.Member),
+            };
+        }
+
+        private void InitAchievements()
+        {
+            StudentAchievementModels = new List<StudentAchievementModel>
+            {
+                new StudentAchievementModel
+                {
+                    AchievementId = 2,
+                    StudentId = 289140,
+                    GettingTime = DateTime.UtcNow
+                }
+            };
+
+            GuildAchievementModels = new List<GuildAchievementModel>
+            {
+                new GuildAchievementModel
+                {
+                    AchievementId = 2,
+                    GuildId = 1,
+                    GettingTime = DateTime.UtcNow
+                }
             };
         }
 

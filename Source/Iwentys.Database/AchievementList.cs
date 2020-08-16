@@ -3,7 +3,7 @@ using Iwentys.Models.Entities.Gamification;
 
 namespace Iwentys.Database
 {
-    public class AchievementList
+    public static class AchievementList
     {
         public static List<AchievementModel> Achievements { get; }
         public static readonly AchievementModel AddGithubAchievement;
@@ -15,6 +15,13 @@ namespace Iwentys.Database
             {
                 Id = 1,
                 Title = "Add github",
+                Description = "Lorem"
+            });
+
+            AddGithubAchievement = Register(new AchievementModel
+            {
+                Id = 2,
+                Title = "TP tester",
                 Description = "Lorem"
             });
         }
