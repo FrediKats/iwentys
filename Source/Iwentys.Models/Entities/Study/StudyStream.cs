@@ -9,8 +9,5 @@ namespace Iwentys.Models.Entities.Study
 
         public int StudyProgramId { get; set; }
         public StudyProgram StudyProgram { get; set; }
-
-        //TODO: probably useless
-        public string Name { get; set; }
     }
 }

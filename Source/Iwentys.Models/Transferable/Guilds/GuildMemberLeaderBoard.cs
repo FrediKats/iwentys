@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Iwentys.Models.Entities;
 using Iwentys.Models.Transferable.Students;
 
 namespace Iwentys.Models.Transferable.Guilds

@@ -3,7 +3,6 @@ using Iwentys.Models.Entities;
 
 namespace Iwentys.Core.DomainModel
 {
-    //TODO: maybe we should return profile
     public class AuthorizedUser
     {
         public int Id { get; set; }

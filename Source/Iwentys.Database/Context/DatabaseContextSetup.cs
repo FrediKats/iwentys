@@ -230,7 +230,6 @@ namespace Iwentys.Database.Context
                 return new StudyStream
                 {
                     Id = StreamIdentifierGenerator.Next(),
-                    Name = $"ИС {year}",
                     GraduationYear = year,
                     StudyProgramId = 1
                 };
