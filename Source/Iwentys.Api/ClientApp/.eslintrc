@@ -1,0 +1,7 @@
+{
+  "extends": ["standard", "react-app"],
+  "rules": {
+    "semi": ["error", "always"],
+    "indent": ["error", 4]
+  }
+}
