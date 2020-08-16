@@ -39,6 +39,7 @@ export const GuildPage: React.FC = () => {
                             contribution={guild.memberLeaderBoard.membersImpact}
                         />
                         <PinnedRepositories pinnedRepositories={guild.pinnedRepositories}/>
+                        <PinnedRepositories pinnedRepositories={guild.pinnedRepositories.filter(Boolean)}/>
                     </Col>
                 </Row>
             );
