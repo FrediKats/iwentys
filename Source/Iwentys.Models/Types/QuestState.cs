@@ -1,10 +1,21 @@
-﻿namespace Iwentys.Models.Types
+﻿using System;
+using System.Linq;
+using Iwentys.Models.Entities;
+
+namespace Iwentys.Models.Types
 {
     public enum QuestState
     {
         Active = 1,
-        Accepted = 2,
-        Completed = 3,
-        Outdated = 4
+        Completed = 2,
+        Outdated = 3
+    }
+
+    public static class QuestStateExtensions
+    {
+        public static IQueryable<Quest> WhereIsNotOutdated(this IQueryable<Quest> query)
+        {
+            return query.Where(q => q.State == QuestState.Active && q.Deadline < DateTime.UtcNow);
+        }
     }
 }

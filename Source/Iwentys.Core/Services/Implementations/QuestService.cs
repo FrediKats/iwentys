@@ -5,6 +5,7 @@ using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Gamification;
 using Iwentys.Models.Types;
@@ -19,11 +20,6 @@ namespace Iwentys.Core.Services.Implementations
         public QuestService(IQuestRepository questRepository)
         {
             _questRepository = questRepository;
-        }
-
-        public Quest[] Get()
-        {
-            return _questRepository.Read().ToArray();
         }
 
         public List<QuestInfoDto> GetCreatedByUser(AuthorizedUser user)
@@ -43,7 +39,8 @@ namespace Iwentys.Core.Services.Implementations
         {
             return _questRepository
                 .Read()
-                .Where(q => q.State == QuestState.Active || q.State == QuestState.Accepted)
+                .Where(q => q.State == QuestState.Active)
+                .WhereIsNotOutdated()
                 .SelectToList(QuestInfoDto.Wrap);
         }
 
@@ -60,6 +57,16 @@ namespace Iwentys.Core.Services.Implementations
             
             return repos
                 .SelectToList(QuestInfoDto.Wrap);
+        }
+
+        public QuestInfoDto SendResponse(AuthorizedUser user, int id)
+        {
+            Quest quest = _questRepository.ReadById(id);
+            if (quest.State == QuestState.Completed || quest.IsOutdated())
+                throw new InnerLogicException("Quest closed");
+
+            _questRepository.AcceptQuest(quest, user.Id);
+            return _questRepository.ReadById(id).To(QuestInfoDto.Wrap);
         }
     }
 }

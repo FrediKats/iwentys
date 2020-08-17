@@ -50,6 +50,7 @@ namespace Iwentys.Database.Context
         public DbSet<CompanyWorker> CompanyWorkers { get; set; }
 
         public DbSet<Quest> Quests { get; set; }
+        public DbSet<QuestResponseEntity> QuestResponses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

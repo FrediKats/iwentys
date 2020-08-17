@@ -10,5 +10,8 @@ namespace Iwentys.Core.Services.Abstractions
         List<QuestInfoDto> GetCompletedByUser(AuthorizedUser user);
         List<QuestInfoDto> GetActive();
         List<QuestInfoDto> GetArchive();
+
+        QuestInfoDto SendResponse(AuthorizedUser user, int id);
+
     }
 }

@@ -20,6 +20,7 @@ namespace Iwentys.Models.Transferable.Gamification
 
         public static QuestInfoDto Wrap(Quest quest)
         {
+
             return new QuestInfoDto
             {
                 Id = quest.Id,
@@ -28,7 +29,7 @@ namespace Iwentys.Models.Transferable.Gamification
                 Price = quest.Price,
                 CreationTime = quest.CreationTime,
                 Deadline = quest.Deadline,
-                State = quest.State,
+                State = quest.IsOutdated() ? QuestState.Outdated : quest.State,
                 Author = quest.Author.To(a => new StudentPartialProfileDto(a))
             };
         }

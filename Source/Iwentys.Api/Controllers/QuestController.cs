@@ -20,14 +20,14 @@ namespace Iwentys.Api.Controllers
         [HttpGet("GetCreatedByUser")]
         public ActionResult<List<QuestInfoDto>> GetCreatedByUser()
         {
-            var user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
             return Ok(_questService.GetCreatedByUser(user));
         }
 
         [HttpGet("GetCompletedByUser")]
         public ActionResult<List<QuestInfoDto>> GetCompletedByUser()
         {
-            var user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
             return Ok(_questService.GetCompletedByUser(user));
         }
 
@@ -42,5 +42,13 @@ namespace Iwentys.Api.Controllers
         {
             return Ok(_questService.GetArchive());
         }
+
+        [HttpPost("{questId}/SendResponse")]
+        public ActionResult<QuestInfoDto> SendResponse(int questId)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            return Ok(_questService.SendResponse(user, questId));
+        }
+
     }
 }

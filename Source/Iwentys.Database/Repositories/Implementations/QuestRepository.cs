@@ -2,6 +2,7 @@
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Types;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -26,7 +27,8 @@ namespace Iwentys.Database.Repositories.Implementations
         public IQueryable<Quest> Read()
         {
             return _dbContext.Quests
-                .Include(q => q.Author);
+                .Include(q => q.Author)
+                .Include(r => r.Responses);
         }
 
         public Quest ReadById(int key)
@@ -44,6 +46,12 @@ namespace Iwentys.Database.Repositories.Implementations
         public void Delete(int key)
         {
             _dbContext.Quests.Remove(this.Get(key));
+            _dbContext.SaveChanges();
+        }
+
+        public void AcceptQuest(Quest quest, int userId)
+        {
+            _dbContext.QuestResponses.Add(QuestResponseEntity.New(quest.Id, userId));
             _dbContext.SaveChanges();
         }
     }
