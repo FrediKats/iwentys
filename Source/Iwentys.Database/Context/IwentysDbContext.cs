@@ -61,8 +61,6 @@ namespace Iwentys.Database.Context
             base.OnModelCreating(modelBuilder);
         }
 
-
-
         private void SetCompositeKeys(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<GuildMember>().HasKey(g => new {g.GuildId, g.MemberId});
@@ -70,6 +68,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<SubjectActivity>().HasKey(s => new {s.SubjectForGroupId, s.StudentId});
             modelBuilder.Entity<StudentAchievementModel>().HasKey(a => new {a.AchievementId, a.StudentId});
             modelBuilder.Entity<GuildAchievementModel>().HasKey(a => new {a.AchievementId, a.GuildId});
+            modelBuilder.Entity<QuestResponseEntity>().HasKey(a => new {a.QuestId, a.StudentId});
         }
 
         private void SetUniqKey(ModelBuilder modelBuilder)
