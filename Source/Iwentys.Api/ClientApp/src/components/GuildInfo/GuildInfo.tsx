@@ -10,13 +10,13 @@ interface IGuildInfoProps {
 export const GuildInfo: React.FC<IGuildInfoProps> = (
     {title, bio, logoUrl = "https://wikipet.ru/wp-content/uploads/2018/01/486840.jpg"}) => {
     return (
-        <div>
+        <section>
             <Card
                 cover={<img alt="guild img" src={logoUrl} />}
             >
                 <Meta title={title} description={bio} />
             </Card>
-        </div>
+        </section>
 
     );
 };

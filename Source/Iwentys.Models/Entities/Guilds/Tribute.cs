@@ -19,8 +19,8 @@ namespace Iwentys.Models.Entities.Guilds
         public int Mark { get; set; }
         public DateTime CreationTime { get; set; }
 
-        public Student Totem { get; set; }
-        public int TotemId { get; set; }
+        public Student Mentor { get; set; }
+        public int MentorId { get; set; }
 
         public static Tribute New(int guildId, int projectId)
         {
@@ -38,12 +38,12 @@ namespace Iwentys.Models.Entities.Guilds
             State = TributeState.Canceled;
         }
 
-        public void SetCompleted(int totemId, int difficultLevel, int mark)
+        public void SetCompleted(int mentorId, int difficultLevel, int mark)
         {
             if (State == TributeState.Pending)
                 throw new InnerLogicException($"Can't completed tribute. It's in state [{State}]");
 
-            TotemId = totemId;
+            MentorId = mentorId;
             DifficultLevel = difficultLevel;
             Mark = mark;
             State = TributeState.Completed;

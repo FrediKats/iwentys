@@ -32,8 +32,6 @@ namespace Iwentys.Core.Services.Abstractions
         void RejectRequest(AuthorizedUser user, int guildId, int studentId);
 
         VotingInfoDto StartVotingForLeader(AuthorizedUser creator, int guildId, GuildLeaderVotingCreateDto votingCreateDto);
-        VotingInfoDto StartVotingForTotem(AuthorizedUser creator, int guildId, GuildTotemVotingCreateDto votingCreateDto);
-        void SetTotem(AuthorizedUser user, int guildId, int totemId);
 
         Tribute[] GetPendingTributes(AuthorizedUser user);
         Tribute[] GetStudentTributeResult(AuthorizedUser user);
@@ -41,7 +39,7 @@ namespace Iwentys.Core.Services.Abstractions
         Tribute CancelTribute(AuthorizedUser user, int tributeId);
         Tribute CompleteTribute(AuthorizedUser user, TributeCompleteDto tributeCompleteDto);
 
-        GithubRepository AddPinnedRepository(AuthorizedUser user, int guildId, string repositoryUrl);
-        GithubRepository DeletePinnedRepository(AuthorizedUser user, int guildId, string repositoryUrl);
+        GithubRepository AddPinnedRepository(AuthorizedUser user, int guildId, string owner, string projectName);
+        void UnpinProject(AuthorizedUser user, int pinnedProjectId);
     }
 }

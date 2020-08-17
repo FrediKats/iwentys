@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using Iwentys.Core.DomainModel.Guilds;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Types.Github;
@@ -12,16 +13,15 @@ namespace Iwentys.Core.GithubIntegration
 {
     public class GithubApiAccessor : IGithubApiAccessor
     {
-        private const string GithubContributionsApiUrl = "https://github-contributions-api.now.sh/v1/";
+        private const string GithubContributionsApiUrl = "https://github-contributions.now.sh/api/v1/";
 
         private readonly GitHubClient _client;
 
         public GithubApiAccessor()
         {
-            //TODO: Move token to repo secrets
             _client = new GitHubClient(new ProductHeaderValue("Iwentys"))
             {
-                Credentials = new Credentials(String.Empty)
+                Credentials = new Credentials(ApplicationOptions.GithubToken)
             };
         }
 
@@ -80,6 +80,12 @@ namespace Iwentys.Core.GithubIntegration
                 .Select(c => (Date: DateTime.Parse(c.Date), c.Count))
                 .Where(c => c.Date >= from && c.Date <= to)
                 .Sum(c => c.Count);
+        }
+
+        public Organization FindOrganizationInfo(string organizationName)
+        {
+            Organization organization = _client.Organization.Get(organizationName).Result;
+            return organization;
         }
     }
 }

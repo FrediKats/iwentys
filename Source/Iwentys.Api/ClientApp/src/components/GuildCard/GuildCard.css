@@ -1,0 +1,25 @@
+.GuildCard {
+    display: flex;
+    width: 400px;
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+    align-items: center;
+    color: #000;
+}
+
+.GuildCard:hover {
+    color: #000;
+}
+
+.GuildCard-Description {
+    margin: 0 20px;
+}
+
+.GuildCard-Stats {
+    margin-left: auto;
+}
+
+.GuildCard-Wrapper + .GuildCard-Wrapper {
+    margin-top: 20px;
+}

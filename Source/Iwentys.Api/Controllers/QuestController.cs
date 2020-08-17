@@ -17,9 +17,9 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Quest> Get()
+        public ActionResult<IEnumerable<Quest>> Get()
         {
-            return _questService.Get();
+            return Ok(_questService.Get());
         }
     }
 }

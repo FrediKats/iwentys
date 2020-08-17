@@ -18,47 +18,53 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet("getAllSubjects")]
-        public IEnumerable<Subject> GetAllSubjects()
+        public ActionResult<IEnumerable<Subject>> GetAllSubjects()
         {
-            return _studyLeaderboardService.GetSubjectsForDto(new StudySearchDto());
+            return Ok(_studyLeaderboardService.GetSubjectsForDto(new StudySearchDto()));
         }
 
         [HttpGet("getSubjects/{streamId}")]
-        public IEnumerable<Subject> GetSubjectsForStream(int streamId)
+        public ActionResult<IEnumerable<Subject>> GetSubjectsForStream(int streamId)
         {
-            return _studyLeaderboardService.GetSubjectsForDto(new StudySearchDto {StreamId = streamId});
+            return Ok(_studyLeaderboardService.GetSubjectsForDto(new StudySearchDto { StreamId = streamId }));
         }
 
         [HttpGet("getSubjects/{streamId}/{semester}")]
-        public IEnumerable<Subject> GetSubjectsForStreamAndSemester(int streamId, StudySemester semester)
+        public ActionResult<IEnumerable<Subject>> GetSubjectsForStreamAndSemester(int streamId, StudySemester semester)
         {
-            return _studyLeaderboardService.GetSubjectsForDto(new StudySearchDto {StreamId = streamId, StudySemester = semester});
+            return Ok(_studyLeaderboardService.GetSubjectsForDto(new StudySearchDto { StreamId = streamId, StudySemester = semester }));
         }
 
         [HttpGet("getAllGroups")]
-        public IEnumerable<StudyGroup> GetAllGroups()
+        public ActionResult<IEnumerable<StudyGroup>> GetAllGroups()
         {
-            return _studyLeaderboardService.GetStudyGroupsForDto(new StudySearchDto());
+            return Ok(_studyLeaderboardService.GetStudyGroupsForDto(new StudySearchDto()));
         }
 
         [HttpGet("getGroupsFromStream/{streamId}")]
-        public IEnumerable<StudyGroup> GetGroupsForStream(int streamId)
+        public ActionResult<IEnumerable<StudyGroup>> GetGroupsForStream(int streamId)
         {
-            return _studyLeaderboardService.GetStudyGroupsForDto(new StudySearchDto{StreamId = streamId});
+            return Ok(_studyLeaderboardService.GetStudyGroupsForDto(new StudySearchDto { StreamId = streamId }));
         }
 
         [HttpGet("getGroupsFromSubject/{subjectId}")]
-        public IEnumerable<StudyGroup> GetGroupsForSubject(int subjectId)
+        public ActionResult<IEnumerable<StudyGroup>> GetGroupsForSubject(int subjectId)
         {
-            return _studyLeaderboardService.GetStudyGroupsForDto(new StudySearchDto{SubjectId = subjectId});
+            return Ok(_studyLeaderboardService.GetStudyGroupsForDto(new StudySearchDto { SubjectId = subjectId }));
         }
 
         [HttpGet("GetStudentsRating")]
-        public IEnumerable<SubjectActivity> GetStudentsRating(int subjectId, int? streamId, int? groupId,
+        public ActionResult<IEnumerable<SubjectActivity>> GetStudentsRating(int subjectId, int? streamId, int? groupId,
             StudySemester? semester)
         {
-            return _studyLeaderboardService.GetStudentsRatings(new StudySearchDto 
-                { SubjectId = subjectId, StreamId = streamId, GroupId = groupId, StudySemester = semester });
+            return Ok(_studyLeaderboardService.GetStudentsRatings(new StudySearchDto
+            {
+                SubjectId = subjectId,
+                StreamId = streamId,
+                GroupId = groupId,
+                StudySemester = semester
+
+            }));
         }
     }
 }

@@ -32,6 +32,8 @@ namespace Iwentys.Database.Repositories.Implementations
                 .Include(g => g.Members)
                 .ThenInclude(gm => gm.Member)
                 .Include(g => g.PinnedProjects)
+                .Include(g => g.Achievements)
+                .ThenInclude(a => a.Achievement)
                 .Where(g => g.GuildType == GuildType.Created);
         }
 
@@ -41,6 +43,8 @@ namespace Iwentys.Database.Repositories.Implementations
                 .Include(g => g.Members)
                 .ThenInclude(gm => gm.Member)
                 .Include(g => g.PinnedProjects)
+                .Include(g => g.Achievements)
+                .ThenInclude(a => a.Achievement)
                 .FirstOrDefault(g => g.Id == key);
         }
 
@@ -78,11 +82,6 @@ namespace Iwentys.Database.Repositories.Implementations
                 .SingleOrDefault();
         }
 
-        public Guild ReadForTotem(int totemId)
-        {
-            return _dbContext.Guilds.SingleOrDefault(g => g.TotemId == totemId);
-        }
-
         public Boolean IsStudentHaveRequest(Int32 studentId)
         {
             return !_dbContext.GuildMembers
@@ -117,6 +116,25 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.GuildMembers.Remove(guildMember);
 
             _dbContext.SaveChanges();
+        }
+
+        public GuildPinnedProject PinProject(int guildId, string owner, string projectName)
+        {
+            EntityEntry<GuildPinnedProject> entry = _dbContext.GuildPinnedProjects.Add(new GuildPinnedProject
+            {
+                GuildId = guildId,
+                RepositoryName = projectName,
+                RepositoryOwner = owner
+            });
+            _dbContext.SaveChanges();
+            return entry.Entity;
+        }
+
+        public void UnpinProject(int pinnedProjectId)
+        {
+            _dbContext.GuildPinnedProjects.Remove(_dbContext.GuildPinnedProjects.Find(pinnedProjectId));
+            _dbContext.SaveChanges();
+            return;
         }
     }
 }

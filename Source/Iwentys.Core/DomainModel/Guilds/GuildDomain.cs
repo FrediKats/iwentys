@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Iwentys.Core.GithubIntegration;
 using Iwentys.Database.Context;
@@ -7,8 +8,11 @@ using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Tools;
+using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Guilds;
+using Iwentys.Models.Transferable.Students;
 using Iwentys.Models.Types.Guilds;
+using Octokit;
 
 namespace Iwentys.Core.DomainModel.Guilds
 {
@@ -46,11 +50,10 @@ namespace Iwentys.Core.DomainModel.Guilds
                 HiringPolicy = _profile.HiringPolicy,
                 LogoUrl = _profile.LogoUrl,
                 Title = _profile.Title,
-                Totem = _profile.Totem,
-                Leader = _profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member,
+                Leader = _profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentPartialProfileDto(s)),
                 MemberLeaderBoard = GetMemberDashboard(),
                 PinnedRepositories = _profile.PinnedProjects.SelectToList(p => _apiAccessor.GetRepository(p.RepositoryOwner, p.RepositoryName)),
-                
+                Achievements = _profile.Achievements.SelectToList(AchievementInfoDto.Wrap)
             };
 
             if (userId != null && _profile.Members.Any(m => m.MemberId == userId))
@@ -68,7 +71,7 @@ namespace Iwentys.Core.DomainModel.Guilds
                 Id = _profile.Id,
                 Title = _profile.Title,
                 LogoUrl = _profile.LogoUrl,
-                Leader = _profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member,
+                Leader = _profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentPartialProfileDto(s)),
                 Rating = GetMemberDashboard().TotalRate
             };
 
@@ -80,6 +83,7 @@ namespace Iwentys.Core.DomainModel.Guilds
             List<GuildMemberImpact> members = _profile
                 .Members
                 .Select(m => m.Member.GithubUsername)
+                .Where(gh => gh != null)
                 .Select(ghName => new GuildMemberImpact(ghName, _apiAccessor.GetUserActivity(ghName).Total))
                 .ToList();
 
@@ -87,7 +91,7 @@ namespace Iwentys.Core.DomainModel.Guilds
             {
                 TotalRate = members.Sum(m => m.TotalRate),
                 MembersImpact = members,
-                Members = _profile.Members.SelectToList(m => m.Member)
+                Members = _profile.Members.SelectToList(m => new StudentPartialProfileDto(m.Member))
             };
         }
 
@@ -129,6 +133,21 @@ namespace Iwentys.Core.DomainModel.Guilds
                 return UserMembershipState.CanRequest;
 
             return UserMembershipState.Blocked;
+        }
+
+        //TODO: use in daemon
+        public GuildDomain UpdateGuildFromGithub()
+        {
+            Organization organizationInfo = _apiAccessor.FindOrganizationInfo(_profile.Title);
+            if (organizationInfo != null)
+            {
+                //TODO: need to fix after https://github.com/octokit/octokit.net/pull/2239
+                //_profile.Bio = organizationInfo.Bio;
+                _profile.LogoUrl = organizationInfo.Url;
+                _dbAccessor.GuildRepository.Update(_profile);
+            }
+
+            return this;
         }
     }
 }

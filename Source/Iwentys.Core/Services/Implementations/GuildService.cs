@@ -169,7 +169,6 @@ namespace Iwentys.Core.Services.Implementations
             if (studentGuild == null || studentGuild.Id != guildId)
                 throw InnerLogicException.Guild.IsNotGuildMember(user.Id);
 
-            //TODO: we need transaction with rollback on fail
             Tribute userTribute = _tributeRepository.ReadStudentActiveTribute(studentGuild.Id, user.Id);
             if (userTribute != null)
                 _tributeRepository.Delete(userTribute.ProjectId);
@@ -292,30 +291,10 @@ namespace Iwentys.Core.Services.Implementations
             throw new System.NotImplementedException();
         }
 
-        public VotingInfoDto StartVotingForTotem(AuthorizedUser user, int guildId, GuildTotemVotingCreateDto votingCreateDto)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetTotem(AuthorizedUser user, int guildId, int totemId)
-        {
-            user.EnsureIsAdmin();
-            Student totem = _studentRepository.Get(totemId);
-            Guild guild = _guildRepository.Get(guildId);
-
-            if (guild.TotemId != null)
-                throw new InnerLogicException("Guild already has totem.");
-
-            if (_guildRepository.ReadForTotem(totemId) != null)
-                throw new InnerLogicException("Member is already totem in other guild.");
-
-            guild.TotemId = totem.Id;
-            _guildRepository.Update(guild);
-        }
-
         public Tribute[] GetPendingTributes(AuthorizedUser user)
         {
-            Guild guild = _guildRepository.ReadForTotem(user.Id) ?? throw new InnerLogicException("User is not totem in any guild");
+            //TODO: check this
+            Guild guild = _guildRepository.ReadForStudent(user.Id) ?? throw new InnerLogicException("User is guild member");
 
             return _tributeRepository
                 .ReadForGuild(guild.Id)
@@ -345,9 +324,6 @@ namespace Iwentys.Core.Services.Implementations
             if (allTributes.Any(t => t.State == TributeState.Pending && t.Project.StudentId == student.Id))
                 throw new InnerLogicException("Other tribute already created and waiting for check");
 
-            if (guild.TotemId is null)
-                throw new InnerLogicException("Can't send tribute. There is no totem in guild");
-
             var tribute = Tribute.New(guild.Id, project.Id);
             return _tributeRepository.Create(tribute);
         }
@@ -363,33 +339,37 @@ namespace Iwentys.Core.Services.Implementations
                 tribute.SetCanceled();
             else
             {
-                user.EnsureIsTotem(_guildRepository, tribute.GuildId);
+                user.EnsureIsMentor(_guildRepository, tribute.GuildId);
                 tribute.SetCanceled();
             }
-            
+
             return _tributeRepository.Update(tribute);
         }
 
         public Tribute CompleteTribute(AuthorizedUser user, TributeCompleteDto tributeCompleteDto)
         {
             Tribute tribute = _tributeRepository.Get(tributeCompleteDto.TributeId);
-            GuildTotemUser totem = user.EnsureIsTotem(_guildRepository, tribute.GuildId);
+            GuildMentorUser mentor = user.EnsureIsMentor(_guildRepository, tribute.GuildId);
 
             if (tribute.State != TributeState.Pending)
                 throw new InnerLogicException($"Can't complete tribute. It's state is: {tribute.State}");
 
-            tribute.SetCompleted(totem.Student.Id, tributeCompleteDto.DifficultLevel, tribute.Mark);
+            tribute.SetCompleted(mentor.Student.Id, tributeCompleteDto.DifficultLevel, tribute.Mark);
             return _tributeRepository.Update(tribute);
         }
 
-        public GithubRepository AddPinnedRepository(AuthorizedUser user, int guildId, string repositoryUrl)
+        public GithubRepository AddPinnedRepository(AuthorizedUser user, int guildId, string owner, string projectName)
         {
-            throw new System.NotImplementedException();
+            //TODO: check permission
+            GithubRepository repository = _apiAccessor.GetRepository(owner, projectName);
+            _guildRepository.PinProject(guildId, owner, projectName);
+            return repository;
         }
 
-        public GithubRepository DeletePinnedRepository(AuthorizedUser user, int guildId, string repositoryUrl)
+        public void UnpinProject(AuthorizedUser user, int pinnedProjectId)
         {
-            throw new System.NotImplementedException();
+            //TODO: check permission
+            _guildRepository.UnpinProject(pinnedProjectId);
         }
     }
 }

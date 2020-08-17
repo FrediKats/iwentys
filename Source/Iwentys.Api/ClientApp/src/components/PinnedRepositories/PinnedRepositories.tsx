@@ -7,6 +7,7 @@ interface IPinnedRepositoriesProps {
     pinnedRepositories: IRepository[];
 }
 export const PinnedRepositories: React.FC<IPinnedRepositoriesProps> = ({pinnedRepositories}) => {
+    if(!pinnedRepositories.length) return null;
     // todo: star count
     return (
         <section className={'PinnedRepositories'}>

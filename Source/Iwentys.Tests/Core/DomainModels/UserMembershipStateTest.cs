@@ -5,6 +5,7 @@ using Iwentys.Core.GithubIntegration;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Gamification;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Types.Github;
 using Iwentys.Models.Types.Guilds;
@@ -57,7 +58,7 @@ namespace Iwentys.Tests.Core.DomainModels
                 },
                 HiringPolicy = GuildHiringPolicy.Open,
                 PinnedProjects = new List<GuildPinnedProject>(),
-                
+                Achievements = new List<GuildAchievementModel>()
             };
 
             _tributeRepository = new Mock<ITributeRepository>();
@@ -96,6 +97,7 @@ namespace Iwentys.Tests.Core.DomainModels
                 _tributeRepository.Object,
                 null,
                 null, 
+                null,
                 null,
                 null);
 

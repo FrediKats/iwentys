@@ -1,6 +1,8 @@
 using System.Text.Json.Serialization;
+using Iwentys.Core;
 using Iwentys.Core.Daemons;
 using Iwentys.Core.Auth;
+using Iwentys.Core.Gamification;
 using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Core.Services.Implementations;
@@ -15,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Iwentys.Api
 {
@@ -38,19 +41,24 @@ namespace Iwentys.Api
                     .AllowAnyHeader();
             }));
 
-            // TODO: debug security key
-            const string signingSecurityKey = "0d5b3235a8b403c3dab9c3f4f65c07fcalskd234n1k41230";
-            var signingKey = new SigningSymmetricKey(signingSecurityKey);
+            var signingKey = new SigningSymmetricKey(ApplicationOptions.SigningSecurityKey);
             services.AddSingleton<IJwtSigningEncodingKey>(signingKey);
 
             services.AddControllers()
                 .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
             services.AddSwaggerGen();
 
-            services.AddDbContext<IwentysDbContext>(o => o.UseSqlite("Data Source=Iwentys.db"));
+            services.AddDbContext<IwentysDbContext>(o => o.UseSqlite("Data Source=Iwentys.db")
+                .EnableSensitiveDataLogging(Configuration.GetValue<bool>("Logging:EnableSqlParameterLogging")));
 
-            //TODO: replace with GithubApiAccessor implementation
-            services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();
+            ApplicationOptions.GoogleServiceToken = Configuration["GoogleTable:Credentials"];
+            ApplicationOptions.GithubToken = Configuration["GithubToken"];
+
+            if (ApplicationOptions.GithubToken is null)
+                services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();
+            else
+                services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
+
             services.AddScoped<IIsuAccessor, DebugIsuAccessor>();
 
             services.AddScoped<IStudentRepository, StudentRepository>();
@@ -63,8 +71,9 @@ namespace Iwentys.Api
             services.AddScoped<IQuestRepository, QuestRepository>();
             services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
             services.AddScoped<ISubjectForGroupRepository, SubjectForGroupRepository>();
-
             services.AddScoped<DatabaseAccessor>();
+            services.AddScoped<AchievementProvider>();
+
 
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IGuildService, GuildService>();
@@ -79,8 +88,16 @@ namespace Iwentys.Api
 
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IwentysDbContext db)
+        public void Configure(
+            IApplicationBuilder app,
+            IWebHostEnvironment env,
+            IwentysDbContext db,
+            ISubjectActivityRepository subjectActivityRepository,
+            ISubjectForGroupRepository subjectForGroupRepository,
+            ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddFile(Configuration["LogFilePath"]);
+
             //TODO: Temp fix for CORS
             app.UseCors("CorsPolicy");
 
@@ -88,8 +105,7 @@ namespace Iwentys.Api
             //if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
             app.UseDeveloperExceptionPage();
 
-            db.Database.EnsureDeleted();
-            db.Database.EnsureCreated();
+            
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -97,6 +113,7 @@ namespace Iwentys.Api
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
                 c.RoutePrefix = "swagger";
             });
+            
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
@@ -118,15 +135,9 @@ namespace Iwentys.Api
                 }
             });
 
-            InitDaemon(app);
-        }
-
-        private static void InitDaemon(IApplicationBuilder app)
-        {
-            DaemonManager.Init(
-                app.ApplicationServices.GetService<ISubjectActivityRepository>(),
-                app.ApplicationServices.GetService<ISubjectForGroupRepository>(),
-                app.ApplicationServices.GetService<IConfiguration>());
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
+            DaemonManager.Init(loggerFactory.CreateLogger("DaemonManager"), subjectActivityRepository, subjectForGroupRepository);
         }
     }
 }

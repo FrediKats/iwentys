@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Iwentys.Models.Types.Github;
+using Octokit;
 
 namespace Iwentys.Core.GithubIntegration
 {
@@ -8,7 +9,7 @@ namespace Iwentys.Core.GithubIntegration
     {
         public GithubRepository GetRepository(string username, string repositoryName)
         {
-            return default;
+            return new GithubRepository(-1, $"{username}/{repositoryName}", "No desc", null, 0);
         }
 
         public IReadOnlyList<GithubRepository> GetUserRepositories(string username)
@@ -18,7 +19,7 @@ namespace Iwentys.Core.GithubIntegration
 
         public GithubUser GetGithubUser(string githubUsername)
         {
-            return default;
+            return new GithubUser(githubUsername, null, "No bio", null);
         }
 
         public ContributionFullInfo GetUserActivity(string githubUsername)
@@ -27,6 +28,11 @@ namespace Iwentys.Core.GithubIntegration
         }
 
         public int GetUserActivity(string githubUsername, DateTime from, DateTime to)
+        {
+            return default;
+        }
+
+        public Organization FindOrganizationInfo(string organizationName)
         {
             return default;
         }

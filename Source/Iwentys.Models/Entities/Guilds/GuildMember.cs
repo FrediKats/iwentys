@@ -24,6 +24,16 @@ namespace Iwentys.Models.Entities.Guilds
             };
         }
 
+        public static GuildMember NewMentor(int guildId, int memberId)
+        {
+            return new GuildMember
+            {
+                GuildId = guildId,
+                MemberId = memberId,
+                MemberType = GuildMemberType.Mentor
+            };
+        }
+
         public static GuildMember NewRequest(int guildId, int memberId)
         {
             return new GuildMember

@@ -11,7 +11,7 @@ using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Transferable.Students;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Iwentys.Api.Controllers
@@ -21,14 +21,16 @@ namespace Iwentys.Api.Controllers
     public class DebugCommandController : ControllerBase
     {
         private readonly GoogleTableUpdateService _googleTableUpdateService;
+        private readonly ILogger<DebugCommandController> _logger;
         private readonly DatabaseAccessor _databaseAccessor;
         private readonly IStudentService _studentService;
 
-        public DebugCommandController(DatabaseAccessor databaseAccessor, IConfiguration configuration, IStudentService studentService)
+        public DebugCommandController(ILogger<DebugCommandController> logger, DatabaseAccessor databaseAccessor, IStudentService studentService)
         {
+            _logger = logger;
             _databaseAccessor = databaseAccessor;
 
-            _googleTableUpdateService = new GoogleTableUpdateService(_databaseAccessor.SubjectActivity, configuration);
+            _googleTableUpdateService = new GoogleTableUpdateService(_logger, _databaseAccessor.SubjectActivity);
             _studentService = studentService;
         }
 
@@ -47,7 +49,7 @@ namespace Iwentys.Api.Controllers
 
             if (subjectData == null)
             {
-                // TODO: Some logs
+                _logger.LogWarning($"Subject info was not found: subjectId:{subjectId}, groupId:{groupId}");
                 return;
             }
             
@@ -68,6 +70,19 @@ namespace Iwentys.Api.Controllers
             return GenerateToken(userId, signingEncodingKey);
         }
 
+        [HttpGet("ValidateToken")]
+        public int ValidateToken()
+        {
+            var token = HttpContext.Request.Headers["Authorization"].ToString();
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var securityToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
+
+            string stringClaimValue = securityToken.Claims.First(claim => claim.Type == ClaimTypes.UserData).Value;
+            return Int32.Parse(stringClaimValue);
+        }
+
+
         [HttpPost("register")]
         public string Register([FromBody] StudentCreateArgumentsDto arguments,
             [FromServices] IJwtSigningEncodingKey signingEncodingKey)
@@ -79,7 +94,7 @@ namespace Iwentys.Api.Controllers
                 MiddleName = arguments.MiddleName,
                 SecondName = arguments.SecondName,
                 Role = arguments.Role,
-                Group = arguments.Group,
+                GroupId = _databaseAccessor.StudyGroupRepository.ReadByNamePattern(arguments.Group).Id,
                 GithubUsername = arguments.GithubUsername,
                 CreationTime = DateTime.UtcNow,
                 LastOnlineTime = DateTime.UtcNow,
@@ -107,7 +122,7 @@ namespace Iwentys.Api.Controllers
                     signingEncodingKey.GetKey(),
                     signingEncodingKey.SigningAlgorithm)
             );
-
+            
             string jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
             return jwtToken;
         }

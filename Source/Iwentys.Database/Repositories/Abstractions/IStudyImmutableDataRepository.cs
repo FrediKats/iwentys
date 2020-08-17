@@ -10,6 +10,6 @@ namespace Iwentys.Database.Repositories.Abstractions
         IQueryable<Subject> GetAllSubjects();
         IQueryable<StudyGroup> GetAllGroups();
         IEnumerable<StudyGroup> GetGroupsForStream(int streamId);
-        IEnumerable<Student> GetStudentsForGroup(string group);
+        IEnumerable<Student> GetStudentsForGroup(string groupName);
     }
 }

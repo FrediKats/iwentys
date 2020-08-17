@@ -2,6 +2,7 @@
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Implementations
@@ -24,12 +25,20 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public IQueryable<Student> Read()
         {
-            return _dbContext.Students;
+            return _dbContext.Students
+                .Include(s => s.Group)
+                .Include(s => s.Achievements)
+                .ThenInclude(a => a.Achievement)
+                .Include(s => s.SubjectActivities)
+                .ThenInclude(a => a.SubjectForGroup)
+                .ThenInclude(sg => sg.Subject)
+                .Include(s => s.GuildMember)
+                .ThenInclude(gm => gm.Guild);
         }
 
         public Student ReadById(int key)
         {
-            return _dbContext.Students.Find(key);
+            return Read().FirstOrDefault(s => s.Id == key);
         }
 
         public Student Update(Student entity)

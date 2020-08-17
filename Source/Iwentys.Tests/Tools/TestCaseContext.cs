@@ -1,4 +1,5 @@
 using Iwentys.Core.DomainModel;
+using Iwentys.Core.Gamification;
 using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Core.Services.Implementations;
@@ -18,7 +19,7 @@ namespace Iwentys.Tests.Tools
 {
     public class TestCaseContext
     {
-        private readonly IwentysDbContext _context;
+        public readonly IwentysDbContext Context;
 
         public readonly IStudentRepository StudentRepository;
         public readonly IGuildRepository GuildRepository;
@@ -34,16 +35,16 @@ namespace Iwentys.Tests.Tools
 
         public TestCaseContext()
         {
-            _context = TestDatabaseProvider.GetDatabaseContext();
-            StudentRepository = new StudentRepository(_context);
-            GuildRepository = new GuildRepository(_context);
-            CompanyRepository = new CompanyRepository(_context);
-            StudentProjectRepository = new StudentProjectRepository(_context);
-            TributeRepository = new TributeRepository(_context);
+            Context = TestDatabaseProvider.GetDatabaseContext();
+            StudentRepository = new StudentRepository(Context);
+            GuildRepository = new GuildRepository(Context);
+            CompanyRepository = new CompanyRepository(Context);
+            StudentProjectRepository = new StudentProjectRepository(Context);
+            TributeRepository = new TributeRepository(Context);
 
-            var accessor = new DatabaseAccessor(_context);
+            var accessor = new DatabaseAccessor(Context);
 
-            StudentService = new StudentService(StudentRepository, new DebugIsuAccessor());
+            StudentService = new StudentService(StudentRepository, new DebugIsuAccessor(), new AchievementProvider(accessor));
             GuildService = new GuildService(GuildRepository, StudentRepository, StudentProjectRepository, TributeRepository, accessor, new DummyGithubApiAccessor());
             CompanyService = new CompanyService(CompanyRepository, StudentRepository);
         }
@@ -69,39 +70,38 @@ namespace Iwentys.Tests.Tools
         public TestCaseContext WithGuildMember(GuildProfileDto guild, out AuthorizedUser user)
         {
             WithNewStudent(out user);
-            _context.GuildMembers.Add(GuildMember.NewMember(guild.Id, user.Id));
-            _context.SaveChanges();
+            Context.GuildMembers.Add(GuildMember.NewMember(guild.Id, user.Id));
+            Context.SaveChanges();
             return this;
         }
 
         public TestCaseContext WithGuildMentor(GuildProfileDto guild, out AuthorizedUser user)
         {
             WithNewStudent(out user);
-            _context.GuildMembers.Add(new GuildMember() {GuildId = guild.Id, MemberId = user.Id, MemberType = GuildMemberType.Mentor});
-            _context.SaveChanges();
+            Context.GuildMembers.Add(new GuildMember() {GuildId = guild.Id, MemberId = user.Id, MemberType = GuildMemberType.Mentor});
+            Context.SaveChanges();
             return this;
         }
 
         public TestCaseContext WithGuildRequest(GuildProfileDto guild, out AuthorizedUser user)
         {
             WithNewStudent(out user);
-            _context.GuildMembers.Add(new GuildMember() {GuildId = guild.Id, MemberId = user.Id, MemberType = GuildMemberType.Requested});
-            _context.SaveChanges();
+            Context.GuildMembers.Add(new GuildMember() {GuildId = guild.Id, MemberId = user.Id, MemberType = GuildMemberType.Requested});
+            Context.SaveChanges();
             return this;
         }
 
         public TestCaseContext WithGuildBlocked(GuildProfileDto guild, out AuthorizedUser user)
         {
             WithNewStudent(out user);
-            _context.GuildMembers.Add(new GuildMember() {GuildId = guild.Id, MemberId = user.Id, MemberType = GuildMemberType.Blocked});
-            _context.SaveChanges();
+            Context.GuildMembers.Add(new GuildMember() {GuildId = guild.Id, MemberId = user.Id, MemberType = GuildMemberType.Blocked});
+            Context.SaveChanges();
             return this;
         }
 
-        public TestCaseContext WithTotem(GuildProfileDto guild, AuthorizedUser admin, out AuthorizedUser totem)
+        public TestCaseContext WithMentor(GuildProfileDto guild, AuthorizedUser admin, out AuthorizedUser mentor)
         {
-            WithGuildMember(guild, out totem);
-            GuildService.SetTotem(admin, guild.Id, totem.Id);
+            WithGuildMember(guild, out mentor);
             return this;
         }
 
@@ -116,8 +116,8 @@ namespace Iwentys.Tests.Tools
         public TestCaseContext WithCompanyWorker(CompanyInfoDto companyInfo, out AuthorizedUser userInfo)
         {
             WithNewStudent(out userInfo);
-            _context.CompanyWorkers.Add(new CompanyWorker {CompanyId = companyInfo.Id, WorkerId = userInfo.Id, Type = CompanyWorkerType.Accepted});
-            _context.SaveChanges();
+            Context.CompanyWorkers.Add(new CompanyWorker {CompanyId = companyInfo.Id, WorkerId = userInfo.Id, Type = CompanyWorkerType.Accepted});
+            Context.SaveChanges();
             return this;
         }
 

@@ -28,12 +28,12 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public IEnumerable<StudyGroup> GetGroupsForStream(int streamId)
         {
-            return _dbContext.StudyStreams.Single(s => s.Id == streamId).Groups;
+            return _dbContext.StudyGroups.Where(g => g.StudyStreamId == streamId).ToList();
         }
 
-        public IEnumerable<Student> GetStudentsForGroup(string group)
+        public IEnumerable<Student> GetStudentsForGroup(string groupName)
         {
-            return _dbContext.Students.Where(s => s.Group == group);
+            return _dbContext.Students.Where(s => s.Group.GroupName == groupName);
         }
     }
 }

@@ -5,19 +5,19 @@ using Google.Apis.Sheets.v4;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Types;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Iwentys.Core.GoogleTableParsing
 {
     public class GoogleTableUpdateService
     {
+        private readonly ILogger _logger;
         private readonly ISubjectActivityRepository _subjectActivityRepository;
-        private readonly IConfiguration _configuration;
 
-        public GoogleTableUpdateService(ISubjectActivityRepository subjectActivityRepository, IConfiguration configuration)
+        public GoogleTableUpdateService(ILogger logger, ISubjectActivityRepository subjectActivityRepository)
         {
+            _logger = logger;
             _subjectActivityRepository = subjectActivityRepository;
-            _configuration = configuration;
         }
 
         public void UpdateSubjectActivityForGroup(SubjectForGroup subjectData)
@@ -25,7 +25,7 @@ namespace Iwentys.Core.GoogleTableParsing
             GoogleTableData googleTableData = subjectData.GetGoogleTableDataConfig();
 
             GoogleCredential credential = GoogleCredential
-                .FromJson(_configuration["GoogleTable:Credentials"])
+                .FromJson(ApplicationOptions.GoogleServiceToken)
                 .CreateScoped(SheetsService.Scope.SpreadsheetsReadonly);
 
             var sheetsService = new SheetsService(new BaseClientService.Initializer()
@@ -34,7 +34,7 @@ namespace Iwentys.Core.GoogleTableParsing
                 ApplicationName = "IwentysTableParser",
             });
 
-            var tableParser = new TableParser(sheetsService, googleTableData);
+            var tableParser = new TableParser(_logger, sheetsService, googleTableData);
 
             foreach (StudentSubjectScore student in tableParser.GetStudentsList())
             {
@@ -48,7 +48,7 @@ namespace Iwentys.Core.GoogleTableParsing
                                          && s.SubjectForGroupId == subjectData.Id);
                 if (activity == null)
                 {
-                    // TODO: Some logs
+                    _logger.LogWarning($"Subject info was not found: student:{student.Name}, subjectId:{subjectData.SubjectId}, groupId:{subjectData.StudyGroupId}");
                     return;
                 }
 

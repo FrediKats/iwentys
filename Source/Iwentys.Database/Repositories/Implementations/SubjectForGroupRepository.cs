@@ -67,7 +67,7 @@ namespace Iwentys.Database.Repositories.Implementations
 
             if (searchDto.StreamId != null)
             {
-                var groupsFromStream = _dbContext.StudyStreams.Find(searchDto.StreamId.Value).Groups;
+                var groupsFromStream = _dbContext.StudyGroups.Where(g => g.StudyStreamId == searchDto.StreamId);
                 query = query.Where(s => groupsFromStream.Any(g => g.Id == s.StudyGroupId));
             }
 

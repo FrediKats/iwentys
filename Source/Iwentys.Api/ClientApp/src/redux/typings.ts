@@ -32,6 +32,7 @@ export interface IRepository {
 }
 
 export interface IGuildState {
+    id: number;
     requestStatus: string;
     title: string;
     bio: string;
@@ -44,9 +45,15 @@ export interface IGuildState {
     pinnedRepositories: IRepository[];
 }
 
+export interface IGuildsState {
+    requestStatus: string;
+    guildsList: IGuildState[]
+}
+
 export interface IState {
     guild: IGuildState;
     user: IUserState;
+    guilds: IGuildsState;
 }
 
 export interface IUserState {

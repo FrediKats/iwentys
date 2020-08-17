@@ -3,7 +3,9 @@ using System.IO;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
+using Iwentys.Core.GoogleTableParsing;
 using Iwentys.Models.Types;
+using Microsoft.Extensions.Logging;
 
 namespace Iwentys.Polygon
 {
@@ -80,7 +82,7 @@ namespace Iwentys.Polygon
             GoogleTableData test = new GoogleTableData(spreadSheetId, sheetName, firstRow, lastRow, groupDefined, 
                 groupName, groupColumn, nameSplitNum, nameArr, scoreColumn);
 
-            var tableParser = new Core.GoogleTableParsing.TableParser(sheetsService, test);
+            var tableParser = new TableParser(new Logger<TableParser>(new LoggerFactory()),  sheetsService, test);
 
             Console.WriteLine(tableParser.GetStudentsJson());
         }
