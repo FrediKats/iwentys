@@ -8,6 +8,7 @@ namespace Iwentys.Models.Types
     {
         Active = 1,
         Completed = 2,
+        //TODO: remove
         Outdated = 3
     }
 }

@@ -37,10 +37,10 @@ namespace Iwentys.Api.Controllers
             return Ok(_questService.GetActive());
         }
 
-        [HttpGet("GetArchive")]
-        public ActionResult<List<QuestInfoDto>> GetArchive()
+        [HttpGet("GetArchived")]
+        public ActionResult<List<QuestInfoDto>> GetArchived()
         {
-            return Ok(_questService.GetArchive());
+            return Ok(_questService.GetArchived());
         }
 
         [HttpPost("Create")]
@@ -60,8 +60,8 @@ namespace Iwentys.Api.Controllers
         [HttpPost("{questId}/SetCompleted")]
         public ActionResult<QuestInfoDto> SetCompleted([FromRoute]int questId, [FromQuery] int userId)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
-            return Ok(_questService.SetCompleted(user, questId, userId));
+            AuthorizedUser author = AuthorizedUser.DebugAuth();
+            return Ok(_questService.SetCompleted(author, questId, userId));
         }
     }
 }

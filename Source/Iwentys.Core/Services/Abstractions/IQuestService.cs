@@ -9,11 +9,11 @@ namespace Iwentys.Core.Services.Abstractions
         List<QuestInfoDto> GetCreatedByUser(AuthorizedUser user);
         List<QuestInfoDto> GetCompletedByUser(AuthorizedUser user);
         List<QuestInfoDto> GetActive();
-        List<QuestInfoDto> GetArchive();
+        List<QuestInfoDto> GetArchived();
 
         QuestInfoDto Create(AuthorizedUser user, CreateQuestDto createQuest);
 
         QuestInfoDto SendResponse(AuthorizedUser user, int id);
-        QuestInfoDto SetCompleted(AuthorizedUser user, int questId, int userId);
+        QuestInfoDto SetCompleted(AuthorizedUser author, int questId, int userId);
     }
 }

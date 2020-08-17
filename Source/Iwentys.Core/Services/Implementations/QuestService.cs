@@ -49,7 +49,7 @@ namespace Iwentys.Core.Services.Implementations
                 .SelectToList(QuestInfoDto.Wrap);
         }
 
-        public List<QuestInfoDto> GetArchive()
+        public List<QuestInfoDto> GetArchived()
         {
             List<Quest> repos = _questRepository
                 .Read()
@@ -77,18 +77,17 @@ namespace Iwentys.Core.Services.Implementations
             if (quest.State == QuestState.Completed || quest.IsOutdated())
                 throw new InnerLogicException("Quest closed");
 
-            _questRepository.AcceptQuest(quest, user.Id);
+            _questRepository.SendResponse(quest, user.Id);
             return _questRepository.ReadById(id).To(QuestInfoDto.Wrap);
         }
 
-        public QuestInfoDto SetCompleted(AuthorizedUser user, int questId, int userId)
+        public QuestInfoDto SetCompleted(AuthorizedUser author, int questId, int userId)
         {
             Quest quest = _questRepository.ReadById(questId);
-            if (quest.AuthorId != user.Id)
-                throw InnerLogicException.NotEnoughPermission(user.Id);
+            if (quest.AuthorId != author.Id)
+                throw InnerLogicException.NotEnoughPermission(author.Id);
 
-            _questRepository.SetCompleted(quest, userId);
-            QuestInfoDto completedQuest = _questRepository.ReadById(questId).To(QuestInfoDto.Wrap);
+            QuestInfoDto completedQuest = _questRepository.SetCompleted(quest, userId).To(QuestInfoDto.Wrap);
             _achievementProvider.Achieve(AchievementList.QuestComplete, userId);
             return completedQuest;
         }

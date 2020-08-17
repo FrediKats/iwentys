@@ -52,19 +52,19 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.SaveChanges();
         }
 
-        public void AcceptQuest(Quest quest, int userId)
+        public void SendResponse(Quest quest, int userId)
         {
             _dbContext.QuestResponses.Add(QuestResponseEntity.New(quest.Id, userId));
             _dbContext.SaveChanges();
         }
 
-        public void SetCompleted(Quest quest, int studentId)
+        public Quest SetCompleted(Quest quest, int studentId)
         {
-            if (quest.State != QuestState.Active)
+            if (quest.State != QuestState.Active || quest.IsOutdated())
                 throw new InnerLogicException("Quest is not active");
 
             quest.State = QuestState.Completed;
-            _dbContext.Quests.Update(quest);
+            quest = _dbContext.Quests.Update(quest).Entity;
 
             QuestResponseEntity responseEntity = _dbContext.QuestResponses.Single(qr => qr.QuestId == quest.Id && qr.StudentId == studentId);
             List<QuestResponseEntity> responsesToDelete = quest.Responses.Where(qr => qr.StudentId != responseEntity.StudentId).ToList();
@@ -75,6 +75,8 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.Students.Update(student);
 
             _dbContext.SaveChanges();
+
+            return quest;
         }
 
         public Quest Create(Student student, CreateQuestDto createQuest)

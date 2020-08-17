@@ -38,7 +38,7 @@ namespace Iwentys.Database.Context
         #region Achievement
 
         public DbSet<AchievementModel> Achievements { get; set; }
-        public DbSet<StudentAchievementModel> StudentAchievements { get; set; }
+        public DbSet<StudentAchievementEntity> StudentAchievements { get; set; }
         public DbSet<GuildAchievementModel> GuildAchievements { get; set; }
 
         #endregion
@@ -66,7 +66,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<GuildMember>().HasKey(g => new {g.GuildId, g.MemberId});
             modelBuilder.Entity<CompanyWorker>().HasKey(g => new {g.CompanyId, g.WorkerId});
             modelBuilder.Entity<SubjectActivity>().HasKey(s => new {s.SubjectForGroupId, s.StudentId});
-            modelBuilder.Entity<StudentAchievementModel>().HasKey(a => new {a.AchievementId, a.StudentId});
+            modelBuilder.Entity<StudentAchievementEntity>().HasKey(a => new {a.AchievementId, a.StudentId});
             modelBuilder.Entity<GuildAchievementModel>().HasKey(a => new {a.AchievementId, a.GuildId});
             modelBuilder.Entity<QuestResponseEntity>().HasKey(a => new {a.QuestId, a.StudentId});
         }
@@ -97,7 +97,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<GuildPinnedProject>().HasData(seedData.GuildPinnedProjects);
 
             modelBuilder.Entity<AchievementModel>().HasData(AchievementList.Achievements);
-            modelBuilder.Entity<StudentAchievementModel>().HasData(seedData.StudentAchievementModels);
+            modelBuilder.Entity<StudentAchievementEntity>().HasData(seedData.StudentAchievementModels);
             modelBuilder.Entity<GuildAchievementModel>().HasData(seedData.GuildAchievementModels);
         }
 
