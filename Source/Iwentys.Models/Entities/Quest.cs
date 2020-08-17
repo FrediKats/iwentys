@@ -19,10 +19,7 @@ namespace Iwentys.Models.Entities
 
         public List<QuestResponseEntity> Responses { get; set; }
 
-        public bool IsOutdated()
-        {
-            return State == QuestState.Outdated || Deadline > DateTime.UtcNow;
-        }
+        public bool IsOutdated => Deadline < DateTime.UtcNow;
 
         public static Quest New(string title, string description, int price, DateTime? deadline, Student author)
         {

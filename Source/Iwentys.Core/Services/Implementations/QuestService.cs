@@ -56,10 +56,6 @@ namespace Iwentys.Core.Services.Implementations
                 .Where(q => q.State == QuestState.Completed || q.Deadline > DateTime.UtcNow)
                 .ToList();
 
-            repos
-                .Where(q => q.State != QuestState.Completed && q.Deadline > DateTime.UtcNow)
-                .ForEach(q => q.State = QuestState.Outdated);
-
             return repos
                 .SelectToList(QuestInfoDto.Wrap);
         }
@@ -74,7 +70,7 @@ namespace Iwentys.Core.Services.Implementations
         public QuestInfoDto SendResponse(AuthorizedUser user, int id)
         {
             Quest quest = _questRepository.ReadById(id);
-            if (quest.State == QuestState.Completed || quest.IsOutdated())
+            if (quest.State == QuestState.Completed || quest.IsOutdated)
                 throw new InnerLogicException("Quest closed");
 
             _questRepository.SendResponse(quest, user.Id);

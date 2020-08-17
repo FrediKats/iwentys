@@ -60,7 +60,7 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public Quest SetCompleted(Quest quest, int studentId)
         {
-            if (quest.State != QuestState.Active || quest.IsOutdated())
+            if (quest.State != QuestState.Active || quest.IsOutdated)
                 throw new InnerLogicException("Quest is not active");
 
             quest.State = QuestState.Completed;

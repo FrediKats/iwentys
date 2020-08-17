@@ -15,6 +15,7 @@ namespace Iwentys.Models.Transferable.Gamification
         public DateTime CreationTime { get; set; }
         public DateTime? Deadline { get; set; }
         public QuestState State { get; set; }
+        public Boolean IsOutdated { get; set; }
 
         public StudentPartialProfileDto Author { get; set; }
 
@@ -28,7 +29,8 @@ namespace Iwentys.Models.Transferable.Gamification
                 Price = quest.Price,
                 CreationTime = quest.CreationTime,
                 Deadline = quest.Deadline,
-                State = quest.IsOutdated() ? QuestState.Outdated : quest.State,
+                State = quest.State,
+                IsOutdated = quest.Deadline < DateTime.UtcNow,
                 Author = quest.Author.To(a => new StudentPartialProfileDto(a))
             };
         }

@@ -83,7 +83,7 @@ namespace Iwentys.Api
             services.AddScoped<IQuestService, QuestService>();
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IStudyLeaderboardService, StudyLeaderboardService>();
-            services.AddScoped<ITournamentService, TournamentService>()
+            services.AddScoped<ITournamentService, TournamentService>();
 
             services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/build");
         }
