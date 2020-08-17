@@ -8,6 +8,6 @@ namespace Iwentys.Core.Services.Abstractions
     {
         IEnumerable<Subject> GetSubjectsForDto(StudySearchDto searchDto);
         IEnumerable<StudyGroup> GetStudyGroupsForDto(StudySearchDto searchDto);
-        IEnumerable<SubjectActivity> GetStudentsRatings(StudySearchDto searchDto);
+        List<StudyLeaderboardRow> GetStudentsRatings(StudySearchDto searchDto);
     }
 }
