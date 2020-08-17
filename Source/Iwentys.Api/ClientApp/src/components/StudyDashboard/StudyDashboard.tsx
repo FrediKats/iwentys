@@ -34,9 +34,9 @@ export const StudyDashboard: React.FC<IStudyDashboardProps> = ({subjectActivityI
     };
 
     return (
-        <div className={'StudyDashboard'}>
+        <section className={'StudyDashboard'}>
             <Pie {...config}/>
-        </div>
+        </section>
         )
 }
 

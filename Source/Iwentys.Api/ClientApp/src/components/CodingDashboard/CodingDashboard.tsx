@@ -33,8 +33,8 @@ export const CodingDashboard: React.FC<ICodingDashboardProps> = ({codingActivity
         },
     };
     return (
-        <div className={'CodingDashboard'} >
+        <section className={'CodingDashboard'} >
             <Area {...config}/>
-        </div>
+        </section>
         );
 }
