@@ -1,0 +1,29 @@
+@import "../../theme/variables.scss";
+
+.UserInfo {
+    background-color: white;
+    padding: 10px 12px 20px;
+}
+
+.user-info {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+    //color: var(--light-purple);
+
+    &.title {
+        font-style: normal;
+        font-weight: bold;
+        font-size: 26px;
+        line-height: 30px;
+    }
+}
+
+.separator {
+    margin-bottom: 17px
+}
+
+.badges-container {
+    margin-top: 36px;
+}

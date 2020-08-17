@@ -1,6 +1,7 @@
 import React from 'react';
 import {Pie} from "@ant-design/charts";
 import {ISubjectActivityInfo} from "../../redux/typings";
+import './StudyDashboard.scss'
 
 export interface IStudyDashboardProps {
     subjectActivityInfo: ISubjectActivityInfo[];
@@ -10,12 +11,7 @@ export const StudyDashboard: React.FC<IStudyDashboardProps> = ({subjectActivityI
     const data = [{}];
 
     // is necessary for the config, because the DataItem object is needed, and not any other
-    for (let item of subjectActivityInfo) {
-        data.push({
-            type: item.subjectTitle,
-            value: item.points
-        });
-    }
+    subjectActivityInfo.forEach(item => data.push({type: item.subjectTitle, value: item.points}));
 
     const config = {
         forceFit: true,
@@ -38,7 +34,9 @@ export const StudyDashboard: React.FC<IStudyDashboardProps> = ({subjectActivityI
     };
 
     return (
-        <Pie {...config}/>
-    )
+        <div className={'StudyDashboard'}>
+            <Pie {...config}/>
+        </div>
+        )
 }
 

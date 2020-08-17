@@ -1,7 +1,7 @@
 import React from 'react';
 import {Area} from '@ant-design/charts';
 import {ICodingActivityInfo} from "../../redux/typings";
-
+import './CodingDashboard.scss'
 
 export interface ICodingDashboardProps {
     codingActivityInfo: ICodingActivityInfo[];
@@ -11,12 +11,7 @@ export const CodingDashboard: React.FC<ICodingDashboardProps> = ({codingActivity
     const data = [{}];
 
     // is necessary for the config, because the DataItem object is needed, and not any other
-    for (let item of codingActivityInfo) {
-        data.push({
-            month: item.month,
-            activity: item.activity
-        });
-    }
+    codingActivityInfo.forEach(item => data.push({month: item.month, activity: item.activity}));
 
     const config = {
         data,
@@ -37,5 +32,9 @@ export const CodingDashboard: React.FC<ICodingDashboardProps> = ({codingActivity
             },
         },
     };
-    return <Area {...config} />;
+    return (
+        <div className={'CodingDashboard'} >
+            <Area {...config}/>
+        </div>
+        );
 }

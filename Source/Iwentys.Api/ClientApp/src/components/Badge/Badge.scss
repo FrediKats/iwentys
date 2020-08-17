@@ -1,0 +1,21 @@
+.badge {
+    display: inline-block;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 23px;
+    text-align: center;
+    white-space: nowrap;
+    color: var(--light-purple);
+}
+
+.badge-pill {
+    background-color: var(--blue);
+    padding: 0 .6em 2px;
+    border-radius: 10rem;
+    margin-right: 11px;
+
+    &:last-child {
+        margin-right: 0;
+    }
+}

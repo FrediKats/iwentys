@@ -31,6 +31,7 @@ export const UserPage: React.FC = () => {
                             middleName={user.middleName}
                             secondName={user.secondName}
                             group={user.group}
+                            guildName={user.guildName}
                             githubUsername={user.githubUsername}
                             additionalLink={user.additionalLink}
                         />
