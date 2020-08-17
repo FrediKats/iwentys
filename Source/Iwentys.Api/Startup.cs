@@ -61,25 +61,28 @@ namespace Iwentys.Api
 
             services.AddScoped<IIsuAccessor, DebugIsuAccessor>();
 
-            services.AddScoped<IStudentRepository, StudentRepository>();
-            services.AddScoped<IGuildRepository, GuildRepository>();
-            services.AddScoped<ICompanyRepository, CompanyRepository>();
-            services.AddScoped<ITournamentRepository, TournamentRepository>();
-            services.AddScoped<IStudentProjectRepository, StudentProjectRepository>();
-            services.AddScoped<ITributeRepository, TributeRepository>();
             services.AddScoped<IBarsPointTransactionLogRepository, BarsPointTransactionLogRepository>();
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<IGuildRepository, GuildRepository>();
             services.AddScoped<IQuestRepository, QuestRepository>();
+            services.AddScoped<IStudentProjectRepository, StudentProjectRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IStudyGroupRepository, StudyGroupRepository>();
             services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
             services.AddScoped<ISubjectForGroupRepository, SubjectForGroupRepository>();
+            services.AddScoped<ITournamentRepository, TournamentRepository>();
+            services.AddScoped<ITributeRepository, TributeRepository>();
+
             services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();
 
-
-            services.AddScoped<IStudentService, StudentService>();
-            services.AddScoped<IGuildService, GuildService>();
-            services.AddScoped<ICompanyService, CompanyService>();
-            services.AddScoped<ITournamentService, TournamentService>();
             services.AddScoped<IBarsPointTransactionLogService, BarsPointTransactionLogService>();
+            services.AddScoped<ICompanyService, CompanyService>();
+            services.AddScoped<IGuildService, GuildService>();
+            services.AddScoped<IQuestService, QuestService>();
+            services.AddScoped<IStudentService, StudentService>();
+            services.AddScoped<IStudyLeaderboardService, StudyLeaderboardService>();
+            services.AddScoped<ITournamentService, TournamentService>();
 
             services.AddSpaStaticFiles(configuration =>
             {
