@@ -4,6 +4,7 @@ using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Transferable.Study;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Implementations
@@ -25,7 +26,8 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public IQueryable<SubjectActivity> Read()
         {
-            return _dbContext.SubjectActivities;
+            return _dbContext.SubjectActivities
+                .Include(s => s.Student);
         }
 
         public SubjectActivity ReadById(int key)

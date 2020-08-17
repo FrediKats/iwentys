@@ -30,7 +30,7 @@ namespace Iwentys.Core.Services.Implementations
             return _subjectForGroupRepository.GetStudyGroupsForDto(searchDto);
         }
 
-        public IEnumerable<SubjectActivity> GetStudentsRatings(StudySearchDto searchDto)
+        public List<StudyLeaderboardRow> GetStudentsRatings(StudySearchDto searchDto)
         {
             if (searchDto.StreamId == null && searchDto.GroupId == null ||
                 searchDto.StreamId != null && searchDto.GroupId != null)
@@ -42,7 +42,11 @@ namespace Iwentys.Core.Services.Implementations
 
             List<SubjectActivity> result = _subjectActivityRepository.GetStudentActivities(searchDto).ToList();
 
-            return result.OrderByDescending(s => s.Points);
+            return result
+                .GroupBy(r => r.StudentId)
+                .Select(g => new StudyLeaderboardRow(g))
+                .OrderByDescending(a => a.Activity)
+                .ToList();
         }
 
         private static StudySemester GetCurrentSemester()
