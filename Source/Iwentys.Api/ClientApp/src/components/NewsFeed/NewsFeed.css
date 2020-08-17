@@ -1,5 +1,5 @@
 .NewsFeed{
     margin-top: 20px;
-    background-color: white;
+    background-color: var(--primary);
     padding: 20px;
 }
