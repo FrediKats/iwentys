@@ -234,7 +234,7 @@ namespace Iwentys.Database.Context
             {
                 new StudentAchievementModel
                 {
-                    AchievementId = 2,
+                    AchievementId = AchievementList.BetaTester.Id,
                     StudentId = 289140,
                     GettingTime = DateTime.UtcNow
                 }
@@ -244,7 +244,7 @@ namespace Iwentys.Database.Context
             {
                 new GuildAchievementModel
                 {
-                    AchievementId = 2,
+                    AchievementId = AchievementList.BetaTester.Id,
                     GuildId = 1,
                     GettingTime = DateTime.UtcNow
                 }

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.DomainModel;
+using Iwentys.Core.Gamification;
 using Iwentys.Core.Services.Abstractions;
+using Iwentys.Database;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;
@@ -15,11 +17,13 @@ namespace Iwentys.Core.Services.Implementations
 {
     public class QuestService : IQuestService
     {
+        private readonly AchievementProvider _achievementProvider;
         private readonly IQuestRepository _questRepository;
 
-        public QuestService(IQuestRepository questRepository)
+        public QuestService(IQuestRepository questRepository, AchievementProvider achievementProvider)
         {
             _questRepository = questRepository;
+            _achievementProvider = achievementProvider;
         }
 
         public List<QuestInfoDto> GetCreatedByUser(AuthorizedUser user)
@@ -63,7 +67,9 @@ namespace Iwentys.Core.Services.Implementations
 
         public QuestInfoDto Create(AuthorizedUser user, CreateQuestDto createQuest)
         {
-            return _questRepository.Create(user.Profile, createQuest).To(QuestInfoDto.Wrap);
+            QuestInfoDto quest = _questRepository.Create(user.Profile, createQuest).To(QuestInfoDto.Wrap);
+            _achievementProvider.Achieve(AchievementList.QuestCreator, user.Id);
+            return quest;
         }
 
         public QuestInfoDto SendResponse(AuthorizedUser user, int id)
@@ -83,7 +89,9 @@ namespace Iwentys.Core.Services.Implementations
                 throw InnerLogicException.NotEnoughPermission(user.Id);
 
             _questRepository.SetCompleted(quest, userId);
-            return _questRepository.ReadById(questId).To(QuestInfoDto.Wrap);
+            QuestInfoDto completedQuest = _questRepository.ReadById(questId).To(QuestInfoDto.Wrap);
+            _achievementProvider.Achieve(AchievementList.QuestComplete, userId);
+            return completedQuest;
         }
     }
 }
