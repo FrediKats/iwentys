@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
-using Iwentys.Models.Entities;
+using Iwentys.Models.Transferable.Gamification;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Api.Controllers
@@ -16,10 +17,30 @@ namespace Iwentys.Api.Controllers
             _questService = questService;
         }
 
-        [HttpGet]
-        public ActionResult<IEnumerable<Quest>> Get()
+        [HttpGet("GetCreatedByUser")]
+        public ActionResult<List<QuestInfoDto>> GetCreatedByUser()
         {
-            return Ok(_questService.Get());
+            var user = AuthorizedUser.DebugAuth();
+            return Ok(_questService.GetCreatedByUser(user));
+        }
+
+        [HttpGet("GetCompletedByUser")]
+        public ActionResult<List<QuestInfoDto>> GetCompletedByUser()
+        {
+            var user = AuthorizedUser.DebugAuth();
+            return Ok(_questService.GetCompletedByUser(user));
+        }
+
+        [HttpGet("GetActive")]
+        public ActionResult<List<QuestInfoDto>> GetActive()
+        {
+            return Ok(_questService.GetActive());
+        }
+
+        [HttpGet("GetArchive")]
+        public ActionResult<List<QuestInfoDto>> GetArchive()
+        {
+            return Ok(_questService.GetArchive());
         }
     }
 }

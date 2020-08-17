@@ -2,6 +2,7 @@
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Implementations
@@ -24,12 +25,13 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public IQueryable<Quest> Read()
         {
-            return _dbContext.Quests;
+            return _dbContext.Quests
+                .Include(q => q.Author);
         }
 
         public Quest ReadById(int key)
         {
-            return _dbContext.Quests.Find(key);
+            return Read().FirstOrDefault(q => q.Id == key);
         }
 
         public Quest Update(Quest entity)
