@@ -50,5 +50,11 @@ namespace Iwentys.Api.Controllers
             return Ok(_questService.SendResponse(user, questId));
         }
 
+        [HttpPost("{questId}/SetCompleted/{")]
+        public ActionResult<QuestInfoDto> SetCompleted([FromRoute]int questId, [FromQuery] int userId)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            return Ok(_questService.SetCompleted(user, questId, userId));
+        }
     }
 }
