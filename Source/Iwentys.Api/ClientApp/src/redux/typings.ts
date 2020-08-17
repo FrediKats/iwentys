@@ -62,7 +62,7 @@ export interface IUserState {
     achievements: IAchievement[];
     subjectActivityInfo: ISubjectActivityInfo[];
     codingActivityInfo: ICodingActivityInfo[];
-    id: 0;
+    id: number;
     firstName: string;
     middleName: string;
     secondName: string;
@@ -70,7 +70,7 @@ export interface IUserState {
     githubUsername: string;
     creationTime: Date;
     lastOnlineTime: Date;
-    barsPoints: 0;
+    barsPoints: number;
     guildName: string;
     studyLeaderBoardPlace: number;
     codingLeaderBoardPlace: number;
