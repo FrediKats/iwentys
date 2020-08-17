@@ -3,6 +3,8 @@ using System.Linq;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Exceptions;
+using Iwentys.Models.Transferable.Gamification;
 using Iwentys.Models.Types;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -56,16 +58,34 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.SaveChanges();
         }
 
-        public void SetCompleted(Quest quest, int userId)
+        public void SetCompleted(Quest quest, int studentId)
         {
+            if (quest.State != QuestState.Active)
+                throw new InnerLogicException("Quest is not active");
+
             quest.State = QuestState.Completed;
             _dbContext.Quests.Update(quest);
 
-            QuestResponseEntity responseEntity = _dbContext.QuestResponses.Single(qr => qr.QuestId == quest.Id && qr.StudentId == userId);
+            QuestResponseEntity responseEntity = _dbContext.QuestResponses.Single(qr => qr.QuestId == quest.Id && qr.StudentId == studentId);
             List<QuestResponseEntity> responsesToDelete = quest.Responses.Where(qr => qr.StudentId != responseEntity.StudentId).ToList();
             _dbContext.QuestResponses.RemoveRange(responsesToDelete);
 
+            Student student = _dbContext.Students.Find(studentId);
+            student.BarsPoints += quest.Price;
+            _dbContext.Students.Update(student);
+
             _dbContext.SaveChanges();
+        }
+
+        public Quest Create(Student student, CreateQuestDto createQuest)
+        {
+            //TODO: add transaction
+            if (student.BarsPoints < createQuest.Price)
+                throw InnerLogicException.NotEnoughBarsPoints();
+
+            student.BarsPoints -= createQuest.Price;
+            var quest = Quest.New(createQuest.Title, createQuest.Description, createQuest.Price, createQuest.Deadline, student);
+            return _dbContext.Quests.Add(quest).Entity;
         }
     }
 }

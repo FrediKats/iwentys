@@ -43,6 +43,13 @@ namespace Iwentys.Api.Controllers
             return Ok(_questService.GetArchive());
         }
 
+        [HttpPost("Create")]
+        public ActionResult<QuestInfoDto> Create(CreateQuestDto createQuest)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            return Ok(_questService.Create(user, createQuest));
+        }
+
         [HttpPost("{questId}/SendResponse")]
         public ActionResult<QuestInfoDto> SendResponse(int questId)
         {

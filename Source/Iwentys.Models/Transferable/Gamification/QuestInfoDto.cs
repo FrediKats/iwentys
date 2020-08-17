@@ -13,14 +13,13 @@ namespace Iwentys.Models.Transferable.Gamification
         public string Description { get; set; }
         public int Price { get; set; }
         public DateTime CreationTime { get; set; }
-        public DateTime Deadline { get; set; }
+        public DateTime? Deadline { get; set; }
         public QuestState State { get; set; }
 
         public StudentPartialProfileDto Author { get; set; }
 
         public static QuestInfoDto Wrap(Quest quest)
         {
-
             return new QuestInfoDto
             {
                 Id = quest.Id,

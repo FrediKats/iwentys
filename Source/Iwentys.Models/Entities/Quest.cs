@@ -11,7 +11,7 @@ namespace Iwentys.Models.Entities
         public string Description { get; set; }
         public int Price { get; set; }
         public DateTime CreationTime { get; set; }
-        public DateTime Deadline { get; set; }
+        public DateTime? Deadline { get; set; }
         public QuestState State { get; set; }
 
         public int AuthorId { get; set; }
@@ -24,7 +24,7 @@ namespace Iwentys.Models.Entities
             return State == QuestState.Outdated || Deadline > DateTime.UtcNow;
         }
 
-        public static Quest New(string title, string description, int price, DateTime deadline, Student author)
+        public static Quest New(string title, string description, int price, DateTime? deadline, Student author)
         {
             return new Quest
             {

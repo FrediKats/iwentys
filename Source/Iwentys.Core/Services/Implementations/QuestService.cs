@@ -56,9 +56,14 @@ namespace Iwentys.Core.Services.Implementations
             repos
                 .Where(q => q.State != QuestState.Completed && q.Deadline > DateTime.UtcNow)
                 .ForEach(q => q.State = QuestState.Outdated);
-            
+
             return repos
                 .SelectToList(QuestInfoDto.Wrap);
+        }
+
+        public QuestInfoDto Create(AuthorizedUser user, CreateQuestDto createQuest)
+        {
+            return _questRepository.Create(user.Profile, createQuest).To(QuestInfoDto.Wrap);
         }
 
         public QuestInfoDto SendResponse(AuthorizedUser user, int id)
