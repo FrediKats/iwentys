@@ -45,8 +45,7 @@ namespace Iwentys.Core.Services.Implementations
         {
             return _questRepository
                 .Read()
-                .Where(q => q.State == QuestState.Active)
-                .WhereIsNotOutdated()
+                .Where(q => q.State == QuestState.Active && (q.Deadline == null || q.Deadline > DateTime.UtcNow))
                 .SelectToList(QuestInfoDto.Wrap);
         }
 
