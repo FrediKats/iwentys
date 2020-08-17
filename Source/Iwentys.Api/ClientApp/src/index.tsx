@@ -6,11 +6,6 @@ import {Provider} from 'react-redux';
 import {configureStore, getDefaultMiddleware} from "@reduxjs/toolkit";
 import {BrowserRouter} from 'react-router-dom';
 import {guildSlice} from "./redux/guild/guildReducer";
-import { App } from './App';
-import { Provider } from 'react-redux';
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import { BrowserRouter } from 'react-router-dom';
-import { guildSlice } from './redux/guild/guildReducer';
 import { guildsSlice } from './redux/guilds/guildsReducer';
 import {userSlice} from "./redux/user/userReducer";
 
