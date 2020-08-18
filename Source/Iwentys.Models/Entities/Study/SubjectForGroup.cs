@@ -20,6 +20,12 @@ namespace Iwentys.Models.Entities.Study
         public string SerializedGoogleTableConfig { get; set; }
         public StudySemester StudySemester { get; set; }
 
-        public GoogleTableData GetGoogleTableDataConfig() => JsonConvert.DeserializeObject<GoogleTableData>(SerializedGoogleTableConfig);
+        public GoogleTableData GetGoogleTableDataConfig()
+        {
+            //TODO: remove this hack
+            if (SerializedGoogleTableConfig is null)
+                return null;
+            return JsonConvert.DeserializeObject<GoogleTableData>(SerializedGoogleTableConfig);
+        }
     }
 }

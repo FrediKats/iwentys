@@ -26,6 +26,9 @@ namespace Iwentys.Core.GoogleTableParsing
         public void UpdateSubjectActivityForGroup(SubjectForGroup subjectData)
         {
             GoogleTableData googleTableData = subjectData.GetGoogleTableDataConfig();
+            //TODO: remove this hack
+            if (googleTableData is null)
+                return;
 
             SheetsService sheetsService = GetServiceForApiToken();
 
