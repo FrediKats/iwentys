@@ -92,8 +92,7 @@ namespace Iwentys.Api
             IApplicationBuilder app,
             IWebHostEnvironment env,
             IwentysDbContext db,
-            ISubjectActivityRepository subjectActivityRepository,
-            ISubjectForGroupRepository subjectForGroupRepository,
+            DatabaseAccessor databaseAccessor,
             ILoggerFactory loggerFactory)
         {
             loggerFactory.AddFile(Configuration["LogFilePath"]);
@@ -137,7 +136,7 @@ namespace Iwentys.Api
 
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
-            DaemonManager.Init(loggerFactory.CreateLogger("DaemonManager"), subjectActivityRepository, subjectForGroupRepository);
+            DaemonManager.Init(loggerFactory.CreateLogger("DaemonManager"), databaseAccessor);
         }
     }
 }
