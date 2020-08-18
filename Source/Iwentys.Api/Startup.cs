@@ -51,7 +51,7 @@ namespace Iwentys.Api
             services.AddDbContext<IwentysDbContext>(o => o.UseSqlite("Data Source=Iwentys.db")
                 .EnableSensitiveDataLogging(Configuration.GetValue<bool>("Logging:EnableSqlParameterLogging")));
 
-            ApplicationOptions.GoogleServiceToken = Configuration["GoogleTable:Credentials"];
+            ApplicationOptions.GoogleServiceToken = Configuration["GoogleTableCredentials"];
             ApplicationOptions.GithubToken = Configuration["GithubToken"];
 
             if (ApplicationOptions.GithubToken is null)
