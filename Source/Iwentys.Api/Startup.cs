@@ -134,7 +134,6 @@ namespace Iwentys.Api
 
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
-            DaemonManager.Init(loggerFactory.CreateLogger("DaemonManager"), databaseAccessor);
         }
     }
 }

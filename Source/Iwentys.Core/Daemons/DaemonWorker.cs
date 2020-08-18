@@ -5,6 +5,7 @@ namespace Iwentys.Core.Daemons
 {
     public abstract class DaemonWorker
     {
+        //TODO: remove
         public void Notify()
         {
             if (DateTime.UtcNow < _lastCheck + _checkInterval)
