@@ -51,7 +51,7 @@ namespace Iwentys.Api
             services.AddDbContext<IwentysDbContext>(o => o.UseSqlite("Data Source=Iwentys.db")
                 .EnableSensitiveDataLogging(Configuration.GetValue<bool>("Logging:EnableSqlParameterLogging")));
 
-            ApplicationOptions.GoogleServiceToken = Configuration["GoogleTable:Credentials"];
+            ApplicationOptions.GoogleServiceToken = Configuration["GoogleTableCredentials"];
             ApplicationOptions.GithubToken = Configuration["GithubToken"];
 
             if (ApplicationOptions.GithubToken is null)
@@ -92,8 +92,7 @@ namespace Iwentys.Api
             IApplicationBuilder app,
             IWebHostEnvironment env,
             IwentysDbContext db,
-            ISubjectActivityRepository subjectActivityRepository,
-            ISubjectForGroupRepository subjectForGroupRepository,
+            DatabaseAccessor databaseAccessor,
             ILoggerFactory loggerFactory)
         {
             loggerFactory.AddFile(Configuration["LogFilePath"]);
@@ -137,7 +136,7 @@ namespace Iwentys.Api
 
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
-            DaemonManager.Init(loggerFactory.CreateLogger("DaemonManager"), subjectActivityRepository, subjectForGroupRepository);
+            DaemonManager.Init(loggerFactory.CreateLogger("DaemonManager"), databaseAccessor);
         }
     }
 }

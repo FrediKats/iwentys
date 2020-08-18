@@ -57,9 +57,13 @@ namespace Iwentys.Database.Repositories.Implementations
         public IEnumerable<SubjectActivity> GetStudentActivities(StudySearchDto searchDto)
         {
             var query = Read()
-                .Join(_dbContext.StudyGroups, st => st.Student.GroupId, sg => sg.Id, 
+                .Join(_dbContext.StudyGroups,
+                    st => st.Student.GroupId,
+                    sg => sg.Id, 
                     (subjectActivity, group) => new {SubjectActivity = subjectActivity, Group = group})
-                .Join(_dbContext.SubjectForGroups, st => st.Group.Id, sg => sg.StudyGroupId,
+                .Join(_dbContext.SubjectForGroups,
+                    st => st.SubjectActivity.SubjectForGroupId,
+                    sg => sg.Id,
                     (_, sg) => new {_.SubjectActivity, _.Group, SubjectForGroup = sg});
 
             if (searchDto.GroupId != null)

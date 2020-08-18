@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Models.Entities;
@@ -99,20 +99,72 @@ namespace Iwentys.Database.Context
                     TeacherId = 1,
                     StudySemester = StudySemester.Y19H2
                 },
+                
                 new SubjectForGroup
                 {
                     Id = 3,
                     SubjectId = 3,
                     StudyGroupId = secondCourse[0].Id,
                     TeacherId = 1,
-                    StudySemester = StudySemester.Y19H2
-                }
+                    StudySemester = StudySemester.Y19H2,
+                    SerializedGoogleTableConfig = new GoogleTableData(
+                        "1BMRHimS4Ioo5cWX1yZdHFsSyViR_J2h8rhL8Wl_x3og",
+                        "M3101",
+                        "4",
+                        "24",
+                        true,
+                        "M3201",
+                        "A",
+                        new[] { "B" },
+                        "V").Serialize()
+                },
+
+                new SubjectForGroup
+                {
+                    Id = 4,
+                    SubjectId = 3,
+                    StudyGroupId = secondCourse[1].Id,
+                    TeacherId = 1,
+                    StudySemester = StudySemester.Y19H2,
+                    SerializedGoogleTableConfig = new GoogleTableData(
+                        "1BMRHimS4Ioo5cWX1yZdHFsSyViR_J2h8rhL8Wl_x3og",
+                        "M3102",
+                        "4",
+                        "25",
+                        true,
+                        "M3202",
+                        "A",
+                        new[] { "B" },
+                        "V")
+                        .Serialize()
+                },
+
+                new SubjectForGroup
+                {
+                    Id = 5,
+                    SubjectId = 3,
+                    StudyGroupId = secondCourse[2].Id,
+                    TeacherId = 1,
+                    StudySemester = StudySemester.Y19H2,
+                    SerializedGoogleTableConfig = new GoogleTableData(
+                        "1BMRHimS4Ioo5cWX1yZdHFsSyViR_J2h8rhL8Wl_x3og",
+                        "M3103",
+                        "4",
+                        "25",
+                        true,
+                        "M3203",
+                        "A",
+                        new[] { "B" },
+                        "V")
+                        .Serialize()
+                },
             };
         }
 
         private void InitStudents()
         {
             StudyGroup m3201 = StudyGroups.First(g => g.GroupName == "M3201");
+            StudyGroup m3202 = StudyGroups.First(g => g.GroupName == "M3202");
             StudyGroup m3205 = StudyGroups.First(g => g.GroupName == "M3205");
             StudyGroup m3305 = StudyGroups.First(g => g.GroupName == "M3305");
 
@@ -142,6 +194,11 @@ namespace Iwentys.Database.Context
                 Student.CreateFromIsu(284457, "Матвей", "Дудко", m3201),
                 Student.CreateFromIsu(264275, "Аюна", "Дымчикова", m3201),
                 user,
+
+                Student.CreateFromIsu(284441, "Ульяна", "Абрамова", m3202),
+                Student.CreateFromIsu(283184, "Денис", "Андреев", m3202),
+                Student.CreateFromIsu(284443, "Сергей", "Артамонов", m3202),
+
 
                 Student.CreateFromIsu(284479, "Илья", "Кузнецов", m3205),
 

@@ -5,6 +5,7 @@ namespace Iwentys.Models.Entities.Study
 {
     public class SubjectForGroup
     {
+        //TODO: remove
         public int Id { get; set; }
 
         public int SubjectId { get; set; }
