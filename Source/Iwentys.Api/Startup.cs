@@ -95,8 +95,6 @@ namespace Iwentys.Api
             DatabaseAccessor databaseAccessor,
             ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddFile(Configuration["LogFilePath"]);
-
             //TODO: Temp fix for CORS
             app.UseCors("CorsPolicy");
 

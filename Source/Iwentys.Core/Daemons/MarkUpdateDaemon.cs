@@ -4,6 +4,7 @@ using System.Linq;
 using Iwentys.Core.GoogleTableParsing;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities.Study;
+using Microsoft.Extensions.Logging;
 
 namespace Iwentys.Core.Daemons
 {
@@ -11,17 +12,26 @@ namespace Iwentys.Core.Daemons
     {
         private readonly GoogleTableUpdateService _googleTableUpdateService;
         private readonly ISubjectForGroupRepository _subjectForGroupRepository;
+        private readonly ILogger _logger;
 
-        public MarkUpdateDaemon(TimeSpan checkInterval, GoogleTableUpdateService googleTableUpdateService, ISubjectForGroupRepository subjectForGroupRepository) : base(checkInterval)
+        public MarkUpdateDaemon(TimeSpan checkInterval, GoogleTableUpdateService googleTableUpdateService, ISubjectForGroupRepository subjectForGroupRepository, ILogger logger) : base(checkInterval)
         {
             _googleTableUpdateService = googleTableUpdateService;
             _subjectForGroupRepository = subjectForGroupRepository;
+            _logger = logger;
         }
 
-        protected override void Execute()
+        public override void Execute()
         {
-            List<SubjectForGroup> groups = _subjectForGroupRepository.Read().ToList();
-            groups.ForEach(g => _googleTableUpdateService.UpdateSubjectActivityForGroup(g));
+            try
+            {
+                List<SubjectForGroup> groups = _subjectForGroupRepository.Read().ToList();
+                groups.ForEach(g => _googleTableUpdateService.UpdateSubjectActivityForGroup(g));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Mark update failed");
+            }
         }
     }
 }

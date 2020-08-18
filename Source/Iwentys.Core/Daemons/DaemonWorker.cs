@@ -30,6 +30,6 @@ namespace Iwentys.Core.Daemons
             _lastCheck = DateTime.MinValue;
         }
 
-        protected abstract void Execute();
+        public abstract void Execute();
     }
 }

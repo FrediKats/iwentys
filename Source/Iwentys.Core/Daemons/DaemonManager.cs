@@ -13,7 +13,8 @@ namespace Iwentys.Core.Daemons
             _markUpdateDaemon = new MarkUpdateDaemon(
                 ApplicationOptions.DaemonUpdateInterval,
                 new GoogleTableUpdateService(logger, databaseAccessor.SubjectActivity, databaseAccessor.Student),
-                databaseAccessor.SubjectForGroup);
+                databaseAccessor.SubjectForGroup,
+                logger);
         }
 
         public static void TryRun()
