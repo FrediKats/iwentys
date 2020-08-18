@@ -14,6 +14,7 @@ namespace Iwentys.Core.Services.Abstractions
         QuestInfoDto Create(AuthorizedUser user, CreateQuestDto createQuest);
 
         QuestInfoDto SendResponse(AuthorizedUser user, int id);
-        QuestInfoDto SetCompleted(AuthorizedUser author, int questId, int userId);
+        QuestInfoDto Complete(AuthorizedUser author, int questId, int userId);
+        QuestInfoDto Revoke(AuthorizedUser author, int questId);
     }
 }

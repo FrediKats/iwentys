@@ -70,14 +70,14 @@ namespace Iwentys.Core.Services.Implementations
         public QuestInfoDto SendResponse(AuthorizedUser user, int id)
         {
             Quest quest = _questRepository.ReadById(id);
-            if (quest.State == QuestState.Completed || quest.IsOutdated)
-                throw new InnerLogicException("Quest closed");
+            if (quest.State != QuestState.Active || quest.IsOutdated)
+                throw new InnerLogicException("Quest is not active");
 
             _questRepository.SendResponse(quest, user.Id);
             return _questRepository.ReadById(id).To(QuestInfoDto.Wrap);
         }
 
-        public QuestInfoDto SetCompleted(AuthorizedUser author, int questId, int userId)
+        public QuestInfoDto Complete(AuthorizedUser author, int questId, int userId)
         {
             Quest quest = _questRepository.ReadById(questId);
             if (quest.AuthorId != author.Id)
@@ -86,6 +86,19 @@ namespace Iwentys.Core.Services.Implementations
             QuestInfoDto completedQuest = _questRepository.SetCompleted(quest, userId).To(QuestInfoDto.Wrap);
             _achievementProvider.Achieve(AchievementList.QuestComplete, userId);
             return completedQuest;
+        }
+
+        public QuestInfoDto Revoke(AuthorizedUser author, int questId)
+        {
+            Quest quest = _questRepository.ReadById(questId);
+            if (quest.AuthorId != author.Id)
+                throw InnerLogicException.NotEnoughPermission(author.Id);
+
+            if (quest.State != QuestState.Active)
+                throw new InnerLogicException("Quest is not active");
+
+            quest.State = QuestState.Revoked;
+            return _questRepository.Update(quest).To(QuestInfoDto.Wrap);
         }
     }
 }
