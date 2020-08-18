@@ -76,6 +76,7 @@ namespace Iwentys.Api
             services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();
 
+
             services.AddScoped<IBarsPointTransactionLogService, BarsPointTransactionLogService>();
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<IGuildService, GuildService>();
@@ -84,11 +85,7 @@ namespace Iwentys.Api
             services.AddScoped<IStudyLeaderboardService, StudyLeaderboardService>();
             services.AddScoped<ITournamentService, TournamentService>();
 
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/build";
-            });
-
+            services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/build");
         }
 
         public void Configure(

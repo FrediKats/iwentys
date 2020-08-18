@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Iwentys.Models.Types;
 
 namespace Iwentys.Models.Entities
@@ -10,13 +11,17 @@ namespace Iwentys.Models.Entities
         public string Description { get; set; }
         public int Price { get; set; }
         public DateTime CreationTime { get; set; }
+        public DateTime? Deadline { get; set; }
         public QuestState State { get; set; }
-
 
         public int AuthorId { get; set; }
         public Student Author { get; set; }
 
-        public static Quest New(string title, string description, int price, Student author)
+        public List<QuestResponseEntity> Responses { get; set; }
+
+        public bool IsOutdated => Deadline < DateTime.UtcNow;
+
+        public static Quest New(string title, string description, int price, DateTime? deadline, Student author)
         {
             return new Quest
             {
@@ -24,6 +29,7 @@ namespace Iwentys.Models.Entities
                 Description = description,
                 Price = price,
                 CreationTime = DateTime.UtcNow,
+                Deadline = deadline,
                 State = QuestState.Active,
                 AuthorId = author.Id
             };

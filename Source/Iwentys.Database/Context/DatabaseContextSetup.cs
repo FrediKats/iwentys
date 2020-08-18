@@ -38,7 +38,7 @@ namespace Iwentys.Database.Context
         public List<GuildPinnedProject> GuildPinnedProjects { get; set; }
 
         public List<GuildAchievementModel> GuildAchievementModels { get; set; }
-        public List<StudentAchievementModel> StudentAchievementModels { get; set; }
+        public List<StudentAchievementEntity> StudentAchievementModels { get; set; }
 
         public DatabaseContextSetup()
         {
@@ -230,11 +230,11 @@ namespace Iwentys.Database.Context
 
         private void InitAchievements()
         {
-            StudentAchievementModels = new List<StudentAchievementModel>
+            StudentAchievementModels = new List<StudentAchievementEntity>
             {
-                new StudentAchievementModel
+                new StudentAchievementEntity
                 {
-                    AchievementId = 2,
+                    AchievementId = AchievementList.BetaTester.Id,
                     StudentId = 289140,
                     GettingTime = DateTime.UtcNow
                 }
@@ -244,7 +244,7 @@ namespace Iwentys.Database.Context
             {
                 new GuildAchievementModel
                 {
-                    AchievementId = 2,
+                    AchievementId = AchievementList.BetaTester.Id,
                     GuildId = 1,
                     GettingTime = DateTime.UtcNow
                 }

@@ -12,7 +12,7 @@ namespace Iwentys.Models.Transferable
 
         public DateTime GettingTime { get; set; }
 
-        public static AchievementInfoDto Wrap(StudentAchievementModel achievement)
+        public static AchievementInfoDto Wrap(StudentAchievementEntity achievement)
         {
             return new AchievementInfoDto
             {

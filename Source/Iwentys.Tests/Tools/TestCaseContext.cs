@@ -1,3 +1,4 @@
+using System;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Gamification;
 using Iwentys.Core.GithubIntegration;
@@ -11,6 +12,7 @@ using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Companies;
+using Iwentys.Models.Transferable.Gamification;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Types;
 using Iwentys.Models.Types.Guilds;
@@ -27,9 +29,12 @@ namespace Iwentys.Tests.Tools
         public readonly IStudentProjectRepository StudentProjectRepository;
         public readonly ITributeRepository TributeRepository;
 
+        public readonly DatabaseAccessor Accessor;
+
         public readonly IStudentService StudentService;
         public readonly IGuildService GuildService;
-        public readonly CompanyService CompanyService;
+        public readonly ICompanyService CompanyService;
+        public readonly IQuestService QuestService;
 
         public static TestCaseContext Case() => new TestCaseContext();
 
@@ -42,11 +47,13 @@ namespace Iwentys.Tests.Tools
             StudentProjectRepository = new StudentProjectRepository(Context);
             TributeRepository = new TributeRepository(Context);
 
-            var accessor = new DatabaseAccessor(Context);
+            Accessor = new DatabaseAccessor(Context);
+            var achievementProvider = new AchievementProvider(Accessor);
 
-            StudentService = new StudentService(StudentRepository, new DebugIsuAccessor(), new AchievementProvider(accessor));
-            GuildService = new GuildService(GuildRepository, StudentRepository, StudentProjectRepository, TributeRepository, accessor, new DummyGithubApiAccessor());
+            StudentService = new StudentService(StudentRepository, new DebugIsuAccessor(), achievementProvider);
+            GuildService = new GuildService(GuildRepository, StudentRepository, StudentProjectRepository, TributeRepository, Accessor, new DummyGithubApiAccessor());
             CompanyService = new CompanyService(CompanyRepository, StudentRepository);
+            QuestService = new QuestService(Accessor.QuestRepository, achievementProvider);
         }
 
         public TestCaseContext WithNewStudent(out AuthorizedUser user, UserType userType = UserType.Common)
@@ -135,6 +142,19 @@ namespace Iwentys.Tests.Tools
         public TestCaseContext WithTribute(AuthorizedUser userInfo, StudentProject project, out Tribute tribute)
         {
             tribute = GuildService.CreateTribute(userInfo, project.Id);
+            return this;
+        }
+
+        public TestCaseContext WithQuest(AuthorizedUser user, int price, out QuestInfoDto quest)
+        {
+            quest = QuestService.Create(user, new CreateQuestDto
+            {
+                Title = "Some quest",
+                Description = "Some desc",
+                Deadline = DateTime.UtcNow.AddDays(1),
+                Price = price
+            });
+
             return this;
         }
     }
