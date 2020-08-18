@@ -3,6 +3,7 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Types;
 using Microsoft.Extensions.Logging;
@@ -44,6 +45,26 @@ namespace Iwentys.Core.GoogleTableParsing
                 if (activity == null)
                 {
                     _logger.LogWarning($"Subject info was not found: student:{student.Name}, subjectId:{subjectData.SubjectId}, groupId:{subjectData.StudyGroupId}");
+
+                    Student studentProfile = _studentRepository
+                        .Read()
+                        .FirstOrDefault(s => student.Name.Contains(s.FirstName)
+                                    && student.Name.Contains(s.SecondName));
+
+                    if (studentProfile is null)
+                    {
+                        _logger.LogWarning($"Student wsa not found: student:{student.Name}");
+                        continue;
+                    }
+
+
+                    _subjectActivityRepository.Create(new SubjectActivity
+                    {
+                        StudentId = studentProfile.Id,
+                        SubjectForGroupId = subjectData.StudyGroupId,
+                        //TODO: support parse for 1.0 and 1,0
+                        Points = double.Parse(student.Score)
+                    });
 
                     continue;
                 }
