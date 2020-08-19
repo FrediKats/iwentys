@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.DomainModel;
@@ -168,7 +168,7 @@ namespace Iwentys.Core.Services.Implementations
         {
             Guild studentGuild = _guildRepository.ReadForStudent(user.Id);
             if (studentGuild == null || studentGuild.Id != guildId)
-                throw InnerLogicException.Guild.IsNotGuildMember(user.Id);
+                throw InnerLogicException.Guild.IsNotGuildMember(user.Id, guildId);
 
             Tribute userTribute = _tributeRepository.ReadStudentActiveTribute(studentGuild.Id, user.Id);
             if (userTribute != null)
@@ -249,7 +249,7 @@ namespace Iwentys.Core.Services.Implementations
             GuildMember userMember = guild.Members.Find(m => m.MemberId == user.Id);
 
             if (member is null || !member.MemberType.IsMember())
-                throw InnerLogicException.Guild.IsNotGuildMember(memberId);
+                throw InnerLogicException.Guild.IsNotGuildMember(memberId, guildId);
 
             if (member.MemberType == GuildMemberType.Creator)
                 throw new InnerLogicException("Unable to kick guild creator!");
@@ -314,7 +314,7 @@ namespace Iwentys.Core.Services.Implementations
         {
             Guild guild = _guildRepository.ReadForStudent(user.Id);
             if (guild is null)
-                throw InnerLogicException.Guild.IsNotGuildMember(user.Id);
+                throw InnerLogicException.Guild.IsNotGuildMember(user.Id, null);
 
             return _tributeRepository.ReadStudentInGuildTributes(guild.Id, user.Id);
         }

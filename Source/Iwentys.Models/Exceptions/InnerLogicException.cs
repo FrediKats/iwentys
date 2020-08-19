@@ -25,7 +25,11 @@ namespace Iwentys.Models.Exceptions
 
         public static class Guild
         {
-            public static InnerLogicException IsNotGuildMember(int studentId) => new InnerLogicException($"Student is not guild member. Id: [{studentId}]");
+            public static InnerLogicException IsNotGuildMember(int studentId, int? guildId)
+            {
+                return new InnerLogicException(string.Format(Strings.ExceptionMessages.Guild_IsNotGuildMember, studentId, guildId));
+            }
+
             public static InnerLogicException IsNotGuildEditor(int studentId) => new InnerLogicException($"Student is not guild editor. Id: [{studentId}]");
         }
     }

@@ -1,4 +1,4 @@
-using Iwentys.Models.Entities;
+﻿using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Types.Guilds;
@@ -22,7 +22,7 @@ namespace Iwentys.Core.DomainModel.Guilds
             GuildMember member = guild.Members.Find(m => m.MemberId == student.Id);
 
             if (member is null)
-                throw InnerLogicException.Guild.IsNotGuildMember(student.Id);
+                throw InnerLogicException.Guild.IsNotGuildMember(student.Id, guild.Id);
 
             if (!member.MemberType.IsEditor())
                 throw InnerLogicException.Guild.IsNotGuildEditor(student.Id);
