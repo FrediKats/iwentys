@@ -22,14 +22,14 @@ namespace Iwentys.Core.DomainModel
 
     public static class GuildMentorUserExtensions
     {
-        public static GuildMentorUser EnsureIsMentor(this AuthorizedUser user, IGuildRepository guildRepository, int guildId)
+        public static GuildMentorUser EnsureIsMentor(this Student student, IGuildRepository guildRepository, int guildId)
         {
             Guild guild = guildRepository.Get(guildId);
-            GuildMember membership = guild.Members.First(m => m.MemberId == user.Id);
+            GuildMember membership = guild.Members.First(m => m.MemberId == student.Id);
             if (!membership.MemberType.IsEditor())
-                throw InnerLogicException.NotEnoughPermission(user.Id);
+                throw InnerLogicException.NotEnoughPermission(student.Id);
 
-            return new GuildMentorUser(user.Profile, guild);
+            return new GuildMentorUser(student, guild);
         }
     }
 }

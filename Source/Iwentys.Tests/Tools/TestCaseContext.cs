@@ -53,7 +53,7 @@ namespace Iwentys.Tests.Tools
             StudentService = new StudentService(StudentRepository, new DebugIsuAccessor(), achievementProvider);
             GuildService = new GuildService(GuildRepository, StudentRepository, StudentProjectRepository, TributeRepository, Accessor, new DummyGithubApiAccessor());
             CompanyService = new CompanyService(CompanyRepository, StudentRepository);
-            QuestService = new QuestService(Accessor.QuestRepository, achievementProvider);
+            QuestService = new QuestService(Accessor.QuestRepository, achievementProvider, Accessor);
         }
 
         public TestCaseContext WithNewStudent(out AuthorizedUser user, UserType userType = UserType.Common)
@@ -64,7 +64,7 @@ namespace Iwentys.Tests.Tools
                 Role = userType
             };
 
-            user = AuthorizedUser.DebugAuth(StudentRepository.Create(userInfo));
+            user = AuthorizedUser.DebugAuth(StudentRepository.Create(userInfo).Id);
             return this;
         }
 

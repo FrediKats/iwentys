@@ -23,10 +23,5 @@ namespace Iwentys.Core.DomainModel
 
             return new AdminUser(profile);
         }
-
-        public static AdminUser EnsureIsAdmin(this AuthorizedUser user)
-        {
-            return EnsureIsAdmin(user.Profile);
-        }
     }
 }

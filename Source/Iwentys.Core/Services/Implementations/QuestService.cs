@@ -5,25 +5,27 @@ using Iwentys.Core.DomainModel;
 using Iwentys.Core.Gamification;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database;
+using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Gamification;
 using Iwentys.Models.Types;
-using MoreLinq;
 
 namespace Iwentys.Core.Services.Implementations
 {
     public class QuestService : IQuestService
     {
         private readonly AchievementProvider _achievementProvider;
+        private readonly DatabaseAccessor _databaseAccessor;
         private readonly IQuestRepository _questRepository;
 
-        public QuestService(IQuestRepository questRepository, AchievementProvider achievementProvider)
+        public QuestService(IQuestRepository questRepository, AchievementProvider achievementProvider, DatabaseAccessor databaseAccessor)
         {
             _questRepository = questRepository;
             _achievementProvider = achievementProvider;
+            _databaseAccessor = databaseAccessor;
         }
 
         public List<QuestInfoDto> GetCreatedByUser(AuthorizedUser user)
@@ -62,7 +64,8 @@ namespace Iwentys.Core.Services.Implementations
 
         public QuestInfoDto Create(AuthorizedUser user, CreateQuestDto createQuest)
         {
-            QuestInfoDto quest = _questRepository.Create(user.Profile, createQuest).To(QuestInfoDto.Wrap);
+            Student student = user.GetProfile(_databaseAccessor.Student);
+            QuestInfoDto quest = _questRepository.Create(student, createQuest).To(QuestInfoDto.Wrap);
             _achievementProvider.Achieve(AchievementList.QuestCreator, user.Id);
             return quest;
         }

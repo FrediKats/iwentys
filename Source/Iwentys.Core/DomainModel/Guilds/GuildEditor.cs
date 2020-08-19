@@ -1,4 +1,4 @@
-﻿using Iwentys.Models.Entities;
+using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Types.Guilds;
@@ -28,11 +28,6 @@ namespace Iwentys.Core.DomainModel.Guilds
                 throw InnerLogicException.Guild.IsNotGuildEditor(student.Id);
 
             return new GuildEditor(student);
-        }
-
-        public static GuildEditor EnsureIsGuildEditor(this AuthorizedUser user, Guild guild)
-        {
-            return EnsureIsGuildEditor(user.Profile, guild);
         }
     }
 }
