@@ -1,8 +1,8 @@
 ﻿using Iwentys.Core.DomainModel;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Voting;
-using Iwentys.Models.Types.Github;
 
 namespace Iwentys.Core.Services.Abstractions
 {

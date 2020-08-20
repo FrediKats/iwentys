@@ -6,13 +6,13 @@ using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Students;
-using Iwentys.Models.Types.Github;
 using Iwentys.Models.Types.Guilds;
 using Octokit;
 
@@ -56,13 +56,7 @@ namespace Iwentys.Core.DomainModel.Guilds
                 Title = _profile.Title,
                 Leader = _profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentPartialProfileDto(s)),
                 MemberLeaderBoard = GetMemberDashboard(),
-                PinnedRepositories = _profile.PinnedProjects.SelectToList(p =>
-                {
-                    var tmp = _githubUserDataService?.GetCertainRepository(p.RepositoryOwner, p.RepositoryName);
-                    if (tmp != null)
-                        return tmp;
-                    return new GithubRepository(-1, $"{p.RepositoryOwner}/{p.RepositoryName}", "No desc", null, 0);
-                }),
+                PinnedRepositories = _profile.PinnedProjects.SelectToList(p => _githubUserDataService.GetCertainRepository(p.RepositoryOwner, p.RepositoryName)),
                 Achievements = _profile.Achievements.SelectToList(AchievementInfoDto.Wrap)
             };
 
@@ -94,14 +88,7 @@ namespace Iwentys.Core.DomainModel.Guilds
                 .Members
                 .Select(m => m.Member.GithubUsername)
                 .Where(gh => gh != null)
-                .Select(ghName =>
-                {
-                    var total = _githubUserDataService?.GetUserDataByUsername(ghName)?.ContributionFullInfo.Total;
-                    if (total != null)
-                        return new GuildMemberImpact(ghName,
-                            (int) total);
-                    return new GuildMemberImpact(ghName, 0);
-                })
+                .Select(ghName => new GuildMemberImpact(ghName, _githubUserDataService.GetUserDataByUsername(ghName).ContributionFullInfo.Total))
                 .ToList();
 
             return new GuildMemberLeaderBoard

@@ -71,7 +71,6 @@ namespace Iwentys.Api
             services.AddScoped<ITournamentRepository, TournamentRepository>();
             services.AddScoped<ITributeRepository, TributeRepository>();
             services.AddScoped<IGithubUserDataRepository, GithubUserDataRepository>();
-            services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<IStudentProjectRepository, StudentProjectRepository>();
             services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();
@@ -84,6 +83,7 @@ namespace Iwentys.Api
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IStudyLeaderboardService, StudyLeaderboardService>();
             services.AddScoped<ITournamentService, TournamentService>();
+            services.AddScoped<IGithubUserDataService, GithubUserDataService>();
 
             services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/build");
         }

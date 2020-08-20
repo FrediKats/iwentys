@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Models.Types.Github
+﻿namespace Iwentys.Models.Entities.Github
 {
     public class ContributionsInfo
     {

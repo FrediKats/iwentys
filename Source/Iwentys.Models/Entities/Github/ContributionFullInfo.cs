@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Iwentys.Models.Types.Github
+namespace Iwentys.Models.Entities.Github
 {
     public class ContributionFullInfo
     {

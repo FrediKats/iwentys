@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Iwentys.Models.Types.Github;
+﻿using Iwentys.Models.Entities.Github;
 
 namespace Iwentys.Models.Entities
 {

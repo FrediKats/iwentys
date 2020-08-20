@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Transferable.Students;
-using Iwentys.Models.Types.Github;
 using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Models.Transferable.Guilds
