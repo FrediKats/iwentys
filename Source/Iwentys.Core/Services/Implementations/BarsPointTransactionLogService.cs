@@ -18,7 +18,6 @@ namespace Iwentys.Core.Services.Implementations
             _barsPointTransactionLogRepository = barsPointTransactionLogRepository;
         }
 
-
         public Result<BarsPointTransactionLog> Transfer(int fromId, int toId, int value)
         {
             //TODO: Use transaction for whole method

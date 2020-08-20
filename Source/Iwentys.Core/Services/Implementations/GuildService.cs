@@ -81,9 +81,8 @@ namespace Iwentys.Core.Services.Implementations
             info.HiringPolicy = arguments.HiringPolicy ?? info.HiringPolicy;
 
             if (arguments.HiringPolicy == GuildHiringPolicy.Open)
-                foreach (var guildMember in info.Members)
-                    if (guildMember.MemberType == GuildMemberType.Requested)
-                        guildMember.MemberType = GuildMemberType.Member;
+                foreach (GuildMember guildMember in info.Members.Where(guildMember => guildMember.MemberType == GuildMemberType.Requested))
+                    guildMember.MemberType = GuildMemberType.Member;
 
             return _guildRepository.Update(info)
                 .To(g => new GuildDomain(g, _databaseAccessor, _apiAccessor))
@@ -203,26 +202,12 @@ namespace Iwentys.Core.Services.Implementations
 
         public void BlockGuildMember(AuthorizedUser user, Int32 guildId, Int32 memberId)
         {
-            Student student = user.GetProfile(_studentRepository);
-            Guild guild = _guildRepository.Get(guildId);
-            student.EnsureIsGuildEditor(guild);
+            var guildDomain = new GuildDomain(_guildRepository.Get(guildId), _databaseAccessor, _apiAccessor);
+            GuildMember memberToKick = guildDomain.EnsureMemberCanRestrictPermissionForOther(user, memberId);
 
-            GuildMember member = guild.Members.Find(m => m.MemberId == memberId);
-            GuildMember userMember = guild.Members.Find(m => m.MemberId == user.Id) ?? throw new EntityNotFoundException(nameof(GuildMember));
-
-            if (member is null || !member.MemberType.IsMember())
-                throw InnerLogicException.Guild.IsNotGuildMember(memberId, guildId);
-
-            if (member.MemberType == GuildMemberType.Creator)
-                throw InnerLogicException.Guild.StudentCannotBeBlocked(memberId, guildId);
-
-            if (member.MemberType == GuildMemberType.Mentor && userMember.MemberType == GuildMemberType.Mentor)
-                throw InnerLogicException.Guild.StudentCannotBeBlocked(memberId, guildId);
-
-            member.Member.GuildLeftTime = DateTime.UtcNow.ToUniversalTime();
-
-            member.MemberType = GuildMemberType.Blocked;
-            _guildRepository.UpdateMember(member);
+            memberToKick.Member.GuildLeftTime = DateTime.UtcNow.ToUniversalTime();
+            memberToKick.MemberType = GuildMemberType.Blocked;
+            _guildRepository.UpdateMember(memberToKick);
         }
 
         public void UnblockStudent(AuthorizedUser user, Int32 guildId, Int32 studentId)
@@ -241,24 +226,10 @@ namespace Iwentys.Core.Services.Implementations
 
         public void KickGuildMember(AuthorizedUser user, Int32 guildId, Int32 memberId)
         {
-            Student student = user.GetProfile(_studentRepository);
-            Guild guild = _guildRepository.Get(guildId);
-            student.EnsureIsGuildEditor(guild);
+            var guildDomain = new GuildDomain(_guildRepository.Get(guildId), _databaseAccessor, _apiAccessor);
+            GuildMember memberToKick = guildDomain.EnsureMemberCanRestrictPermissionForOther(user, memberId);
 
-            GuildMember member = guild.Members.Find(m => m.MemberId == memberId);
-            GuildMember userMember = guild.Members.Find(m => m.MemberId == user.Id);
-
-            if (member is null || !member.MemberType.IsMember())
-                throw InnerLogicException.Guild.IsNotGuildMember(memberId, guildId);
-
-            if (member.MemberType == GuildMemberType.Creator)
-                throw InnerLogicException.Guild.StudentCannotBeBlocked(memberId, guildId);
-
-            if (member.MemberType == GuildMemberType.Mentor && userMember.MemberType == GuildMemberType.Mentor)
-                throw InnerLogicException.Guild.StudentCannotBeBlocked(memberId, guildId);
-
-            member.Member.GuildLeftTime = DateTime.UtcNow.ToUniversalTime();
-
+            memberToKick.Member.GuildLeftTime = DateTime.UtcNow.ToUniversalTime();
             _guildRepository.RemoveMember(guildId, memberId);
         }
 

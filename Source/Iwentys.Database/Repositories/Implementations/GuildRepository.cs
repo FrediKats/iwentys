@@ -107,7 +107,6 @@ namespace Iwentys.Database.Repositories.Implementations
             return updatedEntity.Entity;
         }
 
-
         public void RemoveMember(int guildId, int userId)
         {
             GuildMember guildMember = _dbContext.GuildMembers.Single(gm => gm.GuildId == guildId && gm.MemberId == userId);
@@ -134,7 +133,6 @@ namespace Iwentys.Database.Repositories.Implementations
         {
             _dbContext.GuildPinnedProjects.Remove(_dbContext.GuildPinnedProjects.Find(pinnedProjectId));
             _dbContext.SaveChanges();
-            return;
         }
     }
 }

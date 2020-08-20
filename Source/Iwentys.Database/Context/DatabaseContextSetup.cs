@@ -99,7 +99,7 @@ namespace Iwentys.Database.Context
                     TeacherId = 1,
                     StudySemester = StudySemester.Y19H2
                 },
-                
+
                 new SubjectForGroup
                 {
                     Id = 3,
@@ -199,12 +199,10 @@ namespace Iwentys.Database.Context
                 Student.CreateFromIsu(283184, "Денис", "Андреев", m3202),
                 Student.CreateFromIsu(284443, "Сергей", "Артамонов", m3202),
 
-
                 Student.CreateFromIsu(284479, "Илья", "Кузнецов", m3205),
 
                 Student.CreateFromIsu(264312, "Илья", "Шамов", m3305),
                 Student.CreateFromIsu(264282, "Илья", "Ильменский", m3305),
-
             };
 
             SubjectActivitys = new List<SubjectActivity>

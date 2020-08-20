@@ -45,7 +45,6 @@ namespace Iwentys.Core.GoogleTableParsing
                                           && student.Name.Contains(s.Student.SecondName)
                                           && s.SubjectForGroupId == subjectData.Id);
 
-
                 if (!Tools.ParseInAnyCulture(student.Score, out double pointsCount))
                 {
                     pointsCount = 0;
@@ -66,7 +65,6 @@ namespace Iwentys.Core.GoogleTableParsing
                         _logger.LogWarning($"Student wsa not found: student:{student.Name}");
                         continue;
                     }
-
 
                     _subjectActivityRepository.Create(new SubjectActivity
                     {

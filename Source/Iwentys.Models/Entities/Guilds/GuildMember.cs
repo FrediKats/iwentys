@@ -11,7 +11,6 @@ namespace Iwentys.Models.Entities.Guilds
         public int MemberId { get; set; }
         public Student Member { get; set; }
 
-        [Required]
         public GuildMemberType MemberType { get; set; }
 
         public static GuildMember NewMember(int guildId, int memberId)

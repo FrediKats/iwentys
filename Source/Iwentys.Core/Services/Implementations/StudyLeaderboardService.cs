@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Repositories.Abstractions;
@@ -12,8 +11,9 @@ namespace Iwentys.Core.Services.Implementations
 {
     public class StudyLeaderboardService : IStudyLeaderboardService
     {
-        private ISubjectForGroupRepository _subjectForGroupRepository;
-        private ISubjectActivityRepository _subjectActivityRepository;
+        private readonly ISubjectForGroupRepository _subjectForGroupRepository;
+        private readonly ISubjectActivityRepository _subjectActivityRepository;
+
         public StudyLeaderboardService(ISubjectForGroupRepository subjectForGroupRepository, ISubjectActivityRepository subjectActivityRepository)
         {
             _subjectForGroupRepository = subjectForGroupRepository;
@@ -51,7 +51,8 @@ namespace Iwentys.Core.Services.Implementations
 
         private static StudySemester GetCurrentSemester()
         {
-            throw new NotImplementedException();
+            //TODO: hack
+            return StudySemester.Y19H2;
         }
     }
 }

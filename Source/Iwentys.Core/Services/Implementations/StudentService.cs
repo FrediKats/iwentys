@@ -19,7 +19,6 @@ namespace Iwentys.Core.Services.Implementations
         private readonly IStudentRepository _studentRepository;
         private readonly IIsuAccessor _isuAccessor;
 
-
         public StudentService(IStudentRepository studentRepository, IIsuAccessor isuAccessor, AchievementProvider achievementProvider)
         {
             _studentRepository = studentRepository;
@@ -44,7 +43,7 @@ namespace Iwentys.Core.Services.Implementations
                 return student.To(s => new StudentFullProfileDto(s));
 
             IsuUser userInfo = _isuAccessor.GetIsuUser(id, null);
-            student = _studentRepository.Create(Student.CreateFromIsu(userInfo.Id, userInfo.FirstName, userInfo.MiddleName, userInfo.SecondName, null));
+            student = _studentRepository.Create(Student.CreateFromIsu(userInfo.Id, userInfo.FirstName, userInfo.MiddleName, userInfo.SecondName));
 
             return student
                 .To(s => new StudentFullProfileDto(s));

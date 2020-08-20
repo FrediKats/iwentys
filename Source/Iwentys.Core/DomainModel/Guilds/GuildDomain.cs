@@ -6,6 +6,7 @@ using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
+using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Guilds;
@@ -112,11 +113,11 @@ namespace Iwentys.Core.DomainModel.Guilds
                 userGuild.Id == _profile.Id)
                 return UserMembershipState.Entered;
 
-            if (_dbAccessor.GuildRepository.IsStudentHaveRequest(userId) && 
+            if (_dbAccessor.GuildRepository.IsStudentHaveRequest(userId) &&
                 userStatusInGuild != GuildMemberType.Requested)
                 return UserMembershipState.Blocked;
 
-            if (_dbAccessor.GuildRepository.IsStudentHaveRequest(userId) && 
+            if (_dbAccessor.GuildRepository.IsStudentHaveRequest(userId) &&
                 userStatusInGuild == GuildMemberType.Requested)
                 return UserMembershipState.Requested;
 
@@ -147,6 +148,26 @@ namespace Iwentys.Core.DomainModel.Guilds
             }
 
             return this;
+        }
+
+        public GuildMember EnsureMemberCanRestrictPermissionForOther(AuthorizedUser editor, int memberToKickId)
+        {
+            Student editorStudentAccount = editor.GetProfile(_dbAccessor.Student);
+            editorStudentAccount.EnsureIsGuildEditor(_profile);
+
+            GuildMember memberToKick = _profile.Members.Find(m => m.MemberId == memberToKickId);
+            GuildMember editorMember = _profile.Members.Find(m => m.MemberId == editor.Id) ?? throw new EntityNotFoundException(nameof(GuildMember));
+
+            if (memberToKick is null || !memberToKick.MemberType.IsMember())
+                throw InnerLogicException.Guild.IsNotGuildMember(editor.Id, _profile.Id);
+
+            if (memberToKick.MemberType == GuildMemberType.Creator)
+                throw InnerLogicException.Guild.StudentCannotBeBlocked(memberToKickId, _profile.Id);
+
+            if (memberToKick.MemberType == GuildMemberType.Mentor && editorMember.MemberType == GuildMemberType.Mentor)
+                throw InnerLogicException.Guild.StudentCannotBeBlocked(memberToKickId, _profile.Id);
+
+            return memberToKick;
         }
     }
 }

@@ -16,7 +16,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace Iwentys.Api
 {
@@ -75,7 +74,6 @@ namespace Iwentys.Api
             services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();
 
-
             services.AddScoped<IBarsPointTransactionLogService, BarsPointTransactionLogService>();
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<IGuildService, GuildService>();
@@ -90,9 +88,7 @@ namespace Iwentys.Api
         public void Configure(
             IApplicationBuilder app,
             IWebHostEnvironment env,
-            IwentysDbContext db,
-            DatabaseAccessor databaseAccessor,
-            ILoggerFactory loggerFactory)
+            IwentysDbContext db)
         {
             //TODO: Temp fix for CORS
             app.UseCors("CorsPolicy");
@@ -101,15 +97,13 @@ namespace Iwentys.Api
             //if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
             app.UseDeveloperExceptionPage();
 
-            
-
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
                 c.RoutePrefix = "swagger";
             });
-            
+
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
@@ -118,7 +112,7 @@ namespace Iwentys.Api
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
 
             app.UseSpa(spa =>
             {
