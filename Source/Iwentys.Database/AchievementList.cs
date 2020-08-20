@@ -20,25 +20,29 @@ namespace Iwentys.Database
             AddGithubAchievement = Register(new AchievementModel
             {
                 Title = "Add github",
-                Description = "Lorem"
+                Description = "Lorem",
+                Url = "https://img.icons8.com/windows/96/000000/open-pokeball.png"
             });
 
             BetaTester = Register(new AchievementModel
             {
                 Title = "TP tester",
-                Description = "Lorem"
+                Description = "Lorem",
+                Url = "https://img.icons8.com/windows/96/000000/open-pokeball.png"
             });
 
             QuestCreator = Register(new AchievementModel
             {
                 Title = "Quest creator",
-                Description = "For creating quest"
+                Description = "For creating quest",
+                Url = "https://img.icons8.com/windows/96/000000/open-pokeball.png"
             });
 
             QuestComplete = Register(new AchievementModel
             {
                 Title = "Quest done",
-                Description = "Quest done"
+                Description = "Quest done",
+                Url = "https://img.icons8.com/windows/96/000000/open-pokeball.png"
             });
         }
 
