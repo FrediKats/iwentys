@@ -45,7 +45,7 @@ namespace Iwentys.Tests.Tools
             var accessor = new DatabaseAccessor(Context);
 
             StudentService = new StudentService(StudentRepository, new DebugIsuAccessor(), new AchievementProvider(accessor));
-            GuildService = new GuildService(GuildRepository, StudentRepository, StudentProjectRepository, TributeRepository, accessor, default(GithubUserDataService));
+            GuildService = new GuildService(GuildRepository, StudentRepository, StudentProjectRepository, TributeRepository, accessor, new DummyGithubUserDataService());
             CompanyService = new CompanyService(CompanyRepository, StudentRepository);
         }
 

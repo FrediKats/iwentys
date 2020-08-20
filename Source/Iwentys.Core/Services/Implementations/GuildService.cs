@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.DomainModel.Guilds;
-using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Voting;
-using Iwentys.Models.Types.Github;
 using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Core.Services.Implementations

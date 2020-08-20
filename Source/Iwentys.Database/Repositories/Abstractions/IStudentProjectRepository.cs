@@ -7,7 +7,7 @@ namespace Iwentys.Database.Repositories.Abstractions
     {
         void CreateMany(IEnumerable<StudentProject> studentsProjects);
         bool Contains(StudentProject project);
-        IEnumerable<StudentProject> GetProjectsByUserName(string username);
-        StudentProject GetCertainProject(string username, string projectName);
+        IEnumerable<StudentProject> FindProjectsByUserName(string username);
+        StudentProject FindCertainProject(string username, string projectName);
     }
 }

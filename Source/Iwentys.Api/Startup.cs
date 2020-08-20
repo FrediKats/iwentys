@@ -69,7 +69,6 @@ namespace Iwentys.Api
             services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
             services.AddScoped<ISubjectForGroupRepository, SubjectForGroupRepository>();
             services.AddScoped<IGithubUserDataRepository, GithubUserDataRepository>();
-            services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<IStudentProjectRepository, StudentProjectRepository>();
             services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();
@@ -80,6 +79,7 @@ namespace Iwentys.Api
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<ITournamentService, TournamentService>();
             services.AddScoped<IBarsPointTransactionLogService, BarsPointTransactionLogService>();
+            services.AddScoped<IGithubUserDataService, GithubUserDataService>();
 
             services.AddSpaStaticFiles(configuration =>
             {

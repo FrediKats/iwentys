@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Voting;
-using Iwentys.Models.Types.Github;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Api.Controllers

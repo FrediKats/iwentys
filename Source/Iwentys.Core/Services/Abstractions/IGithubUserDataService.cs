@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Types.Github;
+using Iwentys.Models.Entities.Github;
 
 namespace Iwentys.Core.Services.Abstractions
 {

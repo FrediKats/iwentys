@@ -4,7 +4,7 @@ using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Types.Github;
+using Iwentys.Models.Entities.Github;
 
 namespace Iwentys.Core.Services.Implementations
 {
@@ -93,13 +93,13 @@ namespace Iwentys.Core.Services.Implementations
 
         public IEnumerable<GithubRepository> GetGithubRepositories(string username)
         {
-            return _studentProjectRepository.GetProjectsByUserName(username)
+            return _studentProjectRepository.FindProjectsByUserName(username)
                 .Select(p => new GithubRepository(p));
         }
 
         public GithubRepository GetCertainRepository(string username, string projectName)
         {
-            return new GithubRepository(_studentProjectRepository.GetCertainProject(username, projectName));
+            return new GithubRepository(_studentProjectRepository.FindCertainProject(username, projectName));
         }
 
         public IEnumerable<GithubUserData> GetAll()

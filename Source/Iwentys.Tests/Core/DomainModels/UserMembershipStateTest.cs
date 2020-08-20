@@ -6,8 +6,8 @@ using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Gamification;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.Types.Github;
 using Iwentys.Models.Types.Guilds;
 using Moq;
 using NUnit.Framework;
@@ -72,7 +72,7 @@ namespace Iwentys.Tests.Core.DomainModels
                 .Returns(default(GithubRepository));
             _githubUserDataService
                 .Setup(a => a.GetUserDataByUsername(It.IsAny<String>()))
-                .Returns(default(GithubUserData));
+                .Returns(new GithubUserData{ContributionFullInfo = new ContributionFullInfo{PerMonthActivity = new List<ContributionsInfo>()}});
 
             _guildRepository = new Mock<IGuildRepository>();
             _guildRepository
