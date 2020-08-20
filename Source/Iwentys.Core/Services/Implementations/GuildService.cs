@@ -207,7 +207,7 @@ namespace Iwentys.Core.Services.Implementations
             Guild guild = _guildRepository.Get(guildId);
             student.EnsureIsGuildEditor(guild);
 
-            GuildMember member = guild.Members.Find(m => m.MemberId == memberId) ?? throw new EntityNotFoundException(nameof(GuildMember));
+            GuildMember member = guild.Members.Find(m => m.MemberId == memberId);
             GuildMember userMember = guild.Members.Find(m => m.MemberId == user.Id) ?? throw new EntityNotFoundException(nameof(GuildMember));
 
             if (member is null || !member.MemberType.IsMember())
