@@ -45,6 +45,13 @@ namespace Iwentys.Core.GoogleTableParsing
                                           && student.Name.Contains(s.Student.SecondName)
                                           && s.SubjectForGroupId == subjectData.Id);
 
+
+                if (!Tools.ParseInAnyCulture(student.Score, out double pointsCount))
+                {
+                    pointsCount = 0;
+                    _logger.LogWarning($"Cannot parse value: student:{student.Name}, subjectId:{subjectData.SubjectId}, groupId:{subjectData.StudyGroupId}");
+                }
+
                 if (activity == null)
                 {
                     _logger.LogWarning($"Subject info was not found: student:{student.Name}, subjectId:{subjectData.SubjectId}, groupId:{subjectData.StudyGroupId}");
@@ -65,14 +72,13 @@ namespace Iwentys.Core.GoogleTableParsing
                     {
                         StudentId = studentProfile.Id,
                         SubjectForGroupId = subjectData.StudyGroupId,
-                        //TODO: support parse for 1.0 and 1,0
-                        Points = double.Parse(student.Score)
+                        Points = pointsCount
                     });
 
                     continue;
                 }
 
-                activity.Points = double.Parse(student.Score);
+                activity.Points = pointsCount;
                 _subjectActivityRepository.Update(activity);
             }
         }
