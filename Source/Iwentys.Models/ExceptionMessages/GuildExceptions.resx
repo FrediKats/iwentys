@@ -123,6 +123,9 @@
   <data name="IsNotGuildMember" xml:space="preserve">
     <value>Студент не является участником гильднии. [StrudentId: {0}], [GuildId: {1}]</value>
   </data>
+  <data name="PinnedRepoWasNotFound" xml:space="preserve">
+    <value>Не удалось найти репозиторий. [PinnedRepoId: {0}]</value>
+  </data>
   <data name="RequestWasNotFound" xml:space="preserve">
     <value>Не найдена заявка в гильдию. [StrudentId: {0}], [GuildId: {1}]</value>
   </data>

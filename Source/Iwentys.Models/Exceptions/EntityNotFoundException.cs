@@ -1,4 +1,7 @@
-﻿namespace Iwentys.Models.Exceptions
+﻿using System;
+using Iwentys.Models.ExceptionMessages;
+
+namespace Iwentys.Models.Exceptions
 {
     public class EntityNotFoundException : IwentysException
     {
@@ -9,6 +12,11 @@
         public static EntityNotFoundException Create<TType, TKey>(TType type, TKey key)
         {
             return new EntityNotFoundException($"[{type}] Entity was not found for key: [{key}]");
+        }
+
+        public static EntityNotFoundException PinnedRepoWasNotFound(int pinnedRepoId)
+        {
+            return new EntityNotFoundException(String.Format(GuildExceptions.PinnedRepoWasNotFound, pinnedRepoId));
         }
     }
 }

@@ -299,7 +299,6 @@ namespace Iwentys.Core.Services.Implementations
 
         public Tribute[] GetPendingTributes(AuthorizedUser user)
         {
-            //TODO: check this
             Guild guild = _guildRepository.ReadForStudent(user.Id) ?? throw InnerLogicException.Guild.IsNotGuildMember(user.Id, null);
 
             return _tributeRepository
@@ -368,7 +367,9 @@ namespace Iwentys.Core.Services.Implementations
 
         public GithubRepository AddPinnedRepository(AuthorizedUser user, int guildId, string owner, string projectName)
         {
-            //TODO: check permission
+            Guild guild = _guildRepository.Get(guildId);
+            user.GetProfile(_studentRepository).EnsureIsGuildEditor(guild);
+
             GithubRepository repository = _apiAccessor.GetRepository(owner, projectName);
             _guildRepository.PinProject(guildId, owner, projectName);
             return repository;
@@ -376,7 +377,12 @@ namespace Iwentys.Core.Services.Implementations
 
         public void UnpinProject(AuthorizedUser user, int pinnedProjectId)
         {
-            //TODO: check permission
+            GuildPinnedProject guildPinnedProject = _databaseAccessor.Context.GuildPinnedProjects.Find(pinnedProjectId) ?? throw EntityNotFoundException.PinnedRepoWasNotFound(pinnedProjectId);
+            Guild guild = _guildRepository.ReadById(guildPinnedProject.GuildId);
+            user.GetProfile(_studentRepository).EnsureIsGuildEditor(guild);
+
+            user.GetProfile(_studentRepository).EnsureIsGuildEditor(guild);
+
             _guildRepository.UnpinProject(pinnedProjectId);
         }
     }

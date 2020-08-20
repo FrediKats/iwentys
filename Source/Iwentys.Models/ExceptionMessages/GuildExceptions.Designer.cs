@@ -79,6 +79,15 @@ namespace Iwentys.Models.ExceptionMessages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Не удалось найти репозиторий. [PinnedRepoId: {0}].
+        /// </summary>
+        internal static string PinnedRepoWasNotFound {
+            get {
+                return ResourceManager.GetString("PinnedRepoWasNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Не найдена заявка в гильдию. [StrudentId: {0}], [GuildId: {1}].
         /// </summary>
         internal static string RequestWasNotFound {

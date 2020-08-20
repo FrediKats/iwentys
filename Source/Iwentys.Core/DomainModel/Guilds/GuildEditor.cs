@@ -7,7 +7,7 @@ namespace Iwentys.Core.DomainModel.Guilds
 {
     public class GuildEditor
     {
-        public Student Student { get;}
+        public Student Student { get; }
 
         public GuildEditor(Student student)
         {
