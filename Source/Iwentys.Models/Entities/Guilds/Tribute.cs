@@ -28,7 +28,7 @@ namespace Iwentys.Models.Entities.Guilds
             {
                 GuildId = guildId,
                 ProjectId = projectId,
-                State = TributeState.Pending,
+                State = TributeState.Active,
                 CreationTime = DateTime.UtcNow
             };
         }
@@ -40,8 +40,8 @@ namespace Iwentys.Models.Entities.Guilds
 
         public void SetCompleted(int mentorId, int difficultLevel, int mark)
         {
-            if (State == TributeState.Pending)
-                throw new InnerLogicException($"Can't completed tribute. It's in state [{State}]");
+            if (State != TributeState.Active)
+                throw InnerLogicException.TributeEx.IsNotActive(this);
 
             MentorId = mentorId;
             DifficultLevel = difficultLevel;

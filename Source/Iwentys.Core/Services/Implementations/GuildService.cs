@@ -207,17 +207,17 @@ namespace Iwentys.Core.Services.Implementations
             Guild guild = _guildRepository.Get(guildId);
             student.EnsureIsGuildEditor(guild);
 
-            GuildMember member = guild.Members.Find(m => m.MemberId == memberId);
-            GuildMember userMember = guild.Members.Find(m => m.MemberId == user.Id);
+            GuildMember member = guild.Members.Find(m => m.MemberId == memberId) ?? throw new EntityNotFoundException(nameof(GuildMember));
+            GuildMember userMember = guild.Members.Find(m => m.MemberId == user.Id) ?? throw new EntityNotFoundException(nameof(GuildMember));
 
             if (member is null || !member.MemberType.IsMember())
                 throw InnerLogicException.Guild.IsNotGuildMember(memberId, guildId);
 
             if (member.MemberType == GuildMemberType.Creator)
-                throw new InnerLogicException("Unable to block guild creator!");
+                throw InnerLogicException.Guild.StudentCannotBeBlocked(memberId, guildId);
 
             if (member.MemberType == GuildMemberType.Mentor && userMember.MemberType == GuildMemberType.Mentor)
-                throw new InnerLogicException("Mentor unable to kick mentor!");
+                throw InnerLogicException.Guild.StudentCannotBeBlocked(memberId, guildId);
 
             member.Member.GuildLeftTime = DateTime.UtcNow.ToUniversalTime();
 
@@ -252,10 +252,10 @@ namespace Iwentys.Core.Services.Implementations
                 throw InnerLogicException.Guild.IsNotGuildMember(memberId, guildId);
 
             if (member.MemberType == GuildMemberType.Creator)
-                throw new InnerLogicException("Unable to kick guild creator!");
+                throw InnerLogicException.Guild.StudentCannotBeBlocked(memberId, guildId);
 
             if (member.MemberType == GuildMemberType.Mentor && userMember.MemberType == GuildMemberType.Mentor)
-                throw new InnerLogicException("Mentor unable to kick mentor!");
+                throw InnerLogicException.Guild.StudentCannotBeBlocked(memberId, guildId);
 
             member.Member.GuildLeftTime = DateTime.UtcNow.ToUniversalTime();
 
@@ -271,8 +271,7 @@ namespace Iwentys.Core.Services.Implementations
             GuildMember member = guild.Members.Find(m => m.MemberId == studentId);
 
             if (member is null || member.MemberType != GuildMemberType.Requested)
-                throw new InnerLogicException(
-                    $"No request from student to guild! StudentId: {studentId} GuildId: {guildId}");
+                throw InnerLogicException.Guild.RequestWasNotFound(studentId, guildId);
 
             member.MemberType = GuildMemberType.Member;
 
@@ -288,8 +287,7 @@ namespace Iwentys.Core.Services.Implementations
             GuildMember member = guild.Members.Find(m => m.MemberId == studentId);
 
             if (member is null || member.MemberType != GuildMemberType.Requested)
-                throw new InnerLogicException(
-                    $"No request from student to guild! StudentId: {studentId} GuildId: {guildId}");
+                throw InnerLogicException.Guild.RequestWasNotFound(studentId, guildId);
 
             _guildRepository.RemoveMember(guildId, studentId);
         }
@@ -302,11 +300,11 @@ namespace Iwentys.Core.Services.Implementations
         public Tribute[] GetPendingTributes(AuthorizedUser user)
         {
             //TODO: check this
-            Guild guild = _guildRepository.ReadForStudent(user.Id) ?? throw new InnerLogicException("User is guild member");
+            Guild guild = _guildRepository.ReadForStudent(user.Id) ?? throw InnerLogicException.Guild.IsNotGuildMember(user.Id, null);
 
             return _tributeRepository
                 .ReadForGuild(guild.Id)
-                .Where(t => t.State == TributeState.Pending)
+                .Where(t => t.State == TributeState.Active)
                 .ToArray();
         }
 
@@ -327,10 +325,10 @@ namespace Iwentys.Core.Services.Implementations
             Tribute[] allTributes = _tributeRepository.Read().ToArray();
 
             if (allTributes.Any(t => t.ProjectId == projectId))
-                throw new InnerLogicException("Repository already used for tribute");
+                throw InnerLogicException.TributeEx.ProjectAlreadyUsed(projectId);
 
-            if (allTributes.Any(t => t.State == TributeState.Pending && t.Project.StudentId == student.Id))
-                throw new InnerLogicException("Other tribute already created and waiting for check");
+            if (allTributes.Any(t => t.State == TributeState.Active && t.Project.StudentId == student.Id))
+                throw InnerLogicException.TributeEx.UserAlreadyHaveTribute(user.Id);
 
             var tribute = Tribute.New(guild.Id, project.Id);
             return _tributeRepository.Create(tribute);
@@ -341,8 +339,8 @@ namespace Iwentys.Core.Services.Implementations
             Student student = user.GetProfile(_studentRepository);
             Tribute tribute = _tributeRepository.Get(tributeId);
 
-            if (tribute.State != TributeState.Pending)
-                throw new InnerLogicException($"Can't cancel tribute. It's state is: {tribute.State}");
+            if (tribute.State != TributeState.Active)
+                throw InnerLogicException.TributeEx.IsNotActive(tribute);
 
             if (tribute.Project.StudentId == user.Id)
                 tribute.SetCanceled();
@@ -361,8 +359,8 @@ namespace Iwentys.Core.Services.Implementations
             Tribute tribute = _tributeRepository.Get(tributeCompleteDto.TributeId);
             GuildMentorUser mentor = student.EnsureIsMentor(_guildRepository, tribute.GuildId);
 
-            if (tribute.State != TributeState.Pending)
-                throw new InnerLogicException($"Can't complete tribute. It's state is: {tribute.State}");
+            if (tribute.State != TributeState.Active)
+                throw InnerLogicException.TributeEx.IsNotActive(tribute);
 
             tribute.SetCompleted(mentor.Student.Id, tributeCompleteDto.DifficultLevel, tribute.Mark);
             return _tributeRepository.Update(tribute);

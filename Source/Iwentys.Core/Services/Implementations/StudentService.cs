@@ -53,7 +53,7 @@ namespace Iwentys.Core.Services.Implementations
         public StudentFullProfileDto AddGithubUsername(int id, string githubUsername)
         {
             if (_studentRepository.Read().Any(s => s.GithubUsername == githubUsername))
-                throw new InnerLogicException("Username already used for other account");
+                throw InnerLogicException.StudentEx.GithubAlreadyUser(githubUsername);
 
             //TODO:
             //throw new NotImplementedException("Need to validate github credentials");

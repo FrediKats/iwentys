@@ -117,7 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Guild.IsNotGuildMember" xml:space="preserve">
-    <value>Студент не является участником гильднии. [StrudentId: {0}], [GuildId: {1}]</value>
+  <data name="IsNotActive" xml:space="preserve">
+    <value>Трибьют не является активным. [TributeId: {0}, State: {1}]</value>
+  </data>
+  <data name="ProjectAlreadyUsed" xml:space="preserve">
+    <value>Данный проект уже был использован. [ProjectId: {0}]</value>
+  </data>
+  <data name="UserAlreadyHaveTribute" xml:space="preserve">
+    <value>Пользователь уже имеет активный трибьют. [UserId: {0}]</value>
   </data>
 </root>
