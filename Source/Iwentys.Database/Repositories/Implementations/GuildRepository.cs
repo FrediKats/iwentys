@@ -112,7 +112,7 @@ namespace Iwentys.Database.Repositories.Implementations
         {
             GuildMember guildMember = _dbContext.GuildMembers.Single(gm => gm.GuildId == guildId && gm.MemberId == userId);
             if (guildMember.MemberType == GuildMemberType.Creator)
-                throw new InnerLogicException($"Creator can't leave guild. UserId: {userId}; GuildId: {guildId}");
+                throw InnerLogicException.Guild.CreatorCannotLeave(userId, guildId);
             _dbContext.GuildMembers.Remove(guildMember);
 
             _dbContext.SaveChanges();

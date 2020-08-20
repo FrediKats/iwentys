@@ -41,14 +41,13 @@ namespace Iwentys.Api
                         _logger);
 
                     _markUpdateDaemon.Execute();
-
-                    await Task.Delay(ApplicationOptions.DaemonUpdateInterval, stoppingToken).ConfigureAwait(false);
                 }
                 catch (Exception e)
                 {
                     _logger.LogError(e, "Fail to perform dispatch");
                 }
-                
+
+                await Task.Delay(ApplicationOptions.DaemonUpdateInterval, stoppingToken).ConfigureAwait(false);
             }
         }
     }

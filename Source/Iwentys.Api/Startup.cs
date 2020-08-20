@@ -1,6 +1,5 @@
 using System.Text.Json.Serialization;
 using Iwentys.Core;
-using Iwentys.Core.Daemons;
 using Iwentys.Core.Auth;
 using Iwentys.Core.Gamification;
 using Iwentys.Core.GithubIntegration;

@@ -66,7 +66,7 @@ namespace Iwentys.Database.Repositories.Implementations
                 .Tributes
                 .Where(t => t.GuildId == guildId)
                 .Where(t => t.Project.StudentId == studentId)
-                .SingleOrDefault(t => t.State == TributeState.Pending);
+                .SingleOrDefault(t => t.State == TributeState.Active);
         }
     }
 }

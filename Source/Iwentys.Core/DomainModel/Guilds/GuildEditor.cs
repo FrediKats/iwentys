@@ -22,17 +22,12 @@ namespace Iwentys.Core.DomainModel.Guilds
             GuildMember member = guild.Members.Find(m => m.MemberId == student.Id);
 
             if (member is null)
-                throw InnerLogicException.Guild.IsNotGuildMember(student.Id);
+                throw InnerLogicException.Guild.IsNotGuildMember(student.Id, guild.Id);
 
             if (!member.MemberType.IsEditor())
                 throw InnerLogicException.Guild.IsNotGuildEditor(student.Id);
 
             return new GuildEditor(student);
-        }
-
-        public static GuildEditor EnsureIsGuildEditor(this AuthorizedUser user, Guild guild)
-        {
-            return EnsureIsGuildEditor(user.Profile, guild);
         }
     }
 }

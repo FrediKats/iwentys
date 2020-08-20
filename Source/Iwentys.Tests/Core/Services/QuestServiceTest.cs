@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.DomainModel;
+using Iwentys.Models.Entities;
 using Iwentys.Models.Transferable.Gamification;
-using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Tests.Tools;
 using NUnit.Framework;
 
@@ -18,9 +18,9 @@ namespace Iwentys.Tests.Core.Services
                 .Case()
                 .WithNewStudent(out AuthorizedUser user);
 
-            user.Profile.BarsPoints = 100;
-
-            test.StudentRepository.Update(user.Profile);
+            Student student = user.GetProfile(test.StudentRepository);
+            student.BarsPoints = 100;
+            test.StudentRepository.Update(student);
 
             test.WithQuest(user, 50, out QuestInfoDto quest);
 

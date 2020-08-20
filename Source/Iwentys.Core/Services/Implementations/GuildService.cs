@@ -72,8 +72,9 @@ namespace Iwentys.Core.Services.Implementations
 
         public GuildProfileShortInfoDto Update(AuthorizedUser user, GuildUpdateArgumentDto arguments)
         {
+            Student student = user.GetProfile(_studentRepository);
             Guild info = _guildRepository.Get(arguments.Id);
-            GuildEditor editor = user.EnsureIsGuildEditor(info);
+            student.EnsureIsGuildEditor(info);
 
             info.Bio = arguments.Bio ?? info.Bio;
             info.LogoUrl = arguments.LogoUrl ?? info.LogoUrl;
@@ -167,7 +168,7 @@ namespace Iwentys.Core.Services.Implementations
         {
             Guild studentGuild = _guildRepository.ReadForStudent(user.Id);
             if (studentGuild == null || studentGuild.Id != guildId)
-                throw InnerLogicException.Guild.IsNotGuildMember(user.Id);
+                throw InnerLogicException.Guild.IsNotGuildMember(user.Id, guildId);
 
             Tribute userTribute = _tributeRepository.ReadStudentActiveTribute(studentGuild.Id, user.Id);
             if (userTribute != null)
@@ -180,8 +181,9 @@ namespace Iwentys.Core.Services.Implementations
 
         public GuildMember[] GetGuildRequests(AuthorizedUser user, Int32 guildId)
         {
+            Student student = user.GetProfile(_studentRepository);
             Guild guild = _guildRepository.Get(guildId);
-            GuildEditor editor = user.EnsureIsGuildEditor(guild);
+            student.EnsureIsGuildEditor(guild);
 
             return guild.Members
                 .Where(m => m.MemberType == GuildMemberType.Requested)
@@ -190,8 +192,9 @@ namespace Iwentys.Core.Services.Implementations
 
         public GuildMember[] GetGuildBlocked(AuthorizedUser user, Int32 guildId)
         {
+            Student student = user.GetProfile(_studentRepository);
             Guild guild = _guildRepository.Get(guildId);
-            GuildEditor editor = user.EnsureIsGuildEditor(guild);
+            student.EnsureIsGuildEditor(guild);
 
             return guild.Members
                 .Where(m => m.MemberType == GuildMemberType.Blocked)
@@ -200,20 +203,21 @@ namespace Iwentys.Core.Services.Implementations
 
         public void BlockGuildMember(AuthorizedUser user, Int32 guildId, Int32 memberId)
         {
+            Student student = user.GetProfile(_studentRepository);
             Guild guild = _guildRepository.Get(guildId);
-            GuildEditor editor = user.EnsureIsGuildEditor(guild);
+            student.EnsureIsGuildEditor(guild);
 
             GuildMember member = guild.Members.Find(m => m.MemberId == memberId);
-            GuildMember userMember = guild.Members.Find(m => m.MemberId == user.Id);
+            GuildMember userMember = guild.Members.Find(m => m.MemberId == user.Id) ?? throw new EntityNotFoundException(nameof(GuildMember));
 
             if (member is null || !member.MemberType.IsMember())
-                throw InnerLogicException.Guild.IsNotGuildMember(memberId);
+                throw InnerLogicException.Guild.IsNotGuildMember(memberId, guildId);
 
             if (member.MemberType == GuildMemberType.Creator)
-                throw new InnerLogicException("Unable to block guild creator!");
+                throw InnerLogicException.Guild.StudentCannotBeBlocked(memberId, guildId);
 
             if (member.MemberType == GuildMemberType.Mentor && userMember.MemberType == GuildMemberType.Mentor)
-                throw new InnerLogicException("Mentor unable to kick mentor!");
+                throw InnerLogicException.Guild.StudentCannotBeBlocked(memberId, guildId);
 
             member.Member.GuildLeftTime = DateTime.UtcNow.ToUniversalTime();
 
@@ -223,8 +227,9 @@ namespace Iwentys.Core.Services.Implementations
 
         public void UnblockStudent(AuthorizedUser user, Int32 guildId, Int32 studentId)
         {
+            Student student = user.GetProfile(_studentRepository);
             Guild guild = _guildRepository.Get(guildId);
-            GuildEditor editor = user.EnsureIsGuildEditor(guild);
+            student.EnsureIsGuildEditor(guild);
 
             GuildMember member = guild.Members.Find(m => m.MemberId == studentId);
 
@@ -236,20 +241,21 @@ namespace Iwentys.Core.Services.Implementations
 
         public void KickGuildMember(AuthorizedUser user, Int32 guildId, Int32 memberId)
         {
+            Student student = user.GetProfile(_studentRepository);
             Guild guild = _guildRepository.Get(guildId);
-            GuildEditor editor = user.EnsureIsGuildEditor(guild);
+            student.EnsureIsGuildEditor(guild);
 
             GuildMember member = guild.Members.Find(m => m.MemberId == memberId);
             GuildMember userMember = guild.Members.Find(m => m.MemberId == user.Id);
 
             if (member is null || !member.MemberType.IsMember())
-                throw InnerLogicException.Guild.IsNotGuildMember(memberId);
+                throw InnerLogicException.Guild.IsNotGuildMember(memberId, guildId);
 
             if (member.MemberType == GuildMemberType.Creator)
-                throw new InnerLogicException("Unable to kick guild creator!");
+                throw InnerLogicException.Guild.StudentCannotBeBlocked(memberId, guildId);
 
             if (member.MemberType == GuildMemberType.Mentor && userMember.MemberType == GuildMemberType.Mentor)
-                throw new InnerLogicException("Mentor unable to kick mentor!");
+                throw InnerLogicException.Guild.StudentCannotBeBlocked(memberId, guildId);
 
             member.Member.GuildLeftTime = DateTime.UtcNow.ToUniversalTime();
 
@@ -258,14 +264,14 @@ namespace Iwentys.Core.Services.Implementations
 
         public void AcceptRequest(AuthorizedUser user, Int32 guildId, Int32 studentId)
         {
+            Student student = user.GetProfile(_studentRepository);
             Guild guild = _guildRepository.Get(guildId);
-            GuildEditor editor = user.EnsureIsGuildEditor(guild);
+            student.EnsureIsGuildEditor(guild);
 
             GuildMember member = guild.Members.Find(m => m.MemberId == studentId);
 
             if (member is null || member.MemberType != GuildMemberType.Requested)
-                throw new InnerLogicException(
-                    $"No request from student to guild! StudentId: {studentId} GuildId: {guildId}");
+                throw InnerLogicException.Guild.RequestWasNotFound(studentId, guildId);
 
             member.MemberType = GuildMemberType.Member;
 
@@ -274,14 +280,14 @@ namespace Iwentys.Core.Services.Implementations
 
         public void RejectRequest(AuthorizedUser user, Int32 guildId, Int32 studentId)
         {
+            Student student = user.GetProfile(_studentRepository);
             Guild guild = _guildRepository.Get(guildId);
-            GuildEditor editor = user.EnsureIsGuildEditor(guild);
+            student.EnsureIsGuildEditor(guild);
 
             GuildMember member = guild.Members.Find(m => m.MemberId == studentId);
 
             if (member is null || member.MemberType != GuildMemberType.Requested)
-                throw new InnerLogicException(
-                    $"No request from student to guild! StudentId: {studentId} GuildId: {guildId}");
+                throw InnerLogicException.Guild.RequestWasNotFound(studentId, guildId);
 
             _guildRepository.RemoveMember(guildId, studentId);
         }
@@ -294,11 +300,11 @@ namespace Iwentys.Core.Services.Implementations
         public Tribute[] GetPendingTributes(AuthorizedUser user)
         {
             //TODO: check this
-            Guild guild = _guildRepository.ReadForStudent(user.Id) ?? throw new InnerLogicException("User is guild member");
+            Guild guild = _guildRepository.ReadForStudent(user.Id) ?? throw InnerLogicException.Guild.IsNotGuildMember(user.Id, null);
 
             return _tributeRepository
                 .ReadForGuild(guild.Id)
-                .Where(t => t.State == TributeState.Pending)
+                .Where(t => t.State == TributeState.Active)
                 .ToArray();
         }
 
@@ -306,7 +312,7 @@ namespace Iwentys.Core.Services.Implementations
         {
             Guild guild = _guildRepository.ReadForStudent(user.Id);
             if (guild is null)
-                throw InnerLogicException.Guild.IsNotGuildMember(user.Id);
+                throw InnerLogicException.Guild.IsNotGuildMember(user.Id, null);
 
             return _tributeRepository.ReadStudentInGuildTributes(guild.Id, user.Id);
         }
@@ -319,10 +325,10 @@ namespace Iwentys.Core.Services.Implementations
             Tribute[] allTributes = _tributeRepository.Read().ToArray();
 
             if (allTributes.Any(t => t.ProjectId == projectId))
-                throw new InnerLogicException("Repository already used for tribute");
+                throw InnerLogicException.TributeEx.ProjectAlreadyUsed(projectId);
 
-            if (allTributes.Any(t => t.State == TributeState.Pending && t.Project.StudentId == student.Id))
-                throw new InnerLogicException("Other tribute already created and waiting for check");
+            if (allTributes.Any(t => t.State == TributeState.Active && t.Project.StudentId == student.Id))
+                throw InnerLogicException.TributeEx.UserAlreadyHaveTribute(user.Id);
 
             var tribute = Tribute.New(guild.Id, project.Id);
             return _tributeRepository.Create(tribute);
@@ -330,16 +336,17 @@ namespace Iwentys.Core.Services.Implementations
 
         public Tribute CancelTribute(AuthorizedUser user, int tributeId)
         {
+            Student student = user.GetProfile(_studentRepository);
             Tribute tribute = _tributeRepository.Get(tributeId);
 
-            if (tribute.State != TributeState.Pending)
-                throw new InnerLogicException($"Can't cancel tribute. It's state is: {tribute.State}");
+            if (tribute.State != TributeState.Active)
+                throw InnerLogicException.TributeEx.IsNotActive(tribute);
 
             if (tribute.Project.StudentId == user.Id)
                 tribute.SetCanceled();
             else
             {
-                user.EnsureIsMentor(_guildRepository, tribute.GuildId);
+                student.EnsureIsMentor(_guildRepository, tribute.GuildId);
                 tribute.SetCanceled();
             }
 
@@ -348,11 +355,12 @@ namespace Iwentys.Core.Services.Implementations
 
         public Tribute CompleteTribute(AuthorizedUser user, TributeCompleteDto tributeCompleteDto)
         {
+            Student student = user.GetProfile(_studentRepository);
             Tribute tribute = _tributeRepository.Get(tributeCompleteDto.TributeId);
-            GuildMentorUser mentor = user.EnsureIsMentor(_guildRepository, tribute.GuildId);
+            GuildMentorUser mentor = student.EnsureIsMentor(_guildRepository, tribute.GuildId);
 
-            if (tribute.State != TributeState.Pending)
-                throw new InnerLogicException($"Can't complete tribute. It's state is: {tribute.State}");
+            if (tribute.State != TributeState.Active)
+                throw InnerLogicException.TributeEx.IsNotActive(tribute);
 
             tribute.SetCompleted(mentor.Student.Id, tributeCompleteDto.DifficultLevel, tribute.Mark);
             return _tributeRepository.Update(tribute);
