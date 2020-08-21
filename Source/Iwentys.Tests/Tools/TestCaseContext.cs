@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Gamification;
 using Iwentys.Core.GithubIntegration;
@@ -8,6 +10,7 @@ using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Database.Repositories.Implementations;
 using Iwentys.IsuIntegrator;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Companies;
@@ -26,10 +29,13 @@ namespace Iwentys.Tests.Tools
         public readonly ICompanyRepository CompanyRepository;
         public readonly IStudentProjectRepository StudentProjectRepository;
         public readonly ITributeRepository TributeRepository;
+        public readonly IGithubUserRepository GithubUserRepository;
+        public readonly IGithubUserDataRepository GithubUserDataRepository;
 
         public readonly IStudentService StudentService;
         public readonly IGuildService GuildService;
         public readonly CompanyService CompanyService;
+        public readonly IGithubUserDataService GithubUserDataService;
 
         public static TestCaseContext Case() => new TestCaseContext();
 
@@ -41,11 +47,14 @@ namespace Iwentys.Tests.Tools
             CompanyRepository = new CompanyRepository(Context);
             StudentProjectRepository = new StudentProjectRepository(Context);
             TributeRepository = new TributeRepository(Context);
+            GithubUserRepository = new GithubUserRepository(Context);
+            GithubUserDataRepository = new GithubUserDataRepository(Context);
 
             var accessor = new DatabaseAccessor(Context);
 
             StudentService = new StudentService(StudentRepository, new DebugIsuAccessor(), new AchievementProvider(accessor));
-            GuildService = new GuildService(GuildRepository, StudentRepository, StudentProjectRepository, TributeRepository, accessor, new DummyGithubUserDataService());
+            GithubUserDataService = new GithubUserDataService(GithubUserDataRepository, new DummyGithubApiAccessor(), StudentRepository, StudentProjectRepository);
+            GuildService = new GuildService(GuildRepository, StudentRepository, StudentProjectRepository, TributeRepository, accessor, GithubUserDataService);
             CompanyService = new CompanyService(CompanyRepository, StudentRepository);
         }
 
@@ -135,6 +144,18 @@ namespace Iwentys.Tests.Tools
         public TestCaseContext WithTribute(AuthorizedUser userInfo, StudentProject project, out Tribute tribute)
         {
             tribute = GuildService.CreateTribute(userInfo, project.Id);
+            return this;
+        }
+
+        public TestCaseContext WithGithubUser(string username, out GithubUser githubUser)
+        {
+            githubUser = GithubUserRepository.Create(new GithubUser(username, string.Empty, string.Empty, String.Empty));
+            return this;
+        }
+
+        public TestCaseContext WithGithubRepository(AuthorizedUser userInfo, GithubUser githubUser,out GithubUserData userData)
+        {
+            userData = GithubUserDataService.Create(userInfo.Id, githubUser.Name);
             return this;
         }
     }

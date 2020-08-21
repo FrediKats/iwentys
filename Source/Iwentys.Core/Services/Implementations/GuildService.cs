@@ -366,5 +366,12 @@ namespace Iwentys.Core.Services.Implementations
         {
             throw new System.NotImplementedException();
         }
+
+        public GuildMemberLeaderBoard GetGuildMemberLeaderBoard(int guildId)
+        {
+            return _guildRepository.Get(guildId)
+                .To(g => new GuildDomain(g, _databaseAccessor, _githubUserDataService))
+                .GetMemberDashboard();
+        }
     }
 }

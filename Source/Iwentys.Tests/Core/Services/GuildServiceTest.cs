@@ -3,6 +3,7 @@ using System.Linq;
 using Iwentys.Core.DomainModel;
 using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Transferable.Guilds;
@@ -350,6 +351,21 @@ namespace Iwentys.Tests.Core.Services
 
             Assert.That(context.GuildRepository.Get(guild.Id).Members.ToList().Find(m => m.MemberId == student.Id).MemberType,
                 Is.EqualTo(GuildMemberType.Member));
+        }
+
+        [Test]
+
+        public void GetGuildMemberLeaderBoard()
+        {
+            var context = TestCaseContext
+                .Case()
+                .WithNewStudent(out AuthorizedUser user)
+                .WithGithubUser("test", out GithubUser ghUser)
+                .WithGithubRepository(user, ghUser, out GithubUserData userData)
+                .WithGuild(user, out GuildProfileDto guild);
+
+            Assert.That(context.GuildService.GetGuildMemberLeaderBoard(guild.Id).MembersImpact.Single().TotalRate,
+                Is.EqualTo(userData.ContributionFullInfo.Total));
         }
     }
 }
