@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Iwentys.Models.Types.Guilds;
+﻿using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Models.Entities.Guilds
 {

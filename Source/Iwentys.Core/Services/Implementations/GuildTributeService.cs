@@ -6,6 +6,8 @@ using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
+using Iwentys.Models.Tools;
+using Iwentys.Models.Transferable.GuildTribute;
 using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Core.Services.Implementations
@@ -19,24 +21,28 @@ namespace Iwentys.Core.Services.Implementations
             _databaseAccessor = databaseAccessor;
         }
 
-        public Tribute[] GetPendingTributes(AuthorizedUser user)
+        public TributeInfoDto[] GetPendingTributes(AuthorizedUser user)
         {
             Guild guild = _databaseAccessor.GuildRepository.ReadForStudent(user.Id) ?? throw InnerLogicException.Guild.IsNotGuildMember(user.Id, null);
 
             return _databaseAccessor.TributeRepository
                 .ReadForGuild(guild.Id)
                 .Where(t => t.State == TributeState.Active)
+                .Select(TributeInfoDto.Wrap)
                 .ToArray();
         }
 
-        public Tribute[] GetStudentTributeResult(AuthorizedUser user)
+        public TributeInfoDto[] GetStudentTributeResult(AuthorizedUser user)
         {
             Guild guild = _databaseAccessor.GuildRepository.ReadForStudent(user.Id) ?? throw InnerLogicException.Guild.IsNotGuildMember(user.Id, null);
 
-            return _databaseAccessor.TributeRepository.ReadStudentInGuildTributes(guild.Id, user.Id);
+            return _databaseAccessor.TributeRepository
+                .ReadStudentInGuildTributes(guild.Id, user.Id)
+                .Select(TributeInfoDto.Wrap)
+                .ToArray();
         }
 
-        public Tribute CreateTribute(AuthorizedUser user, int projectId)
+        public TributeInfoDto CreateTribute(AuthorizedUser user, int projectId)
         {
             Student student = _databaseAccessor.Student.Get(user.Id);
             Guild guild = _databaseAccessor.GuildRepository.ReadForStudent(student.Id);
@@ -50,10 +56,11 @@ namespace Iwentys.Core.Services.Implementations
                 throw InnerLogicException.TributeEx.UserAlreadyHaveTribute(user.Id);
 
             var tribute = Tribute.New(guild.Id, project.Id);
-            return _databaseAccessor.TributeRepository.Create(tribute);
+            tribute.Project = project;
+            return _databaseAccessor.TributeRepository.Create(tribute).To(TributeInfoDto.Wrap);
         }
 
-        public Tribute CancelTribute(AuthorizedUser user, int tributeId)
+        public TributeInfoDto CancelTribute(AuthorizedUser user, int tributeId)
         {
             Student student = user.GetProfile(_databaseAccessor.Student);
             Tribute tribute = _databaseAccessor.TributeRepository.Get(tributeId);
@@ -71,10 +78,10 @@ namespace Iwentys.Core.Services.Implementations
                 tribute.SetCanceled();
             }
 
-            return _databaseAccessor.TributeRepository.Update(tribute);
+            return _databaseAccessor.TributeRepository.Update(tribute).To(TributeInfoDto.Wrap);
         }
 
-        public Tribute CompleteTribute(AuthorizedUser user, TributeCompleteDto tributeCompleteDto)
+        public TributeInfoDto CompleteTribute(AuthorizedUser user, TributeCompleteDto tributeCompleteDto)
         {
             Student student = user.GetProfile(_databaseAccessor.Student);
             Tribute tribute = _databaseAccessor.TributeRepository.Get(tributeCompleteDto.TributeId);
@@ -83,8 +90,8 @@ namespace Iwentys.Core.Services.Implementations
             if (tribute.State != TributeState.Active)
                 throw InnerLogicException.TributeEx.IsNotActive(tribute);
 
-            tribute.SetCompleted(mentor.Student.Id, tributeCompleteDto.DifficultLevel, tribute.Mark);
-            return _databaseAccessor.TributeRepository.Update(tribute);
+            tribute.SetCompleted(mentor.Student.Id, tributeCompleteDto.DifficultLevel, tributeCompleteDto.Mark);
+            return _databaseAccessor.TributeRepository.Update(tribute).To(TributeInfoDto.Wrap);
         }
     }
 }

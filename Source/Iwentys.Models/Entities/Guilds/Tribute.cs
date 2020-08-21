@@ -7,20 +7,20 @@ namespace Iwentys.Models.Entities.Guilds
 {
     public class Tribute
     {
+        [Key]
+        public int ProjectId { get; set; }
+        public StudentProject Project { get; set; }
+
         public Guild Guild { get; set; }
         public int GuildId { get; set; }
 
-        public StudentProject Project { get; set; }
-        [Key]
-        public int ProjectId { get; set; }
-
         public TributeState State { get; set; }
-        public int DifficultLevel { get; set; }
-        public int Mark { get; set; }
+        public int? DifficultLevel { get; set; }
+        public int? Mark { get; set; }
         public DateTime CreationTime { get; set; }
 
         public Student Mentor { get; set; }
-        public int MentorId { get; set; }
+        public int? MentorId { get; set; }
 
         public static Tribute New(int guildId, int projectId)
         {

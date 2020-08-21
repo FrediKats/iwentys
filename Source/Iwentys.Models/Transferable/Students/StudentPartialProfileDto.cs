@@ -16,11 +16,11 @@ namespace Iwentys.Models.Transferable.Students
         public DateTime LastOnlineTime { get; set; }
         public int BarsPoints { get; set; }
 
-        public StudentPartialProfileDto()
+        protected StudentPartialProfileDto()
         {
         }
 
-        public StudentPartialProfileDto(Student student)
+        public StudentPartialProfileDto(Student student) : this()
         {
             Id = student.Id;
             FirstName = student.FirstName;

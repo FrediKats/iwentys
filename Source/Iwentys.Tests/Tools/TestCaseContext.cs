@@ -14,6 +14,7 @@ using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Companies;
 using Iwentys.Models.Transferable.Gamification;
 using Iwentys.Models.Transferable.Guilds;
+using Iwentys.Models.Transferable.GuildTribute;
 using Iwentys.Models.Types;
 using Iwentys.Models.Types.Guilds;
 
@@ -141,7 +142,7 @@ namespace Iwentys.Tests.Tools
             return this;
         }
 
-        public TestCaseContext WithTribute(AuthorizedUser userInfo, StudentProject project, out Tribute tribute)
+        public TestCaseContext WithTribute(AuthorizedUser userInfo, StudentProject project, out TributeInfoDto tribute)
         {
             tribute = GuildTributeServiceService.CreateTribute(userInfo, project.Id);
             return this;

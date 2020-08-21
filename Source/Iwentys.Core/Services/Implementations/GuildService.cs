@@ -265,8 +265,6 @@ namespace Iwentys.Core.Services.Implementations
             throw new System.NotImplementedException();
         }
 
-        
-
         public GithubRepository AddPinnedRepository(AuthorizedUser user, int guildId, string owner, string projectName)
         {
             Guild guild = _guildRepository.Get(guildId);

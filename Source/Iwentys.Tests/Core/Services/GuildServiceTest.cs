@@ -6,6 +6,7 @@ using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Transferable.Guilds;
+using Iwentys.Models.Transferable.GuildTribute;
 using Iwentys.Models.Types;
 using Iwentys.Models.Types.Guilds;
 using Iwentys.Tests.Tools;
@@ -77,12 +78,12 @@ namespace Iwentys.Tests.Core.Services
                 .WithNewStudent(out AuthorizedUser admin, UserType.Admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor)
                 .WithStudentProject(user, out StudentProject project)
-                .WithTribute(user, project, out Tribute _);
+                .WithTribute(user, project, out TributeInfoDto _);
 
-            Tribute[] tributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
+            TributeInfoDto[] tributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
             
             Assert.IsNotEmpty(tributes);
-            Assert.True(tributes.Any(t => t.ProjectId == project.Id));
+            Assert.True(tributes.Any(t => t.Project.Id == project.Id));
         }
 
         [Test]
