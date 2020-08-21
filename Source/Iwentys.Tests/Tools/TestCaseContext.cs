@@ -26,9 +26,6 @@ namespace Iwentys.Tests.Tools
 
         public readonly IStudentRepository StudentRepository;
         public readonly IGuildRepository GuildRepository;
-        public readonly ICompanyRepository CompanyRepository;
-        public readonly IStudentProjectRepository StudentProjectRepository;
-        public readonly ITributeRepository TributeRepository;
 
         public readonly DatabaseAccessor Accessor;
 
@@ -45,26 +42,26 @@ namespace Iwentys.Tests.Tools
             Context = TestDatabaseProvider.GetDatabaseContext();
             StudentRepository = new StudentRepository(Context);
             GuildRepository = new GuildRepository(Context);
-            CompanyRepository = new CompanyRepository(Context);
-            StudentProjectRepository = new StudentProjectRepository(Context);
-            TributeRepository = new TributeRepository(Context);
 
             Accessor = new DatabaseAccessor(Context);
             var achievementProvider = new AchievementProvider(Accessor);
 
             StudentService = new StudentService(StudentRepository, new DebugIsuAccessor(), achievementProvider);
-            GuildService = new GuildService(GuildRepository, StudentRepository, TributeRepository, Accessor, new DummyGithubApiAccessor());
+            GuildService = new GuildService(GuildRepository, StudentRepository, Accessor.TributeRepository, Accessor, new DummyGithubApiAccessor());
             GuildTributeServiceService = new GuildTributeService(Accessor, new DummyGithubApiAccessor());
-            CompanyService = new CompanyService(CompanyRepository, StudentRepository);
+            CompanyService = new CompanyService(Accessor.CompanyRepository, StudentRepository);
             QuestService = new QuestService(Accessor.QuestRepository, achievementProvider, Accessor);
         }
 
         public TestCaseContext WithNewStudent(out AuthorizedUser user, UserType userType = UserType.Common)
         {
+            int id = RandomProvider.Random.Next(999999);
+
             var userInfo = new Student
             {
-                Id = RandomProvider.Random.Next(999999),
-                Role = userType
+                Id = id,
+                Role = userType,
+                GithubUsername = $"{Constants.GithubUsername}{id}"
             };
 
             user = AuthorizedUser.DebugAuth(StudentRepository.Create(userInfo).Id);
@@ -118,7 +115,7 @@ namespace Iwentys.Tests.Tools
         public TestCaseContext WithCompany(out CompanyInfoDto companyInfo)
         {
             var company = new Company();
-            company = CompanyRepository.Create(company);
+            company = Accessor.CompanyRepository.Create(company);
             companyInfo = CompanyInfoDto.Create(company);
             return this;
         }
@@ -135,11 +132,13 @@ namespace Iwentys.Tests.Tools
         {
             var project = new StudentProject
             {
+                //TODO: hack for work with dummy github
+                Id = 17,
                 StudentId = userInfo.Id,
                 Author = userInfo.GetProfile(Accessor.Student).GithubUsername,
                 Name = "Test repo"
             };
-            studentProject = StudentProjectRepository.Create(project);
+            studentProject = Accessor.StudentProjectRepository.Create(project);
 
             return this;
         }
@@ -171,6 +170,12 @@ namespace Iwentys.Tests.Tools
             });
 
             return this;
+        }
+
+        private static class Constants
+        {
+            public const string GithubUsername = "GhUser";
+            public const string GithubRepoName = "GhRepo";
         }
     }
 }

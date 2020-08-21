@@ -4,6 +4,6 @@ namespace Iwentys.Tests.Tools
 {
     public static class RandomProvider
     {
-        public static Random Random = new Random();
+        public static readonly Random Random = new Random();
     }
 }
