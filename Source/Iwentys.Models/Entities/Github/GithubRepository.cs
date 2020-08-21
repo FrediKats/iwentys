@@ -16,7 +16,7 @@
             Id = project.GithubRepositoryId;
             Name = project.Name;
             Description = project.Description;
-            Url = project.Url;
+            Url = project.FullUrl;
             StarCount = project.StarCount;
         }
 

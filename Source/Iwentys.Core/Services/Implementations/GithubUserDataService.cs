@@ -42,7 +42,7 @@ namespace Iwentys.Core.Services.Implementations
                 {
                     StudentId = studentId,
                     Student = student,
-                    Url = r.Url,
+                    FullUrl = r.Url,
                     Name = r.Name,
                     Description = r.Description,
                     StarCount = r.StarCount,
@@ -65,7 +65,7 @@ namespace Iwentys.Core.Services.Implementations
                 {
                     StudentId = githubUserData.StudentId,
                     Student = githubUserData.Student,
-                    Url = r.Url,
+                    FullUrl = r.Url,
                     Name = r.Name,
                     Description = r.Description,
                     StarCount = r.StarCount,

@@ -1,6 +1,6 @@
-using Iwentys.Models.Types.Github;
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Github;
 
 namespace Iwentys.Database.Repositories.Abstractions
 {
