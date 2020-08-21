@@ -10,7 +10,7 @@ namespace Iwentys.Core.Services.Abstractions
         TributeInfoDto[] GetPendingTributes(AuthorizedUser user);
         TributeInfoDto[] GetStudentTributeResult(AuthorizedUser user);
         TributeInfoDto CreateTribute(AuthorizedUser user, CreateProjectDto createProject);
-        TributeInfoDto CancelTribute(AuthorizedUser user, int tributeId);
+        TributeInfoDto CancelTribute(AuthorizedUser user, long tributeId);
         TributeInfoDto CompleteTribute(AuthorizedUser user, TributeCompleteDto tributeCompleteDto);
     }
 }

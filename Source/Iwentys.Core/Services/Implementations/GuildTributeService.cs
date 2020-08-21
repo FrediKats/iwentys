@@ -69,7 +69,7 @@ namespace Iwentys.Core.Services.Implementations
             return _databaseAccessor.TributeRepository.Create(tribute).To(TributeInfoDto.Wrap);
         }
 
-        public TributeInfoDto CancelTribute(AuthorizedUser user, int tributeId)
+        public TributeInfoDto CancelTribute(AuthorizedUser user, long tributeId)
         {
             Student student = user.GetProfile(_databaseAccessor.Student);
             Tribute tribute = _databaseAccessor.TributeRepository.Get(tributeId);

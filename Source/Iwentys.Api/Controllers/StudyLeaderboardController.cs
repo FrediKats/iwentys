@@ -12,6 +12,7 @@ namespace Iwentys.Api.Controllers
     public class StudyLeaderboardController : ControllerBase
     {
         private readonly IStudyLeaderboardService _studyLeaderboardService;
+
         public StudyLeaderboardController(IStudyLeaderboardService studyLeaderboardService)
         {
             _studyLeaderboardService = studyLeaderboardService;

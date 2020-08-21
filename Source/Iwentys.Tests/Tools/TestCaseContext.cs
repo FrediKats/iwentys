@@ -108,7 +108,7 @@ namespace Iwentys.Tests.Tools
 
         public TestCaseContext WithMentor(GuildProfileDto guild, AuthorizedUser admin, out AuthorizedUser mentor)
         {
-            WithGuildMember(guild, out mentor);
+            WithGuildMentor(guild, out mentor);
             return this;
         }
 
@@ -155,6 +155,17 @@ namespace Iwentys.Tests.Tools
             {
                 Owner = userInfo.GetProfile(Accessor.Student).GithubUsername,
                 RepositoryName = project.Name
+            });
+            return this;
+        }
+
+        public TestCaseContext WithCompletedTribute(AuthorizedUser mentor, TributeInfoDto tribute, out TributeInfoDto completedTribute)
+        {
+            completedTribute = GuildTributeServiceService.CompleteTribute(mentor, new TributeCompleteDto
+            {
+                DifficultLevel = 1,
+                Mark = 1,
+                TributeId = tribute.Project.Id
             });
             return this;
         }

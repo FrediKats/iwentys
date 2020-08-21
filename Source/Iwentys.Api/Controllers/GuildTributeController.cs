@@ -40,7 +40,7 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpPost("cancel")]
-        public ActionResult<TributeInfoDto> CancelTribute([FromBody] int tributeId)
+        public ActionResult<TributeInfoDto> CancelTribute([FromBody] long tributeId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
             return Ok(_guildService.CancelTribute(user, tributeId));
