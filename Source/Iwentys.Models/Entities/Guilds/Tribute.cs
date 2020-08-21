@@ -8,7 +8,7 @@ namespace Iwentys.Models.Entities.Guilds
     public class Tribute
     {
         [Key]
-        public int ProjectId { get; set; }
+        public long ProjectId { get; set; }
         public StudentProject Project { get; set; }
 
         public Guild Guild { get; set; }
@@ -22,7 +22,7 @@ namespace Iwentys.Models.Entities.Guilds
         public Student Mentor { get; set; }
         public int? MentorId { get; set; }
 
-        public static Tribute New(int guildId, int projectId)
+        public static Tribute New(int guildId, long projectId)
         {
             return new Tribute
             {

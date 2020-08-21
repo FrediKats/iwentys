@@ -123,6 +123,9 @@
   <data name="ProjectAlreadyUsed" xml:space="preserve">
     <value>Данный проект уже был использован. [ProjectId: {0}]</value>
   </data>
+  <data name="TributeCanBeSendFromStudentAccount" xml:space="preserve">
+    <value>В качестве трибьюта можно использовать только репозиторий студента. [StudentId: {0}], [OwnerName: {1}]</value>
+  </data>
   <data name="UserAlreadyHaveTribute" xml:space="preserve">
     <value>Пользователь уже имеет активный трибьют. [UserId: {0}]</value>
   </data>

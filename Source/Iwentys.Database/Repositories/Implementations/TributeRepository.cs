@@ -28,7 +28,7 @@ namespace Iwentys.Database.Repositories.Implementations
             return _dbContext.Tributes;
         }
 
-        public Tribute ReadById(int key)
+        public Tribute ReadById(long key)
         {
             return _dbContext.Tributes.Find(key);
         }
@@ -40,7 +40,7 @@ namespace Iwentys.Database.Repositories.Implementations
             return createdEntity.Entity;
         }
 
-        public void Delete(int key)
+        public void Delete(long key)
         {
             _dbContext.Tributes.Remove(this.Get(key));
             _dbContext.SaveChanges();

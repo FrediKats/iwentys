@@ -6,7 +6,7 @@ namespace Iwentys.Models.Transferable.Guilds
 {
     public class ActiveTributeDto
     {
-        public int ProjectId { get; set; }
+        public long ProjectId { get; set; }
         public TributeState State { get; set; }
         public string ProjectName { get; set; }
         public DateTime CreationTime { get; set; }

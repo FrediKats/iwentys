@@ -1,5 +1,6 @@
 ﻿using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
+using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.GuildTribute;
 using Iwentys.Models.Types.Guilds;
 using Microsoft.AspNetCore.Mvc;
@@ -32,10 +33,10 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpPost("create")]
-        public ActionResult<TributeInfoDto> SendTribute([FromBody] int projectId)
+        public ActionResult<TributeInfoDto> SendTribute([FromBody] CreateProjectDto createProject)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
-            return Ok(_guildService.CreateTribute(user, projectId));
+            return Ok(_guildService.CreateTribute(user, createProject));
         }
 
         [HttpPost("cancel")]

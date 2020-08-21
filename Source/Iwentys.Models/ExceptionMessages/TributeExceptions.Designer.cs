@@ -79,6 +79,15 @@ namespace Iwentys.Models.ExceptionMessages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to В качестве трибьюта можно использовать только репозиторий студента. [StudentId: {0}], [OwnerName: {1}].
+        /// </summary>
+        internal static string TributeCanBeSendFromStudentAccount {
+            get {
+                return ResourceManager.GetString("TributeCanBeSendFromStudentAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Пользователь уже имеет активный трибьют. [UserId: {0}].
         /// </summary>
         internal static string UserAlreadyHaveTribute {

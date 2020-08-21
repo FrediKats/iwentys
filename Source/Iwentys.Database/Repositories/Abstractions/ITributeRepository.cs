@@ -2,7 +2,7 @@
 
 namespace Iwentys.Database.Repositories.Abstractions
 {
-    public interface ITributeRepository : IGenericRepository<Tribute, int>
+    public interface ITributeRepository : IGenericRepository<Tribute, long>
     {
         Tribute[] ReadForGuild(int guildId);
         Tribute[] ReadStudentInGuildTributes(int guildId, int studentId);

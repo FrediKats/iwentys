@@ -1,5 +1,7 @@
 ﻿using System;
+using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
+using Iwentys.Models.Transferable.Guilds;
 
 namespace Iwentys.Models.Exceptions
 {
@@ -51,7 +53,7 @@ namespace Iwentys.Models.Exceptions
 
         public static class TributeEx
         {
-            public static InnerLogicException ProjectAlreadyUsed(int projectId)
+            public static InnerLogicException ProjectAlreadyUsed(long projectId)
             {
                 return new InnerLogicException(string.Format(ExceptionMessages.TributeExceptions.ProjectAlreadyUsed, projectId));
             }
@@ -64,6 +66,11 @@ namespace Iwentys.Models.Exceptions
             public static InnerLogicException IsNotActive(Tribute tribute)
             {
                 return new InnerLogicException(string.Format(ExceptionMessages.TributeExceptions.IsNotActive, tribute.ProjectId, tribute.State));
+            }
+
+            public static InnerLogicException TributeCanBeSendFromStudentAccount(Student student, CreateProjectDto createProject)
+            {
+                return new InnerLogicException(string.Format(ExceptionMessages.TributeExceptions.TributeCanBeSendFromStudentAccount, student.Id, createProject.Owner));
             }
         }
 

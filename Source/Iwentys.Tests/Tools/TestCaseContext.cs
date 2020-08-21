@@ -54,7 +54,7 @@ namespace Iwentys.Tests.Tools
 
             StudentService = new StudentService(StudentRepository, new DebugIsuAccessor(), achievementProvider);
             GuildService = new GuildService(GuildRepository, StudentRepository, TributeRepository, Accessor, new DummyGithubApiAccessor());
-            GuildTributeServiceService = new GuildTributeService(Accessor);
+            GuildTributeServiceService = new GuildTributeService(Accessor, new DummyGithubApiAccessor());
             CompanyService = new CompanyService(CompanyRepository, StudentRepository);
             QuestService = new QuestService(Accessor.QuestRepository, achievementProvider, Accessor);
         }
@@ -135,16 +135,28 @@ namespace Iwentys.Tests.Tools
         {
             var project = new StudentProject
             {
-                StudentId = userInfo.Id
+                StudentId = userInfo.Id,
+                Author = userInfo.GetProfile(Accessor.Student).GithubUsername,
+                Name = "Test repo"
             };
             studentProject = StudentProjectRepository.Create(project);
 
             return this;
         }
 
+        public TestCaseContext WithTribute(AuthorizedUser userInfo, CreateProjectDto project, out TributeInfoDto tribute)
+        {
+            tribute = GuildTributeServiceService.CreateTribute(userInfo, project);
+            return this;
+        }
+
         public TestCaseContext WithTribute(AuthorizedUser userInfo, StudentProject project, out TributeInfoDto tribute)
         {
-            tribute = GuildTributeServiceService.CreateTribute(userInfo, project.Id);
+            tribute = GuildTributeServiceService.CreateTribute(userInfo, new CreateProjectDto
+            {
+                Owner = userInfo.GetProfile(Accessor.Student).GithubUsername,
+                RepositoryName = project.Name
+            });
             return this;
         }
 
