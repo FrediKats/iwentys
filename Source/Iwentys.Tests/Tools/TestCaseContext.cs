@@ -9,6 +9,7 @@ using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Database.Repositories.Implementations;
 using Iwentys.IsuIntegrator;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Companies;
@@ -34,6 +35,7 @@ namespace Iwentys.Tests.Tools
         public readonly IGuildTributeService GuildTributeServiceService;
         public readonly ICompanyService CompanyService;
         public readonly IQuestService QuestService;
+        public readonly IGithubUserDataService GithubUserDataService;
 
         public static TestCaseContext Case() => new TestCaseContext();
 
@@ -47,8 +49,8 @@ namespace Iwentys.Tests.Tools
             var achievementProvider = new AchievementProvider(Accessor);
 
             StudentService = new StudentService(StudentRepository, new DebugIsuAccessor(), achievementProvider);
-            GuildService = new GuildService(GuildRepository, StudentRepository, Accessor.TributeRepository, Accessor, default(GithubUserDataService));
-            GuildService = new GuildService(GuildRepository, StudentRepository, Accessor.TributeRepository, Accessor, new DummyGithubUserDataService());
+            GithubUserDataService = new GithubUserDataService(Accessor.GithubUserDataRepository, new DummyGithubApiAccessor(), StudentRepository, Accessor.StudentProjectRepository);
+            GuildService = new GuildService(GuildRepository, StudentRepository, Accessor.TributeRepository, Accessor, GithubUserDataService);
             GuildTributeServiceService = new GuildTributeService(Accessor, new DummyGithubApiAccessor());
             CompanyService = new CompanyService(Accessor.CompanyRepository, StudentRepository);
             QuestService = new QuestService(Accessor.QuestRepository, achievementProvider, Accessor);
@@ -177,6 +179,17 @@ namespace Iwentys.Tests.Tools
         {
             public const string GithubUsername = "GhUser";
             public const string GithubRepoName = "GhRepo";
+        }
+        public TestCaseContext WithGithubUser(string username, out GithubUser githubUser)
+        {
+            githubUser = Accessor.GithubUserRepository.Create(new GithubUser(username, string.Empty, string.Empty, String.Empty));
+            return this;
+        }
+
+        public TestCaseContext WithGithubRepository(AuthorizedUser userInfo, GithubUser githubUser,out GithubUserData userData)
+        {
+            userData = GithubUserDataService.Create(userInfo.Id, githubUser.Name);
+            return this;
         }
     }
 }

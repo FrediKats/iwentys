@@ -284,5 +284,12 @@ namespace Iwentys.Core.Services.Implementations
 
             _guildRepository.UnpinProject(pinnedProjectId);
         }
+
+        public GuildMemberLeaderBoard GetGuildMemberLeaderBoard(int guildId)
+        {
+            return _guildRepository.Get(guildId)
+                .To(g => new GuildDomain(g, _databaseAccessor, _githubUserDataService))
+                .GetMemberDashboard();
+        }
     }
 }

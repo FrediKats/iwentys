@@ -1,6 +1,7 @@
 using System.Linq;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Gamification;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Entities.Study;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +41,17 @@ namespace Iwentys.Database.Context
         public DbSet<AchievementModel> Achievements { get; set; }
         public DbSet<StudentAchievementEntity> StudentAchievements { get; set; }
         public DbSet<GuildAchievementModel> GuildAchievements { get; set; }
+
+        #endregion
+
+        #region Github
+
+        public DbSet<ActivityInfo> ActivityInfos { get; set; }
+        public DbSet<ContributionFullInfo> ContributionFullInfos { get; set; }
+        public DbSet<ContributionsInfo> ContributionsInfos { get; set; }
+        public DbSet<GithubRepository> GithubRepositories { get; set; }
+        public DbSet<GithubUser> GithubUsers { get; set; }
+        public DbSet<YearActivityInfo> YearActivityInfos { get; set; }
 
         #endregion
 

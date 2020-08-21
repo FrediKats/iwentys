@@ -34,5 +34,6 @@ namespace Iwentys.Core.Services.Abstractions
 
         GithubRepository AddPinnedRepository(AuthorizedUser user, int guildId, string owner, string projectName);
         void UnpinProject(AuthorizedUser user, int pinnedProjectId);
+        GuildMemberLeaderBoard GetGuildMemberLeaderBoard(int guildId);
     }
 }

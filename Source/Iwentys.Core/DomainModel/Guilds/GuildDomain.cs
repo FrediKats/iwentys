@@ -82,13 +82,19 @@ namespace Iwentys.Core.DomainModel.Guilds
             return info;
         }
 
-        private GuildMemberLeaderBoard GetMemberDashboard()
+        public GuildMemberLeaderBoard GetMemberDashboard()
         {
             List<GuildMemberImpact> members = _profile
                 .Members
                 .Select(m => m.Member.GithubUsername)
                 .Where(gh => gh != null)
-                .Select(ghName => new GuildMemberImpact(ghName, _githubUserDataService.GetUserDataByUsername(ghName).ContributionFullInfo.Total))
+                .Select(ghName =>
+                {
+                    var totalImpact = _githubUserDataService.GetUserDataByUsername(ghName)?.ContributionFullInfo.Total;
+                    if (totalImpact == null)
+                        return new GuildMemberImpact(ghName, 0);
+                    return new GuildMemberImpact(ghName, totalImpact.Value);
+                })
                 .ToList();
 
             return new GuildMemberLeaderBoard
