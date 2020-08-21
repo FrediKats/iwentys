@@ -27,17 +27,14 @@ namespace Iwentys.Core.Services.Implementations
         private readonly IStudentRepository _studentRepository;
         private readonly ITributeRepository _tributeRepository;
         private readonly DatabaseAccessor _databaseAccessor;
-        private readonly IStudentProjectRepository _studentProjectRepository;
 
         public GuildService(IGuildRepository guildRepository,
             IStudentRepository studentRepository,
-            IStudentProjectRepository studentProjectRepository,
             ITributeRepository tributeRepository,
             DatabaseAccessor databaseAccessor, IGithubApiAccessor apiAccessor)
         {
             _guildRepository = guildRepository;
             _studentRepository = studentRepository;
-            _studentProjectRepository = studentProjectRepository;
             _tributeRepository = tributeRepository;
             _databaseAccessor = databaseAccessor;
             _apiAccessor = apiAccessor;
@@ -268,73 +265,7 @@ namespace Iwentys.Core.Services.Implementations
             throw new System.NotImplementedException();
         }
 
-        public Tribute[] GetPendingTributes(AuthorizedUser user)
-        {
-            Guild guild = _guildRepository.ReadForStudent(user.Id) ?? throw InnerLogicException.Guild.IsNotGuildMember(user.Id, null);
-
-            return _tributeRepository
-                .ReadForGuild(guild.Id)
-                .Where(t => t.State == TributeState.Active)
-                .ToArray();
-        }
-
-        public Tribute[] GetStudentTributeResult(AuthorizedUser user)
-        {
-            Guild guild = _guildRepository.ReadForStudent(user.Id);
-            if (guild is null)
-                throw InnerLogicException.Guild.IsNotGuildMember(user.Id, null);
-
-            return _tributeRepository.ReadStudentInGuildTributes(guild.Id, user.Id);
-        }
-
-        public Tribute CreateTribute(AuthorizedUser user, int projectId)
-        {
-            Student student = _studentRepository.Get(user.Id);
-            Guild guild = _guildRepository.ReadForStudent(student.Id);
-            StudentProject project = _studentProjectRepository.Get(projectId);
-            Tribute[] allTributes = _tributeRepository.Read().ToArray();
-
-            if (allTributes.Any(t => t.ProjectId == projectId))
-                throw InnerLogicException.TributeEx.ProjectAlreadyUsed(projectId);
-
-            if (allTributes.Any(t => t.State == TributeState.Active && t.Project.StudentId == student.Id))
-                throw InnerLogicException.TributeEx.UserAlreadyHaveTribute(user.Id);
-
-            var tribute = Tribute.New(guild.Id, project.Id);
-            return _tributeRepository.Create(tribute);
-        }
-
-        public Tribute CancelTribute(AuthorizedUser user, int tributeId)
-        {
-            Student student = user.GetProfile(_studentRepository);
-            Tribute tribute = _tributeRepository.Get(tributeId);
-
-            if (tribute.State != TributeState.Active)
-                throw InnerLogicException.TributeEx.IsNotActive(tribute);
-
-            if (tribute.Project.StudentId == user.Id)
-                tribute.SetCanceled();
-            else
-            {
-                student.EnsureIsMentor(_guildRepository, tribute.GuildId);
-                tribute.SetCanceled();
-            }
-
-            return _tributeRepository.Update(tribute);
-        }
-
-        public Tribute CompleteTribute(AuthorizedUser user, TributeCompleteDto tributeCompleteDto)
-        {
-            Student student = user.GetProfile(_studentRepository);
-            Tribute tribute = _tributeRepository.Get(tributeCompleteDto.TributeId);
-            GuildMentorUser mentor = student.EnsureIsMentor(_guildRepository, tribute.GuildId);
-
-            if (tribute.State != TributeState.Active)
-                throw InnerLogicException.TributeEx.IsNotActive(tribute);
-
-            tribute.SetCompleted(mentor.Student.Id, tributeCompleteDto.DifficultLevel, tribute.Mark);
-            return _tributeRepository.Update(tribute);
-        }
+        
 
         public GithubRepository AddPinnedRepository(AuthorizedUser user, int guildId, string owner, string projectName)
         {

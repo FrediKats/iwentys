@@ -77,6 +77,7 @@ namespace Iwentys.Api
             services.AddScoped<IBarsPointTransactionLogService, BarsPointTransactionLogService>();
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<IGuildService, GuildService>();
+            services.AddScoped<IGuildTributeService, GuildTributeService>();
             services.AddScoped<IQuestService, QuestService>();
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IStudyLeaderboardService, StudyLeaderboardService>();

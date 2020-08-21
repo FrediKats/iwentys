@@ -9,9 +9,9 @@ namespace Iwentys.Api.Controllers
     [ApiController]
     public class GuildTributeController : ControllerBase
     {
-        private readonly IGuildService _guildService;
+        private readonly IGuildTributeService _guildService;
 
-        public GuildTributeController(IGuildService guildService)
+        public GuildTributeController(IGuildTributeService guildService)
         {
             _guildService = guildService;
         }

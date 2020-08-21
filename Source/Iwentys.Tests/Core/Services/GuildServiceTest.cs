@@ -79,7 +79,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithStudentProject(user, out StudentProject project)
                 .WithTribute(user, project, out Tribute _);
 
-            Tribute[] tributes = context.GuildService.GetPendingTributes(mentor);
+            Tribute[] tributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
             
             Assert.IsNotEmpty(tributes);
             Assert.True(tributes.Any(t => t.ProjectId == project.Id));

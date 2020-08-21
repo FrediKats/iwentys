@@ -33,6 +33,7 @@ namespace Iwentys.Tests.Tools
 
         public readonly IStudentService StudentService;
         public readonly IGuildService GuildService;
+        public readonly IGuildTributeService GuildTributeServiceService;
         public readonly ICompanyService CompanyService;
         public readonly IQuestService QuestService;
 
@@ -51,7 +52,8 @@ namespace Iwentys.Tests.Tools
             var achievementProvider = new AchievementProvider(Accessor);
 
             StudentService = new StudentService(StudentRepository, new DebugIsuAccessor(), achievementProvider);
-            GuildService = new GuildService(GuildRepository, StudentRepository, StudentProjectRepository, TributeRepository, Accessor, new DummyGithubApiAccessor());
+            GuildService = new GuildService(GuildRepository, StudentRepository, TributeRepository, Accessor, new DummyGithubApiAccessor());
+            GuildTributeServiceService = new GuildTributeService(Accessor);
             CompanyService = new CompanyService(CompanyRepository, StudentRepository);
             QuestService = new QuestService(Accessor.QuestRepository, achievementProvider, Accessor);
         }
@@ -141,7 +143,7 @@ namespace Iwentys.Tests.Tools
 
         public TestCaseContext WithTribute(AuthorizedUser userInfo, StudentProject project, out Tribute tribute)
         {
-            tribute = GuildService.CreateTribute(userInfo, project.Id);
+            tribute = GuildTributeServiceService.CreateTribute(userInfo, project.Id);
             return this;
         }
 
