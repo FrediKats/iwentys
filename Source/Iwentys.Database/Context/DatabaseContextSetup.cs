@@ -300,20 +300,6 @@ namespace Iwentys.Database.Context
 
             return new List<Student>
             {
-                new Student
-                {
-                    Id = 228617,
-                    FirstName = "Фреди",
-                    MiddleName = "Кисикович",
-                    SecondName = "Катс",
-                    Role = UserType.Admin,
-                    GroupId = null,
-                    GithubUsername = "InRedikaWB",
-                    CreationTime = DateTime.UtcNow,
-                    LastOnlineTime = DateTime.UtcNow,
-                    BarsPoints = Int16.MaxValue
-                },
-
                 Student.CreateFromIsu(284446, "Максим", "Бастрыкин", m3201),
                 Student.CreateFromIsu(264987, "Вадим", "Гаврилов", m3201),
                 Student.CreateFromIsu(286516, "Леон", "Галстян", m3201),
