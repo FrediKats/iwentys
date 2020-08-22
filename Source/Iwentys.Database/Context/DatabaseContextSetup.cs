@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Gamification;
@@ -164,46 +165,30 @@ namespace Iwentys.Database.Context
         private void InitStudents()
         {
             StudyGroup m3201 = StudyGroups.First(g => g.GroupName == "M3201");
-            StudyGroup m3202 = StudyGroups.First(g => g.GroupName == "M3202");
-            StudyGroup m3205 = StudyGroups.First(g => g.GroupName == "M3205");
             StudyGroup m3305 = StudyGroups.First(g => g.GroupName == "M3305");
 
             var user = Student.CreateFromIsu(289140, "Сергей", "Миронец", m3201);
             user.GithubUsername = "s4xack";
 
-            Students = new List<Student>
-            {
-                new Student
+            Students = (File.Exists("Data.txt") ? ReadStudentsFromFile(m3201.Id - 1) : ReadStudentsFromDefault())
+                .Append(new Student
                 {
                     Id = 228617,
                     FirstName = "Фреди",
                     MiddleName = "Кисикович",
                     SecondName = "Катс",
                     Role = UserType.Admin,
-                    GroupId = null,
+                    GroupId = 1,
                     GithubUsername = "InRedikaWB",
                     CreationTime = DateTime.UtcNow,
                     LastOnlineTime = DateTime.UtcNow,
                     BarsPoints = Int16.MaxValue
-                },
+                })
+                .Append(Student.CreateFromIsu(264312, "Илья", "Шамов", m3305))
+                .Append(Student.CreateFromIsu(264282, "Илья", "Ильменский", m3305))
+                .ToList();
 
-                Student.CreateFromIsu(284446, "Максим", "Бастрыкин", m3201),
-                Student.CreateFromIsu(264987, "Вадим", "Гаврилов", m3201),
-                Student.CreateFromIsu(286516, "Леон", "Галстян", m3201),
-                Student.CreateFromIsu(284454, "Николай", "Гридинарь", m3201),
-                Student.CreateFromIsu(284457, "Матвей", "Дудко", m3201),
-                Student.CreateFromIsu(264275, "Аюна", "Дымчикова", m3201),
-                user,
-
-                Student.CreateFromIsu(284441, "Ульяна", "Абрамова", m3202),
-                Student.CreateFromIsu(283184, "Денис", "Андреев", m3202),
-                Student.CreateFromIsu(284443, "Сергей", "Артамонов", m3202),
-
-                Student.CreateFromIsu(284479, "Илья", "Кузнецов", m3205),
-
-                Student.CreateFromIsu(264312, "Илья", "Шамов", m3305),
-                Student.CreateFromIsu(264282, "Илья", "Ильменский", m3305),
-            };
+            Students.Single(s => s.Id == 289140).GithubUsername = "s4hack";
 
             SubjectActivitys = new List<SubjectActivity>
             {
@@ -304,6 +289,61 @@ namespace Iwentys.Database.Context
                     GettingTime = DateTime.UtcNow
                 }
             };
+        }
+
+        private List<Student> ReadStudentsFromDefault()
+        {
+            StudyGroup m3201 = StudyGroups.First(g => g.GroupName == "M3201");
+            StudyGroup m3202 = StudyGroups.First(g => g.GroupName == "M3202");
+            StudyGroup m3205 = StudyGroups.First(g => g.GroupName == "M3205");
+            StudyGroup m3305 = StudyGroups.First(g => g.GroupName == "M3305");
+
+            return new List<Student>
+            {
+                new Student
+                {
+                    Id = 228617,
+                    FirstName = "Фреди",
+                    MiddleName = "Кисикович",
+                    SecondName = "Катс",
+                    Role = UserType.Admin,
+                    GroupId = null,
+                    GithubUsername = "InRedikaWB",
+                    CreationTime = DateTime.UtcNow,
+                    LastOnlineTime = DateTime.UtcNow,
+                    BarsPoints = Int16.MaxValue
+                },
+
+                Student.CreateFromIsu(284446, "Максим", "Бастрыкин", m3201),
+                Student.CreateFromIsu(264987, "Вадим", "Гаврилов", m3201),
+                Student.CreateFromIsu(286516, "Леон", "Галстян", m3201),
+                Student.CreateFromIsu(284454, "Николай", "Гридинарь", m3201),
+                Student.CreateFromIsu(284457, "Матвей", "Дудко", m3201),
+                Student.CreateFromIsu(264275, "Аюна", "Дымчикова", m3201),
+                Student.CreateFromIsu(289140, "Сергей", "Миронец", m3201),
+
+                Student.CreateFromIsu(284441, "Ульяна", "Абрамова", m3202),
+                Student.CreateFromIsu(283184, "Денис", "Андреев", m3202),
+                Student.CreateFromIsu(284443, "Сергей", "Артамонов", m3202),
+
+                Student.CreateFromIsu(284479, "Илья", "Кузнецов", m3205),
+            };
+        }
+
+
+        private List<Student> ReadStudentsFromFile(int zeroGroupId)
+        {
+            if (File.Exists("Data.txt") == false)
+                return new List<Student>();
+
+            return File.ReadAllLines("Data.txt")
+                .Select(r =>
+                {
+                    string[] elements = r.Split("\t");
+                    string[] names = elements[2].Split(' ', 3).ToArray();
+                    return Student.CreateFromIsu(int.Parse(elements[1]), names[1], names.Length == 3 ? names[2] : null, names[0], zeroGroupId + int.Parse(elements[0]));
+                })
+                .ToList();
         }
 
         private static class Create

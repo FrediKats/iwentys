@@ -34,10 +34,10 @@ namespace Iwentys.Models.Entities
 
         public static Student CreateFromIsu(int id, string firstName, string secondName, StudyGroup group = null)
         {
-            return CreateFromIsu(id, firstName, null, secondName, group);
+            return CreateFromIsu(id, firstName, null, secondName, group?.Id);
         }
 
-        public static Student CreateFromIsu(int id, string firstName, string middleName, string secondName, StudyGroup group = null)
+        public static Student CreateFromIsu(int id, string firstName, string middleName, string secondName, int? groupId = null)
         {
             return new Student
             {
@@ -46,7 +46,7 @@ namespace Iwentys.Models.Entities
                 MiddleName = middleName,
                 SecondName = secondName,
                 Role = UserType.Common,
-                GroupId = group?.Id,
+                GroupId = groupId,
                 CreationTime = DateTime.UtcNow,
                 LastOnlineTime = DateTime.UtcNow,
                 GuildLeftTime = DateTime.MinValue
