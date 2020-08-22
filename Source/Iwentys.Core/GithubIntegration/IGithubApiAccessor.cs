@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Iwentys.Models.Types.Github;
 using Octokit;
+using Iwentys.Models.Entities.Github;
+using Iwentys.Models.Types;
 
 namespace Iwentys.Core.GithubIntegration
 {

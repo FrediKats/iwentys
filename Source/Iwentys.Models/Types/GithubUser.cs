@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Models.Types.Github
+﻿namespace Iwentys.Models.Types
 {
     public class GithubUser
     {
@@ -14,6 +14,7 @@
         {
         }
 
+        public int Id { get; set; }
         public string Name { get; set; }
         public string AvatarUrl { get; set; }
         public string Bio { get; set; }

@@ -1,8 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Types.Github;
+using Iwentys.Models.Entities.Github;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Implementations
@@ -58,6 +59,27 @@ namespace Iwentys.Database.Repositories.Implementations
                 Student = creator,
                 StudentId = creator.Id
             });
+        }
+
+        public void CreateMany(IEnumerable<StudentProject> studentsProjects)
+        {
+            _dbContext.StudentProjects.AddRange(studentsProjects);
+            _dbContext.SaveChanges();
+        }
+
+        public bool Contains(StudentProject project)
+        {
+            return _dbContext.StudentProjects.Contains(project);
+        }
+
+        public IEnumerable<StudentProject> FindProjectsByUserName(string username)
+        {
+            return Read().Where(p => p.UserName == username);
+        }
+
+        public StudentProject FindCertainProject(string username, string projectName)
+        {
+            return Read().SingleOrDefault(p => p.UserName == username && p.Name == projectName);
         }
     }
 }

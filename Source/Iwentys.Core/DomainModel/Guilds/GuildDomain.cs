@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.GithubIntegration;
+using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
@@ -20,12 +22,14 @@ namespace Iwentys.Core.DomainModel.Guilds
     {
         private readonly Guild _profile;
         private readonly DatabaseAccessor _dbAccessor;
+        private readonly IGithubUserDataService _githubUserDataService;
         private readonly IGithubApiAccessor _apiAccessor;
 
-        public GuildDomain(Guild profile, DatabaseAccessor dbAccessor, IGithubApiAccessor apiAccessor)
+        public GuildDomain(Guild profile, DatabaseAccessor dbAccessor, IGithubUserDataService githubUserDataService, IGithubApiAccessor apiAccessor)
         {
             _profile = profile;
             _dbAccessor = dbAccessor;
+            _githubUserDataService = githubUserDataService;
             _apiAccessor = apiAccessor;
         }
 
@@ -52,7 +56,7 @@ namespace Iwentys.Core.DomainModel.Guilds
                 Title = _profile.Title,
                 Leader = _profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentPartialProfileDto(s)),
                 MemberLeaderBoard = GetMemberDashboard(),
-                PinnedRepositories = _profile.PinnedProjects.SelectToList(p => _apiAccessor.GetRepository(p.RepositoryOwner, p.RepositoryName)),
+                PinnedRepositories = _profile.PinnedProjects.SelectToList(p => _githubUserDataService.GetCertainRepository(p.RepositoryOwner, p.RepositoryName)),
                 Achievements = _profile.Achievements.SelectToList(AchievementInfoDto.Wrap)
             };
 
@@ -78,13 +82,19 @@ namespace Iwentys.Core.DomainModel.Guilds
             return info;
         }
 
-        private GuildMemberLeaderBoard GetMemberDashboard()
+        public GuildMemberLeaderBoard GetMemberDashboard()
         {
             List<GuildMemberImpact> members = _profile
                 .Members
                 .Select(m => m.Member.GithubUsername)
                 .Where(gh => gh != null)
-                .Select(ghName => new GuildMemberImpact(ghName, _apiAccessor.GetUserActivity(ghName).Total))
+                .Select(ghName =>
+                {
+                    var totalImpact = _githubUserDataService.GetUserDataByUsername(ghName)?.ContributionFullInfo.Total;
+                    if (totalImpact == null)
+                        return new GuildMemberImpact(ghName, 0);
+                    return new GuildMemberImpact(ghName, totalImpact.Value);
+                })
                 .ToList();
 
             return new GuildMemberLeaderBoard

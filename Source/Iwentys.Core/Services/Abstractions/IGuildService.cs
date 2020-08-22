@@ -1,8 +1,8 @@
 ﻿using Iwentys.Core.DomainModel;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Voting;
-using Iwentys.Models.Types.Github;
 
 namespace Iwentys.Core.Services.Abstractions
 {
@@ -34,5 +34,6 @@ namespace Iwentys.Core.Services.Abstractions
 
         GithubRepository AddPinnedRepository(AuthorizedUser user, int guildId, string owner, string projectName);
         void UnpinProject(AuthorizedUser user, int pinnedProjectId);
+        GuildMemberLeaderBoard GetGuildMemberLeaderBoard(int guildId);
     }
 }
