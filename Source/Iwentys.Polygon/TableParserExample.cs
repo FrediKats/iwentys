@@ -91,8 +91,7 @@ namespace Iwentys.Polygon
             }
             Console.WriteLine("Столбец с баллами:");
             var scoreColumn = Console.ReadLine();
-            GoogleTableData test = new GoogleTableData(spreadSheetId, sheetName, firstRow, lastRow, groupDefined,
-                groupName, groupColumn, nameArr, scoreColumn);
+            GoogleTableData test = new GoogleTableData(spreadSheetId, sheetName, firstRow, lastRow, nameArr, scoreColumn);
             return test;
         }
 
@@ -103,9 +102,6 @@ namespace Iwentys.Polygon
                 "M3101",
                 "4",
                 "24",
-                true,
-                "M3201",
-                "A",
                 new[] {"B"}, 
                 "V");
         }
@@ -117,9 +113,6 @@ namespace Iwentys.Polygon
                 "M3102",
                 "4",
                 "25",
-                true,
-                "M3202",
-                "A",
                 new[] { "B" },
                 "V");
         }
@@ -131,9 +124,6 @@ namespace Iwentys.Polygon
                 "M3103",
                 "4",
                 "25",
-                true,
-                "M3203",
-                "A",
                 new[] { "B" },
                 "V");
         }
@@ -145,9 +135,6 @@ namespace Iwentys.Polygon
                 "M3104",
                 "4",
                 "25",
-                true,
-                "M3204",
-                "A",
                 new[] { "B" },
                 "V");
         }

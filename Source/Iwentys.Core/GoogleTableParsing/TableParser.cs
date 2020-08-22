@@ -40,16 +40,13 @@ namespace Iwentys.Core.GoogleTableParsing
             var result = new List<StudentSubjectScore>();
             foreach (var row in _data.Values)
             {
-                var group = row[_helper.GroupColumnNum];
                 var name = row[_helper.NameColumnNum];
                 var score = row[_helper.ScoreColumnNum];
-                if (group != null && name != null && score != null)
+                if (name != null && score != null)
                 {
                     string fullName = Join(" ", _helper.NameColumns.Select(c => row[c]));
 
-                    result.Add(new StudentSubjectScore(
-                        _helper.GroupDefined ? _helper.GroupName : group.ToString(),
-                        fullName,
+                    result.Add(new StudentSubjectScore(fullName,
                         score.ToString()));
                 }
                 else

@@ -86,7 +86,7 @@ namespace Iwentys.Database.Context
             {
                 new SubjectForGroup
                 {
-                    Id = 1,
+                    Id = Create.GroupSubjectIdentifierGenerator.Next(),
                     SubjectId = 1,
                     StudyGroupId = secondCourse[0].Id,
                     TeacherId = 1,
@@ -94,7 +94,7 @@ namespace Iwentys.Database.Context
                 },
                 new SubjectForGroup
                 {
-                    Id = 2,
+                    Id = Create.GroupSubjectIdentifierGenerator.Next(),
                     SubjectId = 2,
                     StudyGroupId = secondCourse[0].Id,
                     TeacherId = 1,
@@ -103,7 +103,7 @@ namespace Iwentys.Database.Context
 
                 new SubjectForGroup
                 {
-                    Id = 3,
+                    Id = Create.GroupSubjectIdentifierGenerator.Next(),
                     SubjectId = 3,
                     StudyGroupId = secondCourse[0].Id,
                     TeacherId = 1,
@@ -113,16 +113,13 @@ namespace Iwentys.Database.Context
                         "M3101",
                         "4",
                         "24",
-                        true,
-                        "M3201",
-                        "A",
                         new[] { "B" },
                         "V").Serialize()
                 },
 
                 new SubjectForGroup
                 {
-                    Id = 4,
+                    Id = Create.GroupSubjectIdentifierGenerator.Next(),
                     SubjectId = 3,
                     StudyGroupId = secondCourse[1].Id,
                     TeacherId = 1,
@@ -132,9 +129,6 @@ namespace Iwentys.Database.Context
                         "M3102",
                         "4",
                         "25",
-                        true,
-                        "M3202",
-                        "A",
                         new[] { "B" },
                         "V")
                         .Serialize()
@@ -142,7 +136,7 @@ namespace Iwentys.Database.Context
 
                 new SubjectForGroup
                 {
-                    Id = 5,
+                    Id = Create.GroupSubjectIdentifierGenerator.Next(),
                     SubjectId = 3,
                     StudyGroupId = secondCourse[2].Id,
                     TeacherId = 1,
@@ -152,9 +146,6 @@ namespace Iwentys.Database.Context
                         "M3103",
                         "4",
                         "25",
-                        true,
-                        "M3203",
-                        "A",
                         new[] { "B" },
                         "V")
                         .Serialize()
@@ -336,6 +327,7 @@ namespace Iwentys.Database.Context
         {
             private static readonly IdentifierGenerator StreamIdentifierGenerator = new IdentifierGenerator();
             private static readonly IdentifierGenerator GroupIdentifierGenerator = new IdentifierGenerator();
+            public static readonly IdentifierGenerator GroupSubjectIdentifierGenerator = new IdentifierGenerator();
 
             public static StudyStream IsStream(StudentGraduationYear year)
             {
