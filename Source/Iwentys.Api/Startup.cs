@@ -72,7 +72,6 @@ namespace Iwentys.Api
             services.AddScoped<ITributeRepository, TributeRepository>();
             services.AddScoped<IGithubUserDataRepository, GithubUserDataRepository>();
             services.AddScoped<IStudentProjectRepository, StudentProjectRepository>();
-            services.AddScoped<IGithubUserRepository, GithubUserRepository>();
             services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();
 

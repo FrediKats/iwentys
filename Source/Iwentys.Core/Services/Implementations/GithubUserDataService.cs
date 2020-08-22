@@ -23,21 +23,33 @@ namespace Iwentys.Core.Services.Implementations
             _studentProjectRepository = studentProjectRepository;
         }
 
-        public GithubUserData Create(int studentId, string username)
+        public GithubUserData CreateOrUpdate(int studentId)
         {
-            var githubUser = _githubApiAccessor.GetGithubUser(username);
-            var contributionFullInfo = _githubApiAccessor.GetUserActivity(username);
             var student = _studentRepository.ReadById(studentId);
+            if (student.GithubUsername == null)
+                return null;
+            var githubUserData = _githubUserDataRepository.Read().SingleOrDefault(gh => gh.StudentId == studentId);
+            bool exists = true;
 
-            var githubUserData = new GithubUserData
+            if (githubUserData == null)
             {
-                StudentId = studentId,
-                Student = student,
-                GithubUser = githubUser,
-                ContributionFullInfo = contributionFullInfo
-            };
+                exists = false;
+                var githubUser = _githubApiAccessor.GetGithubUser(student.GithubUsername);
+                var contributionFullInfo = _githubApiAccessor.GetUserActivity(student.GithubUsername);
 
-            var studentProjects = _githubApiAccessor.GetUserRepositories(username)
+                githubUserData = new GithubUserData
+                {
+                    StudentId = studentId,
+                    Student = student,
+                    Username = student.GithubUsername,
+                    AvatarUrl = githubUser.AvatarUrl,
+                    Bio = githubUser.Bio,
+                    Company = githubUser.Bio,
+                    ContributionFullInfo = contributionFullInfo
+                };
+            }
+
+            var studentProjects = _githubApiAccessor.GetUserRepositories(student.GithubUsername)
                 .Select(r => new StudentProject
                 {
                     StudentId = studentId,
@@ -49,39 +61,26 @@ namespace Iwentys.Core.Services.Implementations
                     GithubRepositoryId = r.Id
                 });
 
-            _studentProjectRepository.CreateMany(studentProjects);
-
-            _githubUserDataRepository.Create(githubUserData);
-
-            return githubUserData;
-        }
-
-        public GithubUserData Update(int id)
-        {
-            var githubUserData = _githubUserDataRepository.ReadById(id);
-            var contributionFullInfo = _githubApiAccessor.GetUserActivity(githubUserData.GithubUser.Name);
-            var studentProjects = _githubApiAccessor.GetUserRepositories(githubUserData.GithubUser.Name)
-                .Select(r => new StudentProject
-                {
-                    StudentId = githubUserData.StudentId,
-                    Student = githubUserData.Student,
-                    FullUrl = r.Url,
-                    Name = r.Name,
-                    Description = r.Description,
-                    StarCount = r.StarCount,
-                    GithubRepositoryId = r.Id
-                });
-            foreach (var project in studentProjects)
+            if (exists)
             {
-                if (_studentProjectRepository.Contains(project))
-                    _studentProjectRepository.Update(project);
-                else
-                    _studentProjectRepository.Create(project);
+                foreach (var project in studentProjects)
+                {
+                    if (_studentProjectRepository.Contains(project))
+                        _studentProjectRepository.Update(project);
+                    else
+                        _studentProjectRepository.Create(project);
+                }
+
+                githubUserData.ContributionFullInfo = _githubApiAccessor.GetUserActivity(student.GithubUsername);
+
+                _githubUserDataRepository.Update(githubUserData);
             }
+            else
+            {
+                _studentProjectRepository.CreateMany(studentProjects);
 
-            githubUserData.ContributionFullInfo = contributionFullInfo;
-
-            _githubUserDataRepository.Update(githubUserData);
+                _githubUserDataRepository.Create(githubUserData);
+            }
 
             return githubUserData;
         }

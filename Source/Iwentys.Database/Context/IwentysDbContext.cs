@@ -50,7 +50,6 @@ namespace Iwentys.Database.Context
         public DbSet<ContributionFullInfo> ContributionFullInfos { get; set; }
         public DbSet<ContributionsInfo> ContributionsInfos { get; set; }
         public DbSet<GithubRepository> GithubRepositories { get; set; }
-        public DbSet<GithubUser> GithubUsers { get; set; }
         public DbSet<YearActivityInfo> YearActivityInfos { get; set; }
 
         #endregion

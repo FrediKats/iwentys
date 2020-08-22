@@ -48,7 +48,7 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public GithubUserData GetUserDataByUsername(string username)
         {
-            return Read().SingleOrDefault(g => g.GithubUser.Name == username);
+            return Read().SingleOrDefault(g => g.Student.GithubUsername == username);
         }
     }
 }

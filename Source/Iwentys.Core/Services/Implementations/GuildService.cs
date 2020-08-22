@@ -140,7 +140,6 @@ namespace Iwentys.Core.Services.Implementations
         {
             GuildDomain guild = _guildRepository.Get(guildId).To(g =>
             {
-                Func<int, GithubUserData> githubUserDataService = _githubUserDataService.Update;
                 return new GuildDomain(g, _databaseAccessor, _githubUserDataService, _githubApiAccessor);
             });
 

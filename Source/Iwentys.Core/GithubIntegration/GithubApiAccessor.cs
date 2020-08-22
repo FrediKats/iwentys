@@ -5,6 +5,7 @@ using System.Net.Http;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
+using Iwentys.Models.Types;
 using Newtonsoft.Json;
 using Octokit;
 
@@ -58,15 +59,9 @@ namespace Iwentys.Core.GithubIntegration
 
             string info = http.GetStringAsync(GithubContributionsApiUrl + githubUsername).Result;
             var result = JsonConvert.DeserializeObject<ActivityInfo>(info);
-            List<ContributionsInfo> perMonth = result
-                .Contributions
-                .GroupBy(c => c.Date.Substring(0, 7))
-                .Select(c => new ContributionsInfo(c.Key, c.Sum(_ => _.Count)))
-                .ToList();
 
             return new ContributionFullInfo
             {
-                PerMonthActivity = perMonth,
                 RawActivity = result
             };
         }

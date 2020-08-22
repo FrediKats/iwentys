@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Models.Entities.Github
+﻿namespace Iwentys.Models.Types
 {
     public class GithubUser
     {

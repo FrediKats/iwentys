@@ -15,7 +15,6 @@ namespace Iwentys.Database.Context
         public ITributeRepository TributeRepository { get; }
         public IBarsPointTransactionLogRepository BarsPointTransactionLogRepository { get; }
         public IQuestRepository QuestRepository { get; }
-        public IGithubUserRepository GithubUserRepository { get; }
         public IGithubUserDataRepository GithubUserDataRepository { get; }
         
 
@@ -35,7 +34,6 @@ namespace Iwentys.Database.Context
             new SubjectActivityRepository(context), 
             new SubjectForGroupRepository(context),
             new StudyGroupRepository(context),
-            new GithubUserRepository(context),
             new GithubUserDataRepository(context))
         {
         }
@@ -52,7 +50,6 @@ namespace Iwentys.Database.Context
             ISubjectActivityRepository subjectActivity,
             ISubjectForGroupRepository subjectForGroup,
             IStudyGroupRepository studyGroupRepository,
-            IGithubUserRepository githubUserRepository,
             IGithubUserDataRepository githubUserDataRepository)
         {
             Context = context;
@@ -67,7 +64,6 @@ namespace Iwentys.Database.Context
             SubjectActivity = subjectActivity;
             SubjectForGroup = subjectForGroup;
             StudyGroupRepository = studyGroupRepository;
-            GithubUserRepository = githubUserRepository;
             GithubUserDataRepository = githubUserDataRepository;
         }
     }

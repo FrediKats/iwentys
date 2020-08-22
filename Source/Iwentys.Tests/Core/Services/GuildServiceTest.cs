@@ -342,8 +342,7 @@ namespace Iwentys.Tests.Core.Services
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGithubUser("test", out GithubUser ghUser)
-                .WithGithubRepository(user, ghUser, out GithubUserData userData)
+                .WithGithubRepository(user, out GithubUserData userData)
                 .WithGuild(user, out GuildProfileDto guild);
 
             Assert.That(context.GuildService.GetGuildMemberLeaderBoard(guild.Id).MembersImpact.Single().TotalRate,

@@ -8,8 +8,10 @@ namespace Iwentys.Models.Entities
         public int StudentId { get; set; }
 
         public int Id { get; set; }
-        public int GithubUserId { get; set; }
-        public GithubUser GithubUser { get; set; }
+        public string Username { get; set; }
+        public string AvatarUrl { get; set; }
+        public string Bio { get; set; }
+        public string Company { get; set; }
         public ContributionFullInfo ContributionFullInfo { get; set; }
     }
 }

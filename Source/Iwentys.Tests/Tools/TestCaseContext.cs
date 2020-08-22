@@ -180,15 +180,10 @@ namespace Iwentys.Tests.Tools
             public const string GithubUsername = "GhUser";
             public const string GithubRepoName = "GhRepo";
         }
-        public TestCaseContext WithGithubUser(string username, out GithubUser githubUser)
-        {
-            githubUser = Accessor.GithubUserRepository.Create(new GithubUser(username, string.Empty, string.Empty, String.Empty));
-            return this;
-        }
 
-        public TestCaseContext WithGithubRepository(AuthorizedUser userInfo, GithubUser githubUser,out GithubUserData userData)
+        public TestCaseContext WithGithubRepository(AuthorizedUser userInfo, out GithubUserData userData)
         {
-            userData = GithubUserDataService.Create(userInfo.Id, githubUser.Name);
+            userData = GithubUserDataService.CreateOrUpdate(userInfo.Id);
             return this;
         }
     }
