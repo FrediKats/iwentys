@@ -45,6 +45,8 @@ namespace Iwentys.Core.Services.Implementations
             IsuUser userInfo = _isuAccessor.GetIsuUser(id, null);
             student = _studentRepository.Create(Student.CreateFromIsu(userInfo.Id, userInfo.FirstName, userInfo.MiddleName, userInfo.SecondName));
 
+            student = _studentRepository.Get(student.Id);
+
             return student
                 .To(s => new StudentFullProfileDto(s));
         }
