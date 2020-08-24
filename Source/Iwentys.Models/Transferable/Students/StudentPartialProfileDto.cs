@@ -1,10 +1,11 @@
 ﻿using System;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Tools;
 using Iwentys.Models.Types;
 
 namespace Iwentys.Models.Transferable.Students
 {
-    public class StudentPartialProfileDto
+    public class StudentPartialProfileDto : IResultFormat
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -31,6 +32,11 @@ namespace Iwentys.Models.Transferable.Students
             CreationTime = student.CreationTime;
             LastOnlineTime = student.LastOnlineTime;
             BarsPoints = student.BarsPoints;
+        }
+
+        public string Format()
+        {
+            return $"Id: {Id}, Name: {FirstName} {SecondName}";
         }
     }
 }
