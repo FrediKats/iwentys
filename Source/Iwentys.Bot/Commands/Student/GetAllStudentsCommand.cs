@@ -24,7 +24,7 @@ namespace Iwentys.ClientBot.Commands.Student
 
         public Result Execute(CommandArgumentContainer args)
         {
-            IEnumerable<StudentFullProfileDto> profileDtos = _iwentysStudentApi.Get();
+            IEnumerable<StudentFullProfileDto> profileDtos = _iwentysStudentApi.Get().Result;
             return ResultHelper.Of(profileDtos);
         }
 

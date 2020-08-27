@@ -30,7 +30,7 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpPost]
-        public ActionResult<StudentFullProfileDto> Get([FromBody] StudentUpdateDto studentUpdateDto)
+        public ActionResult<StudentFullProfileDto> Update([FromBody] StudentUpdateDto studentUpdateDto)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
 

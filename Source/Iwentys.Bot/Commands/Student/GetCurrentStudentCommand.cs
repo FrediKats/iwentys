@@ -27,7 +27,7 @@ namespace Iwentys.ClientBot.Commands.Student
         public Result Execute(CommandArgumentContainer args)
         {
             AuthorizedUser currentUser = _userIdentifier.GetUser(args.Sender.UserSenderId);
-            StudentFullProfileDto profile = _iwentysStudentApi.Get(currentUser.Id);
+            StudentFullProfileDto profile = _iwentysStudentApi.Get(currentUser.Id).Result;
             
             return ResultHelper.Of(profile);
         }

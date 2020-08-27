@@ -13,7 +13,7 @@ namespace Iwentys.Models.Transferable.Students
             Points = subjectActivity.Points;
         }
 
-        private SubjectActivityInfoDto()
+        public SubjectActivityInfoDto()
         {
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Api.Tools;
 using Iwentys.ClientBot;
@@ -22,10 +23,17 @@ namespace Iwentys.Api
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("IwentysBackgroundService start");
-            
-            Bot bot = BotProvider.Init("https://localhost:3578", new TelegramDebugSettings(), Log.Logger);
-            bot.Start();
 
+            try
+            {
+                Bot bot = BotProvider.Init("http://localhost:3578", new TelegramDebugSettings(), Log.Logger);
+                bot.Start();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Bot run failed");
+            }
+            
             return Task.CompletedTask;
         }
     }
