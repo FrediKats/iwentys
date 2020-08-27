@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Iwentys.Bot.ApiIntegration;
-using Iwentys.Bot.Tools;
+using Iwentys.ClientBot.ApiIntegration;
+using Iwentys.ClientBot.Tools;
 using Iwentys.Models.Transferable.Students;
 using Tef.BotFramework.Abstractions;
 using Tef.BotFramework.Common;
 
-namespace Iwentys.Bot.Commands
+namespace Iwentys.ClientBot.Commands
 {
     public class GetAllStudentsCommand : IBotCommand
     {

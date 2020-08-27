@@ -1,9 +1,9 @@
-﻿using Iwentys.Bot.ApiIntegration;
-using Iwentys.Bot.Commands;
-using Iwentys.Bot.Tools;
+﻿using Iwentys.ClientBot.ApiIntegration;
+using Iwentys.ClientBot.Commands;
+using Iwentys.ClientBot.Tools;
 using Tef.BotFramework.Telegram;
 
-namespace Iwentys.Bot
+namespace Iwentys.ClientBot
 {
     public static class BotProvider
     {

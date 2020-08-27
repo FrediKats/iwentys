@@ -1,7 +1,7 @@
 ﻿using Tef.BotFramework.Settings;
 using Tef.BotFramework.Telegram;
 
-namespace Iwentys.Bot.Tools
+namespace Iwentys.ClientBot.Tools
 {
     public class TelegramDebugSettings : IGetSettings<TelegramSettings>
     {

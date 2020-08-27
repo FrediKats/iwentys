@@ -1,6 +1,6 @@
 ﻿using Iwentys.Core.DomainModel;
 
-namespace Iwentys.Bot.Tools
+namespace Iwentys.ClientBot.Tools
 {
     public class UserIdentifier
     {

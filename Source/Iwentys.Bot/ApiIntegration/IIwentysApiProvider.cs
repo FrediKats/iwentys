@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Bot.ApiIntegration
+﻿namespace Iwentys.ClientBot.ApiIntegration
 {
     public class IwentysApiProvider
     {

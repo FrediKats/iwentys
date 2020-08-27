@@ -3,7 +3,7 @@ using System.Linq;
 using Iwentys.Models.Tools;
 using Result = Tef.BotFramework.Common.Result;
 
-namespace Iwentys.Bot.Tools
+namespace Iwentys.ClientBot.Tools
 {
     public static class ResultHelper
     {

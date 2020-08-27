@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Models.Transferable.Students;
 
-namespace Iwentys.Bot.ApiIntegration
+namespace Iwentys.ClientBot.ApiIntegration
 {
     public interface IIwentysStudentApi
     {
