@@ -38,6 +38,7 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.1.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Iwentys.Bot\Iwentys.ClientBot.csproj" />
     <ProjectReference Include="..\Iwentys.Core\Iwentys.Core.csproj" />
   </ItemGroup>
 

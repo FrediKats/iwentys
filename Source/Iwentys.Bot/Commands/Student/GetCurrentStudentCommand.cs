@@ -6,7 +6,7 @@ using Iwentys.Models.Transferable.Students;
 using Tef.BotFramework.Abstractions;
 using Tef.BotFramework.Common;
 
-namespace Iwentys.ClientBot.Commands
+namespace Iwentys.ClientBot.Commands.Student
 {
     public class GetCurrentStudentCommand : IBotCommand
     {

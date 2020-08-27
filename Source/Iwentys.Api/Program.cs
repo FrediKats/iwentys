@@ -40,6 +40,7 @@ namespace Iwentys.Api
             Host.CreateDefaultBuilder(args)
                 .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>())
+                .ConfigureServices(s => s.AddHostedService<BotBackgroundService>())
                 .ConfigureServices(s => s.AddHostedService<IwentysBackgroundService>());
     }
 }
