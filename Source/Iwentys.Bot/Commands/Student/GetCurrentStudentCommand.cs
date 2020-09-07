@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Iwentys.ClientBot.ApiIntegration;
 using Iwentys.ClientBot.Tools;
 using Iwentys.Core.DomainModel;
@@ -24,11 +25,10 @@ namespace Iwentys.ClientBot.Commands.Student
             return true;
         }
 
-        public Result Execute(CommandArgumentContainer args)
+        public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
             AuthorizedUser currentUser = _userIdentifier.GetUser(args.Sender.UserSenderId);
-            StudentFullProfileDto profile = _iwentysStudentApi.Get(currentUser.Id).Result;
-            
+            StudentFullProfileDto profile = await _iwentysStudentApi.Get(currentUser.Id);
             return ResultHelper.Of(profile);
         }
 

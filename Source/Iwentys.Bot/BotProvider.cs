@@ -22,7 +22,7 @@ namespace Iwentys.ClientBot
             var botInstance = new Tef.BotFramework.Core.Bot(telegramApiProvider)
                 .AddCommand(new GetAllStudentsCommand(apiProvider.StudentApi))
                 .AddCommand(new GetCurrentStudentCommand(apiProvider.StudentApi, identifier))
-                .AddLogger();
+                .AddLogger(logger);
 
             return botInstance;
         }

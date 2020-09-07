@@ -1,4 +1,5 @@
-﻿using Tef.BotFramework.Abstractions;
+﻿using System.Threading.Tasks;
+using Tef.BotFramework.Abstractions;
 using Tef.BotFramework.Common;
 
 namespace Iwentys.ClientBot.Commands.Student
@@ -10,7 +11,7 @@ namespace Iwentys.ClientBot.Commands.Student
             throw new System.NotImplementedException();
         }
 
-        public Result Execute(CommandArgumentContainer args)
+        public Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
             throw new System.NotImplementedException();
         }

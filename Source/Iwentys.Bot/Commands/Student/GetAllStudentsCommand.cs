@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Iwentys.ClientBot.ApiIntegration;
 using Iwentys.ClientBot.Tools;
 using Iwentys.Models.Transferable.Students;
@@ -20,6 +21,11 @@ namespace Iwentys.ClientBot.Commands.Student
         public bool CanExecute(CommandArgumentContainer args)
         {
             return true;
+        }
+
+        public Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
+        {
+            throw new NotImplementedException();
         }
 
         public Result Execute(CommandArgumentContainer args)
