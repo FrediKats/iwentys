@@ -9,8 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="refit" Version="5.1.67" />
-    <PackageReference Include="Tef.BotFramework" Version="0.9.31" />
+    <PackageReference Include="refit" Version="5.2.1" />
+    <PackageReference Include="Tef.BotFramework" Version="0.9.60" />
     <PackageReference Include="Telegram.Bot" Version="15.7.1" />
   </ItemGroup>
 

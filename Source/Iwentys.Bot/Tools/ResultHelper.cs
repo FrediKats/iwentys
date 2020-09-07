@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Models.Tools;
-using Result = Tef.BotFramework.Common.Result;
+using Tef.BotFramework.Common;
 
 namespace Iwentys.ClientBot.Tools
 {
@@ -9,12 +9,12 @@ namespace Iwentys.ClientBot.Tools
     {
         public static Result Of(IResultFormat format)
         {
-            return new Result(true, format.Format());
+            return Result.Ok(format.Format());
         }
 
         public static Result Of<T>(IEnumerable<T> format) where T : IResultFormat
         {
-            return new Result(true, string.Join("\n", format.Select(f => f.Format())));
+            return Result<string>.Ok(string.Join("\n", format.Select(f => f.Format())));
         }
     }
 }

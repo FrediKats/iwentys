@@ -4,6 +4,7 @@ using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
+using Tef.BotFramework.Common;
 
 namespace Iwentys.Core.Services.Implementations
 {
@@ -27,11 +28,11 @@ namespace Iwentys.Core.Services.Implementations
             Result<BarsPointTransactionLog> transaction;
             if (from.BarsPoints < value)
             {
-                transaction = Result.From(BarsPointTransactionLog.RegisterFail(from, to, value), InnerLogicException.NotEnoughBarsPoints().Message);
+                transaction = Result<BarsPointTransactionLog>.Fail(InnerLogicException.NotEnoughBarsPoints().Message, InnerLogicException.NotEnoughBarsPoints());
             }
             else
             {
-                transaction = Result.From(BarsPointTransactionLog.CompletedFor(from, to, value));
+                transaction = Result<BarsPointTransactionLog>.Ok(BarsPointTransactionLog.CompletedFor(from, to, value));
                 from.BarsPoints -= value;
                 to.BarsPoints += value;
 
