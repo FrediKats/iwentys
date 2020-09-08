@@ -8,6 +8,11 @@ namespace Iwentys.ClientBot.Tools
     //TODO: remove
     public static class ResultHelper
     {
+        public static Result<string> Of(string str)
+        {
+            return Result<string>.Ok(str, str);
+        }
+
         public static Result<string> Of(IResultFormat format)
         {
             return Result<string>.Ok(format.Format(), format.Format());

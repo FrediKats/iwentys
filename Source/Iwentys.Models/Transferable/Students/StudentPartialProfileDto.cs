@@ -36,7 +36,7 @@ namespace Iwentys.Models.Transferable.Students
 
         public string Format()
         {
-            return $"Id: {Id}, Name: {FirstName} {SecondName}";
+            return $"{Id} {FirstName} {SecondName}";
         }
     }
 }

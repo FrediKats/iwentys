@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Iwentys.ApiSdk\Iwentys.ApiSdk.csproj" />
     <ProjectReference Include="..\Iwentys.Core\Iwentys.Core.csproj" />
     <ProjectReference Include="..\Iwentys.Models\Iwentys.Models.csproj" />
   </ItemGroup>

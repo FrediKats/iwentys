@@ -1,4 +1,4 @@
-﻿using Iwentys.ApiSdk;
+﻿using Iwentys.ClientBot.ApiSdk;
 using Iwentys.ClientBot.Commands.Student;
 using Iwentys.ClientBot.Tools;
 using Serilog;
@@ -21,7 +21,7 @@ namespace Iwentys.ClientBot
                 .AddCommand(new GetCurrentStudentCommand(apiProvider.StudentApi, identifier))
                 .AddLogger(logger)
                 .SetPrefix('/');
-            
+
             return botInstance;
         }
     }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Iwentys.ApiSdk;
+using Iwentys.ClientBot.ApiSdk;
 using Iwentys.ClientBot.Tools;
 using Iwentys.Core.DomainModel;
 using Iwentys.Models.Transferable.Students;
@@ -29,7 +29,7 @@ namespace Iwentys.ClientBot.Commands.Student
         {
             AuthorizedUser currentUser = _userIdentifier.GetUser(args.Sender.UserSenderId);
             StudentFullProfileDto profile = await _iwentysStudentApi.Get(currentUser.Id);
-            return ResultHelper.Of(profile);
+            return ResultHelper.Of(profile.FormatFullInfo());
         }
 
         public string CommandName => nameof(GetCurrentStudentCommand);
