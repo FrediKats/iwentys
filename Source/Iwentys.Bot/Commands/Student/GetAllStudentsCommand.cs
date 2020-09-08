@@ -23,14 +23,9 @@ namespace Iwentys.ClientBot.Commands.Student
             return true;
         }
 
-        public Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
+        public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            throw new NotImplementedException();
-        }
-
-        public Result Execute(CommandArgumentContainer args)
-        {
-            IEnumerable<StudentFullProfileDto> profileDtos = _iwentysStudentApi.Get().Result;
+            IEnumerable<StudentFullProfileDto> profileDtos = await _iwentysStudentApi.Get();
             return ResultHelper.Of(profileDtos);
         }
 

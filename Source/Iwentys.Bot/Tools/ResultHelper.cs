@@ -9,12 +9,13 @@ namespace Iwentys.ClientBot.Tools
     {
         public static Result<string> Of(IResultFormat format)
         {
-            return Result<string>.Ok(format.Format());
+            return Result<string>.Ok(format.Format(), format.Format());
         }
 
         public static Result<string> Of<T>(IEnumerable<T> format) where T : IResultFormat
         {
-            return Result<string>.Ok(string.Join("\n", format.Select(f => f.Format())));
+            var str = string.Join("\n", format.Select(f => f.Format()));
+            return Result<string>.Ok(str, str);
         }
     }
 }

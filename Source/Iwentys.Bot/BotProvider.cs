@@ -17,13 +17,12 @@ namespace Iwentys.ClientBot
             var identifier = new UserIdentifier();
             var apiProvider = new IwentysApiProvider(apiHostUrl);
 
-            //TODO: need to user logger, wait next BotFrame release
             var telegramApiProvider = new TelegramApiProvider(settings);
             var botInstance = new Tef.BotFramework.Core.Bot(telegramApiProvider)
                 .AddCommand(new GetAllStudentsCommand(apiProvider.StudentApi))
                 .AddCommand(new GetCurrentStudentCommand(apiProvider.StudentApi, identifier))
                 .AddLogger(logger);
-
+            
             return botInstance;
         }
     }
