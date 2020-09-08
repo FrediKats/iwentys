@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Iwentys.Models.Transferable.Students;
 using Refit;
 
-namespace Iwentys.ClientBot.ApiIntegration
+namespace Iwentys.ApiSdk
 {
     public interface IIwentysStudentApi
     {

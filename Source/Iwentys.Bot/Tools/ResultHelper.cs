@@ -5,6 +5,7 @@ using Tef.BotFramework.Common;
 
 namespace Iwentys.ClientBot.Tools
 {
+    //TODO: remove
     public static class ResultHelper
     {
         public static Result<string> Of(IResultFormat format)

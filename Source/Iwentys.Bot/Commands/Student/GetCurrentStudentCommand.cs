@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Iwentys.ClientBot.ApiIntegration;
+using Iwentys.ApiSdk;
 using Iwentys.ClientBot.Tools;
 using Iwentys.Core.DomainModel;
 using Iwentys.Models.Transferable.Students;

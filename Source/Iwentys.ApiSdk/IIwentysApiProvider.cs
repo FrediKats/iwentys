@@ -1,6 +1,6 @@
 ﻿using Refit;
 
-namespace Iwentys.ClientBot.ApiIntegration
+namespace Iwentys.ApiSdk
 {
     public class IwentysApiProvider
     {
