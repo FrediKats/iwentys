@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using Iwentys.Core;
 using Iwentys.Core.Daemons;
 using Iwentys.Core.GoogleTableParsing;
+using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
+using Iwentys.Database.Repositories.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -13,14 +15,14 @@ namespace Iwentys.Api
 {
     public class IwentysBackgroundService : BackgroundService
     {
-        private static MarkUpdateDaemon _markUpdateDaemon;
+        private MarkUpdateDaemon _markUpdateDaemon;
         private readonly IServiceProvider _sp;
         private readonly ILogger _logger;
 
         public IwentysBackgroundService(ILoggerFactory loggerFactory, IServiceProvider sp)
         {
             _sp = sp;
-            _logger = loggerFactory.CreateLogger("DaemonManager");
+            _logger = loggerFactory.CreateLogger("IwentysBackgroundService");
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -31,23 +33,52 @@ namespace Iwentys.Api
                 try
                 {
                     using IServiceScope scope = _sp.CreateScope();
-                    _logger.LogInformation("Tun worker");
+                    _logger.LogInformation("Execute IwentysBackgroundService update");
 
-                    var accessor = scope.ServiceProvider.GetRequiredService<DatabaseAccessor>();
-                    _markUpdateDaemon = new MarkUpdateDaemon(
-                        ApplicationOptions.DaemonUpdateInterval,
-                        new GoogleTableUpdateService(_logger, accessor.SubjectActivity, accessor.Student),
-                        accessor.SubjectForGroup,
-                        _logger);
-
-                    _markUpdateDaemon.Execute();
+                    ProcessMarkUpdateSafe(scope);
+                    ProcessGithubUpdateSafe(scope);
                 }
                 catch (Exception e)
                 {
-                    _logger.LogError(e, "Fail to perform dispatch");
+                    _logger.LogError(e, "Fail to perform IwentysBackgroundService update");
                 }
 
                 await Task.Delay(ApplicationOptions.DaemonUpdateInterval, stoppingToken).ConfigureAwait(false);
+            }
+        }
+
+        private void ProcessGithubUpdateSafe(IServiceScope scope)
+        {
+            try
+            {
+                var githubUpdateDaemon = new GithubUpdateDaemon(
+                    scope.ServiceProvider.GetRequiredService<IGithubUserDataService>(),
+                    scope.ServiceProvider.GetRequiredService<IStudentRepository>());
+
+                githubUpdateDaemon.Execute();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Github data update failed.");
+            }
+        }
+
+        private void ProcessMarkUpdateSafe(IServiceScope scope)
+        {
+            try
+            {
+                var accessor = scope.ServiceProvider.GetRequiredService<DatabaseAccessor>();
+
+                _markUpdateDaemon = new MarkUpdateDaemon(
+                    new GoogleTableUpdateService(_logger, accessor.SubjectActivity, accessor.Student),
+                    accessor.SubjectForGroup,
+                    _logger);
+
+                _markUpdateDaemon.Execute();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Mark data update failed.");
             }
         }
     }

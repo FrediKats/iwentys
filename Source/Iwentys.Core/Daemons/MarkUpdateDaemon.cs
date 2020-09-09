@@ -8,20 +8,20 @@ using Microsoft.Extensions.Logging;
 
 namespace Iwentys.Core.Daemons
 {
-    public class MarkUpdateDaemon : DaemonWorker
+    public class MarkUpdateDaemon
     {
         private readonly GoogleTableUpdateService _googleTableUpdateService;
         private readonly ISubjectForGroupRepository _subjectForGroupRepository;
         private readonly ILogger _logger;
 
-        public MarkUpdateDaemon(TimeSpan checkInterval, GoogleTableUpdateService googleTableUpdateService, ISubjectForGroupRepository subjectForGroupRepository, ILogger logger) : base(checkInterval)
+        public MarkUpdateDaemon(GoogleTableUpdateService googleTableUpdateService, ISubjectForGroupRepository subjectForGroupRepository, ILogger logger)
         {
             _googleTableUpdateService = googleTableUpdateService;
             _subjectForGroupRepository = subjectForGroupRepository;
             _logger = logger;
         }
 
-        public override void Execute()
+        public void Execute()
         {
             try
             {

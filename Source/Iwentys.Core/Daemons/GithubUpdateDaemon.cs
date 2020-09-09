@@ -5,17 +5,17 @@ using Iwentys.Database.Repositories.Abstractions;
 
 namespace Iwentys.Core.Daemons
 {
-    class GithubUpdateDaemon : DaemonWorker
+    public class GithubUpdateDaemon
     {
         private readonly IGithubUserDataService _githubUserDataService;
         private readonly IStudentRepository _studentRepository;
-        public GithubUpdateDaemon(TimeSpan checkInterval, IGithubUserDataService githubUserDataService, IStudentRepository studentRepository) : base(checkInterval)
+        public GithubUpdateDaemon(IGithubUserDataService githubUserDataService, IStudentRepository studentRepository)
         {
             _githubUserDataService = githubUserDataService;
             _studentRepository = studentRepository;
         }
 
-        public override void Execute()
+        public void Execute()
         {
             foreach (var student in _studentRepository.Read().Where(s => s.GithubUsername != null))
             {
