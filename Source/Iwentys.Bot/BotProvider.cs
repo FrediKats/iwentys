@@ -1,5 +1,6 @@
 using Iwentys.ClientBot.ApiSdk;
 using Iwentys.ClientBot.Commands.Student;
+using Iwentys.ClientBot.Commands.Tools;
 using Iwentys.ClientBot.Tools;
 using Serilog;
 using Tef.BotFramework.Core;
@@ -14,6 +15,7 @@ namespace Iwentys.ClientBot
         {
             var identifier = new UserIdentifier();
             var apiProvider = new IwentysApiProvider(apiHostUrl);
+            var identifier = new UserIdentifier(apiProvider);
 
             var telegramApiProvider = new TelegramApiProvider(settings);
             Bot botInstance = new Bot(telegramApiProvider)
