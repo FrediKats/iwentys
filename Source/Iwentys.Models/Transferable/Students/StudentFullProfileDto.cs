@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Tools;
 
@@ -38,6 +39,20 @@ namespace Iwentys.Models.Transferable.Students
                 .Range(1, 12)
                 .Select(i => new DateTime(2020, i, 1))
                 .SelectToList(v => new CodingActivityInfoDto {Month = $"{v:M}", Activity = random.Next() % 100});
+        }
+
+        public string FormatFullInfo()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append(Format());
+            if (!string.IsNullOrWhiteSpace(Group))
+                builder.Append($" ({Group})");
+            if (!string.IsNullOrWhiteSpace(GuildName))
+                builder.Append($"\nGuild: {GuildName}");
+            if (!string.IsNullOrWhiteSpace(GithubUsername))
+                builder.Append($"\nGithub: {GithubUsername}");
+
+            return builder.ToString();
         }
     }
 }

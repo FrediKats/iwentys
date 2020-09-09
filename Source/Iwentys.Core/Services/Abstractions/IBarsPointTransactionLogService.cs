@@ -1,5 +1,6 @@
 ﻿using Iwentys.Models.Entities;
 using Iwentys.Models.Tools;
+using Tef.BotFramework.Common;
 
 namespace Iwentys.Core.Services.Abstractions
 {
