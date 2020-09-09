@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Repositories.Abstractions;
 

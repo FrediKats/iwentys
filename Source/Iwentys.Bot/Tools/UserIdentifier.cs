@@ -1,17 +1,14 @@
 ﻿using System.Collections.Generic;
-using Iwentys.ClientBot.ApiSdk;
 using Iwentys.Core.DomainModel;
 
 namespace Iwentys.ClientBot.Tools
 {
     public class UserIdentifier
     {
-        private IwentysApiProvider _api;
         private readonly Dictionary<int, int> _usersByTelegramId;
 
-        public UserIdentifier(IwentysApiProvider api)
+        public UserIdentifier()
         {
-            _api = api;
             _usersByTelegramId = new Dictionary<int, int>();
         }
 

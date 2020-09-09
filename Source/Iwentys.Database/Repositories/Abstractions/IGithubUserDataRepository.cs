@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Iwentys.Models.Entities;
+﻿using Iwentys.Models.Entities;
 
 namespace Iwentys.Database.Repositories.Abstractions
 {

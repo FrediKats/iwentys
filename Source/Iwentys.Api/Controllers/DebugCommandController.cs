@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -76,10 +77,13 @@ namespace Iwentys.Api.Controllers
             var token = HttpContext.Request.Headers["Authorization"].ToString();
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var securityToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
+            if (tokenHandler.ReadToken(token) is JwtSecurityToken securityToken)
+            {
+                string stringClaimValue = securityToken.Claims.First(claim => claim.Type == ClaimTypes.UserData).Value;
+                return int.Parse(stringClaimValue, CultureInfo.InvariantCulture);
+            }
 
-            string stringClaimValue = securityToken.Claims.First(claim => claim.Type == ClaimTypes.UserData).Value;
-            return Int32.Parse(stringClaimValue);
+            throw new Exception("Invalid token");
         }
 
 

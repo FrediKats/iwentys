@@ -4,7 +4,6 @@ using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Guilds;
-using Iwentys.Models.Transferable.Voting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Api.Controllers
@@ -122,14 +121,6 @@ namespace Iwentys.Api.Controllers
             return Ok();
         }
 
-        [HttpPost("{guildId}/VotingForLeader")]
-        public IActionResult VotingForLeader(int guildId, [FromBody] GuildLeaderVotingCreateDto guildLeaderVotingCreateDto)
-        {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
-            _guildService.StartVotingForLeader(user, guildId, guildLeaderVotingCreateDto);
-            return Ok();
-        }
-
         [HttpPost("{guildId}/pinned")]
         public ActionResult<GithubRepository> AddPinnedProject([FromRoute]int guildId, [FromBody]CreateProjectDto createProject)
         {
@@ -140,7 +131,7 @@ namespace Iwentys.Api.Controllers
         [HttpDelete("{guildId}/pinned")]
         public ActionResult DeletePinnedProject(int guildId, [FromBody] int repositoryId)
         {
-            //TODO: check
+            //TODO: Need to rework all links between GithubRepository, Student project and PinnedRepository
             AuthorizedUser user = AuthorizedUser.DebugAuth();
             _guildService.UnpinProject(user, repositoryId);
             return Ok();

@@ -9,7 +9,6 @@ using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Database.Repositories.Implementations;
 using Iwentys.IsuIntegrator;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Companies;

@@ -52,6 +52,7 @@ namespace Iwentys.Api
             ApplicationOptions.GoogleServiceToken = Configuration["GoogleTableCredentials"];
             ApplicationOptions.GithubToken = Configuration["GithubToken"];
             ApplicationOptions.TelegramToken = Configuration["TelegramToken"];
+            ApplicationOptions.SigningSecurityKey = Configuration["SigningSecurityKey"];
 
             if (ApplicationOptions.GithubToken is null)
                 services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();

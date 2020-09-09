@@ -2,7 +2,6 @@
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Guilds;
-using Iwentys.Models.Transferable.Voting;
 
 namespace Iwentys.Core.Services.Abstractions
 {
@@ -29,8 +28,6 @@ namespace Iwentys.Core.Services.Abstractions
         void KickGuildMember(AuthorizedUser user, int guildId, int memberId);
         void AcceptRequest(AuthorizedUser user, int guildId, int studentId);
         void RejectRequest(AuthorizedUser user, int guildId, int studentId);
-
-        VotingInfoDto StartVotingForLeader(AuthorizedUser creator, int guildId, GuildLeaderVotingCreateDto votingCreateDto);
 
         GithubRepository AddPinnedRepository(AuthorizedUser user, int guildId, string owner, string projectName);
         void UnpinProject(AuthorizedUser user, int pinnedProjectId);

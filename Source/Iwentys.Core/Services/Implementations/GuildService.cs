@@ -14,7 +14,6 @@ using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Guilds;
-using Iwentys.Models.Transferable.Voting;
 using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Core.Services.Implementations
@@ -262,11 +261,6 @@ namespace Iwentys.Core.Services.Implementations
                 throw InnerLogicException.Guild.RequestWasNotFound(studentId, guildId);
 
             _guildRepository.RemoveMember(guildId, studentId);
-        }
-
-        public VotingInfoDto StartVotingForLeader(AuthorizedUser user, int guildId, GuildLeaderVotingCreateDto votingCreateDto)
-        {
-            throw new System.NotImplementedException();
         }
 
         public GithubRepository AddPinnedRepository(AuthorizedUser user, int guildId, string owner, string projectName)

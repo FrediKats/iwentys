@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;

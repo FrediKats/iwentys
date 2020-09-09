@@ -3,7 +3,6 @@ using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;
-using Iwentys.Models.Tools;
 using Tef.BotFramework.Common;
 
 namespace Iwentys.Core.Services.Implementations
