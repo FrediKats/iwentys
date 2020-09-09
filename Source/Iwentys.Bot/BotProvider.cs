@@ -1,4 +1,4 @@
-﻿using Iwentys.ClientBot.ApiSdk;
+using Iwentys.ClientBot.ApiSdk;
 using Iwentys.ClientBot.Commands.Student;
 using Iwentys.ClientBot.Tools;
 using Serilog;
@@ -19,6 +19,7 @@ namespace Iwentys.ClientBot
             Bot botInstance = new Bot(telegramApiProvider)
                 .AddCommand(new GetAllStudentsCommand(apiProvider.StudentApi))
                 .AddCommand(new GetCurrentStudentCommand(apiProvider.StudentApi, identifier))
+                .AddCommand(new SetCurrentUserCommand(identifier))
                 .AddLogger(logger)
                 .SetPrefix('/');
 
