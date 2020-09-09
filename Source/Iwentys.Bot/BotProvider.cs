@@ -1,4 +1,5 @@
 ﻿using Iwentys.ClientBot.ApiSdk;
+using Iwentys.ClientBot.Commands.Guild;
 using Iwentys.ClientBot.Commands.Student;
 using Iwentys.ClientBot.Commands.StudentLeaderboard;
 using Iwentys.ClientBot.Commands.Tools;
@@ -23,6 +24,7 @@ namespace Iwentys.ClientBot
                 .AddCommand(new GetCurrentStudentCommand(apiProvider.StudentApi, identifier))
                 .AddCommand(new UpdateStudentGithubUsernameCommand(apiProvider, identifier))
                 .AddCommand(new GetStudentsRatingCommand(apiProvider))
+                .AddCommand(new GetGuildsCommand(apiProvider))
                 .AddLogger(logger)
                 .SetPrefix('/');
 

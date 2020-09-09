@@ -10,5 +10,10 @@ namespace Iwentys.Models.Tools
         {
             return Result.Ok(string.Join("\n", data.Select(c => c.Format())));
         }
+
+        public static Result<string> FormatAsList(IEnumerable<IResultFormat> data)
+        {
+            return Result.Ok(string.Join("\n", data.Select((c, i) => $"{i + 1}. {c.Format()}")));
+        }
     }
 }
