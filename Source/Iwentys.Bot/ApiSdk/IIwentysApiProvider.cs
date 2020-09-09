@@ -6,11 +6,13 @@ namespace Iwentys.ClientBot.ApiSdk
     {
         public IIwentysStudentApi StudentApi { get; set; }
         public IIwentysDebugCommandApi DebugCommand { get; set; }
+        public IStudyLeaderboardApi LeaderboardApi { get; set; }
 
         public IwentysApiProvider(string hostUrl)
         {
             StudentApi = RestService.For<IIwentysStudentApi>(hostUrl);
             DebugCommand = RestService.For<IIwentysDebugCommandApi>(hostUrl);
+            LeaderboardApi = RestService.For<IStudyLeaderboardApi>(hostUrl);
         }
     }
 }

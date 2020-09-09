@@ -1,5 +1,6 @@
 ﻿using Iwentys.ClientBot.ApiSdk;
 using Iwentys.ClientBot.Commands.Student;
+using Iwentys.ClientBot.Commands.StudentLeaderboard;
 using Iwentys.ClientBot.Commands.Tools;
 using Iwentys.ClientBot.Tools;
 using Serilog;
@@ -21,10 +22,13 @@ namespace Iwentys.ClientBot
                 .AddCommand(new GetAllStudentsCommand(apiProvider.StudentApi))
                 .AddCommand(new GetCurrentStudentCommand(apiProvider.StudentApi, identifier))
                 .AddCommand(new UpdateStudentGithubUsernameCommand(apiProvider, identifier))
-                //TODO: remove
-                .AddCommand(new SetCurrentUserCommand(identifier))
+                .AddCommand(new GetStudentsRatingCommand(apiProvider))
                 .AddLogger(logger)
                 .SetPrefix('/');
+
+            //TODO: debug methods
+            botInstance
+                .AddCommand(new SetCurrentUserCommand(identifier));
 
             return botInstance;
         }

@@ -55,8 +55,7 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet("GetStudentsRating")]
-        public ActionResult<IEnumerable<SubjectActivity>> GetStudentsRating(int? subjectId, int? streamId, int? groupId,
-            StudySemester? semester)
+        public ActionResult<List<StudyLeaderboardRow>> GetStudentsRating(int? subjectId, int? streamId, int? groupId, StudySemester? semester)
         {
             return Ok(_studyLeaderboardService.GetStudentsRatings(new StudySearchDto
             {

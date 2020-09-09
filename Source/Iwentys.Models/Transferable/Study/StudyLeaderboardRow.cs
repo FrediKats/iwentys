@@ -6,8 +6,12 @@ using Iwentys.Models.Transferable.Students;
 
 namespace Iwentys.Models.Transferable.Study
 {
-    public class StudyLeaderboardRow
+    public class StudyLeaderboardRow : IResultFormat
     {
+        public StudyLeaderboardRow()
+        {
+        }
+
         public StudyLeaderboardRow(IEnumerable<SubjectActivity> activity)
         {
             List<SubjectActivity> activity1 = activity.ToList();
@@ -17,5 +21,10 @@ namespace Iwentys.Models.Transferable.Study
         
         public StudentPartialProfileDto Student { get; set; }
         public double Activity { get; set; }
+        
+        public string Format()
+        {
+            return $"{Student.GetFullName()} - {Activity}";
+        }
     }
 }

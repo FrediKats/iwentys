@@ -30,6 +30,11 @@ namespace Iwentys.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            ApplicationOptions.GoogleServiceToken = Configuration["GoogleTableCredentials"];
+            ApplicationOptions.GithubToken = Configuration["GithubToken"];
+            ApplicationOptions.TelegramToken = Configuration["TelegramToken"];
+            ApplicationOptions.SigningSecurityKey = Configuration["SigningSecurityKey"];
+
             //TODO: Temp fix for CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
             {
@@ -48,11 +53,6 @@ namespace Iwentys.Api
 
             services.AddDbContext<IwentysDbContext>(o => o.UseSqlite("Data Source=Iwentys.db")
                 .EnableSensitiveDataLogging(Configuration.GetValue<bool>("Logging:EnableSqlParameterLogging")));
-
-            ApplicationOptions.GoogleServiceToken = Configuration["GoogleTableCredentials"];
-            ApplicationOptions.GithubToken = Configuration["GithubToken"];
-            ApplicationOptions.TelegramToken = Configuration["TelegramToken"];
-            ApplicationOptions.SigningSecurityKey = Configuration["SigningSecurityKey"];
 
             if (ApplicationOptions.GithubToken is null)
                 services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();

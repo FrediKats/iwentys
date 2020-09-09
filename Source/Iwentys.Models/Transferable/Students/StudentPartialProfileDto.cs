@@ -17,7 +17,7 @@ namespace Iwentys.Models.Transferable.Students
         public DateTime LastOnlineTime { get; set; }
         public int BarsPoints { get; set; }
 
-        protected StudentPartialProfileDto()
+        public StudentPartialProfileDto()
         {
         }
 
@@ -36,7 +36,12 @@ namespace Iwentys.Models.Transferable.Students
 
         public string Format()
         {
-            return $"{Id} {FirstName} {SecondName}";
+            return $"{Id} {GetFullName()}";
+        }
+
+        public string GetFullName()
+        {
+            return $"{FirstName} {SecondName}";
         }
     }
 }
