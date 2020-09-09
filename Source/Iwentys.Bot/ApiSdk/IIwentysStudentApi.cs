@@ -14,6 +14,6 @@ namespace Iwentys.ClientBot.ApiSdk
         Task<StudentFullProfileDto> Get(int id);
 
         [Post("/api/student")]
-        Task<StudentFullProfileDto> Update(StudentUpdateDto studentUpdateDto);
+        Task<StudentFullProfileDto> Update(StudentUpdateDto studentUpdateDto, [Header("Authorization")] string token);
     }
 }

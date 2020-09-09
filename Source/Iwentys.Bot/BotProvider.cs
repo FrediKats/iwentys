@@ -1,4 +1,4 @@
-using Iwentys.ClientBot.ApiSdk;
+﻿using Iwentys.ClientBot.ApiSdk;
 using Iwentys.ClientBot.Commands.Student;
 using Iwentys.ClientBot.Commands.Tools;
 using Iwentys.ClientBot.Tools;
@@ -13,7 +13,6 @@ namespace Iwentys.ClientBot
     {
         public static Bot Init(string apiHostUrl, IGetSettings<TelegramSettings> settings, ILogger logger)
         {
-            var identifier = new UserIdentifier();
             var apiProvider = new IwentysApiProvider(apiHostUrl);
             var identifier = new UserIdentifier(apiProvider);
 
@@ -21,6 +20,8 @@ namespace Iwentys.ClientBot
             Bot botInstance = new Bot(telegramApiProvider)
                 .AddCommand(new GetAllStudentsCommand(apiProvider.StudentApi))
                 .AddCommand(new GetCurrentStudentCommand(apiProvider.StudentApi, identifier))
+                .AddCommand(new UpdateStudentGithubUsernameCommand(apiProvider, identifier))
+                //TODO: remove
                 .AddCommand(new SetCurrentUserCommand(identifier))
                 .AddLogger(logger)
                 .SetPrefix('/');
