@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
+using FluentResults;
 using Iwentys.ClientBot.ApiSdk;
 using Iwentys.ClientBot.Tools;
 using Iwentys.Core.DomainModel;
 using Iwentys.Models.Transferable.Students;
 using Tef.BotFramework.Abstractions;
-using Tef.BotFramework.Common;
+using Tef.BotFramework.Core;
 
 namespace Iwentys.ClientBot.Commands.Student
 {
@@ -29,7 +30,7 @@ namespace Iwentys.ClientBot.Commands.Student
             AuthorizedUser currentUser = _userIdentifier.GetUser(args.Sender.UserSenderId);
             string token = await _iwentysApi.DebugCommand.LoginOrCreate(currentUser.Id);
             StudentFullProfileDto profile = await _iwentysApi.StudentApi.Update(new StudentUpdateDto { GithubUsername = args.Arguments[0]}, token);
-            return ResultHelper.Of(profile.FormatFullInfo());
+            return Result.Ok(profile.FormatFullInfo());
         }
 
         public string CommandName { get; } = nameof(UpdateStudentGithubUsernameCommand);

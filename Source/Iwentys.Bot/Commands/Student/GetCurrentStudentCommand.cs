@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
+using FluentResults;
 using Iwentys.ClientBot.ApiSdk;
 using Iwentys.ClientBot.Tools;
 using Iwentys.Core.DomainModel;
 using Iwentys.Models.Transferable.Students;
 using Tef.BotFramework.Abstractions;
-using Tef.BotFramework.Common;
+using Tef.BotFramework.Core;
 
 namespace Iwentys.ClientBot.Commands.Student
 {
@@ -29,7 +30,7 @@ namespace Iwentys.ClientBot.Commands.Student
         {
             AuthorizedUser currentUser = _userIdentifier.GetUser(args.Sender.UserSenderId);
             StudentFullProfileDto profile = await _iwentysStudentApi.Get(currentUser.Id);
-            return ResultHelper.Of(profile.FormatFullInfo());
+            return Result.Ok(profile.FormatFullInfo());
         }
 
         public string CommandName => nameof(GetCurrentStudentCommand);

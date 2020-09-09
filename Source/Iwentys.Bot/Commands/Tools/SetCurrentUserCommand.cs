@@ -1,7 +1,8 @@
 ﻿using System.Threading.Tasks;
+using FluentResults;
 using Iwentys.ClientBot.Tools;
 using Tef.BotFramework.Abstractions;
-using Tef.BotFramework.Common;
+using Tef.BotFramework.Core;
 
 namespace Iwentys.ClientBot.Commands.Tools
 {
@@ -22,7 +23,7 @@ namespace Iwentys.ClientBot.Commands.Tools
         public Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
             _userIdentifier.SetUser(args.Sender.UserSenderId, int.Parse(args.Arguments[0]));
-            return Task.FromResult(ResultHelper.Of($"New student id set: {args.Arguments[0]}"));
+            return Task.FromResult(Result.Ok($"New student id set: {args.Arguments[0]}"));
         }
 
         public string CommandName { get; } = nameof(SetCurrentUserCommand);
