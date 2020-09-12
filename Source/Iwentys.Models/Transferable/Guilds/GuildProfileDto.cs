@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Models.Entities.Github;
-using Iwentys.Models.Transferable.Students;
+using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Models.Transferable.Guilds
 {
-    public class GuildProfileDto : GuildProfileShortInfoDto
+    public class GuildProfileDto : GuildProfilePreviewDto
     {
-        public StudentPartialProfileDto Leader { get; set; }
-
         public GuildMemberLeaderBoard MemberLeaderBoard { get; set; }
 
         //TODO: add newsfeeds
@@ -17,5 +15,14 @@ namespace Iwentys.Models.Transferable.Guilds
         public List<GithubRepository> PinnedRepositories { get; set; }
 
         public UserMembershipState UserMembershipState { get; set; }
+
+        public GuildProfileDto() : base()
+        {
+        }
+
+        public GuildProfileDto(Guild guild) : base(guild)
+        {
+            
+        }
     }
 }

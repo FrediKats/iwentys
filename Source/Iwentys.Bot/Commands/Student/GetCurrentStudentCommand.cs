@@ -23,7 +23,7 @@ namespace Iwentys.ClientBot.Commands.Student
 
         public Result CanExecute(CommandArgumentContainer args)
         {
-            AuthorizedUser currentUser = _userIdentifier.FindUser(args.Sender.UserSenderId);
+            AuthorizedUser currentUser = _userIdentifier.GetUser(args.Sender.UserSenderId);
             if (currentUser is null)
                 return Result.Fail("Current user is not set");
 
@@ -32,7 +32,7 @@ namespace Iwentys.ClientBot.Commands.Student
 
         public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            AuthorizedUser currentUser = _userIdentifier.FindUser(args.Sender.UserSenderId);
+            AuthorizedUser currentUser = _userIdentifier.GetUser(args.Sender.UserSenderId);
             StudentFullProfileDto profile = await _iwentysStudentApi.Get(currentUser.Id);
             return Result.Ok(profile.FormatFullInfo());
         }

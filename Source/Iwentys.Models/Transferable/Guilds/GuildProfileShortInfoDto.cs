@@ -1,4 +1,5 @@
-﻿using Iwentys.Models.Types.Guilds;
+﻿using Iwentys.Models.Entities.Guilds;
+using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Models.Transferable.Guilds
 {
@@ -10,7 +11,20 @@ namespace Iwentys.Models.Transferable.Guilds
         public string LogoUrl { get; set; }
         public string TestTaskLink { get; set; }
 
-
         public GuildHiringPolicy HiringPolicy { get; set; }
+
+        public GuildProfileShortInfoDto()
+        {
+        }
+
+        public GuildProfileShortInfoDto(Guild guild) : this()
+        {
+            Id = guild.Id;
+            Title = guild.Title;
+            Bio = guild.Bio;
+            LogoUrl = guild.LogoUrl;
+            TestTaskLink = guild.TestTaskLink;
+            HiringPolicy = guild.HiringPolicy;
+        }
     }
 }

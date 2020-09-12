@@ -34,29 +34,18 @@ namespace Iwentys.Core.DomainModel.Guilds
 
         public GuildProfileShortInfoDto ToGuildProfileShortInfoDto()
         {
-            return new GuildProfileShortInfoDto
-            {
-                Id = _profile.Id,
-                Bio = _profile.Bio,
-                HiringPolicy = _profile.HiringPolicy,
-                LogoUrl = _profile.LogoUrl,
-                TestTaskLink = _profile.TestTaskLink,
-                Title = _profile.Title,
-            };
+            return new GuildProfileShortInfoDto(_profile);
         }
 
         public GuildProfileDto ToGuildProfileDto(int? userId = null)
         {
-            var info = new GuildProfileDto
+            GuildMemberLeaderBoard dashboard = GetMemberDashboard();
+
+            var info = new GuildProfileDto(_profile)
             {
-                Id = _profile.Id,
-                Bio = _profile.Bio,
-                HiringPolicy = _profile.HiringPolicy,
-                LogoUrl = _profile.LogoUrl,
-                TestTaskLink = _profile.TestTaskLink,
-                Title = _profile.Title,
                 Leader = _profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentPartialProfileDto(s)),
-                MemberLeaderBoard = GetMemberDashboard(),
+                MemberLeaderBoard = dashboard,
+                Rating = dashboard.TotalRate,
                 PinnedRepositories = _profile.PinnedProjects.SelectToList(p => _githubUserDataService.GetCertainRepository(p.RepositoryOwner, p.RepositoryName)),
                 Achievements = _profile.Achievements.SelectToList(AchievementInfoDto.Wrap)
             };
@@ -71,12 +60,8 @@ namespace Iwentys.Core.DomainModel.Guilds
 
         public GuildProfilePreviewDto ToGuildProfilePreviewDto()
         {
-            return new GuildProfilePreviewDto()
+            return new GuildProfilePreviewDto(_profile)
             {
-                Id = _profile.Id,
-                Title = _profile.Title,
-                LogoUrl = _profile.LogoUrl,
-                TestTaskLink = _profile.TestTaskLink,
                 Leader = _profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentPartialProfileDto(s)),
                 Rating = GetMemberDashboard().TotalRate
             };
