@@ -15,9 +15,15 @@ namespace Iwentys.ClientBot.Commands.Tools
             _userIdentifier = userIdentifier;
         }
 
-        public bool CanExecute(CommandArgumentContainer args)
+        public Result CanExecute(CommandArgumentContainer args)
         {
-            return true;
+            if (args.Arguments.Count != Args.Length)
+                return Result.Fail("Wrong argument count");
+
+            if (!int.TryParse(args.Arguments[0], out _))
+                return Result.Fail("Argument must be int value (streamId)");
+
+            return Result.Ok();
         }
 
         public Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)

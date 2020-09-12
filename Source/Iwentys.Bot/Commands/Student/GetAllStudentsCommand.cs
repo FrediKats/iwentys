@@ -19,9 +19,9 @@ namespace Iwentys.ClientBot.Commands.Student
             _iwentysStudentApi = iwentysStudentApi;
         }
 
-        public bool CanExecute(CommandArgumentContainer args)
+        public Result CanExecute(CommandArgumentContainer args)
         {
-            return true;
+            return Result.Ok();
         }
 
         public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)

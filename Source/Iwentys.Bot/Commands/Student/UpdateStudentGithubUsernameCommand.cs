@@ -20,14 +20,17 @@ namespace Iwentys.ClientBot.Commands.Student
             _userIdentifier = userIdentifier;
         }
 
-        public bool CanExecute(CommandArgumentContainer args)
+        public Result CanExecute(CommandArgumentContainer args)
         {
-            return true;
+            if (args.Arguments.Count != Args.Length)
+                return Result.Fail("Wrong argument count");
+
+            return Result.Ok();
         }
 
         public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            AuthorizedUser currentUser = _userIdentifier.GetUser(args.Sender.UserSenderId);
+            AuthorizedUser currentUser = _userIdentifier.FindUser(args.Sender.UserSenderId);
             string token = await _iwentysApi.DebugCommand.LoginOrCreate(currentUser.Id);
             StudentFullProfileDto profile = await _iwentysApi.StudentApi.Update(new StudentUpdateDto { GithubUsername = args.Arguments[0]}, token);
             return Result.Ok(profile.FormatFullInfo());

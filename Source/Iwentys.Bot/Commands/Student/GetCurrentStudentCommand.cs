@@ -21,14 +21,18 @@ namespace Iwentys.ClientBot.Commands.Student
             _userIdentifier = userIdentifier;
         }
 
-        public bool CanExecute(CommandArgumentContainer args)
+        public Result CanExecute(CommandArgumentContainer args)
         {
-            return true;
+            AuthorizedUser currentUser = _userIdentifier.FindUser(args.Sender.UserSenderId);
+            if (currentUser is null)
+                return Result.Fail("Current user is not set");
+
+            return Result.Ok();
         }
 
         public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            AuthorizedUser currentUser = _userIdentifier.GetUser(args.Sender.UserSenderId);
+            AuthorizedUser currentUser = _userIdentifier.FindUser(args.Sender.UserSenderId);
             StudentFullProfileDto profile = await _iwentysStudentApi.Get(currentUser.Id);
             return Result.Ok(profile.FormatFullInfo());
         }
