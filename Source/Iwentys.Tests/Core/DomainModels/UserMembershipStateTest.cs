@@ -100,6 +100,7 @@ namespace Iwentys.Tests.Core.DomainModels
                 null,
                 null,
                 null,
+                null,
                 null);
 
             _guildDomain = new GuildDomain(_guild, databaseAccessor, _githubUserDataService.Object, null);

@@ -136,5 +136,13 @@ namespace Iwentys.Api.Controllers
             _guildService.UnpinProject(user, repositoryId);
             return Ok();
         }
+
+        [HttpPost("{guildId}/AcceptTestTask")]
+        public ActionResult<GithubRepository> AcceptTestTask([FromRoute] int guildId)
+        {
+            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            _guildService.AcceptTestTask(user, guildId);
+            return Ok();
+        }
     }
 }

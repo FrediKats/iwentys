@@ -21,6 +21,7 @@ namespace Iwentys.Database.Context
         public DbSet<GuildPinnedProject> GuildPinnedProjects { get; set; }
         public DbSet<Tournament> Tournaments { get; set; }
         public DbSet<Tribute> Tributes { get; set; }
+        public DbSet<GuildTestTaskSolvingInfoEntity> GuildTestTaskSolvingInfos { get; set; }
 
         #endregion
 
@@ -81,6 +82,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<StudentAchievementEntity>().HasKey(a => new {a.AchievementId, a.StudentId});
             modelBuilder.Entity<GuildAchievementModel>().HasKey(a => new {a.AchievementId, a.GuildId});
             modelBuilder.Entity<QuestResponseEntity>().HasKey(a => new {a.QuestId, a.StudentId});
+            modelBuilder.Entity<GuildTestTaskSolvingInfoEntity>().HasKey(a => new {a.GuildId, a.StudentId});
         }
 
         private void SetUniqKey(ModelBuilder modelBuilder)
