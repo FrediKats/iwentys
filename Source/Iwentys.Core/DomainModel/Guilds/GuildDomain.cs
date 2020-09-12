@@ -40,6 +40,7 @@ namespace Iwentys.Core.DomainModel.Guilds
                 Bio = _profile.Bio,
                 HiringPolicy = _profile.HiringPolicy,
                 LogoUrl = _profile.LogoUrl,
+                TestTaskLink = _profile.TestTaskLink,
                 Title = _profile.Title,
             };
         }
@@ -52,6 +53,7 @@ namespace Iwentys.Core.DomainModel.Guilds
                 Bio = _profile.Bio,
                 HiringPolicy = _profile.HiringPolicy,
                 LogoUrl = _profile.LogoUrl,
+                TestTaskLink = _profile.TestTaskLink,
                 Title = _profile.Title,
                 Leader = _profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentPartialProfileDto(s)),
                 MemberLeaderBoard = GetMemberDashboard(),
@@ -69,16 +71,15 @@ namespace Iwentys.Core.DomainModel.Guilds
 
         public GuildProfilePreviewDto ToGuildProfilePreviewDto()
         {
-            var info = new GuildProfilePreviewDto()
+            return new GuildProfilePreviewDto()
             {
                 Id = _profile.Id,
                 Title = _profile.Title,
                 LogoUrl = _profile.LogoUrl,
+                TestTaskLink = _profile.TestTaskLink,
                 Leader = _profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentPartialProfileDto(s)),
                 Rating = GetMemberDashboard().TotalRate
             };
-
-            return info;
         }
 
         public GuildMemberLeaderBoard GetMemberDashboard()

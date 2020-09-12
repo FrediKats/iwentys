@@ -76,6 +76,7 @@ namespace Iwentys.Core.Services.Implementations
 
             info.Bio = arguments.Bio ?? info.Bio;
             info.LogoUrl = arguments.LogoUrl ?? info.LogoUrl;
+            info.TestTaskLink = arguments.TestTaskLink ?? info.TestTaskLink;
             info.HiringPolicy = arguments.HiringPolicy ?? info.HiringPolicy;
 
             if (arguments.HiringPolicy == GuildHiringPolicy.Open)

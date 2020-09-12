@@ -9,6 +9,7 @@ namespace Iwentys.Models.Transferable.Guilds
         public int Id { get; set; }
         public string Title { get; set; }
         public string LogoUrl { get; set; }
+        public string TestTaskLink { get; set; }
 
         public StudentPartialProfileDto Leader { get; set; }
         public Int32 Rating { get; set; }
