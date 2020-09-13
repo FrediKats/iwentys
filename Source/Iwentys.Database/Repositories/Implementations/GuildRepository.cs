@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
+using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Types.Guilds;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -19,46 +22,66 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext = dbContext;
         }
 
-        public Guild Create(Guild entity)
-        {
-            EntityEntry<Guild> createdEntity = _dbContext.Guilds.Add(entity);
-            _dbContext.SaveChanges();
-            return createdEntity.Entity;
-        }
-
-        public IQueryable<Guild> Read()
+        public IQueryable<GuildEntity> Read()
         {
             return _dbContext.Guilds
                 .Include(g => g.Members)
                 .ThenInclude(gm => gm.Member)
                 .Include(g => g.PinnedProjects)
+                .Include(g => g.Achievements)
+                .ThenInclude(a => a.Achievement)
+                .Include(g => g.TestTasks)
                 .Where(g => g.GuildType == GuildType.Created);
         }
 
-        public Guild ReadById(int key)
+        public GuildEntity ReadById(int key)
         {
             return _dbContext.Guilds
                 .Include(g => g.Members)
                 .ThenInclude(gm => gm.Member)
                 .Include(g => g.PinnedProjects)
+                .Include(g => g.Achievements)
+                .ThenInclude(a => a.Achievement)
+                .Include(g => g.TestTasks)
                 .FirstOrDefault(g => g.Id == key);
         }
 
-        public Guild Update(Guild entity)
+        public GuildEntity Update(GuildEntity entity)
         {
-            EntityEntry<Guild> createdEntity = _dbContext.Guilds.Update(entity);
+            EntityEntry<GuildEntity> createdEntity = _dbContext.Guilds.Update(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
         public void Delete(int key)
         {
-            Guild user = this.Get(key);
+            GuildEntity user = this.Get(key);
             _dbContext.Guilds.Remove(user);
             _dbContext.SaveChanges();
         }
 
-        public Guild[] ReadPending()
+        public GuildEntity Create(StudentEntity creator, GuildCreateArgumentDto arguments)
+        {
+            var newGuild = new GuildEntity
+            {
+                Bio = arguments.Bio,
+                HiringPolicy = arguments.HiringPolicy,
+                LogoUrl = arguments.LogoUrl,
+                Title = arguments.Title,
+                GuildType = GuildType.Pending
+            };
+
+            newGuild.Members = new List<GuildMemberEntity>
+            {
+                new GuildMemberEntity(newGuild, creator, GuildMemberType.Creator)
+            };
+
+            EntityEntry<GuildEntity> createdEntity = _dbContext.Guilds.Add(newGuild);
+            _dbContext.SaveChanges();
+            return createdEntity.Entity;
+        }
+
+        public GuildEntity[] ReadPending()
         {
             return _dbContext.Guilds
                 .Include(g => g.Members)
@@ -67,7 +90,7 @@ namespace Iwentys.Database.Repositories.Implementations
                 .ToArray();
         }
 
-        public Guild ReadForStudent(int studentId)
+        public GuildEntity ReadForStudent(int studentId)
         {
             return _dbContext.GuildMembers
                 .Where(gm => gm.MemberId == studentId)
@@ -78,11 +101,6 @@ namespace Iwentys.Database.Repositories.Implementations
                 .SingleOrDefault();
         }
 
-        public Guild ReadForTotem(int totemId)
-        {
-            return _dbContext.Guilds.SingleOrDefault(g => g.TotemId == totemId);
-        }
-
         public Boolean IsStudentHaveRequest(Int32 studentId)
         {
             return !_dbContext.GuildMembers
@@ -90,32 +108,47 @@ namespace Iwentys.Database.Repositories.Implementations
                 .Any(m => m.MemberType == GuildMemberType.Requested);
         }
 
-        public GuildMember AddMember(GuildMember member)
+        public GuildMemberEntity AddMember(GuildEntity guild, StudentEntity student, GuildMemberType memberType)
         {
-            EntityEntry<GuildMember> addedEntity =  _dbContext.GuildMembers.Add(member);
-
+            EntityEntry<GuildMemberEntity> addedEntity = _dbContext.GuildMembers.Add(new GuildMemberEntity(guild, student, memberType));
             _dbContext.SaveChanges();
-
             return addedEntity.Entity;
         }
 
-        public GuildMember UpdateMember(GuildMember member)
+        public GuildMemberEntity UpdateMember(GuildMemberEntity member)
         {
-            EntityEntry<GuildMember> updatedEntity =  _dbContext.GuildMembers.Update(member);
+            EntityEntry<GuildMemberEntity> updatedEntity =  _dbContext.GuildMembers.Update(member);
 
             _dbContext.SaveChanges();
 
             return updatedEntity.Entity;
         }
 
-
         public void RemoveMember(int guildId, int userId)
         {
-            GuildMember guildMember = _dbContext.GuildMembers.Single(gm => gm.GuildId == guildId && gm.MemberId == userId);
+            GuildMemberEntity guildMember = _dbContext.GuildMembers.Single(gm => gm.GuildId == guildId && gm.MemberId == userId);
             if (guildMember.MemberType == GuildMemberType.Creator)
-                throw new InnerLogicException($"Creator can't leave guild. UserId: {userId}; GuildId: {guildId}");
+                throw InnerLogicException.Guild.CreatorCannotLeave(userId, guildId);
             _dbContext.GuildMembers.Remove(guildMember);
 
+            _dbContext.SaveChanges();
+        }
+
+        public GuildPinnedProjectEntity PinProject(int guildId, string owner, string projectName)
+        {
+            EntityEntry<GuildPinnedProjectEntity> entry = _dbContext.GuildPinnedProjects.Add(new GuildPinnedProjectEntity
+            {
+                GuildId = guildId,
+                RepositoryName = projectName,
+                RepositoryOwner = owner
+            });
+            _dbContext.SaveChanges();
+            return entry.Entity;
+        }
+
+        public void UnpinProject(int pinnedProjectId)
+        {
+            _dbContext.GuildPinnedProjects.Remove(_dbContext.GuildPinnedProjects.Find(pinnedProjectId));
             _dbContext.SaveChanges();
         }
     }

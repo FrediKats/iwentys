@@ -1,11 +1,14 @@
-﻿using Iwentys.Models.Entities.Guilds;
+﻿using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Guilds;
 
 namespace Iwentys.Database.Repositories.Abstractions
 {
-    public interface ITributeRepository : IGenericRepository<Tribute, int>
+    public interface ITributeRepository : IGenericRepository<TributeEntity, long>
     {
-        Tribute[] ReadForGuild(int guildId);
-        Tribute[] ReadStudentInGuildTributes(int guildId, int studentId);
-        Tribute ReadStudentActiveTribute(int guildId, int studentId);
+        TributeEntity Create(GuildEntity guild, GithubProjectEntity githubProject);
+
+        TributeEntity[] ReadForGuild(int guildId);
+        TributeEntity[] ReadStudentInGuildTributes(int guildId, int studentId);
+        TributeEntity ReadStudentActiveTribute(int guildId, int studentId);
     }
 }

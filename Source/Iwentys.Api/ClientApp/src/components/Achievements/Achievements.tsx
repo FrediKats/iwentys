@@ -12,15 +12,17 @@ export interface IAchievementsProps {
 
 export const Achievements: React.FC<IAchievementsProps> = ({achievements = []}) => {
     return (
-        <div>
+        <section>
             <h2>Достижения</h2>
-            <Row>
-                {achievements.slice(0, 2).map((achievement) => (
-                    <Card cover={<CoffeeOutlined/>} key={achievement.name}>
-                        <Meta title={achievement.name} description={achievement.description}/>
-                    </Card>))
-                }
-            </Row>
-        </div>
+            {achievements.length ? (
+                <Row>
+                    {achievements.slice(0, 2).map((achievement) => (
+                        <Card cover={<CoffeeOutlined/>} key={achievement.name}>
+                            <Meta title={achievement.name} description={achievement.description}/>
+                        </Card>))
+                    }
+                </Row>): <span>Тут пока пусто =(</span>
+            }
+        </section>
     );
 };

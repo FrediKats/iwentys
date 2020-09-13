@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
-using Iwentys.Models.Types.Github;
+using Iwentys.Models.Types;
 using Newtonsoft.Json;
 using Octokit;
 
@@ -12,16 +13,15 @@ namespace Iwentys.Core.GithubIntegration
 {
     public class GithubApiAccessor : IGithubApiAccessor
     {
-        private const string GithubContributionsApiUrl = "https://github-contributions-api.now.sh/v1/";
+        private const string GithubContributionsApiUrl = "https://github-contributions.now.sh/api/v1/";
 
         private readonly GitHubClient _client;
 
         public GithubApiAccessor()
         {
-            //TODO: Move token to repo secrets
             _client = new GitHubClient(new ProductHeaderValue("Iwentys"))
             {
-                Credentials = new Credentials(String.Empty)
+                Credentials = new Credentials(ApplicationOptions.GithubToken)
             };
         }
 
@@ -59,27 +59,22 @@ namespace Iwentys.Core.GithubIntegration
 
             string info = http.GetStringAsync(GithubContributionsApiUrl + githubUsername).Result;
             var result = JsonConvert.DeserializeObject<ActivityInfo>(info);
-            List<ContributionsInfo> perMonth = result
-                .Contributions
-                .GroupBy(c => c.Date.Substring(0, 7))
-                .Select(c => new ContributionsInfo(c.Key, c.Sum(_ => _.Count)))
-                .ToList();
 
             return new ContributionFullInfo
             {
-                PerMonthActivity = perMonth,
                 RawActivity = result
             };
         }
 
         public int GetUserActivity(string githubUsername, DateTime from, DateTime to)
         {
-            return GetUserActivity(githubUsername)
-                .RawActivity
-                .Contributions
-                .Select(c => (Date: DateTime.Parse(c.Date), c.Count))
-                .Where(c => c.Date >= from && c.Date <= to)
-                .Sum(c => c.Count);
+            return GetUserActivity(githubUsername).GetActivityForPeriod(from, to);
+        }
+
+        public Organization FindOrganizationInfo(string organizationName)
+        {
+            Organization organization = _client.Organization.Get(organizationName).Result;
+            return organization;
         }
     }
 }

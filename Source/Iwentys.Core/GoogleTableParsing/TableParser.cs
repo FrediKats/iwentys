@@ -3,6 +3,7 @@ using System.Linq;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Iwentys.Models.Types;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using static System.String;
 
@@ -10,12 +11,14 @@ namespace Iwentys.Core.GoogleTableParsing
 {
     public class TableParser : ITableParser
     {
-        private SheetsService _service;
+        private readonly ILogger _logger;
+        private readonly SheetsService _service;
+        private readonly TableStringHelper _helper;
         private ValueRange _data;
-        private TableStringHelper _helper;
 
-        public TableParser(SheetsService service, GoogleTableData tableData)
+        public TableParser(ILogger logger, SheetsService service, GoogleTableData tableData)
         {
+            _logger = logger;
             _service = service;
 
             _helper = new TableStringHelper(tableData);
@@ -37,25 +40,24 @@ namespace Iwentys.Core.GoogleTableParsing
             var result = new List<StudentSubjectScore>();
             foreach (var row in _data.Values)
             {
-                var group = row[_helper.GroupColumnNum];
                 var name = row[_helper.NameColumnNum];
                 var score = row[_helper.ScoreColumnNum];
-                if (group != null && name != null && score != null)
+                if (name != null && score != null)
                 {
-                    var fullName = Join(" ", _helper.NameColumns.Select(c => row[c]));
-                    result.Add(new StudentSubjectScore(
-                        _helper.GroupDefined ? _helper.GroupName : row[_helper.GroupColumnNum].ToString(),
-                        fullName,
-                        row[_helper.ScoreColumnNum].ToString()));
+                    string fullName = Join(" ", _helper.NameColumns.Select(c => row[c]));
+
+                    result.Add(new StudentSubjectScore(fullName,
+                        score.ToString()));
                 }
                 else
                 {
-                    //TODO: add logging
+                    _logger.LogWarning($"Missed data while parsing google table: tableId:{_helper.Id}");
                 }
             }
 
             return result;
         }
+
         public string GetStudentsJson()
         {
             var result = GetStudentsList();

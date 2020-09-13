@@ -1,8 +1,9 @@
 ﻿using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
+using Iwentys.Models.Transferable.Guilds;
+using Iwentys.Models.Transferable.GuildTribute;
 using Iwentys.Models.Types.Guilds;
 using Microsoft.AspNetCore.Mvc;
-
 
 namespace Iwentys.Api.Controllers
 {
@@ -10,46 +11,46 @@ namespace Iwentys.Api.Controllers
     [ApiController]
     public class GuildTributeController : ControllerBase
     {
-        private readonly IGuildService _guildService;
+        private readonly IGuildTributeService _guildService;
 
-        public GuildTributeController(IGuildService guildService)
+        public GuildTributeController(IGuildTributeService guildService)
         {
             _guildService = guildService;
         }
 
         [HttpGet]
-        public void GetPendingTributes()
+        public ActionResult<TributeInfoDto[]> GetPendingTributes()
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
-            _guildService.GetPendingTributes(user);
+            return Ok(_guildService.GetPendingTributes(user));
         }
 
         [HttpGet("GetFroStudent")]
-        public void GetStudentTributeResult()
+        public ActionResult<TributeInfoDto[]> GetStudentTributeResult()
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
-            _guildService.GetStudentTributeResult(user);
+            return Ok(_guildService.GetStudentTributeResult(user));
         }
 
         [HttpPost("create")]
-        public void SendTribute([FromBody] int projectId)
+        public ActionResult<TributeInfoDto> SendTribute([FromBody] CreateProjectDto createProject)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
-            _guildService.CreateTribute(user, projectId);
+            return Ok(_guildService.CreateTribute(user, createProject));
         }
 
         [HttpPost("cancel")]
-        public void CancelTribute([FromBody] int tributeId)
+        public ActionResult<TributeInfoDto> CancelTribute([FromBody] long tributeId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
-            _guildService.CancelTribute(user, tributeId);
+            return Ok(_guildService.CancelTribute(user, tributeId));
         }
 
         [HttpPost("complete")]
-        public void CompleteTribute([FromBody] TributeCompleteDto tributeCompleteDto)
+        public ActionResult<TributeInfoDto> CompleteTribute([FromBody] TributeCompleteDto tributeCompleteDto)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
-            _guildService.CompleteTribute(user, tributeCompleteDto);
+            return Ok(_guildService.CompleteTribute(user, tributeCompleteDto));
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Types.Guilds;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -16,57 +17,57 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext = dbContext;
         }
 
-        public Tribute Create(Tribute entity)
-        {
-            EntityEntry<Tribute> createdEntity = _dbContext.Tributes.Add(entity);
-            _dbContext.SaveChanges();
-            return createdEntity.Entity;
-        }
-
-        public IQueryable<Tribute> Read()
+        public IQueryable<TributeEntity> Read()
         {
             return _dbContext.Tributes;
         }
 
-        public Tribute ReadById(int key)
+        public TributeEntity ReadById(long key)
         {
             return _dbContext.Tributes.Find(key);
         }
 
-        public Tribute Update(Tribute entity)
+        public TributeEntity Update(TributeEntity entity)
         {
-            EntityEntry<Tribute> createdEntity = _dbContext.Tributes.Update(entity);
+            EntityEntry<TributeEntity> createdEntity = _dbContext.Tributes.Update(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
-        public void Delete(int key)
+        public void Delete(long key)
         {
             _dbContext.Tributes.Remove(this.Get(key));
             _dbContext.SaveChanges();
         }
 
-        public Tribute[] ReadForGuild(int guildId)
+        public TributeEntity Create(GuildEntity guild, GithubProjectEntity githubProject)
+        {
+            EntityEntry<TributeEntity> createdEntity = _dbContext.Tributes.Add(new TributeEntity(guild, githubProject));
+            _dbContext.SaveChanges();
+            return createdEntity.Entity;
+        }
+
+        public TributeEntity[] ReadForGuild(int guildId)
         {
             return _dbContext.Tributes.Where(t => t.GuildId == guildId).ToArray();
         }
 
-        public Tribute[] ReadStudentInGuildTributes(int guildId, int studentId)
+        public TributeEntity[] ReadStudentInGuildTributes(int guildId, int studentId)
         {
             return _dbContext
                 .Tributes
                 .Where(t => t.GuildId == guildId)
-                .Where(t => t.Project.StudentId == studentId)
+                .Where(t => t.ProjectEntity.StudentId == studentId)
                 .ToArray();
         }
 
-        public Tribute ReadStudentActiveTribute(int guildId, int studentId)
+        public TributeEntity ReadStudentActiveTribute(int guildId, int studentId)
         {
             return _dbContext
                 .Tributes
                 .Where(t => t.GuildId == guildId)
-                .Where(t => t.Project.StudentId == studentId)
-                .SingleOrDefault(t => t.State == TributeState.Pending);
+                .Where(t => t.ProjectEntity.StudentId == studentId)
+                .SingleOrDefault(t => t.State == TributeState.Active);
         }
     }
 }

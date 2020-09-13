@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Iwentys.Core.DomainModel.Guilds;
-using Iwentys.Core.GithubIntegration;
+using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Gamification;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.Types.Github;
 using Iwentys.Models.Types.Guilds;
 using Moq;
 using NUnit.Framework;
@@ -16,15 +17,15 @@ namespace Iwentys.Tests.Core.DomainModels
     [TestFixture]
     public class UserMembershipStateTest
     {
-        private Guild _guild;
+        private GuildEntity _guild;
         private GuildDomain _guildDomain;
 
-        private Student _student;
+        private StudentEntity _student;
 
         private Mock<ITributeRepository> _tributeRepository;
         private Mock<IGuildRepository> _guildRepository;
         private Mock<IStudentRepository> _studentRepository;
-        private Mock<IGithubApiAccessor> _githubApiAccessor;
+        private Mock<IGithubUserDataService> _githubUserDataService;
 
         // User without guild
         //      is not in blocked list
@@ -35,48 +36,48 @@ namespace Iwentys.Tests.Core.DomainModels
         [SetUp]
         public void SetUp()
         { 
-            _student = new Student()
+            _student = new StudentEntity()
             {
                 Id = 1,
                 LastOnlineTime = DateTime.MinValue.ToUniversalTime()
             };
 
-            _guild = new Guild()
+            _guild = new GuildEntity()
             {
                 Id = 1,
-                Members = new List<GuildMember>()
+                Members = new List<GuildMemberEntity>()
                 {
-                    new GuildMember()
+                    new GuildMemberEntity()
                     {
                         MemberType = GuildMemberType.Creator,
-                        Member = new Student()
+                        Member = new StudentEntity()
                         {
                             GithubUsername = string.Empty
                         }
                     }
                 },
                 HiringPolicy = GuildHiringPolicy.Open,
-                PinnedProjects = new List<GuildPinnedProject>(),
-                
+                PinnedProjects = new List<GuildPinnedProjectEntity>(),
+                Achievements = new List<GuildAchievementModel>()
             };
 
             _tributeRepository = new Mock<ITributeRepository>();
             _tributeRepository
                 .Setup(r => r.ReadStudentActiveTribute(It.IsAny<Int32>(), It.IsAny<Int32>()))
-                .Returns(default(Tribute));
+                .Returns(default(TributeEntity));
 
-            _githubApiAccessor = new Mock<IGithubApiAccessor>();
-            _githubApiAccessor
-                .Setup(a => a.GetRepository(It.IsAny<String>(), It.IsAny<String>()))
+            _githubUserDataService = new Mock<IGithubUserDataService>();
+            _githubUserDataService
+                .Setup(a => a.GetCertainRepository(It.IsAny<String>(), It.IsAny<String>()))
                 .Returns(default(GithubRepository));
-            _githubApiAccessor
-                .Setup(a => a.GetUserActivity(It.IsAny<String>()))
-                .Returns(new ContributionFullInfo() {PerMonthActivity = new List<ContributionsInfo>()});
+            _githubUserDataService
+                .Setup(a => a.FindByUsername(It.IsAny<String>()))
+                .Returns(new GithubUserData{ContributionFullInfo = new ContributionFullInfo { RawActivity = new ActivityInfo() { Contributions = Array.Empty<ContributionsInfo>(), Years = Array.Empty<YearActivityInfo>() } }});
 
             _guildRepository = new Mock<IGuildRepository>();
             _guildRepository
                 .Setup(r => r.ReadForStudent(It.IsAny<Int32>()))
-                .Returns(default(Guild));
+                .Returns(default(GuildEntity));
             _guildRepository
                 .Setup(r => r.IsStudentHaveRequest(It.IsAny<Int32>()))
                 .Returns(false);
@@ -97,9 +98,13 @@ namespace Iwentys.Tests.Core.DomainModels
                 null,
                 null, 
                 null,
+                null,
+                null,
+                null,
+                null,
                 null);
 
-            _guildDomain = new GuildDomain(_guild, databaseAccessor, _githubApiAccessor.Object);
+            _guildDomain = new GuildDomain(_guild, databaseAccessor, _githubUserDataService.Object, null);
         }
 
         [Test]
@@ -119,7 +124,7 @@ namespace Iwentys.Tests.Core.DomainModels
         [Test]
         public void GetGuild_ForGuildMember_UserMembershipStateIsEntered()
         {
-            _guild.Members.Add(new GuildMember() {Guild = _guild, Member = _student, MemberType = GuildMemberType.Member});
+            _guild.Members.Add(new GuildMemberEntity(_guild, _student, GuildMemberType.Member));
             _guildRepository
                 .Setup(r => r.ReadForStudent(_student.Id))
                 .Returns(_guild);
@@ -131,7 +136,7 @@ namespace Iwentys.Tests.Core.DomainModels
         [Test]
         public void GetGuild_ForBlockedUser_UserMembershipStateIsBlocked()
         {
-            _guild.Members.Add(new GuildMember() {Guild = _guild, Member = _student, MemberType = GuildMemberType.Blocked});
+            _guild.Members.Add(new GuildMemberEntity(_guild, _student, GuildMemberType.Blocked));
 
             Assert.That(_guildDomain.ToGuildProfileDto(1).UserMembershipState, Is.EqualTo(UserMembershipState.Blocked));
         }
@@ -141,7 +146,7 @@ namespace Iwentys.Tests.Core.DomainModels
         {
             _guildRepository
                 .Setup(r => r.ReadForStudent(_student.Id))
-                .Returns(new Guild() {Id = 2});
+                .Returns(new GuildEntity() {Id = 2});
 
             Assert.That(_guildDomain.ToGuildProfileDto(1).UserMembershipState, Is.EqualTo(UserMembershipState.Blocked));
         }
@@ -149,7 +154,7 @@ namespace Iwentys.Tests.Core.DomainModels
         [Test]
         public void GetGuild_ForUserWithRequestToThisGuild_UserMembershipStateIsRequested()
         {
-            _guild.Members.Add(new GuildMember() {Guild = _guild, Member = _student, MemberType = GuildMemberType.Requested});
+            _guild.Members.Add(new GuildMemberEntity(_guild, _student, GuildMemberType.Requested) );
             _guildRepository
                 .Setup(r => r.IsStudentHaveRequest(_student.Id))
                 .Returns(true);

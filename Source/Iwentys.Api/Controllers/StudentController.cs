@@ -18,23 +18,23 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<StudentFullProfileDto> Get()
+        public ActionResult<IEnumerable<StudentFullProfileDto>> Get()
         {
-            return _studentService.Get();
+            return Ok(_studentService.Get());
         }
 
         [HttpGet("{id}")]
-        public StudentFullProfileDto Get(int id)
+        public ActionResult<StudentFullProfileDto> Get(int id)
         {
-            return _studentService.Get(id);
+            return Ok(_studentService.Get(id));
         }
 
         [HttpPost]
-        public StudentFullProfileDto Get([FromBody] StudentUpdateDto studentUpdateDto)
+        public ActionResult<StudentFullProfileDto> Update([FromBody] StudentUpdateDto studentUpdateDto)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
 
-            return _studentService.AddGithubUsername(user.Id, studentUpdateDto.GithubUsername);
+            return Ok(_studentService.AddGithubUsername(user.Id, studentUpdateDto.GithubUsername));
         }
     }
 }

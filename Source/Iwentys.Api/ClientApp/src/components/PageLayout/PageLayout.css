@@ -1,5 +1,6 @@
 .ant-layout{
 	min-height: 100vh;
+	padding: 0;
 }
 .ant-layout-content{
 	padding: 20px;
@@ -8,4 +9,9 @@
 
 .ant-col{
 	padding: 0 10px;
+}
+section{
+	background: white;
+	padding: 20px;
+	border-radius: 10px;
 }

@@ -8,34 +8,27 @@ namespace Iwentys.Core.GoogleTableParsing
     internal class TableStringHelper
     {
         public string Id { get; }
-        public int GroupColumnNum { get; }
         public int NameColumnNum { get; }
         public int ScoreColumnNum { get; }
         public string Range { get; }
         public List<int> NameColumns { get; }
-        public bool GroupDefined { get; }
-        public string GroupName { get; }
 
         public TableStringHelper(GoogleTableData tableData)
         {
+            //TODO: ???
+            NameColumnNum = 0;
+
             NameColumns = new List<int>();
             Id = tableData.Id;
-            GroupDefined = tableData.GroupDefined;
             var tmpSortList = new List<string> {tableData.ScoreColumn};
-            if (GroupDefined)
-                GroupName = tableData.GroupName;
-            else
-                tmpSortList.Add(tableData.GroupColumn);
             tmpSortList.AddRange(tableData.NameColumnsList);
 
             string firstColumn = tmpSortList.OrderBy(s => s).First();
             string lastColumn = tmpSortList.OrderByDescending(s => s).First();
 
-            Range = Range = $"{tableData.SheetName}!{firstColumn}{tableData.FirstRow}:{lastColumn}{tableData.LastRow}";
-            if (!GroupDefined)
-                GroupColumnNum = FormatStringToInt(tableData.GroupColumn) - FormatStringToInt(firstColumn);
+            Range = $"{tableData.SheetName}!{firstColumn}{tableData.FirstRow}:{lastColumn}{tableData.LastRow}";
             ScoreColumnNum = FormatStringToInt(tableData.ScoreColumn) - FormatStringToInt(firstColumn);
-            foreach (var namePart in tableData.NameColumnsList)
+            foreach (string namePart in tableData.NameColumnsList)
                 NameColumns.Add(FormatStringToInt(namePart) - FormatStringToInt(firstColumn));
         }
 

@@ -4,9 +4,12 @@ namespace Iwentys.Database.Repositories.Abstractions
 {
     public interface ICompanyRepository : IGenericRepository<Company, int>
     {
-        Student[] ReadWorkers(Company company);
+        //TODO: rework
+        Company Create(Company company);
+
+        StudentEntity[] ReadWorkers(Company company);
         CompanyWorker[] ReadWorkerRequest();
-        void AddCompanyWorkerRequest(Company company, Student worker);
-        void ApproveRequest(Student user);
+        void AddCompanyWorkerRequest(Company company, StudentEntity worker);
+        void ApproveRequest(StudentEntity user);
     }
 }

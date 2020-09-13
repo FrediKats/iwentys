@@ -7,9 +7,9 @@ namespace Iwentys.Database.Repositories.Abstractions
 {
     public interface IStudyImmutableDataRepository
     {
-        IQueryable<Subject> GetAllSubjects();
-        IQueryable<StudyGroup> GetAllGroups();
-        IEnumerable<StudyGroup> GetGroupsForStream(int streamId);
-        IEnumerable<Student> GetStudentsForGroup(string group);
+        IQueryable<SubjectEntity> GetAllSubjects();
+        IQueryable<StudyGroupEntity> GetAllGroups();
+        IEnumerable<StudyGroupEntity> GetCourseGroups(int courseId);
+        IEnumerable<StudentEntity> GetStudentsForGroup(string groupName);
     }
 }

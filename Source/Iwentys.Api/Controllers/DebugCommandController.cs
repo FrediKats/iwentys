@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -11,7 +12,7 @@ using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Transferable.Students;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Iwentys.Api.Controllers
@@ -21,19 +22,21 @@ namespace Iwentys.Api.Controllers
     public class DebugCommandController : ControllerBase
     {
         private readonly GoogleTableUpdateService _googleTableUpdateService;
+        private readonly ILogger<DebugCommandController> _logger;
         private readonly DatabaseAccessor _databaseAccessor;
         private readonly IStudentService _studentService;
 
-        public DebugCommandController(DatabaseAccessor databaseAccessor, IConfiguration configuration, IStudentService studentService)
+        public DebugCommandController(ILogger<DebugCommandController> logger, DatabaseAccessor databaseAccessor, IStudentService studentService)
         {
+            _logger = logger;
             _databaseAccessor = databaseAccessor;
 
-            _googleTableUpdateService = new GoogleTableUpdateService(_databaseAccessor.SubjectActivity, configuration);
+            _googleTableUpdateService = new GoogleTableUpdateService(_logger, _databaseAccessor.SubjectActivity, _databaseAccessor.Student);
             _studentService = studentService;
         }
 
         [HttpPost("UpdateSubjectActivityData")]
-        public void UpdateSubjectActivityData(SubjectActivity activity)
+        public void UpdateSubjectActivityData(SubjectActivityEntity activity)
         {
             _databaseAccessor.SubjectActivity.Update(activity);
         }
@@ -41,17 +44,17 @@ namespace Iwentys.Api.Controllers
         [HttpPost("UpdateSubjectActivityForGroup")]
         public void UpdateSubjectActivityForGroup(int subjectId, int groupId)
         {
-            SubjectForGroup subjectData = _databaseAccessor.SubjectForGroup
+            GroupSubjectEntity groupSubjectData = _databaseAccessor.GroupSubject
                 .Read()
                 .FirstOrDefault(s => s.SubjectId == subjectId && s.StudyGroupId == groupId);
 
-            if (subjectData == null)
+            if (groupSubjectData == null)
             {
-                // TODO: Some logs
+                _logger.LogWarning($"Subject info was not found: subjectId:{subjectId}, groupId:{groupId}");
                 return;
             }
             
-            _googleTableUpdateService.UpdateSubjectActivityForGroup(subjectData);
+            _googleTableUpdateService.UpdateSubjectActivityForGroup(groupSubjectData);
         }
 
         [HttpGet("login/{userId}")]
@@ -68,24 +71,28 @@ namespace Iwentys.Api.Controllers
             return GenerateToken(userId, signingEncodingKey);
         }
 
+        [HttpGet("ValidateToken")]
+        public int ValidateToken()
+        {
+            var token = HttpContext.Request.Headers["Authorization"].ToString();
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            if (tokenHandler.ReadToken(token) is JwtSecurityToken securityToken)
+            {
+                string stringClaimValue = securityToken.Claims.First(claim => claim.Type == ClaimTypes.UserData).Value;
+                return int.Parse(stringClaimValue, CultureInfo.InvariantCulture);
+            }
+
+            throw new Exception("Invalid token");
+        }
+
+
         [HttpPost("register")]
         public string Register([FromBody] StudentCreateArgumentsDto arguments,
             [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
-            var student = new Student
-            {
-                Id = arguments.Id,
-                FirstName = arguments.FirstName,
-                MiddleName = arguments.MiddleName,
-                SecondName = arguments.SecondName,
-                Role = arguments.Role,
-                Group = arguments.Group,
-                GithubUsername = arguments.GithubUsername,
-                CreationTime = DateTime.UtcNow,
-                LastOnlineTime = DateTime.UtcNow,
-                BarsPoints = arguments.BarsPoints,
-                GuildLeftTime = DateTime.MinValue.ToUniversalTime()
-            };
+            int groupId = _databaseAccessor.StudyGroup.ReadByNamePattern(arguments.Group).Id;
+            var student = new StudentEntity(arguments, groupId);
 
             _databaseAccessor.Student.Create(student);
 
@@ -107,7 +114,7 @@ namespace Iwentys.Api.Controllers
                     signingEncodingKey.GetKey(),
                     signingEncodingKey.SigningAlgorithm)
             );
-
+            
             string jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
             return jwtToken;
         }

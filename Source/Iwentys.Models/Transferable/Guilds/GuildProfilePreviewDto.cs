@@ -1,15 +1,26 @@
 ﻿using System;
-using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Guilds;
+using Iwentys.Models.Tools;
+using Iwentys.Models.Transferable.Students;
 
 namespace Iwentys.Models.Transferable.Guilds
 {
-    public class GuildProfilePreviewDto
+    public class GuildProfilePreviewDto : GuildProfileShortInfoDto, IResultFormat
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string LogoUrl { get; set; }
-
-        public Student Leader { get; set; }
+        public StudentPartialProfileDto Leader { get; set; }
         public Int32 Rating { get; set; }
+
+        public GuildProfilePreviewDto() : base()
+        {
+        }
+
+        public GuildProfilePreviewDto(GuildEntity guild) : base(guild)
+        {
+        }
+
+        public string Format()
+        {
+            return $"{Title} [{Rating}]";
+        }
     }
 }

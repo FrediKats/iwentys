@@ -13,7 +13,7 @@ namespace Iwentys.Models.Entities
 
         public BarsPointTransactionStatus Status { get; set; }
 
-        public static BarsPointTransactionLog CompletedFor(Student fromUser, Student toUser, int value)
+        public static BarsPointTransactionLog CompletedFor(StudentEntity fromUser, StudentEntity toUser, int value)
         {
             return new BarsPointTransactionLog
             {
@@ -25,7 +25,7 @@ namespace Iwentys.Models.Entities
             };
         }
 
-        public static BarsPointTransactionLog RegisterFail(Student fromUser, Student toUser, int value)
+        public static BarsPointTransactionLog RegisterFail(StudentEntity fromUser, StudentEntity toUser, int value)
         {
             return new BarsPointTransactionLog
             {

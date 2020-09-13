@@ -36,5 +36,5 @@ jobs:
       with:
         app-name: 'iwentys-dev'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_f55f72046fdd4898a3415e6654cb6d92 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_a2aad1ea5cc8491993076769528bbb5e  }}
         package: ${{env.DOTNET_ROOT}}/myapp 

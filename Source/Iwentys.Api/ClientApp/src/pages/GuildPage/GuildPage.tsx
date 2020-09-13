@@ -9,14 +9,15 @@ import {getGuildById} from "../../redux/guild/guildThunk";
 import {IState} from "../../redux/typings";
 import {PageLayout} from "../../components/PageLayout/PageLayout";
 import {PinnedRepositories} from "../../components/PinnedRepositories/PinnedRepositories";
+import {useParams} from "react-router";
 
 
 export const GuildPage: React.FC = () => {
     const dispatch = useDispatch();
-
+    const { guildId } = useParams();
     React.useEffect(() => {
-        dispatch(getGuildById(1));
-    }, [dispatch]);
+        dispatch(getGuildById(guildId || 1)); // временная заглушка
+    }, [dispatch, guildId]);
 
     const guild = useSelector((state: IState) => state.guild);
     let guildPageContent: JSX.Element;
@@ -38,7 +39,7 @@ export const GuildPage: React.FC = () => {
                             members={guild.memberLeaderBoard.members}
                             contribution={guild.memberLeaderBoard.membersImpact}
                         />
-                        <PinnedRepositories pinnedRepositories={guild.pinnedRepositories}/>
+                        <PinnedRepositories pinnedRepositories={guild.pinnedRepositories.filter(Boolean)}/>
                     </Col>
                 </Row>
             );

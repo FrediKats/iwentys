@@ -2,7 +2,7 @@
 
 namespace Iwentys.Database.Repositories.Abstractions
 {
-    public interface ITournamentRepository : IGenericRepository<Tournament, int>
+    public interface ITournamentRepository : IGenericRepository<TournamentEntity, int>
     {
     }
 }

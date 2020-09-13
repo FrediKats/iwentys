@@ -1,4 +1,7 @@
 ﻿using System;
+using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Guilds;
+using Iwentys.Models.Transferable.Guilds;
 
 namespace Iwentys.Models.Exceptions
 {
@@ -25,8 +28,58 @@ namespace Iwentys.Models.Exceptions
 
         public static class Guild
         {
-            public static InnerLogicException IsNotGuildMember(int studentId) => new InnerLogicException($"Student is not guild member. Id: [{studentId}]");
+            public static InnerLogicException IsNotGuildMember(int studentId, int? guildId)
+            {
+                return new InnerLogicException(string.Format(ExceptionMessages.GuildExceptions.IsNotGuildMember, studentId, guildId));
+            }
+
+            public static InnerLogicException CreatorCannotLeave(int studentId, int guildId)
+            {
+                return new InnerLogicException(string.Format(ExceptionMessages.GuildExceptions.CreatorCannotLeave, studentId, guildId));
+            }
+
+            public static InnerLogicException RequestWasNotFound(int studentId, int guildId)
+            {
+                return new InnerLogicException(string.Format(ExceptionMessages.GuildExceptions.RequestWasNotFound, studentId, guildId));
+            }
+
+            public static InnerLogicException StudentCannotBeBlocked(int studentId, int guildId)
+            {
+                return new InnerLogicException(string.Format(ExceptionMessages.GuildExceptions.StudentCannotBeBlocked, studentId, guildId));
+            }
+
             public static InnerLogicException IsNotGuildEditor(int studentId) => new InnerLogicException($"Student is not guild editor. Id: [{studentId}]");
+        }
+
+        public static class TributeEx
+        {
+            public static InnerLogicException ProjectAlreadyUsed(long projectId)
+            {
+                return new InnerLogicException(string.Format(ExceptionMessages.TributeExceptions.ProjectAlreadyUsed, projectId));
+            }
+
+            public static InnerLogicException UserAlreadyHaveTribute(int userId)
+            {
+                return new InnerLogicException(string.Format(ExceptionMessages.TributeExceptions.UserAlreadyHaveTribute, userId));
+            }
+
+            public static InnerLogicException IsNotActive(TributeEntity tribute)
+            {
+                return new InnerLogicException(string.Format(ExceptionMessages.TributeExceptions.IsNotActive, tribute.ProjectId, tribute.State));
+            }
+
+            public static InnerLogicException TributeCanBeSendFromStudentAccount(StudentEntity student, CreateProjectDto createProject)
+            {
+                return new InnerLogicException(string.Format(ExceptionMessages.TributeExceptions.TributeCanBeSendFromStudentAccount, student.Id, createProject.Owner));
+            }
+        }
+
+        public static class StudentEx
+        {
+            public static InnerLogicException GithubAlreadyUser(string githubUsername)
+            {
+                return new InnerLogicException(string.Format(ExceptionMessages.StudentEx.GithubAlreadyUser, githubUsername));
+            }
         }
     }
 }

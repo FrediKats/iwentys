@@ -17,7 +17,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithCompany(out CompanyInfoDto company)
                 .WithCompanyWorker(company, out AuthorizedUser user);
 
-            Student[] companyMembers = testCase.CompanyService.Get(company.Id).Workers;
+            StudentEntity[] companyMembers = testCase.CompanyService.Get(company.Id).Workers;
 
             Assert.IsTrue(companyMembers.Length == 1);
             Assert.AreEqual(user.Id, companyMembers.Single().Id);
@@ -33,7 +33,7 @@ namespace Iwentys.Tests.Core.Services
 
             testCase.CompanyService.RequestAdding(company.Id, worker.Id);
             CompanyWorkRequestDto[] request = testCase.CompanyService.GetCompanyWorkRequest();
-            Student[] companyMembers = testCase.CompanyService.Get(company.Id).Workers;
+            StudentEntity[] companyMembers = testCase.CompanyService.Get(company.Id).Workers;
 
             Assert.IsTrue(companyMembers.Length == 0);
             Assert.IsTrue(request.Length == 1);

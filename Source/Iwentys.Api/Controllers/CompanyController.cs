@@ -17,15 +17,15 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<CompanyInfoDto> Get()
+        public ActionResult<IEnumerable<CompanyInfoDto>> Get()
         {
-            return _companyService.Get();
+            return Ok(_companyService.Get());
         }
 
         [HttpGet("{id}")]
-        public CompanyInfoDto Get(int id)
+        public ActionResult<CompanyInfoDto> Get(int id)
         {
-            return _companyService.Get(id);
+            return Ok(_companyService.Get(id));
         }
     }
 }

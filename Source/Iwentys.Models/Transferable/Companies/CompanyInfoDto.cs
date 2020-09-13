@@ -10,14 +10,14 @@ namespace Iwentys.Models.Transferable.Companies
         public double Latitude { get; set; }
         public double Longitude { get; set; }
 
-        public Student[] Workers { get; set; }
+        public StudentEntity[] Workers { get; set; }
 
         public static CompanyInfoDto Create(Company company)
         {
-            return Create(company, Array.Empty<Student>());
+            return Create(company, Array.Empty<StudentEntity>());
         }
 
-        public static CompanyInfoDto Create(Company company, Student[] workers)
+        public static CompanyInfoDto Create(Company company, StudentEntity[] workers)
         {
             return new CompanyInfoDto
             {

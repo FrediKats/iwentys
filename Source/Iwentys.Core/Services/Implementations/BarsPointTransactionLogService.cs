@@ -1,46 +1,43 @@
-﻿using Iwentys.Core.Services.Abstractions;
+﻿using FluentResults;
+using Iwentys.Core.Services.Abstractions;
+using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
-using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;
-using Iwentys.Models.Tools;
 
 namespace Iwentys.Core.Services.Implementations
 {
     public class BarsPointTransactionLogService : IBarsPointTransactionLogService
     {
-        private readonly IBarsPointTransactionLogRepository _barsPointTransactionLogRepository;
-        private readonly IStudentRepository _studentRepository;
+        private readonly DatabaseAccessor _database;
 
-        public BarsPointTransactionLogService(IStudentRepository studentRepository, IBarsPointTransactionLogRepository barsPointTransactionLogRepository)
+        public BarsPointTransactionLogService(DatabaseAccessor database)
         {
-            _studentRepository = studentRepository;
-            _barsPointTransactionLogRepository = barsPointTransactionLogRepository;
+            _database = database;
         }
-
 
         public Result<BarsPointTransactionLog> Transfer(int fromId, int toId, int value)
         {
             //TODO: Use transaction for whole method
-            Student from = _studentRepository.Get(fromId);
-            Student to = _studentRepository.Get(toId);
+            StudentEntity from = _database.Student.Get(fromId);
+            StudentEntity to = _database.Student.Get(toId);
 
             Result<BarsPointTransactionLog> transaction;
             if (from.BarsPoints < value)
             {
-                transaction = Result.From(BarsPointTransactionLog.RegisterFail(from, to, value), InnerLogicException.NotEnoughBarsPoints().Message);
+                transaction = Result.Fail<BarsPointTransactionLog>(new Error("Transfer failed").CausedBy(InnerLogicException.NotEnoughBarsPoints()));
             }
             else
             {
-                transaction = Result.From(BarsPointTransactionLog.CompletedFor(from, to, value));
+                transaction = Result.Ok(BarsPointTransactionLog.CompletedFor(from, to, value));
                 from.BarsPoints -= value;
                 to.BarsPoints += value;
 
-                _studentRepository.Update(from);
-                _studentRepository.Update(to);
+                _database.Student.Update(from);
+                _database.Student.Update(to);
             }
 
-            _barsPointTransactionLogRepository.Create(transaction.Value);
+            _database.BarsPointTransactionLog.Create(transaction.Value);
 
             return transaction;
         }

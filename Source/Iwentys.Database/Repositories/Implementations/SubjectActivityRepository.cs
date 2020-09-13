@@ -4,6 +4,7 @@ using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Transferable.Study;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Implementations
@@ -16,47 +17,54 @@ namespace Iwentys.Database.Repositories.Implementations
         {
             _dbContext = dbContext;
         }
-        public SubjectActivity Create(SubjectActivity entity)
+        public SubjectActivityEntity Create(SubjectActivityEntity entity)
         {
-            EntityEntry <SubjectActivity> createdEntity = _dbContext.SubjectActivities.Add(entity);
+            EntityEntry <SubjectActivityEntity> createdEntity = _dbContext.SubjectActivities.Add(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
-        public IQueryable<SubjectActivity> Read()
+        public IQueryable<SubjectActivityEntity> Read()
         {
-            return _dbContext.SubjectActivities;
+            return _dbContext.SubjectActivities
+                .Include(s => s.Student);
         }
 
-        public SubjectActivity ReadById(int key)
+        public SubjectActivityEntity ReadById(int key)
         {
             return _dbContext.SubjectActivities.Find(key);
         }
 
-        public SubjectActivity Update(SubjectActivity entity)
+        public SubjectActivityEntity Update(SubjectActivityEntity entity)
         {
-            EntityEntry<SubjectActivity> createdEntity = _dbContext.SubjectActivities.Update(entity);
+            EntityEntry<SubjectActivityEntity> createdEntity = _dbContext.SubjectActivities.Update(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
         public void Delete(int key)
         {
-            SubjectActivity activity = this.Get(key);
+            SubjectActivityEntity activity = this.Get(key);
             _dbContext.SubjectActivities.Remove(activity);
             _dbContext.SaveChanges();
         }
 
-        public SubjectActivity GetActivityForStudentAndSubject(int studentId, int subjectForGroupId)
+        public SubjectActivityEntity GetActivityForStudentAndSubject(int studentId, int subjectForGroupId)
         {
             return Read().FirstOrDefault(s => s.StudentId == studentId && s.SubjectForGroupId == subjectForGroupId);
         }
 
-        public IEnumerable<SubjectActivity> GetStudentActivities(StudySearchDto searchDto)
+        public IEnumerable<SubjectActivityEntity> GetStudentActivities(StudySearchDto searchDto)
         {
-            var query = Read().Join(_dbContext.StudyGroups, st => st.Student.Group, sg => sg.NamePattern, 
-                (subjectActivity, group) => new {SubjectActivity = subjectActivity, Group = group}).Join(_dbContext.SubjectForGroups, st => st.Group.Id, sg => sg.StudyGroupId,
-                (_, sg) => new {_.SubjectActivity, _.Group, SubjectForGroup = sg});
+            var query = Read()
+                .Join(_dbContext.StudyGroups,
+                    st => st.Student.GroupId,
+                    sg => sg.Id, 
+                    (subjectActivity, group) => new {SubjectActivity = subjectActivity, Group = group})
+                .Join(_dbContext.SubjectForGroups,
+                    st => st.SubjectActivity.SubjectForGroupId,
+                    sg => sg.Id,
+                    (_, sg) => new {_.SubjectActivity, _.Group, SubjectForGroup = sg});
 
             if (searchDto.GroupId != null)
             {
@@ -66,9 +74,9 @@ namespace Iwentys.Database.Repositories.Implementations
             {
                 query = query.Where(_ => _.SubjectForGroup.SubjectId == searchDto.SubjectId);
             }
-            if (searchDto.StreamId != null)
+            if (searchDto.CourseId != null)
             {
-                query = query.Where(_ => _.Group.StudyStreamId == searchDto.StreamId);
+                query = query.Where(_ => _.Group.StudyCourseId == searchDto.CourseId);
             }
 
             if (searchDto.StudySemester != null)

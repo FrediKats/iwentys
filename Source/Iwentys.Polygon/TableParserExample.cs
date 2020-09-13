@@ -1,9 +1,13 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
+using Iwentys.Core.GoogleTableParsing;
 using Iwentys.Models.Types;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace Iwentys.Polygon
 {
@@ -29,9 +33,7 @@ namespace Iwentys.Polygon
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            Console.WriteLine("Id Таблицы:");
-            string spreadSheetId = Console.ReadLine();
-
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
             SheetsService sheetsService;
 
             using (var stream = new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
@@ -46,6 +48,18 @@ namespace Iwentys.Polygon
                 });
             }
 
+            var m3101 = new TableParser(new Logger<TableParser>(new LoggerFactory()),  sheetsService, M3101()).GetStudentsList();
+            var m3102 = new TableParser(new Logger<TableParser>(new LoggerFactory()),  sheetsService, M3102()).GetStudentsList();
+            var m3103 = new TableParser(new Logger<TableParser>(new LoggerFactory()),  sheetsService, M3103()).GetStudentsList();
+            var m3104 = new TableParser(new Logger<TableParser>(new LoggerFactory()),  sheetsService, M3104()).GetStudentsList();
+
+            Console.WriteLine(JsonConvert.SerializeObject(m3101.Concat(m3102).Concat(m3103).Concat(m3104)));
+        }
+
+        private static GoogleTableData ReadFromConsole()
+        {
+            Console.WriteLine("Id Таблицы:");
+            string spreadSheetId = Console.ReadLine();
             Console.WriteLine("Название страницы:");
             var sheetName = Console.ReadLine();
             Console.WriteLine("Первая строка с данными в таблице:");
@@ -77,12 +91,52 @@ namespace Iwentys.Polygon
             }
             Console.WriteLine("Столбец с баллами:");
             var scoreColumn = Console.ReadLine();
-            GoogleTableData test = new GoogleTableData(spreadSheetId, sheetName, firstRow, lastRow, groupDefined, 
-                groupName, groupColumn, nameSplitNum, nameArr, scoreColumn);
+            GoogleTableData test = new GoogleTableData(spreadSheetId, sheetName, firstRow, lastRow, nameArr, scoreColumn);
+            return test;
+        }
 
-            var tableParser = new Core.GoogleTableParsing.TableParser(sheetsService, test);
+        private static GoogleTableData M3101()
+        {
+            return new GoogleTableData(
+                "1BMRHimS4Ioo5cWX1yZdHFsSyViR_J2h8rhL8Wl_x3og",
+                "M3101",
+                "4",
+                "24",
+                new[] {"B"}, 
+                "V");
+        }
 
-            Console.WriteLine(tableParser.GetStudentsJson());
+        private static GoogleTableData M3102()
+        {
+            return new GoogleTableData(
+                "1BMRHimS4Ioo5cWX1yZdHFsSyViR_J2h8rhL8Wl_x3og",
+                "M3102",
+                "4",
+                "25",
+                new[] { "B" },
+                "V");
+        }
+
+        private static GoogleTableData M3103()
+        {
+            return new GoogleTableData(
+                "1BMRHimS4Ioo5cWX1yZdHFsSyViR_J2h8rhL8Wl_x3og",
+                "M3103",
+                "4",
+                "25",
+                new[] { "B" },
+                "V");
+        }
+
+        private static GoogleTableData M3104()
+        {
+            return new GoogleTableData(
+                "1BMRHimS4Ioo5cWX1yZdHFsSyViR_J2h8rhL8Wl_x3og",
+                "M3104",
+                "4",
+                "25",
+                new[] { "B" },
+                "V");
         }
     }
 }

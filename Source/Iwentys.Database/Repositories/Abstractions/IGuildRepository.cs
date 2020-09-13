@@ -1,19 +1,26 @@
 ﻿using System;
+using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
+using Iwentys.Models.Transferable.Guilds;
+using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Database.Repositories.Abstractions
 {
-    public interface IGuildRepository : IGenericRepository<Guild, int>
+    public interface IGuildRepository : IGenericRepository<GuildEntity, int>
     {
-        Guild[] ReadPending();
-        Guild ReadForStudent(int studentId);
-        Guild ReadForTotem(int totemId);
+        GuildEntity Create(StudentEntity creator, GuildCreateArgumentDto arguments);
+
+        GuildEntity[] ReadPending();
+        GuildEntity ReadForStudent(int studentId);
 
         // TODO: extract methods below to GuildMemberRepository
         Boolean IsStudentHaveRequest(int studentId);
 
-        GuildMember AddMember(GuildMember member);
-        GuildMember UpdateMember(GuildMember member);
+        GuildMemberEntity AddMember(GuildEntity guild, StudentEntity student, GuildMemberType memberType);
+        GuildMemberEntity UpdateMember(GuildMemberEntity member);
         void RemoveMember(int guildId, int userId);
+
+        GuildPinnedProjectEntity PinProject(int guildId, string owner, string projectName);
+        void UnpinProject(int pinnedProjectId);
     }
 }

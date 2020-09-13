@@ -1,5 +1,7 @@
 using System.Linq;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Gamification;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Entities.Study;
 using Microsoft.EntityFrameworkCore;
@@ -14,33 +16,58 @@ namespace Iwentys.Database.Context
 
         #region Guilds
 
-        public DbSet<Guild> Guilds { get; set; }
-        public DbSet<GuildMember> GuildMembers { get; set; }
-        public DbSet<GuildPinnedProject> GuildPinnedProjects { get; set; }
-        public DbSet<Tournament> Tournaments { get; set; }
-        public DbSet<Tribute> Tributes { get; set; }
+        public DbSet<GuildEntity> Guilds { get; set; }
+        public DbSet<GuildMemberEntity> GuildMembers { get; set; }
+        public DbSet<GuildPinnedProjectEntity> GuildPinnedProjects { get; set; }
+        public DbSet<TournamentEntity> Tournaments { get; set; }
+        public DbSet<TributeEntity> Tributes { get; set; }
+        public DbSet<GuildTestTaskSolvingInfoEntity> GuildTestTaskSolvingInfos { get; set; }
 
         #endregion
 
         #region Study
 
-        public DbSet<StudyGroup> StudyGroups { get; set; }
-        public DbSet<StudyProgram> StudyPrograms { get; set; }
-        public DbSet<Subject> Subjects { get; set; }
-        public DbSet<SubjectActivity> SubjectActivities { get; set; }
-        public DbSet<SubjectForGroup> SubjectForGroups { get; set; }
-        public DbSet<Teacher> Teachers { get; set; }
-        public DbSet<StudyStream> StudyStreams { get; set; }
+        public DbSet<StudyGroupEntity> StudyGroups { get; set; }
+        public DbSet<StudyProgramEntity> StudyPrograms { get; set; }
+        public DbSet<SubjectEntity> Subjects { get; set; }
+        public DbSet<SubjectActivityEntity> SubjectActivities { get; set; }
+        public DbSet<GroupSubjectEntity> SubjectForGroups { get; set; }
+        public DbSet<TeacherEntity> Teachers { get; set; }
+        public DbSet<StudyCourseEntity> StudyCourses { get; set; }
 
         #endregion
 
-        public DbSet<Student> Students { get; set; }
-        public DbSet<StudentProject> StudentProjects { get; set; }
+        #region Achievement
+
+        public DbSet<AchievementModel> Achievements { get; set; }
+        public DbSet<StudentAchievementEntity> StudentAchievements { get; set; }
+        public DbSet<GuildAchievementModel> GuildAchievements { get; set; }
+
+        #endregion
+
+        #region Github
+
+        public DbSet<ActivityInfo> ActivityInfos { get; set; }
+        public DbSet<ContributionFullInfo> ContributionFullInfos { get; set; }
+        public DbSet<ContributionsInfo> ContributionsInfos { get; set; }
+        public DbSet<GithubRepository> GithubRepositories { get; set; }
+        public DbSet<YearActivityInfo> YearActivityInfos { get; set; }
+
+        #endregion
+
+        public DbSet<StudentEntity> Students { get; set; }
+        public DbSet<GithubProjectEntity> StudentProjects { get; set; }
+        public DbSet<GithubUserData> GithubUsersData { get; set; }
         public DbSet<BarsPointTransactionLog> BarsPointTransactionLogs { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<CompanyWorker> CompanyWorkers { get; set; }
 
         public DbSet<Quest> Quests { get; set; }
+        public DbSet<QuestResponseEntity> QuestResponses { get; set; }
+
+        public DbSet<AssignmentEntity> Assignments { get; set; }
+        public DbSet<StudentAssignmentEntity> StudentAssignments { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -51,20 +78,23 @@ namespace Iwentys.Database.Context
             base.OnModelCreating(modelBuilder);
         }
 
-
-
         private void SetCompositeKeys(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<GuildMember>().HasKey(g => new {g.GuildId, g.MemberId});
+            modelBuilder.Entity<GuildMemberEntity>().HasKey(g => new {g.GuildId, g.MemberId});
             modelBuilder.Entity<CompanyWorker>().HasKey(g => new {g.CompanyId, g.WorkerId});
-            modelBuilder.Entity<SubjectActivity>().HasKey(s => new {s.SubjectForGroupId, s.StudentId});
+            modelBuilder.Entity<SubjectActivityEntity>().HasKey(s => new {s.SubjectForGroupId, s.StudentId});
+            modelBuilder.Entity<StudentAchievementEntity>().HasKey(a => new {a.AchievementId, a.StudentId});
+            modelBuilder.Entity<GuildAchievementModel>().HasKey(a => new {a.AchievementId, a.GuildId});
+            modelBuilder.Entity<QuestResponseEntity>().HasKey(a => new {a.QuestId, a.StudentId});
+            modelBuilder.Entity<GuildTestTaskSolvingInfoEntity>().HasKey(a => new {a.GuildId, a.StudentId});
+            modelBuilder.Entity<StudentAssignmentEntity>().HasKey(a => new {a.AssignmentId, a.StudentId});
         }
 
         private void SetUniqKey(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Guild>().HasIndex(g => g.Title).IsUnique();
+            modelBuilder.Entity<GuildEntity>().HasIndex(g => g.Title).IsUnique();
 
-            modelBuilder.Entity<GuildMember>().HasIndex(g => g.MemberId).IsUnique();
+            modelBuilder.Entity<GuildMemberEntity>().HasIndex(g => g.MemberId).IsUnique();
             modelBuilder.Entity<CompanyWorker>().HasIndex(g => g.WorkerId).IsUnique();
         }
 
@@ -72,18 +102,22 @@ namespace Iwentys.Database.Context
         {
             var seedData = new DatabaseContextSetup();
 
-            modelBuilder.Entity<StudyProgram>().HasData(seedData.StudyPrograms);
-            modelBuilder.Entity<StudyStream>().HasData(seedData.StudyStreams);
-            modelBuilder.Entity<StudyGroup>().HasData(seedData.StudyGroups);
-            modelBuilder.Entity<Teacher>().HasData(seedData.Teachers);
-            modelBuilder.Entity<Subject>().HasData(seedData.Subjects);
-            modelBuilder.Entity<SubjectForGroup>().HasData(seedData.SubjectForGroups);
+            modelBuilder.Entity<StudyProgramEntity>().HasData(seedData.StudyPrograms);
+            modelBuilder.Entity<StudyCourseEntity>().HasData(seedData.StudyCourses);
+            modelBuilder.Entity<StudyGroupEntity>().HasData(seedData.StudyGroups);
+            modelBuilder.Entity<TeacherEntity>().HasData(seedData.Teachers);
+            modelBuilder.Entity<SubjectEntity>().HasData(seedData.Subjects);
+            modelBuilder.Entity<GroupSubjectEntity>().HasData(seedData.SubjectForGroups);
+            modelBuilder.Entity<SubjectActivityEntity>().HasData(seedData.SubjectActivitys);
 
-            modelBuilder.Entity<Student>().HasData(seedData.Students);
-            modelBuilder.Entity<Guild>().HasData(seedData.Guilds);
-            modelBuilder.Entity<GuildMember>().HasData(seedData.GuildMembers);
-            modelBuilder.Entity<GuildPinnedProject>().HasData(seedData.GuildPinnedProjects);
+            modelBuilder.Entity<StudentEntity>().HasData(seedData.Students);
+            modelBuilder.Entity<GuildEntity>().HasData(seedData.Guilds);
+            modelBuilder.Entity<GuildMemberEntity>().HasData(seedData.GuildMembers);
+            modelBuilder.Entity<GuildPinnedProjectEntity>().HasData(seedData.GuildPinnedProjects);
 
+            modelBuilder.Entity<AchievementModel>().HasData(AchievementList.Achievements);
+            modelBuilder.Entity<StudentAchievementEntity>().HasData(seedData.StudentAchievementModels);
+            modelBuilder.Entity<GuildAchievementModel>().HasData(seedData.GuildAchievementModels);
         }
 
         //TODO: Hack for removing cascade. Need to rework keys

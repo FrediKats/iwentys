@@ -3,7 +3,7 @@ using System.Linq;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
-using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.Database.Context;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Tournaments;
 
@@ -11,39 +11,39 @@ namespace Iwentys.Core.Services.Implementations
 {
     public class TournamentService : ITournamentService
     {
+        private readonly DatabaseAccessor _databaseAccessor;
         private readonly IGithubApiAccessor _githubApi;
-        private readonly IGuildService _guildService;
-        private readonly ITournamentRepository _tournamentRepository;
+        private readonly IGithubUserDataService _githubUserDataService;
 
-        public TournamentService(ITournamentRepository tournamentRepository, IGuildService guildService, IGithubApiAccessor githubApi)
+        public TournamentService(DatabaseAccessor databaseAccessor, IGithubApiAccessor githubApi, IGithubUserDataService githubUserDataService)
         {
-            _tournamentRepository = tournamentRepository;
-            _guildService = guildService;
             _githubApi = githubApi;
+            _databaseAccessor = databaseAccessor;
+            _githubUserDataService = githubUserDataService;
         }
 
-        public Tournament[] Get()
+        public TournamentEntity[] Get()
         {
-            return _tournamentRepository.Read().ToArray();
+            return _databaseAccessor.Tournament.Read().ToArray();
         }
 
-        public Tournament[] GetActive()
+        public TournamentEntity[] GetActive()
         {
-            return _tournamentRepository
+            return _databaseAccessor.Tournament
                 .Read()
                 .Where(t => t.StartTime < DateTime.UtcNow && t.EndTime > DateTime.UtcNow)
                 .ToArray();
         }
 
-        public Tournament Get(int tournamentId)
+        public TournamentEntity Get(int tournamentId)
         {
-            return _tournamentRepository.ReadById(tournamentId);
+            return _databaseAccessor.Tournament.ReadById(tournamentId);
         }
 
         public TournamentLeaderboardDto GetLeaderboard(int tournamentId)
         {
             return Get(tournamentId)
-                .WrapToDomain(_guildService, _githubApi)
+                .WrapToDomain(_githubApi, _databaseAccessor, _githubUserDataService)
                 .GetLeaderboard();
         }
     }

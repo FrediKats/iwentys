@@ -3,8 +3,7 @@
     public enum QuestState
     {
         Active = 1,
-        Accepted = 2,
-        Completed = 3,
-        Outdated = 4
+        Completed = 2,
+        Revoked = 3
     }
 }

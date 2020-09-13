@@ -1,6 +1,6 @@
 export const BASE_URL = 'http://iwentys.azurewebsites.net/api/';
 
-export function get(url: string, queryParams: Record<string,any>) {
+export function get (url: string, queryParams?: Record<string, any>) {
     const params = {
         mode: 'cors',
         headers: {
@@ -20,7 +20,7 @@ export function get(url: string, queryParams: Record<string,any>) {
     });
 }
 
-export function post(url: string, data: Object) {
+export function post (url: string, data: Object) {
     const params = {
         method: 'POST',
         headers: {
@@ -33,7 +33,7 @@ export function post(url: string, data: Object) {
     return fetch(BASE_URL + url, params);
 }
 
-export function put(url: string, data: Object) {
+export function put (url: string, data: Object) {
     const params = {
         method: 'PUT',
         headers: {

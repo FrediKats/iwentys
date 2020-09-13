@@ -7,9 +7,9 @@ namespace Iwentys.Core.DomainModel.Guilds
 {
     public class GuildEditor
     {
-        public Student Student { get;}
+        public StudentEntity Student { get; }
 
-        public GuildEditor(Student student)
+        public GuildEditor(StudentEntity student)
         {
             Student = student;
         }
@@ -17,22 +17,17 @@ namespace Iwentys.Core.DomainModel.Guilds
 
     public static class GuildEditorExtensions
     {
-        public static GuildEditor EnsureIsGuildEditor(this Student student, Guild guild)
+        public static GuildEditor EnsureIsGuildEditor(this StudentEntity student, GuildEntity guild)
         {
-            GuildMember member = guild.Members.Find(m => m.MemberId == student.Id);
+            GuildMemberEntity member = guild.Members.Find(m => m.MemberId == student.Id);
 
             if (member is null)
-                throw InnerLogicException.Guild.IsNotGuildMember(student.Id);
+                throw InnerLogicException.Guild.IsNotGuildMember(student.Id, guild.Id);
 
             if (!member.MemberType.IsEditor())
                 throw InnerLogicException.Guild.IsNotGuildEditor(student.Id);
 
             return new GuildEditor(student);
-        }
-
-        public static GuildEditor EnsureIsGuildEditor(this AuthorizedUser user, Guild guild)
-        {
-            return EnsureIsGuildEditor(user.Profile, guild);
         }
     }
 }

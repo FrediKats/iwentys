@@ -51,7 +51,7 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.SaveChanges();
         }
 
-        public Student[] ReadWorkers(Company company)
+        public StudentEntity[] ReadWorkers(Company company)
         {
             return _dbContext
                 .CompanyWorkers
@@ -71,7 +71,7 @@ namespace Iwentys.Database.Repositories.Implementations
                 .ToArray();
         }
 
-        public void AddCompanyWorkerRequest(Company company, Student worker)
+        public void AddCompanyWorkerRequest(Company company, StudentEntity worker)
         {
             if (ReadWorkerRequest().Any(r => r.WorkerId == worker.Id))
                 throw new InnerLogicException("Student already request adding to company");
@@ -80,7 +80,7 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.SaveChanges();
         }
 
-        public void ApproveRequest(Student user)
+        public void ApproveRequest(StudentEntity user)
         {
             CompanyWorker worker = _dbContext.CompanyWorkers.SingleOrDefault(cw => cw.WorkerId == user.Id) ?? throw EntityNotFoundException.Create(nameof(CompanyWorker), user.Id);
             worker.Type = CompanyWorkerType.Accepted;
