@@ -28,7 +28,7 @@ namespace Iwentys.Database.Context
         public List<TeacherEntity> Teachers { get; set; }
         public List<SubjectEntity> Subjects { get; set; }
         public List<StudyGroupEntity> StudyGroups { get; set; }
-        public List<StudyCourseEntity> StudyStreams { get; set; }
+        public List<StudyCourseEntity> StudyCourses { get; set; }
         public List<StudyProgramEntity> StudyPrograms { get; set; }
         public List<GroupSubjectEntity> SubjectForGroups { get; set; }
         public List<SubjectActivityEntity> SubjectActivitys { get; set; }
@@ -59,13 +59,13 @@ namespace Iwentys.Database.Context
 
             StudyPrograms = new List<StudyProgramEntity> {new StudyProgramEntity {Id = 1, Name = "ИС"}};
 
-            StudyStreams = new List<StudyCourseEntity>
+            StudyCourses = new List<StudyCourseEntity>
             {
-                Create.IsStream(StudentGraduationYear.Y20),
-                Create.IsStream(StudentGraduationYear.Y21),
-                Create.IsStream(StudentGraduationYear.Y22),
-                Create.IsStream(StudentGraduationYear.Y23),
-                Create.IsStream(StudentGraduationYear.Y24),
+                Create.IsCourse(StudentGraduationYear.Y20),
+                Create.IsCourse(StudentGraduationYear.Y21),
+                Create.IsCourse(StudentGraduationYear.Y22),
+                Create.IsCourse(StudentGraduationYear.Y23),
+                Create.IsCourse(StudentGraduationYear.Y24),
             };
 
             Subjects = new List<SubjectEntity>
@@ -75,11 +75,11 @@ namespace Iwentys.Database.Context
                 new SubjectEntity {Id = 3, Name = "Программирование"}
             };
 
-            List<StudyGroupEntity> secondCourse = Create.StreamGroup(4, 2, 12);
+            List<StudyGroupEntity> secondCourse = Create.CourseGroup(4, 2, 12);
             StudyGroups = new List<StudyGroupEntity>()
-                .Concat(Create.StreamGroup(3, 3, 9))
+                .Concat(Create.CourseGroup(3, 3, 9))
                 .Concat(secondCourse)
-                .Concat(Create.StreamGroup(5, 1, 12))
+                .Concat(Create.CourseGroup(5, 1, 12))
                 .ToList();
 
             SubjectForGroups = new List<GroupSubjectEntity>
@@ -325,28 +325,28 @@ namespace Iwentys.Database.Context
 
         private static class Create
         {
-            private static readonly IdentifierGenerator StreamIdentifierGenerator = new IdentifierGenerator();
+            private static readonly IdentifierGenerator CourseIdentifierGenerator = new IdentifierGenerator();
             private static readonly IdentifierGenerator GroupIdentifierGenerator = new IdentifierGenerator();
             public static readonly IdentifierGenerator GroupSubjectIdentifierGenerator = new IdentifierGenerator();
 
-            public static StudyCourseEntity IsStream(StudentGraduationYear year)
+            public static StudyCourseEntity IsCourse(StudentGraduationYear year)
             {
                 return new StudyCourseEntity
                 {
-                    Id = StreamIdentifierGenerator.Next(),
+                    Id = CourseIdentifierGenerator.Next(),
                     GraduationYear = year,
                     StudyProgramId = 1
                 };
             }
 
-            public static List<StudyGroupEntity> StreamGroup(int streamId, int course, int groupCount)
+            public static List<StudyGroupEntity> CourseGroup(int courseId, int course, int groupCount)
             {
                 return Enumerable
                     .Range(1, groupCount)
                     .Select(g => new StudyGroupEntity
                     {
                         Id = GroupIdentifierGenerator.Next(),
-                        StudyStreamId = streamId,
+                        StudyCourseId = courseId,
                         GroupName = $"M3{course}{g:00}",
                     })
                     .ToList();

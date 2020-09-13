@@ -74,9 +74,9 @@ namespace Iwentys.Database.Repositories.Implementations
             {
                 query = query.Where(_ => _.SubjectForGroup.SubjectId == searchDto.SubjectId);
             }
-            if (searchDto.StreamId != null)
+            if (searchDto.CourseId != null)
             {
-                query = query.Where(_ => _.Group.StudyStreamId == searchDto.StreamId);
+                query = query.Where(_ => _.Group.StudyCourseId == searchDto.CourseId);
             }
 
             if (searchDto.StudySemester != null)

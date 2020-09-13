@@ -21,7 +21,7 @@ namespace Iwentys.ClientBot.Commands.Tools
                 return Result.Fail("Wrong argument count");
 
             if (!int.TryParse(args.Arguments[0], out _))
-                return Result.Fail("Argument must be int value (streamId)");
+                return Result.Fail("Argument must be int value (courseId)");
 
             return Result.Ok();
         }

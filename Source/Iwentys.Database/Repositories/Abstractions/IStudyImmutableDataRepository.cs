@@ -9,7 +9,7 @@ namespace Iwentys.Database.Repositories.Abstractions
     {
         IQueryable<SubjectEntity> GetAllSubjects();
         IQueryable<StudyGroupEntity> GetAllGroups();
-        IEnumerable<StudyGroupEntity> GetGroupsForStream(int streamId);
+        IEnumerable<StudyGroupEntity> GetCourseGroups(int courseId);
         IEnumerable<StudentEntity> GetStudentsForGroup(string groupName);
     }
 }

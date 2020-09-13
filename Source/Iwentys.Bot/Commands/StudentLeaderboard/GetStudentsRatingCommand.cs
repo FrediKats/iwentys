@@ -25,20 +25,20 @@ namespace Iwentys.ClientBot.Commands.StudentLeaderboard
                 return Result.Fail("Wrong argument count");
 
             if (!int.TryParse(args.Arguments[0], out _))
-                return Result.Fail("Argument must be int value (streamId)");
+                return Result.Fail("Argument must be int value (courseId)");
                     
             return Result.Ok();
         }
 
         public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            List<StudyLeaderboardRow> studyLeaderboardRows = await _iwentysApi.LeaderboardApi.GetStudentsRating(null, streamId: int.Parse(args.Arguments[0]), null, null);
+            List<StudyLeaderboardRow> studyLeaderboardRows = await _iwentysApi.LeaderboardApi.GetStudentsRating(null, int.Parse(args.Arguments[0]), null, null);
 
             return ResultFormatter.Format(studyLeaderboardRows.Take(20));
         }
 
         public string CommandName { get; } = nameof(GetStudentsRatingCommand);
         public string Description { get; } = nameof(GetStudentsRatingCommand);
-        public string[] Args { get; } = {"Stream"};
+        public string[] Args { get; } = {"CourseId"};
     }
 }

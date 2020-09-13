@@ -68,10 +68,11 @@ namespace Iwentys.Database.Repositories.Implementations
                 query = query.Where(s => s.SubjectId == searchDto.SubjectId.Value);
             }
 
-            if (searchDto.StreamId != null)
+            if (searchDto.CourseId != null)
             {
-                var groupsFromStream = _dbContext.StudyGroups.Where(g => g.StudyStreamId == searchDto.StreamId);
-                query = query.Where(s => groupsFromStream.Any(g => g.Id == s.StudyGroupId));
+                //TODO: it will not work lol
+                List<StudyGroupEntity> courseGroups = _dbContext.StudyGroups.Where(g => g.StudyCourseId == searchDto.CourseId).ToList();
+                query = query.Where(s => courseGroups.Any(g => g.Id == s.StudyGroupId));
             }
 
             return query;

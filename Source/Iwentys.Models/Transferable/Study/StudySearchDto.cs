@@ -6,7 +6,7 @@ namespace Iwentys.Models.Transferable.Study
     {
         public int? GroupId { get; set; }
         public int? SubjectId { get; set; }
-        public int? StreamId { get; set; }
+        public int? CourseId { get; set; }
         public StudySemester? StudySemester { get; set; }
     }
 }

@@ -30,10 +30,10 @@ namespace Iwentys.Core.Services.Implementations
 
         public List<StudyLeaderboardRow> GetStudentsRatings(StudySearchDto searchDto)
         {
-            if (searchDto.StreamId == null && searchDto.GroupId == null ||
-                searchDto.StreamId != null && searchDto.GroupId != null)
+            if (searchDto.CourseId == null && searchDto.GroupId == null ||
+                searchDto.CourseId != null && searchDto.GroupId != null)
             {
-                throw new IwentysException("One of StudySearchDto fields: StreamId or GroupId should be null");
+                throw new IwentysException("One of StudySearchDto fields: CourseId or GroupId should be null");
             }
 
             searchDto.StudySemester ??= GetCurrentSemester();

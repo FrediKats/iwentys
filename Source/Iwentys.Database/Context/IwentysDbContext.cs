@@ -33,7 +33,7 @@ namespace Iwentys.Database.Context
         public DbSet<SubjectActivityEntity> SubjectActivities { get; set; }
         public DbSet<GroupSubjectEntity> SubjectForGroups { get; set; }
         public DbSet<TeacherEntity> Teachers { get; set; }
-        public DbSet<StudyCourseEntity> StudyStreams { get; set; }
+        public DbSet<StudyCourseEntity> StudyCourses { get; set; }
 
         #endregion
 
@@ -98,7 +98,7 @@ namespace Iwentys.Database.Context
             var seedData = new DatabaseContextSetup();
 
             modelBuilder.Entity<StudyProgramEntity>().HasData(seedData.StudyPrograms);
-            modelBuilder.Entity<StudyCourseEntity>().HasData(seedData.StudyStreams);
+            modelBuilder.Entity<StudyCourseEntity>().HasData(seedData.StudyCourses);
             modelBuilder.Entity<StudyGroupEntity>().HasData(seedData.StudyGroups);
             modelBuilder.Entity<TeacherEntity>().HasData(seedData.Teachers);
             modelBuilder.Entity<SubjectEntity>().HasData(seedData.Subjects);
