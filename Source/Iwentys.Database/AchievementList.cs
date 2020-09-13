@@ -11,6 +11,7 @@ namespace Iwentys.Database
         public static readonly AchievementModel BetaTester;
         public static readonly AchievementModel QuestCreator;
         public static readonly AchievementModel QuestComplete;
+        public static readonly AchievementModel TestTaskDone;
 
         private static readonly IdentifierGenerator IdentifierGenerator = new IdentifierGenerator();
 
@@ -42,6 +43,13 @@ namespace Iwentys.Database
             {
                 Title = "Quest done",
                 Description = "Quest done",
+                Url = "https://img.icons8.com/windows/96/000000/open-pokeball.png"
+            });
+
+            TestTaskDone = Register(new AchievementModel
+            {
+                Title = "Test task done",
+                Description = "Test task done",
                 Url = "https://img.icons8.com/windows/96/000000/open-pokeball.png"
             });
         }

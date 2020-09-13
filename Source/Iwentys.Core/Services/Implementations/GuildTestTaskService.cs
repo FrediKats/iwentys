@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.DomainModel;
+using Iwentys.Core.Gamification;
 using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
+using Iwentys.Database;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Github;
@@ -18,11 +20,13 @@ namespace Iwentys.Core.Services.Implementations
     {
         private readonly DatabaseAccessor _database;
         private readonly IGithubApiAccessor _githubApi;
+        private readonly AchievementProvider _achievementProvider;
 
-        public GuildTestTaskService(DatabaseAccessor database, IGithubApiAccessor githubApi)
+        public GuildTestTaskService(DatabaseAccessor database, IGithubApiAccessor githubApi, AchievementProvider achievementProvider)
         {
             _database = database;
             _githubApi = githubApi;
+            _achievementProvider = achievementProvider;
         }
 
         public List<GuildTestTaskInfoDto> Get(int guildId)
@@ -80,6 +84,8 @@ namespace Iwentys.Core.Services.Implementations
                 throw new InnerLogicException("Task must be submitted");
 
             testTask.SetCompleted(review);
+            _achievementProvider.Achieve(AchievementList.TestTaskDone, taskSolveOwnerId);
+
             return _database.GuildTestTaskSolvingInfo
                 .Update(testTask)
                 .To(GuildTestTaskInfoDto.Wrap);
