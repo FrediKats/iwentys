@@ -91,7 +91,7 @@ namespace Iwentys.Api.Controllers
         public string Register([FromBody] StudentCreateArgumentsDto arguments,
             [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
-            int groupId = _databaseAccessor.StudyGroupRepository.ReadByNamePattern(arguments.Group).Id;
+            int groupId = _databaseAccessor.StudyGroup.ReadByNamePattern(arguments.Group).Id;
             var student = new StudentEntity(arguments, groupId);
 
             _databaseAccessor.Student.Create(student);

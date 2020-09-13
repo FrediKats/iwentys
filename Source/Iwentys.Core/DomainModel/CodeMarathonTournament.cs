@@ -29,7 +29,7 @@ namespace Iwentys.Core.DomainModel
         public TournamentLeaderboardDto GetLeaderboard()
         {
             Dictionary<GuildProfileShortInfoDto, int> result = _database
-                .GuildRepository
+                .Guild
                 .Read()
                 .ToDictionary(g => new GuildProfileShortInfoDto(g), CountGuildRating);
 

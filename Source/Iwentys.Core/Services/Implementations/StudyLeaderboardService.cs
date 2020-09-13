@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.Services.Abstractions;
-using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.Database.Context;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Transferable.Study;
@@ -11,23 +11,21 @@ namespace Iwentys.Core.Services.Implementations
 {
     public class StudyLeaderboardService : IStudyLeaderboardService
     {
-        private readonly ISubjectForGroupRepository _subjectForGroupRepository;
-        private readonly ISubjectActivityRepository _subjectActivityRepository;
+        private readonly DatabaseAccessor _databaseAccessor;
 
-        public StudyLeaderboardService(ISubjectForGroupRepository subjectForGroupRepository, ISubjectActivityRepository subjectActivityRepository)
+        public StudyLeaderboardService(DatabaseAccessor databaseAccessor)
         {
-            _subjectForGroupRepository = subjectForGroupRepository;
-            _subjectActivityRepository = subjectActivityRepository;
+            _databaseAccessor = databaseAccessor;
         }
 
         public IEnumerable<SubjectEntity> GetSubjectsForDto(StudySearchDto searchDto)
         {
-            return _subjectForGroupRepository.GetSubjectsForDto(searchDto);
+            return _databaseAccessor.SubjectForGroup.GetSubjectsForDto(searchDto);
         }
 
         public IEnumerable<StudyGroupEntity> GetStudyGroupsForDto(StudySearchDto searchDto)
         {
-            return _subjectForGroupRepository.GetStudyGroupsForDto(searchDto);
+            return _databaseAccessor.SubjectForGroup.GetStudyGroupsForDto(searchDto);
         }
 
         public List<StudyLeaderboardRow> GetStudentsRatings(StudySearchDto searchDto)
@@ -40,7 +38,7 @@ namespace Iwentys.Core.Services.Implementations
 
             searchDto.StudySemester ??= GetCurrentSemester();
 
-            List<SubjectActivityEntity> result = _subjectActivityRepository.GetStudentActivities(searchDto).ToList();
+            List<SubjectActivityEntity> result = _databaseAccessor.SubjectActivity.GetStudentActivities(searchDto).ToList();
 
             return result
                 .GroupBy(r => r.StudentId)

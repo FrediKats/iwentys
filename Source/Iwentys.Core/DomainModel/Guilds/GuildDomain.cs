@@ -53,7 +53,7 @@ namespace Iwentys.Core.DomainModel.Guilds
             };
 
             if (userId != null && Profile.Members.Any(m => m.MemberId == userId))
-                info.Tribute = _dbAccessor.TributeRepository.ReadStudentActiveTribute(Profile.Id, userId.Value)?.To(ActiveTributeDto.Create);
+                info.Tribute = _dbAccessor.Tribute.ReadStudentActiveTribute(Profile.Id, userId.Value)?.To(ActiveTributeDto.Create);
             if (userId != null)
                 info.UserMembershipState = GetUserMembershipState(userId.Value);
 
@@ -96,7 +96,7 @@ namespace Iwentys.Core.DomainModel.Guilds
         public UserMembershipState GetUserMembershipState(Int32 userId)
         {
             StudentEntity user = _dbAccessor.Student.Get(userId);
-            GuildEntity userGuild = _dbAccessor.GuildRepository.ReadForStudent(user.Id);
+            GuildEntity userGuild = _dbAccessor.Guild.ReadForStudent(user.Id);
             GuildMemberType? userStatusInGuild = Profile.Members.Find(m => m.Member.Id == user.Id)?.MemberType;
 
             if (userStatusInGuild == GuildMemberType.Blocked)
@@ -110,11 +110,11 @@ namespace Iwentys.Core.DomainModel.Guilds
                 userGuild.Id == Profile.Id)
                 return UserMembershipState.Entered;
 
-            if (_dbAccessor.GuildRepository.IsStudentHaveRequest(userId) &&
+            if (_dbAccessor.Guild.IsStudentHaveRequest(userId) &&
                 userStatusInGuild != GuildMemberType.Requested)
                 return UserMembershipState.Blocked;
 
-            if (_dbAccessor.GuildRepository.IsStudentHaveRequest(userId) &&
+            if (_dbAccessor.Guild.IsStudentHaveRequest(userId) &&
                 userStatusInGuild == GuildMemberType.Requested)
                 return UserMembershipState.Requested;
 
@@ -141,7 +141,7 @@ namespace Iwentys.Core.DomainModel.Guilds
                 //TODO: need to fix after https://github.com/octokit/octokit.net/pull/2239
                 //_profile.Bio = organizationInfo.Bio;
                 Profile.LogoUrl = organizationInfo.Url;
-                _dbAccessor.GuildRepository.Update(Profile);
+                _dbAccessor.Guild.Update(Profile);
             }
 
             return this;

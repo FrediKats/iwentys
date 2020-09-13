@@ -4,7 +4,6 @@ using Iwentys.Core.DomainModel;
 using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Tournaments;
 
@@ -15,11 +14,9 @@ namespace Iwentys.Core.Services.Implementations
         private readonly DatabaseAccessor _databaseAccessor;
         private readonly IGithubApiAccessor _githubApi;
         private readonly IGithubUserDataService _githubUserDataService;
-        private readonly ITournamentRepository _tournamentRepository;
 
-        public TournamentService(ITournamentRepository tournamentRepository, IGithubApiAccessor githubApi, DatabaseAccessor databaseAccessor, IGithubUserDataService githubUserDataService)
+        public TournamentService(DatabaseAccessor databaseAccessor, IGithubApiAccessor githubApi, IGithubUserDataService githubUserDataService)
         {
-            _tournamentRepository = tournamentRepository;
             _githubApi = githubApi;
             _databaseAccessor = databaseAccessor;
             _githubUserDataService = githubUserDataService;
@@ -27,12 +24,12 @@ namespace Iwentys.Core.Services.Implementations
 
         public TournamentEntity[] Get()
         {
-            return _tournamentRepository.Read().ToArray();
+            return _databaseAccessor.Tournament.Read().ToArray();
         }
 
         public TournamentEntity[] GetActive()
         {
-            return _tournamentRepository
+            return _databaseAccessor.Tournament
                 .Read()
                 .Where(t => t.StartTime < DateTime.UtcNow && t.EndTime > DateTime.UtcNow)
                 .ToArray();
@@ -40,7 +37,7 @@ namespace Iwentys.Core.Services.Implementations
 
         public TournamentEntity Get(int tournamentId)
         {
-            return _tournamentRepository.ReadById(tournamentId);
+            return _databaseAccessor.Tournament.ReadById(tournamentId);
         }
 
         public TournamentLeaderboardDto GetLeaderboard(int tournamentId)

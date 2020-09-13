@@ -7,15 +7,15 @@ namespace Iwentys.Database.Context
     {
         public IwentysDbContext Context { get; }
         public IStudentRepository Student { get; }
-        public IStudyGroupRepository StudyGroupRepository { get; }
-        public IGuildRepository GuildRepository { get; }
-        public ICompanyRepository CompanyRepository { get; }
-        public ITournamentRepository TournamentRepository { get; }
-        public IStudentProjectRepository StudentProjectRepository { get; }
-        public ITributeRepository TributeRepository { get; }
-        public IBarsPointTransactionLogRepository BarsPointTransactionLogRepository { get; }
-        public IQuestRepository QuestRepository { get; }
-        public IGithubUserDataRepository GithubUserDataRepository { get; }
+        public IStudyGroupRepository StudyGroup { get; }
+        public IGuildRepository Guild { get; }
+        public ICompanyRepository Company { get; }
+        public ITournamentRepository Tournament { get; }
+        public IStudentProjectRepository StudentProject { get; }
+        public ITributeRepository Tribute { get; }
+        public IBarsPointTransactionLogRepository BarsPointTransactionLog { get; }
+        public IQuestRepository Quest { get; }
+        public IGithubUserDataRepository GithubUserData { get; }
         public IGuildTestTaskSolvingInfoRepository GuildTestTaskSolvingInfo { get; }
 
 
@@ -42,32 +42,32 @@ namespace Iwentys.Database.Context
 
         public DatabaseAccessor(IwentysDbContext context,
             IStudentRepository student,
-            IGuildRepository guildRepository,
-            ICompanyRepository companyRepository,
-            ITournamentRepository tournamentRepository,
-            IStudentProjectRepository studentProjectRepository,
-            ITributeRepository tributeRepository,
-            IBarsPointTransactionLogRepository barsPointTransactionLogRepository,
-            IQuestRepository questRepository,
+            IGuildRepository guild,
+            ICompanyRepository company,
+            ITournamentRepository tournament,
+            IStudentProjectRepository studentProject,
+            ITributeRepository tribute,
+            IBarsPointTransactionLogRepository barsPointTransactionLog,
+            IQuestRepository quest,
             ISubjectActivityRepository subjectActivity,
             ISubjectForGroupRepository subjectForGroup,
-            IStudyGroupRepository studyGroupRepository,
-            IGithubUserDataRepository githubUserDataRepository,
+            IStudyGroupRepository studyGroup,
+            IGithubUserDataRepository githubUserData,
             IGuildTestTaskSolvingInfoRepository guildTestTaskSolvingInfo)
         {
             Context = context;
             Student = student;
-            GuildRepository = guildRepository;
-            CompanyRepository = companyRepository;
-            TournamentRepository = tournamentRepository;
-            StudentProjectRepository = studentProjectRepository;
-            TributeRepository = tributeRepository;
-            BarsPointTransactionLogRepository = barsPointTransactionLogRepository;
-            QuestRepository = questRepository;
+            Guild = guild;
+            Company = company;
+            Tournament = tournament;
+            StudentProject = studentProject;
+            Tribute = tribute;
+            BarsPointTransactionLog = barsPointTransactionLog;
+            Quest = quest;
             SubjectActivity = subjectActivity;
             SubjectForGroup = subjectForGroup;
-            StudyGroupRepository = studyGroupRepository;
-            GithubUserDataRepository = githubUserDataRepository;
+            StudyGroup = studyGroup;
+            GithubUserData = githubUserData;
             GuildTestTaskSolvingInfo = guildTestTaskSolvingInfo;
         }
     }

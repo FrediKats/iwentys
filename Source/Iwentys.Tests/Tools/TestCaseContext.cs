@@ -27,7 +27,7 @@ namespace Iwentys.Tests.Tools
         public readonly IStudentRepository StudentRepository;
         public readonly IGuildRepository GuildRepository;
 
-        public readonly DatabaseAccessor Accessor;
+        public readonly DatabaseAccessor DatabaseAccessor;
 
         public readonly IStudentService StudentService;
         public readonly IGuildService GuildService;
@@ -44,15 +44,15 @@ namespace Iwentys.Tests.Tools
             StudentRepository = new StudentRepository(Context);
             GuildRepository = new GuildRepository(Context);
 
-            Accessor = new DatabaseAccessor(Context);
-            var achievementProvider = new AchievementProvider(Accessor);
+            DatabaseAccessor = new DatabaseAccessor(Context);
+            var achievementProvider = new AchievementProvider(DatabaseAccessor);
 
-            StudentService = new StudentService(StudentRepository, new DebugIsuAccessor(), achievementProvider);
-            GithubUserDataService = new GithubUserDataService(Accessor.GithubUserDataRepository, new DummyGithubApiAccessor(), StudentRepository, Accessor.StudentProjectRepository);
-            GuildService = new GuildService(GuildRepository, StudentRepository, Accessor.TributeRepository, Accessor, GithubUserDataService, new DummyGithubApiAccessor());
-            GuildTributeServiceService = new GuildTributeService(Accessor, new DummyGithubApiAccessor());
-            CompanyService = new CompanyService(Accessor.CompanyRepository, StudentRepository);
-            QuestService = new QuestService(Accessor.QuestRepository, achievementProvider, Accessor);
+            StudentService = new StudentService(DatabaseAccessor, new DebugIsuAccessor(), achievementProvider);
+            GithubUserDataService = new GithubUserDataService(DatabaseAccessor, new DummyGithubApiAccessor());
+            GuildService = new GuildService(DatabaseAccessor, GithubUserDataService, new DummyGithubApiAccessor());
+            GuildTributeServiceService = new GuildTributeService(DatabaseAccessor, new DummyGithubApiAccessor());
+            CompanyService = new CompanyService(DatabaseAccessor);
+            QuestService = new QuestService(DatabaseAccessor, achievementProvider);
         }
 
         public TestCaseContext WithNewStudent(out AuthorizedUser user, UserType userType = UserType.Common)
@@ -117,7 +117,7 @@ namespace Iwentys.Tests.Tools
         public TestCaseContext WithCompany(out CompanyInfoDto companyInfo)
         {
             var company = new Company();
-            company = Accessor.CompanyRepository.Create(company);
+            company = DatabaseAccessor.Company.Create(company);
             companyInfo = CompanyInfoDto.Create(company);
             return this;
         }
@@ -137,10 +137,10 @@ namespace Iwentys.Tests.Tools
                 //TODO: hack for work with dummy github
                 Id = 17,
                 StudentId = userInfo.Id,
-                Author = userInfo.GetProfile(Accessor.Student).GithubUsername,
+                Author = userInfo.GetProfile(DatabaseAccessor.Student).GithubUsername,
                 Name = "Test repo"
             };
-            githubProjectEntity = Accessor.StudentProjectRepository.Create(project);
+            githubProjectEntity = DatabaseAccessor.StudentProject.Create(project);
 
             return this;
         }
@@ -155,7 +155,7 @@ namespace Iwentys.Tests.Tools
         {
             tribute = GuildTributeServiceService.CreateTribute(userInfo, new CreateProjectDto
             {
-                Owner = userInfo.GetProfile(Accessor.Student).GithubUsername,
+                Owner = userInfo.GetProfile(DatabaseAccessor.Student).GithubUsername,
                 RepositoryName = projectEntity.Name
             });
             return this;

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Core.DomainModel;
-using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Guilds;
 
 namespace Iwentys.Core.Services.Abstractions

@@ -1,7 +1,7 @@
 ﻿using FluentResults;
 using Iwentys.Core.Services.Abstractions;
+using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
-using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;
 
@@ -9,20 +9,18 @@ namespace Iwentys.Core.Services.Implementations
 {
     public class BarsPointTransactionLogService : IBarsPointTransactionLogService
     {
-        private readonly IBarsPointTransactionLogRepository _barsPointTransactionLogRepository;
-        private readonly IStudentRepository _studentRepository;
+        private readonly DatabaseAccessor _database;
 
-        public BarsPointTransactionLogService(IStudentRepository studentRepository, IBarsPointTransactionLogRepository barsPointTransactionLogRepository)
+        public BarsPointTransactionLogService(DatabaseAccessor database)
         {
-            _studentRepository = studentRepository;
-            _barsPointTransactionLogRepository = barsPointTransactionLogRepository;
+            _database = database;
         }
 
         public Result<BarsPointTransactionLog> Transfer(int fromId, int toId, int value)
         {
             //TODO: Use transaction for whole method
-            StudentEntity from = _studentRepository.Get(fromId);
-            StudentEntity to = _studentRepository.Get(toId);
+            StudentEntity from = _database.Student.Get(fromId);
+            StudentEntity to = _database.Student.Get(toId);
 
             Result<BarsPointTransactionLog> transaction;
             if (from.BarsPoints < value)
@@ -35,11 +33,11 @@ namespace Iwentys.Core.Services.Implementations
                 from.BarsPoints -= value;
                 to.BarsPoints += value;
 
-                _studentRepository.Update(from);
-                _studentRepository.Update(to);
+                _database.Student.Update(from);
+                _database.Student.Update(to);
             }
 
-            _barsPointTransactionLogRepository.Create(transaction.Value);
+            _database.BarsPointTransactionLog.Create(transaction.Value);
 
             return transaction;
         }

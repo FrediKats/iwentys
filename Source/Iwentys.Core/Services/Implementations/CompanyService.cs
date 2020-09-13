@@ -1,7 +1,7 @@
 ﻿using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
+using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
-using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Companies;
@@ -10,53 +10,51 @@ namespace Iwentys.Core.Services.Implementations
 {
     public class CompanyService : ICompanyService
     {
-        private readonly ICompanyRepository _companyRepository;
-        private readonly IStudentRepository _studentRepository;
+        private readonly DatabaseAccessor _database;
 
-        public CompanyService(ICompanyRepository companyRepository, IStudentRepository studentRepository)
+        public CompanyService(DatabaseAccessor database)
         {
-            _companyRepository = companyRepository;
-            _studentRepository = studentRepository;
+            _database = database;
         }
 
         public CompanyInfoDto[] Get()
         {
-            return _companyRepository.Read().SelectToArray(WrapToDto);
+            return _database.Company.Read().SelectToArray(WrapToDto);
         }
 
         public CompanyInfoDto Get(int id)
         {
-            return _companyRepository.ReadById(id).To(WrapToDto);
+            return _database.Company.ReadById(id).To(WrapToDto);
         }
 
         public CompanyWorkRequestDto[] GetCompanyWorkRequest()
         {
-            return _companyRepository
+            return _database.Company
                 .ReadWorkerRequest()
                 .SelectToArray(cw => cw.To(CompanyWorkRequestDto.Create));
         }
 
         public void RequestAdding(int companyId, int userId)
         {
-            Company company = _companyRepository.Get(companyId);
-            StudentEntity profile = _studentRepository.Get(userId);
-            _companyRepository.AddCompanyWorkerRequest(company, profile);
+            Company company = _database.Company.Get(companyId);
+            StudentEntity profile = _database.Student.Get(userId);
+            _database.Company.AddCompanyWorkerRequest(company, profile);
         }
 
         public void ApproveAdding(int userId, int adminId)
         {
-            _studentRepository
+            _database.Student
                 .Get(adminId)
                 .EnsureIsAdmin();
 
-            StudentEntity user = _studentRepository.Get(userId);
+            StudentEntity user = _database.Student.Get(userId);
 
-            _companyRepository.ApproveRequest(user);
+            _database.Company.ApproveRequest(user);
         }
 
         private CompanyInfoDto WrapToDto(Company company)
         {
-            StudentEntity[] workers = _companyRepository.ReadWorkers(company);
+            StudentEntity[] workers = _database.Company.ReadWorkers(company);
             return CompanyInfoDto.Create(company, workers);
         }
     }
