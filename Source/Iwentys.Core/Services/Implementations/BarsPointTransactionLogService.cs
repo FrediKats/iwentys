@@ -1,9 +1,9 @@
-﻿using Iwentys.Core.Services.Abstractions;
+﻿using FluentResults;
+using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;
-using Tef.BotFramework.Common;
 
 namespace Iwentys.Core.Services.Implementations
 {
@@ -27,11 +27,11 @@ namespace Iwentys.Core.Services.Implementations
             Result<BarsPointTransactionLog> transaction;
             if (from.BarsPoints < value)
             {
-                transaction = Result<BarsPointTransactionLog>.Fail(InnerLogicException.NotEnoughBarsPoints().Message, InnerLogicException.NotEnoughBarsPoints());
+                transaction = Result.Fail<BarsPointTransactionLog>(new Error("Transfer failed").CausedBy(InnerLogicException.NotEnoughBarsPoints()));
             }
             else
             {
-                transaction = Result<BarsPointTransactionLog>.Ok(BarsPointTransactionLog.CompletedFor(from, to, value));
+                transaction = Result.Ok(BarsPointTransactionLog.CompletedFor(from, to, value));
                 from.BarsPoints -= value;
                 to.BarsPoints += value;
 
