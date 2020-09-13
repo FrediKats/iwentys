@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.DomainModel.Guilds;
@@ -49,21 +48,7 @@ namespace Iwentys.Core.Services.Implementations
             if (userGuild != null)
                 throw new InnerLogicException("Student already in guild");
 
-            var newGuild = new GuildEntity
-            {
-                Bio = arguments.Bio,
-                HiringPolicy = arguments.HiringPolicy,
-                LogoUrl = arguments.LogoUrl,
-                Title = arguments.Title,
-                GuildType = GuildType.Pending
-            };
-
-            newGuild.Members = new List<GuildMember>
-            {
-                new GuildMember {Guild = newGuild, Member = creatorUser, MemberType = GuildMemberType.Creator}
-            };
-
-            return _guildRepository.Create(newGuild)
+            return _guildRepository.Create(creatorUser, arguments)
                 .To(g => new GuildDomain(g, _databaseAccessor, _githubUserDataService, _githubApiAccessor))
                 .ToGuildProfileShortInfoDto();
         }

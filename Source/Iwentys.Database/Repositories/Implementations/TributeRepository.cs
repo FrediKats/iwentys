@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Types.Guilds;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -14,13 +15,6 @@ namespace Iwentys.Database.Repositories.Implementations
         public TributeRepository(IwentysDbContext dbContext)
         {
             _dbContext = dbContext;
-        }
-
-        public Tribute Create(Tribute entity)
-        {
-            EntityEntry<Tribute> createdEntity = _dbContext.Tributes.Add(entity);
-            _dbContext.SaveChanges();
-            return createdEntity.Entity;
         }
 
         public IQueryable<Tribute> Read()
@@ -44,6 +38,13 @@ namespace Iwentys.Database.Repositories.Implementations
         {
             _dbContext.Tributes.Remove(this.Get(key));
             _dbContext.SaveChanges();
+        }
+
+        public Tribute Create(GuildEntity guild, GithubProjectEntity githubProject)
+        {
+            EntityEntry<Tribute> createdEntity = _dbContext.Tributes.Add(new Tribute(guild, githubProject));
+            _dbContext.SaveChanges();
+            return createdEntity.Entity;
         }
 
         public Tribute[] ReadForGuild(int guildId)

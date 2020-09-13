@@ -5,7 +5,6 @@ namespace Iwentys.Database.Repositories
 {
     public interface IGenericRepository<TEntity, TKey>
     {
-        TEntity Create(TEntity entity);
         IQueryable<TEntity> Read();
         TEntity ReadById(TKey key);
         TEntity Update(TEntity entity);

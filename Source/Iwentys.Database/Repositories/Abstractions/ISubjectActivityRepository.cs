@@ -6,8 +6,9 @@ namespace Iwentys.Database.Repositories.Abstractions
 {
     public interface ISubjectActivityRepository : IGenericRepository<SubjectActivity, int>
     {
+        SubjectActivity Create(SubjectActivity subjectActivity);
+
         SubjectActivity GetActivityForStudentAndSubject(int studentId, int subjectForGroupId);
         IEnumerable<SubjectActivity> GetStudentActivities(StudySearchDto searchDto);
-
     }
 }

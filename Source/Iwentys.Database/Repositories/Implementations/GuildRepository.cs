@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
+using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Types.Guilds;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -17,13 +20,6 @@ namespace Iwentys.Database.Repositories.Implementations
         public GuildRepository(IwentysDbContext dbContext)
         {
             _dbContext = dbContext;
-        }
-
-        public GuildEntity Create(GuildEntity entity)
-        {
-            EntityEntry<GuildEntity> createdEntity = _dbContext.Guilds.Add(entity);
-            _dbContext.SaveChanges();
-            return createdEntity.Entity;
         }
 
         public IQueryable<GuildEntity> Read()
@@ -60,6 +56,27 @@ namespace Iwentys.Database.Repositories.Implementations
             GuildEntity user = this.Get(key);
             _dbContext.Guilds.Remove(user);
             _dbContext.SaveChanges();
+        }
+
+        public GuildEntity Create(Student creator, GuildCreateArgumentDto arguments)
+        {
+            var newGuild = new GuildEntity
+            {
+                Bio = arguments.Bio,
+                HiringPolicy = arguments.HiringPolicy,
+                LogoUrl = arguments.LogoUrl,
+                Title = arguments.Title,
+                GuildType = GuildType.Pending
+            };
+
+            newGuild.Members = new List<GuildMember>
+            {
+                new GuildMember {Guild = newGuild, Member = creator, MemberType = GuildMemberType.Creator}
+            };
+
+            EntityEntry<GuildEntity> createdEntity = _dbContext.Guilds.Add(newGuild);
+            _dbContext.SaveChanges();
+            return createdEntity.Entity;
         }
 
         public GuildEntity[] ReadPending()

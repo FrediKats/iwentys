@@ -22,15 +22,17 @@ namespace Iwentys.Models.Entities.Guilds
         public Student Mentor { get; set; }
         public int? MentorId { get; set; }
 
-        public static Tribute New(int guildId, long projectId)
+        public Tribute()
         {
-            return new Tribute
-            {
-                GuildId = guildId,
-                ProjectId = projectId,
-                State = TributeState.Active,
-                CreationTime = DateTime.UtcNow
-            };
+        }
+
+        public Tribute(GuildEntity guild, GithubProjectEntity projectEntity) : this()
+        {
+            GuildId = guild.Id;
+            ProjectEntity = projectEntity;
+            ProjectId = projectEntity.Id;
+            State = TributeState.Active;
+            CreationTime = DateTime.UtcNow;
         }
 
         public void SetCanceled()

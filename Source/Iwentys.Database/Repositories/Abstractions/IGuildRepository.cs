@@ -1,10 +1,14 @@
 ﻿using System;
+using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
+using Iwentys.Models.Transferable.Guilds;
 
 namespace Iwentys.Database.Repositories.Abstractions
 {
     public interface IGuildRepository : IGenericRepository<GuildEntity, int>
     {
+        GuildEntity Create(Student creator, GuildCreateArgumentDto arguments);
+
         GuildEntity[] ReadPending();
         GuildEntity ReadForStudent(int studentId);
 

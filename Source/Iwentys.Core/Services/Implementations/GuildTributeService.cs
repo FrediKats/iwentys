@@ -64,9 +64,7 @@ namespace Iwentys.Core.Services.Implementations
             if (allTributes.Any(t => t.State == TributeState.Active && t.ProjectEntity.StudentId == student.Id))
                 throw InnerLogicException.TributeEx.UserAlreadyHaveTribute(user.Id);
 
-            var tribute = Tribute.New(guild.Id, projectEntity.Id);
-            tribute.ProjectEntity = projectEntity;
-            return _databaseAccessor.TributeRepository.Create(tribute).To(TributeInfoDto.Wrap);
+            return _databaseAccessor.TributeRepository.Create(guild, projectEntity).To(TributeInfoDto.Wrap);
         }
 
         public TributeInfoDto CancelTribute(AuthorizedUser user, long tributeId)

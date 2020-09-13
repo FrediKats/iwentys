@@ -6,6 +6,9 @@ namespace Iwentys.Database.Repositories.Abstractions
 {
     public interface IStudentProjectRepository : IGenericRepository<GithubProjectEntity, long>
     {
+        //TODO: check
+        GithubProjectEntity Create(GithubProjectEntity githubProject);
+
         GithubProjectEntity GetOrCreate(GithubRepository project, Student creator);
         void CreateMany(IEnumerable<GithubProjectEntity> studentsProjects);
         bool Contains(GithubProjectEntity projectEntity);
