@@ -65,6 +65,10 @@ namespace Iwentys.Database.Context
         public DbSet<Quest> Quests { get; set; }
         public DbSet<QuestResponseEntity> QuestResponses { get; set; }
 
+        public DbSet<AssignmentEntity> Assignments { get; set; }
+        public DbSet<StudentAssignmentEntity> StudentAssignments { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             SetCompositeKeys(modelBuilder);
@@ -83,6 +87,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<GuildAchievementModel>().HasKey(a => new {a.AchievementId, a.GuildId});
             modelBuilder.Entity<QuestResponseEntity>().HasKey(a => new {a.QuestId, a.StudentId});
             modelBuilder.Entity<GuildTestTaskSolvingInfoEntity>().HasKey(a => new {a.GuildId, a.StudentId});
+            modelBuilder.Entity<StudentAssignmentEntity>().HasKey(a => new {a.AssignmentId, a.StudentId});
         }
 
         private void SetUniqKey(ModelBuilder modelBuilder)
