@@ -1,12 +1,16 @@
-﻿using Iwentys.Core.DomainModel;
+﻿using System.Collections.Generic;
+using Iwentys.Core.DomainModel;
 using Iwentys.Models.Entities.Guilds;
+using Iwentys.Models.Transferable.Guilds;
 
 namespace Iwentys.Core.Services.Abstractions
 {
     public interface IGuildTestTaskService
     {
-        GuildTestTaskSolvingInfoEntity Accept(AuthorizedUser user, int guildId);
-        GuildTestTaskSolvingInfoEntity Submit(AuthorizedUser user, int guildId, string projectOwner, string projectName);
-        GuildTestTaskSolvingInfoEntity Complete(AuthorizedUser user, int guildId, int taskSolveOwnerId);
+        List<GuildTestTaskInfoDto> Get(int guildId);
+
+        GuildTestTaskInfoDto Accept(AuthorizedUser user, int guildId);
+        GuildTestTaskInfoDto Submit(AuthorizedUser user, int guildId, string projectOwner, string projectName);
+        GuildTestTaskInfoDto Complete(AuthorizedUser user, int guildId, int taskSolveOwnerId);
     }
 }

@@ -13,6 +13,7 @@ namespace Iwentys.Models.Transferable.Guilds
         public ActiveTributeDto Tribute { get; set; }
         public List<AchievementInfoDto> Achievements { get; set; }
         public List<GithubRepository> PinnedRepositories { get; set; }
+        public List<GuildTestTaskInfoDto> TestTasks { get; set; } = new List<GuildTestTaskInfoDto>();
 
         public UserMembershipState UserMembershipState { get; set; }
 

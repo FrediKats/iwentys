@@ -48,7 +48,8 @@ namespace Iwentys.Core.DomainModel.Guilds
                 MemberLeaderBoard = dashboard,
                 Rating = dashboard.TotalRate,
                 PinnedRepositories = Profile.PinnedProjects.SelectToList(p => _githubUserDataService.GetCertainRepository(p.RepositoryOwner, p.RepositoryName)),
-                Achievements = Profile.Achievements.SelectToList(AchievementInfoDto.Wrap)
+                Achievements = Profile.Achievements.SelectToList(AchievementInfoDto.Wrap),
+                TestTasks = Profile.TestTasks.SelectToList(GuildTestTaskInfoDto.Wrap)
             };
 
             if (userId != null && Profile.Members.Any(m => m.MemberId == userId))

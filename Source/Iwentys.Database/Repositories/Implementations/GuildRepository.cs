@@ -30,6 +30,7 @@ namespace Iwentys.Database.Repositories.Implementations
                 .Include(g => g.PinnedProjects)
                 .Include(g => g.Achievements)
                 .ThenInclude(a => a.Achievement)
+                .Include(g => g.TestTasks)
                 .Where(g => g.GuildType == GuildType.Created);
         }
 
@@ -41,6 +42,7 @@ namespace Iwentys.Database.Repositories.Implementations
                 .Include(g => g.PinnedProjects)
                 .Include(g => g.Achievements)
                 .ThenInclude(a => a.Achievement)
+                .Include(g => g.TestTasks)
                 .FirstOrDefault(g => g.Id == key);
         }
 

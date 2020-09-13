@@ -17,6 +17,7 @@ namespace Iwentys.Models.Entities.Guilds
 
         public List<GuildMemberEntity> Members { get; set; } = new List<GuildMemberEntity>();
         public List<GuildPinnedProjectEntity> PinnedProjects { get; set; } = new List<GuildPinnedProjectEntity>();
+        public List<GuildTestTaskSolvingInfoEntity> TestTasks { get; set; } = new List<GuildTestTaskSolvingInfoEntity>();
 
         public List<GuildAchievementModel> Achievements { get; set; } = new List<GuildAchievementModel>();
 
