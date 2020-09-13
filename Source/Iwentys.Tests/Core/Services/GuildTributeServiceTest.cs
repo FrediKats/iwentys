@@ -21,7 +21,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuild(student, out GuildProfileDto guild)
                 .WithNewStudent(out AuthorizedUser admin, UserType.Admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor)
-                .WithStudentProject(student, out StudentProject project)
+                .WithStudentProject(student, out GithubProjectEntity project)
                 .WithTribute(student, project, out TributeInfoDto _);
 
             TributeInfoDto[] tributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
@@ -39,7 +39,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuild(student, out GuildProfileDto guild)
                 .WithNewStudent(out AuthorizedUser admin, UserType.Admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor)
-                .WithStudentProject(student, out StudentProject project)
+                .WithStudentProject(student, out GithubProjectEntity project)
                 .WithTribute(student, project, out TributeInfoDto tributeInfo);
 
             context.GuildTributeServiceService.CancelTribute(student, tributeInfo.Project.Id);
@@ -60,7 +60,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuild(student, out GuildProfileDto guild)
                 .WithNewStudent(out AuthorizedUser admin, UserType.Admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor)
-                .WithStudentProject(student, out StudentProject project)
+                .WithStudentProject(student, out GithubProjectEntity project)
                 .WithTribute(student, project, out TributeInfoDto tributeInfo)
                 .WithCompletedTribute(mentor, tributeInfo, out TributeInfoDto completedTribute);
 

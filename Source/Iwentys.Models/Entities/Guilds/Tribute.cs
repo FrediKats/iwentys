@@ -9,9 +9,9 @@ namespace Iwentys.Models.Entities.Guilds
     {
         [Key]
         public long ProjectId { get; set; }
-        public StudentProject Project { get; set; }
+        public GithubProjectEntity ProjectEntity { get; set; }
 
-        public Guild Guild { get; set; }
+        public GuildEntity Guild { get; set; }
         public int GuildId { get; set; }
 
         public TributeState State { get; set; }

@@ -56,7 +56,7 @@ namespace Iwentys.Database.Repositories.Implementations
             return _dbContext
                 .Tributes
                 .Where(t => t.GuildId == guildId)
-                .Where(t => t.Project.StudentId == studentId)
+                .Where(t => t.ProjectEntity.StudentId == studentId)
                 .ToArray();
         }
 
@@ -65,7 +65,7 @@ namespace Iwentys.Database.Repositories.Implementations
             return _dbContext
                 .Tributes
                 .Where(t => t.GuildId == guildId)
-                .Where(t => t.Project.StudentId == studentId)
+                .Where(t => t.ProjectEntity.StudentId == studentId)
                 .SingleOrDefault(t => t.State == TributeState.Active);
         }
     }

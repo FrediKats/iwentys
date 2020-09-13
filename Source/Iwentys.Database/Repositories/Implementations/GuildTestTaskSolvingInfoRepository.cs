@@ -17,7 +17,7 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext = dbContext;
         }
 
-        public GuildTestTaskSolvingInfoEntity Create(Guild guild, Student student)
+        public GuildTestTaskSolvingInfoEntity Create(GuildEntity guild, Student student)
         {
             EntityEntry<GuildTestTaskSolvingInfoEntity> entityEntry = _dbContext.GuildTestTaskSolvingInfos.Add(new GuildTestTaskSolvingInfoEntity()
             {

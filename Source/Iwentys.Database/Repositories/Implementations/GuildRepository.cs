@@ -19,14 +19,14 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext = dbContext;
         }
 
-        public Guild Create(Guild entity)
+        public GuildEntity Create(GuildEntity entity)
         {
-            EntityEntry<Guild> createdEntity = _dbContext.Guilds.Add(entity);
+            EntityEntry<GuildEntity> createdEntity = _dbContext.Guilds.Add(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
-        public IQueryable<Guild> Read()
+        public IQueryable<GuildEntity> Read()
         {
             return _dbContext.Guilds
                 .Include(g => g.Members)
@@ -37,7 +37,7 @@ namespace Iwentys.Database.Repositories.Implementations
                 .Where(g => g.GuildType == GuildType.Created);
         }
 
-        public Guild ReadById(int key)
+        public GuildEntity ReadById(int key)
         {
             return _dbContext.Guilds
                 .Include(g => g.Members)
@@ -48,21 +48,21 @@ namespace Iwentys.Database.Repositories.Implementations
                 .FirstOrDefault(g => g.Id == key);
         }
 
-        public Guild Update(Guild entity)
+        public GuildEntity Update(GuildEntity entity)
         {
-            EntityEntry<Guild> createdEntity = _dbContext.Guilds.Update(entity);
+            EntityEntry<GuildEntity> createdEntity = _dbContext.Guilds.Update(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
         public void Delete(int key)
         {
-            Guild user = this.Get(key);
+            GuildEntity user = this.Get(key);
             _dbContext.Guilds.Remove(user);
             _dbContext.SaveChanges();
         }
 
-        public Guild[] ReadPending()
+        public GuildEntity[] ReadPending()
         {
             return _dbContext.Guilds
                 .Include(g => g.Members)
@@ -71,7 +71,7 @@ namespace Iwentys.Database.Repositories.Implementations
                 .ToArray();
         }
 
-        public Guild ReadForStudent(int studentId)
+        public GuildEntity ReadForStudent(int studentId)
         {
             return _dbContext.GuildMembers
                 .Where(gm => gm.MemberId == studentId)

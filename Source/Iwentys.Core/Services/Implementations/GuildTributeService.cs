@@ -28,7 +28,7 @@ namespace Iwentys.Core.Services.Implementations
 
         public TributeInfoDto[] GetPendingTributes(AuthorizedUser user)
         {
-            Guild guild = _databaseAccessor.GuildRepository.ReadForStudent(user.Id) ?? throw InnerLogicException.Guild.IsNotGuildMember(user.Id, null);
+            GuildEntity guild = _databaseAccessor.GuildRepository.ReadForStudent(user.Id) ?? throw InnerLogicException.Guild.IsNotGuildMember(user.Id, null);
 
             return _databaseAccessor.TributeRepository
                 .ReadForGuild(guild.Id)
@@ -39,7 +39,7 @@ namespace Iwentys.Core.Services.Implementations
 
         public TributeInfoDto[] GetStudentTributeResult(AuthorizedUser user)
         {
-            Guild guild = _databaseAccessor.GuildRepository.ReadForStudent(user.Id) ?? throw InnerLogicException.Guild.IsNotGuildMember(user.Id, null);
+            GuildEntity guild = _databaseAccessor.GuildRepository.ReadForStudent(user.Id) ?? throw InnerLogicException.Guild.IsNotGuildMember(user.Id, null);
 
             return _databaseAccessor.TributeRepository
                 .ReadStudentInGuildTributes(guild.Id, user.Id)
@@ -54,18 +54,18 @@ namespace Iwentys.Core.Services.Implementations
                 throw InnerLogicException.TributeEx.TributeCanBeSendFromStudentAccount(student, createProject);
 
             GithubRepository githubProject = _githubApi.GetRepository(createProject.Owner, createProject.RepositoryName);
-            StudentProject project = _databaseAccessor.StudentProjectRepository.GetOrCreate(githubProject, student);
-            Guild guild = _databaseAccessor.GuildRepository.ReadForStudent(student.Id);
+            GithubProjectEntity projectEntity = _databaseAccessor.StudentProjectRepository.GetOrCreate(githubProject, student);
+            GuildEntity guild = _databaseAccessor.GuildRepository.ReadForStudent(student.Id);
             Tribute[] allTributes = _databaseAccessor.TributeRepository.Read().ToArray();
 
-            if (allTributes.Any(t => t.ProjectId == project.Id))
-                throw InnerLogicException.TributeEx.ProjectAlreadyUsed(project.Id);
+            if (allTributes.Any(t => t.ProjectId == projectEntity.Id))
+                throw InnerLogicException.TributeEx.ProjectAlreadyUsed(projectEntity.Id);
 
-            if (allTributes.Any(t => t.State == TributeState.Active && t.Project.StudentId == student.Id))
+            if (allTributes.Any(t => t.State == TributeState.Active && t.ProjectEntity.StudentId == student.Id))
                 throw InnerLogicException.TributeEx.UserAlreadyHaveTribute(user.Id);
 
-            var tribute = Tribute.New(guild.Id, project.Id);
-            tribute.Project = project;
+            var tribute = Tribute.New(guild.Id, projectEntity.Id);
+            tribute.ProjectEntity = projectEntity;
             return _databaseAccessor.TributeRepository.Create(tribute).To(TributeInfoDto.Wrap);
         }
 
@@ -77,7 +77,7 @@ namespace Iwentys.Core.Services.Implementations
             if (tribute.State != TributeState.Active)
                 throw InnerLogicException.TributeEx.IsNotActive(tribute);
 
-            if (tribute.Project.StudentId == user.Id)
+            if (tribute.ProjectEntity.StudentId == user.Id)
             {
                 tribute.SetCanceled();
             }

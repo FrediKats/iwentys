@@ -14,7 +14,7 @@ namespace Iwentys.Models.Transferable.Guilds
         {
         }
 
-        public GuildProfilePreviewDto(Guild guild) : base(guild)
+        public GuildProfilePreviewDto(GuildEntity guild) : base(guild)
         {
         }
 

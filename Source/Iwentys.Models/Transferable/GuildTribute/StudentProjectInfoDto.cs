@@ -9,14 +9,14 @@ namespace Iwentys.Models.Transferable.GuildTribute
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public static StudentProjectInfoDto Wrap(StudentProject project)
+        public static StudentProjectInfoDto Wrap(GithubProjectEntity projectEntity)
         {
             return new StudentProjectInfoDto
             {
-                Id = project.Id,
-                Url = project.FullUrl,
-                Name = project.FullUrl,
-                Description = project.Description
+                Id = projectEntity.Id,
+                Url = projectEntity.FullUrl,
+                Name = projectEntity.FullUrl,
+                Description = projectEntity.Description
             };
         }
     }

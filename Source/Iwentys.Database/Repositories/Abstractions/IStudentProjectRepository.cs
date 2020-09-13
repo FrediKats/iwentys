@@ -4,12 +4,12 @@ using Iwentys.Models.Entities.Github;
 
 namespace Iwentys.Database.Repositories.Abstractions
 {
-    public interface IStudentProjectRepository : IGenericRepository<StudentProject, long>
+    public interface IStudentProjectRepository : IGenericRepository<GithubProjectEntity, long>
     {
-        StudentProject GetOrCreate(GithubRepository project, Student creator);
-        void CreateMany(IEnumerable<StudentProject> studentsProjects);
-        bool Contains(StudentProject project);
-        IEnumerable<StudentProject> FindProjectsByUserName(string username);
-        StudentProject FindCertainProject(string username, string projectName);
+        GithubProjectEntity GetOrCreate(GithubRepository project, Student creator);
+        void CreateMany(IEnumerable<GithubProjectEntity> studentsProjects);
+        bool Contains(GithubProjectEntity projectEntity);
+        IEnumerable<GithubProjectEntity> FindProjectsByUserName(string username);
+        GithubProjectEntity FindCertainProject(string username, string projectName);
     }
 }

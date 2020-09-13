@@ -10,21 +10,21 @@ namespace Iwentys.Core.DomainModel
 {
     public class GuildMentorUser
     {
-        public GuildMentorUser(Student student, Guild guild)
+        public GuildMentorUser(Student student, GuildEntity guild)
         {
             Student = student;
             Guild = guild;
         }
 
         public Student Student { get; }
-        public Guild Guild { get; }
+        public GuildEntity Guild { get; }
     }
 
     public static class GuildMentorUserExtensions
     {
         public static GuildMentorUser EnsureIsMentor(this Student student, IGuildRepository guildRepository, int guildId)
         {
-            Guild guild = guildRepository.Get(guildId);
+            GuildEntity guild = guildRepository.Get(guildId);
             GuildMember membership = guild.Members.First(m => m.MemberId == student.Id);
             if (!membership.MemberType.IsEditor())
                 throw InnerLogicException.NotEnoughPermission(student.Id);

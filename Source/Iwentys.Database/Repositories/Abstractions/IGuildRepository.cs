@@ -3,10 +3,10 @@ using Iwentys.Models.Entities.Guilds;
 
 namespace Iwentys.Database.Repositories.Abstractions
 {
-    public interface IGuildRepository : IGenericRepository<Guild, int>
+    public interface IGuildRepository : IGenericRepository<GuildEntity, int>
     {
-        Guild[] ReadPending();
-        Guild ReadForStudent(int studentId);
+        GuildEntity[] ReadPending();
+        GuildEntity ReadForStudent(int studentId);
 
         // TODO: extract methods below to GuildMemberRepository
         Boolean IsStudentHaveRequest(int studentId);

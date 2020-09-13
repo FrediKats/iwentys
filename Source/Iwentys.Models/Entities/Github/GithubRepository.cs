@@ -11,13 +11,13 @@
             StarCount = starCount;
         }
 
-        public GithubRepository(StudentProject project)
+        public GithubRepository(GithubProjectEntity projectEntity)
         {
-            Id = project.GithubRepositoryId;
-            Name = project.Name;
-            Description = project.Description;
-            Url = project.FullUrl;
-            StarCount = project.StarCount;
+            Id = projectEntity.GithubRepositoryId;
+            Name = projectEntity.Name;
+            Description = projectEntity.Description;
+            Url = projectEntity.FullUrl;
+            StarCount = projectEntity.StarCount;
         }
 
         private GithubRepository()

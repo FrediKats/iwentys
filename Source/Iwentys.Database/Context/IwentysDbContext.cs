@@ -16,7 +16,7 @@ namespace Iwentys.Database.Context
 
         #region Guilds
 
-        public DbSet<Guild> Guilds { get; set; }
+        public DbSet<GuildEntity> Guilds { get; set; }
         public DbSet<GuildMember> GuildMembers { get; set; }
         public DbSet<GuildPinnedProject> GuildPinnedProjects { get; set; }
         public DbSet<Tournament> Tournaments { get; set; }
@@ -56,7 +56,7 @@ namespace Iwentys.Database.Context
         #endregion
 
         public DbSet<Student> Students { get; set; }
-        public DbSet<StudentProject> StudentProjects { get; set; }
+        public DbSet<GithubProjectEntity> StudentProjects { get; set; }
         public DbSet<GithubUserData> GithubUsersData { get; set; }
         public DbSet<BarsPointTransactionLog> BarsPointTransactionLogs { get; set; }
         public DbSet<Company> Companies { get; set; }
@@ -87,7 +87,7 @@ namespace Iwentys.Database.Context
 
         private void SetUniqKey(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Guild>().HasIndex(g => g.Title).IsUnique();
+            modelBuilder.Entity<GuildEntity>().HasIndex(g => g.Title).IsUnique();
 
             modelBuilder.Entity<GuildMember>().HasIndex(g => g.MemberId).IsUnique();
             modelBuilder.Entity<CompanyWorker>().HasIndex(g => g.WorkerId).IsUnique();
@@ -106,7 +106,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<SubjectActivity>().HasData(seedData.SubjectActivitys);
 
             modelBuilder.Entity<Student>().HasData(seedData.Students);
-            modelBuilder.Entity<Guild>().HasData(seedData.Guilds);
+            modelBuilder.Entity<GuildEntity>().HasData(seedData.Guilds);
             modelBuilder.Entity<GuildMember>().HasData(seedData.GuildMembers);
             modelBuilder.Entity<GuildPinnedProject>().HasData(seedData.GuildPinnedProjects);
 

@@ -17,7 +17,7 @@ namespace Iwentys.Models.Transferable.Guilds
             {
                 ProjectId = tribute.ProjectId,
                 State = tribute.State,
-                ProjectName = tribute.Project.Name,
+                ProjectName = tribute.ProjectEntity.Name,
                 CreationTime = tribute.CreationTime
             };
         }

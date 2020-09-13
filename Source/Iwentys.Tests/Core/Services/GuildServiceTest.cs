@@ -150,7 +150,7 @@ namespace Iwentys.Tests.Core.Services
 
             context.GuildService.BlockGuildMember(user, guild.Id, member.Id);
             List<GuildMember> blocked = context.GuildService.GetGuildBlocked(user, guild.Id).ToList();
-            Guild memberGuild = context.GuildRepository.ReadForStudent(member.Id);
+            GuildEntity memberGuild = context.GuildRepository.ReadForStudent(member.Id);
 
             Assert.That(blocked.Find(m => m.MemberId == member.Id), Is.Not.Null);
             Assert.That(memberGuild, Is.Null);
@@ -202,7 +202,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuildMember(guild, out AuthorizedUser member);
 
             context.GuildService.KickGuildMember(user, guild.Id, member.Id);
-            Guild memberGuild = context.GuildRepository.ReadForStudent(member.Id);
+            GuildEntity memberGuild = context.GuildRepository.ReadForStudent(member.Id);
 
             Assert.That(memberGuild, Is.Null);
         }

@@ -34,7 +34,7 @@ namespace Iwentys.Database.Context
         public List<SubjectActivity> SubjectActivitys { get; set; }
 
         public List<Student> Students { get; set; }
-        public List<Guild> Guilds { get; set; }
+        public List<GuildEntity> Guilds { get; set; }
         public List<GuildMember> GuildMembers { get; set; }
         public List<GuildPinnedProject> GuildPinnedProjects { get; set; }
 
@@ -206,9 +206,9 @@ namespace Iwentys.Database.Context
 
         private void InitGuilds()
         {
-            Guilds = new List<Guild>
+            Guilds = new List<GuildEntity>
             {
-                new Guild
+                new GuildEntity
                 {
                     Id = 1,
                     Title = "TEF-Dev",
@@ -217,7 +217,7 @@ namespace Iwentys.Database.Context
                     HiringPolicy = GuildHiringPolicy.Open,
                     GuildType = GuildType.Created
                 },
-                new Guild
+                new GuildEntity
                 {
                     Id = 2,
                     Title = "javaica",
@@ -226,7 +226,7 @@ namespace Iwentys.Database.Context
                     HiringPolicy = GuildHiringPolicy.Open,
                     GuildType = GuildType.Created
                 },
-                new Guild
+                new GuildEntity
                 {
                     Id = 3,
                     Title = "CodingPenguinParty",

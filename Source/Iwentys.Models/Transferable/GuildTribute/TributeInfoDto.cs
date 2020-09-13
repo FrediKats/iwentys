@@ -24,7 +24,7 @@ namespace Iwentys.Models.Transferable.GuildTribute
         {
             return new TributeInfoDto
             {
-                Project = StudentProjectInfoDto.Wrap(project.Project),
+                Project = StudentProjectInfoDto.Wrap(project.ProjectEntity),
                 GuildId = project.GuildId,
                 State = project.State,
                 DifficultLevel = project.DifficultLevel,

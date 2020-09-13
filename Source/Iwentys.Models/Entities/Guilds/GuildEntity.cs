@@ -4,7 +4,7 @@ using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Models.Entities.Guilds
 {
-    public class Guild
+    public class GuildEntity
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -15,9 +15,13 @@ namespace Iwentys.Models.Entities.Guilds
         public GuildHiringPolicy HiringPolicy { get; set; }
         public GuildType GuildType { get; set; }
 
-        public List<GuildMember> Members { get; set; }
-        public List<GuildPinnedProject> PinnedProjects { get; set; }
+        public List<GuildMember> Members { get; set; } = new List<GuildMember>();
+        public List<GuildPinnedProject> PinnedProjects { get; set; } = new List<GuildPinnedProject>();
 
-        public List<GuildAchievementModel> Achievements { get; set; }
+        public List<GuildAchievementModel> Achievements { get; set; } = new List<GuildAchievementModel>();
+
+        public GuildEntity()
+        {
+        }
     }
 }

@@ -19,12 +19,12 @@ namespace Iwentys.Core.DomainModel.Guilds
 {
     public class GuildDomain
     {
-        private readonly Guild _profile;
+        private readonly GuildEntity _profile;
         private readonly DatabaseAccessor _dbAccessor;
         private readonly IGithubUserDataService _githubUserDataService;
         private readonly IGithubApiAccessor _apiAccessor;
 
-        public GuildDomain(Guild profile, DatabaseAccessor dbAccessor, IGithubUserDataService githubUserDataService, IGithubApiAccessor apiAccessor)
+        public GuildDomain(GuildEntity profile, DatabaseAccessor dbAccessor, IGithubUserDataService githubUserDataService, IGithubApiAccessor apiAccessor)
         {
             _profile = profile;
             _dbAccessor = dbAccessor;
@@ -94,7 +94,7 @@ namespace Iwentys.Core.DomainModel.Guilds
         public UserMembershipState GetUserMembershipState(Int32 userId)
         {
             Student user = _dbAccessor.Student.Get(userId);
-            Guild userGuild = _dbAccessor.GuildRepository.ReadForStudent(user.Id);
+            GuildEntity userGuild = _dbAccessor.GuildRepository.ReadForStudent(user.Id);
             GuildMemberType? userStatusInGuild = _profile.Members.Find(m => m.Member.Id == user.Id)?.MemberType;
 
             if (userStatusInGuild == GuildMemberType.Blocked)

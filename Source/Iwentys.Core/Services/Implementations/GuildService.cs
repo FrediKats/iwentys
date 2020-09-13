@@ -45,11 +45,11 @@ namespace Iwentys.Core.Services.Implementations
         {
             Student creatorUser = _studentRepository.Get(creator.Id);
 
-            Guild userGuild = _guildRepository.ReadForStudent(creatorUser.Id);
+            GuildEntity userGuild = _guildRepository.ReadForStudent(creatorUser.Id);
             if (userGuild != null)
                 throw new InnerLogicException("Student already in guild");
 
-            var newGuild = new Guild
+            var newGuild = new GuildEntity
             {
                 Bio = arguments.Bio,
                 HiringPolicy = arguments.HiringPolicy,
@@ -71,7 +71,7 @@ namespace Iwentys.Core.Services.Implementations
         public GuildProfileShortInfoDto Update(AuthorizedUser user, GuildUpdateArgumentDto arguments)
         {
             Student student = user.GetProfile(_studentRepository);
-            Guild info = _guildRepository.Get(arguments.Id);
+            GuildEntity info = _guildRepository.Get(arguments.Id);
             student.EnsureIsGuildEditor(info);
 
             info.Bio = arguments.Bio ?? info.Bio;
@@ -94,7 +94,7 @@ namespace Iwentys.Core.Services.Implementations
                 .Get(user.Id)
                 .EnsureIsAdmin();
 
-            Guild guild = _guildRepository.Get(guildId);
+            GuildEntity guild = _guildRepository.Get(guildId);
             if (guild.GuildType == GuildType.Created)
                 throw new InnerLogicException("Guild already approved");
 
@@ -166,7 +166,7 @@ namespace Iwentys.Core.Services.Implementations
 
         public GuildProfileDto LeaveGuild(AuthorizedUser user, int guildId)
         {
-            Guild studentGuild = _guildRepository.ReadForStudent(user.Id);
+            GuildEntity studentGuild = _guildRepository.ReadForStudent(user.Id);
             if (studentGuild == null || studentGuild.Id != guildId)
                 throw InnerLogicException.Guild.IsNotGuildMember(user.Id, guildId);
 
@@ -182,7 +182,7 @@ namespace Iwentys.Core.Services.Implementations
         public GuildMember[] GetGuildRequests(AuthorizedUser user, Int32 guildId)
         {
             Student student = user.GetProfile(_studentRepository);
-            Guild guild = _guildRepository.Get(guildId);
+            GuildEntity guild = _guildRepository.Get(guildId);
             student.EnsureIsGuildEditor(guild);
 
             return guild.Members
@@ -193,7 +193,7 @@ namespace Iwentys.Core.Services.Implementations
         public GuildMember[] GetGuildBlocked(AuthorizedUser user, Int32 guildId)
         {
             Student student = user.GetProfile(_studentRepository);
-            Guild guild = _guildRepository.Get(guildId);
+            GuildEntity guild = _guildRepository.Get(guildId);
             student.EnsureIsGuildEditor(guild);
 
             return guild.Members
@@ -214,7 +214,7 @@ namespace Iwentys.Core.Services.Implementations
         public void UnblockStudent(AuthorizedUser user, Int32 guildId, Int32 studentId)
         {
             Student student = user.GetProfile(_studentRepository);
-            Guild guild = _guildRepository.Get(guildId);
+            GuildEntity guild = _guildRepository.Get(guildId);
             student.EnsureIsGuildEditor(guild);
 
             GuildMember member = guild.Members.Find(m => m.MemberId == studentId);
@@ -237,7 +237,7 @@ namespace Iwentys.Core.Services.Implementations
         public void AcceptRequest(AuthorizedUser user, Int32 guildId, Int32 studentId)
         {
             Student student = user.GetProfile(_studentRepository);
-            Guild guild = _guildRepository.Get(guildId);
+            GuildEntity guild = _guildRepository.Get(guildId);
             student.EnsureIsGuildEditor(guild);
 
             GuildMember member = guild.Members.Find(m => m.MemberId == studentId);
@@ -253,7 +253,7 @@ namespace Iwentys.Core.Services.Implementations
         public void RejectRequest(AuthorizedUser user, Int32 guildId, Int32 studentId)
         {
             Student student = user.GetProfile(_studentRepository);
-            Guild guild = _guildRepository.Get(guildId);
+            GuildEntity guild = _guildRepository.Get(guildId);
             student.EnsureIsGuildEditor(guild);
 
             GuildMember member = guild.Members.Find(m => m.MemberId == studentId);
@@ -266,7 +266,7 @@ namespace Iwentys.Core.Services.Implementations
 
         public GithubRepository AddPinnedRepository(AuthorizedUser user, int guildId, string owner, string projectName)
         {
-            Guild guild = _guildRepository.Get(guildId);
+            GuildEntity guild = _guildRepository.Get(guildId);
             user.GetProfile(_studentRepository).EnsureIsGuildEditor(guild);
 
             GithubRepository repository = _githubApiAccessor.GetRepository(owner, projectName);
@@ -277,7 +277,7 @@ namespace Iwentys.Core.Services.Implementations
         public void UnpinProject(AuthorizedUser user, int pinnedProjectId)
         {
             GuildPinnedProject guildPinnedProject = _databaseAccessor.Context.GuildPinnedProjects.Find(pinnedProjectId) ?? throw EntityNotFoundException.PinnedRepoWasNotFound(pinnedProjectId);
-            Guild guild = _guildRepository.ReadById(guildPinnedProject.GuildId);
+            GuildEntity guild = _guildRepository.ReadById(guildPinnedProject.GuildId);
             user.GetProfile(_studentRepository).EnsureIsGuildEditor(guild);
 
             user.GetProfile(_studentRepository).EnsureIsGuildEditor(guild);
@@ -294,7 +294,7 @@ namespace Iwentys.Core.Services.Implementations
 
         public void AcceptTestTask(AuthorizedUser user, int guildId)
         {
-            Guild studentGuild = _guildRepository.ReadForStudent(user.Id);
+            GuildEntity studentGuild = _guildRepository.ReadForStudent(user.Id);
             if (studentGuild == null || studentGuild.Id != guildId)
                 throw InnerLogicException.Guild.IsNotGuildMember(user.Id, guildId);
 

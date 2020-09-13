@@ -17,7 +17,7 @@ namespace Iwentys.Models.Transferable.Guilds
         {
         }
 
-        public GuildProfileShortInfoDto(Guild guild) : this()
+        public GuildProfileShortInfoDto(GuildEntity guild) : this()
         {
             Id = guild.Id;
             Title = guild.Title;

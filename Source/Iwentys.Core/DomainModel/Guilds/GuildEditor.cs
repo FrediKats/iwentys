@@ -17,7 +17,7 @@ namespace Iwentys.Core.DomainModel.Guilds
 
     public static class GuildEditorExtensions
     {
-        public static GuildEditor EnsureIsGuildEditor(this Student student, Guild guild)
+        public static GuildEditor EnsureIsGuildEditor(this Student student, GuildEntity guild)
         {
             GuildMember member = guild.Members.Find(m => m.MemberId == student.Id);
 

@@ -130,9 +130,9 @@ namespace Iwentys.Tests.Tools
             return this;
         }
 
-        public TestCaseContext WithStudentProject(AuthorizedUser userInfo, out StudentProject studentProject)
+        public TestCaseContext WithStudentProject(AuthorizedUser userInfo, out GithubProjectEntity githubProjectEntity)
         {
-            var project = new StudentProject
+            var project = new GithubProjectEntity
             {
                 //TODO: hack for work with dummy github
                 Id = 17,
@@ -140,7 +140,7 @@ namespace Iwentys.Tests.Tools
                 Author = userInfo.GetProfile(Accessor.Student).GithubUsername,
                 Name = "Test repo"
             };
-            studentProject = Accessor.StudentProjectRepository.Create(project);
+            githubProjectEntity = Accessor.StudentProjectRepository.Create(project);
 
             return this;
         }
@@ -151,12 +151,12 @@ namespace Iwentys.Tests.Tools
             return this;
         }
 
-        public TestCaseContext WithTribute(AuthorizedUser userInfo, StudentProject project, out TributeInfoDto tribute)
+        public TestCaseContext WithTribute(AuthorizedUser userInfo, GithubProjectEntity projectEntity, out TributeInfoDto tribute)
         {
             tribute = GuildTributeServiceService.CreateTribute(userInfo, new CreateProjectDto
             {
                 Owner = userInfo.GetProfile(Accessor.Student).GithubUsername,
-                RepositoryName = project.Name
+                RepositoryName = projectEntity.Name
             });
             return this;
         }

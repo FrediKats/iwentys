@@ -17,7 +17,7 @@ namespace Iwentys.Tests.Core.DomainModels
     [TestFixture]
     public class UserMembershipStateTest
     {
-        private Guild _guild;
+        private GuildEntity _guild;
         private GuildDomain _guildDomain;
 
         private Student _student;
@@ -42,7 +42,7 @@ namespace Iwentys.Tests.Core.DomainModels
                 LastOnlineTime = DateTime.MinValue.ToUniversalTime()
             };
 
-            _guild = new Guild()
+            _guild = new GuildEntity()
             {
                 Id = 1,
                 Members = new List<GuildMember>()
@@ -77,7 +77,7 @@ namespace Iwentys.Tests.Core.DomainModels
             _guildRepository = new Mock<IGuildRepository>();
             _guildRepository
                 .Setup(r => r.ReadForStudent(It.IsAny<Int32>()))
-                .Returns(default(Guild));
+                .Returns(default(GuildEntity));
             _guildRepository
                 .Setup(r => r.IsStudentHaveRequest(It.IsAny<Int32>()))
                 .Returns(false);
@@ -145,7 +145,7 @@ namespace Iwentys.Tests.Core.DomainModels
         {
             _guildRepository
                 .Setup(r => r.ReadForStudent(_student.Id))
-                .Returns(new Guild() {Id = 2});
+                .Returns(new GuildEntity() {Id = 2});
 
             Assert.That(_guildDomain.ToGuildProfileDto(1).UserMembershipState, Is.EqualTo(UserMembershipState.Blocked));
         }

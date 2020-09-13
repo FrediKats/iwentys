@@ -17,26 +17,26 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext = dbContext;
         }
 
-        public StudentProject Create(StudentProject entity)
+        public GithubProjectEntity Create(GithubProjectEntity entity)
         {
-            EntityEntry<StudentProject> createdEntity = _dbContext.StudentProjects.Add(entity);
+            EntityEntry<GithubProjectEntity> createdEntity = _dbContext.StudentProjects.Add(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
-        public IQueryable<StudentProject> Read()
+        public IQueryable<GithubProjectEntity> Read()
         {
             return _dbContext.StudentProjects;
         }
 
-        public StudentProject ReadById(long key)
+        public GithubProjectEntity ReadById(long key)
         {
             return _dbContext.StudentProjects.Find(key);
         }
 
-        public StudentProject Update(StudentProject entity)
+        public GithubProjectEntity Update(GithubProjectEntity entity)
         {
-            EntityEntry<StudentProject> createdEntity = _dbContext.StudentProjects.Update(entity);
+            EntityEntry<GithubProjectEntity> createdEntity = _dbContext.StudentProjects.Update(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
@@ -47,37 +47,28 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.SaveChanges();
         }
 
-        public StudentProject GetOrCreate(GithubRepository project, Student creator)
+        public GithubProjectEntity GetOrCreate(GithubRepository project, Student creator)
         {
-            return ReadById(project.Id) ?? Create(new StudentProject
-            {
-                Id = project.Id,
-                Author = creator.GithubUsername,
-                Description = project.Description,
-                FullUrl = project.Url,
-                Name = project.Name,
-                Student = creator,
-                StudentId = creator.Id
-            });
+            return ReadById(project.Id) ?? Create(new GithubProjectEntity(creator, project));
         }
 
-        public void CreateMany(IEnumerable<StudentProject> studentsProjects)
+        public void CreateMany(IEnumerable<GithubProjectEntity> studentsProjects)
         {
             _dbContext.StudentProjects.AddRange(studentsProjects);
             _dbContext.SaveChanges();
         }
 
-        public bool Contains(StudentProject project)
+        public bool Contains(GithubProjectEntity projectEntity)
         {
-            return _dbContext.StudentProjects.Contains(project);
+            return _dbContext.StudentProjects.Contains(projectEntity);
         }
 
-        public IEnumerable<StudentProject> FindProjectsByUserName(string username)
+        public IEnumerable<GithubProjectEntity> FindProjectsByUserName(string username)
         {
             return Read().Where(p => p.UserName == username);
         }
 
-        public StudentProject FindCertainProject(string username, string projectName)
+        public GithubProjectEntity FindCertainProject(string username, string projectName)
         {
             return Read().SingleOrDefault(p => p.UserName == username && p.Name == projectName);
         }

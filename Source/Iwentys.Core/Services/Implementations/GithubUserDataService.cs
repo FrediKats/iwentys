@@ -50,17 +50,9 @@ namespace Iwentys.Core.Services.Implementations
                 };
             }
 
-            var studentProjects = _githubApiAccessor.GetUserRepositories(student.GithubUsername)
-                .Select(r => new StudentProject
-                {
-                    StudentId = studentId,
-                    Student = student,
-                    FullUrl = r.Url,
-                    Name = r.Name,
-                    Description = r.Description,
-                    StarCount = r.StarCount,
-                    GithubRepositoryId = r.Id
-                });
+            var studentProjects = _githubApiAccessor
+                .GetUserRepositories(student.GithubUsername)
+                .Select(r => new GithubProjectEntity(student, r));
 
             if (exists)
             {
