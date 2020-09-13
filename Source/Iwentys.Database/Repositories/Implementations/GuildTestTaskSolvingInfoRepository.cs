@@ -33,5 +33,12 @@ namespace Iwentys.Database.Repositories.Implementations
         {
             return _dbContext.GuildTestTaskSolvingInfos;
         }
+
+        public GuildTestTaskSolvingInfoEntity Update(GuildTestTaskSolvingInfoEntity testTask)
+        {
+            EntityEntry<GuildTestTaskSolvingInfoEntity> result = _dbContext.Update(testTask);
+            _dbContext.SaveChanges();
+            return result.Entity;
+        }
     }
 }

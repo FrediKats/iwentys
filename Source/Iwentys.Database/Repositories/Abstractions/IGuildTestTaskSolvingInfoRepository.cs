@@ -8,5 +8,6 @@ namespace Iwentys.Database.Repositories.Abstractions
     {
         GuildTestTaskSolvingInfoEntity Create(GuildEntity guild, StudentEntity student);
         IQueryable<GuildTestTaskSolvingInfoEntity> Read();
+        GuildTestTaskSolvingInfoEntity Update(GuildTestTaskSolvingInfoEntity testTask);
     }
 }

@@ -272,14 +272,5 @@ namespace Iwentys.Core.Services.Implementations
                 .To(g => new GuildDomain(g, _databaseAccessor, _githubUserDataService, _githubApiAccessor))
                 .GetMemberDashboard();
         }
-
-        public void AcceptTestTask(AuthorizedUser user, int guildId)
-        {
-            GuildEntity studentGuild = _guildRepository.ReadForStudent(user.Id);
-            if (studentGuild == null || studentGuild.Id != guildId)
-                throw InnerLogicException.Guild.IsNotGuildMember(user.Id, guildId);
-
-            _databaseAccessor.GuildTestTaskSolvingInfo.Create(studentGuild, user.GetProfile(_studentRepository));
-        }
     }
 }

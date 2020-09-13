@@ -11,7 +11,7 @@
             StarCount = starCount;
         }
 
-        public GithubRepository(GithubProjectEntity projectEntity)
+        public GithubRepository(GithubProjectEntity projectEntity) : this()
         {
             Id = projectEntity.GithubRepositoryId;
             Name = projectEntity.Name;
