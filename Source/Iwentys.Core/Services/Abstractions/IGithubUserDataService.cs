@@ -7,7 +7,7 @@ namespace Iwentys.Core.Services.Abstractions
     public interface IGithubUserDataService
     {
         GithubUserData CreateOrUpdate(int studentId);
-        GithubUserData GetUserDataByUsername(string username);
+        GithubUserData FindByUsername(string username);
         IEnumerable<GithubRepository> GetGithubRepositories(string username);
         GithubRepository GetCertainRepository(string username, string projectName);
         IEnumerable<GithubUserData> GetAll();

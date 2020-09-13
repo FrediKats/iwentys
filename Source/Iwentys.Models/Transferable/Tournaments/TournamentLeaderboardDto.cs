@@ -7,6 +7,6 @@ namespace Iwentys.Models.Transferable.Tournaments
     public class TournamentLeaderboardDto
     {
         public TournamentEntity Tournament { get; set; }
-        public Dictionary<GuildProfileDto, int> Result { get; set; }
+        public Dictionary<GuildProfileShortInfoDto, int> Result { get; set; }
     }
 }

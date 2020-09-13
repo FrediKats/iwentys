@@ -3,6 +3,7 @@ using System.Linq;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
+using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Tournaments;
@@ -11,15 +12,17 @@ namespace Iwentys.Core.Services.Implementations
 {
     public class TournamentService : ITournamentService
     {
+        private readonly DatabaseAccessor _databaseAccessor;
         private readonly IGithubApiAccessor _githubApi;
-        private readonly IGuildService _guildService;
+        private readonly IGithubUserDataService _githubUserDataService;
         private readonly ITournamentRepository _tournamentRepository;
 
-        public TournamentService(ITournamentRepository tournamentRepository, IGuildService guildService, IGithubApiAccessor githubApi)
+        public TournamentService(ITournamentRepository tournamentRepository, IGithubApiAccessor githubApi, DatabaseAccessor databaseAccessor, IGithubUserDataService githubUserDataService)
         {
             _tournamentRepository = tournamentRepository;
-            _guildService = guildService;
             _githubApi = githubApi;
+            _databaseAccessor = databaseAccessor;
+            _githubUserDataService = githubUserDataService;
         }
 
         public TournamentEntity[] Get()
@@ -43,7 +46,7 @@ namespace Iwentys.Core.Services.Implementations
         public TournamentLeaderboardDto GetLeaderboard(int tournamentId)
         {
             return Get(tournamentId)
-                .WrapToDomain(_guildService, _githubApi)
+                .WrapToDomain(_githubApi, _databaseAccessor, _githubUserDataService)
                 .GetLeaderboard();
         }
     }

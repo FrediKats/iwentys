@@ -68,12 +68,7 @@ namespace Iwentys.Core.GithubIntegration
 
         public int GetUserActivity(string githubUsername, DateTime from, DateTime to)
         {
-            return GetUserActivity(githubUsername)
-                .RawActivity
-                .Contributions
-                .Select(c => (Date: DateTime.Parse(c.Date), c.Count))
-                .Where(c => c.Date >= from && c.Date <= to)
-                .Sum(c => c.Count);
+            return GetUserActivity(githubUsername).GetActivityForPeriod(from, to);
         }
 
         public Organization FindOrganizationInfo(string organizationName)

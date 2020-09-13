@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace Iwentys.Models.Entities.Github
@@ -16,6 +18,15 @@ namespace Iwentys.Models.Entities.Github
                     .GroupBy(c => c.Date.Substring(0, 7))
                     .Select(c => new ContributionsInfo(c.Key, c.Sum(_ => _.Count)))
                     .ToList();
+        }
+
+        public int GetActivityForPeriod(DateTime from, DateTime to)
+        {
+            return RawActivity
+                .Contributions
+                .Select(c => (Date: DateTime.Parse(c.Date, CultureInfo.InvariantCulture), c.Count))
+                .Where(c => c.Date >= @from && c.Date <= to)
+                .Sum(c => c.Count);
         }
     }
 }

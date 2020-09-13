@@ -7,6 +7,6 @@ namespace Iwentys.Database.Repositories.Abstractions
         //TODO: check
         GithubUserData Create(GithubUserData githubUserData);
 
-        GithubUserData GetUserDataByUsername(string username);
+        GithubUserData FindByUsername(string username);
     }
 }

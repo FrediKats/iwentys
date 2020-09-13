@@ -1,4 +1,5 @@
 ﻿using System;
+using Iwentys.Models.Entities;
 
 namespace Iwentys.Models.Transferable.Guilds
 {
@@ -6,6 +7,16 @@ namespace Iwentys.Models.Transferable.Guilds
     {
         public String Username { get; set; }
         public Int32 TotalRate { get; set; }
+
+        public GuildMemberImpact()
+        {
+        }
+
+        public GuildMemberImpact(GithubUserData userData) :this()
+        {
+            Username = userData.Username;
+            TotalRate = userData.ContributionFullInfo.Total;
+        }
 
         public GuildMemberImpact(String username, Int32 totalRate)
         {
