@@ -17,10 +17,10 @@ namespace Iwentys.Database.Context
         #region Guilds
 
         public DbSet<GuildEntity> Guilds { get; set; }
-        public DbSet<GuildMember> GuildMembers { get; set; }
-        public DbSet<GuildPinnedProject> GuildPinnedProjects { get; set; }
-        public DbSet<Tournament> Tournaments { get; set; }
-        public DbSet<Tribute> Tributes { get; set; }
+        public DbSet<GuildMemberEntity> GuildMembers { get; set; }
+        public DbSet<GuildPinnedProjectEntity> GuildPinnedProjects { get; set; }
+        public DbSet<TournamentEntity> Tournaments { get; set; }
+        public DbSet<TributeEntity> Tributes { get; set; }
         public DbSet<GuildTestTaskSolvingInfoEntity> GuildTestTaskSolvingInfos { get; set; }
 
         #endregion
@@ -76,7 +76,7 @@ namespace Iwentys.Database.Context
 
         private void SetCompositeKeys(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<GuildMember>().HasKey(g => new {g.GuildId, g.MemberId});
+            modelBuilder.Entity<GuildMemberEntity>().HasKey(g => new {g.GuildId, g.MemberId});
             modelBuilder.Entity<CompanyWorker>().HasKey(g => new {g.CompanyId, g.WorkerId});
             modelBuilder.Entity<SubjectActivity>().HasKey(s => new {s.SubjectForGroupId, s.StudentId});
             modelBuilder.Entity<StudentAchievementEntity>().HasKey(a => new {a.AchievementId, a.StudentId});
@@ -89,7 +89,7 @@ namespace Iwentys.Database.Context
         {
             modelBuilder.Entity<GuildEntity>().HasIndex(g => g.Title).IsUnique();
 
-            modelBuilder.Entity<GuildMember>().HasIndex(g => g.MemberId).IsUnique();
+            modelBuilder.Entity<GuildMemberEntity>().HasIndex(g => g.MemberId).IsUnique();
             modelBuilder.Entity<CompanyWorker>().HasIndex(g => g.WorkerId).IsUnique();
         }
 
@@ -107,8 +107,8 @@ namespace Iwentys.Database.Context
 
             modelBuilder.Entity<Student>().HasData(seedData.Students);
             modelBuilder.Entity<GuildEntity>().HasData(seedData.Guilds);
-            modelBuilder.Entity<GuildMember>().HasData(seedData.GuildMembers);
-            modelBuilder.Entity<GuildPinnedProject>().HasData(seedData.GuildPinnedProjects);
+            modelBuilder.Entity<GuildMemberEntity>().HasData(seedData.GuildMembers);
+            modelBuilder.Entity<GuildPinnedProjectEntity>().HasData(seedData.GuildPinnedProjects);
 
             modelBuilder.Entity<AchievementModel>().HasData(AchievementList.Achievements);
             modelBuilder.Entity<StudentAchievementEntity>().HasData(seedData.StudentAchievementModels);

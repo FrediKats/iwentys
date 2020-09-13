@@ -75,7 +75,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out GuildProfileDto guild);
 
-            List<GuildMember> requests = context.GuildService.GetGuildRequests(user, guild.Id).ToList();
+            List<GuildMemberEntity> requests = context.GuildService.GetGuildRequests(user, guild.Id).ToList();
 
             Assert.That(requests, Is.Not.Null);
             Assert.That(requests.Any(), Is.False);
@@ -114,7 +114,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuild(user, out GuildProfileDto guild)
                 .WithGuildRequest(guild, out AuthorizedUser student);
 
-            List<GuildMember> requests = context.GuildService.GetGuildRequests(user, guild.Id).ToList();
+            List<GuildMemberEntity> requests = context.GuildService.GetGuildRequests(user, guild.Id).ToList();
 
             Assert.That(requests, Is.Not.Null);
             Assert.That(requests.Length, Is.EqualTo(1));
@@ -131,7 +131,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuild(user, out GuildProfileDto guild)
                 .WithGuildBlocked(guild, out AuthorizedUser student);
 
-            List<GuildMember> blocked = context.GuildService.GetGuildBlocked(user, guild.Id).ToList();
+            List<GuildMemberEntity> blocked = context.GuildService.GetGuildBlocked(user, guild.Id).ToList();
 
             Assert.That(blocked, Is.Not.Null);
             Assert.That(blocked.Length, Is.EqualTo(1));
@@ -149,7 +149,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuildMember(guild, out AuthorizedUser member);
 
             context.GuildService.BlockGuildMember(user, guild.Id, member.Id);
-            List<GuildMember> blocked = context.GuildService.GetGuildBlocked(user, guild.Id).ToList();
+            List<GuildMemberEntity> blocked = context.GuildService.GetGuildBlocked(user, guild.Id).ToList();
             GuildEntity memberGuild = context.GuildRepository.ReadForStudent(member.Id);
 
             Assert.That(blocked.Find(m => m.MemberId == member.Id), Is.Not.Null);
@@ -230,7 +230,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuildBlocked(guild, out AuthorizedUser student);
 
             context.GuildService.UnblockStudent(user, guild.Id, student.Id);
-            List<GuildMember> blocked = context.GuildService.GetGuildBlocked(user, guild.Id).ToList();
+            List<GuildMemberEntity> blocked = context.GuildService.GetGuildBlocked(user, guild.Id).ToList();
 
 
             Assert.That(blocked.Find(m => m.MemberId == student.Id), Is.Null);
@@ -258,8 +258,8 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuildRequest(guild, out AuthorizedUser student);
 
             context.GuildService.AcceptRequest(user, guild.Id, student.Id);
-            GuildMember member = context.GuildRepository.Get(guild.Id).Members.Find(m => m.MemberId == student.Id);
-            List<GuildMember> requests = context.GuildService.GetGuildRequests(user, guild.Id).ToList();
+            GuildMemberEntity member = context.GuildRepository.Get(guild.Id).Members.Find(m => m.MemberId == student.Id);
+            List<GuildMemberEntity> requests = context.GuildService.GetGuildRequests(user, guild.Id).ToList();
 
             Assert.That(member.MemberType, Is.EqualTo(GuildMemberType.Member));
             Assert.That(requests.Find(m => m.MemberId == student.Id), Is.Null);
@@ -287,8 +287,8 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuildRequest(guild, out AuthorizedUser student);
 
             context.GuildService.RejectRequest(user, guild.Id, student.Id);
-            GuildMember member = context.GuildRepository.Get(guild.Id).Members.Find(m => m.MemberId == student.Id);
-            List<GuildMember> requests = context.GuildService.GetGuildRequests(user, guild.Id).ToList();
+            GuildMemberEntity member = context.GuildRepository.Get(guild.Id).Members.Find(m => m.MemberId == student.Id);
+            List<GuildMemberEntity> requests = context.GuildService.GetGuildRequests(user, guild.Id).ToList();
 
             Assert.That(member, Is.Null);
             Assert.That(requests.Find(m => m.MemberId == student.Id), Is.Null);

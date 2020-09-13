@@ -3,7 +3,7 @@ using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Models.Entities.Guilds
 {
-    public class Tournament
+    public class TournamentEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

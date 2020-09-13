@@ -17,13 +17,13 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Tournament>> Get()
+        public ActionResult<IEnumerable<TournamentEntity>> Get()
         {
             return Ok(_tournamentService.Get());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Tournament> Get(int id)
+        public ActionResult<TournamentEntity> Get(int id)
         {
             return Ok(_tournamentService.Get(id));
         }

@@ -14,7 +14,7 @@ namespace Iwentys.Core.DomainModel
 
     public static class TournamentDomainHelper
     {
-        public static ITournamentDomain WrapToDomain(this Tournament tournament, IGuildService guildService, IGithubApiAccessor githubApiAccessor)
+        public static ITournamentDomain WrapToDomain(this TournamentEntity tournament, IGuildService guildService, IGithubApiAccessor githubApiAccessor)
         {
             return tournament.Type switch
             {

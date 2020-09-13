@@ -19,7 +19,7 @@ namespace Iwentys.Core.DomainModel.Guilds
     {
         public static GuildEditor EnsureIsGuildEditor(this Student student, GuildEntity guild)
         {
-            GuildMember member = guild.Members.Find(m => m.MemberId == student.Id);
+            GuildMemberEntity member = guild.Members.Find(m => m.MemberId == student.Id);
 
             if (member is null)
                 throw InnerLogicException.Guild.IsNotGuildMember(student.Id, guild.Id);

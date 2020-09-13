@@ -24,6 +24,6 @@ namespace Iwentys.ClientBot.ApiSdk
         public Task<GuildProfileDto> Leave(int guildId);
 
         [Get("/api/Guild/{guildId}/request")]
-        public Task<List<GuildMember>> GetGuildRequests(int guildId);
+        public Task<List<GuildMemberEntity>> GetGuildRequests(int guildId);
     }
 }

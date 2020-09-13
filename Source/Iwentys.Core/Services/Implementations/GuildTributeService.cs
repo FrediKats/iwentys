@@ -56,7 +56,7 @@ namespace Iwentys.Core.Services.Implementations
             GithubRepository githubProject = _githubApi.GetRepository(createProject.Owner, createProject.RepositoryName);
             GithubProjectEntity projectEntity = _databaseAccessor.StudentProjectRepository.GetOrCreate(githubProject, student);
             GuildEntity guild = _databaseAccessor.GuildRepository.ReadForStudent(student.Id);
-            Tribute[] allTributes = _databaseAccessor.TributeRepository.Read().ToArray();
+            TributeEntity[] allTributes = _databaseAccessor.TributeRepository.Read().ToArray();
 
             if (allTributes.Any(t => t.ProjectId == projectEntity.Id))
                 throw InnerLogicException.TributeEx.ProjectAlreadyUsed(projectEntity.Id);
@@ -70,7 +70,7 @@ namespace Iwentys.Core.Services.Implementations
         public TributeInfoDto CancelTribute(AuthorizedUser user, long tributeId)
         {
             Student student = user.GetProfile(_databaseAccessor.Student);
-            Tribute tribute = _databaseAccessor.TributeRepository.Get(tributeId);
+            TributeEntity tribute = _databaseAccessor.TributeRepository.Get(tributeId);
 
             if (tribute.State != TributeState.Active)
                 throw InnerLogicException.TributeEx.IsNotActive(tribute);
@@ -91,7 +91,7 @@ namespace Iwentys.Core.Services.Implementations
         public TributeInfoDto CompleteTribute(AuthorizedUser user, TributeCompleteDto tributeCompleteDto)
         {
             Student student = user.GetProfile(_databaseAccessor.Student);
-            Tribute tribute = _databaseAccessor.TributeRepository.Get(tributeCompleteDto.TributeId);
+            TributeEntity tribute = _databaseAccessor.TributeRepository.Get(tributeCompleteDto.TributeId);
             GuildMentorUser mentor = student.EnsureIsMentor(_databaseAccessor.GuildRepository, tribute.GuildId);
 
             if (tribute.State != TributeState.Active)

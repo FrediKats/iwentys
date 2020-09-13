@@ -79,7 +79,7 @@ namespace Iwentys.Tests.Tools
         public TestCaseContext WithGuildMember(GuildProfileDto guild, out AuthorizedUser user)
         {
             WithNewStudent(out user);
-            Context.GuildMembers.Add(GuildMember.NewMember(guild.Id, user.Id));
+            Context.GuildMembers.Add(new GuildMemberEntity(guild.Id, user.Id, GuildMemberType.Member));
             Context.SaveChanges();
             return this;
         }
@@ -87,7 +87,7 @@ namespace Iwentys.Tests.Tools
         public TestCaseContext WithGuildMentor(GuildProfileDto guild, out AuthorizedUser user)
         {
             WithNewStudent(out user);
-            Context.GuildMembers.Add(new GuildMember() {GuildId = guild.Id, MemberId = user.Id, MemberType = GuildMemberType.Mentor});
+            Context.GuildMembers.Add(new GuildMemberEntity(guild.Id, user.Id, GuildMemberType.Mentor));
             Context.SaveChanges();
             return this;
         }
@@ -95,7 +95,7 @@ namespace Iwentys.Tests.Tools
         public TestCaseContext WithGuildRequest(GuildProfileDto guild, out AuthorizedUser user)
         {
             WithNewStudent(out user);
-            Context.GuildMembers.Add(new GuildMember() {GuildId = guild.Id, MemberId = user.Id, MemberType = GuildMemberType.Requested});
+            Context.GuildMembers.Add(new GuildMemberEntity(guild.Id, user.Id, GuildMemberType.Requested));
             Context.SaveChanges();
             return this;
         }
@@ -103,7 +103,7 @@ namespace Iwentys.Tests.Tools
         public TestCaseContext WithGuildBlocked(GuildProfileDto guild, out AuthorizedUser user)
         {
             WithNewStudent(out user);
-            Context.GuildMembers.Add(new GuildMember() {GuildId = guild.Id, MemberId = user.Id, MemberType = GuildMemberType.Blocked});
+            Context.GuildMembers.Add(new GuildMemberEntity(guild.Id, user.Id, GuildMemberType.Blocked));
             Context.SaveChanges();
             return this;
         }

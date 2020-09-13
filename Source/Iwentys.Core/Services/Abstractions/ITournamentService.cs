@@ -5,10 +5,10 @@ namespace Iwentys.Core.Services.Abstractions
 {
     public interface ITournamentService
     {
-        Tournament[] Get();
-        Tournament[] GetActive();
+        TournamentEntity[] Get();
+        TournamentEntity[] GetActive();
 
-        Tournament Get(int tournamentId);
+        TournamentEntity Get(int tournamentId);
         TournamentLeaderboardDto GetLeaderboard(int tournamentId);
     }
 }

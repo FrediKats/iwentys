@@ -20,7 +20,7 @@ namespace Iwentys.Models.Transferable.GuildTribute
         public StudentPartialProfileDto Mentor { get; set; }
         public int? MentorId { get; set; }
 
-        public static TributeInfoDto Wrap(Tribute project)
+        public static TributeInfoDto Wrap(TributeEntity project)
         {
             return new TributeInfoDto
             {

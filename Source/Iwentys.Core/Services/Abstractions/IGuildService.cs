@@ -20,8 +20,8 @@ namespace Iwentys.Core.Services.Abstractions
         GuildProfileDto RequestGuild(AuthorizedUser user, int guildId);
         GuildProfileDto LeaveGuild(AuthorizedUser user, int guildId);
 
-        GuildMember[] GetGuildRequests(AuthorizedUser user, int guildId);
-        GuildMember[] GetGuildBlocked(AuthorizedUser user, int guildId);
+        GuildMemberEntity[] GetGuildRequests(AuthorizedUser user, int guildId);
+        GuildMemberEntity[] GetGuildBlocked(AuthorizedUser user, int guildId);
 
         void BlockGuildMember(AuthorizedUser user, int guildId, int memberId);
         void UnblockStudent(AuthorizedUser user, int guildId, int studentId);

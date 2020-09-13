@@ -69,9 +69,9 @@ namespace Iwentys.Database.Repositories.Implementations
                 GuildType = GuildType.Pending
             };
 
-            newGuild.Members = new List<GuildMember>
+            newGuild.Members = new List<GuildMemberEntity>
             {
-                new GuildMember {Guild = newGuild, Member = creator, MemberType = GuildMemberType.Creator}
+                new GuildMemberEntity(newGuild, creator, GuildMemberType.Creator)
             };
 
             EntityEntry<GuildEntity> createdEntity = _dbContext.Guilds.Add(newGuild);
@@ -106,18 +106,16 @@ namespace Iwentys.Database.Repositories.Implementations
                 .Any(m => m.MemberType == GuildMemberType.Requested);
         }
 
-        public GuildMember AddMember(GuildMember member)
+        public GuildMemberEntity AddMember(GuildEntity guild, Student student, GuildMemberType memberType)
         {
-            EntityEntry<GuildMember> addedEntity =  _dbContext.GuildMembers.Add(member);
-
+            EntityEntry<GuildMemberEntity> addedEntity = _dbContext.GuildMembers.Add(new GuildMemberEntity(guild, student, memberType));
             _dbContext.SaveChanges();
-
             return addedEntity.Entity;
         }
 
-        public GuildMember UpdateMember(GuildMember member)
+        public GuildMemberEntity UpdateMember(GuildMemberEntity member)
         {
-            EntityEntry<GuildMember> updatedEntity =  _dbContext.GuildMembers.Update(member);
+            EntityEntry<GuildMemberEntity> updatedEntity =  _dbContext.GuildMembers.Update(member);
 
             _dbContext.SaveChanges();
 
@@ -126,7 +124,7 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public void RemoveMember(int guildId, int userId)
         {
-            GuildMember guildMember = _dbContext.GuildMembers.Single(gm => gm.GuildId == guildId && gm.MemberId == userId);
+            GuildMemberEntity guildMember = _dbContext.GuildMembers.Single(gm => gm.GuildId == guildId && gm.MemberId == userId);
             if (guildMember.MemberType == GuildMemberType.Creator)
                 throw InnerLogicException.Guild.CreatorCannotLeave(userId, guildId);
             _dbContext.GuildMembers.Remove(guildMember);
@@ -134,9 +132,9 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.SaveChanges();
         }
 
-        public GuildPinnedProject PinProject(int guildId, string owner, string projectName)
+        public GuildPinnedProjectEntity PinProject(int guildId, string owner, string projectName)
         {
-            EntityEntry<GuildPinnedProject> entry = _dbContext.GuildPinnedProjects.Add(new GuildPinnedProject
+            EntityEntry<GuildPinnedProjectEntity> entry = _dbContext.GuildPinnedProjects.Add(new GuildPinnedProjectEntity
             {
                 GuildId = guildId,
                 RepositoryName = projectName,

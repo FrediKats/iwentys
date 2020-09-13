@@ -68,14 +68,14 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet("{guildId}/request")]
-        public ActionResult<GuildMember[]> GetGuildRequests(int guildId)
+        public ActionResult<GuildMemberEntity[]> GetGuildRequests(int guildId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
             return Ok(_guildService.GetGuildRequests(user, guildId));
         }
 
         [HttpGet("{guildId}/blocked")]
-        public ActionResult<GuildMember[]> GetGuildBlocked(int guildId)
+        public ActionResult<GuildMemberEntity[]> GetGuildBlocked(int guildId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
             return Ok(_guildService.GetGuildBlocked(user, guildId));

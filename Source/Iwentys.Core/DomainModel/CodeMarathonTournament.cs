@@ -13,9 +13,9 @@ namespace Iwentys.Core.DomainModel
         private readonly IGithubApiAccessor _githubApiAccessor;
 
         private readonly IGuildService _guildService;
-        private readonly Tournament _tournament;
+        private readonly TournamentEntity _tournament;
 
-        public CodeMarathonTournament(Tournament tournament, IGuildService guildService, IGithubApiAccessor githubApiAccessor)
+        public CodeMarathonTournament(TournamentEntity tournament, IGuildService guildService, IGithubApiAccessor githubApiAccessor)
         {
             _tournament = tournament;
             _guildService = guildService;

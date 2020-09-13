@@ -1,6 +1,6 @@
 ﻿namespace Iwentys.Models.Entities.Guilds
 {
-    public class GuildPinnedProject
+    public class GuildPinnedProjectEntity
     {
         public int Id { get; set; }
 

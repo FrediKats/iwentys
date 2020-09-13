@@ -22,12 +22,12 @@ namespace Iwentys.Core.Services.Implementations
             _githubApi = githubApi;
         }
 
-        public Tournament[] Get()
+        public TournamentEntity[] Get()
         {
             return _tournamentRepository.Read().ToArray();
         }
 
-        public Tournament[] GetActive()
+        public TournamentEntity[] GetActive()
         {
             return _tournamentRepository
                 .Read()
@@ -35,7 +35,7 @@ namespace Iwentys.Core.Services.Implementations
                 .ToArray();
         }
 
-        public Tournament Get(int tournamentId)
+        public TournamentEntity Get(int tournamentId)
         {
             return _tournamentRepository.ReadById(tournamentId);
         }

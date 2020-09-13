@@ -45,9 +45,9 @@ namespace Iwentys.Tests.Core.DomainModels
             _guild = new GuildEntity()
             {
                 Id = 1,
-                Members = new List<GuildMember>()
+                Members = new List<GuildMemberEntity>()
                 {
-                    new GuildMember()
+                    new GuildMemberEntity()
                     {
                         MemberType = GuildMemberType.Creator,
                         Member = new Student()
@@ -57,14 +57,14 @@ namespace Iwentys.Tests.Core.DomainModels
                     }
                 },
                 HiringPolicy = GuildHiringPolicy.Open,
-                PinnedProjects = new List<GuildPinnedProject>(),
+                PinnedProjects = new List<GuildPinnedProjectEntity>(),
                 Achievements = new List<GuildAchievementModel>()
             };
 
             _tributeRepository = new Mock<ITributeRepository>();
             _tributeRepository
                 .Setup(r => r.ReadStudentActiveTribute(It.IsAny<Int32>(), It.IsAny<Int32>()))
-                .Returns(default(Tribute));
+                .Returns(default(TributeEntity));
 
             _githubUserDataService = new Mock<IGithubUserDataService>();
             _githubUserDataService
@@ -123,7 +123,7 @@ namespace Iwentys.Tests.Core.DomainModels
         [Test]
         public void GetGuild_ForGuildMember_UserMembershipStateIsEntered()
         {
-            _guild.Members.Add(new GuildMember() {Guild = _guild, Member = _student, MemberType = GuildMemberType.Member});
+            _guild.Members.Add(new GuildMemberEntity(_guild, _student, GuildMemberType.Member));
             _guildRepository
                 .Setup(r => r.ReadForStudent(_student.Id))
                 .Returns(_guild);
@@ -135,7 +135,7 @@ namespace Iwentys.Tests.Core.DomainModels
         [Test]
         public void GetGuild_ForBlockedUser_UserMembershipStateIsBlocked()
         {
-            _guild.Members.Add(new GuildMember() {Guild = _guild, Member = _student, MemberType = GuildMemberType.Blocked});
+            _guild.Members.Add(new GuildMemberEntity(_guild, _student, GuildMemberType.Blocked));
 
             Assert.That(_guildDomain.ToGuildProfileDto(1).UserMembershipState, Is.EqualTo(UserMembershipState.Blocked));
         }
@@ -153,7 +153,7 @@ namespace Iwentys.Tests.Core.DomainModels
         [Test]
         public void GetGuild_ForUserWithRequestToThisGuild_UserMembershipStateIsRequested()
         {
-            _guild.Members.Add(new GuildMember() {Guild = _guild, Member = _student, MemberType = GuildMemberType.Requested});
+            _guild.Members.Add(new GuildMemberEntity(_guild, _student, GuildMemberType.Requested) );
             _guildRepository
                 .Setup(r => r.IsStudentHaveRequest(_student.Id))
                 .Returns(true);

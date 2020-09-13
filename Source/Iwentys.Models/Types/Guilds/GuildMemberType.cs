@@ -22,14 +22,14 @@ namespace Iwentys.Models.Types.Guilds
                    guildMemberType == GuildMemberType.Member;
         }
 
-        public static IQueryable<GuildMember> WhereIsMember(this IQueryable<GuildMember> queryable)
+        public static IQueryable<GuildMemberEntity> WhereIsMember(this IQueryable<GuildMemberEntity> queryable)
         {
             return queryable.Where(gm => gm.MemberType == GuildMemberType.Creator ||
                                          gm.MemberType == GuildMemberType.Mentor ||
                                          gm.MemberType == GuildMemberType.Member);
         }
 
-        public static IQueryable<GuildMember> WhereIsEditor(this IQueryable<GuildMember> queryable)
+        public static IQueryable<GuildMemberEntity> WhereIsEditor(this IQueryable<GuildMemberEntity> queryable)
         {
             return queryable.Where(gm => gm.MemberType == GuildMemberType.Creator ||
                                          gm.MemberType == GuildMemberType.Mentor);

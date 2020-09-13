@@ -5,7 +5,7 @@ using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Models.Entities.Guilds
 {
-    public class Tribute
+    public class TributeEntity
     {
         [Key]
         public long ProjectId { get; set; }
@@ -22,11 +22,11 @@ namespace Iwentys.Models.Entities.Guilds
         public Student Mentor { get; set; }
         public int? MentorId { get; set; }
 
-        public Tribute()
+        public TributeEntity()
         {
         }
 
-        public Tribute(GuildEntity guild, GithubProjectEntity projectEntity) : this()
+        public TributeEntity(GuildEntity guild, GithubProjectEntity projectEntity) : this()
         {
             GuildId = guild.Id;
             ProjectEntity = projectEntity;

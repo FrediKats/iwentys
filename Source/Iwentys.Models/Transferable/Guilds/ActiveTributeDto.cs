@@ -11,7 +11,7 @@ namespace Iwentys.Models.Transferable.Guilds
         public string ProjectName { get; set; }
         public DateTime CreationTime { get; set; }
 
-        public static ActiveTributeDto Create(Tribute tribute)
+        public static ActiveTributeDto Create(TributeEntity tribute)
         {
             return new ActiveTributeDto
             {

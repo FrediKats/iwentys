@@ -63,7 +63,7 @@ namespace Iwentys.Models.Exceptions
                 return new InnerLogicException(string.Format(ExceptionMessages.TributeExceptions.UserAlreadyHaveTribute, userId));
             }
 
-            public static InnerLogicException IsNotActive(Tribute tribute)
+            public static InnerLogicException IsNotActive(TributeEntity tribute)
             {
                 return new InnerLogicException(string.Format(ExceptionMessages.TributeExceptions.IsNotActive, tribute.ProjectId, tribute.State));
             }

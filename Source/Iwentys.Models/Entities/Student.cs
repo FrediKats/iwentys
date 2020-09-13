@@ -27,7 +27,7 @@ namespace Iwentys.Models.Entities
         public int BarsPoints { get; set; }
 
         public DateTime GuildLeftTime { get; set; }
-        public GuildMember GuildMember { get; set; }
+        public GuildMemberEntity GuildMember { get; set; }
 
         public List<StudentAchievementEntity> Achievements { get; set; }
         public List<SubjectActivity> SubjectActivities { get; set; }

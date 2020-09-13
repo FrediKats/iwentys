@@ -17,19 +17,19 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext = dbContext;
         }
 
-        public IQueryable<Tribute> Read()
+        public IQueryable<TributeEntity> Read()
         {
             return _dbContext.Tributes;
         }
 
-        public Tribute ReadById(long key)
+        public TributeEntity ReadById(long key)
         {
             return _dbContext.Tributes.Find(key);
         }
 
-        public Tribute Update(Tribute entity)
+        public TributeEntity Update(TributeEntity entity)
         {
-            EntityEntry<Tribute> createdEntity = _dbContext.Tributes.Update(entity);
+            EntityEntry<TributeEntity> createdEntity = _dbContext.Tributes.Update(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
@@ -40,19 +40,19 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.SaveChanges();
         }
 
-        public Tribute Create(GuildEntity guild, GithubProjectEntity githubProject)
+        public TributeEntity Create(GuildEntity guild, GithubProjectEntity githubProject)
         {
-            EntityEntry<Tribute> createdEntity = _dbContext.Tributes.Add(new Tribute(guild, githubProject));
+            EntityEntry<TributeEntity> createdEntity = _dbContext.Tributes.Add(new TributeEntity(guild, githubProject));
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
-        public Tribute[] ReadForGuild(int guildId)
+        public TributeEntity[] ReadForGuild(int guildId)
         {
             return _dbContext.Tributes.Where(t => t.GuildId == guildId).ToArray();
         }
 
-        public Tribute[] ReadStudentInGuildTributes(int guildId, int studentId)
+        public TributeEntity[] ReadStudentInGuildTributes(int guildId, int studentId)
         {
             return _dbContext
                 .Tributes
@@ -61,7 +61,7 @@ namespace Iwentys.Database.Repositories.Implementations
                 .ToArray();
         }
 
-        public Tribute ReadStudentActiveTribute(int guildId, int studentId)
+        public TributeEntity ReadStudentActiveTribute(int guildId, int studentId)
         {
             return _dbContext
                 .Tributes

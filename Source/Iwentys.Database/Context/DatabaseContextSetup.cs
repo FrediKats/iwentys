@@ -35,8 +35,8 @@ namespace Iwentys.Database.Context
 
         public List<Student> Students { get; set; }
         public List<GuildEntity> Guilds { get; set; }
-        public List<GuildMember> GuildMembers { get; set; }
-        public List<GuildPinnedProject> GuildPinnedProjects { get; set; }
+        public List<GuildMemberEntity> GuildMembers { get; set; }
+        public List<GuildPinnedProjectEntity> GuildPinnedProjects { get; set; }
 
         public List<GuildAchievementModel> GuildAchievementModels { get; set; }
         public List<StudentAchievementEntity> StudentAchievementModels { get; set; }
@@ -237,9 +237,9 @@ namespace Iwentys.Database.Context
                 },
             };
 
-            GuildPinnedProjects = new List<GuildPinnedProject>
+            GuildPinnedProjects = new List<GuildPinnedProjectEntity>
             {
-                new GuildPinnedProject
+                new GuildPinnedProjectEntity
                 {
                     Id = 1,
                     GuildId = 1,
@@ -247,15 +247,15 @@ namespace Iwentys.Database.Context
                     RepositoryOwner = "InredikaWb",
                 }
             };
-            GuildMembers = new List<GuildMember>
+            GuildMembers = new List<GuildMemberEntity>
             {
-                Create.GuildMember(1, 228617, GuildMemberType.Creator),
-                Create.GuildMember(1, 289140, GuildMemberType.Member),
+                new GuildMemberEntity(1, 228617, GuildMemberType.Creator),
+                new GuildMemberEntity(1, 289140, GuildMemberType.Member),
 
-                Create.GuildMember(2, 284479, GuildMemberType.Creator),
+                new GuildMemberEntity(2, 284479, GuildMemberType.Creator),
 
-                Create.GuildMember(3, 264312, GuildMemberType.Creator),
-                Create.GuildMember(3, 264282, GuildMemberType.Member),
+                new GuildMemberEntity(3, 264312, GuildMemberType.Creator),
+                new GuildMemberEntity(3, 264282, GuildMemberType.Member),
             };
         }
 
@@ -350,16 +350,6 @@ namespace Iwentys.Database.Context
                         GroupName = $"M3{course}{g:00}",
                     })
                     .ToList();
-            }
-
-            public static GuildMember GuildMember(int guildId, int memberId, GuildMemberType memberType)
-            {
-                return new GuildMember
-                {
-                    GuildId = guildId,
-                    MemberId = memberId,
-                    MemberType = memberType
-                };
             }
         }
     }

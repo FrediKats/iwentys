@@ -25,7 +25,7 @@ namespace Iwentys.Core.DomainModel
         public static GuildMentorUser EnsureIsMentor(this Student student, IGuildRepository guildRepository, int guildId)
         {
             GuildEntity guild = guildRepository.Get(guildId);
-            GuildMember membership = guild.Members.First(m => m.MemberId == student.Id);
+            GuildMemberEntity membership = guild.Members.First(m => m.MemberId == student.Id);
             if (!membership.MemberType.IsEditor())
                 throw InnerLogicException.NotEnoughPermission(student.Id);
 

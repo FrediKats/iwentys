@@ -15,8 +15,8 @@ namespace Iwentys.Models.Entities.Guilds
         public GuildHiringPolicy HiringPolicy { get; set; }
         public GuildType GuildType { get; set; }
 
-        public List<GuildMember> Members { get; set; } = new List<GuildMember>();
-        public List<GuildPinnedProject> PinnedProjects { get; set; } = new List<GuildPinnedProject>();
+        public List<GuildMemberEntity> Members { get; set; } = new List<GuildMemberEntity>();
+        public List<GuildPinnedProjectEntity> PinnedProjects { get; set; } = new List<GuildPinnedProjectEntity>();
 
         public List<GuildAchievementModel> Achievements { get; set; } = new List<GuildAchievementModel>();
 

@@ -2,6 +2,7 @@
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Guilds;
+using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Database.Repositories.Abstractions
 {
@@ -15,11 +16,11 @@ namespace Iwentys.Database.Repositories.Abstractions
         // TODO: extract methods below to GuildMemberRepository
         Boolean IsStudentHaveRequest(int studentId);
 
-        GuildMember AddMember(GuildMember member);
-        GuildMember UpdateMember(GuildMember member);
+        GuildMemberEntity AddMember(GuildEntity guild, Student student, GuildMemberType memberType);
+        GuildMemberEntity UpdateMember(GuildMemberEntity member);
         void RemoveMember(int guildId, int userId);
 
-        GuildPinnedProject PinProject(int guildId, string owner, string projectName);
+        GuildPinnedProjectEntity PinProject(int guildId, string owner, string projectName);
         void UnpinProject(int pinnedProjectId);
     }
 }
