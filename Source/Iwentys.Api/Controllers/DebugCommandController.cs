@@ -44,7 +44,7 @@ namespace Iwentys.Api.Controllers
         [HttpPost("UpdateSubjectActivityForGroup")]
         public void UpdateSubjectActivityForGroup(int subjectId, int groupId)
         {
-            GroupSubjectEntity groupSubjectData = _databaseAccessor.SubjectForGroup
+            GroupSubjectEntity groupSubjectData = _databaseAccessor.GroupSubject
                 .Read()
                 .FirstOrDefault(s => s.SubjectId == subjectId && s.StudyGroupId == groupId);
 

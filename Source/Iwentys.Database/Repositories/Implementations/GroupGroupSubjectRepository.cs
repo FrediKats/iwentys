@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Implementations
 {
-    public class SubjectForGroupRepository : ISubjectForGroupRepository
+    public class GroupGroupSubjectRepository : IGroupSubjectRepository
     {
         private readonly IwentysDbContext _dbContext;
 
-        public SubjectForGroupRepository(IwentysDbContext dbContext)
+        public GroupGroupSubjectRepository(IwentysDbContext dbContext)
         {
             _dbContext = dbContext;
         }

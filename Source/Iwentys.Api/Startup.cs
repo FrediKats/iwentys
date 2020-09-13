@@ -47,8 +47,7 @@ namespace Iwentys.Api
             var signingKey = new SigningSymmetricKey(ApplicationOptions.SigningSecurityKey);
             services.AddSingleton<IJwtSigningEncodingKey>(signingKey);
 
-            services.AddControllers()
-                .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+            services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
             services.AddSwaggerGen();
 
             services.AddDbContext<IwentysDbContext>(o => o.UseSqlite("Data Source=Iwentys.db")
@@ -63,31 +62,31 @@ namespace Iwentys.Api
 
             services.AddScoped<IBarsPointTransactionLogRepository, BarsPointTransactionLogRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<IGithubUserDataRepository, GithubUserDataRepository>();
+            services.AddScoped<IGroupSubjectRepository, GroupGroupSubjectRepository>();
             services.AddScoped<IGuildRepository, GuildRepository>();
+            services.AddScoped<IGuildTestTaskSolvingInfoRepository, GuildTestTaskSolvingInfoRepository>();
             services.AddScoped<IQuestRepository, QuestRepository>();
             services.AddScoped<IStudentProjectRepository, StudentProjectRepository>();
             services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<IStudyGroupRepository, StudyGroupRepository>();
             services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
-            services.AddScoped<ISubjectForGroupRepository, SubjectForGroupRepository>();
             services.AddScoped<ITournamentRepository, TournamentRepository>();
             services.AddScoped<ITributeRepository, TributeRepository>();
-            services.AddScoped<IGithubUserDataRepository, GithubUserDataRepository>();
-            services.AddScoped<IStudentProjectRepository, StudentProjectRepository>();
-            services.AddScoped<IGuildTestTaskSolvingInfoRepository, GuildTestTaskSolvingInfoRepository>();
 
             services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();
 
             services.AddScoped<IBarsPointTransactionLogService, BarsPointTransactionLogService>();
             services.AddScoped<ICompanyService, CompanyService>();
+            services.AddScoped<IGithubUserDataService, GithubUserDataService>();
             services.AddScoped<IGuildService, GuildService>();
+            services.AddScoped<IGuildTestTaskService, GuildTestTaskService>();
             services.AddScoped<IGuildTributeService, GuildTributeService>();
             services.AddScoped<IQuestService, QuestService>();
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IStudyLeaderboardService, StudyLeaderboardService>();
             services.AddScoped<ITournamentService, TournamentService>();
-            services.AddScoped<IGithubUserDataService, GithubUserDataService>();
 
             services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/build");
         }

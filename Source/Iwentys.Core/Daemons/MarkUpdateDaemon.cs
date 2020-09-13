@@ -11,13 +11,13 @@ namespace Iwentys.Core.Daemons
     public class MarkUpdateDaemon
     {
         private readonly GoogleTableUpdateService _googleTableUpdateService;
-        private readonly ISubjectForGroupRepository _subjectForGroupRepository;
+        private readonly IGroupSubjectRepository _groupSubjectRepository;
         private readonly ILogger _logger;
 
-        public MarkUpdateDaemon(GoogleTableUpdateService googleTableUpdateService, ISubjectForGroupRepository subjectForGroupRepository, ILogger logger)
+        public MarkUpdateDaemon(GoogleTableUpdateService googleTableUpdateService, IGroupSubjectRepository groupSubjectRepository, ILogger logger)
         {
             _googleTableUpdateService = googleTableUpdateService;
-            _subjectForGroupRepository = subjectForGroupRepository;
+            _groupSubjectRepository = groupSubjectRepository;
             _logger = logger;
         }
 
@@ -25,7 +25,7 @@ namespace Iwentys.Core.Daemons
         {
             try
             {
-                List<GroupSubjectEntity> groups = _subjectForGroupRepository.Read().ToList();
+                List<GroupSubjectEntity> groups = _groupSubjectRepository.Read().ToList();
                 groups.ForEach(g => _googleTableUpdateService.UpdateSubjectActivityForGroup(g));
             }
             catch (Exception e)

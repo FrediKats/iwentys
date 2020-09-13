@@ -71,7 +71,7 @@ namespace Iwentys.Api
 
                 _markUpdateDaemon = new MarkUpdateDaemon(
                     new GoogleTableUpdateService(_logger, accessor.SubjectActivity, accessor.Student),
-                    accessor.SubjectForGroup,
+                    accessor.GroupSubject,
                     _logger);
 
                 _markUpdateDaemon.Execute();

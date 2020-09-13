@@ -20,7 +20,7 @@ namespace Iwentys.Database.Context
 
 
         public ISubjectActivityRepository SubjectActivity { get; }
-        public ISubjectForGroupRepository SubjectForGroup { get; }
+        public IGroupSubjectRepository GroupSubject { get; }
 
         public DatabaseAccessor(IwentysDbContext context) : this(
             context,
@@ -33,7 +33,7 @@ namespace Iwentys.Database.Context
             new BarsPointTransactionLogRepository(context), 
             new QuestRepository(context), 
             new SubjectActivityRepository(context), 
-            new SubjectForGroupRepository(context),
+            new GroupGroupSubjectRepository(context),
             new StudyGroupRepository(context),
             new GithubUserDataRepository(context),
             new GuildTestTaskSolvingInfoRepository(context))
@@ -50,7 +50,7 @@ namespace Iwentys.Database.Context
             IBarsPointTransactionLogRepository barsPointTransactionLog,
             IQuestRepository quest,
             ISubjectActivityRepository subjectActivity,
-            ISubjectForGroupRepository subjectForGroup,
+            IGroupSubjectRepository groupSubject,
             IStudyGroupRepository studyGroup,
             IGithubUserDataRepository githubUserData,
             IGuildTestTaskSolvingInfoRepository guildTestTaskSolvingInfo)
@@ -65,7 +65,7 @@ namespace Iwentys.Database.Context
             BarsPointTransactionLog = barsPointTransactionLog;
             Quest = quest;
             SubjectActivity = subjectActivity;
-            SubjectForGroup = subjectForGroup;
+            GroupSubject = groupSubject;
             StudyGroup = studyGroup;
             GithubUserData = githubUserData;
             GuildTestTaskSolvingInfo = guildTestTaskSolvingInfo;

@@ -20,12 +20,12 @@ namespace Iwentys.Core.Services.Implementations
 
         public IEnumerable<SubjectEntity> GetSubjectsForDto(StudySearchDto searchDto)
         {
-            return _databaseAccessor.SubjectForGroup.GetSubjectsForDto(searchDto);
+            return _databaseAccessor.GroupSubject.GetSubjectsForDto(searchDto);
         }
 
         public IEnumerable<StudyGroupEntity> GetStudyGroupsForDto(StudySearchDto searchDto)
         {
-            return _databaseAccessor.SubjectForGroup.GetStudyGroupsForDto(searchDto);
+            return _databaseAccessor.GroupSubject.GetStudyGroupsForDto(searchDto);
         }
 
         public List<StudyLeaderboardRow> GetStudentsRatings(StudySearchDto searchDto)
