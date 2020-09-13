@@ -64,7 +64,7 @@ namespace Iwentys.Core.Services.Implementations
 
         public QuestInfoDto Create(AuthorizedUser user, CreateQuestDto createQuest)
         {
-            Student student = user.GetProfile(_databaseAccessor.Student);
+            StudentEntity student = user.GetProfile(_databaseAccessor.Student);
             QuestInfoDto quest = _questRepository.Create(student, createQuest).To(QuestInfoDto.Wrap);
             _achievementProvider.Achieve(AchievementList.QuestCreator, user.Id);
             return quest;

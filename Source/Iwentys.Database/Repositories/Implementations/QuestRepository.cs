@@ -70,7 +70,7 @@ namespace Iwentys.Database.Repositories.Implementations
             List<QuestResponseEntity> responsesToDelete = quest.Responses.Where(qr => qr.StudentId != responseEntity.StudentId).ToList();
             _dbContext.QuestResponses.RemoveRange(responsesToDelete);
 
-            Student student = _dbContext.Students.Find(studentId);
+            StudentEntity student = _dbContext.Students.Find(studentId);
             student.BarsPoints += quest.Price;
             _dbContext.Students.Update(student);
 
@@ -79,7 +79,7 @@ namespace Iwentys.Database.Repositories.Implementations
             return quest;
         }
 
-        public Quest Create(Student student, CreateQuestDto createQuest)
+        public Quest Create(StudentEntity student, CreateQuestDto createQuest)
         {
             //TODO: add transaction
             if (student.BarsPoints < createQuest.Price)

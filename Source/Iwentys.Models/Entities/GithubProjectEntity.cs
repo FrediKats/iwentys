@@ -4,7 +4,7 @@ namespace Iwentys.Models.Entities
 {
     public class GithubProjectEntity
     {
-        public Student Student { get; set; }
+        public StudentEntity Student { get; set; }
         public int StudentId { get; set; }
 
         public long Id { get; set; }
@@ -20,7 +20,7 @@ namespace Iwentys.Models.Entities
         {
         }
 
-        public GithubProjectEntity(Student owner, GithubRepository githubRepository) : this()
+        public GithubProjectEntity(StudentEntity owner, GithubRepository githubRepository) : this()
         {
             Id = githubRepository.Id;
             Author = owner.GithubUsername;

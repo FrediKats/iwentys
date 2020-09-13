@@ -7,9 +7,9 @@ namespace Iwentys.Models.Transferable.Students
         public string SubjectTitle { get; set; }
         public double Points { get; set; }
 
-        public SubjectActivityInfoDto(SubjectActivity subjectActivity) : this()
+        public SubjectActivityInfoDto(SubjectActivityEntity subjectActivity) : this()
         {
-            SubjectTitle = subjectActivity.SubjectForGroup.Subject.Name;
+            SubjectTitle = subjectActivity.GroupSubjectEntity.Subject.Name;
             Points = subjectActivity.Points;
         }
 

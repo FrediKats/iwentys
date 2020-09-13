@@ -6,17 +6,17 @@ namespace Iwentys.Core.DomainModel
 {
     public class AdminUser
     {
-        public AdminUser(Student student)
+        public AdminUser(StudentEntity student)
         {
             Student = student;
         }
 
-        public Student Student { get; }
+        public StudentEntity Student { get; }
     }
 
     public static class AdminUserExtensions
     {
-        public static AdminUser EnsureIsAdmin(this Student profile)
+        public static AdminUser EnsureIsAdmin(this StudentEntity profile)
         {
             if (profile.Role != UserType.Admin)
                 throw InnerLogicException.NotEnoughPermission(profile.Id);

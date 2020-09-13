@@ -38,12 +38,12 @@ namespace Iwentys.Core.Services.Implementations
 
         public StudentFullProfileDto GetOrCreate(int id)
         {
-            Student student = _studentRepository.ReadById(id);
+            StudentEntity student = _studentRepository.ReadById(id);
             if (student != null)
                 return student.To(s => new StudentFullProfileDto(s));
 
             IsuUser userInfo = _isuAccessor.GetIsuUser(id, null);
-            student = _studentRepository.Create(Student.CreateFromIsu(userInfo.Id, userInfo.FirstName, userInfo.MiddleName, userInfo.SecondName));
+            student = _studentRepository.Create(StudentEntity.CreateFromIsu(userInfo.Id, userInfo.FirstName, userInfo.MiddleName, userInfo.SecondName));
 
             student = _studentRepository.Get(student.Id);
 
@@ -58,7 +58,7 @@ namespace Iwentys.Core.Services.Implementations
 
             //TODO:
             //throw new NotImplementedException("Need to validate github credentials");
-            Student user = _studentRepository.Get(id);
+            StudentEntity user = _studentRepository.Get(id);
             user.GithubUsername = githubUsername;
             _studentRepository.Update(user);
 
@@ -68,7 +68,7 @@ namespace Iwentys.Core.Services.Implementations
 
         public StudentFullProfileDto RemoveGithubUsername(int id, string githubUsername)
         {
-            Student user = _studentRepository.Get(id);
+            StudentEntity user = _studentRepository.Get(id);
             user.GithubUsername = null;
             return _studentRepository.Update(user).To(s => new StudentFullProfileDto(s));
         }

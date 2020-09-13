@@ -12,9 +12,9 @@ namespace Iwentys.Models.Transferable.Study
         {
         }
 
-        public StudyLeaderboardRow(IEnumerable<SubjectActivity> activity)
+        public StudyLeaderboardRow(IEnumerable<SubjectActivityEntity> activity)
         {
-            List<SubjectActivity> activity1 = activity.ToList();
+            List<SubjectActivityEntity> activity1 = activity.ToList();
             Student = activity1.First().Student.To(s => new StudentPartialProfileDto(s));
             Activity = activity1.Sum(a => a.Points);
         }

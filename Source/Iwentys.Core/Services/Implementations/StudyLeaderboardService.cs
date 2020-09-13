@@ -20,12 +20,12 @@ namespace Iwentys.Core.Services.Implementations
             _subjectActivityRepository = subjectActivityRepository;
         }
 
-        public IEnumerable<Subject> GetSubjectsForDto(StudySearchDto searchDto)
+        public IEnumerable<SubjectEntity> GetSubjectsForDto(StudySearchDto searchDto)
         {
             return _subjectForGroupRepository.GetSubjectsForDto(searchDto);
         }
 
-        public IEnumerable<StudyGroup> GetStudyGroupsForDto(StudySearchDto searchDto)
+        public IEnumerable<StudyGroupEntity> GetStudyGroupsForDto(StudySearchDto searchDto)
         {
             return _subjectForGroupRepository.GetStudyGroupsForDto(searchDto);
         }
@@ -40,7 +40,7 @@ namespace Iwentys.Core.Services.Implementations
 
             searchDto.StudySemester ??= GetCurrentSemester();
 
-            List<SubjectActivity> result = _subjectActivityRepository.GetStudentActivities(searchDto).ToList();
+            List<SubjectActivityEntity> result = _subjectActivityRepository.GetStudentActivities(searchDto).ToList();
 
             return result
                 .GroupBy(r => r.StudentId)

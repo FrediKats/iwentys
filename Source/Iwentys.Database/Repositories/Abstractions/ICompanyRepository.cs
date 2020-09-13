@@ -7,9 +7,9 @@ namespace Iwentys.Database.Repositories.Abstractions
         //TODO: rework
         Company Create(Company company);
 
-        Student[] ReadWorkers(Company company);
+        StudentEntity[] ReadWorkers(Company company);
         CompanyWorker[] ReadWorkerRequest();
-        void AddCompanyWorkerRequest(Company company, Student worker);
-        void ApproveRequest(Student user);
+        void AddCompanyWorkerRequest(Company company, StudentEntity worker);
+        void ApproveRequest(StudentEntity user);
     }
 }

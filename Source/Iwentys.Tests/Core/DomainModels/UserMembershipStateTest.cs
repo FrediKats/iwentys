@@ -20,7 +20,7 @@ namespace Iwentys.Tests.Core.DomainModels
         private GuildEntity _guild;
         private GuildDomain _guildDomain;
 
-        private Student _student;
+        private StudentEntity _student;
 
         private Mock<ITributeRepository> _tributeRepository;
         private Mock<IGuildRepository> _guildRepository;
@@ -36,7 +36,7 @@ namespace Iwentys.Tests.Core.DomainModels
         [SetUp]
         public void SetUp()
         { 
-            _student = new Student()
+            _student = new StudentEntity()
             {
                 Id = 1,
                 LastOnlineTime = DateTime.MinValue.ToUniversalTime()
@@ -50,7 +50,7 @@ namespace Iwentys.Tests.Core.DomainModels
                     new GuildMemberEntity()
                     {
                         MemberType = GuildMemberType.Creator,
-                        Member = new Student()
+                        Member = new StudentEntity()
                         {
                             GithubUsername = string.Empty
                         }

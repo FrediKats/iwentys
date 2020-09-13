@@ -7,9 +7,9 @@ namespace Iwentys.Core.DomainModel.Guilds
 {
     public class GuildEditor
     {
-        public Student Student { get; }
+        public StudentEntity Student { get; }
 
-        public GuildEditor(Student student)
+        public GuildEditor(StudentEntity student)
         {
             Student = student;
         }
@@ -17,7 +17,7 @@ namespace Iwentys.Core.DomainModel.Guilds
 
     public static class GuildEditorExtensions
     {
-        public static GuildEditor EnsureIsGuildEditor(this Student student, GuildEntity guild)
+        public static GuildEditor EnsureIsGuildEditor(this StudentEntity student, GuildEntity guild)
         {
             GuildMemberEntity member = guild.Members.Find(m => m.MemberId == student.Id);
 

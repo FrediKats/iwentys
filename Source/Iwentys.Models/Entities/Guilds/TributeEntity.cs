@@ -19,7 +19,7 @@ namespace Iwentys.Models.Entities.Guilds
         public int? Mark { get; set; }
         public DateTime CreationTime { get; set; }
 
-        public Student Mentor { get; set; }
+        public StudentEntity Mentor { get; set; }
         public int? MentorId { get; set; }
 
         public TributeEntity()

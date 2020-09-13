@@ -39,7 +39,7 @@ namespace Iwentys.Core.Services.Implementations
         public void RequestAdding(int companyId, int userId)
         {
             Company company = _companyRepository.Get(companyId);
-            Student profile = _studentRepository.Get(userId);
+            StudentEntity profile = _studentRepository.Get(userId);
             _companyRepository.AddCompanyWorkerRequest(company, profile);
         }
 
@@ -49,14 +49,14 @@ namespace Iwentys.Core.Services.Implementations
                 .Get(adminId)
                 .EnsureIsAdmin();
 
-            Student user = _studentRepository.Get(userId);
+            StudentEntity user = _studentRepository.Get(userId);
 
             _companyRepository.ApproveRequest(user);
         }
 
         private CompanyInfoDto WrapToDto(Company company)
         {
-            Student[] workers = _companyRepository.ReadWorkers(company);
+            StudentEntity[] workers = _companyRepository.ReadWorkers(company);
             return CompanyInfoDto.Create(company, workers);
         }
     }

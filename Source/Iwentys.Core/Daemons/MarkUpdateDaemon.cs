@@ -25,7 +25,7 @@ namespace Iwentys.Core.Daemons
         {
             try
             {
-                List<SubjectForGroup> groups = _subjectForGroupRepository.Read().ToList();
+                List<GroupSubjectEntity> groups = _subjectForGroupRepository.Read().ToList();
                 groups.ForEach(g => _googleTableUpdateService.UpdateSubjectActivityForGroup(g));
             }
             catch (Exception e)

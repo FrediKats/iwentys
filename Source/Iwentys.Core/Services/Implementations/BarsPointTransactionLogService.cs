@@ -21,8 +21,8 @@ namespace Iwentys.Core.Services.Implementations
         public Result<BarsPointTransactionLog> Transfer(int fromId, int toId, int value)
         {
             //TODO: Use transaction for whole method
-            Student from = _studentRepository.Get(fromId);
-            Student to = _studentRepository.Get(toId);
+            StudentEntity from = _studentRepository.Get(fromId);
+            StudentEntity to = _studentRepository.Get(toId);
 
             Result<BarsPointTransactionLog> transaction;
             if (from.BarsPoints < value)

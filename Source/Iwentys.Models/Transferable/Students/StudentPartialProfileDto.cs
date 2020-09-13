@@ -21,7 +21,7 @@ namespace Iwentys.Models.Transferable.Students
         {
         }
 
-        public StudentPartialProfileDto(Student student) : this()
+        public StudentPartialProfileDto(StudentEntity student) : this()
         {
             Id = student.Id;
             FirstName = student.FirstName;

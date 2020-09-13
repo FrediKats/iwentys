@@ -8,6 +8,6 @@ namespace Iwentys.Database.Repositories.Abstractions
         void SendResponse(Quest quest, int userId);
         Quest SetCompleted(Quest quest, int studentId);
 
-        Quest Create(Student student, CreateQuestDto createQuest);
+        Quest Create(StudentEntity student, CreateQuestDto createQuest);
     }
 }

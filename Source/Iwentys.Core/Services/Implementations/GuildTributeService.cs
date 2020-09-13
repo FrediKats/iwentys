@@ -49,7 +49,7 @@ namespace Iwentys.Core.Services.Implementations
 
         public TributeInfoDto CreateTribute(AuthorizedUser user, CreateProjectDto createProject)
         {
-            Student student = _databaseAccessor.Student.Get(user.Id);
+            StudentEntity student = _databaseAccessor.Student.Get(user.Id);
             if (student.GithubUsername != createProject.Owner)
                 throw InnerLogicException.TributeEx.TributeCanBeSendFromStudentAccount(student, createProject);
 
@@ -69,7 +69,7 @@ namespace Iwentys.Core.Services.Implementations
 
         public TributeInfoDto CancelTribute(AuthorizedUser user, long tributeId)
         {
-            Student student = user.GetProfile(_databaseAccessor.Student);
+            StudentEntity student = user.GetProfile(_databaseAccessor.Student);
             TributeEntity tribute = _databaseAccessor.TributeRepository.Get(tributeId);
 
             if (tribute.State != TributeState.Active)
@@ -90,7 +90,7 @@ namespace Iwentys.Core.Services.Implementations
 
         public TributeInfoDto CompleteTribute(AuthorizedUser user, TributeCompleteDto tributeCompleteDto)
         {
-            Student student = user.GetProfile(_databaseAccessor.Student);
+            StudentEntity student = user.GetProfile(_databaseAccessor.Student);
             TributeEntity tribute = _databaseAccessor.TributeRepository.Get(tributeCompleteDto.TributeId);
             GuildMentorUser mentor = student.EnsureIsMentor(_databaseAccessor.GuildRepository, tribute.GuildId);
 

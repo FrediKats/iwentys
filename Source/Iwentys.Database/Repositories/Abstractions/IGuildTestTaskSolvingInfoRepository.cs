@@ -6,7 +6,7 @@ namespace Iwentys.Database.Repositories.Abstractions
 {
     public interface IGuildTestTaskSolvingInfoRepository
     {
-        GuildTestTaskSolvingInfoEntity Create(GuildEntity guild, Student student);
+        GuildTestTaskSolvingInfoEntity Create(GuildEntity guild, StudentEntity student);
         IQueryable<GuildTestTaskSolvingInfoEntity> Read();
     }
 }

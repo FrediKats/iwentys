@@ -17,44 +17,44 @@ namespace Iwentys.Database.Repositories.Implementations
         {
             _dbContext = dbContext;
         }
-        public SubjectActivity Create(SubjectActivity entity)
+        public SubjectActivityEntity Create(SubjectActivityEntity entity)
         {
-            EntityEntry <SubjectActivity> createdEntity = _dbContext.SubjectActivities.Add(entity);
+            EntityEntry <SubjectActivityEntity> createdEntity = _dbContext.SubjectActivities.Add(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
-        public IQueryable<SubjectActivity> Read()
+        public IQueryable<SubjectActivityEntity> Read()
         {
             return _dbContext.SubjectActivities
                 .Include(s => s.Student);
         }
 
-        public SubjectActivity ReadById(int key)
+        public SubjectActivityEntity ReadById(int key)
         {
             return _dbContext.SubjectActivities.Find(key);
         }
 
-        public SubjectActivity Update(SubjectActivity entity)
+        public SubjectActivityEntity Update(SubjectActivityEntity entity)
         {
-            EntityEntry<SubjectActivity> createdEntity = _dbContext.SubjectActivities.Update(entity);
+            EntityEntry<SubjectActivityEntity> createdEntity = _dbContext.SubjectActivities.Update(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
         public void Delete(int key)
         {
-            SubjectActivity activity = this.Get(key);
+            SubjectActivityEntity activity = this.Get(key);
             _dbContext.SubjectActivities.Remove(activity);
             _dbContext.SaveChanges();
         }
 
-        public SubjectActivity GetActivityForStudentAndSubject(int studentId, int subjectForGroupId)
+        public SubjectActivityEntity GetActivityForStudentAndSubject(int studentId, int subjectForGroupId)
         {
             return Read().FirstOrDefault(s => s.StudentId == studentId && s.SubjectForGroupId == subjectForGroupId);
         }
 
-        public IEnumerable<SubjectActivity> GetStudentActivities(StudySearchDto searchDto)
+        public IEnumerable<SubjectActivityEntity> GetStudentActivities(StudySearchDto searchDto)
         {
             var query = Read()
                 .Join(_dbContext.StudyGroups,

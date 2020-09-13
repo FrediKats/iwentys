@@ -17,40 +17,40 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext = dbContext;
         }
 
-        public StudyGroup Create(StudyGroup entity)
+        public StudyGroupEntity Create(StudyGroupEntity entity)
         {
-            EntityEntry<StudyGroup> createdEntity = _dbContext.StudyGroups.Add(entity);
+            EntityEntry<StudyGroupEntity> createdEntity = _dbContext.StudyGroups.Add(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
-        public IQueryable<StudyGroup> Read()
+        public IQueryable<StudyGroupEntity> Read()
         {
             return _dbContext.StudyGroups
-                .Include(s => s.StudyStream)
-                .ThenInclude(s => s.StudyProgram);
+                .Include(s => s.StudyCourseEntity)
+                .ThenInclude(s => s.StudyProgramEntity);
         }
 
-        public StudyGroup ReadById(Int32 key)
+        public StudyGroupEntity ReadById(Int32 key)
         {
             return Read().FirstOrDefault(s => s.Id == key);
         }
 
-        public StudyGroup Update(StudyGroup entity)
+        public StudyGroupEntity Update(StudyGroupEntity entity)
         {
-            EntityEntry<StudyGroup> createdEntity = _dbContext.StudyGroups.Update(entity);
+            EntityEntry<StudyGroupEntity> createdEntity = _dbContext.StudyGroups.Update(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
         public void Delete(Int32 key)
         {
-            StudyGroup studyGroup = this.Get(key);
+            StudyGroupEntity studyGroup = this.Get(key);
             _dbContext.StudyGroups.Remove(studyGroup);
             _dbContext.SaveChanges();
         }
 
-        public StudyGroup ReadByNamePattern(String groupName)
+        public StudyGroupEntity ReadByNamePattern(String groupName)
         {
             return Read().FirstOrDefault(s => s.GroupName == groupName);
         }

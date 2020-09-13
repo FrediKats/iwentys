@@ -68,7 +68,7 @@ namespace Iwentys.Models.Exceptions
                 return new InnerLogicException(string.Format(ExceptionMessages.TributeExceptions.IsNotActive, tribute.ProjectId, tribute.State));
             }
 
-            public static InnerLogicException TributeCanBeSendFromStudentAccount(Student student, CreateProjectDto createProject)
+            public static InnerLogicException TributeCanBeSendFromStudentAccount(StudentEntity student, CreateProjectDto createProject)
             {
                 return new InnerLogicException(string.Format(ExceptionMessages.TributeExceptions.TributeCanBeSendFromStudentAccount, student.Id, createProject.Owner));
             }

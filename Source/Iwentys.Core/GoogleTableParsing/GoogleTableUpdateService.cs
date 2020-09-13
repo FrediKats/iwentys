@@ -23,9 +23,9 @@ namespace Iwentys.Core.GoogleTableParsing
             _studentRepository = studentRepository;
         }
 
-        public void UpdateSubjectActivityForGroup(SubjectForGroup subjectData)
+        public void UpdateSubjectActivityForGroup(GroupSubjectEntity groupSubjectData)
         {
-            GoogleTableData googleTableData = subjectData.GetGoogleTableDataConfig();
+            GoogleTableData googleTableData = groupSubjectData.GetGoogleTableDataConfig();
             //TODO: remove this hack
             if (googleTableData is null)
                 return;
@@ -39,23 +39,23 @@ namespace Iwentys.Core.GoogleTableParsing
                 // Это очень плохая проверка, но я пока не придумал,
                 // как по-другому сопоставлять данные с гугл-таблицы со студентом
                 // TODO: Сделать нормальную проверку
-                SubjectActivity activity = _subjectActivityRepository
+                SubjectActivityEntity activity = _subjectActivityRepository
                     .Read()
                     .SingleOrDefault(s => student.Name.Contains(s.Student.FirstName)
                                           && student.Name.Contains(s.Student.SecondName)
-                                          && s.SubjectForGroupId == subjectData.Id);
+                                          && s.SubjectForGroupId == groupSubjectData.Id);
 
                 if (!Tools.ParseInAnyCulture(student.Score, out double pointsCount))
                 {
                     pointsCount = 0;
-                    _logger.LogWarning($"Cannot parse value: student:{student.Name}, subjectId:{subjectData.SubjectId}, groupId:{subjectData.StudyGroupId}");
+                    _logger.LogWarning($"Cannot parse value: student:{student.Name}, subjectId:{groupSubjectData.SubjectId}, groupId:{groupSubjectData.StudyGroupId}");
                 }
 
                 if (activity == null)
                 {
-                    _logger.LogWarning($"Subject info was not found: student:{student.Name}, subjectId:{subjectData.SubjectId}, groupId:{subjectData.StudyGroupId}");
+                    _logger.LogWarning($"Subject info was not found: student:{student.Name}, subjectId:{groupSubjectData.SubjectId}, groupId:{groupSubjectData.StudyGroupId}");
 
-                    Student studentProfile = _studentRepository
+                    StudentEntity studentProfile = _studentRepository
                         .Read()
                         .FirstOrDefault(s => student.Name.Contains(s.FirstName)
                                     && student.Name.Contains(s.SecondName));
@@ -66,10 +66,10 @@ namespace Iwentys.Core.GoogleTableParsing
                         continue;
                     }
 
-                    _subjectActivityRepository.Create(new SubjectActivity
+                    _subjectActivityRepository.Create(new SubjectActivityEntity
                     {
                         StudentId = studentProfile.Id,
-                        SubjectForGroupId = subjectData.StudyGroupId,
+                        SubjectForGroupId = groupSubjectData.StudyGroupId,
                         Points = pointsCount
                     });
 

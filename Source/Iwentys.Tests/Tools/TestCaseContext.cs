@@ -59,7 +59,7 @@ namespace Iwentys.Tests.Tools
         {
             int id = RandomProvider.Random.Next(999999);
 
-            var userInfo = new Student
+            var userInfo = new StudentEntity
             {
                 Id = id,
                 Role = userType,

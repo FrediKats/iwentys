@@ -8,7 +8,7 @@ namespace Iwentys.Models.Entities.Guilds
         public GuildEntity Guild { get; set; }
 
         public int MemberId { get; set; }
-        public Student Member { get; set; }
+        public StudentEntity Member { get; set; }
 
         public GuildMemberType MemberType { get; set; }
 
@@ -16,7 +16,7 @@ namespace Iwentys.Models.Entities.Guilds
         {
         }
 
-        public GuildMemberEntity(GuildEntity guild, Student student, GuildMemberType memberType) : this(guild.Id, student.Id, memberType)
+        public GuildMemberEntity(GuildEntity guild, StudentEntity student, GuildMemberType memberType) : this(guild.Id, student.Id, memberType)
         {
         }
 

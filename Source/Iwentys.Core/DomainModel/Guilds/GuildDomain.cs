@@ -94,7 +94,7 @@ namespace Iwentys.Core.DomainModel.Guilds
         
         public UserMembershipState GetUserMembershipState(Int32 userId)
         {
-            Student user = _dbAccessor.Student.Get(userId);
+            StudentEntity user = _dbAccessor.Student.Get(userId);
             GuildEntity userGuild = _dbAccessor.GuildRepository.ReadForStudent(user.Id);
             GuildMemberType? userStatusInGuild = Profile.Members.Find(m => m.Member.Id == user.Id)?.MemberType;
 
@@ -148,7 +148,7 @@ namespace Iwentys.Core.DomainModel.Guilds
 
         public GuildMemberEntity EnsureMemberCanRestrictPermissionForOther(AuthorizedUser editor, int memberToKickId)
         {
-            Student editorStudentAccount = editor.GetProfile(_dbAccessor.Student);
+            StudentEntity editorStudentAccount = editor.GetProfile(_dbAccessor.Student);
             editorStudentAccount.EnsureIsGuildEditor(Profile);
 
             GuildMemberEntity memberToKick = Profile.Members.Find(m => m.MemberId == memberToKickId);

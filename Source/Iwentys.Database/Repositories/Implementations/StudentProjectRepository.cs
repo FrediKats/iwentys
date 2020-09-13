@@ -47,7 +47,7 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.SaveChanges();
         }
 
-        public GithubProjectEntity GetOrCreate(GithubRepository project, Student creator)
+        public GithubProjectEntity GetOrCreate(GithubRepository project, StudentEntity creator)
         {
             return ReadById(project.Id) ?? Create(new GithubProjectEntity(creator, project));
         }

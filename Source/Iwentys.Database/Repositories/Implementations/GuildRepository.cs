@@ -58,7 +58,7 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.SaveChanges();
         }
 
-        public GuildEntity Create(Student creator, GuildCreateArgumentDto arguments)
+        public GuildEntity Create(StudentEntity creator, GuildCreateArgumentDto arguments)
         {
             var newGuild = new GuildEntity
             {
@@ -106,7 +106,7 @@ namespace Iwentys.Database.Repositories.Implementations
                 .Any(m => m.MemberType == GuildMemberType.Requested);
         }
 
-        public GuildMemberEntity AddMember(GuildEntity guild, Student student, GuildMemberType memberType)
+        public GuildMemberEntity AddMember(GuildEntity guild, StudentEntity student, GuildMemberType memberType)
         {
             EntityEntry<GuildMemberEntity> addedEntity = _dbContext.GuildMembers.Add(new GuildMemberEntity(guild, student, memberType));
             _dbContext.SaveChanges();

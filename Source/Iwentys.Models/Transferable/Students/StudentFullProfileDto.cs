@@ -25,7 +25,7 @@ namespace Iwentys.Models.Transferable.Students
         {
         }
 
-        public StudentFullProfileDto(Student student) : base(student)
+        public StudentFullProfileDto(StudentEntity student) : base(student)
         {
             Group = student.Group?.GroupName;
             //TODO:

@@ -16,22 +16,22 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext = dbContext;
         }
 
-        public IQueryable<Subject> GetAllSubjects()
+        public IQueryable<SubjectEntity> GetAllSubjects()
         {
             return _dbContext.Subjects;
         }
 
-        public IQueryable<StudyGroup> GetAllGroups()
+        public IQueryable<StudyGroupEntity> GetAllGroups()
         {
             return _dbContext.StudyGroups;
         }
 
-        public IEnumerable<StudyGroup> GetGroupsForStream(int streamId)
+        public IEnumerable<StudyGroupEntity> GetGroupsForStream(int streamId)
         {
             return _dbContext.StudyGroups.Where(g => g.StudyStreamId == streamId).ToList();
         }
 
-        public IEnumerable<Student> GetStudentsForGroup(string groupName)
+        public IEnumerable<StudentEntity> GetStudentsForGroup(string groupName)
         {
             return _dbContext.Students.Where(s => s.Group.GroupName == groupName);
         }

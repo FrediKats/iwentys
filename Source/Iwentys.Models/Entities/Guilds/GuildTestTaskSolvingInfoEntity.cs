@@ -8,7 +8,7 @@ namespace Iwentys.Models.Entities.Guilds
         public GuildEntity Guild { get; set; }
 
         public int StudentId { get; set; }
-        public Student Student { get; set; }
+        public StudentEntity Student { get; set; }
 
         public DateTime StartTime { get; set; }
         public DateTime? SubmitTime { get; set; }

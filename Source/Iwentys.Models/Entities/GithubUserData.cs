@@ -4,7 +4,7 @@ namespace Iwentys.Models.Entities
 {
     public class GithubUserData
     {
-        public Student Student { get; set; }
+        public StudentEntity Student { get; set; }
         public int StudentId { get; set; }
 
         public int Id { get; set; }

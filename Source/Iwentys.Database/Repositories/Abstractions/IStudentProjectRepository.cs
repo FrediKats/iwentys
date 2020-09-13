@@ -9,7 +9,7 @@ namespace Iwentys.Database.Repositories.Abstractions
         //TODO: check
         GithubProjectEntity Create(GithubProjectEntity githubProject);
 
-        GithubProjectEntity GetOrCreate(GithubRepository project, Student creator);
+        GithubProjectEntity GetOrCreate(GithubRepository project, StudentEntity creator);
         void CreateMany(IEnumerable<GithubProjectEntity> studentsProjects);
         bool Contains(GithubProjectEntity projectEntity);
         IEnumerable<GithubProjectEntity> FindProjectsByUserName(string username);

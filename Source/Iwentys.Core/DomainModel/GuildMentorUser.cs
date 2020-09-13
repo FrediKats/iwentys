@@ -10,19 +10,19 @@ namespace Iwentys.Core.DomainModel
 {
     public class GuildMentorUser
     {
-        public GuildMentorUser(Student student, GuildEntity guild)
+        public GuildMentorUser(StudentEntity student, GuildEntity guild)
         {
             Student = student;
             Guild = guild;
         }
 
-        public Student Student { get; }
+        public StudentEntity Student { get; }
         public GuildEntity Guild { get; }
     }
 
     public static class GuildMentorUserExtensions
     {
-        public static GuildMentorUser EnsureIsMentor(this Student student, IGuildRepository guildRepository, int guildId)
+        public static GuildMentorUser EnsureIsMentor(this StudentEntity student, IGuildRepository guildRepository, int guildId)
         {
             GuildEntity guild = guildRepository.Get(guildId);
             GuildMemberEntity membership = guild.Members.First(m => m.MemberId == student.Id);

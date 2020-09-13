@@ -19,37 +19,37 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet("getAllSubjects")]
-        public ActionResult<IEnumerable<Subject>> GetAllSubjects()
+        public ActionResult<IEnumerable<SubjectEntity>> GetAllSubjects()
         {
             return Ok(_studyLeaderboardService.GetSubjectsForDto(new StudySearchDto()));
         }
 
         [HttpGet("getSubjects/{streamId}")]
-        public ActionResult<IEnumerable<Subject>> GetSubjectsForStream(int streamId)
+        public ActionResult<IEnumerable<SubjectEntity>> GetSubjectsForStream(int streamId)
         {
             return Ok(_studyLeaderboardService.GetSubjectsForDto(new StudySearchDto { StreamId = streamId }));
         }
 
         [HttpGet("getSubjects/{streamId}/{semester}")]
-        public ActionResult<IEnumerable<Subject>> GetSubjectsForStreamAndSemester(int streamId, StudySemester semester)
+        public ActionResult<IEnumerable<SubjectEntity>> GetSubjectsForStreamAndSemester(int streamId, StudySemester semester)
         {
             return Ok(_studyLeaderboardService.GetSubjectsForDto(new StudySearchDto { StreamId = streamId, StudySemester = semester }));
         }
 
         [HttpGet("getAllGroups")]
-        public ActionResult<IEnumerable<StudyGroup>> GetAllGroups()
+        public ActionResult<IEnumerable<StudyGroupEntity>> GetAllGroups()
         {
             return Ok(_studyLeaderboardService.GetStudyGroupsForDto(new StudySearchDto()));
         }
 
         [HttpGet("getGroupsFromStream/{streamId}")]
-        public ActionResult<IEnumerable<StudyGroup>> GetGroupsForStream(int streamId)
+        public ActionResult<IEnumerable<StudyGroupEntity>> GetGroupsForStream(int streamId)
         {
             return Ok(_studyLeaderboardService.GetStudyGroupsForDto(new StudySearchDto { StreamId = streamId }));
         }
 
         [HttpGet("getGroupsFromSubject/{subjectId}")]
-        public ActionResult<IEnumerable<StudyGroup>> GetGroupsForSubject(int subjectId)
+        public ActionResult<IEnumerable<StudyGroupEntity>> GetGroupsForSubject(int subjectId)
         {
             return Ok(_studyLeaderboardService.GetStudyGroupsForDto(new StudySearchDto { SubjectId = subjectId }));
         }

@@ -15,13 +15,13 @@ namespace Iwentys.Models.Entities
         public QuestState State { get; set; }
 
         public int AuthorId { get; set; }
-        public Student Author { get; set; }
+        public StudentEntity Author { get; set; }
 
         public List<QuestResponseEntity> Responses { get; set; }
 
         public bool IsOutdated => Deadline < DateTime.UtcNow;
 
-        public static Quest New(string title, string description, int price, DateTime? deadline, Student author)
+        public static Quest New(string title, string description, int price, DateTime? deadline, StudentEntity author)
         {
             return new Quest
             {

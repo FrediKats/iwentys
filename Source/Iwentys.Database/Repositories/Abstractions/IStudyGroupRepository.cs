@@ -2,8 +2,8 @@
 
 namespace Iwentys.Database.Repositories.Abstractions
 {
-    public interface IStudyGroupRepository : IGenericRepository<StudyGroup, int>
+    public interface IStudyGroupRepository : IGenericRepository<StudyGroupEntity, int>
     {
-        StudyGroup ReadByNamePattern(string groupName);
+        StudyGroupEntity ReadByNamePattern(string groupName);
     }
 }

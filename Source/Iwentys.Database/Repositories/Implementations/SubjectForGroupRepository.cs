@@ -17,40 +17,40 @@ namespace Iwentys.Database.Repositories.Implementations
         {
             _dbContext = dbContext;
         }
-        public SubjectForGroup Create(SubjectForGroup entity)
+        public GroupSubjectEntity Create(GroupSubjectEntity entity)
         {
-            EntityEntry<SubjectForGroup> createdEntity = _dbContext.SubjectForGroups.Add(entity);
+            EntityEntry<GroupSubjectEntity> createdEntity = _dbContext.SubjectForGroups.Add(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
-        public IQueryable<SubjectForGroup> Read()
+        public IQueryable<GroupSubjectEntity> Read()
         {
             return _dbContext.SubjectForGroups
                 .Include(s => s.StudyGroup)
                 .Include(s => s.Subject);
         }
 
-        public SubjectForGroup ReadById(int key)
+        public GroupSubjectEntity ReadById(int key)
         {
             return _dbContext.SubjectForGroups.Find(key);
         }
 
-        public SubjectForGroup Update(SubjectForGroup entity)
+        public GroupSubjectEntity Update(GroupSubjectEntity entity)
         {
-            EntityEntry<SubjectForGroup> createdEntity = _dbContext.SubjectForGroups.Update(entity);
+            EntityEntry<GroupSubjectEntity> createdEntity = _dbContext.SubjectForGroups.Update(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
         public void Delete(int key)
         {
-            SubjectForGroup subjectForGroup = this.Get(key);
-            _dbContext.SubjectForGroups.Remove(subjectForGroup);
+            GroupSubjectEntity groupSubjectEntity = this.Get(key);
+            _dbContext.SubjectForGroups.Remove(groupSubjectEntity);
             _dbContext.SaveChanges();
         }
 
-        public IEnumerable<SubjectForGroup> GetSubjectForGroupForDto(StudySearchDto searchDto)
+        public IEnumerable<GroupSubjectEntity> GetSubjectForGroupForDto(StudySearchDto searchDto)
         {
             var query = Read();
             if (searchDto.GroupId != null)
@@ -77,12 +77,12 @@ namespace Iwentys.Database.Repositories.Implementations
             return query;
         }
 
-        public IEnumerable<Subject> GetSubjectsForDto(StudySearchDto searchDto)
+        public IEnumerable<SubjectEntity> GetSubjectsForDto(StudySearchDto searchDto)
         {
             return GetSubjectForGroupForDto(searchDto).Select(s => s.Subject);
         }
 
-        public IEnumerable<StudyGroup> GetStudyGroupsForDto(StudySearchDto searchDto)
+        public IEnumerable<StudyGroupEntity> GetStudyGroupsForDto(StudySearchDto searchDto)
         {
             return GetSubjectForGroupForDto(searchDto).Select(s => s.StudyGroup);
         }

@@ -7,7 +7,7 @@ namespace Iwentys.Core.DomainModel
     {
         public int Id { get; set; }
 
-        public Student GetProfile(IStudentRepository repository)
+        public StudentEntity GetProfile(IStudentRepository repository)
         {
             return repository.ReadById(Id);
         }

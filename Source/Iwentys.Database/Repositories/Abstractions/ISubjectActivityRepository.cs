@@ -4,11 +4,11 @@ using Iwentys.Models.Transferable.Study;
 
 namespace Iwentys.Database.Repositories.Abstractions
 {
-    public interface ISubjectActivityRepository : IGenericRepository<SubjectActivity, int>
+    public interface ISubjectActivityRepository : IGenericRepository<SubjectActivityEntity, int>
     {
-        SubjectActivity Create(SubjectActivity subjectActivity);
+        SubjectActivityEntity Create(SubjectActivityEntity subjectActivity);
 
-        SubjectActivity GetActivityForStudentAndSubject(int studentId, int subjectForGroupId);
-        IEnumerable<SubjectActivity> GetStudentActivities(StudySearchDto searchDto);
+        SubjectActivityEntity GetActivityForStudentAndSubject(int studentId, int subjectForGroupId);
+        IEnumerable<SubjectActivityEntity> GetStudentActivities(StudySearchDto searchDto);
     }
 }

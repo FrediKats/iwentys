@@ -36,7 +36,7 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpPost("UpdateSubjectActivityData")]
-        public void UpdateSubjectActivityData(SubjectActivity activity)
+        public void UpdateSubjectActivityData(SubjectActivityEntity activity)
         {
             _databaseAccessor.SubjectActivity.Update(activity);
         }
@@ -44,17 +44,17 @@ namespace Iwentys.Api.Controllers
         [HttpPost("UpdateSubjectActivityForGroup")]
         public void UpdateSubjectActivityForGroup(int subjectId, int groupId)
         {
-            SubjectForGroup subjectData = _databaseAccessor.SubjectForGroup
+            GroupSubjectEntity groupSubjectData = _databaseAccessor.SubjectForGroup
                 .Read()
                 .FirstOrDefault(s => s.SubjectId == subjectId && s.StudyGroupId == groupId);
 
-            if (subjectData == null)
+            if (groupSubjectData == null)
             {
                 _logger.LogWarning($"Subject info was not found: subjectId:{subjectId}, groupId:{groupId}");
                 return;
             }
             
-            _googleTableUpdateService.UpdateSubjectActivityForGroup(subjectData);
+            _googleTableUpdateService.UpdateSubjectActivityForGroup(groupSubjectData);
         }
 
         [HttpGet("login/{userId}")]
@@ -91,20 +91,8 @@ namespace Iwentys.Api.Controllers
         public string Register([FromBody] StudentCreateArgumentsDto arguments,
             [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
-            var student = new Student
-            {
-                Id = arguments.Id,
-                FirstName = arguments.FirstName,
-                MiddleName = arguments.MiddleName,
-                SecondName = arguments.SecondName,
-                Role = arguments.Role,
-                GroupId = _databaseAccessor.StudyGroupRepository.ReadByNamePattern(arguments.Group).Id,
-                GithubUsername = arguments.GithubUsername,
-                CreationTime = DateTime.UtcNow,
-                LastOnlineTime = DateTime.UtcNow,
-                BarsPoints = arguments.BarsPoints,
-                GuildLeftTime = DateTime.MinValue.ToUniversalTime()
-            };
+            int groupId = _databaseAccessor.StudyGroupRepository.ReadByNamePattern(arguments.Group).Id;
+            var student = new StudentEntity(arguments, groupId);
 
             _databaseAccessor.Student.Create(student);
 
