@@ -20,6 +20,7 @@ namespace Iwentys.Models.Entities
         public string MiddleName { get; set; }
         public string SecondName { get; set; }
         public UserType Role { get; set; }
+        public StudentType Type { get; set; }
         public int? GroupId { get; set; }
         public StudyGroupEntity Group { get; set; }
         public string GithubUsername { get; set; }
