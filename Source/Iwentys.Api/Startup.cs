@@ -64,6 +64,7 @@ namespace Iwentys.Api
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<IGithubUserDataRepository, GithubUserDataRepository>();
             services.AddScoped<IGroupSubjectRepository, GroupGroupSubjectRepository>();
+            services.AddScoped<IGuildMemberRepository, GuildMemberRepository>();
             services.AddScoped<IGuildRepository, GuildRepository>();
             services.AddScoped<IGuildTestTaskSolvingInfoRepository, GuildTestTaskSolvingInfoRepository>();
             services.AddScoped<IQuestRepository, QuestRepository>();
@@ -80,6 +81,7 @@ namespace Iwentys.Api
             services.AddScoped<IBarsPointTransactionLogService, BarsPointTransactionLogService>();
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<IGithubUserDataService, GithubUserDataService>();
+            services.AddScoped<IGuildMemberService, GuildMemberService>();
             services.AddScoped<IGuildService, GuildService>();
             services.AddScoped<IGuildTestTaskService, GuildTestTaskService>();
             services.AddScoped<IGuildTributeService, GuildTributeService>();

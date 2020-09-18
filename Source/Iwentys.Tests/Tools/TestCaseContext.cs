@@ -26,11 +26,13 @@ namespace Iwentys.Tests.Tools
 
         public readonly IStudentRepository StudentRepository;
         public readonly IGuildRepository GuildRepository;
+        public readonly IGuildMemberRepository GuildMemberRepository;
 
         public readonly DatabaseAccessor DatabaseAccessor;
 
         public readonly IStudentService StudentService;
         public readonly IGuildService GuildService;
+        public readonly IGuildMemberService GuildMemberService;
         public readonly IGuildTributeService GuildTributeServiceService;
         public readonly ICompanyService CompanyService;
         public readonly IQuestService QuestService;
@@ -43,14 +45,17 @@ namespace Iwentys.Tests.Tools
             Context = TestDatabaseProvider.GetDatabaseContext();
             StudentRepository = new StudentRepository(Context);
             GuildRepository = new GuildRepository(Context);
+            GuildMemberRepository = new GuildMemberRepository(Context);
 
             DatabaseAccessor = new DatabaseAccessor(Context);
             var achievementProvider = new AchievementProvider(DatabaseAccessor);
+            DummyGithubApiAccessor githubApiAccessor = new DummyGithubApiAccessor();
 
             StudentService = new StudentService(DatabaseAccessor, new DebugIsuAccessor(), achievementProvider);
-            GithubUserDataService = new GithubUserDataService(DatabaseAccessor, new DummyGithubApiAccessor());
-            GuildService = new GuildService(DatabaseAccessor, GithubUserDataService, new DummyGithubApiAccessor());
-            GuildTributeServiceService = new GuildTributeService(DatabaseAccessor, new DummyGithubApiAccessor());
+            GithubUserDataService = new GithubUserDataService(DatabaseAccessor, githubApiAccessor);
+            GuildService = new GuildService(DatabaseAccessor, GithubUserDataService, githubApiAccessor);
+            GuildMemberService = new GuildMemberService(DatabaseAccessor, GithubUserDataService, githubApiAccessor);
+            GuildTributeServiceService = new GuildTributeService(DatabaseAccessor, githubApiAccessor);
             CompanyService = new CompanyService(DatabaseAccessor);
             QuestService = new QuestService(DatabaseAccessor, achievementProvider);
         }

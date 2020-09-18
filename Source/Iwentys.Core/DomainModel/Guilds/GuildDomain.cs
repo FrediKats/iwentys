@@ -110,11 +110,11 @@ namespace Iwentys.Core.DomainModel.Guilds
                 userGuild.Id == Profile.Id)
                 return UserMembershipState.Entered;
 
-            if (_dbAccessor.Guild.IsStudentHaveRequest(userId) &&
+            if (_dbAccessor.GuildMember.IsStudentHaveRequest(userId) &&
                 userStatusInGuild != GuildMemberType.Requested)
                 return UserMembershipState.Blocked;
 
-            if (_dbAccessor.Guild.IsStudentHaveRequest(userId) &&
+            if (_dbAccessor.GuildMember.IsStudentHaveRequest(userId) &&
                 userStatusInGuild == GuildMemberType.Requested)
                 return UserMembershipState.Requested;
 

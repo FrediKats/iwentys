@@ -13,10 +13,12 @@ namespace Iwentys.Api.Controllers
     public class GuildController : ControllerBase
     {
         private readonly IGuildService _guildService;
+        private readonly IGuildMemberService _guildMemberService;
 
-        public GuildController(IGuildService guildService)
+        public GuildController(IGuildService guildService, IGuildMemberService guildMemberService)
         {
             _guildService = guildService;
+            _guildMemberService = guildMemberService;
         }
 
         [HttpPost]
@@ -50,42 +52,42 @@ namespace Iwentys.Api.Controllers
         public ActionResult<GuildProfileDto> Enter(int guildId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
-            return Ok(_guildService.EnterGuild(user, guildId));
+            return Ok(_guildMemberService.EnterGuild(user, guildId));
         }
 
         [HttpPut("{guildId}/request")]
         public ActionResult<GuildProfileDto> SendRequest(int guildId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
-            return Ok(_guildService.RequestGuild(user, guildId));
+            return Ok(_guildMemberService.RequestGuild(user, guildId));
         }
 
         [HttpPut("{guildId}/leave")]
         public ActionResult<GuildProfileDto> Leave(int guildId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
-            return Ok(_guildService.LeaveGuild(user, guildId));
+            return Ok(_guildMemberService.LeaveGuild(user, guildId));
         }
 
         [HttpGet("{guildId}/request")]
         public ActionResult<GuildMemberEntity[]> GetGuildRequests(int guildId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
-            return Ok(_guildService.GetGuildRequests(user, guildId));
+            return Ok(_guildMemberService.GetGuildRequests(user, guildId));
         }
 
         [HttpGet("{guildId}/blocked")]
         public ActionResult<GuildMemberEntity[]> GetGuildBlocked(int guildId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
-            return Ok(_guildService.GetGuildBlocked(user, guildId));
+            return Ok(_guildMemberService.GetGuildBlocked(user, guildId));
         }
 
         [HttpPut("{guildId}/member/{memberId}/block")]
         public IActionResult BlockGuildMember(int guildId, int memberId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
-            _guildService.BlockGuildMember(user, guildId, memberId);
+            _guildMemberService.BlockGuildMember(user, guildId, memberId);
             return Ok();
         }
 
@@ -93,7 +95,7 @@ namespace Iwentys.Api.Controllers
         public IActionResult UnblockGuildMember(int guildId, int studentId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
-            _guildService.UnblockStudent(user, guildId, studentId);
+            _guildMemberService.UnblockStudent(user, guildId, studentId);
             return Ok();
         }
 
@@ -101,7 +103,7 @@ namespace Iwentys.Api.Controllers
         public IActionResult KickGuildMember(int guildId, int memberId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
-            _guildService.KickGuildMember(user, guildId, memberId);
+            _guildMemberService.KickGuildMember(user, guildId, memberId);
             return Ok();
         }
 
@@ -109,7 +111,7 @@ namespace Iwentys.Api.Controllers
         public IActionResult AcceptRequest(int guildId, int studentId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
-            _guildService.AcceptRequest(user, guildId, studentId);
+            _guildMemberService.AcceptRequest(user, guildId, studentId);
             return Ok();
         }
 
@@ -117,7 +119,7 @@ namespace Iwentys.Api.Controllers
         public IActionResult RejectRequest(int guildId, int studentId)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
-            _guildService.RejectRequest(user, guildId, studentId);
+            _guildMemberService.RejectRequest(user, guildId, studentId);
             return Ok();
         }
 

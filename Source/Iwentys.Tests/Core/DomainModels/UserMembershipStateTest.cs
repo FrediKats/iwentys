@@ -24,6 +24,7 @@ namespace Iwentys.Tests.Core.DomainModels
 
         private Mock<ITributeRepository> _tributeRepository;
         private Mock<IGuildRepository> _guildRepository;
+        private Mock<IGuildMemberRepository> _guildMemberRepository;
         private Mock<IStudentRepository> _studentRepository;
         private Mock<IGithubUserDataService> _githubUserDataService;
 
@@ -78,7 +79,7 @@ namespace Iwentys.Tests.Core.DomainModels
             _guildRepository
                 .Setup(r => r.ReadForStudent(It.IsAny<Int32>()))
                 .Returns(default(GuildEntity));
-            _guildRepository
+            _guildMemberRepository
                 .Setup(r => r.IsStudentHaveRequest(It.IsAny<Int32>()))
                 .Returns(false);
 
@@ -91,6 +92,7 @@ namespace Iwentys.Tests.Core.DomainModels
             DatabaseAccessor databaseAccessor = new DatabaseAccessor(null,
                 _studentRepository.Object,
                 _guildRepository.Object,
+                _guildMemberRepository.Object,
                 null,
                 null,
                 null,
@@ -155,7 +157,7 @@ namespace Iwentys.Tests.Core.DomainModels
         public void GetGuild_ForUserWithRequestToThisGuild_UserMembershipStateIsRequested()
         {
             _guild.Members.Add(new GuildMemberEntity(_guild, _student, GuildMemberType.Requested) );
-            _guildRepository
+            _guildMemberRepository
                 .Setup(r => r.IsStudentHaveRequest(_student.Id))
                 .Returns(true);
 
@@ -165,7 +167,7 @@ namespace Iwentys.Tests.Core.DomainModels
         [Test]
         public void GetGuild_ForUserWithRequestToAnotherGuild_UserMembershipStateIsBlocked()
         {
-            _guildRepository
+            _guildMemberRepository
                 .Setup(r => r.IsStudentHaveRequest(_student.Id))
                 .Returns(true);
 
