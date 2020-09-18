@@ -30,6 +30,7 @@ namespace Iwentys.Models.Entities
 
         public DateTime GuildLeftTime { get; set; }
         public GuildMemberEntity GuildMember { get; set; }
+        public GithubUserData GithubUserData { get; set; }
 
         public List<StudentAchievementEntity> Achievements { get; set; }
         public List<SubjectActivityEntity> SubjectActivities { get; set; }

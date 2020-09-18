@@ -1,13 +1,12 @@
-﻿using Iwentys.Models.Entities.Github;
+﻿using System.ComponentModel.DataAnnotations;
+using Iwentys.Models.Entities.Github;
 
 namespace Iwentys.Models.Entities
 {
     public class GithubUserData
     {
-        public StudentEntity Student { get; set; }
+        [Key]
         public int StudentId { get; set; }
-
-        public int Id { get; set; }
         public string Username { get; set; }
         public string AvatarUrl { get; set; }
         public string Bio { get; set; }

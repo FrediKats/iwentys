@@ -37,7 +37,6 @@ namespace Iwentys.Core.Services.Implementations
                 githubUserData = new GithubUserData
                 {
                     StudentId = studentId,
-                    Student = student,
                     Username = student.GithubUsername,
                     AvatarUrl = githubUser.AvatarUrl,
                     Bio = githubUser.Bio,
