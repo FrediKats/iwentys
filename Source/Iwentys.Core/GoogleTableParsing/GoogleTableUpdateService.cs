@@ -43,7 +43,7 @@ namespace Iwentys.Core.GoogleTableParsing
                     .Read()
                     .SingleOrDefault(s => student.Name.Contains(s.Student.FirstName)
                                           && student.Name.Contains(s.Student.SecondName)
-                                          && s.SubjectForGroupId == groupSubjectData.Id);
+                                          && s.GroupSubjectEntity.SubjectId == groupSubjectData.SubjectId);
 
                 if (!Tools.ParseInAnyCulture(student.Score, out double pointsCount))
                 {
@@ -69,7 +69,7 @@ namespace Iwentys.Core.GoogleTableParsing
                     _subjectActivityRepository.Create(new SubjectActivityEntity
                     {
                         StudentId = studentProfile.Id,
-                        SubjectForGroupId = groupSubjectData.StudyGroupId,
+                        GroupSubjectEntityId = groupSubjectData.StudyGroupId,
                         Points = pointsCount
                     });
 

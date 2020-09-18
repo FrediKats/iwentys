@@ -51,7 +51,7 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public SubjectActivityEntity GetActivityForStudentAndSubject(int studentId, int subjectForGroupId)
         {
-            return Read().FirstOrDefault(s => s.StudentId == studentId && s.SubjectForGroupId == subjectForGroupId);
+            return Read().FirstOrDefault(s => s.StudentId == studentId && s.GroupSubjectEntityId == subjectForGroupId);
         }
 
         public IEnumerable<SubjectActivityEntity> GetStudentActivities(StudySearchDto searchDto)
@@ -61,8 +61,8 @@ namespace Iwentys.Database.Repositories.Implementations
                     st => st.Student.GroupId,
                     sg => sg.Id, 
                     (subjectActivity, group) => new {SubjectActivity = subjectActivity, Group = group})
-                .Join(_dbContext.SubjectForGroups,
-                    st => st.SubjectActivity.SubjectForGroupId,
+                .Join(_dbContext.GroupSubjects,
+                    st => st.SubjectActivity.GroupSubjectEntityId,
                     sg => sg.Id,
                     (_, sg) => new {_.SubjectActivity, _.Group, SubjectForGroup = sg});
 

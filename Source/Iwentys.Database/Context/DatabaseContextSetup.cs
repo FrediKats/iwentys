@@ -187,19 +187,19 @@ namespace Iwentys.Database.Context
                 {
                     StudentId = 289140,
                     Points = 100,
-                    SubjectForGroupId = 1
+                    GroupSubjectEntityId = 1
                 },
                 new SubjectActivityEntity
                 {
                     StudentId = 289140,
                     Points = 60,
-                    SubjectForGroupId = 2
+                    GroupSubjectEntityId = 2
                 },
                 new SubjectActivityEntity
                 {
                     StudentId = 289140,
                     Points = 70,
-                    SubjectForGroupId = 3
+                    GroupSubjectEntityId = 3
                 }
             };
         }
