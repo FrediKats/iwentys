@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Iwentys.Api.Tools;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Transferable.Students;
@@ -32,7 +33,7 @@ namespace Iwentys.Api.Controllers
         [HttpPost]
         public ActionResult<StudentFullProfileDto> Update([FromBody] StudentUpdateDto studentUpdateDto)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
 
             return Ok(_studentService.AddGithubUsername(user.Id, studentUpdateDto.GithubUsername));
         }

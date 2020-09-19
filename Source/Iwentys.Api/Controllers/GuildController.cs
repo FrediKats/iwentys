@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Iwentys.Api.Tools;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Entities.Github;
@@ -24,14 +25,14 @@ namespace Iwentys.Api.Controllers
         [HttpPost]
         public ActionResult<GuildProfileShortInfoDto> Create([FromBody] GuildCreateArgumentDto arguments)
         {
-            AuthorizedUser creator = AuthorizedUser.DebugAuth();
+            AuthorizedUser creator = this.TryAuthWithToken();
             return Ok(_guildService.Create(creator, arguments));
         }
 
         [HttpPost("update")]
         public ActionResult<GuildProfileShortInfoDto> Update([FromBody] GuildUpdateArgumentDto arguments)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildService.Update(user, arguments));
         }
 
@@ -44,49 +45,49 @@ namespace Iwentys.Api.Controllers
         [HttpGet("{id}")]
         public ActionResult<GuildProfileDto> Get(int id)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildService.Get(id, user.Id));
         }
 
         [HttpPut("{guildId}/enter")]
         public ActionResult<GuildProfileDto> Enter(int guildId)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildMemberService.EnterGuild(user, guildId));
         }
 
         [HttpPut("{guildId}/request")]
         public ActionResult<GuildProfileDto> SendRequest(int guildId)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildMemberService.RequestGuild(user, guildId));
         }
 
         [HttpPut("{guildId}/leave")]
         public ActionResult<GuildProfileDto> Leave(int guildId)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildMemberService.LeaveGuild(user, guildId));
         }
 
         [HttpGet("{guildId}/request")]
         public ActionResult<GuildMemberEntity[]> GetGuildRequests(int guildId)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildMemberService.GetGuildRequests(user, guildId));
         }
 
         [HttpGet("{guildId}/blocked")]
         public ActionResult<GuildMemberEntity[]> GetGuildBlocked(int guildId)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildMemberService.GetGuildBlocked(user, guildId));
         }
 
         [HttpPut("{guildId}/member/{memberId}/block")]
         public IActionResult BlockGuildMember(int guildId, int memberId)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             _guildMemberService.BlockGuildMember(user, guildId, memberId);
             return Ok();
         }
@@ -94,7 +95,7 @@ namespace Iwentys.Api.Controllers
         [HttpPut("{guildId}/blocked/{studentId}/unblock")]
         public IActionResult UnblockGuildMember(int guildId, int studentId)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             _guildMemberService.UnblockStudent(user, guildId, studentId);
             return Ok();
         }
@@ -102,7 +103,7 @@ namespace Iwentys.Api.Controllers
         [HttpPut("{guildId}/member/{memberId}/kick")]
         public IActionResult KickGuildMember(int guildId, int memberId)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             _guildMemberService.KickGuildMember(user, guildId, memberId);
             return Ok();
         }
@@ -110,7 +111,7 @@ namespace Iwentys.Api.Controllers
         [HttpPut("{guildId}/request/{studentId}/accept")]
         public IActionResult AcceptRequest(int guildId, int studentId)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             _guildMemberService.AcceptRequest(user, guildId, studentId);
             return Ok();
         }
@@ -118,7 +119,7 @@ namespace Iwentys.Api.Controllers
         [HttpPut("{guildId}/request/{studentId}/reject")]
         public IActionResult RejectRequest(int guildId, int studentId)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             _guildMemberService.RejectRequest(user, guildId, studentId);
             return Ok();
         }
@@ -126,7 +127,7 @@ namespace Iwentys.Api.Controllers
         [HttpPost("{guildId}/pinned")]
         public ActionResult<GithubRepository> AddPinnedProject([FromRoute]int guildId, [FromBody]CreateProjectDto createProject)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildService.AddPinnedRepository(user, guildId, createProject.Owner, createProject.RepositoryName));
         }
 
@@ -134,7 +135,7 @@ namespace Iwentys.Api.Controllers
         public ActionResult DeletePinnedProject(int guildId, [FromBody] int repositoryId)
         {
             //TODO: Need to rework all links between GithubRepository, Student project and PinnedRepository
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             _guildService.UnpinProject(user, repositoryId);
             return Ok();
         }

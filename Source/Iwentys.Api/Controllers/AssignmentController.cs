@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Iwentys.Api.Tools;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Implementations;
 using Iwentys.Models.Transferable;
@@ -20,14 +21,14 @@ namespace Iwentys.Api.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<AssignmentInfoDto>> Get()
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_assignmentService.Read(user));
         }
 
         [HttpPost]
         public ActionResult<IEnumerable<AssignmentInfoDto>> Create([FromBody] AssignmentCreateDto assignmentCreateDto)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_assignmentService.Create(user, assignmentCreateDto));
         }
     }
