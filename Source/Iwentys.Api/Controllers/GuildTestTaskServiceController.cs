@@ -30,7 +30,7 @@ namespace Iwentys.Api.Controllers
             return Ok(_guildTestTaskService.Accept(user, guildId));
         }
 
-        [HttpGet("accept")]
+        [HttpGet("submit")]
         public ActionResult<GuildTestTaskInfoDto> Accept([FromQuery] int guildId, [FromQuery] string projectOwner, [FromQuery] string projectName)
         {
             AuthorizedUser user = AuthorizedUser.DebugAuth();
