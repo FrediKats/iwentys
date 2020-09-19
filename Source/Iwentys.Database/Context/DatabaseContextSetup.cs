@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using Iwentys.Models.Entities;
@@ -287,7 +288,6 @@ namespace Iwentys.Database.Context
             StudyGroupEntity m3201 = StudyGroups.First(g => g.GroupName == "M3201");
             StudyGroupEntity m3202 = StudyGroups.First(g => g.GroupName == "M3202");
             StudyGroupEntity m3205 = StudyGroups.First(g => g.GroupName == "M3205");
-            StudyGroupEntity m3305 = StudyGroups.First(g => g.GroupName == "M3305");
 
             return new List<StudentEntity>
             {
@@ -307,18 +307,19 @@ namespace Iwentys.Database.Context
             };
         }
 
-
         private List<StudentEntity> ReadStudentsFromFile(int zeroGroupId)
         {
-            if (File.Exists("Data.txt") == false)
+            if (!File.Exists("Data.txt"))
                 return new List<StudentEntity>();
 
             return File.ReadAllLines("Data.txt")
                 .Select(r =>
                 {
                     string[] elements = r.Split("\t");
+                    int isuId = int.Parse(elements[1], CultureInfo.InvariantCulture);
+                    int groupNumber = int.Parse(elements[0], CultureInfo.InvariantCulture);
                     string[] names = elements[2].Split(' ', 3).ToArray();
-                    return StudentEntity.CreateFromIsu(int.Parse(elements[1]), names[1], names.Length == 3 ? names[2] : null, names[0], zeroGroupId + int.Parse(elements[0]));
+                    return StudentEntity.CreateFromIsu(isuId, names[1], names.Length == 3 ? names[2] : null, names[0], zeroGroupId + groupNumber);
                 })
                 .ToList();
         }

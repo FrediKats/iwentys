@@ -92,7 +92,6 @@ namespace Iwentys.Core.DomainModel.Guilds
             };
         }
 
-        
         public UserMembershipState GetUserMembershipState(Int32 userId)
         {
             StudentEntity user = _dbAccessor.Student.Get(userId);
@@ -102,11 +101,11 @@ namespace Iwentys.Core.DomainModel.Guilds
             if (userStatusInGuild == GuildMemberType.Blocked)
                 return UserMembershipState.Blocked;
 
-            if (userGuild != null && 
+            if (userGuild != null &&
                 userGuild.Id != Profile.Id)
                 return UserMembershipState.Blocked;
 
-            if (userGuild != null && 
+            if (userGuild != null &&
                 userGuild.Id == Profile.Id)
                 return UserMembershipState.Entered;
 

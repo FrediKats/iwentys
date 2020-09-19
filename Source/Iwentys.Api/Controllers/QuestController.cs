@@ -71,6 +71,5 @@ namespace Iwentys.Api.Controllers
             AuthorizedUser author = this.TryAuthWithToken();
             return Ok(_questService.Revoke(author, questId));
         }
-
     }
 }

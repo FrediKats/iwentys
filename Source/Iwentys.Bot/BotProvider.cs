@@ -29,8 +29,7 @@ namespace Iwentys.ClientBot
                 .SetPrefix('/');
 
             //TODO: debug methods
-            botInstance
-                .AddCommand(new SetCurrentUserCommand(identifier));
+            botInstance.AddCommand(new SetCurrentUserCommand(identifier));
 
             return botInstance;
         }

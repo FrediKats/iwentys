@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using FluentResults;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
@@ -25,14 +27,15 @@ namespace Iwentys.Core.GoogleTableParsing
 
         public void UpdateSubjectActivityForGroup(GroupSubjectEntity groupSubjectData)
         {
-            GoogleTableData googleTableData = groupSubjectData.GetGoogleTableDataConfig();
-            //TODO: remove this hack
-            if (googleTableData is null)
+            Result<GoogleTableData> googleTableData = groupSubjectData.TryGetGoogleTableDataConfig();
+            if (googleTableData.IsFailed)
+            {
+                _logger.LogError(googleTableData.ToString());
                 return;
+            }
 
             SheetsService sheetsService = GetServiceForApiToken();
-
-            var tableParser = new TableParser(_logger, sheetsService, googleTableData);
+            var tableParser = new TableParser(_logger, sheetsService, googleTableData.Value);
 
             foreach (StudentSubjectScore student in tableParser.GetStudentsList())
             {
@@ -41,8 +44,8 @@ namespace Iwentys.Core.GoogleTableParsing
                 // TODO: Сделать нормальную проверку
                 SubjectActivityEntity activity = _subjectActivityRepository
                     .Read()
-                    .SingleOrDefault(s => student.Name.Contains(s.Student.FirstName)
-                                          && student.Name.Contains(s.Student.SecondName)
+                    .SingleOrDefault(s => student.Name.Contains(s.Student.FirstName, StringComparison.InvariantCulture)
+                                          && student.Name.Contains(s.Student.SecondName, StringComparison.InvariantCulture)
                                           && s.GroupSubjectEntity.SubjectId == groupSubjectData.SubjectId);
 
                 if (!Tools.ParseInAnyCulture(student.Score, out double pointsCount))
@@ -57,8 +60,8 @@ namespace Iwentys.Core.GoogleTableParsing
 
                     StudentEntity studentProfile = _studentRepository
                         .Read()
-                        .FirstOrDefault(s => student.Name.Contains(s.FirstName)
-                                    && student.Name.Contains(s.SecondName));
+                        .FirstOrDefault(s => student.Name.Contains(s.FirstName, StringComparison.InvariantCulture)
+                                    && student.Name.Contains(s.SecondName, StringComparison.InvariantCulture));
 
                     if (studentProfile is null)
                     {

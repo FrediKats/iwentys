@@ -1,4 +1,3 @@
-using System.Text;
 using System.Text.Json.Serialization;
 using Iwentys.Core;
 using Iwentys.Core.Auth;
@@ -65,7 +64,6 @@ namespace Iwentys.Api
                         ValidAudience = ApplicationOptions.JwtIssuer,
                         IssuerSigningKey = signingKey.GetKey()
                     };
-
                 });
 
             services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));

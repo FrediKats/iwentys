@@ -22,16 +22,14 @@ namespace Iwentys.Polygon
         /// idТаблицы НазваниеСтаницыНаТаблице
         /// ПерваяСтрочкаБлока ПоследняяСтрочкаБлока
         /// НазваниеСтолбцаСГруппой НазваниеСтолбцаСФИО НазваниеСтолбцаСБаллами
-        ///
+        /// 
         /// Все это пока что вводится с консоли. Вот примеры наборов значений:
         /// "1XcrYxQ-hoId1g2cH6t4Nh_e21ZLLkFfIqPS1JTc385M BARS/COMPENSATION 6 21 n A 2 B C O"
         /// "1-JbFg-6zZuNjrCA3bsawsS88e5kePKgA0mK9otQKrYk "семестр 2" 100 124 y M3105 1 A O"
-        ///
+        /// 
         /// Даже на них уже видны некоторые проблемы, например в первой таблице Ф и ИО раздельно,
         /// а во второй нет поля с группой
-        /// 
-        /// <param name="args"></param>
-        static void Main(string[] args)
+        static void Main()
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             SheetsService sheetsService;
@@ -66,21 +64,7 @@ namespace Iwentys.Polygon
             var firstRow = Console.ReadLine();
             Console.WriteLine("Последняя строка с данными в таблице:");
             var lastRow = Console.ReadLine();
-            Console.WriteLine("Группа предопределена?(y/n):");
-            bool groupDefined = false;
-            string groupName = null;
-            string groupColumn = null;
-            if (Console.ReadLine()?.ToLower() == "y")
-            {
-                groupDefined = true;
-                Console.WriteLine("Номер группы:");
-                groupName = Console.ReadLine();
-            }
-            else
-            {
-                Console.WriteLine("Столбец с группой:");
-                groupColumn = Console.ReadLine();
-            }
+
             Console.WriteLine("На сколько столбцов разбито ФИО:");
             var nameSplitNum = int.Parse(Console.ReadLine());
             string[] nameArr = new string[nameSplitNum];

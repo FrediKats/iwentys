@@ -79,6 +79,8 @@ namespace Iwentys.Tests.Core.DomainModels
             _guildRepository
                 .Setup(r => r.ReadForStudent(It.IsAny<Int32>()))
                 .Returns(default(GuildEntity));
+
+            _guildMemberRepository = new Mock<IGuildMemberRepository>();
             _guildMemberRepository
                 .Setup(r => r.IsStudentHaveRequest(It.IsAny<Int32>()))
                 .Returns(false);

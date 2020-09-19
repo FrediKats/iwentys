@@ -8,7 +8,7 @@ namespace Iwentys.Models.Exceptions
         {
         }
 
-        public IwentysException() : base()
+        public IwentysException()
         {
         }
 

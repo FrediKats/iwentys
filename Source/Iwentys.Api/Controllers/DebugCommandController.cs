@@ -54,7 +54,7 @@ namespace Iwentys.Api.Controllers
                 _logger.LogWarning($"Subject info was not found: subjectId:{subjectId}, groupId:{groupId}");
                 return;
             }
-            
+
             _googleTableUpdateService.UpdateSubjectActivityForGroup(groupSubjectData);
         }
 
@@ -87,7 +87,6 @@ namespace Iwentys.Api.Controllers
             throw new Exception("Invalid token");
         }
 
-
         [HttpPost("register")]
         public string Register([FromBody] StudentCreateArgumentsDto arguments,
             [FromServices] IJwtSigningEncodingKey signingEncodingKey)
@@ -104,7 +103,7 @@ namespace Iwentys.Api.Controllers
         {
             var claims = new[]
             {
-                new Claim(ClaimTypes.UserData, userId.ToString())
+                new Claim(ClaimTypes.UserData, userId.ToString(CultureInfo.InvariantCulture))
             };
 
             var token = new JwtSecurityToken(
@@ -115,9 +114,8 @@ namespace Iwentys.Api.Controllers
                     signingEncodingKey.GetKey(),
                     signingEncodingKey.SigningAlgorithm)
             );
-            
-            string jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
-            return jwtToken;
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }
