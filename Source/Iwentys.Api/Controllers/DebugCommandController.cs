@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using Iwentys.Core;
 using Iwentys.Core.Auth;
 using Iwentys.Core.GoogleTableParsing;
 using Iwentys.Core.Services.Abstractions;
@@ -107,8 +108,8 @@ namespace Iwentys.Api.Controllers
             };
 
             var token = new JwtSecurityToken(
-                issuer: "Iwentys",
-                audience: "IwentysWeb",
+                issuer: ApplicationOptions.JwtIssuer,
+                audience: ApplicationOptions.JwtIssuer,
                 claims: claims,
                 signingCredentials: new SigningCredentials(
                     signingEncodingKey.GetKey(),

@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.Json.Serialization;
 using Iwentys.Core;
 using Iwentys.Core.Auth;
@@ -9,6 +10,8 @@ using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Database.Repositories.Implementations;
 using Iwentys.IsuIntegrator;
+
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -16,6 +19,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Iwentys.Api
 {
@@ -33,7 +37,8 @@ namespace Iwentys.Api
             ApplicationOptions.GoogleServiceToken = Configuration["GoogleTableCredentials"];
             ApplicationOptions.GithubToken = Configuration["GithubToken"];
             ApplicationOptions.TelegramToken = Configuration["TelegramToken"];
-            ApplicationOptions.SigningSecurityKey = Configuration["SigningSecurityKey"];
+            ApplicationOptions.SigningSecurityKey = Configuration["jwt:SigningSecurityKey"];
+            ApplicationOptions.JwtIssuer = Configuration["jwt:issuer"];
 
             //TODO: Temp fix for CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
@@ -46,6 +51,22 @@ namespace Iwentys.Api
 
             var signingKey = new SigningSymmetricKey(ApplicationOptions.SigningSecurityKey);
             services.AddSingleton<IJwtSigningEncodingKey>(signingKey);
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = false,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = ApplicationOptions.JwtIssuer,
+                        ValidAudience = ApplicationOptions.JwtIssuer,
+                        IssuerSigningKey = signingKey.GetKey()
+                    };
+
+                });
 
             services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
             services.AddSwaggerGen();
@@ -118,6 +139,7 @@ namespace Iwentys.Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());
