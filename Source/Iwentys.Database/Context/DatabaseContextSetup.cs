@@ -31,7 +31,7 @@ namespace Iwentys.Database.Context
         public List<StudyGroupEntity> StudyGroups { get; set; }
         public List<StudyCourseEntity> StudyCourses { get; set; }
         public List<StudyProgramEntity> StudyPrograms { get; set; }
-        public List<GroupSubjectEntity> SubjectForGroups { get; set; }
+        public List<GroupSubjectEntity> GroupSubjects { get; set; }
         public List<SubjectActivityEntity> SubjectActivitys { get; set; }
 
         public List<StudentEntity> Students { get; set; }
@@ -83,14 +83,15 @@ namespace Iwentys.Database.Context
                 .Concat(Create.CourseGroup(5, 1, 12))
                 .ToList();
 
-            SubjectForGroups = new List<GroupSubjectEntity>
+            GroupSubjects = new List<GroupSubjectEntity>
             {
                 new GroupSubjectEntity
                 {
                     Id = Create.GroupSubjectIdentifierGenerator.Next(),
                     SubjectId = 1,
                     StudyGroupId = secondCourse[0].Id,
-                    TeacherId = 1,
+                    LectorTeacherId = 1,
+                    PracticeTeacherId = 1,
                     StudySemester = StudySemester.Y19H2
                 },
                 new GroupSubjectEntity
@@ -98,7 +99,8 @@ namespace Iwentys.Database.Context
                     Id = Create.GroupSubjectIdentifierGenerator.Next(),
                     SubjectId = 2,
                     StudyGroupId = secondCourse[0].Id,
-                    TeacherId = 1,
+                    LectorTeacherId = 1,
+                    PracticeTeacherId = 1,
                     StudySemester = StudySemester.Y19H2
                 },
 
@@ -107,7 +109,8 @@ namespace Iwentys.Database.Context
                     Id = Create.GroupSubjectIdentifierGenerator.Next(),
                     SubjectId = 3,
                     StudyGroupId = secondCourse[0].Id,
-                    TeacherId = 1,
+                    LectorTeacherId = 1,
+                    PracticeTeacherId = 1,
                     StudySemester = StudySemester.Y19H2,
                     SerializedGoogleTableConfig = new GoogleTableData(
                         "1BMRHimS4Ioo5cWX1yZdHFsSyViR_J2h8rhL8Wl_x3og",
@@ -123,7 +126,8 @@ namespace Iwentys.Database.Context
                     Id = Create.GroupSubjectIdentifierGenerator.Next(),
                     SubjectId = 3,
                     StudyGroupId = secondCourse[1].Id,
-                    TeacherId = 1,
+                    LectorTeacherId = 1,
+                    PracticeTeacherId = 1,
                     StudySemester = StudySemester.Y19H2,
                     SerializedGoogleTableConfig = new GoogleTableData(
                         "1BMRHimS4Ioo5cWX1yZdHFsSyViR_J2h8rhL8Wl_x3og",
@@ -140,7 +144,8 @@ namespace Iwentys.Database.Context
                     Id = Create.GroupSubjectIdentifierGenerator.Next(),
                     SubjectId = 3,
                     StudyGroupId = secondCourse[2].Id,
-                    TeacherId = 1,
+                    LectorTeacherId = 1,
+                    PracticeTeacherId = 1,
                     StudySemester = StudySemester.Y19H2,
                     SerializedGoogleTableConfig = new GoogleTableData(
                         "1BMRHimS4Ioo5cWX1yZdHFsSyViR_J2h8rhL8Wl_x3og",

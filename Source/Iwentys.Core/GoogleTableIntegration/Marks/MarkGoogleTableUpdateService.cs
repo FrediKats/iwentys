@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Linq;
 using FluentResults;
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Services;
-using Google.Apis.Sheets.v4;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
@@ -34,9 +31,7 @@ namespace Iwentys.Core.GoogleTableIntegration.Marks
                 return;
             }
 
-            SheetsService sheetsService = GetServiceForApiToken();
-            var tableParser = new TableParser(_logger, sheetsService);
-
+            var tableParser = TableParser.Create(_logger);
             foreach (StudentSubjectScore student in tableParser.Execute(new MarkParser(googleTableData.Value, _logger)))
             {
                 // Это очень плохая проверка, но я пока не придумал,
@@ -82,28 +77,6 @@ namespace Iwentys.Core.GoogleTableIntegration.Marks
                 activity.Points = pointsCount;
                 _subjectActivityRepository.Update(activity);
             }
-        }
-
-        private SheetsService GetServiceForCredential()
-        {
-            GoogleCredential credential = GoogleCredential
-                .FromJson(ApplicationOptions.GoogleServiceToken)
-                .CreateScoped(SheetsService.Scope.SpreadsheetsReadonly);
-
-            return new SheetsService(new BaseClientService.Initializer()
-            {
-                ApplicationName = "IwentysTableParser",
-                HttpClientInitializer = credential,
-            });
-        }
-
-        private SheetsService GetServiceForApiToken()
-        {
-            return new SheetsService(new BaseClientService.Initializer()
-            {
-                ApplicationName = "IwentysTableParser",
-                ApiKey = ApplicationOptions.GoogleServiceToken
-            });
         }
     }
 }

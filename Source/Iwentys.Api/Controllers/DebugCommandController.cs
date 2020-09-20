@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using Iwentys.Core;
 using Iwentys.Core.Auth;
+using Iwentys.Core.GoogleTableIntegration;
 using Iwentys.Core.GoogleTableIntegration.Marks;
+using Iwentys.Core.GoogleTableIntegration.TeacherInfoParse;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
@@ -116,6 +119,15 @@ namespace Iwentys.Api.Controllers
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        [HttpGet("teachers")]
+        public ActionResult<List<SubjectTeacherInfo>> LoadTeachers([FromQuery] string tableId, [FromQuery] string range)
+        {
+            var tableParser = TableParser.Create(_logger);
+            var subjectTeacherParser = new SubjectTeacherParser(tableId, range);
+            List<SubjectTeacherInfo> result = tableParser.Execute(subjectTeacherParser);
+            return Ok(result);
         }
     }
 }

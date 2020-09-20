@@ -16,8 +16,12 @@ namespace Iwentys.Models.Entities.Study
         public int StudyGroupId { get; set; }
         public StudyGroupEntity StudyGroup { get; set; }
 
-        public int TeacherId { get; set; }
-        public TeacherEntity Teacher { get; set; }
+        public int LectorTeacherId { get; set; }
+        public TeacherEntity LectorTeacher { get; set; }
+
+        public int PracticeTeacherId { get; set; }
+        public TeacherEntity PracticeTeacher { get; set; }
+
 
         public string SerializedGoogleTableConfig { get; set; }
         public StudySemester StudySemester { get; set; }
