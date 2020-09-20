@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Core.Services.Abstractions;
+using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Transferable.Study;
 using Iwentys.Models.Types;
 using Microsoft.AspNetCore.Mvc;
@@ -8,23 +9,21 @@ namespace Iwentys.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StudyLeaderboardController : ControllerBase
+    public class SubjectController : ControllerBase
     {
         private readonly IStudyLeaderboardService _studyLeaderboardService;
 
-        public StudyLeaderboardController(IStudyLeaderboardService studyLeaderboardService)
+        public SubjectController(IStudyLeaderboardService studyLeaderboardService)
         {
             _studyLeaderboardService = studyLeaderboardService;
         }
 
         [HttpGet]
-        public ActionResult<List<StudyLeaderboardRow>> GetStudentsRating([FromQuery] int? subjectId, [FromQuery] int? courseId, [FromQuery] int? groupId, [FromQuery] StudySemester? semester)
+        public ActionResult<List<SubjectEntity>> GetAllSubjects([FromQuery] int? courseId, [FromQuery] StudySemester? semester)
         {
-            return Ok(_studyLeaderboardService.GetStudentsRatings(new StudySearchDto
+            return Ok(_studyLeaderboardService.GetSubjectsForDto(new StudySearchDto
             {
-                SubjectId = subjectId,
                 CourseId = courseId,
-                GroupId = groupId,
                 StudySemester = semester
             }));
         }
