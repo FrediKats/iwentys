@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Core;
-using Iwentys.Core.Daemons;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.Models.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -32,11 +33,12 @@ namespace Iwentys.Api.BackgroundServices
                     using IServiceScope scope = _sp.CreateScope();
                     _logger.LogInformation("Execute GithubUpdateBackgroundService update");
 
-                    var githubUpdateDaemon = new GithubUpdateDaemon(
-                        scope.ServiceProvider.GetRequiredService<IGithubUserDataService>(),
-                        scope.ServiceProvider.GetRequiredService<IStudentRepository>());
-
-                    githubUpdateDaemon.Execute();
+                    var studentRepository = scope.ServiceProvider.GetRequiredService<IStudentRepository>();
+                    var githubUserDataService = scope.ServiceProvider.GetRequiredService<IGithubUserDataService>();
+                    foreach (StudentEntity student in studentRepository.Read().Where(s => s.GithubUsername != null))
+                    {
+                        githubUserDataService.CreateOrUpdate(student.Id);
+                    }
                 }
                 catch (Exception e)
                 {

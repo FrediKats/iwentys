@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Iwentys.Core.GoogleTableParsing
+namespace Iwentys.Core.GoogleTableIntegration.Marks
 {
     public interface ITableParser
     {

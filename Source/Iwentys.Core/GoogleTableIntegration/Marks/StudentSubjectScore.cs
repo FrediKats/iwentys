@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Core.GoogleTableParsing
+﻿namespace Iwentys.Core.GoogleTableIntegration
 {
     public class StudentSubjectScore
     {

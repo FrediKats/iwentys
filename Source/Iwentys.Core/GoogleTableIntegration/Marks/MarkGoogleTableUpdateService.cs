@@ -10,15 +10,15 @@ using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Types;
 using Microsoft.Extensions.Logging;
 
-namespace Iwentys.Core.GoogleTableParsing
+namespace Iwentys.Core.GoogleTableIntegration
 {
-    public class GoogleTableUpdateService
+    public class MarkGoogleTableUpdateService
     {
         private readonly ILogger _logger;
         private readonly ISubjectActivityRepository _subjectActivityRepository;
         private readonly IStudentRepository _studentRepository;
 
-        public GoogleTableUpdateService(ILogger logger, ISubjectActivityRepository subjectActivityRepository, IStudentRepository studentRepository)
+        public MarkGoogleTableUpdateService(ILogger logger, ISubjectActivityRepository subjectActivityRepository, IStudentRepository studentRepository)
         {
             _logger = logger;
             _subjectActivityRepository = subjectActivityRepository;

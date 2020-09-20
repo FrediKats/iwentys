@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using static System.String;
 
-namespace Iwentys.Core.GoogleTableParsing
+namespace Iwentys.Core.GoogleTableIntegration
 {
     public class TableParser : ITableParser
     {

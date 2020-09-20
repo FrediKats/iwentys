@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Core;
-using Iwentys.Core.Daemons;
-using Iwentys.Core.GoogleTableParsing;
+using Iwentys.Core.GoogleTableIntegration;
 using Iwentys.Database.Context;
+using Iwentys.Models.Entities.Study;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -33,13 +35,11 @@ namespace Iwentys.Api.BackgroundServices
                     _logger.LogInformation("Execute MarkUpdateBackgroundService update");
 
                     var accessor = scope.ServiceProvider.GetRequiredService<DatabaseAccessor>();
+                    var googleTableUpdateService = new GoogleTableUpdateService(_logger, accessor.SubjectActivity, accessor.Student);
 
-                    var markUpdateDaemon = new MarkUpdateDaemon(
-                        new GoogleTableUpdateService(_logger, accessor.SubjectActivity, accessor.Student),
-                        accessor.GroupSubject,
-                        _logger);
-
-                    markUpdateDaemon.Execute();
+                    //TODO: wrap with try/cath for each update
+                    List<GroupSubjectEntity> groups = accessor.GroupSubject.Read().ToList();
+                    groups.ForEach(g => googleTableUpdateService.UpdateSubjectActivityForGroup(g));
                 }
                 catch (Exception e)
                 {

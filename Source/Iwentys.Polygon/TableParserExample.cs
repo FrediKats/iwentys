@@ -4,7 +4,7 @@ using System.Linq;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
-using Iwentys.Core.GoogleTableParsing;
+using Iwentys.Core.GoogleTableIntegration;
 using Iwentys.Models.Types;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;

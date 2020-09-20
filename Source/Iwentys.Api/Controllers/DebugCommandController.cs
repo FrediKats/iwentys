@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using Iwentys.Core;
 using Iwentys.Core.Auth;
-using Iwentys.Core.GoogleTableParsing;
+using Iwentys.Core.GoogleTableIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
