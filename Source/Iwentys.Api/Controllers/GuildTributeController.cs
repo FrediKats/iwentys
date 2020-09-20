@@ -1,4 +1,5 @@
-﻿using Iwentys.Api.Tools;
+﻿using System.Collections.Generic;
+using Iwentys.Api.Tools;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Transferable.Guilds;
@@ -20,14 +21,14 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<TributeInfoDto[]> GetPendingTributes()
+        public ActionResult<List<TributeInfoDto>> GetPendingTributes()
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildService.GetPendingTributes(user));
         }
 
-        [HttpGet("GetFroStudent")]
-        public ActionResult<TributeInfoDto[]> GetStudentTributeResult()
+        [HttpGet("get-for-student")]
+        public ActionResult<List<TributeInfoDto>> GetStudentTributeResult()
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildService.GetStudentTributeResult(user));

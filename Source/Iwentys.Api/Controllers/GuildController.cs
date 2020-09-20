@@ -37,7 +37,7 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<GuildProfilePreviewDto>> GetOverview([FromQuery]int skip = 0, [FromQuery]int take = 20)
+        public ActionResult<List<GuildProfilePreviewDto>> GetOverview([FromQuery]int skip = 0, [FromQuery]int take = 20)
         {
             return Ok(_guildService.GetOverview(skip, take));
         }

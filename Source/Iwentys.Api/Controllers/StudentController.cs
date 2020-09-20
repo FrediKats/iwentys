@@ -19,7 +19,7 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<StudentFullProfileDto>> Get()
+        public ActionResult<List<StudentFullProfileDto>> Get()
         {
             return Ok(_studentService.Get());
         }
