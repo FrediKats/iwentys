@@ -24,21 +24,21 @@ namespace Iwentys.Api.Controllers
             return Ok(_guildTestTaskService.Get(guildId));
         }
 
-        [HttpGet("accept")]
+        [HttpPut("accept")]
         public ActionResult<GuildTestTaskInfoDto> Accept([FromQuery]int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildTestTaskService.Accept(user, guildId));
         }
 
-        [HttpGet("submit")]
+        [HttpPut("submit")]
         public ActionResult<GuildTestTaskInfoDto> Accept([FromQuery] int guildId, [FromQuery] string projectOwner, [FromQuery] string projectName)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildTestTaskService.Submit(user, guildId, projectOwner, projectName));
         }
 
-        [HttpGet("complete")]
+        [HttpPut("complete")]
         public ActionResult<GuildTestTaskInfoDto> Submit([FromQuery] int guildId, [FromQuery] int taskSolveOwnerId)
         {
             AuthorizedUser user = this.TryAuthWithToken();

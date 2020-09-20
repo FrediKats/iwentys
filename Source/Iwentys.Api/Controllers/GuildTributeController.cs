@@ -20,7 +20,7 @@ namespace Iwentys.Api.Controllers
             _guildService = guildService;
         }
 
-        [HttpGet]
+        [HttpGet("pending")]
         public ActionResult<List<TributeInfoDto>> GetPendingTributes()
         {
             AuthorizedUser user = this.TryAuthWithToken();
@@ -41,14 +41,14 @@ namespace Iwentys.Api.Controllers
             return Ok(_guildService.CreateTribute(user, createProject));
         }
 
-        [HttpPost("cancel")]
+        [HttpPut("cancel")]
         public ActionResult<TributeInfoDto> CancelTribute([FromBody] long tributeId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildService.CancelTribute(user, tributeId));
         }
 
-        [HttpPost("complete")]
+        [HttpPut("complete")]
         public ActionResult<TributeInfoDto> CompleteTribute([FromBody] TributeCompleteDto tributeCompleteDto)
         {
             AuthorizedUser user = this.TryAuthWithToken();

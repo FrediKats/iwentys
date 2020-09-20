@@ -29,7 +29,7 @@ namespace Iwentys.Api.Controllers
             return Ok(_guildService.Create(creator, arguments));
         }
 
-        [HttpPost("update")]
+        [HttpPut]
         public ActionResult<GuildProfileShortInfoDto> Update([FromBody] GuildUpdateArgumentDto arguments)
         {
             AuthorizedUser user = this.TryAuthWithToken();

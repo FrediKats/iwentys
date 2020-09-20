@@ -51,21 +51,21 @@ namespace Iwentys.Api.Controllers
             return Ok(_questService.Create(user, createQuest));
         }
 
-        [HttpPost("{questId}/send-response")]
+        [HttpPut("{questId}/send-response")]
         public ActionResult<QuestInfoDto> SendResponse(int questId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_questService.SendResponse(user, questId));
         }
 
-        [HttpPost("{questId}/complete")]
+        [HttpPut("{questId}/complete")]
         public ActionResult<QuestInfoDto> Complete([FromRoute]int questId, [FromQuery] int userId)
         {
             AuthorizedUser author = this.TryAuthWithToken();
             return Ok(_questService.Complete(author, questId, userId));
         }
 
-        [HttpPost("{questId}/revoke")]
+        [HttpPut("{questId}/revoke")]
         public ActionResult<QuestInfoDto> Revoke([FromRoute] int questId)
         {
             AuthorizedUser author = this.TryAuthWithToken();

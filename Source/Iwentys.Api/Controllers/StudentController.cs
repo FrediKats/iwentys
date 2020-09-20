@@ -30,7 +30,7 @@ namespace Iwentys.Api.Controllers
             return Ok(_studentService.Get(id));
         }
 
-        [HttpPost]
+        [HttpPut]
         public ActionResult<StudentFullProfileDto> Update([FromBody] StudentUpdateDto studentUpdateDto)
         {
             AuthorizedUser user = this.TryAuthWithToken();
