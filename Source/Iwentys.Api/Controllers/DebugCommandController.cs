@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using Iwentys.Core;
 using Iwentys.Core.Auth;
-using Iwentys.Core.GoogleTableIntegration;
+using Iwentys.Core.GoogleTableIntegration.Marks;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
@@ -22,7 +22,7 @@ namespace Iwentys.Api.Controllers
     [ApiController]
     public class DebugCommandController : ControllerBase
     {
-        private readonly GoogleTableUpdateService _googleTableUpdateService;
+        private readonly MarkGoogleTableUpdateService _markGoogleTableUpdateService;
         private readonly ILogger<DebugCommandController> _logger;
         private readonly DatabaseAccessor _databaseAccessor;
         private readonly IStudentService _studentService;
@@ -32,7 +32,7 @@ namespace Iwentys.Api.Controllers
             _logger = logger;
             _databaseAccessor = databaseAccessor;
 
-            _googleTableUpdateService = new GoogleTableUpdateService(_logger, _databaseAccessor.SubjectActivity, _databaseAccessor.Student);
+            _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(_logger, _databaseAccessor.SubjectActivity, _databaseAccessor.Student);
             _studentService = studentService;
         }
 
@@ -55,7 +55,7 @@ namespace Iwentys.Api.Controllers
                 return;
             }
 
-            _googleTableUpdateService.UpdateSubjectActivityForGroup(groupSubjectData);
+            _markGoogleTableUpdateService.UpdateSubjectActivityForGroup(groupSubjectData);
         }
 
         [HttpGet("login/{userId}")]

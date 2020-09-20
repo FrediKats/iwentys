@@ -5,6 +5,7 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Iwentys.Core.GoogleTableIntegration;
+using Iwentys.Core.GoogleTableIntegration.Marks;
 using Iwentys.Models.Types;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -46,10 +47,13 @@ namespace Iwentys.Polygon
                 });
             }
 
-            var m3101 = new TableParser(new Logger<TableParser>(new LoggerFactory()),  sheetsService, M3101()).GetStudentsList();
-            var m3102 = new TableParser(new Logger<TableParser>(new LoggerFactory()),  sheetsService, M3102()).GetStudentsList();
-            var m3103 = new TableParser(new Logger<TableParser>(new LoggerFactory()),  sheetsService, M3103()).GetStudentsList();
-            var m3104 = new TableParser(new Logger<TableParser>(new LoggerFactory()),  sheetsService, M3104()).GetStudentsList();
+            var logger = new Logger<TableParser>(new LoggerFactory());
+            var parser = new TableParser(logger, sheetsService);
+
+            var m3101 = parser.Execute(new MarkParser(M3101(), logger));
+            var m3102 = parser.Execute(new MarkParser(M3102(), logger));
+            var m3103 = parser.Execute(new MarkParser(M3103(), logger));
+            var m3104 = parser.Execute(new MarkParser(M3104(), logger));
 
             Console.WriteLine(JsonConvert.SerializeObject(m3101.Concat(m3102).Concat(m3103).Concat(m3104)));
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Models.Types;
 
-namespace Iwentys.Core.GoogleTableIntegration
+namespace Iwentys.Core.GoogleTableIntegration.Marks
 {
     internal class TableStringHelper
     {

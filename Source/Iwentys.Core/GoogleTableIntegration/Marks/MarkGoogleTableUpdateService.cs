@@ -10,7 +10,7 @@ using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Types;
 using Microsoft.Extensions.Logging;
 
-namespace Iwentys.Core.GoogleTableIntegration
+namespace Iwentys.Core.GoogleTableIntegration.Marks
 {
     public class MarkGoogleTableUpdateService
     {
@@ -35,9 +35,9 @@ namespace Iwentys.Core.GoogleTableIntegration
             }
 
             SheetsService sheetsService = GetServiceForApiToken();
-            var tableParser = new TableParser(_logger, sheetsService, googleTableData.Value);
+            var tableParser = new TableParser(_logger, sheetsService);
 
-            foreach (StudentSubjectScore student in tableParser.GetStudentsList())
+            foreach (StudentSubjectScore student in tableParser.Execute(new MarkParser(googleTableData.Value, _logger)))
             {
                 // Это очень плохая проверка, но я пока не придумал,
                 // как по-другому сопоставлять данные с гугл-таблицы со студентом

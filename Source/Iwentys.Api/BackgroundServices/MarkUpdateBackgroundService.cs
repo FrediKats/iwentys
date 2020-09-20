@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Core;
-using Iwentys.Core.GoogleTableIntegration;
+using Iwentys.Core.GoogleTableIntegration.Marks;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities.Study;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,7 +35,7 @@ namespace Iwentys.Api.BackgroundServices
                     _logger.LogInformation("Execute MarkUpdateBackgroundService update");
 
                     var accessor = scope.ServiceProvider.GetRequiredService<DatabaseAccessor>();
-                    var googleTableUpdateService = new GoogleTableUpdateService(_logger, accessor.SubjectActivity, accessor.Student);
+                    var googleTableUpdateService = new MarkGoogleTableUpdateService(_logger, accessor.SubjectActivity, accessor.Student);
 
                     //TODO: wrap with try/cath for each update
                     List<GroupSubjectEntity> groups = accessor.GroupSubject.Read().ToList();
