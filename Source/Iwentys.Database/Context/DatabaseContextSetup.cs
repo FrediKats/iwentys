@@ -164,10 +164,7 @@ namespace Iwentys.Database.Context
             StudyGroupEntity m3201 = StudyGroups.First(g => g.GroupName == "M3201");
             StudyGroupEntity m3305 = StudyGroups.First(g => g.GroupName == "M3305");
 
-            var user = StudentEntity.CreateFromIsu(289140, "Сергей", "Миронец", m3201);
-            user.GithubUsername = "s4xack";
-
-            Students = (File.Exists("Data.txt") ? ReadStudentsFromFile(m3201.Id - 1) : ReadStudentsFromDefault())
+            Students = ReadStudentsFromFile(m3201.Id - 1)
                 .Append(new StudentEntity
                 {
                     Id = 228617,
@@ -314,19 +311,27 @@ namespace Iwentys.Database.Context
 
         private List<StudentEntity> ReadStudentsFromFile(int zeroGroupId)
         {
-            if (!File.Exists("Data.txt"))
-                return new List<StudentEntity>();
+            const string secondCourseFilePath = "second-course.txt";
 
-            return File.ReadAllLines("Data.txt")
-                .Select(r =>
-                {
-                    string[] elements = r.Split("\t");
-                    int isuId = int.Parse(elements[1], CultureInfo.InvariantCulture);
-                    int groupNumber = int.Parse(elements[0], CultureInfo.InvariantCulture);
-                    string[] names = elements[2].Split(' ', 3).ToArray();
-                    return StudentEntity.CreateFromIsu(isuId, names[1], names.Length == 3 ? names[2] : null, names[0], zeroGroupId + groupNumber);
-                })
+            if (!File.Exists(secondCourseFilePath))
+                return ReadStudentsFromDefault();
+
+            return File.ReadAllLines(secondCourseFilePath)
+                .Select(TryRead)
+                .Where(s => s != null)
                 .ToList();
+
+            StudentEntity TryRead(string r)
+            {
+                string[] elements = r.Split("\t");
+                if (!int.TryParse(elements[2], out int isuId))
+                    return null;
+
+                int groupNumber = int.Parse(elements[1], CultureInfo.InvariantCulture);
+                string[] names = elements[0].Split(' ', 3).ToArray();
+
+                return StudentEntity.CreateFromIsu(isuId, names[1], names.Length == 3 ? names[2] : null, names[0], zeroGroupId + groupNumber);
+            }
         }
 
         private static class Create
