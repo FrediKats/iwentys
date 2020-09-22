@@ -39,8 +39,8 @@ namespace Iwentys.Core.GoogleTableIntegration.Marks
                 // TODO: Сделать нормальную проверку
                 SubjectActivityEntity activity = _subjectActivityRepository
                     .Read()
-                    .SingleOrDefault(s => student.Name.Contains(s.Student.FirstName, StringComparison.InvariantCulture)
-                                          && student.Name.Contains(s.Student.SecondName, StringComparison.InvariantCulture)
+                    .SingleOrDefault(s => student.Name.Contains(s.Student.FirstName)
+                                          && student.Name.Contains(s.Student.SecondName)
                                           && s.GroupSubjectEntity.SubjectId == groupSubjectData.SubjectId);
 
                 if (!Tools.ParseInAnyCulture(student.Score, out double pointsCount))
@@ -55,8 +55,8 @@ namespace Iwentys.Core.GoogleTableIntegration.Marks
 
                     StudentEntity studentProfile = _studentRepository
                         .Read()
-                        .FirstOrDefault(s => student.Name.Contains(s.FirstName, StringComparison.InvariantCulture)
-                                    && student.Name.Contains(s.SecondName, StringComparison.InvariantCulture));
+                        .FirstOrDefault(s => student.Name.Contains(s.FirstName)
+                                    && student.Name.Contains(s.SecondName));
 
                     if (studentProfile is null)
                     {

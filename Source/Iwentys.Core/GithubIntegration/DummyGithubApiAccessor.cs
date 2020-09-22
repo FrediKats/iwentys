@@ -25,7 +25,7 @@ namespace Iwentys.Core.GithubIntegration
 
         public ContributionFullInfo GetUserActivity(string githubUsername)
         {
-            return new ContributionFullInfo {RawActivity = new ActivityInfo(){Contributions = Array.Empty<ContributionsInfo>(), Years = Array.Empty<YearActivityInfo>() }};
+            return new ContributionFullInfo {RawActivity = new ActivityInfo(){Contributions = new List<ContributionsInfo>(), Years = new List<YearActivityInfo>() }};
         }
 
         public int GetUserActivity(string githubUsername, DateTime from, DateTime to)

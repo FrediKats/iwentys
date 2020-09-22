@@ -73,7 +73,7 @@ namespace Iwentys.Tests.Core.DomainModels
                 .Returns(default(GithubRepository));
             _githubUserDataService
                 .Setup(a => a.FindByUsername(It.IsAny<String>()))
-                .Returns(new GithubUserData{ContributionFullInfo = new ContributionFullInfo { RawActivity = new ActivityInfo() { Contributions = Array.Empty<ContributionsInfo>(), Years = Array.Empty<YearActivityInfo>() } }});
+                .Returns(new GithubUserData{ContributionFullInfo = new ContributionFullInfo { RawActivity = new ActivityInfo() { Contributions = new List<ContributionsInfo>(), Years = new List<YearActivityInfo>() } }});
 
             _guildRepository = new Mock<IGuildRepository>();
             _guildRepository
