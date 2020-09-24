@@ -74,19 +74,11 @@ namespace Iwentys.Database.Context
                 new SubjectEntity {Id = 3, Name = "Программирование"}
             };
 
-            List<StudyGroupEntity> secondCourse = Create.CourseGroup(4, 2, 12);
-            StudyGroups = new List<StudyGroupEntity>()
-                .Concat(Create.CourseGroup(3, 3, 9))
-                .Concat(secondCourse)
-                .Concat(Create.CourseGroup(5, 1, 12))
-                .ToList();
-
-            StudyGroups.Add(new StudyGroupEntity
-            {
-                GroupName = "M3505",
-                Id = Create.GroupSubjectIdentifierGenerator.Next(),
-                StudyCourseId = 1
-            });
+            var reader = new StudentMockDataReader();
+            StudyGroups = reader.ReadGroups();
+            StudyGroupEntity m3201 = StudyGroups.First(g => g.GroupName == "M3201");
+            StudyGroupEntity m3202 = StudyGroups.First(g => g.GroupName == "M3202");
+            StudyGroupEntity m3203 = StudyGroups.First(g => g.GroupName == "M3203");
 
             GroupSubjects = new List<GroupSubjectEntity>
             {
@@ -94,7 +86,7 @@ namespace Iwentys.Database.Context
                 {
                     Id = Create.GroupSubjectIdentifierGenerator.Next(),
                     SubjectId = 1,
-                    StudyGroupId = secondCourse[0].Id,
+                    StudyGroupId = m3201.Id,
                     LectorTeacherId = 1,
                     PracticeTeacherId = 1,
                     StudySemester = StudySemester.Y19H2
@@ -103,7 +95,7 @@ namespace Iwentys.Database.Context
                 {
                     Id = Create.GroupSubjectIdentifierGenerator.Next(),
                     SubjectId = 2,
-                    StudyGroupId = secondCourse[0].Id,
+                    StudyGroupId = m3201.Id,
                     LectorTeacherId = 1,
                     PracticeTeacherId = 1,
                     StudySemester = StudySemester.Y19H2
@@ -113,7 +105,7 @@ namespace Iwentys.Database.Context
                 {
                     Id = Create.GroupSubjectIdentifierGenerator.Next(),
                     SubjectId = 3,
-                    StudyGroupId = secondCourse[0].Id,
+                    StudyGroupId = m3201.Id,
                     LectorTeacherId = 1,
                     PracticeTeacherId = 1,
                     StudySemester = StudySemester.Y19H2,
@@ -130,7 +122,7 @@ namespace Iwentys.Database.Context
                 {
                     Id = Create.GroupSubjectIdentifierGenerator.Next(),
                     SubjectId = 3,
-                    StudyGroupId = secondCourse[1].Id,
+                    StudyGroupId = m3202.Id,
                     LectorTeacherId = 1,
                     PracticeTeacherId = 1,
                     StudySemester = StudySemester.Y19H2,
@@ -148,7 +140,7 @@ namespace Iwentys.Database.Context
                 {
                     Id = Create.GroupSubjectIdentifierGenerator.Next(),
                     SubjectId = 3,
-                    StudyGroupId = secondCourse[2].Id,
+                    StudyGroupId = m3203.Id,
                     LectorTeacherId = 1,
                     PracticeTeacherId = 1,
                     StudySemester = StudySemester.Y19H2,

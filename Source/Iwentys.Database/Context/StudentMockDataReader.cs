@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Study;
 
 namespace Iwentys.Database.Context
 {
@@ -26,8 +27,7 @@ namespace Iwentys.Database.Context
 
                 int groupNumber = int.Parse(elements[0].Substring(3, 2), CultureInfo.InvariantCulture);
                 string[] names = elements[1].Split(' ', 3).ToArray();
-                if (!int.TryParse(elements[3], out int isuId))
-                    return null;
+                int isuId = int.Parse(elements[2]);
 
                 //TODO: add tg and vk
 
@@ -53,11 +53,30 @@ namespace Iwentys.Database.Context
                 if (!int.TryParse(elements[2], out int isuId))
                     return null;
 
-                int groupNumber = int.Parse(elements[1], CultureInfo.InvariantCulture);
+                int groupNumber = int.Parse(elements[1].Substring(3, 2), CultureInfo.InvariantCulture);
                 string[] names = elements[0].Split(' ', 3).ToArray();
 
                 return StudentEntity.CreateFromIsu(isuId, names[1], names.Length == 3 ? names[2] : null, names[0], zeroGroupId + groupNumber);
             }
+        }
+
+        public List<StudyGroupEntity> ReadGroups()
+        {
+            const string filePath = "group-list.txt";
+
+            return File.ReadAllLines(filePath)
+                .Select(s =>
+                {
+                    string[] elements = s.Split("\t");
+
+                    return new StudyGroupEntity
+                    {
+                        GroupName = elements[1],
+                        Id = int.Parse(elements[0], CultureInfo.InvariantCulture),
+                        StudyCourseId = int.Parse(elements[2], CultureInfo.InvariantCulture)
+                    };
+                })
+                .ToList();
         }
     }
 }
