@@ -12,12 +12,12 @@ namespace Iwentys.ClientBot.Commands.Student
 {
     public class GetCurrentStudentCommand : IBotCommand
     {
-        private readonly IIwentysStudentApi _iwentysStudentApi;
+        private readonly IStudentApi _studentApi;
         private readonly UserIdentifier _userIdentifier;
 
-        public GetCurrentStudentCommand(IIwentysStudentApi iwentysStudentApi, UserIdentifier userIdentifier)
+        public GetCurrentStudentCommand(IStudentApi studentApi, UserIdentifier userIdentifier)
         {
-            _iwentysStudentApi = iwentysStudentApi;
+            _studentApi = studentApi;
             _userIdentifier = userIdentifier;
         }
 
@@ -33,7 +33,7 @@ namespace Iwentys.ClientBot.Commands.Student
         public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
             AuthorizedUser currentUser = _userIdentifier.GetUser(args.Sender.UserSenderId);
-            StudentFullProfileDto profile = await _iwentysStudentApi.Get(currentUser.Id);
+            StudentFullProfileDto profile = await _studentApi.Get(currentUser.Id);
             return Result.Ok(profile.FormatFullInfo());
         }
 

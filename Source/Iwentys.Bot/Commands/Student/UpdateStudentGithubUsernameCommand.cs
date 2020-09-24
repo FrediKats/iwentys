@@ -32,7 +32,8 @@ namespace Iwentys.ClientBot.Commands.Student
         {
             AuthorizedUser currentUser = _userIdentifier.GetUser(args.Sender.UserSenderId);
             string token = await _iwentysApi.DebugCommand.LoginOrCreate(currentUser.Id);
-            StudentFullProfileDto profile = await _iwentysApi.StudentApi.Update(new StudentUpdateDto { GithubUsername = args.Arguments[0]}, token);
+            //TODO: fix
+            StudentFullProfileDto profile = await _iwentysApi.StudentApi.Update(new StudentUpdateDto { GithubUsername = args.Arguments[0]});
             return Result.Ok(profile.FormatFullInfo());
         }
 

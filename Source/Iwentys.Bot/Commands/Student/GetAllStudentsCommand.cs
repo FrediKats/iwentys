@@ -12,11 +12,11 @@ namespace Iwentys.ClientBot.Commands.Student
 {
     public class GetAllStudentsCommand : IBotCommand
     {
-        private readonly IIwentysStudentApi _iwentysStudentApi;
+        private readonly IStudentApi _studentApi;
 
-        public GetAllStudentsCommand(IIwentysStudentApi iwentysStudentApi)
+        public GetAllStudentsCommand(IStudentApi studentApi)
         {
-            _iwentysStudentApi = iwentysStudentApi;
+            _studentApi = studentApi;
         }
 
         public Result CanExecute(CommandArgumentContainer args)
@@ -26,7 +26,7 @@ namespace Iwentys.ClientBot.Commands.Student
 
         public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            IEnumerable<StudentFullProfileDto> profileDtos = await _iwentysStudentApi.Get();
+            IEnumerable<StudentFullProfileDto> profileDtos = await _studentApi.Get();
             return ResultFormatter.Format(profileDtos);
         }
 

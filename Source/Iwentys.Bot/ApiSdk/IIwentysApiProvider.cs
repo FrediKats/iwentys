@@ -7,25 +7,28 @@ namespace Iwentys.ClientBot.ApiSdk
     {
         private const string ServiceUrl = "http://localhost:3578";
 
-        public IIwentysStudentApi StudentApi { get; set; }
-        public IIwentysDebugCommandApi DebugCommand { get; set; }
-        public IStudyLeaderboardApi LeaderboardApi { get; set; }
         public IGuildApi GuildApi { get; set; }
+        public IQuestApi Quest { get; set; }
+        public IStudentApi StudentApi { get; set; }
+        public IStudyGroupApi StudyGroup { get; set; }
+        public IStudyLeaderboardApi LeaderboardApi { get; set; }
+        public ISubjectApi Subject { get; set; }
+
+        public IIwentysDebugCommandApi DebugCommand { get; set; }
 
         public IwentysApiProvider() : this(new RefitSettings())
         {
-            StudentApi = RestService.For<IIwentysStudentApi>(ServiceUrl);
-            DebugCommand = RestService.For<IIwentysDebugCommandApi>(ServiceUrl);
-            LeaderboardApi = RestService.For<IStudyLeaderboardApi>(ServiceUrl);
-            GuildApi = RestService.For<IGuildApi>(ServiceUrl);
         }
 
         public IwentysApiProvider(RefitSettings settings)
         {
-            StudentApi = RestService.For<IIwentysStudentApi>(ServiceUrl, settings);
-            DebugCommand = RestService.For<IIwentysDebugCommandApi>(ServiceUrl, settings);
-            LeaderboardApi = RestService.For<IStudyLeaderboardApi>(ServiceUrl, settings);
             GuildApi = RestService.For<IGuildApi>(ServiceUrl, settings);
+            Quest = RestService.For<IQuestApi>(ServiceUrl, settings);
+            StudentApi = RestService.For<IStudentApi>(ServiceUrl, settings);
+            StudyGroup = RestService.For<IStudyGroupApi>(ServiceUrl, settings);
+            LeaderboardApi = RestService.For<IStudyLeaderboardApi>(ServiceUrl, settings);
+            Subject = RestService.For<ISubjectApi>(ServiceUrl, settings);
+            DebugCommand = RestService.For<IIwentysDebugCommandApi>(ServiceUrl, settings);
         }
 
         public static IwentysApiProvider Create(string token)

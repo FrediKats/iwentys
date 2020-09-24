@@ -14,7 +14,7 @@ namespace Iwentys.ClientBot.ApiSdk
         Task<GuildProfileDto> Get(int id);
 
         [Put("/api/Guild/")]
-        Task<GuildProfileShortInfoDto> Update(GuildUpdateArgumentDto updateArgument);
+        Task<GuildProfileShortInfoDto> Update([Body] GuildUpdateArgumentDto updateArgument);
 
         [Put("/api/Guild/{guildId}/enter")]
         Task<GuildProfileDto> Enter(int guildId);

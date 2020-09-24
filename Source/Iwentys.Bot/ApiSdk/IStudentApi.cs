@@ -5,15 +5,15 @@ using Refit;
 
 namespace Iwentys.ClientBot.ApiSdk
 {
-    public interface IIwentysStudentApi
+    public interface IStudentApi
     {
         [Get("/api/student")]
-        Task<IEnumerable<StudentFullProfileDto>> Get();
+        Task<List<StudentFullProfileDto>> Get();
 
         [Get("/api/student/{id}")]
         Task<StudentFullProfileDto> Get(int id);
 
         [Put("/api/student")]
-        Task<StudentFullProfileDto> Update(StudentUpdateDto studentUpdateDto, [Header("Authorization")] string token);
+        Task<StudentFullProfileDto> Update(StudentUpdateDto studentUpdateDto);
     }
 }
