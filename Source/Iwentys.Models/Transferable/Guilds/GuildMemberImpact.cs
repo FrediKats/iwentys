@@ -15,7 +15,7 @@ namespace Iwentys.Models.Transferable.Guilds
         public GuildMemberImpact(GithubUserData userData) :this()
         {
             Username = userData.Username;
-            TotalRate = userData.ContributionFullInfo.Total;
+            TotalRate = userData.ContributionFullInfo?.Total ?? 0;
         }
 
         public GuildMemberImpact(String username, Int32 totalRate)

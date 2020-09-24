@@ -30,7 +30,10 @@ namespace Iwentys.Models.Transferable.Students
             SubjectActivityInfo = student.SubjectActivities.SelectToList(sa => new SubjectActivityInfoDto(sa));
             GuildName = student.GuildMember?.Guild?.Title;
 
-            CodingActivityInfo = student.GithubUserData.ContributionFullInfo.PerMonthActivity().SelectToList(CodingActivityInfoDto.Wrap);
+            if (student.GithubUserData is null || student.GithubUserData.ContributionFullInfo is null)
+                CodingActivityInfo = new List<CodingActivityInfoDto>();
+            else
+                CodingActivityInfo = student.GithubUserData.ContributionFullInfo.PerMonthActivity().SelectToList(CodingActivityInfoDto.Wrap);
         }
 
         public string FormatFullInfo()
