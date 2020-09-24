@@ -33,11 +33,7 @@ namespace Iwentys.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            ApplicationOptions.GoogleServiceToken = Configuration["GoogleTableCredentials"];
-            ApplicationOptions.GithubToken = Configuration["GithubToken"];
-            ApplicationOptions.TelegramToken = Configuration["TelegramToken"];
-            ApplicationOptions.SigningSecurityKey = Configuration["jwt:SigningSecurityKey"];
-            ApplicationOptions.JwtIssuer = Configuration["jwt:issuer"];
+            ApplicationOptions.Load(Configuration);
 
             //TODO: Temp fix for CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
