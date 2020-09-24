@@ -26,7 +26,7 @@ namespace Iwentys.Api.BackgroundServices
 
             try
             {
-                Bot bot = BotProvider.Init("http://localhost:3578", new TelegramDebugSettings(), Log.Logger);
+                Bot bot = BotProvider.Init(new TelegramDebugSettings(), Log.Logger);
                 bot.Start();
             }
             catch (Exception e)

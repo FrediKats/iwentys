@@ -13,9 +13,9 @@ namespace Iwentys.ClientBot
 {
     public static class BotProvider
     {
-        public static Bot Init(string apiHostUrl, IGetSettings<TelegramSettings> settings, ILogger logger)
+        public static Bot Init(IGetSettings<TelegramSettings> settings, ILogger logger)
         {
-            var apiProvider = new IwentysApiProvider(apiHostUrl);
+            var apiProvider = new IwentysApiProvider();
             var identifier = new UserIdentifier();
 
             var telegramApiProvider = new TelegramApiProvider(settings);
