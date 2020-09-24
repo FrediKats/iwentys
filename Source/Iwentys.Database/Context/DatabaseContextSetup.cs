@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Gamification;
@@ -83,6 +81,13 @@ namespace Iwentys.Database.Context
                 .Concat(Create.CourseGroup(5, 1, 12))
                 .ToList();
 
+            StudyGroups.Add(new StudyGroupEntity
+            {
+                GroupName = "M3505",
+                Id = Create.GroupSubjectIdentifierGenerator.Next(),
+                StudyCourseId = 1
+            });
+
             GroupSubjects = new List<GroupSubjectEntity>
             {
                 new GroupSubjectEntity
@@ -161,10 +166,18 @@ namespace Iwentys.Database.Context
 
         private void InitStudents()
         {
+            StudyGroupEntity m3101 = StudyGroups.First(g => g.GroupName == "M3101");
             StudyGroupEntity m3201 = StudyGroups.First(g => g.GroupName == "M3201");
             StudyGroupEntity m3305 = StudyGroups.First(g => g.GroupName == "M3305");
+            StudyGroupEntity m3505 = StudyGroups.First(g => g.GroupName == "M3505");
 
-            Students = ReadStudentsFromFile(m3201.Id - 1)
+            var reader = new StudentMockDataReader();
+            List<StudentEntity> students = reader.ReadFirst(m3101.Id - 1);
+            students.AddRange(reader.ReadSecond(m3201.Id - 1));
+            if (students.Count == 0)
+                students.AddRange(ReadStudentsFromDefault());
+
+            Students = students
                 .Append(new StudentEntity
                 {
                     Id = 228617,
@@ -172,7 +185,7 @@ namespace Iwentys.Database.Context
                     MiddleName = "Кисикович",
                     SecondName = "Катс",
                     Role = UserType.Admin,
-                    GroupId = 1,
+                    GroupId = m3505.Id,
                     GithubUsername = "InRedikaWB",
                     CreationTime = DateTime.UtcNow,
                     LastOnlineTime = DateTime.UtcNow,
@@ -307,31 +320,6 @@ namespace Iwentys.Database.Context
 
                 StudentEntity.CreateFromIsu(284479, "Илья", "Кузнецов", m3205),
             };
-        }
-
-        private List<StudentEntity> ReadStudentsFromFile(int zeroGroupId)
-        {
-            const string secondCourseFilePath = "second-course.txt";
-
-            if (!File.Exists(secondCourseFilePath))
-                return ReadStudentsFromDefault();
-
-            return File.ReadAllLines(secondCourseFilePath)
-                .Select(TryRead)
-                .Where(s => s != null)
-                .ToList();
-
-            StudentEntity TryRead(string r)
-            {
-                string[] elements = r.Split("\t");
-                if (!int.TryParse(elements[2], out int isuId))
-                    return null;
-
-                int groupNumber = int.Parse(elements[1], CultureInfo.InvariantCulture);
-                string[] names = elements[0].Split(' ', 3).ToArray();
-
-                return StudentEntity.CreateFromIsu(isuId, names[1], names.Length == 3 ? names[2] : null, names[0], zeroGroupId + groupNumber);
-            }
         }
 
         private static class Create
