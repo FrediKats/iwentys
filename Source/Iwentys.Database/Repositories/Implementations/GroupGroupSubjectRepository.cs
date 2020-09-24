@@ -70,7 +70,7 @@ namespace Iwentys.Database.Repositories.Implementations
 
             if (searchDto.CourseId != null)
             {
-                //TODO: it will not work lol
+                //BUG: it will not work lol
                 List<StudyGroupEntity> courseGroups = _dbContext.StudyGroups.Where(g => g.StudyCourseId == searchDto.CourseId).ToList();
                 query = query.Where(s => courseGroups.Any(g => g.Id == s.StudyGroupId));
             }
