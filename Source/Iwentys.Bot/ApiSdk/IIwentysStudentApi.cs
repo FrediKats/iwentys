@@ -13,7 +13,7 @@ namespace Iwentys.ClientBot.ApiSdk
         [Get("/api/student/{id}")]
         Task<StudentFullProfileDto> Get(int id);
 
-        [Post("/api/student")]
+        [Put("/api/student")]
         Task<StudentFullProfileDto> Update(StudentUpdateDto studentUpdateDto, [Header("Authorization")] string token);
     }
 }

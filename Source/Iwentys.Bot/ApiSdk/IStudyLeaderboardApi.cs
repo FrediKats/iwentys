@@ -8,7 +8,7 @@ namespace Iwentys.ClientBot.ApiSdk
 {
     public interface IStudyLeaderboardApi
     {
-        [Get("/api/StudyLeaderboard/GetStudentsRating")]
+        [Get("/api/StudyLeaderboard")]
         public Task<List<StudyLeaderboardRow>> GetStudentsRating(int? subjectId, int? courseId, int? groupId, StudySemester? semester);
     }
 }
