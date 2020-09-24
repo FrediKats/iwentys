@@ -20,8 +20,8 @@ namespace Iwentys.ClientBot
 
             var telegramApiProvider = new TelegramApiProvider(settings);
             Bot botInstance = new Bot(telegramApiProvider)
-                .AddCommand(new GetAllStudentsCommand(apiProvider.StudentApi))
-                .AddCommand(new GetCurrentStudentCommand(apiProvider.StudentApi, identifier))
+                .AddCommand(new GetAllStudentsCommand(apiProvider.Student))
+                .AddCommand(new GetCurrentStudentCommand(apiProvider, identifier))
                 .AddCommand(new UpdateStudentGithubUsernameCommand(apiProvider, identifier))
                 .AddCommand(new GetStudentsRatingCommand(apiProvider))
                 .AddCommand(new GetGuildsCommand(apiProvider))

@@ -9,7 +9,7 @@ namespace Iwentys.ClientBot.ApiSdk
 
         public IGuildApi GuildApi { get; set; }
         public IQuestApi Quest { get; set; }
-        public IStudentApi StudentApi { get; set; }
+        public IStudentApi Student { get; set; }
         public IStudyGroupApi StudyGroup { get; set; }
         public IStudyLeaderboardApi LeaderboardApi { get; set; }
         public ISubjectApi Subject { get; set; }
@@ -24,7 +24,7 @@ namespace Iwentys.ClientBot.ApiSdk
         {
             GuildApi = RestService.For<IGuildApi>(ServiceUrl, settings);
             Quest = RestService.For<IQuestApi>(ServiceUrl, settings);
-            StudentApi = RestService.For<IStudentApi>(ServiceUrl, settings);
+            Student = RestService.For<IStudentApi>(ServiceUrl, settings);
             StudyGroup = RestService.For<IStudyGroupApi>(ServiceUrl, settings);
             LeaderboardApi = RestService.For<IStudyLeaderboardApi>(ServiceUrl, settings);
             Subject = RestService.For<ISubjectApi>(ServiceUrl, settings);
