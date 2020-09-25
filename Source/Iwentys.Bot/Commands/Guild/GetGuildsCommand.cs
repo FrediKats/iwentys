@@ -28,7 +28,7 @@ namespace Iwentys.ClientBot.Commands.Guild
         {
             List<GuildProfilePreviewDto> guildProfilePreviews = await _iwentysApi.GuildApi.GetOverview();
 
-            return ResultFormatter.FormatAsList(guildProfilePreviews);
+            return ResultFormatter.FormatAsListToResult(guildProfilePreviews);
         }
 
         public string CommandName { get; } = nameof(GetGuildsCommand);

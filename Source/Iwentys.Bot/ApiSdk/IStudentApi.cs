@@ -13,6 +13,9 @@ namespace Iwentys.ClientBot.ApiSdk
         [Get("/api/student/{id}")]
         Task<StudentFullProfileDto> Get(int id);
 
+        [Get("/api/student/for-group/{groupName}")]
+        Task<List<StudentFullProfileDto>> Get(string groupName);
+
         [Put("/api/student")]
         Task<StudentFullProfileDto> Update(StudentUpdateDto studentUpdateDto);
     }

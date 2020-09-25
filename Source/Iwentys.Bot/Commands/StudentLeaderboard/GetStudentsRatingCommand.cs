@@ -26,7 +26,7 @@ namespace Iwentys.ClientBot.Commands.StudentLeaderboard
 
             if (!int.TryParse(args.Arguments[0], out _))
                 return Result.Fail("Argument must be int value (courseId)");
-                    
+
             return Result.Ok();
         }
 
@@ -34,7 +34,7 @@ namespace Iwentys.ClientBot.Commands.StudentLeaderboard
         {
             List<StudyLeaderboardRow> studyLeaderboardRows = await _iwentysApi.LeaderboardApi.GetStudentsRating(null, int.Parse(args.Arguments[0]), null, null);
 
-            return ResultFormatter.Format(studyLeaderboardRows.Take(20));
+            return ResultFormatter.FormatToResult(studyLeaderboardRows.Take(20));
         }
 
         public string CommandName { get; } = nameof(GetStudentsRatingCommand);

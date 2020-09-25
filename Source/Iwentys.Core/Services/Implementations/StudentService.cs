@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Iwentys.Core.Gamification;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database;
@@ -29,12 +30,24 @@ namespace Iwentys.Core.Services.Implementations
 
         public StudentFullProfileDto[] Get()
         {
-            return _databaseAccessor.Student.Read().Select(s => new StudentFullProfileDto(s)).ToArray();
+            return _databaseAccessor.Student
+                .Read()
+                .AsEnumerable()
+                .Select(s => new StudentFullProfileDto(s)).ToArray();
         }
 
         public StudentFullProfileDto Get(int id)
         {
             return _databaseAccessor.Student.Get(id).To(s => new StudentFullProfileDto(s));
+        }
+
+        public List<StudentFullProfileDto> Get(string groupName)
+        {
+            return _databaseAccessor.Student
+                .Read()
+                .Where(s => s.Group.GroupName == groupName)
+                .AsEnumerable()
+                .SelectToList(s => new StudentFullProfileDto(s));
         }
 
         public StudentFullProfileDto GetOrCreate(int id)

@@ -25,6 +25,7 @@ namespace Iwentys.ClientBot
                 .AddCommand(new UpdateStudentGithubUsernameCommand(apiProvider, identifier))
                 .AddCommand(new GetStudentsRatingCommand(apiProvider))
                 .AddCommand(new GetGuildsCommand(apiProvider))
+                .AddCommand(new GetGroupStudentsCommand(apiProvider))
                 .AddLogger(logger)
                 .SetPrefix('/');
 
