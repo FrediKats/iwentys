@@ -73,7 +73,7 @@ namespace Iwentys.Api
             else
                 services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
 
-            services.AddScoped<IIsuAccessor, DebugIsuAccessor>();
+            services.AddScoped<IIsuAccessor, IsuAccessor>();
 
             services.AddScoped<IBarsPointTransactionLogRepository, BarsPointTransactionLogRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();
@@ -105,7 +105,7 @@ namespace Iwentys.Api
             services.AddScoped<IStudyLeaderboardService, StudyLeaderboardService>();
             services.AddScoped<ITournamentService, TournamentService>();
 
-            services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/build");
+            //services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/build");
         }
 
         public void Configure(
@@ -129,7 +129,7 @@ namespace Iwentys.Api
 
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            //app.UseSpaStaticFiles();
 
             app.UseRouting();
 
@@ -138,16 +138,16 @@ namespace Iwentys.Api
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());
 
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "ClientApp";
+            //app.UseSpa(spa =>
+            //{
+            //    spa.Options.SourcePath = "ClientApp";
 
-                //TODO:
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
-            });
+            //    //TODO:
+            //    if (env.IsDevelopment())
+            //    {
+            //        spa.UseReactDevelopmentServer(npmScript: "start");
+            //    }
+            //});
 
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();

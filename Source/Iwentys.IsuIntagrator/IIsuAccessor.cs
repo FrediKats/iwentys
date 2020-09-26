@@ -8,8 +8,10 @@ namespace Iwentys.IsuIntegrator
     }
 
     //TODO: temp solution
-    public class DebugIsuAccessor : IIsuAccessor
+    public class IsuAccessor : IIsuAccessor
     {
+
+
         public IsuUser GetIsuUser(int isuId, string password)
         {
             return new IsuUser

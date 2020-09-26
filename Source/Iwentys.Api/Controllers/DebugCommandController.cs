@@ -4,7 +4,7 @@ using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using Iwentys.Core;
+using Iwentys.Api.Tools;
 using Iwentys.Core.Auth;
 using Iwentys.Core.GoogleTableIntegration;
 using Iwentys.Core.GoogleTableIntegration.Marks;
@@ -17,7 +17,6 @@ using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Transferable.Students;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Iwentys.Api.Controllers
 {
@@ -65,14 +64,14 @@ namespace Iwentys.Api.Controllers
         public string Login(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
             _databaseAccessor.Student.Get(userId);
-            return GenerateToken(userId, signingEncodingKey);
+            return TokenGenerator.Generate(userId, signingEncodingKey);
         }
 
         [HttpGet("loginOrCreate/{userId}")]
         public string LoginOrCreate(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
             _studentService.GetOrCreate(userId);
-            return GenerateToken(userId, signingEncodingKey);
+            return TokenGenerator.Generate(userId, signingEncodingKey);
         }
 
         [HttpGet("ValidateToken")]
@@ -99,26 +98,7 @@ namespace Iwentys.Api.Controllers
 
             _databaseAccessor.Student.Create(student);
 
-            return GenerateToken(student.Id, signingEncodingKey);
-        }
-
-        private string GenerateToken(int userId, IJwtSigningEncodingKey signingEncodingKey)
-        {
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.UserData, userId.ToString(CultureInfo.InvariantCulture))
-            };
-
-            var token = new JwtSecurityToken(
-                issuer: ApplicationOptions.JwtIssuer,
-                audience: ApplicationOptions.JwtIssuer,
-                claims: claims,
-                signingCredentials: new SigningCredentials(
-                    signingEncodingKey.GetKey(),
-                    signingEncodingKey.SigningAlgorithm)
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return TokenGenerator.Generate(student.Id, signingEncodingKey);
         }
 
         [HttpGet("teachers")]

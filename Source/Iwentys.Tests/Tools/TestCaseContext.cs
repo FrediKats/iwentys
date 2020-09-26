@@ -51,7 +51,7 @@ namespace Iwentys.Tests.Tools
             var achievementProvider = new AchievementProvider(DatabaseAccessor);
             DummyGithubApiAccessor githubApiAccessor = new DummyGithubApiAccessor();
 
-            StudentService = new StudentService(DatabaseAccessor, new DebugIsuAccessor(), achievementProvider);
+            StudentService = new StudentService(DatabaseAccessor, new IsuAccessor(), achievementProvider);
             GithubUserDataService = new GithubUserDataService(DatabaseAccessor, githubApiAccessor);
             GuildService = new GuildService(DatabaseAccessor, GithubUserDataService, githubApiAccessor);
             GuildMemberService = new GuildMemberService(DatabaseAccessor, GithubUserDataService, githubApiAccessor);
