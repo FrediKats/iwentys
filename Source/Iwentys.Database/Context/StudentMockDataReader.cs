@@ -62,19 +62,27 @@ namespace Iwentys.Database.Context
 
         public List<StudyGroupEntity> ReadGroups()
         {
-            const string filePath = "group-list.txt";
+            var result = new List<StudyGroupEntity>();
+            result.AddRange(CourseGroup(1, 5, 3, 9));
+            result.AddRange(CourseGroup(2, 4, 2, 10));
+            result.AddRange(CourseGroup(3, 3, 1, 9));
+            result.AddRange(CourseGroup(4, 2, 1, 12));
+            result.AddRange(CourseGroup(5, 1, 1, 12));
 
-            return File.ReadAllLines(filePath)
-                .Select(s =>
+            for (var i = 0; i < result.Count; i++)
+                result[i].Id = i + 1;
+
+            return result;
+        }
+
+        public static List<StudyGroupEntity> CourseGroup(int courseId, int course, int firstGroup, int lastGroup)
+        {
+            return Enumerable
+                .Range(firstGroup, lastGroup - firstGroup + 1)
+                .Select(g => new StudyGroupEntity
                 {
-                    string[] elements = s.Split("\t");
-
-                    return new StudyGroupEntity
-                    {
-                        GroupName = elements[1],
-                        Id = int.Parse(elements[0], CultureInfo.InvariantCulture),
-                        StudyCourseId = int.Parse(elements[2], CultureInfo.InvariantCulture)
-                    };
+                    StudyCourseId = courseId,
+                    GroupName = $"M3{course}{g:00}",
                 })
                 .ToList();
         }
