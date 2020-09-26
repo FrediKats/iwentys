@@ -21,7 +21,7 @@ jobs:
       run: dotnet restore
       working-directory: Source
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build /nodeReuse:false --configuration Release --no-restore
       working-directory: Source
     - name: Test
       run: dotnet test --no-restore --verbosity normal
