@@ -1,8 +1,10 @@
 ﻿using Iwentys.Api.Tools;
 using Iwentys.Core;
 using Iwentys.Core.Auth;
+using Iwentys.Models.Transferable;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Tef.IsuIntegrator;
 using Tef.IsuIntegrator.Responses;
 
@@ -22,16 +24,24 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<string> Get(string code, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
+        public ActionResult<IsuAuthResponse> Get(string code, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
             _logger.LogInformation($"Get code for isu auth: {code}");
+
             AuthorizeResponse authResponse = _isuApiAccessor.Authorize(code).Result;
             if (!authResponse.IsSuccess)
                 return BadRequest(authResponse.ErrorResponse);
 
             IsuUserDataResponse userData = _isuApiAccessor.GetUserData(authResponse.TokenResponse.AccessToken).Result;
+
             string token = TokenGenerator.Generate(userData.Id, signingEncodingKey);
-            return Ok(token);
+            var response = new IsuAuthResponse
+            {
+                Token = token,
+                User = JsonConvert.SerializeObject(userData)
+            };
+
+            return Ok(response);
         }
     }
 }
