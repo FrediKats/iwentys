@@ -5,8 +5,6 @@ using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
-using Iwentys.IsuIntegrator;
-using Iwentys.IsuIntegrator.Models;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
@@ -19,11 +17,9 @@ namespace Iwentys.Core.Services.Implementations
         private readonly DatabaseAccessor _databaseAccessor;
 
         private readonly AchievementProvider _achievementProvider;
-        private readonly IIsuAccessor _isuAccessor;
 
-        public StudentService(DatabaseAccessor databaseAccessor, IIsuAccessor isuAccessor, AchievementProvider achievementProvider)
+        public StudentService(DatabaseAccessor databaseAccessor, AchievementProvider achievementProvider)
         {
-            _isuAccessor = isuAccessor;
             _achievementProvider = achievementProvider;
             _databaseAccessor = databaseAccessor;
         }
@@ -56,8 +52,7 @@ namespace Iwentys.Core.Services.Implementations
             if (student != null)
                 return student.To(s => new StudentFullProfileDto(s));
 
-            IsuUser userInfo = _isuAccessor.GetIsuUser(id, null);
-            student = _databaseAccessor.Student.Create(StudentEntity.CreateFromIsu(userInfo.Id, userInfo.FirstName, userInfo.MiddleName, userInfo.SecondName));
+            student = _databaseAccessor.Student.Create(StudentEntity.CreateFromIsu(id, "userInfo.FirstName", "userInfo.MiddleName", "userInfo.SecondName"));
 
             student = _databaseAccessor.Student.Get(student.Id);
 

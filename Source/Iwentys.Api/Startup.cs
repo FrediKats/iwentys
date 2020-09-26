@@ -8,16 +8,13 @@ using Iwentys.Core.Services.Implementations;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Database.Repositories.Implementations;
-using Iwentys.IsuIntegrator;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Iwentys.Api
@@ -72,8 +69,6 @@ namespace Iwentys.Api
                 services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();
             else
                 services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
-
-            services.AddScoped<IIsuAccessor, IsuAccessor>();
 
             services.AddScoped<IBarsPointTransactionLogRepository, BarsPointTransactionLogRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();

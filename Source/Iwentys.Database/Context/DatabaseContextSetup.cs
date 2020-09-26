@@ -19,7 +19,6 @@ namespace Iwentys.Database.Context
     /// Это сделано из расчета на то, что такая информация будет редко меняться и
     /// по этому ее не нужно получать через API.
     /// TODO: Нужно создать конфиг файл для каждого подобного набора данных и получать данные оттуда, а не заполнять прямо в коде
-    /// 
     /// </summary>
     /// <returns>Список объектов, которые будут помещены в базу при загрузке</returns>
     public class DatabaseContextSetup
@@ -317,7 +316,6 @@ namespace Iwentys.Database.Context
         private static class Create
         {
             private static readonly IdentifierGenerator CourseIdentifierGenerator = new IdentifierGenerator();
-            private static readonly IdentifierGenerator GroupIdentifierGenerator = new IdentifierGenerator();
             public static readonly IdentifierGenerator GroupSubjectIdentifierGenerator = new IdentifierGenerator();
 
             public static StudyCourseEntity IsCourse(StudentGraduationYear year)
@@ -328,19 +326,6 @@ namespace Iwentys.Database.Context
                     GraduationYear = year,
                     StudyProgramId = 1
                 };
-            }
-
-            public static List<StudyGroupEntity> CourseGroup(int courseId, int course, int groupCount)
-            {
-                return Enumerable
-                    .Range(1, groupCount)
-                    .Select(g => new StudyGroupEntity
-                    {
-                        Id = GroupIdentifierGenerator.Next(),
-                        StudyCourseId = courseId,
-                        GroupName = $"M3{course}{g:00}",
-                    })
-                    .ToList();
             }
         }
     }

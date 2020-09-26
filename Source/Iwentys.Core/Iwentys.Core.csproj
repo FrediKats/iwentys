@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Iwentys.Database\Iwentys.Database.csproj" />
-    <ProjectReference Include="..\Iwentys.IsuIntagrator\Iwentys.IsuIntegrator.csproj" />
   </ItemGroup>
 
 </Project>

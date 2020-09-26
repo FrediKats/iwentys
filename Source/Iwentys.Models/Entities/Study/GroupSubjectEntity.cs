@@ -22,7 +22,6 @@ namespace Iwentys.Models.Entities.Study
         public int PracticeTeacherId { get; set; }
         public TeacherEntity PracticeTeacher { get; set; }
 
-
         public string SerializedGoogleTableConfig { get; set; }
         public StudySemester StudySemester { get; set; }
 
