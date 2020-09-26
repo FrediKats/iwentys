@@ -19,6 +19,7 @@ jobs:
         dotnet-version: 3.1.101
     - name: Clean dotnet
       run: dotnet clean --configuration Release
+      working-directory: Source
     - name: Install dependencies
       run: dotnet restore
       working-directory: Source
