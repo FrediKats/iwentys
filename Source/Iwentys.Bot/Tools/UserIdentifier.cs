@@ -33,7 +33,7 @@ namespace Iwentys.ClientBot.Tools
             var user = GetUser(messengerUserId);
             if (!_userProviders.ContainsKey(user.Id))
             {
-                string token = await apiProvider.DebugCommand.LoginOrCreate(user.Id);
+                string token = await apiProvider.DebugCommand.LoginOrCreate(user.Id).ConfigureAwait(false);
                 _userProviders[user.Id] = IwentysApiProvider.Create(token);
             }
 

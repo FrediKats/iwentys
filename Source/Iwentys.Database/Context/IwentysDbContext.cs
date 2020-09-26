@@ -68,7 +68,6 @@ namespace Iwentys.Database.Context
         public DbSet<AssignmentEntity> Assignments { get; set; }
         public DbSet<StudentAssignmentEntity> StudentAssignments { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             SetCompositeKeys(modelBuilder);

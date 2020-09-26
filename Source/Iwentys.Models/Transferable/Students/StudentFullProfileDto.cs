@@ -38,14 +38,15 @@ namespace Iwentys.Models.Transferable.Students
 
         public string FormatFullInfo()
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
+            
             builder.Append(Format());
             if (!string.IsNullOrWhiteSpace(Group))
-                builder.Append($" ({Group})");
+                builder.Append(" (").Append(Group).Append(')');
             if (!string.IsNullOrWhiteSpace(GuildName))
-                builder.Append($"\nGuild: {GuildName}");
+                builder.Append("\nGuild: ").Append(GuildName);
             if (!string.IsNullOrWhiteSpace(GithubUsername))
-                builder.Append($"\nGithub: {GithubUsername}");
+                builder.Append("\nGithub: ").Append(GithubUsername);
 
             return builder.ToString();
         }

@@ -11,6 +11,7 @@
     <OutRoot>.\..\Source\Iwentys.Api\</OutRoot>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
     <UserSecretsId>35fa5c6a-95d9-4641-a1f6-6451ac7f738d</UserSecretsId>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="LanguageExt.Core" Version="3.4.15" />

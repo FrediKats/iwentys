@@ -26,7 +26,7 @@ namespace Iwentys.ClientBot.Commands.Student
 
         public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            IEnumerable<StudentFullProfileDto> profileDtos = await _studentApi.Get();
+            IEnumerable<StudentFullProfileDto> profileDtos = await _studentApi.Get().ConfigureAwait(false);
             return ResultFormatter.FormatToResult(profileDtos);
         }
 

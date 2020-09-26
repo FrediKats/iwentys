@@ -32,7 +32,7 @@ namespace Iwentys.ClientBot.Commands.StudentLeaderboard
 
         public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            List<StudyLeaderboardRow> studyLeaderboardRows = await _iwentysApi.LeaderboardApi.GetStudentsRating(null, int.Parse(args.Arguments[0]), null, null);
+            List<StudyLeaderboardRow> studyLeaderboardRows = await _iwentysApi.LeaderboardApi.GetStudentsRating(null, int.Parse(args.Arguments[0]), null, null).ConfigureAwait(false);
 
             return ResultFormatter.FormatToResult(studyLeaderboardRows.Take(20));
         }

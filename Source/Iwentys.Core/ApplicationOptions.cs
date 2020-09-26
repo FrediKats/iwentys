@@ -26,12 +26,10 @@ namespace Iwentys.Core
             SigningSecurityKey = configuration["jwt:SigningSecurityKey"];
             JwtIssuer = configuration["jwt:issuer"];
 
-
             IsuClientId = configuration["isu_auth:client_id"];
             IsuClientSecret = configuration["isu_auth:client_secret"];
             IsuRedirection = configuration["isu_auth:redirect_uri"];
             IsuAuthUrl = configuration["isu_auth:isu_auth_url"];
-
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Iwentys.ClientBot.Commands.Student
 
         public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            IEnumerable<StudentFullProfileDto> profileDtos = await _iwentysApi.Student.Get(args.Arguments[0]);
+            IEnumerable<StudentFullProfileDto> profileDtos = await _iwentysApi.Student.Get(args.Arguments[0]).ConfigureAwait(false);
 
             return Result.Ok($"Group list {args.Arguments[0]}\n{ResultFormatter.FormatAsList(profileDtos)}");
         }
