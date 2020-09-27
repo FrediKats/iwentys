@@ -45,15 +45,15 @@ namespace Iwentys.Database.Context
 
         #endregion
 
-        #region Github
+        //#region Github
 
-        public DbSet<ActivityInfo> ActivityInfos { get; set; }
-        public DbSet<ContributionFullInfo> ContributionFullInfos { get; set; }
-        public DbSet<ContributionsInfo> ContributionsInfos { get; set; }
-        public DbSet<GithubRepository> GithubRepositories { get; set; }
-        public DbSet<YearActivityInfo> YearActivityInfos { get; set; }
+        //public DbSet<ActivityInfo> ActivityInfos { get; set; }
+        //public DbSet<ContributionFullInfo> ContributionFullInfos { get; set; }
+        //public DbSet<ContributionsInfo> ContributionsInfos { get; set; }
+        //public DbSet<GithubRepository> GithubRepositories { get; set; }
+        //public DbSet<YearActivityInfo> YearActivityInfos { get; set; }
 
-        #endregion
+        //#endregion
 
         public DbSet<StudentEntity> Students { get; set; }
         public DbSet<GithubProjectEntity> StudentProjects { get; set; }
@@ -107,7 +107,6 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<TeacherEntity>().HasData(seedData.Teachers);
             modelBuilder.Entity<SubjectEntity>().HasData(seedData.Subjects);
             modelBuilder.Entity<GroupSubjectEntity>().HasData(seedData.GroupSubjects);
-            modelBuilder.Entity<SubjectActivityEntity>().HasData(seedData.SubjectActivitys);
 
             modelBuilder.Entity<StudentEntity>().HasData(seedData.Students);
             modelBuilder.Entity<GuildEntity>().HasData(seedData.Guilds);

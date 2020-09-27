@@ -66,7 +66,7 @@ namespace Iwentys.Core.GoogleTableIntegration.Marks
                     _subjectActivityRepository.Create(new SubjectActivityEntity
                     {
                         StudentId = studentProfile.Id,
-                        GroupSubjectEntityId = groupSubjectData.StudyGroupId,
+                        GroupSubjectEntityId = groupSubjectData.Id,
                         Points = pointsCount
                     });
 

@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Tools;
 
@@ -19,6 +19,7 @@ namespace Iwentys.Models.Entities
         public string Company { get; set; }
         public string SerializedContributionData { get; set; }
 
+        [NotMapped]
         public ContributionFullInfo ContributionFullInfo
         {
             get => SerializedContributionData.Maybe(JsonConvert.DeserializeObject<ContributionFullInfo>);

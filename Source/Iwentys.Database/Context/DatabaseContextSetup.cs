@@ -29,7 +29,6 @@ namespace Iwentys.Database.Context
         public List<StudyCourseEntity> StudyCourses { get; set; }
         public List<StudyProgramEntity> StudyPrograms { get; set; }
         public List<GroupSubjectEntity> GroupSubjects { get; set; }
-        public List<SubjectActivityEntity> SubjectActivitys { get; set; }
 
         public List<StudentEntity> Students { get; set; }
         public List<GuildEntity> Guilds { get; set; }
@@ -187,28 +186,6 @@ namespace Iwentys.Database.Context
                 .ToList();
 
             Students.Single(s => s.Id == 289140).GithubUsername = "s4hack";
-
-            SubjectActivitys = new List<SubjectActivityEntity>
-            {
-                new SubjectActivityEntity
-                {
-                    StudentId = 289140,
-                    Points = 100,
-                    GroupSubjectEntityId = 1
-                },
-                new SubjectActivityEntity
-                {
-                    StudentId = 289140,
-                    Points = 60,
-                    GroupSubjectEntityId = 2
-                },
-                new SubjectActivityEntity
-                {
-                    StudentId = 289140,
-                    Points = 70,
-                    GroupSubjectEntityId = 3
-                }
-            };
         }
 
         private void InitGuilds()
