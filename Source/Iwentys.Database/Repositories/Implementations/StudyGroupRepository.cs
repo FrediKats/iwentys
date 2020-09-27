@@ -2,6 +2,7 @@
 using System.Linq;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.Models;
 using Iwentys.Models.Entities.Study;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -50,9 +51,9 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.SaveChanges();
         }
 
-        public StudyGroupEntity ReadByNamePattern(String groupName)
+        public StudyGroupEntity ReadByNamePattern(GroupName group)
         {
-            return Read().FirstOrDefault(s => s.GroupName == groupName);
+            return Read().FirstOrDefault(s => s.GroupName == group.Name);
         }
     }
 }

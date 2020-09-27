@@ -5,6 +5,7 @@ using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
+using Iwentys.Models;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
@@ -39,9 +40,11 @@ namespace Iwentys.Core.Services.Implementations
 
         public List<StudentFullProfileDto> Get(string groupName)
         {
+            var group = new GroupName(groupName);
+
             return _databaseAccessor.Student
                 .Read()
-                .Where(s => s.Group.GroupName == groupName)
+                .Where(s => s.Group.GroupName == group.Name)
                 .AsEnumerable()
                 .SelectToList(s => new StudentFullProfileDto(s));
         }

@@ -9,6 +9,7 @@ using Iwentys.Core.GoogleTableIntegration.Marks;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
+using Iwentys.Models;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Transferable;
@@ -93,7 +94,7 @@ namespace Iwentys.Api.Controllers
         public ActionResult<IwentysAuthResponse> Register([FromBody] StudentCreateArgumentsDto arguments,
             [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
-            int groupId = _databaseAccessor.StudyGroup.ReadByNamePattern(arguments.Group).Id;
+            int groupId = _databaseAccessor.StudyGroup.ReadByNamePattern(new GroupName(arguments.Group)).Id;
             var student = new StudentEntity(arguments, groupId);
 
             _databaseAccessor.Student.Create(student);
