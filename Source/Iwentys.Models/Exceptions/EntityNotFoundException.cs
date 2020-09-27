@@ -9,7 +9,7 @@ namespace Iwentys.Models.Exceptions
         {
         }
 
-        public EntityNotFoundException() : base()
+        public EntityNotFoundException()
         {
         }
 

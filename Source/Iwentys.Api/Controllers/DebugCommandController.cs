@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using Iwentys.Api.Tools;
 using Iwentys.Core.Auth;
-using Iwentys.Core.GoogleTableIntegration;
 using Iwentys.Core.GoogleTableIntegration.Marks;
-using Iwentys.Core.GoogleTableIntegration.TeacherInfoParse;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;

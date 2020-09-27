@@ -1,6 +1,4 @@
-﻿using Iwentys.ApiClient.OpenAPIService;
-using Iwentys.ClientBot.ApiSdk;
-using Iwentys.ClientBot.Commands.Guild;
+﻿using Iwentys.ClientBot.Commands.Guild;
 using Iwentys.ClientBot.Commands.Student;
 using Iwentys.ClientBot.Commands.StudentLeaderboard;
 using Iwentys.ClientBot.Commands.Tools;

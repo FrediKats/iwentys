@@ -12,7 +12,7 @@ namespace Iwentys.Models.Exceptions
         {
         }
 
-        public InnerLogicException() : base()
+        public InnerLogicException()
         {
         }
 

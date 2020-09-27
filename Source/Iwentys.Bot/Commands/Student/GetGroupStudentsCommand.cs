@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentResults;
-using Iwentys.ClientBot.ApiSdk;
+using Iwentys.ClientBot.Tools;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Students;
 using Tef.BotFramework.Abstractions;
