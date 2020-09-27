@@ -131,8 +131,8 @@ namespace Iwentys.Api.Controllers
             return Ok(_guildService.AddPinnedRepository(user, guildId, createProject.Owner, createProject.RepositoryName));
         }
 
-        [HttpDelete("{guildId}/pinned")]
-        public ActionResult DeletePinnedProject(int guildId, [FromBody] int repositoryId)
+        [HttpDelete("{guildId}/pinned/{repositoryId}")]
+        public ActionResult DeletePinnedProject(int guildId, int repositoryId)
         {
             //TODO: Need to rework all links between GithubRepository, Student project and PinnedRepository
             AuthorizedUser user = this.TryAuthWithToken();

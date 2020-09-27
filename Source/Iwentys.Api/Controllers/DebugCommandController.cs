@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
@@ -14,6 +14,7 @@ using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
+using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Students;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -38,11 +39,11 @@ namespace Iwentys.Api.Controllers
             _studentService = studentService;
         }
 
-        [HttpPost("UpdateSubjectActivityData")]
-        public void UpdateSubjectActivityData(SubjectActivityEntity activity)
-        {
-            _databaseAccessor.SubjectActivity.Update(activity);
-        }
+        //[HttpPost("UpdateSubjectActivityData")]
+        //public void UpdateSubjectActivityData(SubjectActivityEntity activity)
+        //{
+        //    _databaseAccessor.SubjectActivity.Update(activity);
+        //}
 
         [HttpPost("UpdateSubjectActivityForGroup")]
         public void UpdateSubjectActivityForGroup(int subjectId, int groupId)
@@ -103,13 +104,13 @@ namespace Iwentys.Api.Controllers
             return TokenGenerator.Generate(student.Id, signingEncodingKey);
         }
 
-        [HttpGet("teachers")]
-        public ActionResult<List<SubjectTeacherInfo>> LoadTeachers([FromQuery] string tableId, [FromQuery] string range)
-        {
-            var tableParser = TableParser.Create(_logger);
-            var subjectTeacherParser = new SubjectTeacherParser(tableId, range);
-            List<SubjectTeacherInfo> result = tableParser.Execute(subjectTeacherParser);
-            return Ok(result);
-        }
+        //[HttpGet("teachers")]
+        //public ActionResult<List<SubjectTeacherInfo>> LoadTeachers([FromQuery] string tableId, [FromQuery] string range)
+        //{
+        //    var tableParser = TableParser.Create(_logger);
+        //    var subjectTeacherParser = new SubjectTeacherParser(tableId, range);
+        //    List<SubjectTeacherInfo> result = tableParser.Execute(subjectTeacherParser);
+        //    return Ok(result);
+        //}
     }
 }
