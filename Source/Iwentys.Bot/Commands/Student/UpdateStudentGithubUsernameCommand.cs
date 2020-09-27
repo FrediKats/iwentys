@@ -30,7 +30,7 @@ namespace Iwentys.ClientBot.Commands.Student
         public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
             IwentysApiProvider userProvider = await _userIdentifier.GetProvider(args.Sender.UserSenderId, _iwentysApi).ConfigureAwait(false);
-            StudentFullProfileDto profile = await userProvider.Student.Update(new StudentUpdateDto { GithubUsername = args.Arguments[0]}).ConfigureAwait(false);
+            StudentFullProfileDto profile = await userProvider.Client.ApiStudentPutAsync(new StudentUpdateDto { GithubUsername = args.Arguments[0]}).ConfigureAwait(false);
             return Result.Ok(profile.FormatFullInfo());
         }
 

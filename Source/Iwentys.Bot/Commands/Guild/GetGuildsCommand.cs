@@ -26,7 +26,7 @@ namespace Iwentys.ClientBot.Commands.Guild
 
         public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            List<GuildProfilePreviewDto> guildProfilePreviews = await _iwentysApi.GuildApi.GetOverview().ConfigureAwait(false);
+            ICollection<GuildProfilePreviewDto> guildProfilePreviews = await _iwentysApi.Client.ApiGuildGetAsync(null, null).ConfigureAwait(false);
 
             return ResultFormatter.FormatAsListToResult(guildProfilePreviews);
         }

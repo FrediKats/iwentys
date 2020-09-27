@@ -34,7 +34,7 @@ namespace Iwentys.ClientBot.Commands.Student
         {
             AuthorizedUser currentUser = _userIdentifier.GetUser(args.Sender.UserSenderId);
             IwentysApiProvider userProvider = await _userIdentifier.GetProvider(args.Sender.UserSenderId, _api).ConfigureAwait(false);
-            StudentFullProfileDto profile = await userProvider.Student.Get(currentUser.Id).ConfigureAwait(false);
+            StudentFullProfileDto profile = await userProvider.Client.ApiStudentGetAsync(currentUser.Id).ConfigureAwait(false);
             return Result.Ok(profile.FormatFullInfo());
         }
 
