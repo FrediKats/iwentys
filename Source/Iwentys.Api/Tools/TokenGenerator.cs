@@ -3,13 +3,14 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Iwentys.Core;
 using Iwentys.Core.Auth;
+using Iwentys.Models.Transferable;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Iwentys.Api.Tools
 {
     public static class TokenGenerator
     {
-        public static string Generate(int userId, IJwtSigningEncodingKey signingEncodingKey)
+        public static IwentysAuthResponse Generate(int userId, IJwtSigningEncodingKey signingEncodingKey)
         {
             var claims = new[]
             {
@@ -25,7 +26,11 @@ namespace Iwentys.Api.Tools
                     signingEncodingKey.SigningAlgorithm)
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var jwt = new JwtSecurityTokenHandler();
+            return new IwentysAuthResponse
+            {
+                Token = jwt.WriteToken(token)
+            };
         }
     }
 }

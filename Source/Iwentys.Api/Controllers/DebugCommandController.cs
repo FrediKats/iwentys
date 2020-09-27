@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
@@ -61,14 +61,14 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet("login/{userId}")]
-        public string Login(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
+        public ActionResult<IwentysAuthResponse> Login(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
             _databaseAccessor.Student.Get(userId);
             return TokenGenerator.Generate(userId, signingEncodingKey);
         }
 
         [HttpGet("loginOrCreate/{userId}")]
-        public string LoginOrCreate(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
+        public ActionResult<IwentysAuthResponse> LoginOrCreate(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
             _studentService.GetOrCreate(userId);
             return TokenGenerator.Generate(userId, signingEncodingKey);
@@ -78,6 +78,8 @@ namespace Iwentys.Api.Controllers
         public int ValidateToken()
         {
             var token = HttpContext.Request.Headers["Authorization"].ToString();
+            if (token.StartsWith("Bearer "))
+                token = token.Remove(0, "Bearer ".Length);
 
             var tokenHandler = new JwtSecurityTokenHandler();
             if (tokenHandler.ReadToken(token) is JwtSecurityToken securityToken)
@@ -90,7 +92,7 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpPost("register")]
-        public string Register([FromBody] StudentCreateArgumentsDto arguments,
+        public ActionResult<IwentysAuthResponse> Register([FromBody] StudentCreateArgumentsDto arguments,
             [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
             int groupId = _databaseAccessor.StudyGroup.ReadByNamePattern(arguments.Group).Id;

@@ -34,10 +34,10 @@ namespace Iwentys.Api.Controllers
 
             IsuUserDataResponse userData = _isuApiAccessor.GetUserData(authResponse.TokenResponse.AccessToken).Result;
 
-            string token = TokenGenerator.Generate(userData.Id, signingEncodingKey);
+            IwentysAuthResponse token = TokenGenerator.Generate(userData.Id, signingEncodingKey);
             var response = new IsuAuthResponse
             {
-                Token = token,
+                Token = token.Token,
                 User = JsonConvert.SerializeObject(userData)
             };
 
