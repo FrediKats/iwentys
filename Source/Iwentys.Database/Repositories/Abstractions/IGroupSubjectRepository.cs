@@ -8,6 +8,6 @@ namespace Iwentys.Database.Repositories.Abstractions
     {
         IEnumerable<SubjectEntity> GetSubjectsForDto(StudySearchDto searchDto);
         IEnumerable<GroupSubjectEntity> GetSubjectForGroupForDto(StudySearchDto searchDto);
-        IEnumerable<StudyGroupEntity> GetStudyGroupsForDto(StudySearchDto searchDto);
+        IEnumerable<StudyGroupEntity> GetStudyGroupsForDto(int? courseId);
     }
 }

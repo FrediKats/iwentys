@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Transferable.Study;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -52,28 +54,19 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public IEnumerable<GroupSubjectEntity> GetSubjectForGroupForDto(StudySearchDto searchDto)
         {
-            var query = Read();
+            IQueryable<GroupSubjectEntity> query = Read();
+
             if (searchDto.GroupId != null)
-            {
                 query = query.Where(s => s.StudyGroupId == searchDto.GroupId.Value);
-            }
 
             if (searchDto.StudySemester != null)
-            {
                 query = query.Where(s => s.StudySemester == searchDto.StudySemester.Value);
-            }
 
             if (searchDto.SubjectId != null)
-            {
                 query = query.Where(s => s.SubjectId == searchDto.SubjectId.Value);
-            }
 
             if (searchDto.CourseId != null)
-            {
-                //BUG: it will not work lol
-                List<StudyGroupEntity> courseGroups = _dbContext.StudyGroups.Where(g => g.StudyCourseId == searchDto.CourseId).ToList();
-                query = query.Where(s => courseGroups.Any(g => g.Id == s.StudyGroupId));
-            }
+                query = query.Where(gs => gs.StudyGroup.StudyCourseId == searchDto.CourseId);
 
             return query;
         }
@@ -83,9 +76,15 @@ namespace Iwentys.Database.Repositories.Implementations
             return GetSubjectForGroupForDto(searchDto).Select(s => s.Subject);
         }
 
-        public IEnumerable<StudyGroupEntity> GetStudyGroupsForDto(StudySearchDto searchDto)
+        public IEnumerable<StudyGroupEntity> GetStudyGroupsForDto(int? courseId)
         {
-            return GetSubjectForGroupForDto(searchDto).Select(s => s.StudyGroup);
+            IQueryable<StudyGroupEntity> query = _dbContext.StudyGroups;
+
+            if (courseId != null)
+                query = query.Where(g => g.StudyCourseId == courseId);
+
+            return query;
+
         }
     }
 }

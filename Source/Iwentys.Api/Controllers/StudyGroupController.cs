@@ -18,13 +18,9 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<StudyGroupEntity>> GetAllGroups([FromQuery] int? courseId, [FromQuery] int? subjectId)
+        public ActionResult<List<StudyGroupEntity>> GetAllGroups([FromQuery] int? courseId)
         {
-            return Ok(_studyLeaderboardService.GetStudyGroupsForDto(new StudySearchDto
-            {
-                CourseId = courseId,
-                SubjectId = subjectId
-            }));
+            return Ok(_studyLeaderboardService.GetStudyGroupsForDto(courseId));
         }
     }
 }

@@ -24,9 +24,9 @@ namespace Iwentys.Core.Services.Implementations
             return _databaseAccessor.GroupSubject.GetSubjectsForDto(searchDto).DistinctBy(s => s.Id).ToList();
         }
 
-        public List<StudyGroupEntity> GetStudyGroupsForDto(StudySearchDto searchDto)
+        public List<StudyGroupEntity> GetStudyGroupsForDto(int? courseId)
         {
-            return _databaseAccessor.GroupSubject.GetStudyGroupsForDto(searchDto).ToList();
+            return _databaseAccessor.GroupSubject.GetStudyGroupsForDto(courseId).ToList();
         }
 
         public List<StudyLeaderboardRow> GetStudentsRatings(StudySearchDto searchDto)

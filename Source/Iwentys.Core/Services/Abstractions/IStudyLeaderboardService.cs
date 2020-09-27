@@ -7,7 +7,7 @@ namespace Iwentys.Core.Services.Abstractions
     public interface IStudyLeaderboardService
     {
         List<SubjectEntity> GetSubjectsForDto(StudySearchDto searchDto);
-        List<StudyGroupEntity> GetStudyGroupsForDto(StudySearchDto searchDto);
+        List<StudyGroupEntity> GetStudyGroupsForDto(int? courseId);
         List<StudyLeaderboardRow> GetStudentsRatings(StudySearchDto searchDto);
     }
 }
