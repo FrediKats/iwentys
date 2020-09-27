@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Iwentys.Api.Tools;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Transferable.Gamification;
@@ -17,59 +18,58 @@ namespace Iwentys.Api.Controllers
             _questService = questService;
         }
 
-        [HttpGet("GetCreatedByUser")]
+        [HttpGet("created")]
         public ActionResult<List<QuestInfoDto>> GetCreatedByUser()
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_questService.GetCreatedByUser(user));
         }
 
-        [HttpGet("GetCompletedByUser")]
+        [HttpGet("completed")]
         public ActionResult<List<QuestInfoDto>> GetCompletedByUser()
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_questService.GetCompletedByUser(user));
         }
 
-        [HttpGet("GetActive")]
+        [HttpGet("active")]
         public ActionResult<List<QuestInfoDto>> GetActive()
         {
             return Ok(_questService.GetActive());
         }
 
-        [HttpGet("GetArchived")]
+        [HttpGet("archived")]
         public ActionResult<List<QuestInfoDto>> GetArchived()
         {
             return Ok(_questService.GetArchived());
         }
 
-        [HttpPost("Create")]
+        [HttpPost]
         public ActionResult<QuestInfoDto> Create(CreateQuestDto createQuest)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_questService.Create(user, createQuest));
         }
 
-        [HttpPost("{questId}/SendResponse")]
+        [HttpPut("{questId}/send-response")]
         public ActionResult<QuestInfoDto> SendResponse(int questId)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_questService.SendResponse(user, questId));
         }
 
-        [HttpPost("{questId}/Complete")]
+        [HttpPut("{questId}/complete")]
         public ActionResult<QuestInfoDto> Complete([FromRoute]int questId, [FromQuery] int userId)
         {
-            AuthorizedUser author = AuthorizedUser.DebugAuth();
+            AuthorizedUser author = this.TryAuthWithToken();
             return Ok(_questService.Complete(author, questId, userId));
         }
 
-        [HttpPost("{questId}/Revoke")]
+        [HttpPut("{questId}/revoke")]
         public ActionResult<QuestInfoDto> Revoke([FromRoute] int questId)
         {
-            AuthorizedUser author = AuthorizedUser.DebugAuth();
+            AuthorizedUser author = this.TryAuthWithToken();
             return Ok(_questService.Revoke(author, questId));
         }
-
     }
 }

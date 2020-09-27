@@ -6,6 +6,7 @@ using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Transferable.Study;
 using Iwentys.Models.Types;
+using MoreLinq;
 
 namespace Iwentys.Core.Services.Implementations
 {
@@ -18,14 +19,14 @@ namespace Iwentys.Core.Services.Implementations
             _databaseAccessor = databaseAccessor;
         }
 
-        public IEnumerable<SubjectEntity> GetSubjectsForDto(StudySearchDto searchDto)
+        public List<SubjectEntity> GetSubjectsForDto(StudySearchDto searchDto)
         {
-            return _databaseAccessor.GroupSubject.GetSubjectsForDto(searchDto);
+            return _databaseAccessor.GroupSubject.GetSubjectsForDto(searchDto).DistinctBy(s => s.Id).ToList();
         }
 
-        public IEnumerable<StudyGroupEntity> GetStudyGroupsForDto(StudySearchDto searchDto)
+        public List<StudyGroupEntity> GetStudyGroupsForDto(StudySearchDto searchDto)
         {
-            return _databaseAccessor.GroupSubject.GetStudyGroupsForDto(searchDto);
+            return _databaseAccessor.GroupSubject.GetStudyGroupsForDto(searchDto).ToList();
         }
 
         public List<StudyLeaderboardRow> GetStudentsRatings(StudySearchDto searchDto)
@@ -36,6 +37,7 @@ namespace Iwentys.Core.Services.Implementations
                 throw new IwentysException("One of StudySearchDto fields: CourseId or GroupId should be null");
             }
 
+            //TODO: allow null value
             searchDto.StudySemester ??= GetCurrentSemester();
 
             List<SubjectActivityEntity> result = _databaseAccessor.SubjectActivity.GetStudentActivities(searchDto).ToList();
@@ -50,7 +52,7 @@ namespace Iwentys.Core.Services.Implementations
         private static StudySemester GetCurrentSemester()
         {
             //TODO: hack
-            return StudySemester.Y19H2;
+            return StudySemester.Y20H2;
         }
     }
 }

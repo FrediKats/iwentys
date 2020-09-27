@@ -6,8 +6,8 @@ namespace Iwentys.Core.Services.Abstractions
 {
     public interface IStudyLeaderboardService
     {
-        IEnumerable<SubjectEntity> GetSubjectsForDto(StudySearchDto searchDto);
-        IEnumerable<StudyGroupEntity> GetStudyGroupsForDto(StudySearchDto searchDto);
+        List<SubjectEntity> GetSubjectsForDto(StudySearchDto searchDto);
+        List<StudyGroupEntity> GetStudyGroupsForDto(StudySearchDto searchDto);
         List<StudyLeaderboardRow> GetStudentsRatings(StudySearchDto searchDto);
     }
 }

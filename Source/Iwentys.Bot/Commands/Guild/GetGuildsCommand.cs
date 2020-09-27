@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentResults;
-using Iwentys.ClientBot.ApiSdk;
+using Iwentys.ClientBot.Tools;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Guilds;
 using Tef.BotFramework.Abstractions;
@@ -26,9 +26,9 @@ namespace Iwentys.ClientBot.Commands.Guild
 
         public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            List<GuildProfilePreviewDto> guildProfilePreviews = await _iwentysApi.GuildApi.GetOverview();
+            ICollection<GuildProfilePreviewDto> guildProfilePreviews = await _iwentysApi.Client.ApiGuildGetAsync(null, null).ConfigureAwait(false);
 
-            return ResultFormatter.FormatAsList(guildProfilePreviews);
+            return ResultFormatter.FormatAsListToResult(guildProfilePreviews);
         }
 
         public string CommandName { get; } = nameof(GetGuildsCommand);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Iwentys.Api.Tools;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Transferable.Guilds;
@@ -23,24 +24,24 @@ namespace Iwentys.Api.Controllers
             return Ok(_guildTestTaskService.Get(guildId));
         }
 
-        [HttpGet("accept")]
+        [HttpPut("accept")]
         public ActionResult<GuildTestTaskInfoDto> Accept([FromQuery]int guildId)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildTestTaskService.Accept(user, guildId));
         }
 
-        [HttpGet("accept")]
+        [HttpPut("submit")]
         public ActionResult<GuildTestTaskInfoDto> Accept([FromQuery] int guildId, [FromQuery] string projectOwner, [FromQuery] string projectName)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildTestTaskService.Submit(user, guildId, projectOwner, projectName));
         }
 
-        [HttpGet("complete")]
+        [HttpPut("complete")]
         public ActionResult<GuildTestTaskInfoDto> Submit([FromQuery] int guildId, [FromQuery] int taskSolveOwnerId)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildTestTaskService.Complete(user, guildId, taskSolveOwnerId));
         }
     }

@@ -1,4 +1,6 @@
-﻿using Iwentys.Core.DomainModel;
+﻿using System.Collections.Generic;
+using Iwentys.Api.Tools;
+using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.GuildTribute;
@@ -18,38 +20,38 @@ namespace Iwentys.Api.Controllers
             _guildService = guildService;
         }
 
-        [HttpGet]
-        public ActionResult<TributeInfoDto[]> GetPendingTributes()
+        [HttpGet("pending")]
+        public ActionResult<List<TributeInfoDto>> GetPendingTributes()
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildService.GetPendingTributes(user));
         }
 
-        [HttpGet("GetFroStudent")]
-        public ActionResult<TributeInfoDto[]> GetStudentTributeResult()
+        [HttpGet("get-for-student")]
+        public ActionResult<List<TributeInfoDto>> GetStudentTributeResult()
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildService.GetStudentTributeResult(user));
         }
 
         [HttpPost("create")]
         public ActionResult<TributeInfoDto> SendTribute([FromBody] CreateProjectDto createProject)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildService.CreateTribute(user, createProject));
         }
 
-        [HttpPost("cancel")]
+        [HttpPut("cancel")]
         public ActionResult<TributeInfoDto> CancelTribute([FromBody] long tributeId)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildService.CancelTribute(user, tributeId));
         }
 
-        [HttpPost("complete")]
+        [HttpPut("complete")]
         public ActionResult<TributeInfoDto> CompleteTribute([FromBody] TributeCompleteDto tributeCompleteDto)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildService.CompleteTribute(user, tributeCompleteDto));
         }
     }

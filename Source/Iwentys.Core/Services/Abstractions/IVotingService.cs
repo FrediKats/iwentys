@@ -5,7 +5,7 @@ namespace Iwentys.Core.Services.Abstractions
     public interface IVotingService
     {
         VotingInfoDto CreateGuildVoting(VotingCreateDto votingCreateDto);
-        
+
         VotingInfoDto Get(int id);
         VotingInfoDto[] GetGuildVoting(int guildId);
 

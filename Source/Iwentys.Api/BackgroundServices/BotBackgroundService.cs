@@ -9,7 +9,7 @@ using Serilog;
 using Tef.BotFramework.Core;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
-namespace Iwentys.Api
+namespace Iwentys.Api.BackgroundServices
 {
     public class BotBackgroundService : BackgroundService
     {
@@ -26,14 +26,14 @@ namespace Iwentys.Api
 
             try
             {
-                Bot bot = BotProvider.Init("http://localhost:3578", new TelegramDebugSettings(), Log.Logger);
+                Bot bot = BotProvider.Init(new TelegramDebugSettings(), Log.Logger);
                 bot.Start();
             }
             catch (Exception e)
             {
                 _logger.LogError(e, "Bot run failed");
             }
-            
+
             return Task.CompletedTask;
         }
     }

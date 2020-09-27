@@ -4,6 +4,8 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        //TODO: Here can be refernece to Student entity if Teacher - is also student
+
+        public int? StudentProfileId { get; set; }
+        public StudentEntity StudentProfile { get; set; }
     }
 }

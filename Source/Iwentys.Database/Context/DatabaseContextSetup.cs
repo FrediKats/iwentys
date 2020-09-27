@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Gamification;
@@ -20,7 +19,6 @@ namespace Iwentys.Database.Context
     /// Это сделано из расчета на то, что такая информация будет редко меняться и
     /// по этому ее не нужно получать через API.
     /// TODO: Нужно создать конфиг файл для каждого подобного набора данных и получать данные оттуда, а не заполнять прямо в коде
-    /// 
     /// </summary>
     /// <returns>Список объектов, которые будут помещены в базу при загрузке</returns>
     public class DatabaseContextSetup
@@ -30,7 +28,7 @@ namespace Iwentys.Database.Context
         public List<StudyGroupEntity> StudyGroups { get; set; }
         public List<StudyCourseEntity> StudyCourses { get; set; }
         public List<StudyProgramEntity> StudyPrograms { get; set; }
-        public List<GroupSubjectEntity> SubjectForGroups { get; set; }
+        public List<GroupSubjectEntity> GroupSubjects { get; set; }
         public List<SubjectActivityEntity> SubjectActivitys { get; set; }
 
         public List<StudentEntity> Students { get; set; }
@@ -75,29 +73,30 @@ namespace Iwentys.Database.Context
                 new SubjectEntity {Id = 3, Name = "Программирование"}
             };
 
-            List<StudyGroupEntity> secondCourse = Create.CourseGroup(4, 2, 12);
-            StudyGroups = new List<StudyGroupEntity>()
-                .Concat(Create.CourseGroup(3, 3, 9))
-                .Concat(secondCourse)
-                .Concat(Create.CourseGroup(5, 1, 12))
-                .ToList();
+            var reader = new StudentMockDataReader();
+            StudyGroups = reader.ReadGroups();
+            StudyGroupEntity m3201 = StudyGroups.First(g => g.GroupName == "M3201");
+            StudyGroupEntity m3202 = StudyGroups.First(g => g.GroupName == "M3202");
+            StudyGroupEntity m3203 = StudyGroups.First(g => g.GroupName == "M3203");
 
-            SubjectForGroups = new List<GroupSubjectEntity>
+            GroupSubjects = new List<GroupSubjectEntity>
             {
                 new GroupSubjectEntity
                 {
                     Id = Create.GroupSubjectIdentifierGenerator.Next(),
                     SubjectId = 1,
-                    StudyGroupId = secondCourse[0].Id,
-                    TeacherId = 1,
+                    StudyGroupId = m3201.Id,
+                    LectorTeacherId = 1,
+                    PracticeTeacherId = 1,
                     StudySemester = StudySemester.Y19H2
                 },
                 new GroupSubjectEntity
                 {
                     Id = Create.GroupSubjectIdentifierGenerator.Next(),
                     SubjectId = 2,
-                    StudyGroupId = secondCourse[0].Id,
-                    TeacherId = 1,
+                    StudyGroupId = m3201.Id,
+                    LectorTeacherId = 1,
+                    PracticeTeacherId = 1,
                     StudySemester = StudySemester.Y19H2
                 },
 
@@ -105,8 +104,9 @@ namespace Iwentys.Database.Context
                 {
                     Id = Create.GroupSubjectIdentifierGenerator.Next(),
                     SubjectId = 3,
-                    StudyGroupId = secondCourse[0].Id,
-                    TeacherId = 1,
+                    StudyGroupId = m3201.Id,
+                    LectorTeacherId = 1,
+                    PracticeTeacherId = 1,
                     StudySemester = StudySemester.Y19H2,
                     SerializedGoogleTableConfig = new GoogleTableData(
                         "1BMRHimS4Ioo5cWX1yZdHFsSyViR_J2h8rhL8Wl_x3og",
@@ -121,8 +121,9 @@ namespace Iwentys.Database.Context
                 {
                     Id = Create.GroupSubjectIdentifierGenerator.Next(),
                     SubjectId = 3,
-                    StudyGroupId = secondCourse[1].Id,
-                    TeacherId = 1,
+                    StudyGroupId = m3202.Id,
+                    LectorTeacherId = 1,
+                    PracticeTeacherId = 1,
                     StudySemester = StudySemester.Y19H2,
                     SerializedGoogleTableConfig = new GoogleTableData(
                         "1BMRHimS4Ioo5cWX1yZdHFsSyViR_J2h8rhL8Wl_x3og",
@@ -138,8 +139,9 @@ namespace Iwentys.Database.Context
                 {
                     Id = Create.GroupSubjectIdentifierGenerator.Next(),
                     SubjectId = 3,
-                    StudyGroupId = secondCourse[2].Id,
-                    TeacherId = 1,
+                    StudyGroupId = m3203.Id,
+                    LectorTeacherId = 1,
+                    PracticeTeacherId = 1,
                     StudySemester = StudySemester.Y19H2,
                     SerializedGoogleTableConfig = new GoogleTableData(
                         "1BMRHimS4Ioo5cWX1yZdHFsSyViR_J2h8rhL8Wl_x3og",
@@ -155,13 +157,18 @@ namespace Iwentys.Database.Context
 
         private void InitStudents()
         {
+            StudyGroupEntity m3101 = StudyGroups.First(g => g.GroupName == "M3101");
             StudyGroupEntity m3201 = StudyGroups.First(g => g.GroupName == "M3201");
             StudyGroupEntity m3305 = StudyGroups.First(g => g.GroupName == "M3305");
+            StudyGroupEntity m3505 = StudyGroups.First(g => g.GroupName == "M3505");
 
-            var user = StudentEntity.CreateFromIsu(289140, "Сергей", "Миронец", m3201);
-            user.GithubUsername = "s4xack";
+            var reader = new StudentMockDataReader();
+            List<StudentEntity> students = reader.ReadFirst(m3101.Id - 1);
+            students.AddRange(reader.ReadSecond(m3201.Id - 1));
+            if (students.Count == 0)
+                students.AddRange(ReadStudentsFromDefault());
 
-            Students = (File.Exists("Data.txt") ? ReadStudentsFromFile(m3201.Id - 1) : ReadStudentsFromDefault())
+            Students = students
                 .Append(new StudentEntity
                 {
                     Id = 228617,
@@ -169,7 +176,7 @@ namespace Iwentys.Database.Context
                     MiddleName = "Кисикович",
                     SecondName = "Катс",
                     Role = UserType.Admin,
-                    GroupId = 1,
+                    GroupId = m3505.Id,
                     GithubUsername = "InRedikaWB",
                     CreationTime = DateTime.UtcNow,
                     LastOnlineTime = DateTime.UtcNow,
@@ -187,19 +194,19 @@ namespace Iwentys.Database.Context
                 {
                     StudentId = 289140,
                     Points = 100,
-                    SubjectForGroupId = 1
+                    GroupSubjectEntityId = 1
                 },
                 new SubjectActivityEntity
                 {
                     StudentId = 289140,
                     Points = 60,
-                    SubjectForGroupId = 2
+                    GroupSubjectEntityId = 2
                 },
                 new SubjectActivityEntity
                 {
                     StudentId = 289140,
                     Points = 70,
-                    SubjectForGroupId = 3
+                    GroupSubjectEntityId = 3
                 }
             };
         }
@@ -287,7 +294,6 @@ namespace Iwentys.Database.Context
             StudyGroupEntity m3201 = StudyGroups.First(g => g.GroupName == "M3201");
             StudyGroupEntity m3202 = StudyGroups.First(g => g.GroupName == "M3202");
             StudyGroupEntity m3205 = StudyGroups.First(g => g.GroupName == "M3205");
-            StudyGroupEntity m3305 = StudyGroups.First(g => g.GroupName == "M3305");
 
             return new List<StudentEntity>
             {
@@ -307,26 +313,9 @@ namespace Iwentys.Database.Context
             };
         }
 
-
-        private List<StudentEntity> ReadStudentsFromFile(int zeroGroupId)
-        {
-            if (File.Exists("Data.txt") == false)
-                return new List<StudentEntity>();
-
-            return File.ReadAllLines("Data.txt")
-                .Select(r =>
-                {
-                    string[] elements = r.Split("\t");
-                    string[] names = elements[2].Split(' ', 3).ToArray();
-                    return StudentEntity.CreateFromIsu(int.Parse(elements[1]), names[1], names.Length == 3 ? names[2] : null, names[0], zeroGroupId + int.Parse(elements[0]));
-                })
-                .ToList();
-        }
-
         private static class Create
         {
             private static readonly IdentifierGenerator CourseIdentifierGenerator = new IdentifierGenerator();
-            private static readonly IdentifierGenerator GroupIdentifierGenerator = new IdentifierGenerator();
             public static readonly IdentifierGenerator GroupSubjectIdentifierGenerator = new IdentifierGenerator();
 
             public static StudyCourseEntity IsCourse(StudentGraduationYear year)
@@ -337,19 +326,6 @@ namespace Iwentys.Database.Context
                     GraduationYear = year,
                     StudyProgramId = 1
                 };
-            }
-
-            public static List<StudyGroupEntity> CourseGroup(int courseId, int course, int groupCount)
-            {
-                return Enumerable
-                    .Range(1, groupCount)
-                    .Select(g => new StudyGroupEntity
-                    {
-                        Id = GroupIdentifierGenerator.Next(),
-                        StudyCourseId = courseId,
-                        GroupName = $"M3{course}{g:00}",
-                    })
-                    .ToList();
             }
         }
     }

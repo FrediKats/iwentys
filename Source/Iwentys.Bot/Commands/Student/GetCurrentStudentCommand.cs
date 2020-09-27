@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FluentResults;
-using Iwentys.ClientBot.ApiSdk;
+using Iwentys.ApiClient.OpenAPIService;
 using Iwentys.ClientBot.Tools;
 using Iwentys.Core.DomainModel;
 using Iwentys.Models.Transferable.Students;
@@ -12,12 +12,12 @@ namespace Iwentys.ClientBot.Commands.Student
 {
     public class GetCurrentStudentCommand : IBotCommand
     {
-        private readonly IIwentysStudentApi _iwentysStudentApi;
+        private readonly IwentysApiProvider _api;
         private readonly UserIdentifier _userIdentifier;
 
-        public GetCurrentStudentCommand(IIwentysStudentApi iwentysStudentApi, UserIdentifier userIdentifier)
+        public GetCurrentStudentCommand(IwentysApiProvider api, UserIdentifier userIdentifier)
         {
-            _iwentysStudentApi = iwentysStudentApi;
+            _api = api;
             _userIdentifier = userIdentifier;
         }
 
@@ -33,7 +33,8 @@ namespace Iwentys.ClientBot.Commands.Student
         public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
             AuthorizedUser currentUser = _userIdentifier.GetUser(args.Sender.UserSenderId);
-            StudentFullProfileDto profile = await _iwentysStudentApi.Get(currentUser.Id);
+            Client client = await _userIdentifier.GetProvider(args.Sender.UserSenderId, _api).ConfigureAwait(false);
+            StudentFullProfileDto profile = await client.ApiStudentGetAsync(currentUser.Id).ConfigureAwait(false);
             return Result.Ok(profile.FormatFullInfo());
         }
 

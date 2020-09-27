@@ -1,4 +1,6 @@
-﻿using Iwentys.Models.Types;
+﻿using System;
+using FluentResults;
+using Iwentys.Models.Types;
 using Newtonsoft.Json;
 
 namespace Iwentys.Models.Entities.Study
@@ -14,18 +16,29 @@ namespace Iwentys.Models.Entities.Study
         public int StudyGroupId { get; set; }
         public StudyGroupEntity StudyGroup { get; set; }
 
-        public int TeacherId { get; set; }
-        public TeacherEntity Teacher { get; set; }
+        public int LectorTeacherId { get; set; }
+        public TeacherEntity LectorTeacher { get; set; }
+
+        public int PracticeTeacherId { get; set; }
+        public TeacherEntity PracticeTeacher { get; set; }
 
         public string SerializedGoogleTableConfig { get; set; }
         public StudySemester StudySemester { get; set; }
 
-        public GoogleTableData GetGoogleTableDataConfig()
+        public Result<GoogleTableData> TryGetGoogleTableDataConfig()
         {
-            //TODO: remove this hack
             if (SerializedGoogleTableConfig is null)
-                return null;
-            return JsonConvert.DeserializeObject<GoogleTableData>(SerializedGoogleTableConfig);
+                return Result.Fail<GoogleTableData>("Value is not set");
+
+            try
+            {
+                var googleTableData = JsonConvert.DeserializeObject<GoogleTableData>(SerializedGoogleTableConfig);
+                return Result.Ok(googleTableData);
+            }
+            catch (Exception e)
+            {
+                return Result.Fail<GoogleTableData>(new Error("Data parse failed").CausedBy(e));
+            }
         }
     }
 }

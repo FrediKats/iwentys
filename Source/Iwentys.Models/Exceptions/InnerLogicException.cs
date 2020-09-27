@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Guilds;
@@ -8,6 +9,14 @@ namespace Iwentys.Models.Exceptions
     public class InnerLogicException : IwentysException
     {
         public InnerLogicException(string message) : base(message)
+        {
+        }
+
+        public InnerLogicException()
+        {
+        }
+
+        public InnerLogicException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
@@ -30,22 +39,22 @@ namespace Iwentys.Models.Exceptions
         {
             public static InnerLogicException IsNotGuildMember(int studentId, int? guildId)
             {
-                return new InnerLogicException(string.Format(ExceptionMessages.GuildExceptions.IsNotGuildMember, studentId, guildId));
+                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, ExceptionMessages.GuildExceptions.IsNotGuildMember, studentId, guildId));
             }
 
             public static InnerLogicException CreatorCannotLeave(int studentId, int guildId)
             {
-                return new InnerLogicException(string.Format(ExceptionMessages.GuildExceptions.CreatorCannotLeave, studentId, guildId));
+                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, ExceptionMessages.GuildExceptions.CreatorCannotLeave, studentId, guildId));
             }
 
             public static InnerLogicException RequestWasNotFound(int studentId, int guildId)
             {
-                return new InnerLogicException(string.Format(ExceptionMessages.GuildExceptions.RequestWasNotFound, studentId, guildId));
+                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, ExceptionMessages.GuildExceptions.RequestWasNotFound, studentId, guildId));
             }
 
             public static InnerLogicException StudentCannotBeBlocked(int studentId, int guildId)
             {
-                return new InnerLogicException(string.Format(ExceptionMessages.GuildExceptions.StudentCannotBeBlocked, studentId, guildId));
+                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, ExceptionMessages.GuildExceptions.StudentCannotBeBlocked, studentId, guildId));
             }
 
             public static InnerLogicException IsNotGuildEditor(int studentId) => new InnerLogicException($"Student is not guild editor. Id: [{studentId}]");
@@ -55,22 +64,22 @@ namespace Iwentys.Models.Exceptions
         {
             public static InnerLogicException ProjectAlreadyUsed(long projectId)
             {
-                return new InnerLogicException(string.Format(ExceptionMessages.TributeExceptions.ProjectAlreadyUsed, projectId));
+                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, ExceptionMessages.TributeExceptions.ProjectAlreadyUsed, projectId));
             }
 
             public static InnerLogicException UserAlreadyHaveTribute(int userId)
             {
-                return new InnerLogicException(string.Format(ExceptionMessages.TributeExceptions.UserAlreadyHaveTribute, userId));
+                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, ExceptionMessages.TributeExceptions.UserAlreadyHaveTribute, userId));
             }
 
             public static InnerLogicException IsNotActive(TributeEntity tribute)
             {
-                return new InnerLogicException(string.Format(ExceptionMessages.TributeExceptions.IsNotActive, tribute.ProjectId, tribute.State));
+                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, ExceptionMessages.TributeExceptions.IsNotActive, tribute.ProjectId, tribute.State));
             }
 
             public static InnerLogicException TributeCanBeSendFromStudentAccount(StudentEntity student, CreateProjectDto createProject)
             {
-                return new InnerLogicException(string.Format(ExceptionMessages.TributeExceptions.TributeCanBeSendFromStudentAccount, student.Id, createProject.Owner));
+                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, ExceptionMessages.TributeExceptions.TributeCanBeSendFromStudentAccount, student.Id, createProject.Owner));
             }
         }
 
@@ -78,7 +87,7 @@ namespace Iwentys.Models.Exceptions
         {
             public static InnerLogicException GithubAlreadyUser(string githubUsername)
             {
-                return new InnerLogicException(string.Format(ExceptionMessages.StudentEx.GithubAlreadyUser, githubUsername));
+                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, ExceptionMessages.StudentEx.GithubAlreadyUser, githubUsername));
             }
         }
     }

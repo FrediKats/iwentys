@@ -14,14 +14,14 @@ namespace Iwentys.Models.Transferable.Study
 
         public StudyLeaderboardRow(IEnumerable<SubjectActivityEntity> activity)
         {
-            List<SubjectActivityEntity> activity1 = activity.ToList();
-            Student = activity1.First().Student.To(s => new StudentPartialProfileDto(s));
-            Activity = activity1.Sum(a => a.Points);
+            List<SubjectActivityEntity> subjectActivityEntities = activity.ToList();
+            Student = subjectActivityEntities[0].Student.To(s => new StudentPartialProfileDto(s));
+            Activity = subjectActivityEntities.Sum(a => a.Points);
         }
-        
+
         public StudentPartialProfileDto Student { get; set; }
         public double Activity { get; set; }
-        
+
         public string Format()
         {
             return $"{Student.GetFullName()} - {Activity}";

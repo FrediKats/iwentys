@@ -1,5 +1,4 @@
-﻿using Iwentys.ClientBot.ApiSdk;
-using Iwentys.ClientBot.Commands.Guild;
+﻿using Iwentys.ClientBot.Commands.Guild;
 using Iwentys.ClientBot.Commands.Student;
 using Iwentys.ClientBot.Commands.StudentLeaderboard;
 using Iwentys.ClientBot.Commands.Tools;
@@ -13,24 +12,24 @@ namespace Iwentys.ClientBot
 {
     public static class BotProvider
     {
-        public static Bot Init(string apiHostUrl, IGetSettings<TelegramSettings> settings, ILogger logger)
+        public static Bot Init(IGetSettings<TelegramSettings> settings, ILogger logger)
         {
-            var apiProvider = new IwentysApiProvider(apiHostUrl);
+            var apiProvider = new IwentysApiProvider();
             var identifier = new UserIdentifier();
 
             var telegramApiProvider = new TelegramApiProvider(settings);
             Bot botInstance = new Bot(telegramApiProvider)
-                .AddCommand(new GetAllStudentsCommand(apiProvider.StudentApi))
-                .AddCommand(new GetCurrentStudentCommand(apiProvider.StudentApi, identifier))
+                .AddCommand(new GetAllStudentsCommand(apiProvider))
+                .AddCommand(new GetCurrentStudentCommand(apiProvider, identifier))
                 .AddCommand(new UpdateStudentGithubUsernameCommand(apiProvider, identifier))
                 .AddCommand(new GetStudentsRatingCommand(apiProvider))
                 .AddCommand(new GetGuildsCommand(apiProvider))
+                .AddCommand(new GetGroupStudentsCommand(apiProvider))
                 .AddLogger(logger)
                 .SetPrefix('/');
 
             //TODO: debug methods
-            botInstance
-                .AddCommand(new SetCurrentUserCommand(identifier));
+            botInstance.AddCommand(new SetCurrentUserCommand(identifier));
 
             return botInstance;
         }

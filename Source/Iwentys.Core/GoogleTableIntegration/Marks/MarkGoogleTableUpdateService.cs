@@ -1,22 +1,20 @@
 ﻿using System.Linq;
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Services;
-using Google.Apis.Sheets.v4;
+using FluentResults;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Types;
 using Microsoft.Extensions.Logging;
 
-namespace Iwentys.Core.GoogleTableParsing
+namespace Iwentys.Core.GoogleTableIntegration.Marks
 {
-    public class GoogleTableUpdateService
+    public class MarkGoogleTableUpdateService
     {
         private readonly ILogger _logger;
         private readonly ISubjectActivityRepository _subjectActivityRepository;
         private readonly IStudentRepository _studentRepository;
 
-        public GoogleTableUpdateService(ILogger logger, ISubjectActivityRepository subjectActivityRepository, IStudentRepository studentRepository)
+        public MarkGoogleTableUpdateService(ILogger logger, ISubjectActivityRepository subjectActivityRepository, IStudentRepository studentRepository)
         {
             _logger = logger;
             _subjectActivityRepository = subjectActivityRepository;
@@ -25,16 +23,15 @@ namespace Iwentys.Core.GoogleTableParsing
 
         public void UpdateSubjectActivityForGroup(GroupSubjectEntity groupSubjectData)
         {
-            GoogleTableData googleTableData = groupSubjectData.GetGoogleTableDataConfig();
-            //TODO: remove this hack
-            if (googleTableData is null)
+            Result<GoogleTableData> googleTableData = groupSubjectData.TryGetGoogleTableDataConfig();
+            if (googleTableData.IsFailed)
+            {
+                _logger.LogError(googleTableData.ToString());
                 return;
+            }
 
-            SheetsService sheetsService = GetServiceForApiToken();
-
-            var tableParser = new TableParser(_logger, sheetsService, googleTableData);
-
-            foreach (StudentSubjectScore student in tableParser.GetStudentsList())
+            var tableParser = TableParser.Create(_logger);
+            foreach (StudentSubjectScore student in tableParser.Execute(new MarkParser(googleTableData.Value, _logger)))
             {
                 // Это очень плохая проверка, но я пока не придумал,
                 // как по-другому сопоставлять данные с гугл-таблицы со студентом
@@ -43,7 +40,7 @@ namespace Iwentys.Core.GoogleTableParsing
                     .Read()
                     .SingleOrDefault(s => student.Name.Contains(s.Student.FirstName)
                                           && student.Name.Contains(s.Student.SecondName)
-                                          && s.SubjectForGroupId == groupSubjectData.Id);
+                                          && s.GroupSubjectEntity.SubjectId == groupSubjectData.SubjectId);
 
                 if (!Tools.ParseInAnyCulture(student.Score, out double pointsCount))
                 {
@@ -69,7 +66,7 @@ namespace Iwentys.Core.GoogleTableParsing
                     _subjectActivityRepository.Create(new SubjectActivityEntity
                     {
                         StudentId = studentProfile.Id,
-                        SubjectForGroupId = groupSubjectData.StudyGroupId,
+                        GroupSubjectEntityId = groupSubjectData.StudyGroupId,
                         Points = pointsCount
                     });
 
@@ -79,28 +76,6 @@ namespace Iwentys.Core.GoogleTableParsing
                 activity.Points = pointsCount;
                 _subjectActivityRepository.Update(activity);
             }
-        }
-
-        private SheetsService GetServiceForCredential()
-        {
-            GoogleCredential credential = GoogleCredential
-                .FromJson(ApplicationOptions.GoogleServiceToken)
-                .CreateScoped(SheetsService.Scope.SpreadsheetsReadonly);
-
-            return new SheetsService(new BaseClientService.Initializer()
-            {
-                ApplicationName = "IwentysTableParser",
-                HttpClientInitializer = credential,
-            });
-        }
-
-        private SheetsService GetServiceForApiToken()
-        {
-            return new SheetsService(new BaseClientService.Initializer()
-            {
-                ApplicationName = "IwentysTableParser",
-                ApiKey = ApplicationOptions.GoogleServiceToken
-            });
         }
     }
 }

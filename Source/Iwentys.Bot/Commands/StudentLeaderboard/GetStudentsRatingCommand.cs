@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentResults;
-using Iwentys.ClientBot.ApiSdk;
+using Iwentys.ClientBot.Tools;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Study;
 using Tef.BotFramework.Abstractions;
@@ -26,15 +26,15 @@ namespace Iwentys.ClientBot.Commands.StudentLeaderboard
 
             if (!int.TryParse(args.Arguments[0], out _))
                 return Result.Fail("Argument must be int value (courseId)");
-                    
+
             return Result.Ok();
         }
 
         public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            List<StudyLeaderboardRow> studyLeaderboardRows = await _iwentysApi.LeaderboardApi.GetStudentsRating(null, int.Parse(args.Arguments[0]), null, null);
+            ICollection<StudyLeaderboardRow> studyLeaderboardRows = await _iwentysApi.Client.ApiStudyleaderboardAsync(null, int.Parse(args.Arguments[0]), null, null).ConfigureAwait(false);
 
-            return ResultFormatter.Format(studyLeaderboardRows.Take(20));
+            return ResultFormatter.FormatToResult(studyLeaderboardRows.Take(20));
         }
 
         public string CommandName { get; } = nameof(GetStudentsRatingCommand);

@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
 using FluentResults;
-using Iwentys.ClientBot.ApiSdk;
+using Iwentys.ApiClient.OpenAPIService;
 using Iwentys.ClientBot.Tools;
-using Iwentys.Core.DomainModel;
 using Iwentys.Models.Transferable.Students;
 using Tef.BotFramework.Abstractions;
 using Tef.BotFramework.Core;
@@ -30,9 +29,8 @@ namespace Iwentys.ClientBot.Commands.Student
 
         public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            AuthorizedUser currentUser = _userIdentifier.GetUser(args.Sender.UserSenderId);
-            string token = await _iwentysApi.DebugCommand.LoginOrCreate(currentUser.Id);
-            StudentFullProfileDto profile = await _iwentysApi.StudentApi.Update(new StudentUpdateDto { GithubUsername = args.Arguments[0]}, token);
+            Client client = await _userIdentifier.GetProvider(args.Sender.UserSenderId, _iwentysApi).ConfigureAwait(false);
+            StudentFullProfileDto profile = await client.ApiStudentPutAsync(new StudentUpdateDto { GithubUsername = args.Arguments[0]}).ConfigureAwait(false);
             return Result.Ok(profile.FormatFullInfo());
         }
 

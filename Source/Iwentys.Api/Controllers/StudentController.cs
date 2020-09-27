@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Iwentys.Api.Tools;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Transferable.Students;
@@ -18,7 +19,7 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<StudentFullProfileDto>> Get()
+        public ActionResult<List<StudentFullProfileDto>> Get()
         {
             return Ok(_studentService.Get());
         }
@@ -29,10 +30,16 @@ namespace Iwentys.Api.Controllers
             return Ok(_studentService.Get(id));
         }
 
-        [HttpPost]
+        [HttpGet("for-group/{groupName}")]
+        public ActionResult<List<StudentFullProfileDto>> Get(string groupName)
+        {
+            return Ok(_studentService.Get(groupName));
+        }
+
+        [HttpPut]
         public ActionResult<StudentFullProfileDto> Update([FromBody] StudentUpdateDto studentUpdateDto)
         {
-            AuthorizedUser user = AuthorizedUser.DebugAuth();
+            AuthorizedUser user = this.TryAuthWithToken();
 
             return Ok(_studentService.AddGithubUsername(user.Id, studentUpdateDto.GithubUsername));
         }

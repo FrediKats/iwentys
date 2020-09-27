@@ -19,26 +19,26 @@ namespace Iwentys.Database.Repositories.Implementations
         }
         public GroupSubjectEntity Create(GroupSubjectEntity entity)
         {
-            EntityEntry<GroupSubjectEntity> createdEntity = _dbContext.SubjectForGroups.Add(entity);
+            EntityEntry<GroupSubjectEntity> createdEntity = _dbContext.GroupSubjects.Add(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
         public IQueryable<GroupSubjectEntity> Read()
         {
-            return _dbContext.SubjectForGroups
+            return _dbContext.GroupSubjects
                 .Include(s => s.StudyGroup)
                 .Include(s => s.Subject);
         }
 
         public GroupSubjectEntity ReadById(int key)
         {
-            return _dbContext.SubjectForGroups.Find(key);
+            return _dbContext.GroupSubjects.Find(key);
         }
 
         public GroupSubjectEntity Update(GroupSubjectEntity entity)
         {
-            EntityEntry<GroupSubjectEntity> createdEntity = _dbContext.SubjectForGroups.Update(entity);
+            EntityEntry<GroupSubjectEntity> createdEntity = _dbContext.GroupSubjects.Update(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
@@ -46,7 +46,7 @@ namespace Iwentys.Database.Repositories.Implementations
         public void Delete(int key)
         {
             GroupSubjectEntity groupSubjectEntity = this.Get(key);
-            _dbContext.SubjectForGroups.Remove(groupSubjectEntity);
+            _dbContext.GroupSubjects.Remove(groupSubjectEntity);
             _dbContext.SaveChanges();
         }
 
@@ -70,7 +70,7 @@ namespace Iwentys.Database.Repositories.Implementations
 
             if (searchDto.CourseId != null)
             {
-                //TODO: it will not work lol
+                //BUG: it will not work lol
                 List<StudyGroupEntity> courseGroups = _dbContext.StudyGroups.Where(g => g.StudyCourseId == searchDto.CourseId).ToList();
                 query = query.Where(s => courseGroups.Any(g => g.Id == s.StudyGroupId));
             }

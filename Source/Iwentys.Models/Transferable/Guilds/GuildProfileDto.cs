@@ -17,7 +17,7 @@ namespace Iwentys.Models.Transferable.Guilds
 
         public UserMembershipState UserMembershipState { get; set; }
 
-        public GuildProfileDto() : base()
+        public GuildProfileDto()
         {
         }
 

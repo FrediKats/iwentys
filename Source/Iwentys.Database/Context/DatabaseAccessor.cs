@@ -9,6 +9,7 @@ namespace Iwentys.Database.Context
         public IStudentRepository Student { get; }
         public IStudyGroupRepository StudyGroup { get; }
         public IGuildRepository Guild { get; }
+        public IGuildMemberRepository GuildMember { get; }
         public ICompanyRepository Company { get; }
         public ITournamentRepository Tournament { get; }
         public IStudentProjectRepository StudentProject { get; }
@@ -26,14 +27,15 @@ namespace Iwentys.Database.Context
         public DatabaseAccessor(IwentysDbContext context) : this(
             context,
             new StudentRepository(context),
-            new GuildRepository(context), 
-            new CompanyRepository(context), 
-            new TournamentRepository(context), 
-            new StudentProjectRepository(context), 
-            new TributeRepository(context), 
-            new BarsPointTransactionLogRepository(context), 
-            new QuestRepository(context), 
-            new SubjectActivityRepository(context), 
+            new GuildRepository(context),
+            new GuildMemberRepository(context),
+            new CompanyRepository(context),
+            new TournamentRepository(context),
+            new StudentProjectRepository(context),
+            new TributeRepository(context),
+            new BarsPointTransactionLogRepository(context),
+            new QuestRepository(context),
+            new SubjectActivityRepository(context),
             new GroupGroupSubjectRepository(context),
             new StudyGroupRepository(context),
             new GithubUserDataRepository(context),
@@ -45,6 +47,7 @@ namespace Iwentys.Database.Context
         public DatabaseAccessor(IwentysDbContext context,
             IStudentRepository student,
             IGuildRepository guild,
+            IGuildMemberRepository guildMember,
             ICompanyRepository company,
             ITournamentRepository tournament,
             IStudentProjectRepository studentProject,
@@ -61,6 +64,7 @@ namespace Iwentys.Database.Context
             Context = context;
             Student = student;
             Guild = guild;
+            GuildMember = guildMember;
             Company = company;
             Tournament = tournament;
             StudentProject = studentProject;

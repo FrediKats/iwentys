@@ -1,9 +1,11 @@
-﻿namespace Iwentys.Models.Entities.Github
+﻿using System.Collections.Generic;
+
+namespace Iwentys.Models.Entities.Github
 {
     public class ActivityInfo
     {
         public int Id { get; set; }
-        public YearActivityInfo[] Years { get; set; }
-        public ContributionsInfo[] Contributions { get; set; }
+        public List<YearActivityInfo> Years { get; set; }
+        public List<ContributionsInfo> Contributions { get; set; }
     }
 }

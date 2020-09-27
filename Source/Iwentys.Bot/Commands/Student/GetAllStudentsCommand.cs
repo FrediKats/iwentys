@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentResults;
-using Iwentys.ClientBot.ApiSdk;
+using Iwentys.ClientBot.Tools;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Students;
 using Tef.BotFramework.Abstractions;
@@ -12,11 +12,11 @@ namespace Iwentys.ClientBot.Commands.Student
 {
     public class GetAllStudentsCommand : IBotCommand
     {
-        private readonly IIwentysStudentApi _iwentysStudentApi;
+        private readonly IwentysApiProvider _api;
 
-        public GetAllStudentsCommand(IIwentysStudentApi iwentysStudentApi)
+        public GetAllStudentsCommand(IwentysApiProvider api)
         {
-            _iwentysStudentApi = iwentysStudentApi;
+            _api = api;
         }
 
         public Result CanExecute(CommandArgumentContainer args)
@@ -26,8 +26,8 @@ namespace Iwentys.ClientBot.Commands.Student
 
         public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            IEnumerable<StudentFullProfileDto> profileDtos = await _iwentysStudentApi.Get();
-            return ResultFormatter.Format(profileDtos);
+            IEnumerable<StudentFullProfileDto> profileDtos = await _api.Client.ApiStudentGetAsync().ConfigureAwait(false);
+            return ResultFormatter.FormatToResult(profileDtos);
         }
 
         public string CommandName => nameof(GetAllStudentsCommand);

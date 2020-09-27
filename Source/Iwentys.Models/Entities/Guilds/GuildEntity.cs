@@ -20,9 +20,5 @@ namespace Iwentys.Models.Entities.Guilds
         public List<GuildTestTaskSolvingInfoEntity> TestTasks { get; set; } = new List<GuildTestTaskSolvingInfoEntity>();
 
         public List<GuildAchievementModel> Achievements { get; set; } = new List<GuildAchievementModel>();
-
-        public GuildEntity()
-        {
-        }
     }
 }

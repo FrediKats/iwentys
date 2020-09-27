@@ -1,4 +1,5 @@
 using System;
+using Iwentys.Api.BackgroundServices;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,7 +8,7 @@ using Serilog;
 
 namespace Iwentys.Api
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -41,6 +42,7 @@ namespace Iwentys.Api
                 .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>())
                 .ConfigureServices(s => s.AddHostedService<BotBackgroundService>())
-                .ConfigureServices(s => s.AddHostedService<IwentysBackgroundService>());
+                .ConfigureServices(s => s.AddHostedService<MarkUpdateBackgroundService>())
+                .ConfigureServices(s => s.AddHostedService<GithubUpdateBackgroundService>());
     }
 }

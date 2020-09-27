@@ -6,14 +6,24 @@ namespace Iwentys.Models.Tools
 {
     public static class ResultFormatter
     {
-        public static Result<string> Format(IEnumerable<IResultFormat> data)
+        public static string Format(IEnumerable<IResultFormat> data)
         {
-            return Result.Ok(string.Join("\n", data.Select(c => c.Format())));
+            return string.Join("\n", data.Select(c => c.Format()));
         }
 
-        public static Result<string> FormatAsList(IEnumerable<IResultFormat> data)
+        public static Result<string> FormatToResult(IEnumerable<IResultFormat> data)
         {
-            return Result.Ok(string.Join("\n", data.Select((c, i) => $"{i + 1}. {c.Format()}")));
+            return Result.Ok(Format(data));
+        }
+
+        public static string FormatAsList(IEnumerable<IResultFormat> data)
+        {
+            return string.Join("\n", data.Select((c, i) => $"{i + 1}. {c.Format()}"));
+        }
+
+        public static Result<string> FormatAsListToResult(IEnumerable<IResultFormat> data)
+        {
+            return Result.Ok(FormatAsList(data));
         }
     }
 }

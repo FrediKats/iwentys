@@ -31,7 +31,7 @@ namespace Iwentys.Database.Context
         public DbSet<StudyProgramEntity> StudyPrograms { get; set; }
         public DbSet<SubjectEntity> Subjects { get; set; }
         public DbSet<SubjectActivityEntity> SubjectActivities { get; set; }
-        public DbSet<GroupSubjectEntity> SubjectForGroups { get; set; }
+        public DbSet<GroupSubjectEntity> GroupSubjects { get; set; }
         public DbSet<TeacherEntity> Teachers { get; set; }
         public DbSet<StudyCourseEntity> StudyCourses { get; set; }
 
@@ -68,7 +68,6 @@ namespace Iwentys.Database.Context
         public DbSet<AssignmentEntity> Assignments { get; set; }
         public DbSet<StudentAssignmentEntity> StudentAssignments { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             SetCompositeKeys(modelBuilder);
@@ -82,7 +81,7 @@ namespace Iwentys.Database.Context
         {
             modelBuilder.Entity<GuildMemberEntity>().HasKey(g => new {g.GuildId, g.MemberId});
             modelBuilder.Entity<CompanyWorker>().HasKey(g => new {g.CompanyId, g.WorkerId});
-            modelBuilder.Entity<SubjectActivityEntity>().HasKey(s => new {s.SubjectForGroupId, s.StudentId});
+            modelBuilder.Entity<SubjectActivityEntity>().HasKey(s => new {SubjectForGroupId = s.GroupSubjectEntityId, s.StudentId});
             modelBuilder.Entity<StudentAchievementEntity>().HasKey(a => new {a.AchievementId, a.StudentId});
             modelBuilder.Entity<GuildAchievementModel>().HasKey(a => new {a.AchievementId, a.GuildId});
             modelBuilder.Entity<QuestResponseEntity>().HasKey(a => new {a.QuestId, a.StudentId});
@@ -107,7 +106,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<StudyGroupEntity>().HasData(seedData.StudyGroups);
             modelBuilder.Entity<TeacherEntity>().HasData(seedData.Teachers);
             modelBuilder.Entity<SubjectEntity>().HasData(seedData.Subjects);
-            modelBuilder.Entity<GroupSubjectEntity>().HasData(seedData.SubjectForGroups);
+            modelBuilder.Entity<GroupSubjectEntity>().HasData(seedData.GroupSubjects);
             modelBuilder.Entity<SubjectActivityEntity>().HasData(seedData.SubjectActivitys);
 
             modelBuilder.Entity<StudentEntity>().HasData(seedData.Students);

@@ -4,7 +4,8 @@ using System.Linq;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
-using Iwentys.Core.GoogleTableParsing;
+using Iwentys.Core.GoogleTableIntegration;
+using Iwentys.Core.GoogleTableIntegration.Marks;
 using Iwentys.Models.Types;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -22,16 +23,14 @@ namespace Iwentys.Polygon
         /// idТаблицы НазваниеСтаницыНаТаблице
         /// ПерваяСтрочкаБлока ПоследняяСтрочкаБлока
         /// НазваниеСтолбцаСГруппой НазваниеСтолбцаСФИО НазваниеСтолбцаСБаллами
-        ///
+        /// 
         /// Все это пока что вводится с консоли. Вот примеры наборов значений:
         /// "1XcrYxQ-hoId1g2cH6t4Nh_e21ZLLkFfIqPS1JTc385M BARS/COMPENSATION 6 21 n A 2 B C O"
         /// "1-JbFg-6zZuNjrCA3bsawsS88e5kePKgA0mK9otQKrYk "семестр 2" 100 124 y M3105 1 A O"
-        ///
+        /// 
         /// Даже на них уже видны некоторые проблемы, например в первой таблице Ф и ИО раздельно,
         /// а во второй нет поля с группой
-        /// 
-        /// <param name="args"></param>
-        static void Main(string[] args)
+        static void Main()
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             SheetsService sheetsService;
@@ -48,10 +47,13 @@ namespace Iwentys.Polygon
                 });
             }
 
-            var m3101 = new TableParser(new Logger<TableParser>(new LoggerFactory()),  sheetsService, M3101()).GetStudentsList();
-            var m3102 = new TableParser(new Logger<TableParser>(new LoggerFactory()),  sheetsService, M3102()).GetStudentsList();
-            var m3103 = new TableParser(new Logger<TableParser>(new LoggerFactory()),  sheetsService, M3103()).GetStudentsList();
-            var m3104 = new TableParser(new Logger<TableParser>(new LoggerFactory()),  sheetsService, M3104()).GetStudentsList();
+            var logger = new Logger<TableParser>(new LoggerFactory());
+            var parser = new TableParser(logger, sheetsService);
+
+            var m3101 = parser.Execute(new MarkParser(M3101(), logger));
+            var m3102 = parser.Execute(new MarkParser(M3102(), logger));
+            var m3103 = parser.Execute(new MarkParser(M3103(), logger));
+            var m3104 = parser.Execute(new MarkParser(M3104(), logger));
 
             Console.WriteLine(JsonConvert.SerializeObject(m3101.Concat(m3102).Concat(m3103).Concat(m3104)));
         }
@@ -66,21 +68,7 @@ namespace Iwentys.Polygon
             var firstRow = Console.ReadLine();
             Console.WriteLine("Последняя строка с данными в таблице:");
             var lastRow = Console.ReadLine();
-            Console.WriteLine("Группа предопределена?(y/n):");
-            bool groupDefined = false;
-            string groupName = null;
-            string groupColumn = null;
-            if (Console.ReadLine()?.ToLower() == "y")
-            {
-                groupDefined = true;
-                Console.WriteLine("Номер группы:");
-                groupName = Console.ReadLine();
-            }
-            else
-            {
-                Console.WriteLine("Столбец с группой:");
-                groupColumn = Console.ReadLine();
-            }
+
             Console.WriteLine("На сколько столбцов разбито ФИО:");
             var nameSplitNum = int.Parse(Console.ReadLine());
             string[] nameArr = new string[nameSplitNum];
