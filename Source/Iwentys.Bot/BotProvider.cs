@@ -1,5 +1,4 @@
-﻿using Iwentys.ClientBot.ApiSdk;
-using Iwentys.ClientBot.Commands.Guild;
+﻿using Iwentys.ClientBot.Commands.Guild;
 using Iwentys.ClientBot.Commands.Student;
 using Iwentys.ClientBot.Commands.StudentLeaderboard;
 using Iwentys.ClientBot.Commands.Tools;
@@ -20,11 +19,12 @@ namespace Iwentys.ClientBot
 
             var telegramApiProvider = new TelegramApiProvider(settings);
             Bot botInstance = new Bot(telegramApiProvider)
-                .AddCommand(new GetAllStudentsCommand(apiProvider.Student))
+                .AddCommand(new GetAllStudentsCommand(apiProvider))
                 .AddCommand(new GetCurrentStudentCommand(apiProvider, identifier))
                 .AddCommand(new UpdateStudentGithubUsernameCommand(apiProvider, identifier))
                 .AddCommand(new GetStudentsRatingCommand(apiProvider))
                 .AddCommand(new GetGuildsCommand(apiProvider))
+                .AddCommand(new GetGroupStudentsCommand(apiProvider))
                 .AddLogger(logger)
                 .SetPrefix('/');
 

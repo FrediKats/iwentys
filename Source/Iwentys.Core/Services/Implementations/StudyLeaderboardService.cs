@@ -6,6 +6,7 @@ using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Transferable.Study;
 using Iwentys.Models.Types;
+using MoreLinq;
 
 namespace Iwentys.Core.Services.Implementations
 {
@@ -20,7 +21,7 @@ namespace Iwentys.Core.Services.Implementations
 
         public List<SubjectEntity> GetSubjectsForDto(StudySearchDto searchDto)
         {
-            return _databaseAccessor.GroupSubject.GetSubjectsForDto(searchDto).ToList();
+            return _databaseAccessor.GroupSubject.GetSubjectsForDto(searchDto).DistinctBy(s => s.Id).ToList();
         }
 
         public List<StudyGroupEntity> GetStudyGroupsForDto(StudySearchDto searchDto)

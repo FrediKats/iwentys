@@ -1,23 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using Iwentys.Core;
+using Iwentys.Api.Tools;
 using Iwentys.Core.Auth;
-using Iwentys.Core.GoogleTableIntegration;
 using Iwentys.Core.GoogleTableIntegration.Marks;
-using Iwentys.Core.GoogleTableIntegration.TeacherInfoParse;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
+using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Students;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Iwentys.Api.Controllers
 {
@@ -39,11 +36,11 @@ namespace Iwentys.Api.Controllers
             _studentService = studentService;
         }
 
-        [HttpPost("UpdateSubjectActivityData")]
-        public void UpdateSubjectActivityData(SubjectActivityEntity activity)
-        {
-            _databaseAccessor.SubjectActivity.Update(activity);
-        }
+        //[HttpPost("UpdateSubjectActivityData")]
+        //public void UpdateSubjectActivityData(SubjectActivityEntity activity)
+        //{
+        //    _databaseAccessor.SubjectActivity.Update(activity);
+        //}
 
         [HttpPost("UpdateSubjectActivityForGroup")]
         public void UpdateSubjectActivityForGroup(int subjectId, int groupId)
@@ -62,23 +59,25 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet("login/{userId}")]
-        public string Login(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
+        public ActionResult<IwentysAuthResponse> Login(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
             _databaseAccessor.Student.Get(userId);
-            return GenerateToken(userId, signingEncodingKey);
+            return TokenGenerator.Generate(userId, signingEncodingKey);
         }
 
         [HttpGet("loginOrCreate/{userId}")]
-        public string LoginOrCreate(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
+        public ActionResult<IwentysAuthResponse> LoginOrCreate(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
             _studentService.GetOrCreate(userId);
-            return GenerateToken(userId, signingEncodingKey);
+            return TokenGenerator.Generate(userId, signingEncodingKey);
         }
 
         [HttpGet("ValidateToken")]
         public int ValidateToken()
         {
             var token = HttpContext.Request.Headers["Authorization"].ToString();
+            if (token.StartsWith("Bearer "))
+                token = token.Remove(0, "Bearer ".Length);
 
             var tokenHandler = new JwtSecurityTokenHandler();
             if (tokenHandler.ReadToken(token) is JwtSecurityToken securityToken)
@@ -91,7 +90,7 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpPost("register")]
-        public string Register([FromBody] StudentCreateArgumentsDto arguments,
+        public ActionResult<IwentysAuthResponse> Register([FromBody] StudentCreateArgumentsDto arguments,
             [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
             int groupId = _databaseAccessor.StudyGroup.ReadByNamePattern(arguments.Group).Id;
@@ -99,35 +98,16 @@ namespace Iwentys.Api.Controllers
 
             _databaseAccessor.Student.Create(student);
 
-            return GenerateToken(student.Id, signingEncodingKey);
+            return TokenGenerator.Generate(student.Id, signingEncodingKey);
         }
 
-        private string GenerateToken(int userId, IJwtSigningEncodingKey signingEncodingKey)
-        {
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.UserData, userId.ToString(CultureInfo.InvariantCulture))
-            };
-
-            var token = new JwtSecurityToken(
-                issuer: ApplicationOptions.JwtIssuer,
-                audience: ApplicationOptions.JwtIssuer,
-                claims: claims,
-                signingCredentials: new SigningCredentials(
-                    signingEncodingKey.GetKey(),
-                    signingEncodingKey.SigningAlgorithm)
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-
-        [HttpGet("teachers")]
-        public ActionResult<List<SubjectTeacherInfo>> LoadTeachers([FromQuery] string tableId, [FromQuery] string range)
-        {
-            var tableParser = TableParser.Create(_logger);
-            var subjectTeacherParser = new SubjectTeacherParser(tableId, range);
-            List<SubjectTeacherInfo> result = tableParser.Execute(subjectTeacherParser);
-            return Ok(result);
-        }
+        //[HttpGet("teachers")]
+        //public ActionResult<List<SubjectTeacherInfo>> LoadTeachers([FromQuery] string tableId, [FromQuery] string range)
+        //{
+        //    var tableParser = TableParser.Create(_logger);
+        //    var subjectTeacherParser = new SubjectTeacherParser(tableId, range);
+        //    List<SubjectTeacherInfo> result = tableParser.Execute(subjectTeacherParser);
+        //    return Ok(result);
+        //}
     }
 }

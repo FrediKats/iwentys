@@ -28,7 +28,7 @@ namespace Iwentys.Database.Context
             context,
             new StudentRepository(context),
             new GuildRepository(context),
-            new GuildMemberRepository(context), 
+            new GuildMemberRepository(context),
             new CompanyRepository(context),
             new TournamentRepository(context),
             new StudentProjectRepository(context),

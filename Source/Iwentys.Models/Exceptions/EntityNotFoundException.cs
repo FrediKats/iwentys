@@ -9,6 +9,14 @@ namespace Iwentys.Models.Exceptions
         {
         }
 
+        public EntityNotFoundException()
+        {
+        }
+
+        public EntityNotFoundException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
         public static EntityNotFoundException Create<TType, TKey>(TType type, TKey key)
         {
             return new EntityNotFoundException($"[{type}] Entity was not found for key: [{key}]");
@@ -16,7 +24,7 @@ namespace Iwentys.Models.Exceptions
 
         public static EntityNotFoundException PinnedRepoWasNotFound(int pinnedRepoId)
         {
-            return new EntityNotFoundException(String.Format(GuildExceptions.PinnedRepoWasNotFound, pinnedRepoId));
+            return new EntityNotFoundException(string.Format(GuildExceptions.PinnedRepoWasNotFound, pinnedRepoId));
         }
     }
 }

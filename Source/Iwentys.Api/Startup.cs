@@ -8,16 +8,13 @@ using Iwentys.Core.Services.Implementations;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Database.Repositories.Implementations;
-using Iwentys.IsuIntegrator;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Iwentys.Api
@@ -73,8 +70,6 @@ namespace Iwentys.Api
             else
                 services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
 
-            services.AddScoped<IIsuAccessor, DebugIsuAccessor>();
-
             services.AddScoped<IBarsPointTransactionLogRepository, BarsPointTransactionLogRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<IGithubUserDataRepository, GithubUserDataRepository>();
@@ -105,7 +100,7 @@ namespace Iwentys.Api
             services.AddScoped<IStudyLeaderboardService, StudyLeaderboardService>();
             services.AddScoped<ITournamentService, TournamentService>();
 
-            services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/build");
+            //services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/build");
         }
 
         public void Configure(
@@ -129,7 +124,7 @@ namespace Iwentys.Api
 
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            //app.UseSpaStaticFiles();
 
             app.UseRouting();
 
@@ -138,16 +133,16 @@ namespace Iwentys.Api
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());
 
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "ClientApp";
+            //app.UseSpa(spa =>
+            //{
+            //    spa.Options.SourcePath = "ClientApp";
 
-                //TODO:
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
-            });
+            //    //TODO:
+            //    if (env.IsDevelopment())
+            //    {
+            //        spa.UseReactDevelopmentServer(npmScript: "start");
+            //    }
+            //});
 
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();

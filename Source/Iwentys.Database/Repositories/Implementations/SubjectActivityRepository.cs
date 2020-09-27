@@ -59,7 +59,7 @@ namespace Iwentys.Database.Repositories.Implementations
             var query = Read()
                 .Join(_dbContext.StudyGroups,
                     st => st.Student.GroupId,
-                    sg => sg.Id, 
+                    sg => sg.Id,
                     (subjectActivity, group) => new {SubjectActivity = subjectActivity, Group = group})
                 .Join(_dbContext.GroupSubjects,
                     st => st.SubjectActivity.GroupSubjectEntityId,

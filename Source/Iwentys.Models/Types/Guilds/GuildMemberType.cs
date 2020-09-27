@@ -37,7 +37,7 @@ namespace Iwentys.Models.Types.Guilds
 
         public static Boolean IsEditor(this GuildMemberType guildMemberType)
         {
-            return guildMemberType == GuildMemberType.Creator || 
+            return guildMemberType == GuildMemberType.Creator ||
                    guildMemberType == GuildMemberType.Mentor;
         }
     }

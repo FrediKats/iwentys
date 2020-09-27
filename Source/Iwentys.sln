@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Database", "Iwentys
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Api", "Iwentys.Api\Iwentys.Api.csproj", "{EBE58243-5985-42DF-9454-40EF2EE1DCDF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.IsuIntegrator", "Iwentys.IsuIntagrator\Iwentys.IsuIntegrator.csproj", "{CF4FAEA8-CBD6-4B19-8D24-256F8A4F668E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Tests", "Iwentys.Tests\Iwentys.Tests.csproj", "{9A8CBC0D-E60F-4346-9548-9F9CECDB2503}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Models", "Iwentys.Models\Iwentys.Models.csproj", "{2D60BE47-B793-481F-8A87-E076BD4C2692}"
@@ -18,6 +16,13 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Polygon", "Iwentys.Polygon\Iwentys.Polygon.csproj", "{5AAA44F2-958B-4A3B-A846-7F15F6F5E2B8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.ClientBot", "Iwentys.Bot\Iwentys.ClientBot.csproj", "{4608FCD7-CDFA-4527-B631-8967862B1FFF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{251D8AD6-AEB3-4BC4-82D1-1DDABD601D40}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.ApiClient", "Iwentys.ApiClient\Iwentys.ApiClient.csproj", "{5DAAD1C0-1933-4C72-8D7B-F1C79F7117BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +42,6 @@ Global
 		{EBE58243-5985-42DF-9454-40EF2EE1DCDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBE58243-5985-42DF-9454-40EF2EE1DCDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBE58243-5985-42DF-9454-40EF2EE1DCDF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CF4FAEA8-CBD6-4B19-8D24-256F8A4F668E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CF4FAEA8-CBD6-4B19-8D24-256F8A4F668E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CF4FAEA8-CBD6-4B19-8D24-256F8A4F668E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CF4FAEA8-CBD6-4B19-8D24-256F8A4F668E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9A8CBC0D-E60F-4346-9548-9F9CECDB2503}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9A8CBC0D-E60F-4346-9548-9F9CECDB2503}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A8CBC0D-E60F-4346-9548-9F9CECDB2503}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +58,10 @@ Global
 		{4608FCD7-CDFA-4527-B631-8967862B1FFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4608FCD7-CDFA-4527-B631-8967862B1FFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4608FCD7-CDFA-4527-B631-8967862B1FFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DAAD1C0-1933-4C72-8D7B-F1C79F7117BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DAAD1C0-1933-4C72-8D7B-F1C79F7117BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DAAD1C0-1933-4C72-8D7B-F1C79F7117BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DAAD1C0-1933-4C72-8D7B-F1C79F7117BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

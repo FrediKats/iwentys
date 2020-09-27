@@ -28,7 +28,6 @@ namespace Iwentys.Core.Services.Implementations
             _githubApiAccessor = githubApiAccessor;
         }
 
-
         public GuildProfileDto EnterGuild(AuthorizedUser user, Int32 guildId)
         {
             GuildDomain guild = _database.Guild.Get(guildId).To(g => new GuildDomain(g, _database, _githubUserDataService, _githubApiAccessor));

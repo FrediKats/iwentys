@@ -17,11 +17,14 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.101
+    - name: Clean dotnet
+      run: dotnet clean --configuration Release
+      working-directory: Source
     - name: Install dependencies
       run: dotnet restore
       working-directory: Source
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build /nodeReuse:false --configuration Release
       working-directory: Source
     - name: Test
       run: dotnet test --no-restore --verbosity normal

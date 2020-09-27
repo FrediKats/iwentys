@@ -30,6 +30,12 @@ namespace Iwentys.Api.Controllers
             return Ok(_studentService.Get(id));
         }
 
+        [HttpGet("for-group/{groupName}")]
+        public ActionResult<List<StudentFullProfileDto>> Get(string groupName)
+        {
+            return Ok(_studentService.Get(groupName));
+        }
+
         [HttpPut]
         public ActionResult<StudentFullProfileDto> Update([FromBody] StudentUpdateDto studentUpdateDto)
         {
