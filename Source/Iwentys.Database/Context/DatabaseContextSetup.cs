@@ -185,7 +185,7 @@ namespace Iwentys.Database.Context
                 .Append(StudentEntity.CreateFromIsu(264282, "Илья", "Ильменский", m3305))
                 .ToList();
 
-            Students.Single(s => s.Id == 289140).GithubUsername = "s4hack";
+            Students.Single(s => s.Id == 289140).GithubUsername = "s4xack";
         }
 
         private void InitGuilds()
