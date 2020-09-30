@@ -1,12 +1,14 @@
 ﻿using System.Linq;
 using FluentResults;
 using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.GoogleTableIntegration;
+using Iwentys.GoogleTableIntegration.Marks;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Types;
 using Microsoft.Extensions.Logging;
 
-namespace Iwentys.GoogleTableIntegration.Marks
+namespace Iwentys.Core.Services
 {
     public class MarkGoogleTableUpdateService
     {

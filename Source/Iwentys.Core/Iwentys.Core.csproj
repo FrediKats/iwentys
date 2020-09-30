@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Iwentys.Database\Iwentys.Database.csproj" />
+    <ProjectReference Include="..\Iwentys.GoogleTableIntegration\Iwentys.GoogleTableIntegration.csproj" />
   </ItemGroup>
 
 </Project>

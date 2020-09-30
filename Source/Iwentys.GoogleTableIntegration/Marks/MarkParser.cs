@@ -25,8 +25,8 @@ namespace Iwentys.GoogleTableIntegration.Marks
             var result = new List<StudentSubjectScore>();
             foreach (IList<object> row in values.Values)
             {
-                var name = row[_helper.NameColumnNum];
-                var score = row[_helper.ScoreColumnNum];
+                object name = row[_helper.NameColumnNum];
+                object score = row[_helper.ScoreColumnNum];
                 if (name != null && score != null)
                 {
                     string fullName = string.Join(" ", _helper.NameColumns.Select(c => row[c]));
