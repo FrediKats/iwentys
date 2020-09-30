@@ -42,7 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Iwentys.Bot\Iwentys.ClientBot.csproj" />
+    <ProjectReference Include="..\Iwentys.ClientBot\Iwentys.ClientBot.csproj" />
     <ProjectReference Include="..\Iwentys.Core\Iwentys.Core.csproj" />
+    <ProjectReference Include="..\Iwentys.GoogleTableIntegration\Iwentys.GoogleTableIntegration.csproj" />
   </ItemGroup>
 
   <ItemGroup>

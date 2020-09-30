@@ -4,11 +4,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using Iwentys.Api.Tools;
+using Iwentys.Core;
 using Iwentys.Core.Auth;
-using Iwentys.Core.GoogleTableIntegration.Marks;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
+using Iwentys.GoogleTableIntegration.Marks;
 using Iwentys.Models;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
@@ -33,7 +34,7 @@ namespace Iwentys.Api.Controllers
             _logger = logger;
             _databaseAccessor = databaseAccessor;
 
-            _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(_logger, _databaseAccessor.SubjectActivity, _databaseAccessor.Student);
+            _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(_logger, _databaseAccessor.SubjectActivity, _databaseAccessor.Student, ApplicationOptions.GoogleServiceToken);
             _studentService = studentService;
         }
 

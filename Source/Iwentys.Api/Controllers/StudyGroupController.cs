@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Entities.Study;
-using Iwentys.Models.Transferable.Study;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Api.Controllers

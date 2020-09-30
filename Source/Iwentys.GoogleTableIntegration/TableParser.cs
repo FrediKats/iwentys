@@ -4,7 +4,7 @@ using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Microsoft.Extensions.Logging;
 
-namespace Iwentys.Core.GoogleTableIntegration
+namespace Iwentys.GoogleTableIntegration
 {
     public class TableParser
     {
@@ -17,9 +17,9 @@ namespace Iwentys.Core.GoogleTableIntegration
             _service = service;
         }
 
-        public static TableParser Create(ILogger logger)
+        public static TableParser Create(ILogger logger, string serviceToken)
         {
-            return new TableParser(logger, GetServiceForApiToken());
+            return new TableParser(logger, GetServiceForApiToken(serviceToken));
         }
 
         public T Execute<T>(ITableRequest<T> request)
@@ -30,10 +30,10 @@ namespace Iwentys.Core.GoogleTableIntegration
             return request.Parse(data);
         }
 
-        private static SheetsService GetServiceForCredential()
+        private static SheetsService GetServiceForCredential(string serviceToken)
         {
             GoogleCredential credential = GoogleCredential
-                .FromJson(ApplicationOptions.GoogleServiceToken)
+                .FromJson(serviceToken)
                 .CreateScoped(SheetsService.Scope.SpreadsheetsReadonly);
 
             return new SheetsService(new BaseClientService.Initializer()
@@ -43,12 +43,12 @@ namespace Iwentys.Core.GoogleTableIntegration
             });
         }
 
-        private static SheetsService GetServiceForApiToken()
+        private static SheetsService GetServiceForApiToken(string serviceToken)
         {
             return new SheetsService(new BaseClientService.Initializer()
             {
                 ApplicationName = "IwentysTableParser",
-                ApiKey = ApplicationOptions.GoogleServiceToken
+                ApiKey = serviceToken
             });
         }
     }

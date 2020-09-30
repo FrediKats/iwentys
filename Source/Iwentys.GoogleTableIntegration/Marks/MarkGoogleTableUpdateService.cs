@@ -6,19 +6,21 @@ using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Types;
 using Microsoft.Extensions.Logging;
 
-namespace Iwentys.Core.GoogleTableIntegration.Marks
+namespace Iwentys.GoogleTableIntegration.Marks
 {
     public class MarkGoogleTableUpdateService
     {
         private readonly ILogger _logger;
         private readonly ISubjectActivityRepository _subjectActivityRepository;
         private readonly IStudentRepository _studentRepository;
+        private readonly TableParser _tableParser;
 
-        public MarkGoogleTableUpdateService(ILogger logger, ISubjectActivityRepository subjectActivityRepository, IStudentRepository studentRepository)
+        public MarkGoogleTableUpdateService(ILogger logger, ISubjectActivityRepository subjectActivityRepository, IStudentRepository studentRepository, string serviceToken)
         {
             _logger = logger;
             _subjectActivityRepository = subjectActivityRepository;
             _studentRepository = studentRepository;
+            _tableParser = TableParser.Create(_logger, serviceToken);
         }
 
         public void UpdateSubjectActivityForGroup(GroupSubjectEntity groupSubjectData)
@@ -30,8 +32,7 @@ namespace Iwentys.Core.GoogleTableIntegration.Marks
                 return;
             }
 
-            var tableParser = TableParser.Create(_logger);
-            foreach (StudentSubjectScore student in tableParser.Execute(new MarkParser(googleTableData.Value, _logger)))
+            foreach (StudentSubjectScore student in _tableParser.Execute(new MarkParser(googleTableData.Value, _logger)))
             {
                 // Это очень плохая проверка, но я пока не придумал,
                 // как по-другому сопоставлять данные с гугл-таблицы со студентом

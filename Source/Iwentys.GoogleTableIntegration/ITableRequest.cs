@@ -1,6 +1,6 @@
 ﻿using Google.Apis.Sheets.v4.Data;
 
-namespace Iwentys.Core.GoogleTableIntegration
+namespace Iwentys.GoogleTableIntegration
 {
     public interface ITableRequest<T>
     {

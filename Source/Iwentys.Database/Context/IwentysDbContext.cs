@@ -1,7 +1,6 @@
 using System.Linq;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Gamification;
-using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Entities.Study;
 using Microsoft.EntityFrameworkCore;

@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Iwentys.Core\Iwentys.Core.csproj" />
+    <ProjectReference Include="..\Iwentys.GoogleTableIntegration\Iwentys.GoogleTableIntegration.csproj" />
   </ItemGroup>
 
   <ItemGroup>
