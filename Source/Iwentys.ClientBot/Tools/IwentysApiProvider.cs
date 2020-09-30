@@ -6,6 +6,7 @@ namespace Iwentys.ClientBot.Tools
 {
     public class IwentysApiProvider
     {
+        //private const string ServiceUrl = "http://iwentys.azurewebsites.net";
         private const string ServiceUrl = "http://localhost:3578";
 
         public Client Client { get; }

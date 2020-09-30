@@ -15,14 +15,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Models", "Iwentys.M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Polygon", "Iwentys.Polygon\Iwentys.Polygon.csproj", "{5AAA44F2-958B-4A3B-A846-7F15F6F5E2B8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.ClientBot", "Iwentys.Bot\Iwentys.ClientBot.csproj", "{4608FCD7-CDFA-4527-B631-8967862B1FFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.ClientBot", "Iwentys.ClientBot\Iwentys.ClientBot.csproj", "{4608FCD7-CDFA-4527-B631-8967862B1FFF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{251D8AD6-AEB3-4BC4-82D1-1DDABD601D40}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.ApiClient", "Iwentys.ApiClient\Iwentys.ApiClient.csproj", "{5DAAD1C0-1933-4C72-8D7B-F1C79F7117BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.ApiClient", "Iwentys.ApiClient\Iwentys.ApiClient.csproj", "{5DAAD1C0-1933-4C72-8D7B-F1C79F7117BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
