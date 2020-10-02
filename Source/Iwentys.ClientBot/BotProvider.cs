@@ -3,6 +3,10 @@ using Iwentys.ClientBot.Commands.Student;
 using Iwentys.ClientBot.Commands.StudentLeaderboard;
 using Iwentys.ClientBot.Commands.Tools;
 using Iwentys.ClientBot.Tools;
+using Iwentys.Core;
+using Iwentys.Core.Services;
+using Iwentys.Core.Services.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Tef.BotFramework.Core;
 using Tef.BotFramework.Settings;
@@ -14,6 +18,11 @@ namespace Iwentys.ClientBot
     {
         public static Bot Init(IGetSettings<TelegramSettings> settings, ILogger logger)
         {
+            var serviceCollection = new ServiceCollection();
+            ServiceDiManager.RegisterAbstractionsImplementation(serviceCollection, ApplicationOptions.GithubToken);
+            ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
+            IGuildService guildService = serviceProvider.GetService<IGuildService>();
+
             var apiProvider = new IwentysApiProvider();
             var identifier = new UserIdentifier();
 

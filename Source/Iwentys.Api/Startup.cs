@@ -1,18 +1,12 @@
 using System.Text.Json.Serialization;
 using Iwentys.Core;
 using Iwentys.Core.Auth;
-using Iwentys.Core.Gamification;
-using Iwentys.Core.GithubIntegration;
-using Iwentys.Core.Services.Abstractions;
-using Iwentys.Core.Services.Implementations;
+using Iwentys.Core.Services;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories.Abstractions;
-using Iwentys.Database.Repositories.Implementations;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -62,43 +56,7 @@ namespace Iwentys.Api
             services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
             services.AddSwaggerGen();
 
-            services.AddDbContext<IwentysDbContext>(o => o.UseSqlite("Data Source=Iwentys.db")
-                .EnableSensitiveDataLogging(Configuration.GetValue<bool>("Logging:EnableSqlParameterLogging")));
-
-            if (ApplicationOptions.GithubToken is null)
-                services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();
-            else
-                services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
-
-            services.AddScoped<IBarsPointTransactionLogRepository, BarsPointTransactionLogRepository>();
-            services.AddScoped<ICompanyRepository, CompanyRepository>();
-            services.AddScoped<IGithubUserDataRepository, GithubUserDataRepository>();
-            services.AddScoped<IGroupSubjectRepository, GroupGroupSubjectRepository>();
-            services.AddScoped<IGuildMemberRepository, GuildMemberRepository>();
-            services.AddScoped<IGuildRepository, GuildRepository>();
-            services.AddScoped<IGuildTestTaskSolvingInfoRepository, GuildTestTaskSolvingInfoRepository>();
-            services.AddScoped<IQuestRepository, QuestRepository>();
-            services.AddScoped<IStudentProjectRepository, StudentProjectRepository>();
-            services.AddScoped<IStudentRepository, StudentRepository>();
-            services.AddScoped<IStudyGroupRepository, StudyGroupRepository>();
-            services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
-            services.AddScoped<ITournamentRepository, TournamentRepository>();
-            services.AddScoped<ITributeRepository, TributeRepository>();
-
-            services.AddScoped<DatabaseAccessor>();
-            services.AddScoped<AchievementProvider>();
-
-            services.AddScoped<IBarsPointTransactionLogService, BarsPointTransactionLogService>();
-            services.AddScoped<ICompanyService, CompanyService>();
-            services.AddScoped<IGithubUserDataService, GithubUserDataService>();
-            services.AddScoped<IGuildMemberService, GuildMemberService>();
-            services.AddScoped<IGuildService, GuildService>();
-            services.AddScoped<IGuildTestTaskService, GuildTestTaskService>();
-            services.AddScoped<IGuildTributeService, GuildTributeService>();
-            services.AddScoped<IQuestService, QuestService>();
-            services.AddScoped<IStudentService, StudentService>();
-            services.AddScoped<IStudyLeaderboardService, StudyLeaderboardService>();
-            services.AddScoped<ITournamentService, TournamentService>();
+            ServiceDiManager.RegisterAbstractionsImplementation(services, ApplicationOptions.GithubToken);
 
             //services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/build");
         }
