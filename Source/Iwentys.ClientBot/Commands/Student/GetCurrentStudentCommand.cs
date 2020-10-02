@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FluentResults;
-using Iwentys.ApiClient.OpenAPIService;
 using Iwentys.ClientBot.Tools;
 using Iwentys.Core.DomainModel;
+using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Transferable.Students;
+using Microsoft.Extensions.DependencyInjection;
 using Tef.BotFramework.Abstractions;
 using Tef.BotFramework.Core;
 
@@ -12,12 +13,12 @@ namespace Iwentys.ClientBot.Commands.Student
 {
     public class GetCurrentStudentCommand : IBotCommand
     {
-        private readonly IwentysApiProvider _api;
+        private readonly IStudentService _studentService;
         private readonly UserIdentifier _userIdentifier;
 
-        public GetCurrentStudentCommand(IwentysApiProvider api, UserIdentifier userIdentifier)
+        public GetCurrentStudentCommand(ServiceProvider serviceProvider, UserIdentifier userIdentifier)
         {
-            _api = api;
+            _studentService = serviceProvider.GetService<IStudentService>();
             _userIdentifier = userIdentifier;
         }
 
@@ -30,12 +31,11 @@ namespace Iwentys.ClientBot.Commands.Student
             return Result.Ok();
         }
 
-        public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
+        public Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
             AuthorizedUser currentUser = _userIdentifier.GetUser(args.Sender.UserSenderId);
-            Client client = await _userIdentifier.GetProvider(args.Sender.UserSenderId, _api).ConfigureAwait(false);
-            StudentFullProfileDto profile = await client.ApiStudentGetAsync(currentUser.Id).ConfigureAwait(false);
-            return Result.Ok(profile.FormatFullInfo());
+            StudentFullProfileDto profile = _studentService.Get(currentUser.Id);
+            return Task.FromResult(Result.Ok(profile.FormatFullInfo()));
         }
 
         public string CommandName => nameof(GetCurrentStudentCommand);

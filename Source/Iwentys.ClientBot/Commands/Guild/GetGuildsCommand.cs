@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentResults;
-using Iwentys.ClientBot.Tools;
+using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Guilds;
+using Microsoft.Extensions.DependencyInjection;
 using Tef.BotFramework.Abstractions;
 using Tef.BotFramework.Core;
 
@@ -12,11 +12,11 @@ namespace Iwentys.ClientBot.Commands.Guild
 {
     public class GetGuildsCommand : IBotCommand
     {
-        private readonly IwentysApiProvider _iwentysApi;
+        private readonly IGuildService _guildService;
 
-        public GetGuildsCommand(IwentysApiProvider iwentysApi)
+        public GetGuildsCommand(ServiceProvider serviceProvider)
         {
-            _iwentysApi = iwentysApi;
+            _guildService = serviceProvider.GetService<IGuildService>();
         }
 
         public Result CanExecute(CommandArgumentContainer args)
@@ -24,11 +24,11 @@ namespace Iwentys.ClientBot.Commands.Guild
             return Result.Ok();
         }
 
-        public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
+        public Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            ICollection<GuildProfilePreviewDto> guildProfilePreviews = await _iwentysApi.Client.ApiGuildGetAsync(null, null).ConfigureAwait(false);
+            GuildProfilePreviewDto[] guildProfilePreviews = _guildService.GetOverview(0, 20);
 
-            return ResultFormatter.FormatAsListToResult(guildProfilePreviews);
+            return ResultFormatter.FormatAsListToTask(guildProfilePreviews);
         }
 
         public string CommandName { get; } = nameof(GetGuildsCommand);

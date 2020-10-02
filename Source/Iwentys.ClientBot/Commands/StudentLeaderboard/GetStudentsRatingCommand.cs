@@ -2,9 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentResults;
-using Iwentys.ClientBot.Tools;
+using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Study;
+using Microsoft.Extensions.DependencyInjection;
 using Tef.BotFramework.Abstractions;
 using Tef.BotFramework.Core;
 
@@ -12,11 +13,11 @@ namespace Iwentys.ClientBot.Commands.StudentLeaderboard
 {
     public class GetStudentsRatingCommand : IBotCommand
     {
-        private readonly IwentysApiProvider _iwentysApi;
+        private readonly IStudyLeaderboardService _leaderboardService;
 
-        public GetStudentsRatingCommand(IwentysApiProvider iwentysApi)
+        public GetStudentsRatingCommand(ServiceProvider serviceProvider)
         {
-            _iwentysApi = iwentysApi;
+            _leaderboardService = serviceProvider.GetService<IStudyLeaderboardService>();
         }
 
         public Result CanExecute(CommandArgumentContainer args)
@@ -30,11 +31,16 @@ namespace Iwentys.ClientBot.Commands.StudentLeaderboard
             return Result.Ok();
         }
 
-        public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
+        public Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            ICollection<StudyLeaderboardRow> studyLeaderboardRows = await _iwentysApi.Client.ApiStudyleaderboardAsync(null, int.Parse(args.Arguments[0]), null, null).ConfigureAwait(false);
+            var searchDto = new StudySearchDto
+            {
+                CourseId = int.Parse(args.Arguments[0])
+            };
 
-            return ResultFormatter.FormatToResult(studyLeaderboardRows.Take(20));
+            List<StudyLeaderboardRow> studyLeaderboardRows = _leaderboardService.GetStudentsRatings(searchDto);
+
+            return ResultFormatter.FormatToTask(studyLeaderboardRows.Take(20));
         }
 
         public string CommandName { get; } = nameof(GetStudentsRatingCommand);

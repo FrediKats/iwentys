@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentResults;
-using Iwentys.ClientBot.Tools;
+using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Students;
+using Microsoft.Extensions.DependencyInjection;
 using Tef.BotFramework.Abstractions;
 using Tef.BotFramework.Core;
 
@@ -11,11 +12,11 @@ namespace Iwentys.ClientBot.Commands.Student
 {
     public class GetGroupStudentsCommand : IBotCommand
     {
-        private readonly IwentysApiProvider _iwentysApi;
+        private readonly IStudentService _studentService;
 
-        public GetGroupStudentsCommand(IwentysApiProvider iwentysApi)
+        public GetGroupStudentsCommand(ServiceProvider serviceProvider)
         {
-            _iwentysApi = iwentysApi;
+            _studentService = serviceProvider.GetService<IStudentService>();
         }
 
         public Result CanExecute(CommandArgumentContainer args)
@@ -27,11 +28,11 @@ namespace Iwentys.ClientBot.Commands.Student
             return Result.Ok();
         }
 
-        public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
+        public Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            IEnumerable<StudentFullProfileDto> profileDtos = await _iwentysApi.Client.ApiStudentForGroupAsync(args.Arguments[0]).ConfigureAwait(false);
+            List<StudentFullProfileDto> profileDtos = _studentService.Get(args.Arguments[0]);
 
-            return Result.Ok($"Group list {args.Arguments[0]}\n{ResultFormatter.FormatAsList(profileDtos)}");
+            return Task.FromResult(Result.Ok($"Group list {args.Arguments[0]}\n{ResultFormatter.FormatAsList(profileDtos)}"));
         }
 
         public string CommandName => nameof(GetGroupStudentsCommand);

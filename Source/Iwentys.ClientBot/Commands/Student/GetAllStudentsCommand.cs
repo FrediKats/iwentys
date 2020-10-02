@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentResults;
-using Iwentys.ClientBot.Tools;
+using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Students;
+using Microsoft.Extensions.DependencyInjection;
 using Tef.BotFramework.Abstractions;
 using Tef.BotFramework.Core;
 
@@ -12,11 +12,11 @@ namespace Iwentys.ClientBot.Commands.Student
 {
     public class GetAllStudentsCommand : IBotCommand
     {
-        private readonly IwentysApiProvider _api;
+        private readonly IStudentService _studentService;
 
-        public GetAllStudentsCommand(IwentysApiProvider api)
+        public GetAllStudentsCommand(ServiceProvider serviceProvider)
         {
-            _api = api;
+            _studentService = serviceProvider.GetService<IStudentService>();
         }
 
         public Result CanExecute(CommandArgumentContainer args)
@@ -24,10 +24,10 @@ namespace Iwentys.ClientBot.Commands.Student
             return Result.Ok();
         }
 
-        public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
+        public Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            IEnumerable<StudentFullProfileDto> profileDtos = await _api.Client.ApiStudentGetAsync().ConfigureAwait(false);
-            return ResultFormatter.FormatToResult(profileDtos);
+            StudentFullProfileDto[] profileDtos = _studentService.Get();
+            return ResultFormatter.FormatToTask(profileDtos);
         }
 
         public string CommandName => nameof(GetAllStudentsCommand);

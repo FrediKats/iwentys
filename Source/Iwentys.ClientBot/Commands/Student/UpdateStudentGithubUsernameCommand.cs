@@ -1,8 +1,10 @@
 ﻿using System.Threading.Tasks;
 using FluentResults;
-using Iwentys.ApiClient.OpenAPIService;
 using Iwentys.ClientBot.Tools;
+using Iwentys.Core.DomainModel;
+using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Transferable.Students;
+using Microsoft.Extensions.DependencyInjection;
 using Tef.BotFramework.Abstractions;
 using Tef.BotFramework.Core;
 
@@ -10,12 +12,12 @@ namespace Iwentys.ClientBot.Commands.Student
 {
     public class UpdateStudentGithubUsernameCommand : IBotCommand
     {
-        private readonly IwentysApiProvider _iwentysApi;
+        private readonly IStudentService _studentService;
         private readonly UserIdentifier _userIdentifier;
 
-        public UpdateStudentGithubUsernameCommand(IwentysApiProvider iwentysApi, UserIdentifier userIdentifier)
+        public UpdateStudentGithubUsernameCommand(ServiceProvider serviceProvider, UserIdentifier userIdentifier)
         {
-            _iwentysApi = iwentysApi;
+            _studentService = serviceProvider.GetService<IStudentService>();
             _userIdentifier = userIdentifier;
         }
 
@@ -27,11 +29,11 @@ namespace Iwentys.ClientBot.Commands.Student
             return Result.Ok();
         }
 
-        public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
+        public Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            Client client = await _userIdentifier.GetProvider(args.Sender.UserSenderId, _iwentysApi).ConfigureAwait(false);
-            StudentFullProfileDto profile = await client.ApiStudentPutAsync(new StudentUpdateDto { GithubUsername = args.Arguments[0]}).ConfigureAwait(false);
-            return Result.Ok(profile.FormatFullInfo());
+            AuthorizedUser user = _userIdentifier.GetUser(args.Sender.UserSenderId);
+            StudentFullProfileDto profile = _studentService.AddGithubUsername(user.Id, args.Arguments[0]);
+            return Task.FromResult(Result.Ok(profile.FormatFullInfo()));
         }
 
         public string CommandName { get; } = nameof(UpdateStudentGithubUsernameCommand);
