@@ -1,8 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Iwentys.Models.Entities.Guilds;
 
-namespace Iwentys.Models.Types.Guilds
+namespace Iwentys.Models.Types
 {
     public enum GuildMemberType
     {
@@ -15,7 +14,7 @@ namespace Iwentys.Models.Types.Guilds
 
     public static class GuildMemberTypeExtension
     {
-        public static Boolean IsMember(this GuildMemberType guildMemberType)
+        public static bool IsMember(this GuildMemberType guildMemberType)
         {
             return guildMemberType == GuildMemberType.Creator ||
                    guildMemberType == GuildMemberType.Mentor ||
@@ -35,7 +34,7 @@ namespace Iwentys.Models.Types.Guilds
                                          gm.MemberType == GuildMemberType.Mentor);
         }
 
-        public static Boolean IsEditor(this GuildMemberType guildMemberType)
+        public static bool IsEditor(this GuildMemberType guildMemberType)
         {
             return guildMemberType == GuildMemberType.Creator ||
                    guildMemberType == GuildMemberType.Mentor;

@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+
 using Iwentys.Api.Tools;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.GuildTribute;
-using Iwentys.Models.Types.Guilds;
+using Iwentys.Models.Types;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Api.Controllers

@@ -1,7 +1,7 @@
 ﻿using Iwentys.Core.DomainModel;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.GuildTribute;
-using Iwentys.Models.Types.Guilds;
+using Iwentys.Models.Types;
 
 namespace Iwentys.Core.Services.Abstractions
 {

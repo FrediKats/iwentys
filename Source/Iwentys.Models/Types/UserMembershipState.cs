@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Models.Types.Guilds
+﻿namespace Iwentys.Models.Types
 {
     public enum UserMembershipState
     {

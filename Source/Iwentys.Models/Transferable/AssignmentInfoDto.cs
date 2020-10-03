@@ -25,7 +25,7 @@ namespace Iwentys.Models.Transferable
                 CreationTime = studentAssignment.Assignment.CreationTime,
                 Creator = new StudentPartialProfileDto(studentAssignment.Assignment.Creator),
                 Subject = studentAssignment.Assignment.Subject,
-                IsCompeted = studentAssignment.IsCompeted,
+                IsCompeted = studentAssignment.IsCompeted
             };
         }
     }

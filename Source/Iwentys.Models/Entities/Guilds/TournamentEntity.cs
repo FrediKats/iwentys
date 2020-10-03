@@ -1,5 +1,5 @@
 ﻿using System;
-using Iwentys.Models.Types.Guilds;
+using Iwentys.Models.Types;
 
 namespace Iwentys.Models.Entities.Guilds
 {

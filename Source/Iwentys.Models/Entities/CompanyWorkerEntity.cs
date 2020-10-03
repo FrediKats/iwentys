@@ -2,21 +2,21 @@
 
 namespace Iwentys.Models.Entities
 {
-    public class CompanyWorker
+    public class CompanyWorkerEntity
     {
         public int CompanyId { get; set; }
-        public Company Company { get; set; }
+        public CompanyEntity CompanyEntity { get; set; }
 
         public int WorkerId { get; set; }
         public StudentEntity Worker { get; set; }
 
         public CompanyWorkerType Type { get; set; }
 
-        public static CompanyWorker NewRequest(Company company, StudentEntity worker)
+        public static CompanyWorkerEntity NewRequest(CompanyEntity companyEntity, StudentEntity worker)
         {
-            return new CompanyWorker
+            return new CompanyWorkerEntity
             {
-                Company = company,
+                CompanyEntity = companyEntity,
                 Worker = worker,
                 Type = CompanyWorkerType.Requested
             };

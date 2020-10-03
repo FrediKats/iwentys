@@ -8,17 +8,18 @@ namespace Iwentys.GoogleTableIntegration.Marks
 {
     public class MarkParser : ITableRequest<List<StudentSubjectScore>>
     {
-        public string Id => _helper.Id;
-        public string Range => _helper.Range;
+        private readonly TableStringHelper _helper;
 
         private readonly ILogger _logger;
-        private readonly TableStringHelper _helper;
 
         public MarkParser(GoogleTableData tableData, ILogger logger)
         {
             _logger = logger;
             _helper = new TableStringHelper(tableData);
         }
+
+        public string Id => _helper.Id;
+        public string Range => _helper.Range;
 
         public List<StudentSubjectScore> Parse(ValueRange values)
         {

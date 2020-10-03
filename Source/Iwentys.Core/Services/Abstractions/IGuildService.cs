@@ -1,5 +1,5 @@
 ﻿using Iwentys.Core.DomainModel;
-using Iwentys.Models.Entities.Github;
+using Iwentys.Models;
 using Iwentys.Models.Transferable.Guilds;
 
 namespace Iwentys.Core.Services.Abstractions

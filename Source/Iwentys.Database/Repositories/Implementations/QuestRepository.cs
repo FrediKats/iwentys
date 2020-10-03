@@ -20,28 +20,21 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext = dbContext;
         }
 
-        public Quest Create(Quest entity)
-        {
-            EntityEntry<Quest> createdEntity = _dbContext.Quests.Add(entity);
-            _dbContext.SaveChanges();
-            return createdEntity.Entity;
-        }
-
-        public IQueryable<Quest> Read()
+        public IQueryable<QuestEntity> Read()
         {
             return _dbContext.Quests
                 .Include(q => q.Author)
                 .Include(r => r.Responses);
         }
 
-        public Quest ReadById(int key)
+        public QuestEntity ReadById(int key)
         {
             return Read().FirstOrDefault(q => q.Id == key);
         }
 
-        public Quest Update(Quest entity)
+        public QuestEntity Update(QuestEntity entity)
         {
-            EntityEntry<Quest> createdEntity = _dbContext.Quests.Update(entity);
+            EntityEntry<QuestEntity> createdEntity = _dbContext.Quests.Update(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
@@ -52,42 +45,49 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.SaveChanges();
         }
 
-        public void SendResponse(Quest quest, int userId)
+        public void SendResponse(QuestEntity questEntity, int userId)
         {
-            _dbContext.QuestResponses.Add(QuestResponseEntity.New(quest.Id, userId));
+            _dbContext.QuestResponses.Add(QuestResponseEntity.New(questEntity.Id, userId));
             _dbContext.SaveChanges();
         }
 
-        public Quest SetCompleted(Quest quest, int studentId)
+        public QuestEntity SetCompleted(QuestEntity questEntity, int studentId)
         {
-            if (quest.State != QuestState.Active || quest.IsOutdated)
+            if (questEntity.State != QuestState.Active || questEntity.IsOutdated)
                 throw new InnerLogicException("Quest is not active");
 
-            quest.State = QuestState.Completed;
-            quest = _dbContext.Quests.Update(quest).Entity;
+            questEntity.State = QuestState.Completed;
+            questEntity = _dbContext.Quests.Update(questEntity).Entity;
 
-            QuestResponseEntity responseEntity = _dbContext.QuestResponses.Single(qr => qr.QuestId == quest.Id && qr.StudentId == studentId);
-            List<QuestResponseEntity> responsesToDelete = quest.Responses.Where(qr => qr.StudentId != responseEntity.StudentId).ToList();
+            QuestResponseEntity responseEntity = _dbContext.QuestResponses.Single(qr => qr.QuestId == questEntity.Id && qr.StudentId == studentId);
+            List<QuestResponseEntity> responsesToDelete = questEntity.Responses.Where(qr => qr.StudentId != responseEntity.StudentId).ToList();
             _dbContext.QuestResponses.RemoveRange(responsesToDelete);
 
             StudentEntity student = _dbContext.Students.Find(studentId);
-            student.BarsPoints += quest.Price;
+            student.BarsPoints += questEntity.Price;
             _dbContext.Students.Update(student);
 
             _dbContext.SaveChanges();
 
-            return quest;
+            return questEntity;
         }
 
-        public Quest Create(StudentEntity student, CreateQuestDto createQuest)
+        public QuestEntity Create(StudentEntity student, CreateQuestDto createQuest)
         {
             //TODO: add transaction
             if (student.BarsPoints < createQuest.Price)
                 throw InnerLogicException.NotEnoughBarsPoints();
 
             student.BarsPoints -= createQuest.Price;
-            var quest = Quest.New(createQuest.Title, createQuest.Description, createQuest.Price, createQuest.Deadline, student);
+            var quest = QuestEntity.New(createQuest.Title, createQuest.Description, createQuest.Price, createQuest.Deadline, student);
             return _dbContext.Quests.Add(quest).Entity;
+        }
+
+        public QuestEntity Create(QuestEntity entity)
+        {
+            EntityEntry<QuestEntity> createdEntity = _dbContext.Quests.Add(entity);
+            _dbContext.SaveChanges();
+            return createdEntity.Entity;
         }
     }
 }

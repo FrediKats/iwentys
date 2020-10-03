@@ -1,16 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Tools;
-
 using Newtonsoft.Json;
 
-namespace Iwentys.Models.Entities
+namespace Iwentys.Models.Entities.Github
 {
-    public class GithubUserData
+    public class GithubUserEntity
     {
-        [Key]
-        public int StudentId { get; set; }
+        [Key] public int StudentId { get; set; }
+
         public StudentEntity Student { get; set; }
 
         public string Username { get; set; }

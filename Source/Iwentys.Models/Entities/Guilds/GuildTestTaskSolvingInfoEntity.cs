@@ -1,10 +1,22 @@
 ﻿using System;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Types;
 
 namespace Iwentys.Models.Entities.Guilds
 {
     public class GuildTestTaskSolvingInfoEntity
     {
+        public GuildTestTaskSolvingInfoEntity()
+        {
+        }
+
+        public GuildTestTaskSolvingInfoEntity(int guildId, int studentId) : this()
+        {
+            GuildId = guildId;
+            StudentId = studentId;
+            StartTime = DateTime.UtcNow;
+        }
+
         public int GuildId { get; set; }
         public GuildEntity Guild { get; set; }
         public int StudentId { get; set; }
@@ -18,17 +30,6 @@ namespace Iwentys.Models.Entities.Guilds
         public int? ReviewerId { get; set; }
         public StudentEntity Reviewer { get; set; }
         public DateTime? CompleteTime { get; set; }
-
-        public GuildTestTaskSolvingInfoEntity()
-        {
-        }
-
-        public GuildTestTaskSolvingInfoEntity(int guildId, int studentId) : this()
-        {
-            GuildId = guildId;
-            StudentId = studentId;
-            StartTime = DateTime.UtcNow;
-        }
 
         public void SendSubmit(long projectId)
         {

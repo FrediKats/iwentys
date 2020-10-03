@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+
 using Iwentys.Core.Services.Abstractions;
+using Iwentys.Models;
 using Iwentys.Models.Entities.Study;
-using Iwentys.Models.Transferable.Study;
 using Iwentys.Models.Types;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Api.Controllers
@@ -21,7 +23,7 @@ namespace Iwentys.Api.Controllers
         [HttpGet]
         public ActionResult<List<SubjectEntity>> GetAllSubjects([FromQuery] int? courseId, [FromQuery] StudySemester? semester)
         {
-            return Ok(_studyLeaderboardService.GetSubjectsForDto(new StudySearchDto
+            return Ok(_studyLeaderboardService.GetSubjectsForDto(new StudySearchParameters
             {
                 CourseId = courseId,
                 StudySemester = semester

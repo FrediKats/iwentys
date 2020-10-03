@@ -1,4 +1,4 @@
-﻿using Iwentys.Models.Entities;
+﻿using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 
 namespace Iwentys.Database.Repositories.Abstractions

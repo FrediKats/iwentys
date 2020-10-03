@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Iwentys.Models;
 using Iwentys.Models.Entities.Study;
-using Iwentys.Models.Transferable.Study;
 
 namespace Iwentys.Database.Repositories.Abstractions
 {
@@ -9,6 +9,6 @@ namespace Iwentys.Database.Repositories.Abstractions
         SubjectActivityEntity Create(SubjectActivityEntity subjectActivity);
 
         SubjectActivityEntity GetActivityForStudentAndSubject(int studentId, int subjectForGroupId);
-        IEnumerable<SubjectActivityEntity> GetStudentActivities(StudySearchDto searchDto);
+        IEnumerable<SubjectActivityEntity> GetStudentActivities(StudySearchParameters searchParameters);
     }
 }

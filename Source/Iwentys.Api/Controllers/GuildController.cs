@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+
 using Iwentys.Api.Tools;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
-using Iwentys.Models.Entities.Github;
+using Iwentys.Models;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Guilds;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Api.Controllers
@@ -37,7 +39,7 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<GuildProfilePreviewDto>> GetOverview([FromQuery]int skip = 0, [FromQuery]int take = 20)
+        public ActionResult<List<GuildProfilePreviewDto>> GetOverview([FromQuery] int skip = 0, [FromQuery] int take = 20)
         {
             return Ok(_guildService.GetOverview(skip, take));
         }
@@ -125,7 +127,7 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpPost("{guildId}/pinned")]
-        public ActionResult<GithubRepository> AddPinnedProject([FromRoute]int guildId, [FromBody]CreateProjectDto createProject)
+        public ActionResult<GithubRepository> AddPinnedProject([FromRoute] int guildId, [FromBody] CreateProjectDto createProject)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildService.AddPinnedRepository(user, guildId, createProject.Owner, createProject.RepositoryName));

@@ -7,12 +7,6 @@ namespace Iwentys.GoogleTableIntegration.Marks
 {
     internal class TableStringHelper
     {
-        public string Id { get; }
-        public int NameColumnNum { get; }
-        public int ScoreColumnNum { get; }
-        public string Range { get; }
-        public List<int> NameColumns { get; }
-
         public TableStringHelper(GoogleTableData tableData)
         {
             //TODO: ???
@@ -32,19 +26,25 @@ namespace Iwentys.GoogleTableIntegration.Marks
                 NameColumns.Add(FormatStringToInt(namePart) - FormatStringToInt(firstColumn));
         }
 
+        public string Id { get; }
+        public int NameColumnNum { get; }
+        public int ScoreColumnNum { get; }
+        public string Range { get; }
+        public List<int> NameColumns { get; }
+
         /// <summary>
-        /// Examples of conversion:
-        /// "A" -> 1
-        /// "AB" -> 28
-        /// "ABA" -> 729
+        ///     Examples of conversion:
+        ///     "A" -> 1
+        ///     "AB" -> 28
+        ///     "ABA" -> 729
         /// </summary>
         /// <param name="str">GoogleTable format string</param>
         /// <returns>Integer associated with the given string</returns>
         private int FormatStringToInt(string str)
         {
-            int result = 0;
+            var result = 0;
             for (int i = str.Length - 1; i >= 0; i--)
-                result += (int)Math.Pow(26, i) * (str[i] - 'A' + 1);
+                result += (int) Math.Pow(26, i) * (str[i] - 'A' + 1);
 
             return result;
         }

@@ -4,7 +4,7 @@ using Iwentys.Models.Types;
 
 namespace Iwentys.Models.Entities
 {
-    public class Quest
+    public class QuestEntity
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -21,9 +21,9 @@ namespace Iwentys.Models.Entities
 
         public bool IsOutdated => Deadline < DateTime.UtcNow;
 
-        public static Quest New(string title, string description, int price, DateTime? deadline, StudentEntity author)
+        public static QuestEntity New(string title, string description, int price, DateTime? deadline, StudentEntity author)
         {
-            return new Quest
+            return new QuestEntity
             {
                 Title = title,
                 Description = description,

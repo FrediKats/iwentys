@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.Models;
 using Iwentys.Models.Entities.Study;
-using Iwentys.Models.Transferable.Study;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -18,12 +16,6 @@ namespace Iwentys.Database.Repositories.Implementations
         public GroupGroupSubjectRepository(IwentysDbContext dbContext)
         {
             _dbContext = dbContext;
-        }
-        public GroupSubjectEntity Create(GroupSubjectEntity entity)
-        {
-            EntityEntry<GroupSubjectEntity> createdEntity = _dbContext.GroupSubjects.Add(entity);
-            _dbContext.SaveChanges();
-            return createdEntity.Entity;
         }
 
         public IQueryable<GroupSubjectEntity> Read()
@@ -52,28 +44,28 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.SaveChanges();
         }
 
-        public IEnumerable<GroupSubjectEntity> GetSubjectForGroupForDto(StudySearchDto searchDto)
+        public IEnumerable<GroupSubjectEntity> GetSubjectForGroupForDto(StudySearchParameters searchParameters)
         {
             IQueryable<GroupSubjectEntity> query = Read();
 
-            if (searchDto.GroupId != null)
-                query = query.Where(s => s.StudyGroupId == searchDto.GroupId.Value);
+            if (searchParameters.GroupId != null)
+                query = query.Where(s => s.StudyGroupId == searchParameters.GroupId.Value);
 
-            if (searchDto.StudySemester != null)
-                query = query.Where(s => s.StudySemester == searchDto.StudySemester.Value);
+            if (searchParameters.StudySemester != null)
+                query = query.Where(s => s.StudySemester == searchParameters.StudySemester.Value);
 
-            if (searchDto.SubjectId != null)
-                query = query.Where(s => s.SubjectId == searchDto.SubjectId.Value);
+            if (searchParameters.SubjectId != null)
+                query = query.Where(s => s.SubjectId == searchParameters.SubjectId.Value);
 
-            if (searchDto.CourseId != null)
-                query = query.Where(gs => gs.StudyGroup.StudyCourseId == searchDto.CourseId);
+            if (searchParameters.CourseId != null)
+                query = query.Where(gs => gs.StudyGroup.StudyCourseId == searchParameters.CourseId);
 
             return query;
         }
 
-        public IEnumerable<SubjectEntity> GetSubjectsForDto(StudySearchDto searchDto)
+        public IEnumerable<SubjectEntity> GetSubjectsForDto(StudySearchParameters searchParameters)
         {
-            return GetSubjectForGroupForDto(searchDto).Select(s => s.Subject);
+            return GetSubjectForGroupForDto(searchParameters).Select(s => s.Subject);
         }
 
         public IEnumerable<StudyGroupEntity> GetStudyGroupsForDto(int? courseId)
@@ -84,7 +76,13 @@ namespace Iwentys.Database.Repositories.Implementations
                 query = query.Where(g => g.StudyCourseId == courseId);
 
             return query;
+        }
 
+        public GroupSubjectEntity Create(GroupSubjectEntity entity)
+        {
+            EntityEntry<GroupSubjectEntity> createdEntity = _dbContext.GroupSubjects.Add(entity);
+            _dbContext.SaveChanges();
+            return createdEntity.Entity;
         }
     }
 }

@@ -1,12 +1,19 @@
 ﻿using System.Collections.Generic;
-using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.Types.Guilds;
+using Iwentys.Models.Types;
 
 namespace Iwentys.Models.Transferable.Guilds
 {
     public class GuildProfileDto : GuildProfilePreviewDto
     {
+        public GuildProfileDto()
+        {
+        }
+
+        public GuildProfileDto(GuildEntity guild) : base(guild)
+        {
+        }
+
         public GuildMemberLeaderBoard MemberLeaderBoard { get; set; }
 
         //TODO: add newsfeeds
@@ -16,13 +23,5 @@ namespace Iwentys.Models.Transferable.Guilds
         public List<GuildTestTaskInfoDto> TestTasks { get; set; } = new List<GuildTestTaskInfoDto>();
 
         public UserMembershipState UserMembershipState { get; set; }
-
-        public GuildProfileDto()
-        {
-        }
-
-        public GuildProfileDto(GuildEntity guild) : base(guild)
-        {
-        }
     }
 }

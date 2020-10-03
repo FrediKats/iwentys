@@ -1,8 +1,8 @@
 ﻿using Iwentys.Models.Types;
 
-namespace Iwentys.Models.Transferable.Study
+namespace Iwentys.Models
 {
-    public class StudySearchDto
+    public class StudySearchParameters
     {
         public int? GroupId { get; set; }
         public int? SubjectId { get; set; }

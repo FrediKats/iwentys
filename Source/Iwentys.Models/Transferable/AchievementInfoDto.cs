@@ -6,12 +6,6 @@ namespace Iwentys.Models.Transferable
 {
     public class AchievementInfoDto
     {
-        public string Url { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-
-        public DateTime GettingTime { get; set; }
-
         [JsonConstructor]
         public AchievementInfoDto(string url, string name, string description, DateTime gettingTime)
         {
@@ -20,6 +14,12 @@ namespace Iwentys.Models.Transferable
             Description = description;
             GettingTime = gettingTime;
         }
+
+        public string Url { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+
+        public DateTime GettingTime { get; set; }
 
         public static AchievementInfoDto Wrap(StudentAchievementEntity achievement)
         {
@@ -30,7 +30,7 @@ namespace Iwentys.Models.Transferable
                 achievement.GettingTime);
         }
 
-        public static AchievementInfoDto Wrap(GuildAchievementModel achievement)
+        public static AchievementInfoDto Wrap(GuildAchievementEntity achievement)
         {
             return new AchievementInfoDto(
                 achievement.Achievement.Url,

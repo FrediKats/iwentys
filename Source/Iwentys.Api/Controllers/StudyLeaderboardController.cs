@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+
 using Iwentys.Core.Services.Abstractions;
+using Iwentys.Models;
 using Iwentys.Models.Transferable.Study;
 using Iwentys.Models.Types;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Api.Controllers
@@ -20,7 +23,7 @@ namespace Iwentys.Api.Controllers
         [HttpGet]
         public ActionResult<List<StudyLeaderboardRow>> GetStudentsRating([FromQuery] int? subjectId, [FromQuery] int? courseId, [FromQuery] int? groupId, [FromQuery] StudySemester? semester)
         {
-            return Ok(_studyLeaderboardService.GetStudentsRatings(new StudySearchDto
+            return Ok(_studyLeaderboardService.GetStudentsRatings(new StudySearchParameters
             {
                 SubjectId = subjectId,
                 CourseId = courseId,

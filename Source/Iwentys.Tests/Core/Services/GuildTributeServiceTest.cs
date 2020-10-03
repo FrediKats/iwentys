@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Iwentys.Core.DomainModel;
-using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.GuildTribute;
 using Iwentys.Models.Types;

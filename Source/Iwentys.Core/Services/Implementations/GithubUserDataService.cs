@@ -3,7 +3,7 @@ using System.Linq;
 using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
-using Iwentys.Models.Entities;
+using Iwentys.Models;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Tools;
 
@@ -20,7 +20,7 @@ namespace Iwentys.Core.Services.Implementations
             _database = database;
         }
 
-        public GithubUserData CreateOrUpdate(int studentId)
+        public GithubUserEntity CreateOrUpdate(int studentId)
         {
             var student = _database.Student.ReadById(studentId);
             if (student.GithubUsername == null)
@@ -34,7 +34,7 @@ namespace Iwentys.Core.Services.Implementations
                 var githubUser = _githubApiAccessor.GetGithubUser(student.GithubUsername);
                 var contributionFullInfo = _githubApiAccessor.GetUserActivity(student.GithubUsername);
 
-                githubUserData = new GithubUserData
+                githubUserData = new GithubUserEntity
                 {
                     StudentId = studentId,
                     Username = student.GithubUsername,
@@ -73,7 +73,7 @@ namespace Iwentys.Core.Services.Implementations
             return githubUserData;
         }
 
-        public GithubUserData FindByUsername(string username)
+        public GithubUserEntity FindByUsername(string username)
         {
             return _database.GithubUserData.FindByUsername(username);
         }
@@ -89,7 +89,7 @@ namespace Iwentys.Core.Services.Implementations
             return _database.StudentProject.FindCertainProject(username, projectName).Maybe(s => new GithubRepository(s));
         }
 
-        public IEnumerable<GithubUserData> GetAll()
+        public IEnumerable<GithubUserEntity> GetAll()
         {
             return _database.GithubUserData.Read();
         }

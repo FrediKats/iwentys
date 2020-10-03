@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Iwentys.Models;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Github;
 

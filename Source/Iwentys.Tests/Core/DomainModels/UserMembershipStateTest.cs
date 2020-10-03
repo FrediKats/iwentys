@@ -4,11 +4,12 @@ using Iwentys.Core.DomainModel.Guilds;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.Models;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Gamification;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.Types.Guilds;
+using Iwentys.Models.Types;
 using Moq;
 using NUnit.Framework;
 
@@ -59,7 +60,7 @@ namespace Iwentys.Tests.Core.DomainModels
                 },
                 HiringPolicy = GuildHiringPolicy.Open,
                 PinnedProjects = new List<GuildPinnedProjectEntity>(),
-                Achievements = new List<GuildAchievementModel>()
+                Achievements = new List<GuildAchievementEntity>()
             };
 
             _tributeRepository = new Mock<ITributeRepository>();
@@ -73,7 +74,7 @@ namespace Iwentys.Tests.Core.DomainModels
                 .Returns(default(GithubRepository));
             _githubUserDataService
                 .Setup(a => a.FindByUsername(It.IsAny<String>()))
-                .Returns(new GithubUserData{ContributionFullInfo = new ContributionFullInfo { RawActivity = new ActivityInfo() { Contributions = new List<ContributionsInfo>(), Years = new List<YearActivityInfo>() } }});
+                .Returns(new GithubUserEntity{ContributionFullInfo = new ContributionFullInfo { RawActivity = new ActivityInfo() { Contributions = new List<ContributionsInfo>(), Years = new List<YearActivityInfo>() } }});
 
             _guildRepository = new Mock<IGuildRepository>();
             _guildRepository

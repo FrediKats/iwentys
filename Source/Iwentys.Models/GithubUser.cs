@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Models.Types
+﻿namespace Iwentys.Models
 {
     public class GithubUser
     {

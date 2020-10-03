@@ -1,7 +1,7 @@
 ﻿using System;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Students;
-using Iwentys.Models.Types.Guilds;
+using Iwentys.Models.Types;
 using LanguageExt;
 
 namespace Iwentys.Models.Transferable.GuildTribute

@@ -18,73 +18,73 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext = dbContext;
         }
 
-        public Company Create(Company entity)
+        public CompanyEntity Create(CompanyEntity entity)
         {
-            EntityEntry<Company> createdEntity = _dbContext.Companies.Add(entity);
+            EntityEntry<CompanyEntity> createdEntity = _dbContext.Companies.Add(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
-        public IQueryable<Company> Read()
+        public IQueryable<CompanyEntity> Read()
         {
             return _dbContext.Companies;
         }
 
-        public Company ReadById(int key)
+        public CompanyEntity ReadById(int key)
         {
             return _dbContext
                 .Companies
                 .Find(key);
         }
 
-        public Company Update(Company entity)
+        public CompanyEntity Update(CompanyEntity entity)
         {
-            EntityEntry<Company> createdEntity = _dbContext.Companies.Update(entity);
+            EntityEntry<CompanyEntity> createdEntity = _dbContext.Companies.Update(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
 
         public void Delete(int key)
         {
-            Company entity = this.Get(key);
+            CompanyEntity entity = this.Get(key);
             _dbContext.Companies.Remove(entity);
             _dbContext.SaveChanges();
         }
 
-        public StudentEntity[] ReadWorkers(Company company)
+        public StudentEntity[] ReadWorkers(CompanyEntity companyEntity)
         {
             return _dbContext
                 .CompanyWorkers
-                .Where(cw => cw.CompanyId == company.Id)
+                .Where(cw => cw.CompanyId == companyEntity.Id)
                 .Where(cw => cw.Type == CompanyWorkerType.Accepted)
                 .Select(cw => cw.Worker)
                 .ToArray();
         }
 
-        public CompanyWorker[] ReadWorkerRequest()
+        public CompanyWorkerEntity[] ReadWorkerRequest()
         {
             return _dbContext
                 .CompanyWorkers
                 .Where(cw => cw.Type == CompanyWorkerType.Requested)
                 .Include(cw => cw.Worker)
-                .Include(cw => cw.Company)
+                .Include(cw => cw.CompanyEntity)
                 .ToArray();
         }
 
-        public void AddCompanyWorkerRequest(Company company, StudentEntity worker)
+        public void AddCompanyWorkerRequest(CompanyEntity companyEntity, StudentEntity worker)
         {
             if (ReadWorkerRequest().Any(r => r.WorkerId == worker.Id))
                 throw new InnerLogicException("Student already request adding to company");
 
-            _dbContext.CompanyWorkers.Add(CompanyWorker.NewRequest(company, worker));
+            _dbContext.CompanyWorkers.Add(CompanyWorkerEntity.NewRequest(companyEntity, worker));
             _dbContext.SaveChanges();
         }
 
         public void ApproveRequest(StudentEntity user)
         {
-            CompanyWorker worker = _dbContext.CompanyWorkers.SingleOrDefault(cw => cw.WorkerId == user.Id) ?? throw EntityNotFoundException.Create(nameof(CompanyWorker), user.Id);
-            worker.Type = CompanyWorkerType.Accepted;
-            _dbContext.CompanyWorkers.Update(worker);
+            CompanyWorkerEntity workerEntity = _dbContext.CompanyWorkers.SingleOrDefault(cw => cw.WorkerId == user.Id) ?? throw EntityNotFoundException.Create(nameof(CompanyWorkerEntity), user.Id);
+            workerEntity.Type = CompanyWorkerType.Accepted;
+            _dbContext.CompanyWorkers.Update(workerEntity);
             _dbContext.SaveChanges();
         }
     }

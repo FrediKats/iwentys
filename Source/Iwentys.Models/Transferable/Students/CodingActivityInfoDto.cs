@@ -1,6 +1,4 @@
-﻿using Iwentys.Models.Entities.Github;
-
-namespace Iwentys.Models.Transferable.Students
+﻿namespace Iwentys.Models.Transferable.Students
 {
     public class CodingActivityInfoDto
     {

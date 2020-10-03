@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Iwentys.Models.Entities.Gamification;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Transferable.Students;
@@ -12,29 +13,6 @@ namespace Iwentys.Models.Entities
 {
     public class StudentEntity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Id { get; set; }
-
-        public string FirstName { get; set; }
-        public string MiddleName { get; set; }
-        public string SecondName { get; set; }
-        public UserType Role { get; set; }
-        public StudentType Type { get; set; }
-        public int? GroupId { get; set; }
-        public StudyGroupEntity Group { get; set; }
-        public string GithubUsername { get; set; }
-        public DateTime CreationTime { get; set; }
-        public DateTime LastOnlineTime { get; set; }
-        public int BarsPoints { get; set; }
-
-        public DateTime GuildLeftTime { get; set; }
-        public GuildMemberEntity GuildMember { get; set; }
-        public GithubUserData GithubUserData { get; set; }
-
-        public List<StudentAchievementEntity> Achievements { get; set; }
-        public List<SubjectActivityEntity> SubjectActivities { get; set; }
-
         public StudentEntity()
         {
         }
@@ -60,6 +38,29 @@ namespace Iwentys.Models.Entities
             BarsPoints = arguments.BarsPoints;
         }
 
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int Id { get; set; }
+
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string SecondName { get; set; }
+        public UserType Role { get; set; }
+        public StudentType Type { get; set; }
+        public int? GroupId { get; set; }
+        public StudyGroupEntity Group { get; set; }
+        public string GithubUsername { get; set; }
+        public DateTime CreationTime { get; set; }
+        public DateTime LastOnlineTime { get; set; }
+        public int BarsPoints { get; set; }
+
+        public DateTime GuildLeftTime { get; set; }
+        public GuildMemberEntity GuildMember { get; set; }
+        public GithubUserEntity GithubUserEntity { get; set; }
+
+        public List<StudentAchievementEntity> Achievements { get; set; }
+        public List<SubjectActivityEntity> SubjectActivities { get; set; }
+
         public static StudentEntity CreateFromIsu(int id, string firstName, string secondName, StudyGroupEntity group = null)
         {
             return CreateFromIsu(id, firstName, null, secondName, group?.Id);
@@ -69,7 +70,7 @@ namespace Iwentys.Models.Entities
         {
             return new StudentEntity(id, firstName, middleName, secondName)
             {
-                GroupId = groupId,
+                GroupId = groupId
             };
         }
     }

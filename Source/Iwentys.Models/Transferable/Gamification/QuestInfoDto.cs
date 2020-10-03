@@ -15,23 +15,23 @@ namespace Iwentys.Models.Transferable.Gamification
         public DateTime CreationTime { get; set; }
         public DateTime? Deadline { get; set; }
         public QuestState State { get; set; }
-        public Boolean IsOutdated { get; set; }
+        public bool IsOutdated { get; set; }
 
         public StudentPartialProfileDto Author { get; set; }
 
-        public static QuestInfoDto Wrap(Quest quest)
+        public static QuestInfoDto Wrap(QuestEntity questEntity)
         {
             return new QuestInfoDto
             {
-                Id = quest.Id,
-                Title = quest.Title,
-                Description = quest.Description,
-                Price = quest.Price,
-                CreationTime = quest.CreationTime,
-                Deadline = quest.Deadline,
-                State = quest.State,
-                IsOutdated = quest.Deadline < DateTime.UtcNow,
-                Author = quest.Author.To(a => new StudentPartialProfileDto(a))
+                Id = questEntity.Id,
+                Title = questEntity.Title,
+                Description = questEntity.Description,
+                Price = questEntity.Price,
+                CreationTime = questEntity.CreationTime,
+                Deadline = questEntity.Deadline,
+                State = questEntity.State,
+                IsOutdated = questEntity.Deadline < DateTime.UtcNow,
+                Author = questEntity.Author.To(a => new StudentPartialProfileDto(a))
             };
         }
     }

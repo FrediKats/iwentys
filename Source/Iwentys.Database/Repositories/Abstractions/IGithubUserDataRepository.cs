@@ -1,12 +1,12 @@
-﻿using Iwentys.Models.Entities;
+﻿using Iwentys.Models.Entities.Github;
 
 namespace Iwentys.Database.Repositories.Abstractions
 {
-    public interface IGithubUserDataRepository : IGenericRepository<GithubUserData, int>
+    public interface IGithubUserDataRepository : IGenericRepository<GithubUserEntity, int>
     {
         //TODO: check
-        GithubUserData Create(GithubUserData githubUserData);
+        GithubUserEntity Create(GithubUserEntity githubUserEntity);
 
-        GithubUserData FindByUsername(string username);
+        GithubUserEntity FindByUsername(string username);
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Iwentys.Models.Entities.Gamification
 {
-    public class AchievementModel
+    public class AchievementEntity
     {
         public int Id { get; set; }
         public string Title { get; set; }

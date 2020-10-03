@@ -1,4 +1,6 @@
-﻿namespace Iwentys.Models.Entities.Github
+﻿using Iwentys.Models.Entities.Github;
+
+namespace Iwentys.Models
 {
     public class GithubRepository
     {

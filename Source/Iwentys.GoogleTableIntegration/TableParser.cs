@@ -36,16 +36,16 @@ namespace Iwentys.GoogleTableIntegration
                 .FromJson(serviceToken)
                 .CreateScoped(SheetsService.Scope.SpreadsheetsReadonly);
 
-            return new SheetsService(new BaseClientService.Initializer()
+            return new SheetsService(new BaseClientService.Initializer
             {
                 ApplicationName = "IwentysTableParser",
-                HttpClientInitializer = credential,
+                HttpClientInitializer = credential
             });
         }
 
         private static SheetsService GetServiceForApiToken(string serviceToken)
         {
-            return new SheetsService(new BaseClientService.Initializer()
+            return new SheetsService(new BaseClientService.Initializer
             {
                 ApplicationName = "IwentysTableParser",
                 ApiKey = serviceToken

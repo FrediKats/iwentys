@@ -11,7 +11,7 @@ using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Guilds;
-using Iwentys.Models.Types.Guilds;
+using Iwentys.Models.Types;
 
 namespace Iwentys.Core.Services.Implementations
 {

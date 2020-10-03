@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Students;
-using Iwentys.Models.Types.Guilds;
+using Iwentys.Models.Types;
+
 using Octokit;
 
 namespace Iwentys.Core.DomainModel.Guilds
@@ -69,7 +72,7 @@ namespace Iwentys.Core.DomainModel.Guilds
             };
         }
 
-        public List<GithubUserData> GetGithubUserData()
+        public List<GithubUserEntity> GetGithubUserData()
         {
             return Profile
                 .Members

@@ -5,25 +5,6 @@ namespace Iwentys.Database.Context
 {
     public class DatabaseAccessor
     {
-        public IwentysDbContext Context { get; }
-        public IStudentRepository Student { get; }
-        public IStudyGroupRepository StudyGroup { get; }
-        public IGuildRepository Guild { get; }
-        public IGuildMemberRepository GuildMember { get; }
-        public ICompanyRepository Company { get; }
-        public ITournamentRepository Tournament { get; }
-        public IStudentProjectRepository StudentProject { get; }
-        public ITributeRepository Tribute { get; }
-        public IBarsPointTransactionLogRepository BarsPointTransactionLog { get; }
-        public IQuestRepository Quest { get; }
-        public IGithubUserDataRepository GithubUserData { get; }
-        public IGuildTestTaskSolvingInfoRepository GuildTestTaskSolvingInfo { get; }
-
-        public IAssignmentRepository Assignment { get; }
-
-        public ISubjectActivityRepository SubjectActivity { get; }
-        public IGroupSubjectRepository GroupSubject { get; }
-
         public DatabaseAccessor(IwentysDbContext context) : this(
             context,
             new StudentRepository(context),
@@ -78,5 +59,24 @@ namespace Iwentys.Database.Context
             GuildTestTaskSolvingInfo = guildTestTaskSolvingInfo;
             Assignment = assignment;
         }
+
+        public IwentysDbContext Context { get; }
+        public IStudentRepository Student { get; }
+        public IStudyGroupRepository StudyGroup { get; }
+        public IGuildRepository Guild { get; }
+        public IGuildMemberRepository GuildMember { get; }
+        public ICompanyRepository Company { get; }
+        public ITournamentRepository Tournament { get; }
+        public IStudentProjectRepository StudentProject { get; }
+        public ITributeRepository Tribute { get; }
+        public IBarsPointTransactionLogRepository BarsPointTransactionLog { get; }
+        public IQuestRepository Quest { get; }
+        public IGithubUserDataRepository GithubUserData { get; }
+        public IGuildTestTaskSolvingInfoRepository GuildTestTaskSolvingInfo { get; }
+
+        public IAssignmentRepository Assignment { get; }
+
+        public ISubjectActivityRepository SubjectActivity { get; }
+        public IGroupSubjectRepository GroupSubject { get; }
     }
 }

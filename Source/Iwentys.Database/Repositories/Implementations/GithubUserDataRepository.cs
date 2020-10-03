@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
-using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Github;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Implementations
@@ -15,26 +15,26 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext = dbContext;
         }
 
-        public GithubUserData Create(GithubUserData entity)
+        public GithubUserEntity Create(GithubUserEntity entity)
         {
-            EntityEntry<GithubUserData> createdEntry = _dbContext.GithubUsersData.Add(entity);
+            EntityEntry<GithubUserEntity> createdEntry = _dbContext.GithubUsersData.Add(entity);
             _dbContext.SaveChanges();
             return createdEntry.Entity;
         }
 
-        public IQueryable<GithubUserData> Read()
+        public IQueryable<GithubUserEntity> Read()
         {
             return _dbContext.GithubUsersData;
         }
 
-        public GithubUserData ReadById(int key)
+        public GithubUserEntity ReadById(int key)
         {
             return _dbContext.GithubUsersData.Find(key);
         }
 
-        public GithubUserData Update(GithubUserData entity)
+        public GithubUserEntity Update(GithubUserEntity entity)
         {
-            EntityEntry<GithubUserData> createdEntry = _dbContext.GithubUsersData.Update(entity);
+            EntityEntry<GithubUserEntity> createdEntry = _dbContext.GithubUsersData.Update(entity);
             _dbContext.SaveChanges();
             return createdEntry.Entity;
         }
@@ -45,7 +45,7 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.SaveChanges();
         }
 
-        public GithubUserData FindByUsername(string username)
+        public GithubUserEntity FindByUsername(string username)
         {
             return Read().SingleOrDefault(g => g.Username == username);
         }

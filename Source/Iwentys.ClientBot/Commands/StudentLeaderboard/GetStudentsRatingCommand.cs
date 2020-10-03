@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentResults;
 using Iwentys.Core.Services.Abstractions;
+using Iwentys.Models;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Study;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,7 +34,7 @@ namespace Iwentys.ClientBot.Commands.StudentLeaderboard
 
         public Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            var searchDto = new StudySearchDto
+            var searchDto = new StudySearchParameters
             {
                 CourseId = int.Parse(args.Arguments[0])
             };

@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Models.Entities.Github
+﻿namespace Iwentys.Models
 {
     public class YearActivityInfo
     {

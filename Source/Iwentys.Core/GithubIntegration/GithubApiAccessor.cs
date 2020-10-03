@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using Iwentys.Models.Entities.Github;
+using Iwentys.Models;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
-using Iwentys.Models.Types;
 using Newtonsoft.Json;
 using Octokit;
 

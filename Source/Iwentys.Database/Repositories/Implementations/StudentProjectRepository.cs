@@ -2,6 +2,7 @@
 using System.Linq;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.Models;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Github;
 using Microsoft.EntityFrameworkCore.ChangeTracking;

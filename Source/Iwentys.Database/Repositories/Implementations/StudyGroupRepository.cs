@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models;
@@ -18,13 +17,6 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext = dbContext;
         }
 
-        public StudyGroupEntity Create(StudyGroupEntity entity)
-        {
-            EntityEntry<StudyGroupEntity> createdEntity = _dbContext.StudyGroups.Add(entity);
-            _dbContext.SaveChanges();
-            return createdEntity.Entity;
-        }
-
         public IQueryable<StudyGroupEntity> Read()
         {
             return _dbContext.StudyGroups
@@ -32,7 +24,7 @@ namespace Iwentys.Database.Repositories.Implementations
                 .ThenInclude(s => s.StudyProgramEntity);
         }
 
-        public StudyGroupEntity ReadById(Int32 key)
+        public StudyGroupEntity ReadById(int key)
         {
             return Read().FirstOrDefault(s => s.Id == key);
         }
@@ -44,7 +36,7 @@ namespace Iwentys.Database.Repositories.Implementations
             return createdEntity.Entity;
         }
 
-        public void Delete(Int32 key)
+        public void Delete(int key)
         {
             StudyGroupEntity studyGroup = this.Get(key);
             _dbContext.StudyGroups.Remove(studyGroup);
@@ -54,6 +46,13 @@ namespace Iwentys.Database.Repositories.Implementations
         public StudyGroupEntity ReadByNamePattern(GroupName group)
         {
             return Read().FirstOrDefault(s => s.GroupName == group.Name);
+        }
+
+        public StudyGroupEntity Create(StudyGroupEntity entity)
+        {
+            EntityEntry<StudyGroupEntity> createdEntity = _dbContext.StudyGroups.Add(entity);
+            _dbContext.SaveChanges();
+            return createdEntity.Entity;
         }
     }
 }

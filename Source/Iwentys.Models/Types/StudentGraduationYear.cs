@@ -12,7 +12,10 @@
 
     public static class StudentGraduationYearExtensions
     {
-        public static bool IsCurrentFirstCourse(this StudentGraduationYear studentGraduationYear) => studentGraduationYear == StudentGraduationYear.Y24;
+        public static bool IsCurrentFirstCourse(this StudentGraduationYear studentGraduationYear)
+        {
+            return studentGraduationYear == StudentGraduationYear.Y24;
+        }
 
         public static StudentGraduationYear Parse(string value)
         {

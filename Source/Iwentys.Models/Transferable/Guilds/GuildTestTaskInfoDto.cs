@@ -18,7 +18,7 @@ namespace Iwentys.Models.Transferable.Guilds
         {
             return new GuildTestTaskInfoDto
             {
-                StudentId =  testTask.StudentId,
+                StudentId = testTask.StudentId,
                 StartTime = testTask.StartTime,
                 SubmitTime = testTask.SubmitTime,
                 ProjectId = testTask.ProjectId,

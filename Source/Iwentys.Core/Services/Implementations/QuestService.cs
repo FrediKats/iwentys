@@ -50,7 +50,7 @@ namespace Iwentys.Core.Services.Implementations
 
         public List<QuestInfoDto> GetArchived()
         {
-            List<Quest> repos = _databaseAccessor.Quest
+            List<QuestEntity> repos = _databaseAccessor.Quest
                 .Read()
                 .Where(q => q.State == QuestState.Completed || q.Deadline > DateTime.UtcNow)
                 .ToList();
@@ -69,36 +69,36 @@ namespace Iwentys.Core.Services.Implementations
 
         public QuestInfoDto SendResponse(AuthorizedUser user, int id)
         {
-            Quest quest = _databaseAccessor.Quest.ReadById(id);
-            if (quest.State != QuestState.Active || quest.IsOutdated)
+            QuestEntity questEntity = _databaseAccessor.Quest.ReadById(id);
+            if (questEntity.State != QuestState.Active || questEntity.IsOutdated)
                 throw new InnerLogicException("Quest is not active");
 
-            _databaseAccessor.Quest.SendResponse(quest, user.Id);
+            _databaseAccessor.Quest.SendResponse(questEntity, user.Id);
             return _databaseAccessor.Quest.ReadById(id).To(QuestInfoDto.Wrap);
         }
 
         public QuestInfoDto Complete(AuthorizedUser author, int questId, int userId)
         {
-            Quest quest = _databaseAccessor.Quest.ReadById(questId);
-            if (quest.AuthorId != author.Id)
+            QuestEntity questEntity = _databaseAccessor.Quest.ReadById(questId);
+            if (questEntity.AuthorId != author.Id)
                 throw InnerLogicException.NotEnoughPermission(author.Id);
 
-            QuestInfoDto completedQuest = _databaseAccessor.Quest.SetCompleted(quest, userId).To(QuestInfoDto.Wrap);
+            QuestInfoDto completedQuest = _databaseAccessor.Quest.SetCompleted(questEntity, userId).To(QuestInfoDto.Wrap);
             _achievementProvider.Achieve(AchievementList.QuestComplete, userId);
             return completedQuest;
         }
 
         public QuestInfoDto Revoke(AuthorizedUser author, int questId)
         {
-            Quest quest = _databaseAccessor.Quest.ReadById(questId);
-            if (quest.AuthorId != author.Id)
+            QuestEntity questEntity = _databaseAccessor.Quest.ReadById(questId);
+            if (questEntity.AuthorId != author.Id)
                 throw InnerLogicException.NotEnoughPermission(author.Id);
 
-            if (quest.State != QuestState.Active)
+            if (questEntity.State != QuestState.Active)
                 throw new InnerLogicException("Quest is not active");
 
-            quest.State = QuestState.Revoked;
-            return _databaseAccessor.Quest.Update(quest).To(QuestInfoDto.Wrap);
+            questEntity.State = QuestState.Revoked;
+            return _databaseAccessor.Quest.Update(questEntity).To(QuestInfoDto.Wrap);
         }
     }
 }

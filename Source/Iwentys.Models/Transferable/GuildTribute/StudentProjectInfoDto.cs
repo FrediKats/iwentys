@@ -1,4 +1,4 @@
-﻿using Iwentys.Models.Entities;
+﻿using Iwentys.Models.Entities.Github;
 
 namespace Iwentys.Models.Transferable.GuildTribute
 {

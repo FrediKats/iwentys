@@ -4,7 +4,7 @@ using Iwentys.Database.Context;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Transferable.Tournaments;
-using Iwentys.Models.Types.Guilds;
+using Iwentys.Models.Types;
 
 namespace Iwentys.Core.DomainModel
 {

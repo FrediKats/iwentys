@@ -19,7 +19,7 @@ namespace Iwentys.Database.Repositories.Implementations
 
         public GuildTestTaskSolvingInfoEntity Create(GuildEntity guild, StudentEntity student)
         {
-            EntityEntry<GuildTestTaskSolvingInfoEntity> entityEntry = _dbContext.GuildTestTaskSolvingInfos.Add(new GuildTestTaskSolvingInfoEntity()
+            EntityEntry<GuildTestTaskSolvingInfoEntity> entityEntry = _dbContext.GuildTestTaskSolvingInfos.Add(new GuildTestTaskSolvingInfoEntity
             {
                 GuildId = guild.Id,
                 StudentId = student.Id,

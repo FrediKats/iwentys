@@ -12,19 +12,19 @@ namespace Iwentys.Models.Transferable.Companies
 
         public StudentEntity[] Workers { get; set; }
 
-        public static CompanyInfoDto Create(Company company)
+        public static CompanyInfoDto Create(CompanyEntity companyEntity)
         {
-            return Create(company, Array.Empty<StudentEntity>());
+            return Create(companyEntity, Array.Empty<StudentEntity>());
         }
 
-        public static CompanyInfoDto Create(Company company, StudentEntity[] workers)
+        public static CompanyInfoDto Create(CompanyEntity companyEntity, StudentEntity[] workers)
         {
             return new CompanyInfoDto
             {
-                Id = company.Id,
-                Name = company.Name,
-                Latitude = company.Latitude,
-                Longitude = company.Longitude,
+                Id = companyEntity.Id,
+                Name = companyEntity.Name,
+                Latitude = companyEntity.Latitude,
+                Longitude = companyEntity.Longitude,
                 Workers = workers
             };
         }

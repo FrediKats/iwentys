@@ -2,8 +2,8 @@
 using System.Linq;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.Models;
 using Iwentys.Models.Entities.Study;
-using Iwentys.Models.Transferable.Study;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -17,9 +17,10 @@ namespace Iwentys.Database.Repositories.Implementations
         {
             _dbContext = dbContext;
         }
+
         public SubjectActivityEntity Create(SubjectActivityEntity entity)
         {
-            EntityEntry <SubjectActivityEntity> createdEntity = _dbContext.SubjectActivities.Add(entity);
+            EntityEntry<SubjectActivityEntity> createdEntity = _dbContext.SubjectActivities.Add(entity);
             _dbContext.SaveChanges();
             return createdEntity.Entity;
         }
@@ -54,7 +55,7 @@ namespace Iwentys.Database.Repositories.Implementations
             return Read().FirstOrDefault(s => s.StudentId == studentId && s.GroupSubjectEntityId == subjectForGroupId);
         }
 
-        public IEnumerable<SubjectActivityEntity> GetStudentActivities(StudySearchDto searchDto)
+        public IEnumerable<SubjectActivityEntity> GetStudentActivities(StudySearchParameters searchParameters)
         {
             var query = Read()
                 .Join(_dbContext.StudyGroups,
@@ -66,23 +67,11 @@ namespace Iwentys.Database.Repositories.Implementations
                     sg => sg.Id,
                     (_, sg) => new {_.SubjectActivity, _.Group, SubjectForGroup = sg});
 
-            if (searchDto.GroupId != null)
-            {
-                query = query.Where(_ => _.Group.Id == searchDto.GroupId);
-            }
-            if (searchDto.SubjectId != null)
-            {
-                query = query.Where(_ => _.SubjectForGroup.SubjectId == searchDto.SubjectId);
-            }
-            if (searchDto.CourseId != null)
-            {
-                query = query.Where(_ => _.Group.StudyCourseId == searchDto.CourseId);
-            }
+            if (searchParameters.GroupId != null) query = query.Where(_ => _.Group.Id == searchParameters.GroupId);
+            if (searchParameters.SubjectId != null) query = query.Where(_ => _.SubjectForGroup.SubjectId == searchParameters.SubjectId);
+            if (searchParameters.CourseId != null) query = query.Where(_ => _.Group.StudyCourseId == searchParameters.CourseId);
 
-            if (searchDto.StudySemester != null)
-            {
-                query = query.Where(_ => _.SubjectForGroup.StudySemester == searchDto.StudySemester);
-            }
+            if (searchParameters.StudySemester != null) query = query.Where(_ => _.SubjectForGroup.StudySemester == searchParameters.StudySemester);
 
             return query.Select(_ => _.SubjectActivity);
         }

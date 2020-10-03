@@ -15,13 +15,6 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext = dbContext;
         }
 
-        public TournamentEntity Create(TournamentEntity entity)
-        {
-            EntityEntry<TournamentEntity> createdEntity = _dbContext.Tournaments.Add(entity);
-            _dbContext.SaveChanges();
-            return createdEntity.Entity;
-        }
-
         public IQueryable<TournamentEntity> Read()
         {
             return _dbContext.Tournaments;
@@ -43,6 +36,13 @@ namespace Iwentys.Database.Repositories.Implementations
         {
             _dbContext.Tournaments.Remove(this.Get(key));
             _dbContext.SaveChanges();
+        }
+
+        public TournamentEntity Create(TournamentEntity entity)
+        {
+            EntityEntry<TournamentEntity> createdEntity = _dbContext.Tournaments.Add(entity);
+            _dbContext.SaveChanges();
+            return createdEntity.Entity;
         }
     }
 }

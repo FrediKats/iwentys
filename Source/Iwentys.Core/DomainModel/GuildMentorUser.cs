@@ -1,10 +1,11 @@
 ﻿using System.Linq;
+
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
-using Iwentys.Models.Types.Guilds;
+using Iwentys.Models.Types;
 
 namespace Iwentys.Core.DomainModel
 {

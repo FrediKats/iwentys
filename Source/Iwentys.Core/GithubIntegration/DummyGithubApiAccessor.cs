@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+
+using Iwentys.Models;
+
 using Octokit;
-using Iwentys.Models.Entities.Github;
-using Iwentys.Models.Types;
 
 namespace Iwentys.Core.GithubIntegration
 {
@@ -25,7 +26,7 @@ namespace Iwentys.Core.GithubIntegration
 
         public ContributionFullInfo GetUserActivity(string githubUsername)
         {
-            return new ContributionFullInfo {RawActivity = new ActivityInfo(){Contributions = new List<ContributionsInfo>(), Years = new List<YearActivityInfo>() }};
+            return new ContributionFullInfo { RawActivity = new ActivityInfo() { Contributions = new List<ContributionsInfo>(), Years = new List<YearActivityInfo>() } };
         }
 
         public int GetUserActivity(string githubUsername, DateTime from, DateTime to)

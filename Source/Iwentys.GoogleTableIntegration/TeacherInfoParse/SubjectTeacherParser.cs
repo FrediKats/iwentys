@@ -6,14 +6,14 @@ namespace Iwentys.GoogleTableIntegration.TeacherInfoParse
 {
     public class SubjectTeacherParser : ITableRequest<List<SubjectTeacherInfo>>
     {
-        public string Id { get; }
-        public string Range { get; }
-
         public SubjectTeacherParser(string id, string range)
         {
             Id = id;
             Range = range;
         }
+
+        public string Id { get; }
+        public string Range { get; }
 
         public List<SubjectTeacherInfo> Parse(ValueRange values)
         {
@@ -25,20 +25,18 @@ namespace Iwentys.GoogleTableIntegration.TeacherInfoParse
                 var subjectName = row[0].ToString();
                 var type = row[1].ToString();
 
-                for (int i = 2; i < row.Count; i++)
+                for (var i = 2; i < row.Count; i++)
                 {
                     var teacher = row[i].ToString();
                     var group = header[i].ToString();
                     if (!string.IsNullOrEmpty(teacher))
-                    {
                         result.Add(new SubjectTeacherInfo
                         {
-                            GroupName = group,
+                            GroupName = @group,
                             Subject = subjectName,
                             TeacherName = teacher,
                             Type = type
                         });
-                    }
                 }
             }
 

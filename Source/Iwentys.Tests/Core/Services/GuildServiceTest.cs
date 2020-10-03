@@ -2,12 +2,11 @@
 using System.Linq;
 using Iwentys.Core.DomainModel;
 using Iwentys.Database.Repositories;
-using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Types;
-using Iwentys.Models.Types.Guilds;
 using Iwentys.Tests.Tools;
 using NUnit.Framework;
 
@@ -342,7 +341,7 @@ namespace Iwentys.Tests.Core.Services
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGithubRepository(user, out GithubUserData userData)
+                .WithGithubRepository(user, out GithubUserEntity userData)
                 .WithGuild(user, out GuildProfileDto guild);
 
             Assert.That(context.GuildService.GetGuildMemberLeaderBoard(guild.Id).MembersImpact.Single().TotalRate,

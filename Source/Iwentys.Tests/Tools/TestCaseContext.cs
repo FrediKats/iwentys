@@ -8,6 +8,7 @@ using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Database.Repositories.Implementations;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Companies;
@@ -15,7 +16,6 @@ using Iwentys.Models.Transferable.Gamification;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.GuildTribute;
 using Iwentys.Models.Types;
-using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Tests.Tools
 {
@@ -120,7 +120,7 @@ namespace Iwentys.Tests.Tools
 
         public TestCaseContext WithCompany(out CompanyInfoDto companyInfo)
         {
-            var company = new Company();
+            var company = new CompanyEntity();
             company = DatabaseAccessor.Company.Create(company);
             companyInfo = CompanyInfoDto.Create(company);
             return this;
@@ -129,7 +129,7 @@ namespace Iwentys.Tests.Tools
         public TestCaseContext WithCompanyWorker(CompanyInfoDto companyInfo, out AuthorizedUser userInfo)
         {
             WithNewStudent(out userInfo);
-            Context.CompanyWorkers.Add(new CompanyWorker {CompanyId = companyInfo.Id, WorkerId = userInfo.Id, Type = CompanyWorkerType.Accepted});
+            Context.CompanyWorkers.Add(new CompanyWorkerEntity {CompanyId = companyInfo.Id, WorkerId = userInfo.Id, Type = CompanyWorkerType.Accepted});
             Context.SaveChanges();
             return this;
         }
@@ -195,9 +195,9 @@ namespace Iwentys.Tests.Tools
             public const string GithubRepoName = "GhRepo";
         }
 
-        public TestCaseContext WithGithubRepository(AuthorizedUser userInfo, out GithubUserData userData)
+        public TestCaseContext WithGithubRepository(AuthorizedUser userInfo, out GithubUserEntity userEntity)
         {
-            userData = GithubUserDataService.CreateOrUpdate(userInfo.Id);
+            userEntity = GithubUserDataService.CreateOrUpdate(userInfo.Id);
             return this;
         }
     }

@@ -3,11 +3,11 @@ using Iwentys.Models.Transferable.Gamification;
 
 namespace Iwentys.Database.Repositories.Abstractions
 {
-    public interface IQuestRepository : IGenericRepository<Quest, int>
+    public interface IQuestRepository : IGenericRepository<QuestEntity, int>
     {
-        void SendResponse(Quest quest, int userId);
-        Quest SetCompleted(Quest quest, int studentId);
+        void SendResponse(QuestEntity questEntity, int userId);
+        QuestEntity SetCompleted(QuestEntity questEntity, int studentId);
 
-        Quest Create(StudentEntity student, CreateQuestDto createQuest);
+        QuestEntity Create(StudentEntity student, CreateQuestDto createQuest);
     }
 }

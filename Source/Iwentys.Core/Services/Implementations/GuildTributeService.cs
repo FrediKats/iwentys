@@ -4,6 +4,7 @@ using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
+using Iwentys.Models;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
@@ -11,7 +12,7 @@ using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.GuildTribute;
-using Iwentys.Models.Types.Guilds;
+using Iwentys.Models.Types;
 
 namespace Iwentys.Core.Services.Implementations
 {
