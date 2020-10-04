@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.Database.Tools;
 using Iwentys.Models;
 using Iwentys.Models.Entities.Study;
 using Microsoft.EntityFrameworkCore;
@@ -67,11 +68,11 @@ namespace Iwentys.Database.Repositories.Implementations
                     sg => sg.Id,
                     (_, sg) => new {_.SubjectActivity, _.Group, SubjectForGroup = sg});
 
-            if (searchParameters.GroupId != null) query = query.Where(_ => _.Group.Id == searchParameters.GroupId);
-            if (searchParameters.SubjectId != null) query = query.Where(_ => _.SubjectForGroup.SubjectId == searchParameters.SubjectId);
-            if (searchParameters.CourseId != null) query = query.Where(_ => _.Group.StudyCourseId == searchParameters.CourseId);
-
-            if (searchParameters.StudySemester != null) query = query.Where(_ => _.SubjectForGroup.StudySemester == searchParameters.StudySemester);
+            query = query
+                .WhereIf(searchParameters.GroupId, (a, id) => a.Group.Id == id)
+                .WhereIf(searchParameters.SubjectId, (a, id) => a.SubjectForGroup.SubjectId == id)
+                .WhereIf(searchParameters.CourseId, (a, id) => a.Group.StudyCourseId == id)
+                .WhereIf(searchParameters.StudySemester, (a, id) => a.SubjectForGroup.StudySemester == id);
 
             return query.Select(_ => _.SubjectActivity);
         }
