@@ -68,7 +68,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AssignmentInfoDto>> ApiAssignmentGetAsync()
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AssignmentInfoResponse>> ApiAssignmentGetAsync()
         {
             return ApiAssignmentGetAsync(System.Threading.CancellationToken.None);
         }
@@ -76,7 +76,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AssignmentInfoDto>> ApiAssignmentGetAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AssignmentInfoResponse>> ApiAssignmentGetAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Assignment");
@@ -109,7 +109,7 @@ namespace Iwentys.ApiClient.OpenAPIService
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<AssignmentInfoDto>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<AssignmentInfoResponse>>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -136,7 +136,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AssignmentInfoDto>> ApiAssignmentPostAsync(AssignmentCreateDto body)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AssignmentInfoResponse>> ApiAssignmentPostAsync(AssignmentCreateRequest body)
         {
             return ApiAssignmentPostAsync(body, System.Threading.CancellationToken.None);
         }
@@ -144,7 +144,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AssignmentInfoDto>> ApiAssignmentPostAsync(AssignmentCreateDto body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AssignmentInfoResponse>> ApiAssignmentPostAsync(AssignmentCreateRequest body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Assignment");
@@ -180,7 +180,7 @@ namespace Iwentys.ApiClient.OpenAPIService
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<AssignmentInfoDto>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<AssignmentInfoResponse>>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -207,7 +207,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CompanyInfoDto>> ApiCompanyGetAsync()
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CompanyInfoResponse>> ApiCompanyGetAsync()
         {
             return ApiCompanyGetAsync(System.Threading.CancellationToken.None);
         }
@@ -215,7 +215,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CompanyInfoDto>> ApiCompanyGetAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CompanyInfoResponse>> ApiCompanyGetAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Company");
@@ -248,7 +248,7 @@ namespace Iwentys.ApiClient.OpenAPIService
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<CompanyInfoDto>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<CompanyInfoResponse>>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -275,7 +275,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<CompanyInfoDto> ApiCompanyGetAsync(int id)
+        public System.Threading.Tasks.Task<CompanyInfoResponse> ApiCompanyGetAsync(int id)
         {
             return ApiCompanyGetAsync(id, System.Threading.CancellationToken.None);
         }
@@ -283,7 +283,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<CompanyInfoDto> ApiCompanyGetAsync(int id, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<CompanyInfoResponse> ApiCompanyGetAsync(int id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
@@ -320,7 +320,7 @@ namespace Iwentys.ApiClient.OpenAPIService
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<CompanyInfoDto>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<CompanyInfoResponse>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -702,7 +702,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<GuildProfileShortInfoDto> ApiGuildPostAsync(GuildCreateArgumentDto body)
+        public System.Threading.Tasks.Task<GuildProfileShortInfoDto> ApiGuildPostAsync(GuildCreateRequest body)
         {
             return ApiGuildPostAsync(body, System.Threading.CancellationToken.None);
         }
@@ -710,7 +710,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<GuildProfileShortInfoDto> ApiGuildPostAsync(GuildCreateArgumentDto body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<GuildProfileShortInfoDto> ApiGuildPostAsync(GuildCreateRequest body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Guild");
@@ -773,7 +773,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<GuildProfileShortInfoDto> ApiGuildPutAsync(GuildUpdateArgumentDto body)
+        public System.Threading.Tasks.Task<GuildProfileShortInfoDto> ApiGuildPutAsync(GuildUpdateRequest body)
         {
             return ApiGuildPutAsync(body, System.Threading.CancellationToken.None);
         }
@@ -781,7 +781,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<GuildProfileShortInfoDto> ApiGuildPutAsync(GuildUpdateArgumentDto body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<GuildProfileShortInfoDto> ApiGuildPutAsync(GuildUpdateRequest body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Guild");
@@ -1711,7 +1711,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<GithubRepository> ApiGuildPinnedPostAsync(int guildId, CreateProjectDto body)
+        public System.Threading.Tasks.Task<GithubRepository> ApiGuildPinnedPostAsync(int guildId, CreateProjectRequest body)
         {
             return ApiGuildPinnedPostAsync(guildId, body, System.Threading.CancellationToken.None);
         }
@@ -1719,7 +1719,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<GithubRepository> ApiGuildPinnedPostAsync(int guildId, CreateProjectDto body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<GithubRepository> ApiGuildPinnedPostAsync(int guildId, CreateProjectRequest body, System.Threading.CancellationToken cancellationToken)
         {
             if (guildId == null)
                 throw new System.ArgumentNullException("guildId");
@@ -1856,7 +1856,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GuildTestTaskInfoDto>> ApiGuildTestTaskAsync(int? guildId)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GuildTestTaskInfoResponse>> ApiGuildTestTaskAsync(int? guildId)
         {
             return ApiGuildTestTaskAsync(guildId, System.Threading.CancellationToken.None);
         }
@@ -1864,7 +1864,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GuildTestTaskInfoDto>> ApiGuildTestTaskAsync(int? guildId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<GuildTestTaskInfoResponse>> ApiGuildTestTaskAsync(int? guildId, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/guild/test-task?");
@@ -1902,7 +1902,7 @@ namespace Iwentys.ApiClient.OpenAPIService
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<GuildTestTaskInfoDto>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<GuildTestTaskInfoResponse>>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1929,7 +1929,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<GuildTestTaskInfoDto> ApiGuildTestTaskAcceptAsync(int? guildId)
+        public System.Threading.Tasks.Task<GuildTestTaskInfoResponse> ApiGuildTestTaskAcceptAsync(int? guildId)
         {
             return ApiGuildTestTaskAcceptAsync(guildId, System.Threading.CancellationToken.None);
         }
@@ -1937,7 +1937,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<GuildTestTaskInfoDto> ApiGuildTestTaskAcceptAsync(int? guildId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<GuildTestTaskInfoResponse> ApiGuildTestTaskAcceptAsync(int? guildId, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/guild/test-task/accept?");
@@ -1976,7 +1976,7 @@ namespace Iwentys.ApiClient.OpenAPIService
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<GuildTestTaskInfoDto>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<GuildTestTaskInfoResponse>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -2003,7 +2003,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<GuildTestTaskInfoDto> ApiGuildTestTaskSubmitAsync(int? guildId, string projectOwner, string projectName)
+        public System.Threading.Tasks.Task<GuildTestTaskInfoResponse> ApiGuildTestTaskSubmitAsync(int? guildId, string projectOwner, string projectName)
         {
             return ApiGuildTestTaskSubmitAsync(guildId, projectOwner, projectName, System.Threading.CancellationToken.None);
         }
@@ -2011,7 +2011,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<GuildTestTaskInfoDto> ApiGuildTestTaskSubmitAsync(int? guildId, string projectOwner, string projectName, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<GuildTestTaskInfoResponse> ApiGuildTestTaskSubmitAsync(int? guildId, string projectOwner, string projectName, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/guild/test-task/submit?");
@@ -2058,7 +2058,7 @@ namespace Iwentys.ApiClient.OpenAPIService
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<GuildTestTaskInfoDto>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<GuildTestTaskInfoResponse>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -2085,7 +2085,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<GuildTestTaskInfoDto> ApiGuildTestTaskCompleteAsync(int? guildId, int? taskSolveOwnerId)
+        public System.Threading.Tasks.Task<GuildTestTaskInfoResponse> ApiGuildTestTaskCompleteAsync(int? guildId, int? taskSolveOwnerId)
         {
             return ApiGuildTestTaskCompleteAsync(guildId, taskSolveOwnerId, System.Threading.CancellationToken.None);
         }
@@ -2093,7 +2093,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<GuildTestTaskInfoDto> ApiGuildTestTaskCompleteAsync(int? guildId, int? taskSolveOwnerId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<GuildTestTaskInfoResponse> ApiGuildTestTaskCompleteAsync(int? guildId, int? taskSolveOwnerId, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/guild/test-task/complete?");
@@ -2136,7 +2136,7 @@ namespace Iwentys.ApiClient.OpenAPIService
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<GuildTestTaskInfoDto>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<GuildTestTaskInfoResponse>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -2163,7 +2163,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TributeInfoDto>> ApiGuildTributePendingAsync()
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TributeInfoResponse>> ApiGuildTributePendingAsync()
         {
             return ApiGuildTributePendingAsync(System.Threading.CancellationToken.None);
         }
@@ -2171,7 +2171,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TributeInfoDto>> ApiGuildTributePendingAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TributeInfoResponse>> ApiGuildTributePendingAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/guild/tribute/pending");
@@ -2204,7 +2204,7 @@ namespace Iwentys.ApiClient.OpenAPIService
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<TributeInfoDto>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<TributeInfoResponse>>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -2231,7 +2231,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TributeInfoDto>> ApiGuildTributeGetForStudentAsync()
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TributeInfoResponse>> ApiGuildTributeGetForStudentAsync()
         {
             return ApiGuildTributeGetForStudentAsync(System.Threading.CancellationToken.None);
         }
@@ -2239,7 +2239,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TributeInfoDto>> ApiGuildTributeGetForStudentAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TributeInfoResponse>> ApiGuildTributeGetForStudentAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/guild/tribute/get-for-student");
@@ -2272,7 +2272,7 @@ namespace Iwentys.ApiClient.OpenAPIService
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<TributeInfoDto>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<TributeInfoResponse>>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -2299,7 +2299,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<TributeInfoDto> ApiGuildTributeCreateAsync(CreateProjectDto body)
+        public System.Threading.Tasks.Task<TributeInfoResponse> ApiGuildTributeCreateAsync(CreateProjectRequest body)
         {
             return ApiGuildTributeCreateAsync(body, System.Threading.CancellationToken.None);
         }
@@ -2307,7 +2307,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<TributeInfoDto> ApiGuildTributeCreateAsync(CreateProjectDto body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<TributeInfoResponse> ApiGuildTributeCreateAsync(CreateProjectRequest body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/guild/tribute/create");
@@ -2343,7 +2343,7 @@ namespace Iwentys.ApiClient.OpenAPIService
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<TributeInfoDto>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<TributeInfoResponse>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -2370,7 +2370,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<TributeInfoDto> ApiGuildTributeCancelAsync(long? body)
+        public System.Threading.Tasks.Task<TributeInfoResponse> ApiGuildTributeCancelAsync(long? body)
         {
             return ApiGuildTributeCancelAsync(body, System.Threading.CancellationToken.None);
         }
@@ -2378,7 +2378,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<TributeInfoDto> ApiGuildTributeCancelAsync(long? body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<TributeInfoResponse> ApiGuildTributeCancelAsync(long? body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/guild/tribute/cancel");
@@ -2414,7 +2414,7 @@ namespace Iwentys.ApiClient.OpenAPIService
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<TributeInfoDto>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<TributeInfoResponse>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -2441,7 +2441,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<TributeInfoDto> ApiGuildTributeCompleteAsync(TributeCompleteDto body)
+        public System.Threading.Tasks.Task<TributeInfoResponse> ApiGuildTributeCompleteAsync(TributeCompleteRequest body)
         {
             return ApiGuildTributeCompleteAsync(body, System.Threading.CancellationToken.None);
         }
@@ -2449,7 +2449,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<TributeInfoDto> ApiGuildTributeCompleteAsync(TributeCompleteDto body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<TributeInfoResponse> ApiGuildTributeCompleteAsync(TributeCompleteRequest body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/guild/tribute/complete");
@@ -2485,7 +2485,7 @@ namespace Iwentys.ApiClient.OpenAPIService
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<TributeInfoDto>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<TributeInfoResponse>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -2585,7 +2585,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<QuestInfoDto>> ApiQuestCreatedAsync()
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<QuestInfoResponse>> ApiQuestCreatedAsync()
         {
             return ApiQuestCreatedAsync(System.Threading.CancellationToken.None);
         }
@@ -2593,7 +2593,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<QuestInfoDto>> ApiQuestCreatedAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<QuestInfoResponse>> ApiQuestCreatedAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Quest/created");
@@ -2626,7 +2626,7 @@ namespace Iwentys.ApiClient.OpenAPIService
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<QuestInfoDto>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<QuestInfoResponse>>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -2653,7 +2653,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<QuestInfoDto>> ApiQuestCompletedAsync()
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<QuestInfoResponse>> ApiQuestCompletedAsync()
         {
             return ApiQuestCompletedAsync(System.Threading.CancellationToken.None);
         }
@@ -2661,7 +2661,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<QuestInfoDto>> ApiQuestCompletedAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<QuestInfoResponse>> ApiQuestCompletedAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Quest/completed");
@@ -2694,7 +2694,7 @@ namespace Iwentys.ApiClient.OpenAPIService
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<QuestInfoDto>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<QuestInfoResponse>>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -2721,7 +2721,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<QuestInfoDto>> ApiQuestActiveAsync()
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<QuestInfoResponse>> ApiQuestActiveAsync()
         {
             return ApiQuestActiveAsync(System.Threading.CancellationToken.None);
         }
@@ -2729,7 +2729,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<QuestInfoDto>> ApiQuestActiveAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<QuestInfoResponse>> ApiQuestActiveAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Quest/active");
@@ -2762,7 +2762,7 @@ namespace Iwentys.ApiClient.OpenAPIService
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<QuestInfoDto>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<QuestInfoResponse>>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -2789,7 +2789,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<QuestInfoDto>> ApiQuestArchivedAsync()
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<QuestInfoResponse>> ApiQuestArchivedAsync()
         {
             return ApiQuestArchivedAsync(System.Threading.CancellationToken.None);
         }
@@ -2797,7 +2797,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<QuestInfoDto>> ApiQuestArchivedAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<QuestInfoResponse>> ApiQuestArchivedAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Quest/archived");
@@ -2830,7 +2830,7 @@ namespace Iwentys.ApiClient.OpenAPIService
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<QuestInfoDto>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<QuestInfoResponse>>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -2857,7 +2857,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<QuestInfoDto> ApiQuestAsync(CreateQuestDto body)
+        public System.Threading.Tasks.Task<QuestInfoResponse> ApiQuestAsync(CreateQuestRequest body)
         {
             return ApiQuestAsync(body, System.Threading.CancellationToken.None);
         }
@@ -2865,7 +2865,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<QuestInfoDto> ApiQuestAsync(CreateQuestDto body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<QuestInfoResponse> ApiQuestAsync(CreateQuestRequest body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Quest");
@@ -2901,7 +2901,7 @@ namespace Iwentys.ApiClient.OpenAPIService
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<QuestInfoDto>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<QuestInfoResponse>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -2928,7 +2928,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<QuestInfoDto> ApiQuestSendResponseAsync(int questId)
+        public System.Threading.Tasks.Task<QuestInfoResponse> ApiQuestSendResponseAsync(int questId)
         {
             return ApiQuestSendResponseAsync(questId, System.Threading.CancellationToken.None);
         }
@@ -2936,7 +2936,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<QuestInfoDto> ApiQuestSendResponseAsync(int questId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<QuestInfoResponse> ApiQuestSendResponseAsync(int questId, System.Threading.CancellationToken cancellationToken)
         {
             if (questId == null)
                 throw new System.ArgumentNullException("questId");
@@ -2974,7 +2974,7 @@ namespace Iwentys.ApiClient.OpenAPIService
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<QuestInfoDto>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<QuestInfoResponse>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -3001,7 +3001,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<QuestInfoDto> ApiQuestCompleteAsync(int questId, int? userId)
+        public System.Threading.Tasks.Task<QuestInfoResponse> ApiQuestCompleteAsync(int questId, int? userId)
         {
             return ApiQuestCompleteAsync(questId, userId, System.Threading.CancellationToken.None);
         }
@@ -3009,7 +3009,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<QuestInfoDto> ApiQuestCompleteAsync(int questId, int? userId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<QuestInfoResponse> ApiQuestCompleteAsync(int questId, int? userId, System.Threading.CancellationToken cancellationToken)
         {
             if (questId == null)
                 throw new System.ArgumentNullException("questId");
@@ -3052,7 +3052,7 @@ namespace Iwentys.ApiClient.OpenAPIService
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<QuestInfoDto>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<QuestInfoResponse>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -3079,7 +3079,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<QuestInfoDto> ApiQuestRevokeAsync(int questId)
+        public System.Threading.Tasks.Task<QuestInfoResponse> ApiQuestRevokeAsync(int questId)
         {
             return ApiQuestRevokeAsync(questId, System.Threading.CancellationToken.None);
         }
@@ -3087,7 +3087,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<QuestInfoDto> ApiQuestRevokeAsync(int questId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<QuestInfoResponse> ApiQuestRevokeAsync(int questId, System.Threading.CancellationToken cancellationToken)
         {
             if (questId == null)
                 throw new System.ArgumentNullException("questId");
@@ -3125,7 +3125,7 @@ namespace Iwentys.ApiClient.OpenAPIService
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<QuestInfoDto>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<QuestInfoResponse>(response_, headers_).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -3220,7 +3220,7 @@ namespace Iwentys.ApiClient.OpenAPIService
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<StudentFullProfileDto> ApiStudentPutAsync(StudentUpdateDto body)
+        public System.Threading.Tasks.Task<StudentFullProfileDto> ApiStudentPutAsync(StudentUpdateRequest body)
         {
             return ApiStudentPutAsync(body, System.Threading.CancellationToken.None);
         }
@@ -3228,7 +3228,7 @@ namespace Iwentys.ApiClient.OpenAPIService
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<StudentFullProfileDto> ApiStudentPutAsync(StudentUpdateDto body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<StudentFullProfileDto> ApiStudentPutAsync(StudentUpdateRequest body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Student");

@@ -1,13 +1,13 @@
 ﻿namespace Iwentys.Models.Transferable.Students
 {
-    public class CodingActivityInfoDto
+    public class CodingActivityInfoResponse
     {
         public string Month { get; set; }
         public int Activity { get; set; }
 
-        public static CodingActivityInfoDto Wrap(ContributionsInfo contributions)
+        public static CodingActivityInfoResponse Wrap(ContributionsInfo contributions)
         {
-            return new CodingActivityInfoDto
+            return new CodingActivityInfoResponse
             {
                 Month = contributions.Date,
                 Activity = contributions.Count

@@ -17,10 +17,10 @@ namespace Iwentys.Models.Transferable.Guilds
         public GuildMemberLeaderBoard MemberLeaderBoard { get; set; }
 
         //TODO: add newsfeeds
-        public ActiveTributeDto Tribute { get; set; }
+        public ActiveTributeResponse Tribute { get; set; }
         public List<AchievementInfoDto> Achievements { get; set; }
         public List<GithubRepository> PinnedRepositories { get; set; }
-        public List<GuildTestTaskInfoDto> TestTasks { get; set; } = new List<GuildTestTaskInfoDto>();
+        public List<GuildTestTaskInfoResponse> TestTasks { get; set; } = new List<GuildTestTaskInfoResponse>();
 
         public UserMembershipState UserMembershipState { get; set; }
     }

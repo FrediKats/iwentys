@@ -19,17 +19,17 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<AssignmentInfoDto>> Get()
+        public ActionResult<List<AssignmentInfoResponse>> Get()
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_assignmentService.Read(user));
         }
 
         [HttpPost]
-        public ActionResult<List<AssignmentInfoDto>> Create([FromBody] AssignmentCreateDto assignmentCreateDto)
+        public ActionResult<List<AssignmentInfoResponse>> Create([FromBody] AssignmentCreateRequest assignmentCreateRequest)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(_assignmentService.Create(user, assignmentCreateDto));
+            return Ok(_assignmentService.Create(user, assignmentCreateRequest));
         }
     }
 }

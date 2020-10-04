@@ -14,7 +14,7 @@ namespace Iwentys.Tests.Core.Services
         {
             TestCaseContext testCase = TestCaseContext
                 .Case()
-                .WithCompany(out CompanyInfoDto company)
+                .WithCompany(out CompanyInfoResponse company)
                 .WithCompanyWorker(company, out AuthorizedUser user);
 
             StudentEntity[] companyMembers = testCase.CompanyService.Get(company.Id).Workers;
@@ -28,7 +28,7 @@ namespace Iwentys.Tests.Core.Services
         {
             TestCaseContext testCase = TestCaseContext
                 .Case()
-                .WithCompany(out CompanyInfoDto company)
+                .WithCompany(out CompanyInfoResponse company)
                 .WithNewStudent(out AuthorizedUser worker);
 
             testCase.CompanyService.RequestAdding(company.Id, worker.Id);

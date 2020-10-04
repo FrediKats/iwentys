@@ -6,7 +6,7 @@ namespace Iwentys.Database.Repositories.Abstractions
 {
     public interface IGuildRepository : IGenericRepository<GuildEntity, int>
     {
-        GuildEntity Create(StudentEntity creator, GuildCreateArgumentDto arguments);
+        GuildEntity Create(StudentEntity creator, GuildCreateRequest arguments);
 
         GuildEntity[] ReadPending();
         GuildEntity ReadForStudent(int studentId);

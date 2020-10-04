@@ -6,7 +6,7 @@ using Iwentys.Models.Types;
 
 namespace Iwentys.Models.Transferable.Gamification
 {
-    public class QuestInfoDto
+    public class QuestInfoResponse
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -19,9 +19,9 @@ namespace Iwentys.Models.Transferable.Gamification
 
         public StudentPartialProfileDto Author { get; set; }
 
-        public static QuestInfoDto Wrap(QuestEntity questEntity)
+        public static QuestInfoResponse Wrap(QuestEntity questEntity)
         {
-            return new QuestInfoDto
+            return new QuestInfoResponse
             {
                 Id = questEntity.Id,
                 Title = questEntity.Title,

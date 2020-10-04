@@ -4,7 +4,7 @@ using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;
-using Iwentys.Models.Transferable.Gamification;
+using Iwentys.Models.Transferable;
 using Iwentys.Models.Types;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -72,7 +72,7 @@ namespace Iwentys.Database.Repositories.Implementations
             return questEntity;
         }
 
-        public QuestEntity Create(StudentEntity student, CreateQuestDto createQuest)
+        public QuestEntity Create(StudentEntity student, CreateQuestRequest createQuest)
         {
             //TODO: add transaction
             if (student.BarsPoints < createQuest.Price)

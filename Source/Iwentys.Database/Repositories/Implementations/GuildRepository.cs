@@ -58,7 +58,7 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.SaveChanges();
         }
 
-        public GuildEntity Create(StudentEntity creator, GuildCreateArgumentDto arguments)
+        public GuildEntity Create(StudentEntity creator, GuildCreateRequest arguments)
         {
             var newGuild = new GuildEntity
             {

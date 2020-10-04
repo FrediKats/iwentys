@@ -2,6 +2,7 @@
 using Iwentys.Api.Tools;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
+using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Students;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,11 +38,11 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpPut]
-        public ActionResult<StudentFullProfileDto> Update([FromBody] StudentUpdateDto studentUpdateDto)
+        public ActionResult<StudentFullProfileDto> Update([FromBody] StudentUpdateRequest studentUpdateRequest)
         {
             AuthorizedUser user = this.TryAuthWithToken();
 
-            return Ok(_studentService.AddGithubUsername(user.Id, studentUpdateDto.GithubUsername));
+            return Ok(_studentService.AddGithubUsername(user.Id, studentUpdateRequest.GithubUsername));
         }
     }
 }

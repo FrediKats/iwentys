@@ -9,6 +9,7 @@ using Iwentys.Database.Context;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
+using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Gamification;
 using Iwentys.Models.Types;
 
@@ -25,30 +26,30 @@ namespace Iwentys.Core.Services.Implementations
             _databaseAccessor = databaseAccessor;
         }
 
-        public List<QuestInfoDto> GetCreatedByUser(AuthorizedUser user)
+        public List<QuestInfoResponse> GetCreatedByUser(AuthorizedUser user)
         {
             return _databaseAccessor.Quest
                 .Read()
                 .Where(q => q.AuthorId == user.Id)
-                .SelectToList(QuestInfoDto.Wrap);
+                .SelectToList(QuestInfoResponse.Wrap);
         }
 
-        public List<QuestInfoDto> GetCompletedByUser(AuthorizedUser user)
+        public List<QuestInfoResponse> GetCompletedByUser(AuthorizedUser user)
         {
             return _databaseAccessor.Quest.Read()
                 .Where(q => q.State == QuestState.Completed && q.Responses.Any(r => r.StudentId == user.Id))
-                .SelectToList(QuestInfoDto.Wrap);
+                .SelectToList(QuestInfoResponse.Wrap);
         }
 
-        public List<QuestInfoDto> GetActive()
+        public List<QuestInfoResponse> GetActive()
         {
             return _databaseAccessor.Quest
                 .Read()
                 .Where(q => q.State == QuestState.Active && (q.Deadline == null || q.Deadline > DateTime.UtcNow))
-                .SelectToList(QuestInfoDto.Wrap);
+                .SelectToList(QuestInfoResponse.Wrap);
         }
 
-        public List<QuestInfoDto> GetArchived()
+        public List<QuestInfoResponse> GetArchived()
         {
             List<QuestEntity> repos = _databaseAccessor.Quest
                 .Read()
@@ -56,39 +57,39 @@ namespace Iwentys.Core.Services.Implementations
                 .ToList();
 
             return repos
-                .SelectToList(QuestInfoDto.Wrap);
+                .SelectToList(QuestInfoResponse.Wrap);
         }
 
-        public QuestInfoDto Create(AuthorizedUser user, CreateQuestDto createQuest)
+        public QuestInfoResponse Create(AuthorizedUser user, CreateQuestRequest createQuest)
         {
             StudentEntity student = user.GetProfile(_databaseAccessor.Student);
-            QuestInfoDto quest = _databaseAccessor.Quest.Create(student, createQuest).To(QuestInfoDto.Wrap);
+            QuestInfoResponse quest = _databaseAccessor.Quest.Create(student, createQuest).To(QuestInfoResponse.Wrap);
             _achievementProvider.Achieve(AchievementList.QuestCreator, user.Id);
             return quest;
         }
 
-        public QuestInfoDto SendResponse(AuthorizedUser user, int id)
+        public QuestInfoResponse SendResponse(AuthorizedUser user, int id)
         {
             QuestEntity questEntity = _databaseAccessor.Quest.ReadById(id);
             if (questEntity.State != QuestState.Active || questEntity.IsOutdated)
                 throw new InnerLogicException("Quest is not active");
 
             _databaseAccessor.Quest.SendResponse(questEntity, user.Id);
-            return _databaseAccessor.Quest.ReadById(id).To(QuestInfoDto.Wrap);
+            return _databaseAccessor.Quest.ReadById(id).To(QuestInfoResponse.Wrap);
         }
 
-        public QuestInfoDto Complete(AuthorizedUser author, int questId, int userId)
+        public QuestInfoResponse Complete(AuthorizedUser author, int questId, int userId)
         {
             QuestEntity questEntity = _databaseAccessor.Quest.ReadById(questId);
             if (questEntity.AuthorId != author.Id)
                 throw InnerLogicException.NotEnoughPermission(author.Id);
 
-            QuestInfoDto completedQuest = _databaseAccessor.Quest.SetCompleted(questEntity, userId).To(QuestInfoDto.Wrap);
+            QuestInfoResponse completedQuest = _databaseAccessor.Quest.SetCompleted(questEntity, userId).To(QuestInfoResponse.Wrap);
             _achievementProvider.Achieve(AchievementList.QuestComplete, userId);
             return completedQuest;
         }
 
-        public QuestInfoDto Revoke(AuthorizedUser author, int questId)
+        public QuestInfoResponse Revoke(AuthorizedUser author, int questId)
         {
             QuestEntity questEntity = _databaseAccessor.Quest.ReadById(questId);
             if (questEntity.AuthorId != author.Id)
@@ -98,7 +99,7 @@ namespace Iwentys.Core.Services.Implementations
                 throw new InnerLogicException("Quest is not active");
 
             questEntity.State = QuestState.Revoked;
-            return _databaseAccessor.Quest.Update(questEntity).To(QuestInfoDto.Wrap);
+            return _databaseAccessor.Quest.Update(questEntity).To(QuestInfoResponse.Wrap);
         }
     }
 }

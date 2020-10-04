@@ -17,15 +17,15 @@ namespace Iwentys.Models.Entities
         public int? SubjectId { get; set; }
         public SubjectEntity Subject { get; set; }
 
-        public static AssignmentEntity Create(StudentEntity creator, AssignmentCreateDto assignmentCreateDto)
+        public static AssignmentEntity Create(StudentEntity creator, AssignmentCreateRequest assignmentCreateRequest)
         {
             return new AssignmentEntity
             {
-                Title = assignmentCreateDto.Title,
-                Description = assignmentCreateDto.Description,
+                Title = assignmentCreateRequest.Title,
+                Description = assignmentCreateRequest.Description,
                 CreationTime = DateTime.UtcNow,
                 CreatorId = creator.Id,
-                SubjectId = assignmentCreateDto.SubjectId
+                SubjectId = assignmentCreateRequest.SubjectId
             };
         }
     }

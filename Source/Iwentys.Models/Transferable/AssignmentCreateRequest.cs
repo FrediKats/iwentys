@@ -1,6 +1,6 @@
 ﻿namespace Iwentys.Models.Transferable
 {
-    public class AssignmentCreateDto
+    public class AssignmentCreateRequest
     {
         public string Title { get; set; }
         public string Description { get; set; }

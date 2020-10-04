@@ -29,19 +29,19 @@ namespace Iwentys.Core.Services.Implementations
             _achievementProvider = achievementProvider;
         }
 
-        public List<GuildTestTaskInfoDto> Get(int guildId)
+        public List<GuildTestTaskInfoResponse> Get(int guildId)
         {
             return _database
                 .GuildTestTaskSolvingInfo
                 .Read()
                 .Where(t => t.GuildId == guildId)
                 .AsEnumerable()
-                .Select(GuildTestTaskInfoDto.Wrap)
+                .Select(GuildTestTaskInfoResponse.Wrap)
                 .ToList();
         }
 
         //TODO: check if already accepted
-        public GuildTestTaskInfoDto Accept(AuthorizedUser user, int guildId)
+        public GuildTestTaskInfoResponse Accept(AuthorizedUser user, int guildId)
         {
             GuildEntity studentGuild = _database.Guild.ReadForStudent(user.Id);
             if (studentGuild == null || studentGuild.Id != guildId)
@@ -49,11 +49,11 @@ namespace Iwentys.Core.Services.Implementations
 
             return _database.GuildTestTaskSolvingInfo
                 .Create(studentGuild, user.GetProfile(_database.Student))
-                .To(GuildTestTaskInfoDto.Wrap);
+                .To(GuildTestTaskInfoResponse.Wrap);
         }
 
         //TODO: ensure project belong to user
-        public GuildTestTaskInfoDto Submit(AuthorizedUser user, int guildId, string projectOwner, string projectName)
+        public GuildTestTaskInfoResponse Submit(AuthorizedUser user, int guildId, string projectOwner, string projectName)
         {
             GuildTestTaskSolvingInfoEntity testTask = _database.GuildTestTaskSolvingInfo
                 .Read()
@@ -68,10 +68,10 @@ namespace Iwentys.Core.Services.Implementations
 
             return _database.GuildTestTaskSolvingInfo
                 .Update(testTask)
-                .To(GuildTestTaskInfoDto.Wrap);
+                .To(GuildTestTaskInfoResponse.Wrap);
         }
 
-        public GuildTestTaskInfoDto Complete(AuthorizedUser user, int guildId, int taskSolveOwnerId)
+        public GuildTestTaskInfoResponse Complete(AuthorizedUser user, int guildId, int taskSolveOwnerId)
         {
             StudentEntity review = user.GetProfile(_database.Student);
             review.EnsureIsMentor(_database.Guild, guildId);
@@ -88,7 +88,7 @@ namespace Iwentys.Core.Services.Implementations
 
             return _database.GuildTestTaskSolvingInfo
                 .Update(testTask)
-                .To(GuildTestTaskInfoDto.Wrap);
+                .To(GuildTestTaskInfoResponse.Wrap);
         }
     }
 }

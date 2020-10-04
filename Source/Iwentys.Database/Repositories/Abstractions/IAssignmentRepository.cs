@@ -6,7 +6,7 @@ namespace Iwentys.Database.Repositories.Abstractions
 {
     public interface IAssignmentRepository
     {
-        StudentAssignmentEntity Create(StudentEntity creator, AssignmentCreateDto assignmentCreateDto);
+        StudentAssignmentEntity Create(StudentEntity creator, AssignmentCreateRequest assignmentCreateRequest);
         IQueryable<StudentAssignmentEntity> Read();
     }
 }

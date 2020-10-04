@@ -10,6 +10,7 @@ using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
+using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.GuildTribute;
 using Iwentys.Models.Types;
@@ -27,28 +28,28 @@ namespace Iwentys.Core.Services.Implementations
             _githubApi = githubApi;
         }
 
-        public TributeInfoDto[] GetPendingTributes(AuthorizedUser user)
+        public TributeInfoResponse[] GetPendingTributes(AuthorizedUser user)
         {
             GuildEntity guild = _database.Guild.ReadForStudent(user.Id) ?? throw InnerLogicException.Guild.IsNotGuildMember(user.Id, null);
 
             return _database.Tribute
                 .ReadForGuild(guild.Id)
                 .Where(t => t.State == TributeState.Active)
-                .Select(TributeInfoDto.Wrap)
+                .Select(TributeInfoResponse.Wrap)
                 .ToArray();
         }
 
-        public TributeInfoDto[] GetStudentTributeResult(AuthorizedUser user)
+        public TributeInfoResponse[] GetStudentTributeResult(AuthorizedUser user)
         {
             GuildEntity guild = _database.Guild.ReadForStudent(user.Id) ?? throw InnerLogicException.Guild.IsNotGuildMember(user.Id, null);
 
             return _database.Tribute
                 .ReadStudentInGuildTributes(guild.Id, user.Id)
-                .Select(TributeInfoDto.Wrap)
+                .Select(TributeInfoResponse.Wrap)
                 .ToArray();
         }
 
-        public TributeInfoDto CreateTribute(AuthorizedUser user, CreateProjectDto createProject)
+        public TributeInfoResponse CreateTribute(AuthorizedUser user, CreateProjectRequest createProject)
         {
             StudentEntity student = _database.Student.Get(user.Id);
             if (student.GithubUsername != createProject.Owner)
@@ -65,10 +66,10 @@ namespace Iwentys.Core.Services.Implementations
             if (allTributes.Any(t => t.State == TributeState.Active && t.ProjectEntity.StudentId == student.Id))
                 throw InnerLogicException.TributeEx.UserAlreadyHaveTribute(user.Id);
 
-            return _database.Tribute.Create(guild, projectEntity).To(TributeInfoDto.Wrap);
+            return _database.Tribute.Create(guild, projectEntity).To(TributeInfoResponse.Wrap);
         }
 
-        public TributeInfoDto CancelTribute(AuthorizedUser user, long tributeId)
+        public TributeInfoResponse CancelTribute(AuthorizedUser user, long tributeId)
         {
             StudentEntity student = user.GetProfile(_database.Student);
             TributeEntity tribute = _database.Tribute.Get(tributeId);
@@ -86,20 +87,20 @@ namespace Iwentys.Core.Services.Implementations
                 tribute.SetCanceled();
             }
 
-            return _database.Tribute.Update(tribute).To(TributeInfoDto.Wrap);
+            return _database.Tribute.Update(tribute).To(TributeInfoResponse.Wrap);
         }
 
-        public TributeInfoDto CompleteTribute(AuthorizedUser user, TributeCompleteDto tributeCompleteDto)
+        public TributeInfoResponse CompleteTribute(AuthorizedUser user, TributeCompleteRequest tributeCompleteRequest)
         {
             StudentEntity student = user.GetProfile(_database.Student);
-            TributeEntity tribute = _database.Tribute.Get(tributeCompleteDto.TributeId);
+            TributeEntity tribute = _database.Tribute.Get(tributeCompleteRequest.TributeId);
             GuildMentorUser mentor = student.EnsureIsMentor(_database.Guild, tribute.GuildId);
 
             if (tribute.State != TributeState.Active)
                 throw InnerLogicException.TributeEx.IsNotActive(tribute);
 
-            tribute.SetCompleted(mentor.Student.Id, tributeCompleteDto.DifficultLevel, tributeCompleteDto.Mark);
-            return _database.Tribute.Update(tribute).To(TributeInfoDto.Wrap);
+            tribute.SetCompleted(mentor.Student.Id, tributeCompleteRequest.DifficultLevel, tributeCompleteRequest.Mark);
+            return _database.Tribute.Update(tribute).To(TributeInfoResponse.Wrap);
         }
     }
 }

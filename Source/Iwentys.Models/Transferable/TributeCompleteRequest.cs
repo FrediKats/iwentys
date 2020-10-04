@@ -1,6 +1,6 @@
-﻿namespace Iwentys.Models.Types
+﻿namespace Iwentys.Models.Transferable
 {
-    public class TributeCompleteDto
+    public class TributeCompleteRequest
     {
         public long TributeId { get; set; }
         public int DifficultLevel { get; set; }

@@ -29,7 +29,7 @@ namespace Iwentys.Core.Services.Implementations
             _githubApiAccessor = githubApiAccessor;
         }
 
-        public GuildProfileShortInfoDto Create(AuthorizedUser creator, GuildCreateArgumentDto arguments)
+        public GuildProfileShortInfoDto Create(AuthorizedUser creator, GuildCreateRequest arguments)
         {
             StudentEntity creatorUser = _database.Student.Get(creator.Id);
 
@@ -42,7 +42,7 @@ namespace Iwentys.Core.Services.Implementations
                 .ToGuildProfileShortInfoDto();
         }
 
-        public GuildProfileShortInfoDto Update(AuthorizedUser user, GuildUpdateArgumentDto arguments)
+        public GuildProfileShortInfoDto Update(AuthorizedUser user, GuildUpdateRequest arguments)
         {
             StudentEntity student = user.GetProfile(_database.Student);
             GuildEntity info = _database.Guild.Get(arguments.Id);

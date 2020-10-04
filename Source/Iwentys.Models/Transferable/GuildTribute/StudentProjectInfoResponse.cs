@@ -2,16 +2,16 @@
 
 namespace Iwentys.Models.Transferable.GuildTribute
 {
-    public class StudentProjectInfoDto
+    public class StudentProjectInfoResponse
     {
         public long Id { get; set; }
         public string Url { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public static StudentProjectInfoDto Wrap(GithubProjectEntity projectEntity)
+        public static StudentProjectInfoResponse Wrap(GithubProjectEntity projectEntity)
         {
-            return new StudentProjectInfoDto
+            return new StudentProjectInfoResponse
             {
                 Id = projectEntity.Id,
                 Url = projectEntity.FullUrl,

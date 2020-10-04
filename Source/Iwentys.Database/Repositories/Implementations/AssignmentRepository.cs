@@ -17,9 +17,9 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext = dbContext;
         }
 
-        public StudentAssignmentEntity Create(StudentEntity creator, AssignmentCreateDto assignmentCreateDto)
+        public StudentAssignmentEntity Create(StudentEntity creator, AssignmentCreateRequest assignmentCreateRequest)
         {
-            EntityEntry<AssignmentEntity> createdAssignment = _dbContext.Assignments.Add(AssignmentEntity.Create(creator, assignmentCreateDto));
+            EntityEntry<AssignmentEntity> createdAssignment = _dbContext.Assignments.Add(AssignmentEntity.Create(creator, assignmentCreateRequest));
             EntityEntry<StudentAssignmentEntity> studentAssignment = _dbContext.StudentAssignments.Add(new StudentAssignmentEntity
             {
                 StudentId = creator.Id,

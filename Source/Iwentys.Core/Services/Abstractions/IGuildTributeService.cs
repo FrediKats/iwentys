@@ -1,16 +1,16 @@
 ﻿using Iwentys.Core.DomainModel;
+using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.GuildTribute;
-using Iwentys.Models.Types;
 
 namespace Iwentys.Core.Services.Abstractions
 {
     public interface IGuildTributeService
     {
-        TributeInfoDto[] GetPendingTributes(AuthorizedUser user);
-        TributeInfoDto[] GetStudentTributeResult(AuthorizedUser user);
-        TributeInfoDto CreateTribute(AuthorizedUser user, CreateProjectDto createProject);
-        TributeInfoDto CancelTribute(AuthorizedUser user, long tributeId);
-        TributeInfoDto CompleteTribute(AuthorizedUser user, TributeCompleteDto tributeCompleteDto);
+        TributeInfoResponse[] GetPendingTributes(AuthorizedUser user);
+        TributeInfoResponse[] GetStudentTributeResult(AuthorizedUser user);
+        TributeInfoResponse CreateTribute(AuthorizedUser user, CreateProjectRequest createProject);
+        TributeInfoResponse CancelTribute(AuthorizedUser user, long tributeId);
+        TributeInfoResponse CompleteTribute(AuthorizedUser user, TributeCompleteRequest tributeCompleteRequest);
     }
 }

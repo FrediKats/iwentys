@@ -1,5 +1,5 @@
 ﻿using Iwentys.Models.Entities;
-using Iwentys.Models.Transferable.Gamification;
+using Iwentys.Models.Transferable;
 
 namespace Iwentys.Database.Repositories.Abstractions
 {
@@ -8,6 +8,6 @@ namespace Iwentys.Database.Repositories.Abstractions
         void SendResponse(QuestEntity questEntity, int userId);
         QuestEntity SetCompleted(QuestEntity questEntity, int studentId);
 
-        QuestEntity Create(StudentEntity student, CreateQuestDto createQuest);
+        QuestEntity Create(StudentEntity student, CreateQuestRequest createQuest);
     }
 }

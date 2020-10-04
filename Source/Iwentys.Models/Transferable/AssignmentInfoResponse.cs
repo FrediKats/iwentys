@@ -5,7 +5,7 @@ using Iwentys.Models.Transferable.Students;
 
 namespace Iwentys.Models.Transferable
 {
-    public class AssignmentInfoDto
+    public class AssignmentInfoResponse
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -15,9 +15,9 @@ namespace Iwentys.Models.Transferable
         public SubjectEntity Subject { get; set; }
         public bool IsCompeted { get; set; }
 
-        public static AssignmentInfoDto Wrap(StudentAssignmentEntity studentAssignment)
+        public static AssignmentInfoResponse Wrap(StudentAssignmentEntity studentAssignment)
         {
-            return new AssignmentInfoDto
+            return new AssignmentInfoResponse
             {
                 Id = studentAssignment.AssignmentId,
                 Title = studentAssignment.Assignment.Title,

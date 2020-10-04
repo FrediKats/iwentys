@@ -17,12 +17,12 @@ namespace Iwentys.Core.Services.Implementations
             _database = database;
         }
 
-        public CompanyInfoDto[] Get()
+        public CompanyInfoResponse[] Get()
         {
             return _database.Company.Read().SelectToArray(WrapToDto);
         }
 
-        public CompanyInfoDto Get(int id)
+        public CompanyInfoResponse Get(int id)
         {
             return _database.Company.ReadById(id).To(WrapToDto);
         }
@@ -52,10 +52,10 @@ namespace Iwentys.Core.Services.Implementations
             _database.Company.ApproveRequest(user);
         }
 
-        private CompanyInfoDto WrapToDto(CompanyEntity companyEntity)
+        private CompanyInfoResponse WrapToDto(CompanyEntity companyEntity)
         {
             StudentEntity[] workers = _database.Company.ReadWorkers(companyEntity);
-            return CompanyInfoDto.Create(companyEntity, workers);
+            return CompanyInfoResponse.Create(companyEntity, workers);
         }
     }
 }

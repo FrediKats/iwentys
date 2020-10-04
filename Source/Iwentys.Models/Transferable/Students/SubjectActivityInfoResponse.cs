@@ -2,15 +2,15 @@
 
 namespace Iwentys.Models.Transferable.Students
 {
-    public class SubjectActivityInfoDto
+    public class SubjectActivityInfoResponse
     {
-        public SubjectActivityInfoDto(SubjectActivityEntity subjectActivity) : this()
+        public SubjectActivityInfoResponse(SubjectActivityEntity subjectActivity) : this()
         {
             SubjectTitle = subjectActivity.GroupSubjectEntity.Subject.Name;
             Points = subjectActivity.Points;
         }
 
-        public SubjectActivityInfoDto()
+        public SubjectActivityInfoResponse()
         {
         }
 

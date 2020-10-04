@@ -81,7 +81,7 @@ namespace Iwentys.Models.Exceptions
                 return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, TributeExceptions.IsNotActive, tribute.ProjectId, tribute.State));
             }
 
-            public static InnerLogicException TributeCanBeSendFromStudentAccount(StudentEntity student, CreateProjectDto createProject)
+            public static InnerLogicException TributeCanBeSendFromStudentAccount(StudentEntity student, CreateProjectRequest createProject)
             {
                 return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, TributeExceptions.TributeCanBeSendFromStudentAccount, student.Id, createProject.Owner));
             }

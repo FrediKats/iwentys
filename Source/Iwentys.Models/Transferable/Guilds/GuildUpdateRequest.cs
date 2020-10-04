@@ -2,7 +2,7 @@
 
 namespace Iwentys.Models.Transferable.Guilds
 {
-    public class GuildUpdateArgumentDto
+    public class GuildUpdateRequest
     {
         public int Id { get; set; }
 

@@ -17,18 +17,18 @@ namespace Iwentys.Core.Services.Implementations
             _database = database;
         }
 
-        public AssignmentInfoDto Create(AuthorizedUser user, AssignmentCreateDto assignmentCreateDto)
+        public AssignmentInfoResponse Create(AuthorizedUser user, AssignmentCreateRequest assignmentCreateRequest)
         {
-            return _database.Assignment.Create(user.GetProfile(_database.Student), assignmentCreateDto).To(AssignmentInfoDto.Wrap);
+            return _database.Assignment.Create(user.GetProfile(_database.Student), assignmentCreateRequest).To(AssignmentInfoResponse.Wrap);
         }
 
-        public List<AssignmentInfoDto> Read(AuthorizedUser user)
+        public List<AssignmentInfoResponse> Read(AuthorizedUser user)
         {
             return _database.Assignment
                 .Read()
                 .Where(a => a.StudentId == user.Id)
                 .AsEnumerable()
-                .SelectToList(AssignmentInfoDto.Wrap);
+                .SelectToList(AssignmentInfoResponse.Wrap);
         }
     }
 }

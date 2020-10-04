@@ -6,7 +6,7 @@ namespace Iwentys.Core.Services.Abstractions
 {
     public interface IAssignmentService
     {
-        AssignmentInfoDto Create(AuthorizedUser user, AssignmentCreateDto assignmentCreateDto);
-        List<AssignmentInfoDto> Read(AuthorizedUser user);
+        AssignmentInfoResponse Create(AuthorizedUser user, AssignmentCreateRequest assignmentCreateRequest);
+        List<AssignmentInfoResponse> Read(AuthorizedUser user);
     }
 }

@@ -4,8 +4,8 @@ namespace Iwentys.Core.Services.Abstractions
 {
     public interface ICompanyService
     {
-        CompanyInfoDto[] Get();
-        CompanyInfoDto Get(int id);
+        CompanyInfoResponse[] Get();
+        CompanyInfoResponse Get(int id);
 
         CompanyWorkRequestDto[] GetCompanyWorkRequest();
         void RequestAdding(int companyId, int userId);

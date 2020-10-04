@@ -1,14 +1,14 @@
-﻿using Iwentys.Models.Entities.Guilds;
+﻿using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Tournaments;
 
 namespace Iwentys.Core.Services.Abstractions
 {
     public interface ITournamentService
     {
-        TournamentEntity[] Get();
-        TournamentEntity[] GetActive();
+        TournamentInfoResponse[] Get();
+        TournamentInfoResponse[] GetActive();
 
-        TournamentEntity Get(int tournamentId);
+        TournamentInfoResponse Get(int tournamentId);
         TournamentLeaderboardDto GetLeaderboard(int tournamentId);
     }
 }

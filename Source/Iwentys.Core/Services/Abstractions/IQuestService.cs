@@ -1,20 +1,21 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Core.DomainModel;
+using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Gamification;
 
 namespace Iwentys.Core.Services.Abstractions
 {
     public interface IQuestService
     {
-        List<QuestInfoDto> GetCreatedByUser(AuthorizedUser user);
-        List<QuestInfoDto> GetCompletedByUser(AuthorizedUser user);
-        List<QuestInfoDto> GetActive();
-        List<QuestInfoDto> GetArchived();
+        List<QuestInfoResponse> GetCreatedByUser(AuthorizedUser user);
+        List<QuestInfoResponse> GetCompletedByUser(AuthorizedUser user);
+        List<QuestInfoResponse> GetActive();
+        List<QuestInfoResponse> GetArchived();
 
-        QuestInfoDto Create(AuthorizedUser user, CreateQuestDto createQuest);
+        QuestInfoResponse Create(AuthorizedUser user, CreateQuestRequest createQuest);
 
-        QuestInfoDto SendResponse(AuthorizedUser user, int id);
-        QuestInfoDto Complete(AuthorizedUser author, int questId, int userId);
-        QuestInfoDto Revoke(AuthorizedUser author, int questId);
+        QuestInfoResponse SendResponse(AuthorizedUser user, int id);
+        QuestInfoResponse Complete(AuthorizedUser author, int questId, int userId);
+        QuestInfoResponse Revoke(AuthorizedUser author, int questId);
     }
 }

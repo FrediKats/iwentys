@@ -6,9 +6,9 @@ using LanguageExt;
 
 namespace Iwentys.Models.Transferable.GuildTribute
 {
-    public class TributeInfoDto
+    public class TributeInfoResponse
     {
-        public StudentProjectInfoDto Project { get; set; }
+        public StudentProjectInfoResponse Project { get; set; }
 
         public int GuildId { get; set; }
 
@@ -20,11 +20,11 @@ namespace Iwentys.Models.Transferable.GuildTribute
         public StudentPartialProfileDto Mentor { get; set; }
         public int? MentorId { get; set; }
 
-        public static TributeInfoDto Wrap(TributeEntity project)
+        public static TributeInfoResponse Wrap(TributeEntity project)
         {
-            return new TributeInfoDto
+            return new TributeInfoResponse
             {
-                Project = StudentProjectInfoDto.Wrap(project.ProjectEntity),
+                Project = StudentProjectInfoResponse.Wrap(project.ProjectEntity),
                 GuildId = project.GuildId,
                 State = project.State,
                 DifficultLevel = project.DifficultLevel,

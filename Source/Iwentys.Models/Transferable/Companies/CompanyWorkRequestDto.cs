@@ -7,7 +7,7 @@ namespace Iwentys.Models.Transferable.Companies
 {
     public class CompanyWorkRequestDto
     {
-        public CompanyInfoDto Company { get; set; }
+        public CompanyInfoResponse Company { get; set; }
         public StudentEntity Worker { get; set; }
 
         public static CompanyWorkRequestDto Create(CompanyWorkerEntity workerEntity)
@@ -17,7 +17,7 @@ namespace Iwentys.Models.Transferable.Companies
 
             return new CompanyWorkRequestDto
             {
-                Company = workerEntity.CompanyEntity.To(CompanyInfoDto.Create),
+                Company = workerEntity.CompanyEntity.To(CompanyInfoResponse.Create),
                 Worker = workerEntity.Worker
             };
         }

@@ -19,27 +19,27 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<GuildTestTaskInfoDto>> Get([FromQuery] int guildId)
+        public ActionResult<List<GuildTestTaskInfoResponse>> Get([FromQuery] int guildId)
         {
             return Ok(_guildTestTaskService.Get(guildId));
         }
 
         [HttpPut("accept")]
-        public ActionResult<GuildTestTaskInfoDto> Accept([FromQuery]int guildId)
+        public ActionResult<GuildTestTaskInfoResponse> Accept([FromQuery]int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildTestTaskService.Accept(user, guildId));
         }
 
         [HttpPut("submit")]
-        public ActionResult<GuildTestTaskInfoDto> Accept([FromQuery] int guildId, [FromQuery] string projectOwner, [FromQuery] string projectName)
+        public ActionResult<GuildTestTaskInfoResponse> Accept([FromQuery] int guildId, [FromQuery] string projectOwner, [FromQuery] string projectName)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildTestTaskService.Submit(user, guildId, projectOwner, projectName));
         }
 
         [HttpPut("complete")]
-        public ActionResult<GuildTestTaskInfoDto> Submit([FromQuery] int guildId, [FromQuery] int taskSolveOwnerId)
+        public ActionResult<GuildTestTaskInfoResponse> Submit([FromQuery] int guildId, [FromQuery] int taskSolveOwnerId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildTestTaskService.Complete(user, guildId, taskSolveOwnerId));

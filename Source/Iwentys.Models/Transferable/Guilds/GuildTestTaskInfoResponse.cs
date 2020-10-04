@@ -4,7 +4,7 @@ using Iwentys.Models.Types;
 
 namespace Iwentys.Models.Transferable.Guilds
 {
-    public class GuildTestTaskInfoDto
+    public class GuildTestTaskInfoResponse
     {
         public int StudentId { get; set; }
         public DateTime StartTime { get; set; }
@@ -14,9 +14,9 @@ namespace Iwentys.Models.Transferable.Guilds
 
         public GuildTestTaskState TestTaskState { get; set; }
 
-        public static GuildTestTaskInfoDto Wrap(GuildTestTaskSolvingInfoEntity testTask)
+        public static GuildTestTaskInfoResponse Wrap(GuildTestTaskSolvingInfoEntity testTask)
         {
-            return new GuildTestTaskInfoDto
+            return new GuildTestTaskInfoResponse
             {
                 StudentId = testTask.StudentId,
                 StartTime = testTask.StartTime,

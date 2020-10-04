@@ -11,6 +11,7 @@ using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Tools;
+using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Companies;
 using Iwentys.Models.Transferable.Gamification;
 using Iwentys.Models.Transferable.Guilds;
@@ -76,7 +77,7 @@ namespace Iwentys.Tests.Tools
 
         public TestCaseContext WithGuild(AuthorizedUser user, out GuildProfileDto guildProfile)
         {
-            guildProfile = GuildService.Create(user, new GuildCreateArgumentDto()).To(g => GuildService.Get(g.Id, user.Id));
+            guildProfile = GuildService.Create(user, new GuildCreateRequest()).To(g => GuildService.Get(g.Id, user.Id));
             return this;
         }
 
@@ -118,15 +119,15 @@ namespace Iwentys.Tests.Tools
             return this;
         }
 
-        public TestCaseContext WithCompany(out CompanyInfoDto companyInfo)
+        public TestCaseContext WithCompany(out CompanyInfoResponse companyInfo)
         {
             var company = new CompanyEntity();
             company = DatabaseAccessor.Company.Create(company);
-            companyInfo = CompanyInfoDto.Create(company);
+            companyInfo = CompanyInfoResponse.Create(company);
             return this;
         }
 
-        public TestCaseContext WithCompanyWorker(CompanyInfoDto companyInfo, out AuthorizedUser userInfo)
+        public TestCaseContext WithCompanyWorker(CompanyInfoResponse companyInfo, out AuthorizedUser userInfo)
         {
             WithNewStudent(out userInfo);
             Context.CompanyWorkers.Add(new CompanyWorkerEntity {CompanyId = companyInfo.Id, WorkerId = userInfo.Id, Type = CompanyWorkerType.Accepted});
@@ -149,15 +150,15 @@ namespace Iwentys.Tests.Tools
             return this;
         }
 
-        public TestCaseContext WithTribute(AuthorizedUser userInfo, CreateProjectDto project, out TributeInfoDto tribute)
+        public TestCaseContext WithTribute(AuthorizedUser userInfo, CreateProjectRequest project, out TributeInfoResponse tribute)
         {
             tribute = GuildTributeServiceService.CreateTribute(userInfo, project);
             return this;
         }
 
-        public TestCaseContext WithTribute(AuthorizedUser userInfo, GithubProjectEntity projectEntity, out TributeInfoDto tribute)
+        public TestCaseContext WithTribute(AuthorizedUser userInfo, GithubProjectEntity projectEntity, out TributeInfoResponse tribute)
         {
-            tribute = GuildTributeServiceService.CreateTribute(userInfo, new CreateProjectDto
+            tribute = GuildTributeServiceService.CreateTribute(userInfo, new CreateProjectRequest
             {
                 Owner = userInfo.GetProfile(DatabaseAccessor.Student).GithubUsername,
                 RepositoryName = projectEntity.Name
@@ -165,9 +166,9 @@ namespace Iwentys.Tests.Tools
             return this;
         }
 
-        public TestCaseContext WithCompletedTribute(AuthorizedUser mentor, TributeInfoDto tribute, out TributeInfoDto completedTribute)
+        public TestCaseContext WithCompletedTribute(AuthorizedUser mentor, TributeInfoResponse tribute, out TributeInfoResponse completedTribute)
         {
-            completedTribute = GuildTributeServiceService.CompleteTribute(mentor, new TributeCompleteDto
+            completedTribute = GuildTributeServiceService.CompleteTribute(mentor, new TributeCompleteRequest
             {
                 DifficultLevel = 1,
                 Mark = 1,
@@ -176,9 +177,9 @@ namespace Iwentys.Tests.Tools
             return this;
         }
 
-        public TestCaseContext WithQuest(AuthorizedUser user, int price, out QuestInfoDto quest)
+        public TestCaseContext WithQuest(AuthorizedUser user, int price, out QuestInfoResponse quest)
         {
-            quest = QuestService.Create(user, new CreateQuestDto
+            quest = QuestService.Create(user, new CreateQuestRequest
             {
                 Title = "Some quest",
                 Description = "Some desc",

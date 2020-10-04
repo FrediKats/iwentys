@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Iwentys.Models.Transferable.Gamification
+namespace Iwentys.Models.Transferable
 {
-    public class CreateQuestDto
+    public class CreateQuestRequest
     {
         public string Title { get; set; }
         public string Description { get; set; }

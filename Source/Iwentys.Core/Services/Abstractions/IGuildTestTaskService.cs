@@ -6,10 +6,10 @@ namespace Iwentys.Core.Services.Abstractions
 {
     public interface IGuildTestTaskService
     {
-        List<GuildTestTaskInfoDto> Get(int guildId);
+        List<GuildTestTaskInfoResponse> Get(int guildId);
 
-        GuildTestTaskInfoDto Accept(AuthorizedUser user, int guildId);
-        GuildTestTaskInfoDto Submit(AuthorizedUser user, int guildId, string projectOwner, string projectName);
-        GuildTestTaskInfoDto Complete(AuthorizedUser user, int guildId, int taskSolveOwnerId);
+        GuildTestTaskInfoResponse Accept(AuthorizedUser user, int guildId);
+        GuildTestTaskInfoResponse Submit(AuthorizedUser user, int guildId, string projectOwner, string projectName);
+        GuildTestTaskInfoResponse Complete(AuthorizedUser user, int guildId, int taskSolveOwnerId);
     }
 }

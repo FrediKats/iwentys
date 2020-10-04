@@ -3,9 +3,9 @@
 using Iwentys.Api.Tools;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services.Abstractions;
+using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.GuildTribute;
-using Iwentys.Models.Types;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,38 +23,38 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet("pending")]
-        public ActionResult<List<TributeInfoDto>> GetPendingTributes()
+        public ActionResult<List<TributeInfoResponse>> GetPendingTributes()
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildService.GetPendingTributes(user));
         }
 
         [HttpGet("get-for-student")]
-        public ActionResult<List<TributeInfoDto>> GetStudentTributeResult()
+        public ActionResult<List<TributeInfoResponse>> GetStudentTributeResult()
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildService.GetStudentTributeResult(user));
         }
 
         [HttpPost("create")]
-        public ActionResult<TributeInfoDto> SendTribute([FromBody] CreateProjectDto createProject)
+        public ActionResult<TributeInfoResponse> SendTribute([FromBody] CreateProjectRequest createProject)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildService.CreateTribute(user, createProject));
         }
 
         [HttpPut("cancel")]
-        public ActionResult<TributeInfoDto> CancelTribute([FromBody] long tributeId)
+        public ActionResult<TributeInfoResponse> CancelTribute([FromBody] long tributeId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildService.CancelTribute(user, tributeId));
         }
 
         [HttpPut("complete")]
-        public ActionResult<TributeInfoDto> CompleteTribute([FromBody] TributeCompleteDto tributeCompleteDto)
+        public ActionResult<TributeInfoResponse> CompleteTribute([FromBody] TributeCompleteRequest tributeCompleteRequest)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(_guildService.CompleteTribute(user, tributeCompleteDto));
+            return Ok(_guildService.CompleteTribute(user, tributeCompleteRequest));
         }
     }
 }

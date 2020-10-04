@@ -3,7 +3,7 @@ using Iwentys.Models.Entities;
 
 namespace Iwentys.Models.Transferable.Companies
 {
-    public class CompanyInfoDto
+    public class CompanyInfoResponse
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -12,14 +12,14 @@ namespace Iwentys.Models.Transferable.Companies
 
         public StudentEntity[] Workers { get; set; }
 
-        public static CompanyInfoDto Create(CompanyEntity companyEntity)
+        public static CompanyInfoResponse Create(CompanyEntity companyEntity)
         {
             return Create(companyEntity, Array.Empty<StudentEntity>());
         }
 
-        public static CompanyInfoDto Create(CompanyEntity companyEntity, StudentEntity[] workers)
+        public static CompanyInfoResponse Create(CompanyEntity companyEntity, StudentEntity[] workers)
         {
-            return new CompanyInfoDto
+            return new CompanyInfoResponse
             {
                 Id = companyEntity.Id,
                 Name = companyEntity.Name,

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Core.Services.Abstractions;
-using Iwentys.Models.Entities.Guilds;
+using Iwentys.Models.Transferable;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Api.Controllers
@@ -17,13 +17,13 @@ namespace Iwentys.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<TournamentEntity>> Get()
+        public ActionResult<IEnumerable<TournamentInfoResponse>> Get()
         {
             return Ok(_tournamentService.Get());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<TournamentEntity> Get(int id)
+        public ActionResult<TournamentInfoResponse> Get(int id)
         {
             return Ok(_tournamentService.Get(id));
         }

@@ -52,11 +52,11 @@ namespace Iwentys.Core.DomainModel.Guilds
                 Rating = dashboard.TotalRate,
                 PinnedRepositories = Profile.PinnedProjects.SelectToList(p => _githubUserDataService.GetCertainRepository(p.RepositoryOwner, p.RepositoryName)),
                 Achievements = Profile.Achievements.SelectToList(AchievementInfoDto.Wrap),
-                TestTasks = Profile.TestTasks.SelectToList(GuildTestTaskInfoDto.Wrap)
+                TestTasks = Profile.TestTasks.SelectToList(GuildTestTaskInfoResponse.Wrap)
             };
 
             if (userId != null && Profile.Members.Any(m => m.MemberId == userId))
-                info.Tribute = _dbAccessor.Tribute.ReadStudentActiveTribute(Profile.Id, userId.Value)?.To(ActiveTributeDto.Create);
+                info.Tribute = _dbAccessor.Tribute.ReadStudentActiveTribute(Profile.Id, userId.Value)?.To(ActiveTributeResponse.Create);
             if (userId != null)
                 info.UserMembershipState = GetUserMembershipState(userId.Value);
 

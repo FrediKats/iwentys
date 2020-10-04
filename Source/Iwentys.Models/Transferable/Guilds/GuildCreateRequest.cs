@@ -2,7 +2,7 @@
 
 namespace Iwentys.Models.Transferable.Guilds
 {
-    public class GuildCreateArgumentDto
+    public class GuildCreateRequest
     {
         public string Title { get; set; }
         public string Bio { get; set; }
