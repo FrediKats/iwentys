@@ -30,7 +30,7 @@ namespace Iwentys.Database.Repositories.Implementations
                 .Include(s => s.Achievements)
                 .ThenInclude(a => a.Achievement)
                 .Include(s => s.SubjectActivities)
-                .ThenInclude(a => a.GroupSubjectEntity)
+                .ThenInclude(a => a.GroupSubject)
                 .ThenInclude(sg => sg.Subject)
                 .Include(s => s.GithubUserEntity)
                 .Include(s => s.GuildMember)

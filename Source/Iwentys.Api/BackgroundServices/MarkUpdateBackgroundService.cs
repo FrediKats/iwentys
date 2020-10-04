@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,9 +36,17 @@ namespace Iwentys.Api.BackgroundServices
                     var accessor = scope.ServiceProvider.GetRequiredService<DatabaseAccessor>();
                     var googleTableUpdateService = new MarkGoogleTableUpdateService(_logger, accessor.SubjectActivity, accessor.Student, ApplicationOptions.GoogleServiceToken);
 
-                    //TODO: wrap with try/cath for each update
-                    List<GroupSubjectEntity> groups = accessor.GroupSubject.Read().ToList();
-                    groups.ForEach(g => googleTableUpdateService.UpdateSubjectActivityForGroup(g));
+                    foreach (GroupSubjectEntity g in accessor.GroupSubject.Read().ToList())
+                    {
+                        try
+                        {
+                            googleTableUpdateService.UpdateSubjectActivityForGroup(g);
+                        }
+                        catch (Exception e)
+                        {
+                            _logger.LogError(e, "Fail to perform MarkUpdateBackgroundService update");
+                        }
+                    }
                 }
                 catch (Exception e)
                 {

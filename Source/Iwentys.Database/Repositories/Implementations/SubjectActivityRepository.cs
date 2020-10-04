@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
@@ -29,7 +29,8 @@ namespace Iwentys.Database.Repositories.Implementations
         public IQueryable<SubjectActivityEntity> Read()
         {
             return _dbContext.SubjectActivities
-                .Include(s => s.Student);
+                .Include(s => s.Student)
+                .Include(s => s.GroupSubject);
         }
 
         public SubjectActivityEntity ReadById(int key)

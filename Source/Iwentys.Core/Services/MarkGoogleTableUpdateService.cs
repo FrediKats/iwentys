@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using FluentResults;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.GoogleTableIntegration;
@@ -34,35 +35,32 @@ namespace Iwentys.Core.Services
                 return;
             }
 
-            foreach (StudentSubjectScore student in _tableParser.Execute(new MarkParser(googleTableData.Value, _logger)))
-            {
-                // Это очень плохая проверка, но я пока не придумал,
-                // как по-другому сопоставлять данные с гугл-таблицы со студентом
-                // TODO: Сделать нормальную проверку
-                SubjectActivityEntity activity = _subjectActivityRepository
-                    .Read()
-                    .SingleOrDefault(s => student.Name.Contains(s.Student.FirstName)
-                                          && student.Name.Contains(s.Student.SecondName)
-                                          && s.GroupSubjectEntity.SubjectId == groupSubjectData.SubjectId);
+            List<SubjectActivityEntity> activities = _subjectActivityRepository.Read().ToList();
 
-                if (!Tools.ParseInAnyCulture(student.Score, out double pointsCount))
+            foreach (StudentSubjectScore subjectScore in _tableParser.Execute(new MarkParser(googleTableData.Value, _logger)))
+            {
+                SubjectActivityEntity activity = activities
+                    .SingleOrDefault(s => subjectScore.IsMatchedWithStudent(s.Student)
+                                          && s.GroupSubject.SubjectId == groupSubjectData.SubjectId);
+
+                if (!Tools.ParseInAnyCulture(subjectScore.Score, out double pointsCount))
                 {
                     pointsCount = 0;
-                    _logger.LogWarning($"Cannot parse value: student:{student.Name}, subjectId:{groupSubjectData.SubjectId}, groupId:{groupSubjectData.StudyGroupId}");
+                    _logger.LogWarning($"Cannot parse value: student:{subjectScore.Name}, subjectId:{groupSubjectData.SubjectId}, groupId:{groupSubjectData.StudyGroupId}");
                 }
 
                 if (activity == null)
                 {
-                    _logger.LogWarning($"Subject info was not found: student:{student.Name}, subjectId:{groupSubjectData.SubjectId}, groupId:{groupSubjectData.StudyGroupId}");
+                    _logger.LogWarning($"Subject info was not found: student:{subjectScore.Name}, subjectId:{groupSubjectData.SubjectId}, groupId:{groupSubjectData.StudyGroupId}");
 
                     StudentEntity studentProfile = _studentRepository
                         .Read()
-                        .FirstOrDefault(s => student.Name.Contains(s.FirstName)
-                                    && student.Name.Contains(s.SecondName));
+                        .FirstOrDefault(s => subjectScore.Name.Contains(s.FirstName)
+                                    && subjectScore.Name.Contains(s.SecondName));
 
                     if (studentProfile is null)
                     {
-                        _logger.LogWarning($"Student wsa not found: student:{student.Name}");
+                        _logger.LogWarning($"Student wsa not found: student:{subjectScore.Name}");
                         continue;
                     }
 

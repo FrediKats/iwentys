@@ -6,7 +6,7 @@ namespace Iwentys.Models.Transferable.Students
     {
         public SubjectActivityInfoResponse(SubjectActivityEntity subjectActivity) : this()
         {
-            SubjectTitle = subjectActivity.GroupSubjectEntity.Subject.Name;
+            SubjectTitle = subjectActivity.GroupSubject.Subject.Name;
             Points = subjectActivity.Points;
         }
 
