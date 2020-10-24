@@ -57,25 +57,23 @@ namespace Iwentys.Database.Repositories.Implementations
             return Read().FirstOrDefault(s => s.StudentId == studentId && s.GroupSubjectEntityId == subjectForGroupId);
         }
 
-        public IEnumerable<SubjectActivityEntity> GetStudentActivities(StudySearchParameters searchParameters)
+        public IReadOnlyCollection<SubjectActivityEntity> GetStudentActivities(StudySearchParameters searchParameters)
         {
-            var query = Read()
-                .Join(_dbContext.StudyGroups,
-                    st => st.Student.GroupId,
-                    sg => sg.Id,
-                    (subjectActivity, group) => new {SubjectActivity = subjectActivity, Group = group})
-                .Join(_dbContext.GroupSubjects,
-                    st => st.SubjectActivity.GroupSubjectEntityId,
-                    sg => sg.Id,
-                    (_, sg) => new {_.SubjectActivity, _.Group, SubjectForGroup = sg});
+            var query =
+                from sa in Read()
+                join sg in _dbContext.StudyGroups on sa.Student.GroupId equals sg.Id
+                join gs in _dbContext.GroupSubjects on sa.GroupSubjectEntityId equals gs.Id
+                select new { SubjectActivities = sa, StudyGroups = sg, GroupSubjects = gs };
 
             query = query
-                .WhereIf(searchParameters.GroupId, (a, id) => a.Group.Id == id)
-                .WhereIf(searchParameters.SubjectId, (a, id) => a.SubjectForGroup.SubjectId == id)
-                .WhereIf(searchParameters.CourseId, (a, id) => a.Group.StudyCourseId == id)
-                .WhereIf(searchParameters.StudySemester, (a, id) => a.SubjectForGroup.StudySemester == id);
+                .WhereIf(searchParameters.GroupId, () => query.Where(q => q.StudyGroups.Id == searchParameters.GroupId))
+                .WhereIf(searchParameters.SubjectId, () => query.Where(q => q.GroupSubjects.SubjectId == searchParameters.SubjectId))
+                .WhereIf(searchParameters.CourseId, () => query.Where(q => q.StudyGroups.StudyCourseId == searchParameters.CourseId))
+                .WhereIf(searchParameters.StudySemester, () => query.Where(q => q.GroupSubjects.StudySemester == searchParameters.StudySemester));
 
-            return query.Select(_ => _.SubjectActivity);
+            return query
+                .Select(_ => _.SubjectActivities)
+                .ToList();
         }
     }
 }
