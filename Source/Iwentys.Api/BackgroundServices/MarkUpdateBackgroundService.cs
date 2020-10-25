@@ -34,7 +34,7 @@ namespace Iwentys.Api.BackgroundServices
                     _logger.LogInformation("Execute MarkUpdateBackgroundService update");
 
                     var accessor = scope.ServiceProvider.GetRequiredService<DatabaseAccessor>();
-                    var googleTableUpdateService = new MarkGoogleTableUpdateService(_logger, accessor.SubjectActivity, accessor.Student, ApplicationOptions.GoogleServiceToken);
+                    var googleTableUpdateService = new MarkGoogleTableUpdateService(_logger, accessor, ApplicationOptions.GoogleServiceToken);
 
                     foreach (GroupSubjectEntity g in accessor.GroupSubject.Read().ToList())
                     {

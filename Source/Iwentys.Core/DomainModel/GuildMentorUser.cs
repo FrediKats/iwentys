@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 
 using Iwentys.Database.Repositories;
-using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
@@ -23,7 +22,7 @@ namespace Iwentys.Core.DomainModel
 
     public static class GuildMentorUserExtensions
     {
-        public static GuildMentorUser EnsureIsMentor(this StudentEntity student, IGuildRepository guildRepository, int guildId)
+        public static GuildMentorUser EnsureIsMentor(this StudentEntity student, GuildRepository guildRepository, int guildId)
         {
             GuildEntity guild = guildRepository.Get(guildId);
             GuildMemberEntity membership = guild.Members.First(m => m.MemberId == student.Id);

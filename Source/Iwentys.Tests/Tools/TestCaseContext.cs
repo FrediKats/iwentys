@@ -4,8 +4,7 @@ using Iwentys.Core.Gamification;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Core.Services.Implementations;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories.Abstractions;
-using Iwentys.Database.Repositories.Implementations;
+using Iwentys.Database.Repositories;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Github;
@@ -24,9 +23,8 @@ namespace Iwentys.Tests.Tools
     {
         public readonly IwentysDbContext Context;
 
-        public readonly IStudentRepository StudentRepository;
-        public readonly IGuildRepository GuildRepository;
-        public readonly IGuildMemberRepository GuildMemberRepository;
+        public readonly StudentRepository StudentRepository;
+        public readonly GuildRepository GuildRepository;
 
         public readonly DatabaseAccessor DatabaseAccessor;
 
@@ -45,7 +43,6 @@ namespace Iwentys.Tests.Tools
             Context = TestDatabaseProvider.GetDatabaseContext();
             StudentRepository = new StudentRepository(Context);
             GuildRepository = new GuildRepository(Context);
-            GuildMemberRepository = new GuildMemberRepository(Context);
 
             DatabaseAccessor = new DatabaseAccessor(Context);
             var achievementProvider = new AchievementProvider(DatabaseAccessor);

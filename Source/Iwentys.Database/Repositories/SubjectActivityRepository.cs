@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Database.Tools;
 using Iwentys.Models;
 using Iwentys.Models.Entities.Study;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Iwentys.Database.Repositories.Implementations
+namespace Iwentys.Database.Repositories
 {
-    public class SubjectActivityRepository : ISubjectActivityRepository
+    public class SubjectActivityRepository : IGenericRepository<SubjectActivityEntity, int>
     {
         private readonly IwentysDbContext _dbContext;
 

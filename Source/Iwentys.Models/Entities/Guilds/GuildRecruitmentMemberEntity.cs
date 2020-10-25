@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Iwentys.Models.Entities.Guilds
+﻿namespace Iwentys.Models.Entities.Guilds
 {
     public class GuildRecruitmentMemberEntity
     {

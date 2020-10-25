@@ -1,12 +1,11 @@
 ﻿using System.Linq;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities.Github;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Iwentys.Database.Repositories.Implementations
+namespace Iwentys.Database.Repositories
 {
-    public class GithubUserDataRepository : IGithubUserDataRepository
+    public class GithubUserDataRepository : IGenericRepository<GithubUserEntity, int>
     {
         private readonly IwentysDbContext _dbContext;
 

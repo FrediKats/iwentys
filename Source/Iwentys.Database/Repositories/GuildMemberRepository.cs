@@ -1,15 +1,14 @@
 ﻿using System.Linq;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Types;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Iwentys.Database.Repositories.Implementations
+namespace Iwentys.Database.Repositories
 {
-    public class GuildMemberRepository : IGuildMemberRepository
+    public class GuildMemberRepository
     {
         private readonly IwentysDbContext _dbContext;
 

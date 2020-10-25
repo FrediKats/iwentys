@@ -1,12 +1,11 @@
 ﻿using System.Linq;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities.Guilds;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Iwentys.Database.Repositories.Implementations
+namespace Iwentys.Database.Repositories
 {
-    public class TournamentRepository : ITournamentRepository
+    public class TournamentRepository : IGenericRepository<TournamentEntity, int>
     {
         private readonly IwentysDbContext _dbContext;
 

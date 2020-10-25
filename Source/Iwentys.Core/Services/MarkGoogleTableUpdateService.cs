@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentResults;
-using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.Database.Context;
 using Iwentys.Integrations.GoogleTableIntegration;
 using Iwentys.Integrations.GoogleTableIntegration.Marks;
 using Iwentys.Models.Entities;
@@ -14,15 +14,14 @@ namespace Iwentys.Core.Services
     public class MarkGoogleTableUpdateService
     {
         private readonly ILogger _logger;
-        private readonly ISubjectActivityRepository _subjectActivityRepository;
-        private readonly IStudentRepository _studentRepository;
         private readonly TableParser _tableParser;
+        private readonly DatabaseAccessor _databaseAccessor;
 
-        public MarkGoogleTableUpdateService(ILogger logger, ISubjectActivityRepository subjectActivityRepository, IStudentRepository studentRepository, string serviceToken)
+
+        public MarkGoogleTableUpdateService(ILogger logger, DatabaseAccessor databaseAccessor, string serviceToken)
         {
             _logger = logger;
-            _subjectActivityRepository = subjectActivityRepository;
-            _studentRepository = studentRepository;
+            _databaseAccessor = databaseAccessor;
             _tableParser = TableParser.Create(_logger, serviceToken);
         }
 
@@ -35,7 +34,7 @@ namespace Iwentys.Core.Services
                 return;
             }
 
-            List<SubjectActivityEntity> activities = _subjectActivityRepository.Read().ToList();
+            List<SubjectActivityEntity> activities = _databaseAccessor.SubjectActivity.Read().ToList();
 
             foreach (StudentSubjectScore subjectScore in _tableParser.Execute(new MarkParser(googleTableData.Value, _logger)))
             {
@@ -53,7 +52,7 @@ namespace Iwentys.Core.Services
                 {
                     _logger.LogWarning($"Subject info was not found: student:{subjectScore.Name}, subjectId:{groupSubjectData.SubjectId}, groupId:{groupSubjectData.StudyGroupId}");
 
-                    StudentEntity studentProfile = _studentRepository
+                    StudentEntity studentProfile = _databaseAccessor.Student
                         .Read()
                         .FirstOrDefault(s => subjectScore.Name.Contains(s.FirstName)
                                     && subjectScore.Name.Contains(s.SecondName));
@@ -64,7 +63,7 @@ namespace Iwentys.Core.Services
                         continue;
                     }
 
-                    _subjectActivityRepository.Create(new SubjectActivityEntity
+                    _databaseAccessor.SubjectActivity.Create(new SubjectActivityEntity
                     {
                         StudentId = studentProfile.Id,
                         GroupSubjectEntityId = groupSubjectData.Id,
@@ -75,7 +74,7 @@ namespace Iwentys.Core.Services
                 }
 
                 activity.Points = pointsCount;
-                _subjectActivityRepository.Update(activity);
+                _databaseAccessor.SubjectActivity.Update(activity);
             }
         }
     }

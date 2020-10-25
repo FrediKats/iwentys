@@ -34,7 +34,7 @@ namespace Iwentys.Api.Controllers
             _logger = logger;
             _databaseAccessor = databaseAccessor;
 
-            _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(_logger, _databaseAccessor.SubjectActivity, _databaseAccessor.Student, ApplicationOptions.GoogleServiceToken);
+            _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(_logger, _databaseAccessor, ApplicationOptions.GoogleServiceToken);
             _studentService = studentService;
         }
 

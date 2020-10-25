@@ -1,14 +1,13 @@
 ﻿using System.Linq;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Types;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Iwentys.Database.Repositories.Implementations
+namespace Iwentys.Database.Repositories
 {
-    public class TributeRepository : ITributeRepository
+    public class TributeRepository : IGenericRepository<TributeEntity, long>
     {
         private readonly IwentysDbContext _dbContext;
 
