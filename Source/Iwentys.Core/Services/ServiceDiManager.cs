@@ -31,6 +31,7 @@ namespace Iwentys.Core.Services
             services.AddScoped<IGroupSubjectRepository, GroupGroupSubjectRepository>();
             services.AddScoped<IGuildMemberRepository, GuildMemberRepository>();
             services.AddScoped<IGuildRepository, GuildRepository>();
+            services.AddScoped<IGuildRecruitmentRepository, GuildRecruitmentRepository>();
             services.AddScoped<IGuildTestTaskSolvingInfoRepository, GuildTestTaskSolvingInfoRepository>();
             services.AddScoped<IQuestRepository, QuestRepository>();
             services.AddScoped<IStudentProjectRepository, StudentProjectRepository>();
@@ -48,6 +49,7 @@ namespace Iwentys.Core.Services
             services.AddScoped<IGithubUserDataService, GithubUserDataService>();
             services.AddScoped<IGuildMemberService, GuildMemberService>();
             services.AddScoped<IGuildService, GuildService>();
+            services.AddScoped<IGuildRecruitmentService, GuildRecruitmentService>();
             services.AddScoped<IGuildTestTaskService, GuildTestTaskService>();
             services.AddScoped<IGuildTributeService, GuildTributeService>();
             services.AddScoped<IQuestService, QuestService>();
