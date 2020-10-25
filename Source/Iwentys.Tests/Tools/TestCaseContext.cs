@@ -1,12 +1,12 @@
 using System;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Gamification;
-using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Core.Services.Implementations;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Database.Repositories.Implementations;
+using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;

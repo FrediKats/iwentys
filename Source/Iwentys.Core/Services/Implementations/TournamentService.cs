@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Iwentys.Core.DomainModel;
-using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
+using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Tournaments;

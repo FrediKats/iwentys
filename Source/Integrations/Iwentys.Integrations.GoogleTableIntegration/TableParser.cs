@@ -4,7 +4,7 @@ using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Microsoft.Extensions.Logging;
 
-namespace Iwentys.GoogleTableIntegration
+namespace Iwentys.Integrations.GoogleTableIntegration
 {
     public class TableParser
     {

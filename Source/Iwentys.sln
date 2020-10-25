@@ -22,7 +22,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.GoogleTableIntegration", "Iwentys.GoogleTableIntegration\Iwentys.GoogleTableIntegration.csproj", "{65267FCB-7197-4F19-A43A-8BD87CE2093C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integrations", "Integrations", "{EFFD7D55-2DC3-471F-8422-627864F5B57B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Integrations.GithubIntegration", "Integrations\Iwentys.Integrations.GithubIntegration\Iwentys.Integrations.GithubIntegration.csproj", "{901C84FD-31CC-4999-8CB8-C6207AB2700A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Integrations.GoogleTableIntegration", "Integrations\Iwentys.Integrations.GoogleTableIntegration\Iwentys.Integrations.GoogleTableIntegration.csproj", "{F3AEE03E-AEB2-4F5D-A961-A5852E72AB46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,13 +62,21 @@ Global
 		{4608FCD7-CDFA-4527-B631-8967862B1FFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4608FCD7-CDFA-4527-B631-8967862B1FFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4608FCD7-CDFA-4527-B631-8967862B1FFF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{65267FCB-7197-4F19-A43A-8BD87CE2093C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{65267FCB-7197-4F19-A43A-8BD87CE2093C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{65267FCB-7197-4F19-A43A-8BD87CE2093C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{65267FCB-7197-4F19-A43A-8BD87CE2093C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{901C84FD-31CC-4999-8CB8-C6207AB2700A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{901C84FD-31CC-4999-8CB8-C6207AB2700A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{901C84FD-31CC-4999-8CB8-C6207AB2700A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{901C84FD-31CC-4999-8CB8-C6207AB2700A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3AEE03E-AEB2-4F5D-A961-A5852E72AB46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3AEE03E-AEB2-4F5D-A961-A5852E72AB46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3AEE03E-AEB2-4F5D-A961-A5852E72AB46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3AEE03E-AEB2-4F5D-A961-A5852E72AB46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{901C84FD-31CC-4999-8CB8-C6207AB2700A} = {EFFD7D55-2DC3-471F-8422-627864F5B57B}
+		{F3AEE03E-AEB2-4F5D-A961-A5852E72AB46} = {EFFD7D55-2DC3-471F-8422-627864F5B57B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C699E386-11E7-4ABB-9AD6-C676F3CA2061}

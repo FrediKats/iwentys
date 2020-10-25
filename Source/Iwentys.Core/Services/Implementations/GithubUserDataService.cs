@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
+using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Tools;

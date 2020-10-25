@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Iwentys.GoogleTableIntegration
+namespace Iwentys.Integrations.GoogleTableIntegration
 {
     public static class Tools
     {

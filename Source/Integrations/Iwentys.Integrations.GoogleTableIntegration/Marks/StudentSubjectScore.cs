@@ -1,6 +1,6 @@
 ﻿using Iwentys.Models.Entities;
 
-namespace Iwentys.GoogleTableIntegration.Marks
+namespace Iwentys.Integrations.GoogleTableIntegration.Marks
 {
     public class StudentSubjectScore
     {

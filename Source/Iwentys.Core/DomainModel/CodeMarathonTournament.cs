@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.DomainModel.Guilds;
-using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
+using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Tournaments;

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Iwentys.Models;
-
 using Octokit;
 
-namespace Iwentys.Core.GithubIntegration
+namespace Iwentys.Integrations.GithubIntegration
 {
     public class DummyGithubApiAccessor : IGithubApiAccessor
     {

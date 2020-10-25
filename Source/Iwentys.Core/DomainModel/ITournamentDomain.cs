@@ -1,6 +1,6 @@
-﻿using Iwentys.Core.GithubIntegration;
-using Iwentys.Core.Services.Abstractions;
+﻿using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
+using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Transferable.Tournaments;

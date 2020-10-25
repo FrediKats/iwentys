@@ -1,10 +1,10 @@
 ﻿using Iwentys.Core.Gamification;
-using Iwentys.Core.GithubIntegration;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Core.Services.Implementations;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Abstractions;
 using Iwentys.Database.Repositories.Implementations;
+using Iwentys.Integrations.GithubIntegration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,10 +16,14 @@ namespace Iwentys.Core.Services
         {
             services.AddDbContext<IwentysDbContext>(o => o.UseSqlite("Data Source=Iwentys.db"));
 
+
             if (githubToken is null)
                 services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();
             else
+            {
+                GithubApiAccessor.Token = githubToken;
                 services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
+            }
 
             services.AddScoped<IBarsPointTransactionLogRepository, BarsPointTransactionLogRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();

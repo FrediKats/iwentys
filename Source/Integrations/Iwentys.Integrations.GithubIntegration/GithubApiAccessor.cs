@@ -8,10 +8,12 @@ using Iwentys.Models.Tools;
 using Newtonsoft.Json;
 using Octokit;
 
-namespace Iwentys.Core.GithubIntegration
+namespace Iwentys.Integrations.GithubIntegration
 {
     public class GithubApiAccessor : IGithubApiAccessor
     {
+        //TODO: rework
+        public static string Token;
         private const string GithubContributionsApiUrl = "https://github-contributions.now.sh/api/v1/";
 
         private readonly GitHubClient _client;
@@ -20,7 +22,7 @@ namespace Iwentys.Core.GithubIntegration
         {
             _client = new GitHubClient(new ProductHeaderValue("Iwentys"))
             {
-                Credentials = new Credentials(ApplicationOptions.GithubToken)
+                Credentials = new Credentials(Token)
             };
         }
 

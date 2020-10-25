@@ -4,7 +4,7 @@ using Google.Apis.Sheets.v4.Data;
 using Iwentys.Models.Types;
 using Microsoft.Extensions.Logging;
 
-namespace Iwentys.GoogleTableIntegration.Marks
+namespace Iwentys.Integrations.GoogleTableIntegration.Marks
 {
     public class MarkParser : ITableRequest<List<StudentSubjectScore>>
     {
