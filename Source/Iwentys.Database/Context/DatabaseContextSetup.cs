@@ -50,7 +50,7 @@ namespace Iwentys.Database.Context
         {
             Teachers = new List<TeacherEntity>
             {
-                new TeacherEntity {Id = 1, Name = "Жмышенко Валерий Альбертович"},
+                new TeacherEntity {Id = 1, Name = "Some Name"},
                 new TeacherEntity {Id = 2, Name = "Сухачев Денис Владимирович"}
             };
 
@@ -69,7 +69,10 @@ namespace Iwentys.Database.Context
             {
                 new SubjectEntity {Id = 1, Name = "Алгоритмы и структуры данных"},
                 new SubjectEntity {Id = 2, Name = "Дискретная математика"},
-                new SubjectEntity {Id = 3, Name = "Программирование"}
+                new SubjectEntity {Id = 3, Name = "Программирование"},
+
+                new SubjectEntity {Id = 10, Name = "ООП"},
+
             };
 
             var reader = new StudentMockDataReader();
@@ -152,6 +155,8 @@ namespace Iwentys.Database.Context
                         .Serialize()
                 }
             };
+
+            GroupSubjects.AddRange(GroupSubjectEntitySeeding.CreateForOop(10, StudyGroups.Where(g => g.GroupName.StartsWith("M32")).ToList()));
         }
 
         private void InitStudents()
@@ -290,7 +295,7 @@ namespace Iwentys.Database.Context
             };
         }
 
-        private static class Create
+        public static class Create
         {
             private static readonly IdentifierGenerator CourseIdentifierGenerator = new IdentifierGenerator();
             public static readonly IdentifierGenerator GroupSubjectIdentifierGenerator = new IdentifierGenerator();
