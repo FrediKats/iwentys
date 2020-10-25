@@ -1,14 +1,13 @@
 ﻿using Iwentys.Core.DomainModel;
-using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Companies;
 
-namespace Iwentys.Core.Services.Implementations
+namespace Iwentys.Core.Services
 {
-    public class CompanyService : ICompanyService
+    public class CompanyService
     {
         private readonly DatabaseAccessor _database;
 

@@ -1,6 +1,6 @@
 ﻿using Iwentys.Api.Tools;
 using Iwentys.Core.DomainModel;
-using Iwentys.Core.Services.Abstractions;
+using Iwentys.Core.Services;
 using Iwentys.Models.Entities.Guilds;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +10,9 @@ namespace Iwentys.Api.Controllers
     [ApiController]
     public class GuildRecruitmentController : ControllerBase
     {
-        private IGuildRecruitmentService _guildRecruitmentService;
+        private GuildRecruitmentService _guildRecruitmentService;
 
-        public GuildRecruitmentController(IGuildRecruitmentService guildRecruitmentService)
+        public GuildRecruitmentController(GuildRecruitmentService guildRecruitmentService)
         {
             _guildRecruitmentService = guildRecruitmentService;
         }

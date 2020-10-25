@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentResults;
-using Iwentys.Core.Services.Abstractions;
+using Iwentys.Core.Services;
 using Iwentys.Models;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Study;
@@ -14,11 +14,11 @@ namespace Iwentys.ClientBot.Commands.StudentLeaderboard
 {
     public class GetStudentsRatingCommand : IBotCommand
     {
-        private readonly IStudyLeaderboardService _leaderboardService;
+        private readonly StudyLeaderboardService _leaderboardService;
 
         public GetStudentsRatingCommand(ServiceProvider serviceProvider)
         {
-            _leaderboardService = serviceProvider.GetService<IStudyLeaderboardService>();
+            _leaderboardService = serviceProvider.GetService<StudyLeaderboardService>();
         }
 
         public Result CanExecute(CommandArgumentContainer args)

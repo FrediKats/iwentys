@@ -2,7 +2,6 @@
 using System.Linq;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Gamification;
-using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database;
 using Iwentys.Database.Context;
 using Iwentys.Integrations.GithubIntegration;
@@ -14,9 +13,9 @@ using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Types;
 
-namespace Iwentys.Core.Services.Implementations
+namespace Iwentys.Core.Services
 {
-    public class GuildTestTaskService : IGuildTestTaskService
+    public class GuildTestTaskService
     {
         private readonly DatabaseAccessor _database;
         private readonly IGithubApiAccessor _githubApi;

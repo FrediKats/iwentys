@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Database.Tools;
 using Iwentys.Models;
@@ -10,14 +9,14 @@ using Iwentys.Models.Exceptions;
 using Iwentys.Models.Transferable.Study;
 using MoreLinq;
 
-namespace Iwentys.Core.Services.Implementations
+namespace Iwentys.Core.Services
 {
-    public class StudyLeaderboardService : IStudyLeaderboardService
+    public class StudyLeaderboardService
     {
         private readonly DatabaseAccessor _databaseAccessor;
-        private readonly IGithubUserDataService _githubUserDataService;
+        private readonly GithubUserDataService _githubUserDataService;
 
-        public StudyLeaderboardService(DatabaseAccessor databaseAccessor, IGithubUserDataService githubUserDataService)
+        public StudyLeaderboardService(DatabaseAccessor databaseAccessor, GithubUserDataService githubUserDataService)
         {
             _databaseAccessor = databaseAccessor;
             _githubUserDataService = githubUserDataService;

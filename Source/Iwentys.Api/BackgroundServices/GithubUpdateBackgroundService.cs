@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Core;
-using Iwentys.Core.Services.Abstractions;
+using Iwentys.Core.Services;
 using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,7 +34,7 @@ namespace Iwentys.Api.BackgroundServices
                     _logger.LogInformation("Execute GithubUpdateBackgroundService update");
 
                     var studentRepository = scope.ServiceProvider.GetRequiredService<StudentRepository>();
-                    var githubUserDataService = scope.ServiceProvider.GetRequiredService<IGithubUserDataService>();
+                    var githubUserDataService = scope.ServiceProvider.GetRequiredService<GithubUserDataService>();
                     foreach (StudentEntity student in studentRepository.Read().Where(s => s.GithubUsername != null))
                     {
                         githubUserDataService.CreateOrUpdate(student.Id);

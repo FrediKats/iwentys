@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Iwentys.Core.Services.Abstractions;
+using Iwentys.Core.Services;
 using Iwentys.Models.Entities.Study;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +9,9 @@ namespace Iwentys.Api.Controllers
     [ApiController]
     public class StudyGroupController : ControllerBase
     {
-        private readonly IStudyLeaderboardService _studyLeaderboardService;
+        private readonly StudyLeaderboardService _studyLeaderboardService;
 
-        public StudyGroupController(IStudyLeaderboardService studyLeaderboardService)
+        public StudyGroupController(StudyLeaderboardService studyLeaderboardService)
         {
             _studyLeaderboardService = studyLeaderboardService;
         }

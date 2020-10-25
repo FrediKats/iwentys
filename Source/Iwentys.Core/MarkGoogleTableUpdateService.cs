@@ -9,7 +9,7 @@ using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Types;
 using Microsoft.Extensions.Logging;
 
-namespace Iwentys.Core.Services
+namespace Iwentys.Core
 {
     public class MarkGoogleTableUpdateService
     {

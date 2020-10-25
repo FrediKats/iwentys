@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Api.Tools;
 using Iwentys.Core.DomainModel;
-using Iwentys.Core.Services.Abstractions;
+using Iwentys.Core.Services;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Gamification;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +12,9 @@ namespace Iwentys.Api.Controllers
     [ApiController]
     public class QuestController : ControllerBase
     {
-        private readonly IQuestService _questService;
+        private readonly QuestService _questService;
 
-        public QuestController(IQuestService questService)
+        public QuestController(QuestService questService)
         {
             _questService = questService;
         }

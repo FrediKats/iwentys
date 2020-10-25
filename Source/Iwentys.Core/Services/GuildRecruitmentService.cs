@@ -1,11 +1,10 @@
-﻿using Iwentys.Core.Services.Abstractions;
-using Iwentys.Database.Context;
+﻿using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities.Guilds;
 
-namespace Iwentys.Core.Services.Implementations
+namespace Iwentys.Core.Services
 {
-    public class GuildRecruitmentService : IGuildRecruitmentService
+    public class GuildRecruitmentService
     {
         private readonly DatabaseAccessor _databaseAccessor;
 

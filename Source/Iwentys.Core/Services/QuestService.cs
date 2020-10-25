@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Gamification;
-using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities;
@@ -13,9 +12,9 @@ using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Gamification;
 using Iwentys.Models.Types;
 
-namespace Iwentys.Core.Services.Implementations
+namespace Iwentys.Core.Services
 {
-    public class QuestService : IQuestService
+    public class QuestService
     {
         private readonly DatabaseAccessor _databaseAccessor;
         private readonly AchievementProvider _achievementProvider;

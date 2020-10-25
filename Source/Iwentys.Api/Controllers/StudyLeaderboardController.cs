@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-
-using Iwentys.Core.Services.Abstractions;
+using Iwentys.Core.Services;
 using Iwentys.Models;
 using Iwentys.Models.Transferable.Study;
 using Iwentys.Models.Types;
@@ -13,9 +12,9 @@ namespace Iwentys.Api.Controllers
     [ApiController]
     public class StudyLeaderboardController : ControllerBase
     {
-        private readonly IStudyLeaderboardService _studyLeaderboardService;
+        private readonly StudyLeaderboardService _studyLeaderboardService;
 
-        public StudyLeaderboardController(IStudyLeaderboardService studyLeaderboardService)
+        public StudyLeaderboardController(StudyLeaderboardService studyLeaderboardService)
         {
             _studyLeaderboardService = studyLeaderboardService;
         }

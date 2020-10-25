@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.Gamification;
-using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
@@ -11,9 +10,9 @@ using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Students;
 
-namespace Iwentys.Core.Services.Implementations
+namespace Iwentys.Core.Services
 {
-    public class StudentService : IStudentService
+    public class StudentService
     {
         private readonly DatabaseAccessor _databaseAccessor;
 

@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Linq;
 using Iwentys.Core.DomainModel;
-using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Tournaments;
 
-namespace Iwentys.Core.Services.Implementations
+namespace Iwentys.Core.Services
 {
-    public class TournamentService : ITournamentService
+    public class TournamentService
     {
         private readonly DatabaseAccessor _databaseAccessor;
         private readonly IGithubApiAccessor _githubApi;
-        private readonly IGithubUserDataService _githubUserDataService;
+        private readonly GithubUserDataService _githubUserDataService;
 
-        public TournamentService(DatabaseAccessor databaseAccessor, IGithubApiAccessor githubApi, IGithubUserDataService githubUserDataService)
+        public TournamentService(DatabaseAccessor databaseAccessor, IGithubApiAccessor githubApi, GithubUserDataService githubUserDataService)
         {
             _githubApi = githubApi;
             _databaseAccessor = databaseAccessor;

@@ -1,13 +1,12 @@
 ﻿using FluentResults;
-using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;
 
-namespace Iwentys.Core.Services.Implementations
+namespace Iwentys.Core.Services
 {
-    public class BarsPointTransactionLogService : IBarsPointTransactionLogService
+    public class BarsPointTransactionLogService
     {
         private readonly DatabaseAccessor _database;
 

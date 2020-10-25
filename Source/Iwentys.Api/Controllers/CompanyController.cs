@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Iwentys.Core.Services.Abstractions;
+using Iwentys.Core.Services;
 using Iwentys.Models.Transferable.Companies;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +9,9 @@ namespace Iwentys.Api.Controllers
     [ApiController]
     public class CompanyController : ControllerBase
     {
-        private readonly ICompanyService _companyService;
+        private readonly CompanyService _companyService;
 
-        public CompanyController(ICompanyService companyService)
+        public CompanyController(CompanyService companyService)
         {
             _companyService = companyService;
         }

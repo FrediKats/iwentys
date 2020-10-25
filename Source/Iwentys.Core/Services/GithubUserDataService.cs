@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Tools;
 
-namespace Iwentys.Core.Services.Implementations
+namespace Iwentys.Core.Services
 {
-    public class GithubUserDataService : IGithubUserDataService
+    public class GithubUserDataService
     {
         private readonly IGithubApiAccessor _githubApiAccessor;
         private readonly DatabaseAccessor _database;

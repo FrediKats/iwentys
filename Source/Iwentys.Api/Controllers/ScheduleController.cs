@@ -1,5 +1,5 @@
 ﻿using ItmoScheduleApiWrapper.Models;
-using Iwentys.Core.Services.Implementations;
+using Iwentys.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Api.Controllers

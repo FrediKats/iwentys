@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Iwentys.Core.DomainModel;
-using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Integrations.GithubIntegration;
@@ -15,9 +14,9 @@ using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.GuildTribute;
 using Iwentys.Models.Types;
 
-namespace Iwentys.Core.Services.Implementations
+namespace Iwentys.Core.Services
 {
-    public class GuildTributeService : IGuildTributeService
+    public class GuildTributeService
     {
         private readonly DatabaseAccessor _database;
         private readonly IGithubApiAccessor _githubApi;

@@ -2,7 +2,7 @@
 using ItmoScheduleApiWrapper;
 using ItmoScheduleApiWrapper.Models;
 
-namespace Iwentys.Core.Services.Implementations
+namespace Iwentys.Core.Services
 {
     public class ScheduleService
     {

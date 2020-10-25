@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Api.Tools;
 using Iwentys.Core.DomainModel;
-using Iwentys.Core.Services.Abstractions;
+using Iwentys.Core.Services;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Students;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +12,9 @@ namespace Iwentys.Api.Controllers
     [ApiController]
     public class StudentController : ControllerBase
     {
-        private readonly IStudentService _studentService;
+        private readonly StudentService _studentService;
 
-        public StudentController(IStudentService studentService)
+        public StudentController(StudentService studentService)
         {
             _studentService = studentService;
         }

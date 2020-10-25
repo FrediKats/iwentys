@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Api.Tools;
 using Iwentys.Core.DomainModel;
-using Iwentys.Core.Services.Abstractions;
+using Iwentys.Core.Services;
 using Iwentys.Models.Transferable.Guilds;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,9 +11,9 @@ namespace Iwentys.Api.Controllers
     [ApiController]
     public class GuildTestTaskServiceController : ControllerBase
     {
-        private readonly IGuildTestTaskService _guildTestTaskService;
+        private readonly GuildTestTaskService _guildTestTaskService;
 
-        public GuildTestTaskServiceController(IGuildTestTaskService guildTestTaskService)
+        public GuildTestTaskServiceController(GuildTestTaskService guildTestTaskService)
         {
             _guildTestTaskService = guildTestTaskService;
         }

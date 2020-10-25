@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FluentResults;
-using Iwentys.Core.Services.Abstractions;
+using Iwentys.Core.Services;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Guilds;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,11 +12,11 @@ namespace Iwentys.ClientBot.Commands.Guild
 {
     public class GetGuildsCommand : IBotCommand
     {
-        private readonly IGuildService _guildService;
+        private readonly GuildService _guildService;
 
         public GetGuildsCommand(ServiceProvider serviceProvider)
         {
-            _guildService = serviceProvider.GetService<IGuildService>();
+            _guildService = serviceProvider.GetService<GuildService>();
         }
 
         public Result CanExecute(CommandArgumentContainer args)

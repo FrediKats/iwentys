@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Iwentys.Core.DomainModel.Guilds;
-using Iwentys.Core.Services.Abstractions;
+using Iwentys.Core.Services;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Models;
@@ -27,7 +27,7 @@ namespace Iwentys.Tests.Core.DomainModels
         private Mock<GuildRepository> _guildRepository;
         private Mock<GuildMemberRepository> _guildMemberRepository;
         private Mock<StudentRepository> _studentRepository;
-        private Mock<IGithubUserDataService> _githubUserDataService;
+        private Mock<GithubUserDataService> _githubUserDataService;
 
         // User without guild
         //      is not in blocked list
@@ -68,7 +68,7 @@ namespace Iwentys.Tests.Core.DomainModels
                 .Setup(r => r.ReadStudentActiveTribute(It.IsAny<Int32>(), It.IsAny<Int32>()))
                 .Returns(default(TributeEntity));
 
-            _githubUserDataService = new Mock<IGithubUserDataService>();
+            _githubUserDataService = new Mock<GithubUserDataService>();
             _githubUserDataService
                 .Setup(a => a.GetCertainRepository(It.IsAny<String>(), It.IsAny<String>()))
                 .Returns(default(GithubRepository));

@@ -11,21 +11,21 @@ namespace Iwentys.Database.Context
         {
             return new List<GroupSubjectEntity>
             {
-                CreatorForOop(subjectId, "M3201", "4", "24"),
-                CreatorForOop(subjectId, "M3202", "4", "27"),
-                CreatorForOop(subjectId, "M3203", "4", "25"),
-                CreatorForOop(subjectId, "M3204", "4", "23"),
-                CreatorForOop(subjectId, "M3205", "4", "26"),
-                CreatorForOop(subjectId, "M3206", "4", "21"),
-                CreatorForOop(subjectId, "M3207", "4", "21"),
-                CreatorForOop(subjectId, "M3208", "4", "25"),
-                CreatorForOop(subjectId, "M3209", "4", "27"),
-                CreatorForOop(subjectId, "M3210", "4", "18"),
-                CreatorForOop(subjectId, "M3211", "4", "22"),
-                CreatorForOop(subjectId, "M3212", "4", "24"),
+                CreatorForOop("M3201", "4", "24"),
+                CreatorForOop("M3202", "4", "27"),
+                CreatorForOop("M3203", "4", "25"),
+                CreatorForOop("M3204", "4", "23"),
+                CreatorForOop("M3205", "4", "26"),
+                CreatorForOop("M3206", "4", "21"),
+                CreatorForOop("M3207", "4", "21"),
+                CreatorForOop("M3208", "4", "25"),
+                CreatorForOop("M3209", "4", "27"),
+                CreatorForOop("M3210", "4", "18"),
+                CreatorForOop("M3211", "4", "22"),
+                CreatorForOop("M3212", "4", "24"),
             };
 
-            GroupSubjectEntity CreatorForOop(int _, string groupName, string first, string last)
+            GroupSubjectEntity CreatorForOop(string groupName, string first, string last)
             {
                 return new GroupSubjectEntity
                 {

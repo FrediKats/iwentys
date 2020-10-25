@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.DomainModel;
-using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable;
 
-namespace Iwentys.Core.Services.Implementations
+namespace Iwentys.Core.Services
 {
-    public class AssignmentService : IAssignmentService
+    public class AssignmentService
     {
         private readonly DatabaseAccessor _database;
 

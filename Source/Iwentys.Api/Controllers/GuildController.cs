@@ -2,7 +2,7 @@
 
 using Iwentys.Api.Tools;
 using Iwentys.Core.DomainModel;
-using Iwentys.Core.Services.Abstractions;
+using Iwentys.Core.Services;
 using Iwentys.Models;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Guilds;
@@ -15,10 +15,10 @@ namespace Iwentys.Api.Controllers
     [ApiController]
     public class GuildController : ControllerBase
     {
-        private readonly IGuildService _guildService;
-        private readonly IGuildMemberService _guildMemberService;
+        private readonly GuildService _guildService;
+        private readonly GuildMemberService _guildMemberService;
 
-        public GuildController(IGuildService guildService, IGuildMemberService guildMemberService)
+        public GuildController(GuildService guildService, GuildMemberService guildMemberService)
         {
             _guildService = guildService;
             _guildMemberService = guildMemberService;

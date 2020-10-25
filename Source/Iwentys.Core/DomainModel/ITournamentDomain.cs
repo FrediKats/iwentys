@@ -1,4 +1,4 @@
-﻿using Iwentys.Core.Services.Abstractions;
+﻿using Iwentys.Core.Services;
 using Iwentys.Database.Context;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities.Guilds;
@@ -15,7 +15,7 @@ namespace Iwentys.Core.DomainModel
 
     public static class TournamentDomainHelper
     {
-        public static ITournamentDomain WrapToDomain(this TournamentEntity tournament, IGithubApiAccessor githubApiAccessor, DatabaseAccessor databaseAccessor, IGithubUserDataService githubUserDataService)
+        public static ITournamentDomain WrapToDomain(this TournamentEntity tournament, IGithubApiAccessor githubApiAccessor, DatabaseAccessor databaseAccessor, GithubUserDataService githubUserDataService)
         {
             return tournament.Type switch
             {

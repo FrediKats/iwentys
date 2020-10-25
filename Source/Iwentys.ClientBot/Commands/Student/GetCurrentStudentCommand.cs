@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using FluentResults;
 using Iwentys.ClientBot.Tools;
 using Iwentys.Core.DomainModel;
-using Iwentys.Core.Services.Abstractions;
+using Iwentys.Core.Services;
 using Iwentys.Models.Transferable.Students;
 using Microsoft.Extensions.DependencyInjection;
 using Tef.BotFramework.Abstractions;
@@ -13,12 +13,12 @@ namespace Iwentys.ClientBot.Commands.Student
 {
     public class GetCurrentStudentCommand : IBotCommand
     {
-        private readonly IStudentService _studentService;
+        private readonly StudentService _studentService;
         private readonly UserIdentifier _userIdentifier;
 
         public GetCurrentStudentCommand(ServiceProvider serviceProvider, UserIdentifier userIdentifier)
         {
-            _studentService = serviceProvider.GetService<IStudentService>();
+            _studentService = serviceProvider.GetService<StudentService>();
             _userIdentifier = userIdentifier;
         }
 

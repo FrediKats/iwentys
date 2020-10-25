@@ -1,7 +1,6 @@
 using System.Text.Json.Serialization;
 using Iwentys.Core;
 using Iwentys.Core.Auth;
-using Iwentys.Core.Services;
 using Iwentys.Database.Context;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;

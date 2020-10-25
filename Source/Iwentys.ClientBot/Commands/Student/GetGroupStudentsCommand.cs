@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentResults;
-using Iwentys.Core.Services.Abstractions;
+using Iwentys.Core.Services;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Students;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,11 +12,11 @@ namespace Iwentys.ClientBot.Commands.Student
 {
     public class GetGroupStudentsCommand : IBotCommand
     {
-        private readonly IStudentService _studentService;
+        private readonly StudentService _studentService;
 
         public GetGroupStudentsCommand(ServiceProvider serviceProvider)
         {
-            _studentService = serviceProvider.GetService<IStudentService>();
+            _studentService = serviceProvider.GetService<StudentService>();
         }
 
         public Result CanExecute(CommandArgumentContainer args)

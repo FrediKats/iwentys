@@ -2,7 +2,7 @@
 
 using Iwentys.Api.Tools;
 using Iwentys.Core.DomainModel;
-using Iwentys.Core.Services.Abstractions;
+using Iwentys.Core.Services;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.GuildTribute;
@@ -15,9 +15,9 @@ namespace Iwentys.Api.Controllers
     [ApiController]
     public class GuildTributeController : ControllerBase
     {
-        private readonly IGuildTributeService _guildService;
+        private readonly GuildTributeService _guildService;
 
-        public GuildTributeController(IGuildTributeService guildService)
+        public GuildTributeController(GuildTributeService guildService)
         {
             _guildService = guildService;
         }

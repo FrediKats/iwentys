@@ -7,7 +7,6 @@ using Iwentys.Api.Tools;
 using Iwentys.Core;
 using Iwentys.Core.Auth;
 using Iwentys.Core.Services;
-using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Models;
@@ -27,9 +26,9 @@ namespace Iwentys.Api.Controllers
         private readonly MarkGoogleTableUpdateService _markGoogleTableUpdateService;
         private readonly ILogger<DebugCommandController> _logger;
         private readonly DatabaseAccessor _databaseAccessor;
-        private readonly IStudentService _studentService;
+        private readonly StudentService _studentService;
 
-        public DebugCommandController(ILogger<DebugCommandController> logger, DatabaseAccessor databaseAccessor, IStudentService studentService)
+        public DebugCommandController(ILogger<DebugCommandController> logger, DatabaseAccessor databaseAccessor, StudentService studentService)
         {
             _logger = logger;
             _databaseAccessor = databaseAccessor;

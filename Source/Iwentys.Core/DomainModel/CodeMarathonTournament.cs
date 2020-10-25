@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Core.DomainModel.Guilds;
-using Iwentys.Core.Services.Abstractions;
+using Iwentys.Core.Services;
 using Iwentys.Database.Context;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities.Guilds;
@@ -16,9 +16,9 @@ namespace Iwentys.Core.DomainModel
 
         private readonly TournamentEntity _tournament;
         private readonly DatabaseAccessor _database;
-        private readonly IGithubUserDataService _githubUserDataService;
+        private readonly GithubUserDataService _githubUserDataService;
 
-        public CodeMarathonTournament(TournamentEntity tournament, IGithubApiAccessor githubApiAccessor, DatabaseAccessor database, IGithubUserDataService githubUserDataService)
+        public CodeMarathonTournament(TournamentEntity tournament, IGithubApiAccessor githubApiAccessor, DatabaseAccessor database, GithubUserDataService githubUserDataService)
         {
             _tournament = tournament;
             _githubApiAccessor = githubApiAccessor;

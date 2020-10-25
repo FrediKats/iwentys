@@ -1,8 +1,7 @@
 using System;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Gamification;
-using Iwentys.Core.Services.Abstractions;
-using Iwentys.Core.Services.Implementations;
+using Iwentys.Core.Services;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Integrations.GithubIntegration;
@@ -28,13 +27,13 @@ namespace Iwentys.Tests.Tools
 
         public readonly DatabaseAccessor DatabaseAccessor;
 
-        public readonly IStudentService StudentService;
-        public readonly IGuildService GuildService;
-        public readonly IGuildMemberService GuildMemberService;
-        public readonly IGuildTributeService GuildTributeServiceService;
-        public readonly ICompanyService CompanyService;
-        public readonly IQuestService QuestService;
-        public readonly IGithubUserDataService GithubUserDataService;
+        public readonly StudentService StudentService;
+        public readonly GuildService GuildService;
+        public readonly GuildMemberService GuildMemberService;
+        public readonly GuildTributeService GuildTributeServiceService;
+        public readonly CompanyService CompanyService;
+        public readonly QuestService QuestService;
+        public readonly GithubUserDataService GithubUserDataService;
 
         public static TestCaseContext Case() => new TestCaseContext();
 

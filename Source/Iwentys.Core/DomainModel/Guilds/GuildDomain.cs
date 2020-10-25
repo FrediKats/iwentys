@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Core.Services.Abstractions;
+using Iwentys.Core.Services;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Integrations.GithubIntegration;
@@ -24,10 +24,10 @@ namespace Iwentys.Core.DomainModel.Guilds
         public GuildEntity Profile { get; }
 
         private readonly DatabaseAccessor _dbAccessor;
-        private readonly IGithubUserDataService _githubUserDataService;
+        private readonly GithubUserDataService _githubUserDataService;
         private readonly IGithubApiAccessor _apiAccessor;
 
-        public GuildDomain(GuildEntity profile, DatabaseAccessor dbAccessor, IGithubUserDataService githubUserDataService, IGithubApiAccessor apiAccessor)
+        public GuildDomain(GuildEntity profile, DatabaseAccessor dbAccessor, GithubUserDataService githubUserDataService, IGithubApiAccessor apiAccessor)
         {
             Profile = profile;
             _dbAccessor = dbAccessor;

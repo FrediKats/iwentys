@@ -4,7 +4,6 @@ using Iwentys.ClientBot.Commands.StudentLeaderboard;
 using Iwentys.ClientBot.Commands.Tools;
 using Iwentys.ClientBot.Tools;
 using Iwentys.Core;
-using Iwentys.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Tef.BotFramework.Core;
