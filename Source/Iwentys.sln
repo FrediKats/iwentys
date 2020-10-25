@@ -28,6 +28,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Integrations.Github
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Integrations.GoogleTableIntegration", "Integrations\Iwentys.Integrations.GoogleTableIntegration\Iwentys.Integrations.GoogleTableIntegration.csproj", "{F3AEE03E-AEB2-4F5D-A961-A5852E72AB46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Integrations.TelegramIntegration", "Integrations\Iwentys.Integrations.TelegramIntegration\Iwentys.Integrations.TelegramIntegration.csproj", "{468062FC-41F2-45A9-A4FB-66175D90C102}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,10 @@ Global
 		{F3AEE03E-AEB2-4F5D-A961-A5852E72AB46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3AEE03E-AEB2-4F5D-A961-A5852E72AB46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3AEE03E-AEB2-4F5D-A961-A5852E72AB46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{468062FC-41F2-45A9-A4FB-66175D90C102}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{468062FC-41F2-45A9-A4FB-66175D90C102}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{468062FC-41F2-45A9-A4FB-66175D90C102}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{468062FC-41F2-45A9-A4FB-66175D90C102}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,6 +83,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{901C84FD-31CC-4999-8CB8-C6207AB2700A} = {EFFD7D55-2DC3-471F-8422-627864F5B57B}
 		{F3AEE03E-AEB2-4F5D-A961-A5852E72AB46} = {EFFD7D55-2DC3-471F-8422-627864F5B57B}
+		{468062FC-41F2-45A9-A4FB-66175D90C102} = {EFFD7D55-2DC3-471F-8422-627864F5B57B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C699E386-11E7-4ABB-9AD6-C676F3CA2061}
