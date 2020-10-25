@@ -2,7 +2,9 @@
 using System.Linq;
 using Iwentys.Core.Services.Abstractions;
 using Iwentys.Database.Context;
+using Iwentys.Database.Tools;
 using Iwentys.Models;
+using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Transferable.Study;
@@ -13,10 +15,12 @@ namespace Iwentys.Core.Services.Implementations
     public class StudyLeaderboardService : IStudyLeaderboardService
     {
         private readonly DatabaseAccessor _databaseAccessor;
+        private readonly IGithubUserDataService _githubUserDataService;
 
-        public StudyLeaderboardService(DatabaseAccessor databaseAccessor)
+        public StudyLeaderboardService(DatabaseAccessor databaseAccessor, IGithubUserDataService githubUserDataService)
         {
             _databaseAccessor = databaseAccessor;
+            _githubUserDataService = githubUserDataService;
         }
 
         public List<SubjectEntity> GetSubjectsForDto(StudySearchParameters searchParameters)
@@ -43,6 +47,19 @@ namespace Iwentys.Core.Services.Implementations
                 .GroupBy(r => r.StudentId)
                 .Select(g => new StudyLeaderboardRow(g))
                 .OrderByDescending(a => a.Activity)
+                .ToList();
+        }
+
+        public List<StudyLeaderboardRow> GetCodingRating(int? courseId)
+        {
+            IQueryable<StudentEntity> query = _databaseAccessor.Student.Read();
+
+            query = query
+                .WhereIf(courseId, () => query.Where(q => q.Group.StudyCourseId == courseId));
+
+            return query.AsEnumerable()
+                .Select(s => new StudyLeaderboardRow(s, _githubUserDataService.FindByUsername(s.GithubUsername)?.ContributionFullInfo.Total ?? 0))
+                .OrderBy(a => a.Activity)
                 .ToList();
         }
     }

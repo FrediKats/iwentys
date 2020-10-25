@@ -8,7 +8,6 @@ namespace Iwentys.Database.Repositories.Abstractions
     {
         SubjectActivityEntity Create(SubjectActivityEntity subjectActivity);
 
-        SubjectActivityEntity GetActivityForStudentAndSubject(int studentId, int subjectForGroupId);
         IReadOnlyCollection<SubjectActivityEntity> GetStudentActivities(StudySearchParameters searchParameters);
     }
 }

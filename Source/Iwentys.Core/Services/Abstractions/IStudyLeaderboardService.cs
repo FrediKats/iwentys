@@ -10,5 +10,6 @@ namespace Iwentys.Core.Services.Abstractions
         List<SubjectEntity> GetSubjectsForDto(StudySearchParameters searchParameters);
         List<StudyGroupEntity> GetStudyGroupsForDto(int? courseId);
         List<StudyLeaderboardRow> GetStudentsRatings(StudySearchParameters searchParameters);
+        List<StudyLeaderboardRow> GetCodingRating(int? courseId);
     }
 }

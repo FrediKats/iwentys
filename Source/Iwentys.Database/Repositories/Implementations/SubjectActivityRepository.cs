@@ -52,11 +52,6 @@ namespace Iwentys.Database.Repositories.Implementations
             _dbContext.SaveChanges();
         }
 
-        public SubjectActivityEntity GetActivityForStudentAndSubject(int studentId, int subjectForGroupId)
-        {
-            return Read().FirstOrDefault(s => s.StudentId == studentId && s.GroupSubjectEntityId == subjectForGroupId);
-        }
-
         public IReadOnlyCollection<SubjectActivityEntity> GetStudentActivities(StudySearchParameters searchParameters)
         {
             var query =
