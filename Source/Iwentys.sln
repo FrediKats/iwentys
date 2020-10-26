@@ -7,22 +7,30 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Core", "Iwentys.Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Database", "Iwentys.Database\Iwentys.Database.csproj", "{CB209277-3721-40DB-9FDF-5D0FDAD4B451}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Api", "Iwentys.Api\Iwentys.Api.csproj", "{EBE58243-5985-42DF-9454-40EF2EE1DCDF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Tests", "Iwentys.Tests\Iwentys.Tests.csproj", "{9A8CBC0D-E60F-4346-9548-9F9CECDB2503}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Models", "Iwentys.Models\Iwentys.Models.csproj", "{2D60BE47-B793-481F-8A87-E076BD4C2692}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Polygon", "Iwentys.Polygon\Iwentys.Polygon.csproj", "{5AAA44F2-958B-4A3B-A846-7F15F6F5E2B8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.ClientBot", "Iwentys.Bot\Iwentys.ClientBot.csproj", "{4608FCD7-CDFA-4527-B631-8967862B1FFF}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{251D8AD6-AEB3-4BC4-82D1-1DDABD601D40}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.ApiClient", "Iwentys.ApiClient\Iwentys.ApiClient.csproj", "{5DAAD1C0-1933-4C72-8D7B-F1C79F7117BA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integrations", "Integrations", "{EFFD7D55-2DC3-471F-8422-627864F5B57B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Integrations.GithubIntegration", "Integrations\Iwentys.Integrations.GithubIntegration\Iwentys.Integrations.GithubIntegration.csproj", "{901C84FD-31CC-4999-8CB8-C6207AB2700A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Integrations.GoogleTableIntegration", "Integrations\Iwentys.Integrations.GoogleTableIntegration\Iwentys.Integrations.GoogleTableIntegration.csproj", "{F3AEE03E-AEB2-4F5D-A961-A5852E72AB46}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Integrations.TelegramIntegration", "Integrations\Iwentys.Integrations.TelegramIntegration\Iwentys.Integrations.TelegramIntegration.csproj", "{468062FC-41F2-45A9-A4FB-66175D90C102}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Endpoints", "Endpoints", "{70E1C0FF-AA6C-4ED5-AE29-587699CF170C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Endpoints.Api", "Endpoints\Iwentys.Endpoints.Api\Iwentys.Endpoints.Api.csproj", "{CCD33FDF-3387-4B4B-91B5-0B6D3E1D62C4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Endpoints.ClientBot", "Endpoints\Iwentys.Endpoints.ClientBot\Iwentys.Endpoints.ClientBot.csproj", "{FF834952-062F-4DD4-B381-59409F9BC890}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,10 +46,6 @@ Global
 		{CB209277-3721-40DB-9FDF-5D0FDAD4B451}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB209277-3721-40DB-9FDF-5D0FDAD4B451}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB209277-3721-40DB-9FDF-5D0FDAD4B451}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EBE58243-5985-42DF-9454-40EF2EE1DCDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EBE58243-5985-42DF-9454-40EF2EE1DCDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EBE58243-5985-42DF-9454-40EF2EE1DCDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EBE58243-5985-42DF-9454-40EF2EE1DCDF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9A8CBC0D-E60F-4346-9548-9F9CECDB2503}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9A8CBC0D-E60F-4346-9548-9F9CECDB2503}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A8CBC0D-E60F-4346-9548-9F9CECDB2503}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -54,17 +58,36 @@ Global
 		{5AAA44F2-958B-4A3B-A846-7F15F6F5E2B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5AAA44F2-958B-4A3B-A846-7F15F6F5E2B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AAA44F2-958B-4A3B-A846-7F15F6F5E2B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4608FCD7-CDFA-4527-B631-8967862B1FFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4608FCD7-CDFA-4527-B631-8967862B1FFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4608FCD7-CDFA-4527-B631-8967862B1FFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4608FCD7-CDFA-4527-B631-8967862B1FFF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5DAAD1C0-1933-4C72-8D7B-F1C79F7117BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5DAAD1C0-1933-4C72-8D7B-F1C79F7117BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5DAAD1C0-1933-4C72-8D7B-F1C79F7117BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5DAAD1C0-1933-4C72-8D7B-F1C79F7117BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{901C84FD-31CC-4999-8CB8-C6207AB2700A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{901C84FD-31CC-4999-8CB8-C6207AB2700A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{901C84FD-31CC-4999-8CB8-C6207AB2700A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{901C84FD-31CC-4999-8CB8-C6207AB2700A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3AEE03E-AEB2-4F5D-A961-A5852E72AB46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3AEE03E-AEB2-4F5D-A961-A5852E72AB46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3AEE03E-AEB2-4F5D-A961-A5852E72AB46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3AEE03E-AEB2-4F5D-A961-A5852E72AB46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{468062FC-41F2-45A9-A4FB-66175D90C102}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{468062FC-41F2-45A9-A4FB-66175D90C102}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{468062FC-41F2-45A9-A4FB-66175D90C102}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{468062FC-41F2-45A9-A4FB-66175D90C102}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCD33FDF-3387-4B4B-91B5-0B6D3E1D62C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCD33FDF-3387-4B4B-91B5-0B6D3E1D62C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCD33FDF-3387-4B4B-91B5-0B6D3E1D62C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCD33FDF-3387-4B4B-91B5-0B6D3E1D62C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF834952-062F-4DD4-B381-59409F9BC890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF834952-062F-4DD4-B381-59409F9BC890}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF834952-062F-4DD4-B381-59409F9BC890}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF834952-062F-4DD4-B381-59409F9BC890}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{901C84FD-31CC-4999-8CB8-C6207AB2700A} = {EFFD7D55-2DC3-471F-8422-627864F5B57B}
+		{F3AEE03E-AEB2-4F5D-A961-A5852E72AB46} = {EFFD7D55-2DC3-471F-8422-627864F5B57B}
+		{468062FC-41F2-45A9-A4FB-66175D90C102} = {EFFD7D55-2DC3-471F-8422-627864F5B57B}
+		{CCD33FDF-3387-4B4B-91B5-0B6D3E1D62C4} = {70E1C0FF-AA6C-4ED5-AE29-587699CF170C}
+		{FF834952-062F-4DD4-B381-59409F9BC890} = {70E1C0FF-AA6C-4ED5-AE29-587699CF170C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C699E386-11E7-4ABB-9AD6-C676F3CA2061}

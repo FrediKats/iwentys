@@ -7,18 +7,6 @@ namespace Iwentys.Models.Transferable.Students
 {
     public class StudentFullProfileDto : StudentPartialProfileDto
     {
-        public string Group { get; set; }
-
-        public List<AchievementInfoDto> Achievements { get; set; }
-        public string GuildName { get; set; }
-        //public int StudyLeaderBoardPlace { get; set; }
-        //public int CodingLeaderBoardPlace { get; set; }
-        //public string SocialStatus { get; set; }
-        //public string AdditionalLink { get; set; }
-
-        public List<SubjectActivityInfoDto> SubjectActivityInfo { get; set; }
-        public List<CodingActivityInfoDto> CodingActivityInfo { get; set; }
-
         public StudentFullProfileDto()
         {
         }
@@ -27,19 +15,32 @@ namespace Iwentys.Models.Transferable.Students
         {
             Group = student.Group?.GroupName;
             Achievements = student.Achievements.SelectToList(AchievementInfoDto.Wrap);
-            SubjectActivityInfo = student.SubjectActivities.SelectToList(sa => new SubjectActivityInfoDto(sa));
+            SubjectActivityInfo = student.SubjectActivities.SelectToList(sa => new SubjectActivityInfoResponse(sa));
             GuildName = student.GuildMember?.Guild?.Title;
 
-            if (student.GithubUserData is null || student.GithubUserData.ContributionFullInfo is null)
-                CodingActivityInfo = new List<CodingActivityInfoDto>();
+            if (student.GithubUserEntity is null || student.GithubUserEntity.ContributionFullInfo is null)
+                CodingActivityInfo = new List<CodingActivityInfoResponse>();
             else
-                CodingActivityInfo = student.GithubUserData.ContributionFullInfo.PerMonthActivity().SelectToList(CodingActivityInfoDto.Wrap);
+                CodingActivityInfo = student.GithubUserEntity.ContributionFullInfo.PerMonthActivity().SelectToList(CodingActivityInfoResponse.Wrap);
         }
+
+        public string Group { get; set; }
+
+        public List<AchievementInfoDto> Achievements { get; set; }
+
+        public string GuildName { get; set; }
+        //public int StudyLeaderBoardPlace { get; set; }
+        //public int CodingLeaderBoardPlace { get; set; }
+        //public string SocialStatus { get; set; }
+        //public string AdditionalLink { get; set; }
+
+        public List<SubjectActivityInfoResponse> SubjectActivityInfo { get; set; }
+        public List<CodingActivityInfoResponse> CodingActivityInfo { get; set; }
 
         public string FormatFullInfo()
         {
             var builder = new StringBuilder();
-            
+
             builder.Append(Format());
             if (!string.IsNullOrWhiteSpace(Group))
                 builder.Append(" (").Append(Group).Append(')');

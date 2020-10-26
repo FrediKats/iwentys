@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Iwentys.Core.DomainModel;
-using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.GuildTribute;
 using Iwentys.Models.Types;
@@ -22,9 +22,9 @@ namespace Iwentys.Tests.Core.Services
                 .WithNewStudent(out AuthorizedUser admin, UserType.Admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor)
                 .WithStudentProject(student, out GithubProjectEntity project)
-                .WithTribute(student, project, out TributeInfoDto _);
+                .WithTribute(student, project, out TributeInfoResponse _);
 
-            TributeInfoDto[] tributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
+            TributeInfoResponse[] tributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
 
             Assert.IsNotEmpty(tributes);
             Assert.True(tributes.Any(t => t.Project.Id == project.Id));
@@ -40,11 +40,11 @@ namespace Iwentys.Tests.Core.Services
                 .WithNewStudent(out AuthorizedUser admin, UserType.Admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor)
                 .WithStudentProject(student, out GithubProjectEntity project)
-                .WithTribute(student, project, out TributeInfoDto tributeInfo);
+                .WithTribute(student, project, out TributeInfoResponse tributeInfo);
 
             context.GuildTributeServiceService.CancelTribute(student, tributeInfo.Project.Id);
-            TributeInfoDto[] pendingTributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
-            TributeInfoDto[] studentTributes = context.GuildTributeServiceService.GetStudentTributeResult(student);
+            TributeInfoResponse[] pendingTributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
+            TributeInfoResponse[] studentTributes = context.GuildTributeServiceService.GetStudentTributeResult(student);
 
             Assert.IsEmpty(pendingTributes);
             Assert.IsNotEmpty(studentTributes);
@@ -61,16 +61,16 @@ namespace Iwentys.Tests.Core.Services
                 .WithNewStudent(out AuthorizedUser admin, UserType.Admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor)
                 .WithStudentProject(student, out GithubProjectEntity project)
-                .WithTribute(student, project, out TributeInfoDto tributeInfo)
-                .WithCompletedTribute(mentor, tributeInfo, out TributeInfoDto completedTribute);
+                .WithTribute(student, project, out TributeInfoResponse tributeInfo)
+                .WithCompletedTribute(mentor, tributeInfo, out TributeInfoResponse completedTribute);
 
-            TributeInfoDto[] pendingTributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
-            TributeInfoDto[] studentTributes = context.GuildTributeServiceService.GetStudentTributeResult(student);
+            TributeInfoResponse[] pendingTributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
+            TributeInfoResponse[] studentTributes = context.GuildTributeServiceService.GetStudentTributeResult(student);
 
             Assert.IsEmpty(pendingTributes);
             Assert.IsNotEmpty(studentTributes);
 
-            TributeInfoDto studentTribute = studentTributes.FirstOrDefault(t => t.Project.Id == project.Id);
+            TributeInfoResponse studentTribute = studentTributes.FirstOrDefault(t => t.Project.Id == project.Id);
             Assert.NotNull(studentTribute);
             Assert.IsTrue(studentTribute.Mark == completedTribute.Mark);
             Assert.IsTrue(studentTribute.DifficultLevel == completedTribute.DifficultLevel);

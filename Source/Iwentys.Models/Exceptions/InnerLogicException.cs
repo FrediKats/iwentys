@@ -2,6 +2,7 @@
 using System.Globalization;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
+using Iwentys.Models.ExceptionMessages;
 using Iwentys.Models.Transferable.Guilds;
 
 namespace Iwentys.Models.Exceptions
@@ -39,47 +40,50 @@ namespace Iwentys.Models.Exceptions
         {
             public static InnerLogicException IsNotGuildMember(int studentId, int? guildId)
             {
-                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, ExceptionMessages.GuildExceptions.IsNotGuildMember, studentId, guildId));
+                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, GuildExceptions.IsNotGuildMember, studentId, guildId));
             }
 
             public static InnerLogicException CreatorCannotLeave(int studentId, int guildId)
             {
-                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, ExceptionMessages.GuildExceptions.CreatorCannotLeave, studentId, guildId));
+                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, GuildExceptions.CreatorCannotLeave, studentId, guildId));
             }
 
             public static InnerLogicException RequestWasNotFound(int studentId, int guildId)
             {
-                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, ExceptionMessages.GuildExceptions.RequestWasNotFound, studentId, guildId));
+                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, GuildExceptions.RequestWasNotFound, studentId, guildId));
             }
 
             public static InnerLogicException StudentCannotBeBlocked(int studentId, int guildId)
             {
-                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, ExceptionMessages.GuildExceptions.StudentCannotBeBlocked, studentId, guildId));
+                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, GuildExceptions.StudentCannotBeBlocked, studentId, guildId));
             }
 
-            public static InnerLogicException IsNotGuildEditor(int studentId) => new InnerLogicException($"Student is not guild editor. Id: [{studentId}]");
+            public static InnerLogicException IsNotGuildEditor(int studentId)
+            {
+                return new InnerLogicException($"Student is not guild editor. Id: [{studentId}]");
+            }
         }
 
         public static class TributeEx
         {
             public static InnerLogicException ProjectAlreadyUsed(long projectId)
             {
-                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, ExceptionMessages.TributeExceptions.ProjectAlreadyUsed, projectId));
+                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, TributeExceptions.ProjectAlreadyUsed, projectId));
             }
 
             public static InnerLogicException UserAlreadyHaveTribute(int userId)
             {
-                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, ExceptionMessages.TributeExceptions.UserAlreadyHaveTribute, userId));
+                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, TributeExceptions.UserAlreadyHaveTribute, userId));
             }
 
             public static InnerLogicException IsNotActive(TributeEntity tribute)
             {
-                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, ExceptionMessages.TributeExceptions.IsNotActive, tribute.ProjectId, tribute.State));
+                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, TributeExceptions.IsNotActive, tribute.ProjectId, tribute.State));
             }
 
-            public static InnerLogicException TributeCanBeSendFromStudentAccount(StudentEntity student, CreateProjectDto createProject)
+            public static InnerLogicException TributeCanBeSendFromStudentAccount(StudentEntity student, CreateProjectRequest createProject)
             {
-                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, ExceptionMessages.TributeExceptions.TributeCanBeSendFromStudentAccount, student.Id, createProject.Owner));
+                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, TributeExceptions.TributeCanBeSendFromStudentAccount, student.Id, createProject.Owner));
             }
         }
 

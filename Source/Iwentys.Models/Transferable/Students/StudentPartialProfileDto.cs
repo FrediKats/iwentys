@@ -7,17 +7,6 @@ namespace Iwentys.Models.Transferable.Students
 {
     public class StudentPartialProfileDto : IResultFormat
     {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string MiddleName { get; set; }
-        public string SecondName { get; set; }
-        public UserType Role { get; set; }
-        public StudentType Type { get; set; }
-        public string GithubUsername { get; set; }
-        public DateTime CreationTime { get; set; }
-        public DateTime LastOnlineTime { get; set; }
-        public int BarsPoints { get; set; }
-
         public StudentPartialProfileDto()
         {
         }
@@ -35,6 +24,17 @@ namespace Iwentys.Models.Transferable.Students
             LastOnlineTime = student.LastOnlineTime;
             BarsPoints = student.BarsPoints;
         }
+
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string SecondName { get; set; }
+        public UserType Role { get; set; }
+        public StudentType Type { get; set; }
+        public string GithubUsername { get; set; }
+        public DateTime CreationTime { get; set; }
+        public DateTime LastOnlineTime { get; set; }
+        public int BarsPoints { get; set; }
 
         public string Format()
         {

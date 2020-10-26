@@ -22,9 +22,9 @@ namespace Iwentys.Tests.Core.Services
             student.BarsPoints = 100;
             test.StudentRepository.Update(student);
 
-            test.WithQuest(user, 50, out QuestInfoDto quest);
+            test.WithQuest(user, 50, out QuestInfoResponse quest);
 
-            List<QuestInfoDto> quests = test.QuestService.GetActive();
+            List<QuestInfoResponse> quests = test.QuestService.GetActive();
 
             Assert.IsTrue(quests.Any(q => q.Id == quest.Id));
         }

@@ -82,7 +82,7 @@ namespace Iwentys.Database.Context
                 .Select(g => new StudyGroupEntity
                 {
                     StudyCourseId = courseId,
-                    GroupName = $"M3{course}{g:00}",
+                    GroupName = $"M3{course}{g:00}"
                 })
                 .ToList();
         }

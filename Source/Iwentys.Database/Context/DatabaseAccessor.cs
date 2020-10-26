@@ -1,29 +1,9 @@
-﻿using Iwentys.Database.Repositories.Abstractions;
-using Iwentys.Database.Repositories.Implementations;
+﻿using Iwentys.Database.Repositories;
 
 namespace Iwentys.Database.Context
 {
     public class DatabaseAccessor
     {
-        public IwentysDbContext Context { get; }
-        public IStudentRepository Student { get; }
-        public IStudyGroupRepository StudyGroup { get; }
-        public IGuildRepository Guild { get; }
-        public IGuildMemberRepository GuildMember { get; }
-        public ICompanyRepository Company { get; }
-        public ITournamentRepository Tournament { get; }
-        public IStudentProjectRepository StudentProject { get; }
-        public ITributeRepository Tribute { get; }
-        public IBarsPointTransactionLogRepository BarsPointTransactionLog { get; }
-        public IQuestRepository Quest { get; }
-        public IGithubUserDataRepository GithubUserData { get; }
-        public IGuildTestTaskSolvingInfoRepository GuildTestTaskSolvingInfo { get; }
-
-        public IAssignmentRepository Assignment { get; }
-
-        public ISubjectActivityRepository SubjectActivity { get; }
-        public IGroupSubjectRepository GroupSubject { get; }
-
         public DatabaseAccessor(IwentysDbContext context) : this(
             context,
             new StudentRepository(context),
@@ -36,30 +16,32 @@ namespace Iwentys.Database.Context
             new BarsPointTransactionLogRepository(context),
             new QuestRepository(context),
             new SubjectActivityRepository(context),
-            new GroupGroupSubjectRepository(context),
+            new GroupSubjectRepository(context),
             new StudyGroupRepository(context),
             new GithubUserDataRepository(context),
             new GuildTestTaskSolvingInfoRepository(context),
-            new AssignmentRepository(context))
+            new AssignmentRepository(context),
+            new GuildRecruitmentRepository(context))
         {
         }
 
         public DatabaseAccessor(IwentysDbContext context,
-            IStudentRepository student,
-            IGuildRepository guild,
-            IGuildMemberRepository guildMember,
-            ICompanyRepository company,
-            ITournamentRepository tournament,
-            IStudentProjectRepository studentProject,
-            ITributeRepository tribute,
-            IBarsPointTransactionLogRepository barsPointTransactionLog,
-            IQuestRepository quest,
-            ISubjectActivityRepository subjectActivity,
-            IGroupSubjectRepository groupSubject,
-            IStudyGroupRepository studyGroup,
-            IGithubUserDataRepository githubUserData,
-            IGuildTestTaskSolvingInfoRepository guildTestTaskSolvingInfo,
-            IAssignmentRepository assignment)
+            StudentRepository student,
+            GuildRepository guild,
+            GuildMemberRepository guildMember,
+            CompanyRepository company,
+            TournamentRepository tournament,
+            StudentProjectRepository studentProject,
+            TributeRepository tribute,
+            BarsPointTransactionLogRepository barsPointTransactionLog,
+            QuestRepository quest,
+            SubjectActivityRepository subjectActivity,
+            GroupSubjectRepository groupSubject,
+            StudyGroupRepository studyGroup,
+            GithubUserDataRepository githubUserData,
+            GuildTestTaskSolvingInfoRepository guildTestTaskSolvingInfo,
+            AssignmentRepository assignment,
+            GuildRecruitmentRepository guildRecruitment)
         {
             Context = context;
             Student = student;
@@ -77,6 +59,28 @@ namespace Iwentys.Database.Context
             GithubUserData = githubUserData;
             GuildTestTaskSolvingInfo = guildTestTaskSolvingInfo;
             Assignment = assignment;
+            GuildRecruitment = guildRecruitment;
         }
+
+        public IwentysDbContext Context { get; }
+        public StudentRepository Student { get; }
+        public StudyGroupRepository StudyGroup { get; }
+        public GuildRepository Guild { get; }
+        public GuildMemberRepository GuildMember { get; }
+        public GuildRecruitmentRepository GuildRecruitment { get; }
+
+        public CompanyRepository Company { get; }
+        public TournamentRepository Tournament { get; }
+        public StudentProjectRepository StudentProject { get; }
+        public TributeRepository Tribute { get; }
+        public BarsPointTransactionLogRepository BarsPointTransactionLog { get; }
+        public QuestRepository Quest { get; }
+        public GithubUserDataRepository GithubUserData { get; }
+        public GuildTestTaskSolvingInfoRepository GuildTestTaskSolvingInfo { get; }
+
+        public AssignmentRepository Assignment { get; }
+
+        public SubjectActivityRepository SubjectActivity { get; }
+        public GroupSubjectRepository GroupSubject { get; }
     }
 }

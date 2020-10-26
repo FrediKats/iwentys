@@ -1,22 +1,11 @@
 ﻿using System.Collections.Generic;
-using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.Types.Guilds;
+using Iwentys.Models.Types;
 
 namespace Iwentys.Models.Transferable.Guilds
 {
     public class GuildProfileDto : GuildProfilePreviewDto
     {
-        public GuildMemberLeaderBoard MemberLeaderBoard { get; set; }
-
-        //TODO: add newsfeeds
-        public ActiveTributeDto Tribute { get; set; }
-        public List<AchievementInfoDto> Achievements { get; set; }
-        public List<GithubRepository> PinnedRepositories { get; set; }
-        public List<GuildTestTaskInfoDto> TestTasks { get; set; } = new List<GuildTestTaskInfoDto>();
-
-        public UserMembershipState UserMembershipState { get; set; }
-
         public GuildProfileDto()
         {
         }
@@ -24,5 +13,15 @@ namespace Iwentys.Models.Transferable.Guilds
         public GuildProfileDto(GuildEntity guild) : base(guild)
         {
         }
+
+        public GuildMemberLeaderBoard MemberLeaderBoard { get; set; }
+
+        //TODO: add newsfeeds
+        public ActiveTributeResponse Tribute { get; set; }
+        public List<AchievementInfoDto> Achievements { get; set; }
+        public List<GithubRepository> PinnedRepositories { get; set; }
+        public List<GuildTestTaskInfoResponse> TestTasks { get; set; } = new List<GuildTestTaskInfoResponse>();
+
+        public UserMembershipState UserMembershipState { get; set; }
     }
 }

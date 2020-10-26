@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using Iwentys.Core.DomainModel.Guilds;
-using Iwentys.Core.Services.Abstractions;
+using Iwentys.Core.Services;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories.Abstractions;
+using Iwentys.Database.Repositories;
+using Iwentys.Models;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Gamification;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.Types.Guilds;
+using Iwentys.Models.Types;
 using Moq;
 using NUnit.Framework;
 
@@ -22,11 +23,11 @@ namespace Iwentys.Tests.Core.DomainModels
 
         private StudentEntity _student;
 
-        private Mock<ITributeRepository> _tributeRepository;
-        private Mock<IGuildRepository> _guildRepository;
-        private Mock<IGuildMemberRepository> _guildMemberRepository;
-        private Mock<IStudentRepository> _studentRepository;
-        private Mock<IGithubUserDataService> _githubUserDataService;
+        private Mock<TributeRepository> _tributeRepository;
+        private Mock<GuildRepository> _guildRepository;
+        private Mock<GuildMemberRepository> _guildMemberRepository;
+        private Mock<StudentRepository> _studentRepository;
+        private Mock<GithubUserDataService> _githubUserDataService;
 
         // User without guild
         //      is not in blocked list
@@ -59,33 +60,33 @@ namespace Iwentys.Tests.Core.DomainModels
                 },
                 HiringPolicy = GuildHiringPolicy.Open,
                 PinnedProjects = new List<GuildPinnedProjectEntity>(),
-                Achievements = new List<GuildAchievementModel>()
+                Achievements = new List<GuildAchievementEntity>()
             };
 
-            _tributeRepository = new Mock<ITributeRepository>();
+            _tributeRepository = new Mock<TributeRepository>();
             _tributeRepository
                 .Setup(r => r.ReadStudentActiveTribute(It.IsAny<Int32>(), It.IsAny<Int32>()))
                 .Returns(default(TributeEntity));
 
-            _githubUserDataService = new Mock<IGithubUserDataService>();
+            _githubUserDataService = new Mock<GithubUserDataService>();
             _githubUserDataService
                 .Setup(a => a.GetCertainRepository(It.IsAny<String>(), It.IsAny<String>()))
                 .Returns(default(GithubRepository));
             _githubUserDataService
                 .Setup(a => a.FindByUsername(It.IsAny<String>()))
-                .Returns(new GithubUserData{ContributionFullInfo = new ContributionFullInfo { RawActivity = new ActivityInfo() { Contributions = new List<ContributionsInfo>(), Years = new List<YearActivityInfo>() } }});
+                .Returns(new GithubUserEntity{ContributionFullInfo = new ContributionFullInfo { RawActivity = new ActivityInfo() { Contributions = new List<ContributionsInfo>(), Years = new List<YearActivityInfo>() } }});
 
-            _guildRepository = new Mock<IGuildRepository>();
+            _guildRepository = new Mock<GuildRepository>();
             _guildRepository
                 .Setup(r => r.ReadForStudent(It.IsAny<Int32>()))
                 .Returns(default(GuildEntity));
 
-            _guildMemberRepository = new Mock<IGuildMemberRepository>();
+            _guildMemberRepository = new Mock<GuildMemberRepository>();
             _guildMemberRepository
                 .Setup(r => r.IsStudentHaveRequest(It.IsAny<Int32>()))
                 .Returns(false);
 
-            _studentRepository = new Mock<IStudentRepository>();
+            _studentRepository = new Mock<StudentRepository>();
             _studentRepository
                 .Setup(r => r.ReadById(It.IsAny<Int32>()))
                 .Returns(_student);
@@ -101,6 +102,7 @@ namespace Iwentys.Tests.Core.DomainModels
                 _tributeRepository.Object,
                 null,
                 null, 
+                null,
                 null,
                 null,
                 null,

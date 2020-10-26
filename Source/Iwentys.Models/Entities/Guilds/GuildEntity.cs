@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Models.Entities.Gamification;
-using Iwentys.Models.Types.Guilds;
+using Iwentys.Models.Types;
 
 namespace Iwentys.Models.Entities.Guilds
 {
@@ -19,6 +19,6 @@ namespace Iwentys.Models.Entities.Guilds
         public List<GuildPinnedProjectEntity> PinnedProjects { get; set; } = new List<GuildPinnedProjectEntity>();
         public List<GuildTestTaskSolvingInfoEntity> TestTasks { get; set; } = new List<GuildTestTaskSolvingInfoEntity>();
 
-        public List<GuildAchievementModel> Achievements { get; set; } = new List<GuildAchievementModel>();
+        public List<GuildAchievementEntity> Achievements { get; set; } = new List<GuildAchievementEntity>();
     }
 }

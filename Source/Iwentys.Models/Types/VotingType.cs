@@ -6,6 +6,6 @@
         GuildLeader = 2,
 
         GroupCommon = 10,
-        GroupAdmin = 11,
+        GroupAdmin = 11
     }
 }

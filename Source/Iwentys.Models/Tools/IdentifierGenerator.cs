@@ -3,6 +3,7 @@
     public class IdentifierGenerator
     {
         private int _currentValue;
+
         public int Next()
         {
             _currentValue++;

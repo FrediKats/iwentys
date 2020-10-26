@@ -2,12 +2,11 @@
 using System.Linq;
 using Iwentys.Core.DomainModel;
 using Iwentys.Database.Repositories;
-using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Types;
-using Iwentys.Models.Types.Guilds;
 using Iwentys.Tests.Tools;
 using NUnit.Framework;
 
@@ -315,7 +314,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out GuildProfileDto guild)
                 .WithGuildRequest(guild, out AuthorizedUser _);
-            context.GuildService.Update(user, new GuildUpdateArgumentDto {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Close});
+            context.GuildService.Update(user, new GuildUpdateRequest {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Close});
 
             Assert.That(context.GuildRepository.Get(guild.Id).HiringPolicy, Is.EqualTo(GuildHiringPolicy.Close));
         }
@@ -328,8 +327,8 @@ namespace Iwentys.Tests.Core.Services
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out GuildProfileDto guild)
                 .WithGuildRequest(guild, out AuthorizedUser student);
-            context.GuildService.Update(user, new GuildUpdateArgumentDto() {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Close});
-            context.GuildService.Update(user, new GuildUpdateArgumentDto() {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Open});
+            context.GuildService.Update(user, new GuildUpdateRequest() {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Close});
+            context.GuildService.Update(user, new GuildUpdateRequest() {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Open});
 
             Assert.That(context.GuildRepository.Get(guild.Id).Members.ToList().Find(m => m.MemberId == student.Id).MemberType,
                 Is.EqualTo(GuildMemberType.Member));
@@ -342,7 +341,7 @@ namespace Iwentys.Tests.Core.Services
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGithubRepository(user, out GithubUserData userData)
+                .WithGithubRepository(user, out GithubUserEntity userData)
                 .WithGuild(user, out GuildProfileDto guild);
 
             Assert.That(context.GuildService.GetGuildMemberLeaderBoard(guild.Id).MembersImpact.Single().TotalRate,

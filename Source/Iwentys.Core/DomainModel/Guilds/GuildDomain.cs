@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Core.GithubIntegration;
-using Iwentys.Core.Services.Abstractions;
+using Iwentys.Core.Services;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
+using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Students;
-using Iwentys.Models.Types.Guilds;
+using Iwentys.Models.Types;
+
 using Octokit;
 
 namespace Iwentys.Core.DomainModel.Guilds
@@ -22,10 +24,10 @@ namespace Iwentys.Core.DomainModel.Guilds
         public GuildEntity Profile { get; }
 
         private readonly DatabaseAccessor _dbAccessor;
-        private readonly IGithubUserDataService _githubUserDataService;
+        private readonly GithubUserDataService _githubUserDataService;
         private readonly IGithubApiAccessor _apiAccessor;
 
-        public GuildDomain(GuildEntity profile, DatabaseAccessor dbAccessor, IGithubUserDataService githubUserDataService, IGithubApiAccessor apiAccessor)
+        public GuildDomain(GuildEntity profile, DatabaseAccessor dbAccessor, GithubUserDataService githubUserDataService, IGithubApiAccessor apiAccessor)
         {
             Profile = profile;
             _dbAccessor = dbAccessor;
@@ -49,11 +51,11 @@ namespace Iwentys.Core.DomainModel.Guilds
                 Rating = dashboard.TotalRate,
                 PinnedRepositories = Profile.PinnedProjects.SelectToList(p => _githubUserDataService.GetCertainRepository(p.RepositoryOwner, p.RepositoryName)),
                 Achievements = Profile.Achievements.SelectToList(AchievementInfoDto.Wrap),
-                TestTasks = Profile.TestTasks.SelectToList(GuildTestTaskInfoDto.Wrap)
+                TestTasks = Profile.TestTasks.SelectToList(GuildTestTaskInfoResponse.Wrap)
             };
 
             if (userId != null && Profile.Members.Any(m => m.MemberId == userId))
-                info.Tribute = _dbAccessor.Tribute.ReadStudentActiveTribute(Profile.Id, userId.Value)?.To(ActiveTributeDto.Create);
+                info.Tribute = _dbAccessor.Tribute.ReadStudentActiveTribute(Profile.Id, userId.Value)?.To(ActiveTributeResponse.Create);
             if (userId != null)
                 info.UserMembershipState = GetUserMembershipState(userId.Value);
 
@@ -69,7 +71,7 @@ namespace Iwentys.Core.DomainModel.Guilds
             };
         }
 
-        public List<GithubUserData> GetGithubUserData()
+        public List<GithubUserEntity> GetGithubUserData()
         {
             return Profile
                 .Members

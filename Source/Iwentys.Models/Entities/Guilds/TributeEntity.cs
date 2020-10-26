@@ -1,27 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Exceptions;
-using Iwentys.Models.Types.Guilds;
+using Iwentys.Models.Types;
 
 namespace Iwentys.Models.Entities.Guilds
 {
     public class TributeEntity
     {
-        [Key]
-        public long ProjectId { get; set; }
-        public GithubProjectEntity ProjectEntity { get; set; }
-
-        public GuildEntity Guild { get; set; }
-        public int GuildId { get; set; }
-
-        public TributeState State { get; set; }
-        public int? DifficultLevel { get; set; }
-        public int? Mark { get; set; }
-        public DateTime CreationTime { get; set; }
-
-        public StudentEntity Mentor { get; set; }
-        public int? MentorId { get; set; }
-
         public TributeEntity()
         {
         }
@@ -34,6 +20,21 @@ namespace Iwentys.Models.Entities.Guilds
             State = TributeState.Active;
             CreationTime = DateTime.UtcNow;
         }
+
+        [Key] public long ProjectId { get; set; }
+
+        public GithubProjectEntity ProjectEntity { get; set; }
+
+        public GuildEntity Guild { get; set; }
+        public int GuildId { get; set; }
+
+        public TributeState State { get; set; }
+        public int? DifficultLevel { get; set; }
+        public int? Mark { get; set; }
+        public DateTime CreationTime { get; set; }
+
+        public StudentEntity Mentor { get; set; }
+        public int? MentorId { get; set; }
 
         public void SetCanceled()
         {

@@ -4,7 +4,7 @@ namespace Iwentys.Models.Entities
 {
     public class QuestResponseEntity
     {
-        public Quest Quest { get; set; }
+        public QuestEntity QuestEntity { get; set; }
         public int QuestId { get; set; }
 
         public StudentEntity Student { get; set; }

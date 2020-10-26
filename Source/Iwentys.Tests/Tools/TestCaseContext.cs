@@ -1,21 +1,20 @@
 using System;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Gamification;
-using Iwentys.Core.GithubIntegration;
-using Iwentys.Core.Services.Abstractions;
-using Iwentys.Core.Services.Implementations;
+using Iwentys.Core.Services;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories.Abstractions;
-using Iwentys.Database.Repositories.Implementations;
+using Iwentys.Database.Repositories;
+using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Tools;
+using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Companies;
 using Iwentys.Models.Transferable.Gamification;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.GuildTribute;
 using Iwentys.Models.Types;
-using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Tests.Tools
 {
@@ -23,19 +22,18 @@ namespace Iwentys.Tests.Tools
     {
         public readonly IwentysDbContext Context;
 
-        public readonly IStudentRepository StudentRepository;
-        public readonly IGuildRepository GuildRepository;
-        public readonly IGuildMemberRepository GuildMemberRepository;
+        public readonly StudentRepository StudentRepository;
+        public readonly GuildRepository GuildRepository;
 
         public readonly DatabaseAccessor DatabaseAccessor;
 
-        public readonly IStudentService StudentService;
-        public readonly IGuildService GuildService;
-        public readonly IGuildMemberService GuildMemberService;
-        public readonly IGuildTributeService GuildTributeServiceService;
-        public readonly ICompanyService CompanyService;
-        public readonly IQuestService QuestService;
-        public readonly IGithubUserDataService GithubUserDataService;
+        public readonly StudentService StudentService;
+        public readonly GuildService GuildService;
+        public readonly GuildMemberService GuildMemberService;
+        public readonly GuildTributeService GuildTributeServiceService;
+        public readonly CompanyService CompanyService;
+        public readonly QuestService QuestService;
+        public readonly GithubUserDataService GithubUserDataService;
 
         public static TestCaseContext Case() => new TestCaseContext();
 
@@ -44,7 +42,6 @@ namespace Iwentys.Tests.Tools
             Context = TestDatabaseProvider.GetDatabaseContext();
             StudentRepository = new StudentRepository(Context);
             GuildRepository = new GuildRepository(Context);
-            GuildMemberRepository = new GuildMemberRepository(Context);
 
             DatabaseAccessor = new DatabaseAccessor(Context);
             var achievementProvider = new AchievementProvider(DatabaseAccessor);
@@ -76,7 +73,7 @@ namespace Iwentys.Tests.Tools
 
         public TestCaseContext WithGuild(AuthorizedUser user, out GuildProfileDto guildProfile)
         {
-            guildProfile = GuildService.Create(user, new GuildCreateArgumentDto()).To(g => GuildService.Get(g.Id, user.Id));
+            guildProfile = GuildService.Create(user, new GuildCreateRequest()).To(g => GuildService.Get(g.Id, user.Id));
             return this;
         }
 
@@ -118,18 +115,18 @@ namespace Iwentys.Tests.Tools
             return this;
         }
 
-        public TestCaseContext WithCompany(out CompanyInfoDto companyInfo)
+        public TestCaseContext WithCompany(out CompanyInfoResponse companyInfo)
         {
-            var company = new Company();
+            var company = new CompanyEntity();
             company = DatabaseAccessor.Company.Create(company);
-            companyInfo = CompanyInfoDto.Create(company);
+            companyInfo = CompanyInfoResponse.Create(company);
             return this;
         }
 
-        public TestCaseContext WithCompanyWorker(CompanyInfoDto companyInfo, out AuthorizedUser userInfo)
+        public TestCaseContext WithCompanyWorker(CompanyInfoResponse companyInfo, out AuthorizedUser userInfo)
         {
             WithNewStudent(out userInfo);
-            Context.CompanyWorkers.Add(new CompanyWorker {CompanyId = companyInfo.Id, WorkerId = userInfo.Id, Type = CompanyWorkerType.Accepted});
+            Context.CompanyWorkers.Add(new CompanyWorkerEntity {CompanyId = companyInfo.Id, WorkerId = userInfo.Id, Type = CompanyWorkerType.Accepted});
             Context.SaveChanges();
             return this;
         }
@@ -149,15 +146,15 @@ namespace Iwentys.Tests.Tools
             return this;
         }
 
-        public TestCaseContext WithTribute(AuthorizedUser userInfo, CreateProjectDto project, out TributeInfoDto tribute)
+        public TestCaseContext WithTribute(AuthorizedUser userInfo, CreateProjectRequest project, out TributeInfoResponse tribute)
         {
             tribute = GuildTributeServiceService.CreateTribute(userInfo, project);
             return this;
         }
 
-        public TestCaseContext WithTribute(AuthorizedUser userInfo, GithubProjectEntity projectEntity, out TributeInfoDto tribute)
+        public TestCaseContext WithTribute(AuthorizedUser userInfo, GithubProjectEntity projectEntity, out TributeInfoResponse tribute)
         {
-            tribute = GuildTributeServiceService.CreateTribute(userInfo, new CreateProjectDto
+            tribute = GuildTributeServiceService.CreateTribute(userInfo, new CreateProjectRequest
             {
                 Owner = userInfo.GetProfile(DatabaseAccessor.Student).GithubUsername,
                 RepositoryName = projectEntity.Name
@@ -165,9 +162,9 @@ namespace Iwentys.Tests.Tools
             return this;
         }
 
-        public TestCaseContext WithCompletedTribute(AuthorizedUser mentor, TributeInfoDto tribute, out TributeInfoDto completedTribute)
+        public TestCaseContext WithCompletedTribute(AuthorizedUser mentor, TributeInfoResponse tribute, out TributeInfoResponse completedTribute)
         {
-            completedTribute = GuildTributeServiceService.CompleteTribute(mentor, new TributeCompleteDto
+            completedTribute = GuildTributeServiceService.CompleteTribute(mentor, new TributeCompleteRequest
             {
                 DifficultLevel = 1,
                 Mark = 1,
@@ -176,9 +173,9 @@ namespace Iwentys.Tests.Tools
             return this;
         }
 
-        public TestCaseContext WithQuest(AuthorizedUser user, int price, out QuestInfoDto quest)
+        public TestCaseContext WithQuest(AuthorizedUser user, int price, out QuestInfoResponse quest)
         {
-            quest = QuestService.Create(user, new CreateQuestDto
+            quest = QuestService.Create(user, new CreateQuestRequest
             {
                 Title = "Some quest",
                 Description = "Some desc",
@@ -195,9 +192,9 @@ namespace Iwentys.Tests.Tools
             public const string GithubRepoName = "GhRepo";
         }
 
-        public TestCaseContext WithGithubRepository(AuthorizedUser userInfo, out GithubUserData userData)
+        public TestCaseContext WithGithubRepository(AuthorizedUser userInfo, out GithubUserEntity userEntity)
         {
-            userData = GithubUserDataService.CreateOrUpdate(userInfo.Id);
+            userEntity = GithubUserDataService.CreateOrUpdate(userInfo.Id);
             return this;
         }
     }

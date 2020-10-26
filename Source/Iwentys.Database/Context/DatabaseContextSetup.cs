@@ -7,38 +7,22 @@ using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Types;
-using Iwentys.Models.Types.Guilds;
 
 namespace Iwentys.Database.Context
 {
     //TODO: Remove after release
 
     /// <summary>
-    /// Следующие 6 методов - методы вызываемые при создании базы для того,
-    /// чтобы внести в нее данные о группах, направлениях и т.д.
-    /// Это сделано из расчета на то, что такая информация будет редко меняться и
-    /// по этому ее не нужно получать через API.
-    /// TODO: Нужно создать конфиг файл для каждого подобного набора данных и получать данные оттуда, а не заполнять прямо в коде
+    ///     Следующие 6 методов - методы вызываемые при создании базы для того,
+    ///     чтобы внести в нее данные о группах, направлениях и т.д.
+    ///     Это сделано из расчета на то, что такая информация будет редко меняться и
+    ///     по этому ее не нужно получать через API.
+    ///     TODO: Нужно создать конфиг файл для каждого подобного набора данных и получать данные оттуда, а не заполнять прямо
+    ///     в коде
     /// </summary>
     /// <returns>Список объектов, которые будут помещены в базу при загрузке</returns>
     public class DatabaseContextSetup
     {
-        public List<TeacherEntity> Teachers { get; set; }
-        public List<SubjectEntity> Subjects { get; set; }
-        public List<StudyGroupEntity> StudyGroups { get; set; }
-        public List<StudyCourseEntity> StudyCourses { get; set; }
-        public List<StudyProgramEntity> StudyPrograms { get; set; }
-        public List<GroupSubjectEntity> GroupSubjects { get; set; }
-        public List<SubjectActivityEntity> SubjectActivitys { get; set; }
-
-        public List<StudentEntity> Students { get; set; }
-        public List<GuildEntity> Guilds { get; set; }
-        public List<GuildMemberEntity> GuildMembers { get; set; }
-        public List<GuildPinnedProjectEntity> GuildPinnedProjects { get; set; }
-
-        public List<GuildAchievementModel> GuildAchievementModels { get; set; }
-        public List<StudentAchievementEntity> StudentAchievementModels { get; set; }
-
         public DatabaseContextSetup()
         {
             InitStudyTables();
@@ -47,11 +31,26 @@ namespace Iwentys.Database.Context
             InitAchievements();
         }
 
+        public List<TeacherEntity> Teachers { get; set; }
+        public List<SubjectEntity> Subjects { get; set; }
+        public List<StudyGroupEntity> StudyGroups { get; set; }
+        public List<StudyCourseEntity> StudyCourses { get; set; }
+        public List<StudyProgramEntity> StudyPrograms { get; set; }
+        public List<GroupSubjectEntity> GroupSubjects { get; set; }
+
+        public List<StudentEntity> Students { get; set; }
+        public List<GuildEntity> Guilds { get; set; }
+        public List<GuildMemberEntity> GuildMembers { get; set; }
+        public List<GuildPinnedProjectEntity> GuildPinnedProjects { get; set; }
+
+        public List<GuildAchievementEntity> GuildAchievementModels { get; set; }
+        public List<StudentAchievementEntity> StudentAchievementModels { get; set; }
+
         private void InitStudyTables()
         {
             Teachers = new List<TeacherEntity>
             {
-                new TeacherEntity {Id = 1, Name = "Жмышенко Валерий Альбертович"},
+                new TeacherEntity {Id = 1, Name = "Some Name"},
                 new TeacherEntity {Id = 2, Name = "Сухачев Денис Владимирович"}
             };
 
@@ -63,14 +62,17 @@ namespace Iwentys.Database.Context
                 Create.IsCourse(StudentGraduationYear.Y21),
                 Create.IsCourse(StudentGraduationYear.Y22),
                 Create.IsCourse(StudentGraduationYear.Y23),
-                Create.IsCourse(StudentGraduationYear.Y24),
+                Create.IsCourse(StudentGraduationYear.Y24)
             };
 
             Subjects = new List<SubjectEntity>
             {
                 new SubjectEntity {Id = 1, Name = "Алгоритмы и структуры данных"},
                 new SubjectEntity {Id = 2, Name = "Дискретная математика"},
-                new SubjectEntity {Id = 3, Name = "Программирование"}
+                new SubjectEntity {Id = 3, Name = "Программирование"},
+
+                new SubjectEntity {Id = 10, Name = "ООП"},
+
             };
 
             var reader = new StudentMockDataReader();
@@ -113,7 +115,7 @@ namespace Iwentys.Database.Context
                         "M3101",
                         "4",
                         "24",
-                        new[] { "B" },
+                        new[] {"B"},
                         "V").Serialize()
                 },
 
@@ -126,12 +128,12 @@ namespace Iwentys.Database.Context
                     PracticeTeacherId = 1,
                     StudySemester = StudySemester.Y19H2,
                     SerializedGoogleTableConfig = new GoogleTableData(
-                        "1BMRHimS4Ioo5cWX1yZdHFsSyViR_J2h8rhL8Wl_x3og",
-                        "M3102",
-                        "4",
-                        "25",
-                        new[] { "B" },
-                        "V")
+                            "1BMRHimS4Ioo5cWX1yZdHFsSyViR_J2h8rhL8Wl_x3og",
+                            "M3102",
+                            "4",
+                            "25",
+                            new[] {"B"},
+                            "V")
                         .Serialize()
                 },
 
@@ -144,15 +146,17 @@ namespace Iwentys.Database.Context
                     PracticeTeacherId = 1,
                     StudySemester = StudySemester.Y19H2,
                     SerializedGoogleTableConfig = new GoogleTableData(
-                        "1BMRHimS4Ioo5cWX1yZdHFsSyViR_J2h8rhL8Wl_x3og",
-                        "M3103",
-                        "4",
-                        "25",
-                        new[] { "B" },
-                        "V")
+                            "1BMRHimS4Ioo5cWX1yZdHFsSyViR_J2h8rhL8Wl_x3og",
+                            "M3103",
+                            "4",
+                            "25",
+                            new[] {"B"},
+                            "V")
                         .Serialize()
-                },
+                }
             };
+
+            GroupSubjects.AddRange(GroupSubjectEntitySeeding.CreateForOop(10, StudyGroups.Where(g => g.GroupName.StartsWith("M32")).ToList()));
         }
 
         private void InitStudents()
@@ -180,35 +184,13 @@ namespace Iwentys.Database.Context
                     GithubUsername = "InRedikaWB",
                     CreationTime = DateTime.UtcNow,
                     LastOnlineTime = DateTime.UtcNow,
-                    BarsPoints = Int16.MaxValue
+                    BarsPoints = short.MaxValue
                 })
                 .Append(StudentEntity.CreateFromIsu(264312, "Илья", "Шамов", m3305))
                 .Append(StudentEntity.CreateFromIsu(264282, "Илья", "Ильменский", m3305))
                 .ToList();
 
-            Students.Single(s => s.Id == 289140).GithubUsername = "s4hack";
-
-            SubjectActivitys = new List<SubjectActivityEntity>
-            {
-                new SubjectActivityEntity
-                {
-                    StudentId = 289140,
-                    Points = 100,
-                    GroupSubjectEntityId = 1
-                },
-                new SubjectActivityEntity
-                {
-                    StudentId = 289140,
-                    Points = 60,
-                    GroupSubjectEntityId = 2
-                },
-                new SubjectActivityEntity
-                {
-                    StudentId = 289140,
-                    Points = 70,
-                    GroupSubjectEntityId = 3
-                }
-            };
+            Students.Single(s => s.Id == 289140).GithubUsername = "s4xack";
         }
 
         private void InitGuilds()
@@ -241,7 +223,7 @@ namespace Iwentys.Database.Context
                     LogoUrl = "https://sun9-58.userapi.com/AbGPM3TA6R82X3Jj2F-GY2d-NrzFAgC0_fmkiA/XlxgCXVtyiM.jpg",
                     HiringPolicy = GuildHiringPolicy.Open,
                     GuildType = GuildType.Created
-                },
+                }
             };
 
             GuildPinnedProjects = new List<GuildPinnedProjectEntity>
@@ -251,7 +233,7 @@ namespace Iwentys.Database.Context
                     Id = 1,
                     GuildId = 1,
                     RepositoryName = "Fluda",
-                    RepositoryOwner = "InredikaWb",
+                    RepositoryOwner = "InredikaWb"
                 }
             };
             GuildMembers = new List<GuildMemberEntity>
@@ -262,7 +244,7 @@ namespace Iwentys.Database.Context
                 new GuildMemberEntity(2, 284479, GuildMemberType.Creator),
 
                 new GuildMemberEntity(3, 264312, GuildMemberType.Creator),
-                new GuildMemberEntity(3, 264282, GuildMemberType.Member),
+                new GuildMemberEntity(3, 264282, GuildMemberType.Member)
             };
         }
 
@@ -278,9 +260,9 @@ namespace Iwentys.Database.Context
                 }
             };
 
-            GuildAchievementModels = new List<GuildAchievementModel>
+            GuildAchievementModels = new List<GuildAchievementEntity>
             {
-                new GuildAchievementModel
+                new GuildAchievementEntity
                 {
                     AchievementId = AchievementList.BetaTester.Id,
                     GuildId = 1,
@@ -309,11 +291,11 @@ namespace Iwentys.Database.Context
                 StudentEntity.CreateFromIsu(283184, "Денис", "Андреев", m3202),
                 StudentEntity.CreateFromIsu(284443, "Сергей", "Артамонов", m3202),
 
-                StudentEntity.CreateFromIsu(284479, "Илья", "Кузнецов", m3205),
+                StudentEntity.CreateFromIsu(284479, "Илья", "Кузнецов", m3205)
             };
         }
 
-        private static class Create
+        public static class Create
         {
             private static readonly IdentifierGenerator CourseIdentifierGenerator = new IdentifierGenerator();
             public static readonly IdentifierGenerator GroupSubjectIdentifierGenerator = new IdentifierGenerator();

@@ -1,27 +1,26 @@
-﻿using System;
-using Iwentys.Models.Entities;
+﻿using Iwentys.Models.Entities.Github;
 
 namespace Iwentys.Models.Transferable.Guilds
 {
     public class GuildMemberImpact
     {
-        public String Username { get; set; }
-        public Int32 TotalRate { get; set; }
-
         public GuildMemberImpact()
         {
         }
 
-        public GuildMemberImpact(GithubUserData userData) :this()
+        public GuildMemberImpact(GithubUserEntity userEntity) : this()
         {
-            Username = userData.Username;
-            TotalRate = userData.ContributionFullInfo?.Total ?? 0;
+            Username = userEntity.Username;
+            TotalRate = userEntity.ContributionFullInfo?.Total ?? 0;
         }
 
-        public GuildMemberImpact(String username, Int32 totalRate)
+        public GuildMemberImpact(string username, int totalRate)
         {
             Username = username;
             TotalRate = totalRate;
         }
+
+        public string Username { get; set; }
+        public int TotalRate { get; set; }
     }
 }

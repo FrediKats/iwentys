@@ -1,11 +1,12 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
-using Iwentys.Core.GoogleTableIntegration;
-using Iwentys.Core.GoogleTableIntegration.Marks;
+using Iwentys.Integrations.GoogleTableIntegration;
+using Iwentys.Integrations.GoogleTableIntegration.Marks;
 using Iwentys.Models.Types;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
