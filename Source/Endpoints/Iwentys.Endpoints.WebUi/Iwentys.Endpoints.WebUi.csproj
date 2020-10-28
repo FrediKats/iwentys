@@ -9,6 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.9" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="**/*.css" Visible="false" />
       <ProjectReference Include="..\..\Iwentys.Core\Iwentys.Core.csproj" />
     <ProjectReference Include="..\..\Iwentys.Models\Iwentys.Models.csproj" />
