@@ -48,6 +48,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Iwentys.Core\Iwentys.Core.csproj" />
     <ProjectReference Include="..\Iwentys.Endpoints.ClientBot\Iwentys.Endpoints.ClientBot.csproj" />
+    <ProjectReference Include="..\Iwentys.Endpoints.Shared\Iwentys.Endpoints.Shared.csproj" />
   </ItemGroup>
 
 </Project>

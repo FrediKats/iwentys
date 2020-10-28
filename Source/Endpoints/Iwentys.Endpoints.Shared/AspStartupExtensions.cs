@@ -1,4 +1,5 @@
-﻿using Iwentys.Core.Auth;
+﻿using Iwentys.Core;
+using Iwentys.Core.Auth;
 using Iwentys.Core.Gamification;
 using Iwentys.Core.Services;
 using Iwentys.Database.Context;
@@ -8,8 +9,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
+using Serilog.Events;
 
-namespace Iwentys.Core.AspCommonTools
+namespace Iwentys.Endpoints.Shared
 {
     public static class AspStartupExtensions
     {
@@ -82,6 +85,18 @@ namespace Iwentys.Core.AspCommonTools
                         IssuerSigningKey = signingKey.GetKey()
                     };
                 });
+
+            return services;
+        }
+
+        public static IServiceCollection AddIwentysLogging(this IServiceCollection services, IConfiguration configuration)
+        {
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .WriteTo.RollingFile("Logs/iwentys-{Date}.log", LogEventLevel.Warning)
+                .CreateLogger();
+
+            services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
 
             return services;
         }

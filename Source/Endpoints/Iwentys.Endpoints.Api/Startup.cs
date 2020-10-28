@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
-using Iwentys.Core.AspCommonTools;
 using Iwentys.Database.Context;
+using Iwentys.Endpoints.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +18,8 @@ namespace Iwentys.Endpoints.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIwentysLogging(Configuration);
+
             //TODO: Temp fix for CORS
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
             {

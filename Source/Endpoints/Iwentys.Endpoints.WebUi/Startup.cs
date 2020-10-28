@@ -1,5 +1,5 @@
-using Iwentys.Core.AspCommonTools;
 using Iwentys.Database.Context;
+using Iwentys.Endpoints.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,13 +19,16 @@ namespace Iwentys.Endpoints.WebUi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIwentysLogging(Configuration);
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
             services
                 .AddApplicationOptions(Configuration)
                 .AddIwentysDatabase(Configuration)
-                .AddIwentysTokenFactory(Configuration)
+                //FYI: Token is required
+                //.AddIwentysTokenFactory(Configuration)
                 .AddIwentysServices(Configuration);
         }
 
