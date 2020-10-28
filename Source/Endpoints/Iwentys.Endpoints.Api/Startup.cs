@@ -89,17 +89,6 @@ namespace Iwentys.Endpoints.Api
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());
 
-            //app.UseSpa(spa =>
-            //{
-            //    spa.Options.SourcePath = "ClientApp";
-
-            //    //TODO:
-            //    if (env.IsDevelopment())
-            //    {
-            //        spa.UseReactDevelopmentServer(npmScript: "start");
-            //    }
-            //});
-
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
         }

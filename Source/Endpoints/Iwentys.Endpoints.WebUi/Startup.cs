@@ -1,8 +1,11 @@
+using Iwentys.Core;
+using Iwentys.Database.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RazorComponentsPreview;
 
 namespace Iwentys.Endpoints.WebUi
 {
@@ -21,10 +24,12 @@ namespace Iwentys.Endpoints.WebUi
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+
+            ServiceDiManager.RegisterAbstractionsImplementation(services, null);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IwentysDbContext db)
         {
             if (env.IsDevelopment())
             {
@@ -47,6 +52,9 @@ namespace Iwentys.Endpoints.WebUi
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
+
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
         }
     }
 }

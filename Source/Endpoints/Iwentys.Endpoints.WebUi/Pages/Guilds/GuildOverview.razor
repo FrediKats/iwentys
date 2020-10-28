@@ -1,0 +1,28 @@
+﻿@page "/guild/overview"
+@using Iwentys.Core.Services
+@using Iwentys.Models.Transferable.Guilds
+@inject GuildService qGuildService
+
+
+<h3>GuildOverview</h3>
+
+
+@if (_guildProfiles != null)
+{
+    <ul>
+        @foreach (GuildProfilePreviewDto guild in _guildProfiles)
+        {
+            <li>@guild.Id @guild.Title</li>
+        }
+    </ul>
+}
+
+
+@code {
+    private IReadOnlyList<GuildProfilePreviewDto> _guildProfiles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _guildProfiles = qGuildService.GetOverview(0, 20);
+    }
+}
