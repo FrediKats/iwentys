@@ -1,0 +1,26 @@
+﻿@page "/guild/{GuildId:int}"
+@using Iwentys.Core.Services
+@using Iwentys.Models.Transferable.Guilds
+@inject GuildService GuildService
+
+<h3>GuildProfile</h3>
+<h3>@Guild.Title</h3>
+<ul>
+    <li>Leader: @Guild.Leader.GithubUsername</li>
+    <li>Rate: @Guild.Rating</li>
+</ul>
+
+@code {
+
+    [Parameter]
+    public int GuildId { get; set; }
+
+    public GuildProfileDto Guild { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+        //TODO: fix
+        Guild = GuildService.Get(GuildId, 228617);
+    }
+}

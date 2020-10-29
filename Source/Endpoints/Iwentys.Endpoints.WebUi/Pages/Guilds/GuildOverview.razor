@@ -1,7 +1,7 @@
 ﻿@page "/guild/overview"
 @using Iwentys.Core.Services
 @using Iwentys.Models.Transferable.Guilds
-@inject GuildService qGuildService
+@inject GuildService GuildService
 
 
 <h3>GuildOverview</h3>
@@ -12,7 +12,13 @@
     <ul>
         @foreach (GuildProfilePreviewDto guild in _guildProfiles)
         {
-            <li>@guild.Id @guild.Title</li>
+            var linToProfile = $"guild/{@guild.Id}";
+            <li>
+                
+                <NavLink class="nav-link" href=@linToProfile>
+                    @guild.Id @guild.Title (@guild.Rating)
+                </NavLink>
+            </li>
         }
     </ul>
 }
@@ -23,6 +29,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _guildProfiles = qGuildService.GetOverview(0, 20);
+        _guildProfiles = GuildService.GetOverview(0, 20);
     }
+
 }
