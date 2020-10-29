@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <Content Update="**/*.css" Visible="false" />
-      <ProjectReference Include="..\..\Iwentys.Core\Iwentys.Core.csproj" />
     <ProjectReference Include="..\Iwentys.Endpoints.Shared\Iwentys.Endpoints.Shared.csproj" />
   </ItemGroup>
 

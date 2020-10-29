@@ -29,7 +29,7 @@ namespace Iwentys.Endpoints.WebUi
                 .AddIwentysDatabase(Configuration)
                 //FYI: Token is required
                 //.AddIwentysTokenFactory(Configuration)
-                .AddIwentysServices(Configuration);
+                .AddIwentysServices();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IwentysDbContext db)

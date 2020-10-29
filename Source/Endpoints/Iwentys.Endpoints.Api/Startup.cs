@@ -36,7 +36,7 @@ namespace Iwentys.Endpoints.Api
                 .AddApplicationOptions(Configuration)
                 .AddIwentysDatabase(Configuration)
                 .AddIwentysTokenFactory(Configuration)
-                .AddIwentysServices(Configuration);
+                .AddIwentysServices();
         }
 
         public void Configure(IApplicationBuilder app, IwentysDbContext db)

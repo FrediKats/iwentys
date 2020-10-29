@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Core;
 using Iwentys.Database.Context;
+using Iwentys.Endpoints.Shared;
 using Iwentys.Models.Entities.Study;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

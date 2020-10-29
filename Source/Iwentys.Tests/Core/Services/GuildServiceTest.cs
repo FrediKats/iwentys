@@ -330,8 +330,9 @@ namespace Iwentys.Tests.Core.Services
             context.GuildService.Update(user, new GuildUpdateRequest() {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Close});
             context.GuildService.Update(user, new GuildUpdateRequest() {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Open});
 
-            Assert.That(context.GuildRepository.Get(guild.Id).Members.ToList().Find(m => m.MemberId == student.Id).MemberType,
-                Is.EqualTo(GuildMemberType.Member));
+            GuildMemberEntity newMember = context.GuildRepository.Get(guild.Id).Members.Find(m => m.MemberId == student.Id);
+            Assert.IsNotNull(newMember);
+            Assert.That(newMember.MemberType, Is.EqualTo(GuildMemberType.Member));
         }
 
         [Test]

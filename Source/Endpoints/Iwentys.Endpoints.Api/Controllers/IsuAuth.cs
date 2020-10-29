@@ -1,6 +1,6 @@
-﻿using Iwentys.Core;
-using Iwentys.Core.Auth;
-using Iwentys.Endpoints.Api.Tools;
+﻿using Iwentys.Endpoints.Api.Tools;
+using Iwentys.Endpoints.Shared;
+using Iwentys.Endpoints.Shared.Auth;
 using Iwentys.Models.Transferable;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

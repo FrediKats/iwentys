@@ -189,7 +189,6 @@ namespace Iwentys.Tests.Tools
         private static class Constants
         {
             public const string GithubUsername = "GhUser";
-            public const string GithubRepoName = "GhRepo";
         }
 
         public TestCaseContext WithGithubRepository(AuthorizedUser userInfo, out GithubUserEntity userEntity)

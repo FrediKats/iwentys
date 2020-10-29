@@ -1,8 +1,7 @@
-﻿using Iwentys.Core;
-using Iwentys.Core.Auth;
-using Iwentys.Core.Gamification;
+﻿using Iwentys.Core.Gamification;
 using Iwentys.Core.Services;
 using Iwentys.Database.Context;
+using Iwentys.Endpoints.Shared.Auth;
 using Iwentys.Integrations.GithubIntegration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +21,7 @@ namespace Iwentys.Endpoints.Shared
             return services;
         }
 
-        public static IServiceCollection AddIwentysServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddIwentysServices(this IServiceCollection services)
         {
             if (ApplicationOptions.GithubToken is null)
                 services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();
