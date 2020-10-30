@@ -3,25 +3,34 @@
 @using Iwentys.Models.Transferable.Guilds
 @inject GuildService GuildService
 
+<div class="text-center">
+    <h3>Рейтинг Гильдий</h3>
 
-<h3>GuildOverview</h3>
-
-
-@if (_guildProfiles != null)
-{
-    <ul>
+    <div class="container-fluid d-flex flex-column">
         @foreach (GuildProfilePreviewDto guild in _guildProfiles)
         {
-            var linToProfile = $"guild/{@guild.Id}";
-            <li>
-                
-                <NavLink class="nav-link" href=@linToProfile>
-                    @guild.Id @guild.Title (@guild.Rating)
-                </NavLink>
-            </li>
+            var linToProfile = $"guild/{guild.Id}";
+
+            <MatNavItem href=@linToProfile class="d-flex flex-row guild-rating-row justify-content-md-between">
+
+                <div class="col-md-2">
+                    <img src=@guild.LogoUrl class="guild-preview-logo" />
+                </div>
+
+                <div class="col-md-4">
+                    <h4>@guild.Title</h4>
+
+                    <p href="guild">Some bio @guild.Bio</p>
+                </div>
+
+                <div class="col-md-2">
+                    <p>@guild.Rating</p>
+                </div>
+
+            </MatNavItem>
         }
-    </ul>
-}
+    </div>
+</div>
 
 
 @code {

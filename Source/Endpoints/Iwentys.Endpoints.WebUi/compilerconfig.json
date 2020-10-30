@@ -1,6 +1,6 @@
 ﻿[
   {
-    "outputFile": "wwwroot/css/GuildOverview.css",
+    "outputFile": "wwwroot/css/generated/GuildOverview.css",
     "inputFile": "Pages/Guilds/GuildOverview.scss"
   }
 ]
