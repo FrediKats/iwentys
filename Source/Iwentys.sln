@@ -14,6 +14,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Polygon", "Iwentys.Polygon\Iwentys.Polygon.csproj", "{5AAA44F2-958B-4A3B-A846-7F15F6F5E2B8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integrations", "Integrations", "{EFFD7D55-2DC3-471F-8422-627864F5B57B}"
+	ProjectSection(SolutionItems) = preProject
+		Endpoints\Iwentys.Endpoints.WebUi\Startup.cs = Endpoints\Iwentys.Endpoints.WebUi\Startup.cs
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Integrations.GithubIntegration", "Integrations\Iwentys.Integrations.GithubIntegration\Iwentys.Integrations.GithubIntegration.csproj", "{901C84FD-31CC-4999-8CB8-C6207AB2700A}"
 EndProject
@@ -29,7 +32,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Endpoints.ClientBot
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Endpoints.WebUi", "Endpoints\Iwentys.Endpoints.WebUi\Iwentys.Endpoints.WebUi.csproj", "{3132C9F0-74AB-4737-AF40-AFEC9D62DEC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Endpoints.Shared", "Endpoints\Iwentys.Endpoints.Shared\Iwentys.Endpoints.Shared.csproj", "{94F0B70B-E2D4-4853-A228-FB077043E121}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Endpoints.Shared", "Endpoints\Iwentys.Endpoints.Shared\Iwentys.Endpoints.Shared.csproj", "{94F0B70B-E2D4-4853-A228-FB077043E121}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
