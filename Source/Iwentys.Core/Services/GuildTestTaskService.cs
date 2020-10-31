@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Gamification;
 using Iwentys.Database;
@@ -40,14 +41,15 @@ namespace Iwentys.Core.Services
         }
 
         //TODO: check if already accepted
-        public GuildTestTaskInfoResponse Accept(AuthorizedUser user, int guildId)
+        public async Task<GuildTestTaskInfoResponse> Accept(AuthorizedUser user, int guildId)
         {
             GuildEntity studentGuild = _database.Guild.ReadForStudent(user.Id);
             if (studentGuild == null || studentGuild.Id != guildId)
                 throw InnerLogicException.Guild.IsNotGuildMember(user.Id, guildId);
 
+            StudentEntity studentProfile = await user.GetProfile(_database.Student);
             return _database.GuildTestTaskSolvingInfo
-                .Create(studentGuild, user.GetProfile(_database.Student))
+                .Create(studentGuild, studentProfile)
                 .To(GuildTestTaskInfoResponse.Wrap);
         }
 
@@ -70,9 +72,9 @@ namespace Iwentys.Core.Services
                 .To(GuildTestTaskInfoResponse.Wrap);
         }
 
-        public GuildTestTaskInfoResponse Complete(AuthorizedUser user, int guildId, int taskSolveOwnerId)
+        public async Task<GuildTestTaskInfoResponse> Complete(AuthorizedUser user, int guildId, int taskSolveOwnerId)
         {
-            StudentEntity review = user.GetProfile(_database.Student);
+            StudentEntity review = await user.GetProfile(_database.Student);
             review.EnsureIsMentor(_database.Guild, guildId);
 
             GuildTestTaskSolvingInfoEntity testTask = _database.GuildTestTaskSolvingInfo

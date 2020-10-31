@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories
@@ -27,9 +28,9 @@ namespace Iwentys.Database.Repositories
             return _dbContext.BarsPointTransactionLogs;
         }
 
-        public BarsPointTransactionLog ReadById(int key)
+        public Task<BarsPointTransactionLog> ReadById(int key)
         {
-            return _dbContext.BarsPointTransactionLogs.Find(key);
+            return _dbContext.BarsPointTransactionLogs.FirstOrDefaultAsync(v => v.Id == key);
         }
 
         public async Task<BarsPointTransactionLog> Update(BarsPointTransactionLog entity)

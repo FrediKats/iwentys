@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Iwentys.Core.DomainModel.Guilds;
 using Iwentys.Core.Services;
 using Iwentys.Database.Context;
@@ -89,7 +90,7 @@ namespace Iwentys.Tests.Core.DomainModels
             _studentRepository = new Mock<StudentRepository>();
             _studentRepository
                 .Setup(r => r.ReadById(It.IsAny<Int32>()))
-                .Returns(_student);
+                .Returns(Task.FromResult(_student));
 
             //TODO:
             DatabaseAccessor databaseAccessor = new DatabaseAccessor(null,

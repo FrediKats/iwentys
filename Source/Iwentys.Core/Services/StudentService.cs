@@ -49,9 +49,9 @@ namespace Iwentys.Core.Services
                 .SelectToList(s => new StudentFullProfileDto(s));
         }
 
-        public StudentFullProfileDto GetOrCreate(int id)
+        public async Task<StudentFullProfileDto> GetOrCreate(int id)
         {
-            StudentEntity student = _databaseAccessor.Student.ReadById(id);
+            StudentEntity student = await _databaseAccessor.Student.ReadById(id);
             if (student != null)
                 return student.To(s => new StudentFullProfileDto(s));
 

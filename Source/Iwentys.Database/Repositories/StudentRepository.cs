@@ -37,9 +37,9 @@ namespace Iwentys.Database.Repositories
                 .ThenInclude(gm => gm.Guild);
         }
 
-        public StudentEntity ReadById(int key)
+        public Task<StudentEntity> ReadById(int key)
         {
-            return Read().FirstOrDefault(s => s.Id == key);
+            return Read().FirstOrDefaultAsync(s => s.Id == key);
         }
 
         public async Task<StudentEntity> Update(StudentEntity entity)

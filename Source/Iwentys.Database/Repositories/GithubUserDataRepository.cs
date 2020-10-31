@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities.Github;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories
@@ -27,9 +28,9 @@ namespace Iwentys.Database.Repositories
             return _dbContext.GithubUsersData;
         }
 
-        public GithubUserEntity ReadById(int key)
+        public Task<GithubUserEntity> ReadById(int key)
         {
-            return _dbContext.GithubUsersData.Find(key);
+            return _dbContext.GithubUsersData.FirstOrDefaultAsync(v => v.StudentId == key);
         }
 
         public async Task<GithubUserEntity> Update(GithubUserEntity entity)

@@ -18,7 +18,7 @@ namespace Iwentys.Tests.Core.Services
                 .Case()
                 .WithNewStudent(out AuthorizedUser user);
 
-            StudentEntity student = user.GetProfile(test.StudentRepository);
+            StudentEntity student = user.GetProfile(test.StudentRepository).Result;
             student.BarsPoints = 100;
             test.StudentRepository.Update(student);
 

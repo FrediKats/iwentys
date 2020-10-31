@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Core.DomainModel;
 using Iwentys.Database.Context;
+using Iwentys.Models.Entities;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable;
 
@@ -16,9 +18,10 @@ namespace Iwentys.Core.Services
             _database = database;
         }
 
-        public AssignmentInfoResponse Create(AuthorizedUser user, AssignmentCreateRequest assignmentCreateRequest)
+        public async Task<AssignmentInfoResponse> Create(AuthorizedUser user, AssignmentCreateRequest assignmentCreateRequest)
         {
-            return _database.Assignment.Create(user.GetProfile(_database.Student), assignmentCreateRequest).To(AssignmentInfoResponse.Wrap);
+            StudentEntity creator = await user.GetProfile(_database.Student);
+            return _database.Assignment.Create(creator, assignmentCreateRequest).To(AssignmentInfoResponse.Wrap);
         }
 
         public List<AssignmentInfoResponse> Read(AuthorizedUser user)

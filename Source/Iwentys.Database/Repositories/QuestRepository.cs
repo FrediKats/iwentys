@@ -27,9 +27,9 @@ namespace Iwentys.Database.Repositories
                 .Include(r => r.Responses);
         }
 
-        public QuestEntity ReadById(int key)
+        public Task<QuestEntity> ReadById(int key)
         {
-            return Read().FirstOrDefault(q => q.Id == key);
+            return Read().FirstOrDefaultAsync(q => q.Id == key);
         }
 
         public async Task<QuestEntity> Update(QuestEntity entity)

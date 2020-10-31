@@ -38,9 +38,9 @@ namespace Iwentys.Database.Repositories
             return _dbContext.GuildRecruitment.Include(r => r.RecruitmentMembers);
         }
 
-        public GuildRecruitmentEntity ReadById(int key)
+        public Task<GuildRecruitmentEntity> ReadById(int key)
         {
-            return Read().FirstOrDefault(g => g.Id == key);
+            return Read().FirstOrDefaultAsync(g => g.Id == key);
         }
 
         public async Task<GuildRecruitmentEntity> Update(GuildRecruitmentEntity entity)
@@ -52,7 +52,7 @@ namespace Iwentys.Database.Repositories
 
         public Task<int> Delete(int key)
         {
-            _dbContext.GuildRecruitment.Remove(ReadById(key));
+            _dbContext.GuildRecruitment.Remove(this.Get(key));
             return _dbContext.SaveChangesAsync();
         }
     }

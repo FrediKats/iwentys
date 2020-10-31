@@ -5,6 +5,7 @@ using Iwentys.Database.Context;
 using Iwentys.Models;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Github;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories
@@ -30,9 +31,9 @@ namespace Iwentys.Database.Repositories
             return _dbContext.StudentProjects;
         }
 
-        public GithubProjectEntity ReadById(long key)
+        public Task<GithubProjectEntity> ReadById(long key)
         {
-            return _dbContext.StudentProjects.Find(key);
+            return _dbContext.StudentProjects.FirstOrDefaultAsync(v => v.Id == key);
         }
 
         public async Task<GithubProjectEntity> Update(GithubProjectEntity entity)
@@ -48,9 +49,10 @@ namespace Iwentys.Database.Repositories
             return _dbContext.SaveChangesAsync();
         }
 
-        public GithubProjectEntity GetOrCreate(GithubRepository project, StudentEntity creator)
+        public async Task<GithubProjectEntity> GetOrCreate(GithubRepository project, StudentEntity creator)
         {
-            return ReadById(project.Id) ?? Create(new GithubProjectEntity(creator, project));
+            GithubProjectEntity githubProjectEntity = await ReadById(project.Id);
+            return githubProjectEntity ?? Create(new GithubProjectEntity(creator, project));
         }
 
         public void CreateMany(IEnumerable<GithubProjectEntity> studentsProjects)

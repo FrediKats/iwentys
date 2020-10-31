@@ -44,7 +44,7 @@ namespace Iwentys.Core.Services
 
         public async Task<GuildProfileShortInfoDto> Update(AuthorizedUser user, GuildUpdateRequest arguments)
         {
-            StudentEntity student = user.GetProfile(_database.Student);
+            StudentEntity student = await user.GetProfile(_database.Student);
             GuildEntity info = _database.Guild.Get(arguments.Id);
             student.EnsureIsGuildEditor(info);
 
@@ -108,23 +108,23 @@ namespace Iwentys.Core.Services
                 .ToGuildProfileDto(userId);
         }
 
-        public GithubRepository AddPinnedRepository(AuthorizedUser user, int guildId, string owner, string projectName)
+        public async Task<GithubRepository> AddPinnedRepository(AuthorizedUser user, int guildId, string owner, string projectName)
         {
             GuildEntity guild = _database.Guild.Get(guildId);
-            user.GetProfile(_database.Student).EnsureIsGuildEditor(guild);
+            StudentEntity profile = await user.GetProfile(_database.Student);
+            profile.EnsureIsGuildEditor(guild);
 
             GithubRepository repository = _githubApiAccessor.GetRepository(owner, projectName);
             _database.Guild.PinProject(guildId, owner, projectName);
             return repository;
         }
 
-        public void UnpinProject(AuthorizedUser user, int pinnedProjectId)
+        public async Task UnpinProject(AuthorizedUser user, int pinnedProjectId)
         {
-            GuildPinnedProjectEntity guildPinnedProject = _database.Context.GuildPinnedProjects.Find(pinnedProjectId) ?? throw EntityNotFoundException.PinnedRepoWasNotFound(pinnedProjectId);
-            GuildEntity guild = _database.Guild.ReadById(guildPinnedProject.GuildId);
-            user.GetProfile(_database.Student).EnsureIsGuildEditor(guild);
-
-            user.GetProfile(_database.Student).EnsureIsGuildEditor(guild);
+            GuildPinnedProjectEntity guildPinnedProject = await _database.Context.GuildPinnedProjects.FindAsync(pinnedProjectId) ?? throw EntityNotFoundException.PinnedRepoWasNotFound(pinnedProjectId);
+            GuildEntity guild = await _database.Guild.ReadById(guildPinnedProject.GuildId);
+            StudentEntity profile = await user.GetProfile(_database.Student);
+            profile.EnsureIsGuildEditor(guild);
 
             _database.Guild.UnpinProject(pinnedProjectId);
         }

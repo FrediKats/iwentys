@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models;
@@ -19,9 +20,9 @@ namespace Iwentys.Core.Services
             _database = database;
         }
 
-        public GithubUserEntity CreateOrUpdate(int studentId)
+        public async Task<GithubUserEntity> CreateOrUpdate(int studentId)
         {
-            var student = _database.Student.ReadById(studentId);
+            var student = await _database.Student.ReadById(studentId);
             if (student.GithubUsername == null)
                 return null;
             var githubUserData = _database.GithubUserData.Read().SingleOrDefault(gh => gh.StudentId == studentId);
@@ -53,14 +54,14 @@ namespace Iwentys.Core.Services
                 foreach (var project in studentProjects)
                 {
                     if (_database.StudentProject.Contains(project))
-                        _database.StudentProject.Update(project);
+                        await _database.StudentProject.Update(project);
                     else
                         _database.StudentProject.Create(project);
                 }
 
                 githubUserData.ContributionFullInfo = _githubApiAccessor.GetUserActivity(student.GithubUsername);
 
-                _database.GithubUserData.Update(githubUserData);
+                await _database.GithubUserData.Update(githubUserData);
             }
             else
             {

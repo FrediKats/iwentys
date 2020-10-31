@@ -1,4 +1,5 @@
-﻿using Iwentys.Core.DomainModel;
+﻿using System.Threading.Tasks;
+using Iwentys.Core.DomainModel;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
@@ -21,9 +22,10 @@ namespace Iwentys.Core.Services
             return _database.Company.Read().SelectToArray(WrapToDto);
         }
 
-        public CompanyInfoResponse Get(int id)
+        public async Task<CompanyInfoResponse> Get(int id)
         {
-            return _database.Company.ReadById(id).To(WrapToDto);
+            CompanyEntity company = await _database.Company.ReadById(id);
+            return WrapToDto(company);
         }
 
         public CompanyWorkRequestDto[] GetCompanyWorkRequest()

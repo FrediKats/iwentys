@@ -25,9 +25,9 @@ namespace Iwentys.Database.Repositories
                 .Include(s => s.Subject);
         }
 
-        public GroupSubjectEntity ReadById(int key)
+        public Task<GroupSubjectEntity> ReadById(int key)
         {
-            return _dbContext.GroupSubjects.Find(key);
+            return _dbContext.GroupSubjects.FirstOrDefaultAsync(v => v.Id == key);
         }
 
         public async Task<GroupSubjectEntity> Update(GroupSubjectEntity entity)

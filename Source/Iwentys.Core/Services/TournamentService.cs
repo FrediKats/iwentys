@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Core.DomainModel;
 using Iwentys.Database.Context;
 using Iwentys.Integrations.GithubIntegration;
-using Iwentys.Models.Tools;
+using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Tournaments;
 
@@ -41,17 +42,19 @@ namespace Iwentys.Core.Services
                 .ToArray();
         }
 
-        public TournamentInfoResponse Get(int tournamentId)
+        public async Task<TournamentInfoResponse> Get(int tournamentId)
         {
-            return _databaseAccessor.Tournament.ReadById(tournamentId).To(TournamentInfoResponse.Wrap);
+            TournamentEntity tournamentEntity = await _databaseAccessor.Tournament.ReadById(tournamentId);
+            return TournamentInfoResponse.Wrap(tournamentEntity);
         }
 
-        public TournamentLeaderboardDto GetLeaderboard(int tournamentId)
+        public async Task<TournamentLeaderboardDto> GetLeaderboard(int tournamentId)
         {
-            return _databaseAccessor.Tournament
-                .ReadById(tournamentId)
+            TournamentEntity tournamentEntity = await _databaseAccessor.Tournament.ReadById(tournamentId);
+            return tournamentEntity
                 .WrapToDomain(_githubApi, _databaseAccessor, _githubUserDataService)
                 .GetLeaderboard();
+                
         }
     }
 }

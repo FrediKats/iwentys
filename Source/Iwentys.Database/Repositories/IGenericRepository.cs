@@ -4,11 +4,15 @@ using Iwentys.Models.Exceptions;
 
 namespace Iwentys.Database.Repositories
 {
-    public interface IGenericRepository<TEntity, TKey>
+    public interface IGenericRepository<TEntity>
     {
         IQueryable<TEntity> Read();
-        TEntity ReadById(TKey key);
         Task<TEntity> Update(TEntity entity);
+    }
+
+    public interface IGenericRepository<TEntity, TKey> : IGenericRepository<TEntity>
+    {
+        Task<TEntity> ReadById(TKey key);
         Task<int> Delete(TKey key);
     }
 
@@ -16,7 +20,8 @@ namespace Iwentys.Database.Repositories
     {
         public static TEntity Get<TEntity, TKey>(this IGenericRepository<TEntity, TKey> repository, TKey key)
         {
-            return repository.ReadById(key) ?? throw EntityNotFoundException.Create(repository.GetType().Name, key);
+            //TODO: add async
+            return repository.ReadById(key).Result ?? throw EntityNotFoundException.Create(repository.GetType().Name, key);
         }
     }
 }

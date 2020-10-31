@@ -4,6 +4,7 @@ using Iwentys.Database.Context;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Types;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories
@@ -22,9 +23,9 @@ namespace Iwentys.Database.Repositories
             return _dbContext.Tributes;
         }
 
-        public TributeEntity ReadById(long key)
+        public Task<TributeEntity> ReadById(long key)
         {
-            return _dbContext.Tributes.Find(key);
+            return _dbContext.Tributes.FirstOrDefaultAsync(v => v.ProjectId == key);
         }
 
         public async Task<TributeEntity> Update(TributeEntity entity)

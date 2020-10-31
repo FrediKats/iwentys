@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities.Guilds;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories
@@ -20,9 +21,9 @@ namespace Iwentys.Database.Repositories
             return _dbContext.Tournaments;
         }
 
-        public TournamentEntity ReadById(int key)
+        public Task<TournamentEntity> ReadById(int key)
         {
-            return _dbContext.Tournaments.Find(key);
+            return _dbContext.Tournaments.FirstOrDefaultAsync(v => v.Id == key);
         }
 
         public async Task<TournamentEntity> Update(TournamentEntity entity)

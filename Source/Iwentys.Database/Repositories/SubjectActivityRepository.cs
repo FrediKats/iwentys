@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories
 {
-    public class SubjectActivityRepository : IGenericRepository<SubjectActivityEntity, int>
+    public class SubjectActivityRepository : IGenericRepository<SubjectActivityEntity>
     {
         private readonly IwentysDbContext _dbContext;
 
@@ -33,23 +33,11 @@ namespace Iwentys.Database.Repositories
                 .Include(s => s.GroupSubject);
         }
 
-        public SubjectActivityEntity ReadById(int key)
-        {
-            return _dbContext.SubjectActivities.Find(key);
-        }
-
         public async Task<SubjectActivityEntity> Update(SubjectActivityEntity entity)
         {
             EntityEntry<SubjectActivityEntity> createdEntity = _dbContext.SubjectActivities.Update(entity);
             await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
-        }
-
-        public Task<int> Delete(int key)
-        {
-            SubjectActivityEntity activity = this.Get(key);
-            _dbContext.SubjectActivities.Remove(activity);
-            return _dbContext.SaveChangesAsync();
         }
 
         public IReadOnlyCollection<SubjectActivityEntity> GetStudentActivities(StudySearchParameters searchParameters)

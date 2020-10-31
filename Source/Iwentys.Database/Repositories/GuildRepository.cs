@@ -32,7 +32,7 @@ namespace Iwentys.Database.Repositories
                 .Where(g => g.GuildType == GuildType.Created);
         }
 
-        public GuildEntity ReadById(int key)
+        public Task<GuildEntity> ReadById(int key)
         {
             return _dbContext.Guilds
                 .Include(g => g.Members)
@@ -41,7 +41,7 @@ namespace Iwentys.Database.Repositories
                 .Include(g => g.Achievements)
                 .ThenInclude(a => a.Achievement)
                 .Include(g => g.TestTasks)
-                .FirstOrDefault(g => g.Id == key);
+                .FirstOrDefaultAsync(g => g.Id == key);
         }
 
         public async Task<GuildEntity> Update(GuildEntity entity)

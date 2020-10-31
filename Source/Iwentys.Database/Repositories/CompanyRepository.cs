@@ -30,11 +30,11 @@ namespace Iwentys.Database.Repositories
             return _dbContext.Companies;
         }
 
-        public CompanyEntity ReadById(int key)
+        public Task<CompanyEntity> ReadById(int key)
         {
             return _dbContext
                 .Companies
-                .Find(key);
+                .FirstOrDefaultAsync(v => v.Id == key);
         }
 
         public async Task<CompanyEntity> Update(CompanyEntity entity)

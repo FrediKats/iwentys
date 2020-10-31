@@ -24,9 +24,9 @@ namespace Iwentys.Database.Repositories
                 .ThenInclude(s => s.StudyProgramEntity);
         }
 
-        public StudyGroupEntity ReadById(int key)
+        public Task<StudyGroupEntity> ReadById(int key)
         {
-            return Read().FirstOrDefault(s => s.Id == key);
+            return Read().FirstOrDefaultAsync(s => s.Id == key);
         }
 
         public async Task<StudyGroupEntity> Update(StudyGroupEntity entity)

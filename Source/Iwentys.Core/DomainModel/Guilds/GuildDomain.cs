@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Core.Services;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
@@ -148,9 +149,9 @@ namespace Iwentys.Core.DomainModel.Guilds
             return this;
         }
 
-        public GuildMemberEntity EnsureMemberCanRestrictPermissionForOther(AuthorizedUser editor, int memberToKickId)
+        public async Task<GuildMemberEntity> EnsureMemberCanRestrictPermissionForOther(AuthorizedUser editor, int memberToKickId)
         {
-            StudentEntity editorStudentAccount = editor.GetProfile(_dbAccessor.Student);
+            StudentEntity editorStudentAccount = await editor.GetProfile(_dbAccessor.Student);
             editorStudentAccount.EnsureIsGuildEditor(Profile);
 
             GuildMemberEntity memberToKick = Profile.Members.Find(m => m.MemberId == memberToKickId);
