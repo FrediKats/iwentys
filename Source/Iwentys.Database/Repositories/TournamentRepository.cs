@@ -25,10 +25,10 @@ namespace Iwentys.Database.Repositories
             return _dbContext.Tournaments.Find(key);
         }
 
-        public TournamentEntity Update(TournamentEntity entity)
+        public async Task<TournamentEntity> Update(TournamentEntity entity)
         {
             EntityEntry<TournamentEntity> createdEntity = _dbContext.Tournaments.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 

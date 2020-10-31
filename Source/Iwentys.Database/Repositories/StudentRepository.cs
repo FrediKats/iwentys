@@ -42,10 +42,10 @@ namespace Iwentys.Database.Repositories
             return Read().FirstOrDefault(s => s.Id == key);
         }
 
-        public StudentEntity Update(StudentEntity entity)
+        public async Task<StudentEntity> Update(StudentEntity entity)
         {
             EntityEntry<StudentEntity> createdEntity = _dbContext.Students.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 

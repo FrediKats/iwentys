@@ -27,10 +27,10 @@ namespace Iwentys.Database.Repositories
             return _dbContext.Tributes.Find(key);
         }
 
-        public TributeEntity Update(TributeEntity entity)
+        public async Task<TributeEntity> Update(TributeEntity entity)
         {
             EntityEntry<TributeEntity> createdEntity = _dbContext.Tributes.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 

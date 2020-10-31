@@ -32,10 +32,10 @@ namespace Iwentys.Database.Repositories
             return _dbContext.BarsPointTransactionLogs.Find(key);
         }
 
-        public BarsPointTransactionLog Update(BarsPointTransactionLog entity)
+        public async Task<BarsPointTransactionLog> Update(BarsPointTransactionLog entity)
         {
             EntityEntry<BarsPointTransactionLog> createdEntity = _dbContext.BarsPointTransactionLogs.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 

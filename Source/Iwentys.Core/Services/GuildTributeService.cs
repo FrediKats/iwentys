@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Core.DomainModel;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
@@ -68,7 +69,7 @@ namespace Iwentys.Core.Services
             return _database.Tribute.Create(guild, projectEntity).To(TributeInfoResponse.Wrap);
         }
 
-        public TributeInfoResponse CancelTribute(AuthorizedUser user, long tributeId)
+        public async Task<TributeInfoResponse> CancelTribute(AuthorizedUser user, long tributeId)
         {
             StudentEntity student = user.GetProfile(_database.Student);
             TributeEntity tribute = _database.Tribute.Get(tributeId);
@@ -86,10 +87,11 @@ namespace Iwentys.Core.Services
                 tribute.SetCanceled();
             }
 
-            return _database.Tribute.Update(tribute).To(TributeInfoResponse.Wrap);
+            TributeEntity updatedTribute = await _database.Tribute.Update(tribute);
+            return TributeInfoResponse.Wrap(updatedTribute);
         }
 
-        public TributeInfoResponse CompleteTribute(AuthorizedUser user, TributeCompleteRequest tributeCompleteRequest)
+        public async Task<TributeInfoResponse> CompleteTribute(AuthorizedUser user, TributeCompleteRequest tributeCompleteRequest)
         {
             StudentEntity student = user.GetProfile(_database.Student);
             TributeEntity tribute = _database.Tribute.Get(tributeCompleteRequest.TributeId);
@@ -99,7 +101,8 @@ namespace Iwentys.Core.Services
                 throw InnerLogicException.TributeEx.IsNotActive(tribute);
 
             tribute.SetCompleted(mentor.Student.Id, tributeCompleteRequest.DifficultLevel, tributeCompleteRequest.Mark);
-            return _database.Tribute.Update(tribute).To(TributeInfoResponse.Wrap);
+            TributeEntity updatedTibute = await _database.Tribute.Update(tribute);
+            return TributeInfoResponse.Wrap(updatedTibute);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Core.Gamification;
 using Iwentys.Database;
 using Iwentys.Database.Context;
@@ -77,11 +78,12 @@ namespace Iwentys.Core.Services
             return new StudentFullProfileDto(_databaseAccessor.Student.Get(id));
         }
 
-        public StudentFullProfileDto RemoveGithubUsername(int id, string githubUsername)
+        public async Task<StudentFullProfileDto> RemoveGithubUsername(int id, string githubUsername)
         {
             StudentEntity user = _databaseAccessor.Student.Get(id);
             user.GithubUsername = null;
-            return _databaseAccessor.Student.Update(user).To(s => new StudentFullProfileDto(s));
+            StudentEntity updatedUser = await _databaseAccessor.Student.Update(user);
+            return new StudentFullProfileDto(updatedUser);
         }
     }
 }

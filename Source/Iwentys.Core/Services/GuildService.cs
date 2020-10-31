@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.DomainModel.Guilds;
 using Iwentys.Database.Context;
@@ -41,7 +42,7 @@ namespace Iwentys.Core.Services
                 .ToGuildProfileShortInfoDto();
         }
 
-        public GuildProfileShortInfoDto Update(AuthorizedUser user, GuildUpdateRequest arguments)
+        public async Task<GuildProfileShortInfoDto> Update(AuthorizedUser user, GuildUpdateRequest arguments)
         {
             StudentEntity student = user.GetProfile(_database.Student);
             GuildEntity info = _database.Guild.Get(arguments.Id);
@@ -56,12 +57,11 @@ namespace Iwentys.Core.Services
                 foreach (GuildMemberEntity guildMember in info.Members.Where(guildMember => guildMember.MemberType == GuildMemberType.Requested))
                     guildMember.MemberType = GuildMemberType.Member;
 
-            return _database.Guild.Update(info)
-                .To(g => new GuildDomain(g, _database, _githubUserDataService, _githubApiAccessor))
-                .ToGuildProfileShortInfoDto();
+            GuildEntity updatedGuid = await _database.Guild.Update(info);
+            return new GuildDomain(updatedGuid, _database, _githubUserDataService, _githubApiAccessor).ToGuildProfileShortInfoDto();
         }
 
-        public GuildProfileShortInfoDto ApproveGuildCreating(AuthorizedUser user, int guildId)
+        public async Task<GuildProfileShortInfoDto> ApproveGuildCreating(AuthorizedUser user, int guildId)
         {
             _database.Student
                 .Get(user.Id)
@@ -72,9 +72,8 @@ namespace Iwentys.Core.Services
                 throw new InnerLogicException("Guild already approved");
 
             guild.GuildType = GuildType.Created;
-            return _database.Guild.Update(guild)
-                .To(g => new GuildDomain(g, _database, _githubUserDataService, _githubApiAccessor))
-                .ToGuildProfileShortInfoDto();
+            GuildEntity updatedGuid = await _database.Guild.Update(guild);
+            return new GuildDomain(updatedGuid, _database, _githubUserDataService, _githubApiAccessor).ToGuildProfileShortInfoDto();
         }
 
         public GuildProfileDto[] Get()

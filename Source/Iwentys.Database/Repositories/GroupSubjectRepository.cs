@@ -30,10 +30,10 @@ namespace Iwentys.Database.Repositories
             return _dbContext.GroupSubjects.Find(key);
         }
 
-        public GroupSubjectEntity Update(GroupSubjectEntity entity)
+        public async Task<GroupSubjectEntity> Update(GroupSubjectEntity entity)
         {
             EntityEntry<GroupSubjectEntity> createdEntity = _dbContext.GroupSubjects.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 

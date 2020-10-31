@@ -37,10 +37,10 @@ namespace Iwentys.Database.Repositories
                 .Find(key);
         }
 
-        public CompanyEntity Update(CompanyEntity entity)
+        public async Task<CompanyEntity> Update(CompanyEntity entity)
         {
             EntityEntry<CompanyEntity> createdEntity = _dbContext.Companies.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 

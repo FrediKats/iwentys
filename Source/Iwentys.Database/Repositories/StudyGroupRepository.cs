@@ -29,10 +29,10 @@ namespace Iwentys.Database.Repositories
             return Read().FirstOrDefault(s => s.Id == key);
         }
 
-        public StudyGroupEntity Update(StudyGroupEntity entity)
+        public async Task<StudyGroupEntity> Update(StudyGroupEntity entity)
         {
             EntityEntry<StudyGroupEntity> createdEntity = _dbContext.StudyGroups.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 

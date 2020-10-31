@@ -44,10 +44,10 @@ namespace Iwentys.Database.Repositories
                 .FirstOrDefault(g => g.Id == key);
         }
 
-        public GuildEntity Update(GuildEntity entity)
+        public async Task<GuildEntity> Update(GuildEntity entity)
         {
             EntityEntry<GuildEntity> createdEntity = _dbContext.Guilds.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 

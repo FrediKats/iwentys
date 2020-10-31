@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Gamification;
 using Iwentys.Database;
@@ -88,7 +89,7 @@ namespace Iwentys.Core.Services
             return completedQuest;
         }
 
-        public QuestInfoResponse Revoke(AuthorizedUser author, int questId)
+        public async Task<QuestInfoResponse> Revoke(AuthorizedUser author, int questId)
         {
             QuestEntity questEntity = _databaseAccessor.Quest.ReadById(questId);
             if (questEntity.AuthorId != author.Id)
@@ -98,7 +99,8 @@ namespace Iwentys.Core.Services
                 throw new InnerLogicException("Quest is not active");
 
             questEntity.State = QuestState.Revoked;
-            return _databaseAccessor.Quest.Update(questEntity).To(QuestInfoResponse.Wrap);
+            QuestEntity updatedQuest = await _databaseAccessor.Quest.Update(questEntity);
+            return QuestInfoResponse.Wrap(updatedQuest);
         }
     }
 }

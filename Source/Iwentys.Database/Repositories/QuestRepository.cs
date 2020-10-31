@@ -32,10 +32,10 @@ namespace Iwentys.Database.Repositories
             return Read().FirstOrDefault(q => q.Id == key);
         }
 
-        public QuestEntity Update(QuestEntity entity)
+        public async Task<QuestEntity> Update(QuestEntity entity)
         {
             EntityEntry<QuestEntity> createdEntity = _dbContext.Quests.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 

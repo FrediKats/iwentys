@@ -8,7 +8,7 @@ namespace Iwentys.Database.Repositories
     {
         IQueryable<TEntity> Read();
         TEntity ReadById(TKey key);
-        TEntity Update(TEntity entity);
+        Task<TEntity> Update(TEntity entity);
         Task<int> Delete(TKey key);
     }
 

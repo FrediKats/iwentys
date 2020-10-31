@@ -35,10 +35,10 @@ namespace Iwentys.Database.Repositories
             return _dbContext.StudentProjects.Find(key);
         }
 
-        public GithubProjectEntity Update(GithubProjectEntity entity)
+        public async Task<GithubProjectEntity> Update(GithubProjectEntity entity)
         {
             EntityEntry<GithubProjectEntity> createdEntity = _dbContext.StudentProjects.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 

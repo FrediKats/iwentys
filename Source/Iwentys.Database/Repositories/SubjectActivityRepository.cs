@@ -38,10 +38,10 @@ namespace Iwentys.Database.Repositories
             return _dbContext.SubjectActivities.Find(key);
         }
 
-        public SubjectActivityEntity Update(SubjectActivityEntity entity)
+        public async Task<SubjectActivityEntity> Update(SubjectActivityEntity entity)
         {
             EntityEntry<SubjectActivityEntity> createdEntity = _dbContext.SubjectActivities.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 

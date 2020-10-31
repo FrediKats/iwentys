@@ -169,7 +169,7 @@ namespace Iwentys.Tests.Tools
                 DifficultLevel = 1,
                 Mark = 1,
                 TributeId = tribute.Project.Id
-            });
+            }).Result;
             return this;
         }
 
