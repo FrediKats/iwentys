@@ -52,8 +52,7 @@ namespace Iwentys.Database.Repositories
 
         public Task<int> Delete(int key)
         {
-            _dbContext.GuildRecruitment.Remove(this.Get(key));
-            return _dbContext.SaveChangesAsync();
+            return _dbContext.GuildRecruitment.Where(gr => gr.Id == key).DeleteFromQueryAsync();
         }
     }
 }

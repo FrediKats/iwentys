@@ -46,8 +46,7 @@ namespace Iwentys.Database.Repositories
 
         public Task<int> Delete(int key)
         {
-            _dbContext.Companies.Remove(this.Get(key));
-            return _dbContext.SaveChangesAsync();
+            return _dbContext.Companies.Where(c => c.Id == key).DeleteFromQueryAsync();
         }
 
         public StudentEntity[] ReadWorkers(CompanyEntity companyEntity)

@@ -37,8 +37,7 @@ namespace Iwentys.Database.Repositories
 
         public Task<int> Delete(long key)
         {
-            _dbContext.Tributes.Remove(this.Get(key));
-            return _dbContext.SaveChangesAsync();
+            return _dbContext.Tributes.Where(t => t.ProjectId == key).DeleteFromQueryAsync();
         }
 
         public TributeEntity Create(GuildEntity guild, GithubProjectEntity githubProject)

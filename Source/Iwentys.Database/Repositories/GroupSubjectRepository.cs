@@ -39,8 +39,7 @@ namespace Iwentys.Database.Repositories
 
         public Task<int> Delete(int key)
         {
-            _dbContext.GroupSubjects.Remove(this.Get(key));
-            return _dbContext.SaveChangesAsync();
+            return _dbContext.GroupSubjects.Where(gs => gs.Id == key).DeleteFromQueryAsync();
         }
 
         public IEnumerable<GroupSubjectEntity> GetSubjectForGroupForDto(StudySearchParameters searchParameters)

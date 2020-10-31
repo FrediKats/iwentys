@@ -42,8 +42,7 @@ namespace Iwentys.Database.Repositories
 
         public Task<int> Delete(int key)
         {
-            _dbContext.BarsPointTransactionLogs.Remove(this.Get(key));
-            return _dbContext.SaveChangesAsync();
+            return _dbContext.BarsPointTransactionLogs.Where(e => e.Id == key).DeleteFromQueryAsync();
         }
     }
 }

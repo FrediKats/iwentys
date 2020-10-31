@@ -42,8 +42,7 @@ namespace Iwentys.Database.Repositories
 
         public Task<int> Delete(int key)
         {
-            _dbContext.GithubUsersData.Remove(this.Get(key));
-            return _dbContext.SaveChangesAsync();
+            return _dbContext.GithubUsersData.Where(gu => gu.StudentId == key).DeleteFromQueryAsync();
         }
 
         public GithubUserEntity FindByUsername(string username)

@@ -41,8 +41,7 @@ namespace Iwentys.Database.Repositories
 
         public Task<int> Delete(int key)
         {
-            _dbContext.Quests.Remove(this.Get(key));
-            return _dbContext.SaveChangesAsync();
+            return _dbContext.Quests.Where(q => q.Id == key).DeleteFromQueryAsync();
         }
 
         public void SendResponse(QuestEntity questEntity, int userId)

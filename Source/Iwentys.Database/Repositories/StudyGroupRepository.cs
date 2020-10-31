@@ -38,8 +38,7 @@ namespace Iwentys.Database.Repositories
 
         public Task<int> Delete(int key)
         {
-            _dbContext.StudyGroups.Remove(this.Get(key));
-            return _dbContext.SaveChangesAsync();
+            return _dbContext.StudyGroups.Where(sg => sg.Id == key).DeleteFromQueryAsync();
         }
 
         public StudyGroupEntity ReadByNamePattern(GroupName group)

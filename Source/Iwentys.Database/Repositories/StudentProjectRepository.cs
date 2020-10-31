@@ -45,8 +45,7 @@ namespace Iwentys.Database.Repositories
 
         public Task<int> Delete(long key)
         {
-            _dbContext.StudentProjects.Remove(this.Get(key));
-            return _dbContext.SaveChangesAsync();
+            return _dbContext.StudentProjects.Where(sp => sp.Id == key).DeleteFromQueryAsync();
         }
 
         public async Task<GithubProjectEntity> GetOrCreate(GithubRepository project, StudentEntity creator)

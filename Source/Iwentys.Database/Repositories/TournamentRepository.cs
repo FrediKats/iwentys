@@ -35,8 +35,7 @@ namespace Iwentys.Database.Repositories
 
         public Task<int> Delete(int key)
         {
-            _dbContext.Tournaments.Remove(this.Get(key));
-            return _dbContext.SaveChangesAsync();
+            return _dbContext.Tournaments.Where(t => t.Id == key).DeleteFromQueryAsync();
         }
 
         public TournamentEntity Create(TournamentEntity entity)
