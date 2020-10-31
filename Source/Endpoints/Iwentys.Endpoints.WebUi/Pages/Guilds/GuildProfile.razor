@@ -23,10 +23,10 @@
 
     public GuildProfileDto Guild { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
     //TODO: fix
-        Guild = GuildService.Get(GuildId, 228617).Result;
+        Guild = await GuildService.GetAsync(GuildId, 228617);
     }
 
 }

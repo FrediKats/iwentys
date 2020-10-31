@@ -29,50 +29,58 @@ namespace Iwentys.Endpoints.Api.Controllers
         }
 
         [HttpGet("completed")]
-        public ActionResult<List<QuestInfoResponse>> GetCompletedByUser()
+        public async Task<ActionResult<List<QuestInfoResponse>>> GetCompletedByUser()
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(_questService.GetCompletedByUser(user));
+            List<QuestInfoResponse> quests = await _questService.GetCompletedByUserAsync(user);
+            return Ok(quests);
         }
 
         [HttpGet("active")]
-        public ActionResult<List<QuestInfoResponse>> GetActive()
+        public async Task<ActionResult<List<QuestInfoResponse>>> GetActive()
         {
-            return Ok(_questService.GetActive());
+            List<QuestInfoResponse> quests = await _questService.GetActiveAsync();
+
+            return Ok(quests);
         }
 
         [HttpGet("archived")]
-        public ActionResult<List<QuestInfoResponse>> GetArchived()
+        public async Task<ActionResult<List<QuestInfoResponse>>> GetArchived()
         {
-            return Ok(_questService.GetArchived());
+            List<QuestInfoResponse> quests = await _questService.GetArchivedAsync();
+            return Ok(quests);
         }
 
         [HttpPost]
-        public ActionResult<QuestInfoResponse> Create(CreateQuestRequest createQuest)
+        public async Task<ActionResult<QuestInfoResponse>> Create(CreateQuestRequest createQuest)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(_questService.Create(user, createQuest));
+            QuestInfoResponse quest = await _questService.CreateAsync(user, createQuest);
+            return Ok(quest);
         }
 
         [HttpPut("{questId}/send-response")]
-        public ActionResult<QuestInfoResponse> SendResponse(int questId)
+        public async Task<ActionResult<QuestInfoResponse>> SendResponse(int questId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(_questService.SendResponse(user, questId));
+            QuestInfoResponse quest = await _questService.SendResponseAsync(user, questId);
+            return Ok(quest);
         }
 
         [HttpPut("{questId}/complete")]
-        public ActionResult<QuestInfoResponse> Complete([FromRoute]int questId, [FromQuery] int userId)
+        public async Task<ActionResult<QuestInfoResponse>> Complete([FromRoute]int questId, [FromQuery] int userId)
         {
             AuthorizedUser author = this.TryAuthWithToken();
-            return Ok(_questService.Complete(author, questId, userId));
+            QuestInfoResponse quest = await _questService.CompleteAsync(author, questId, userId);
+            return Ok(quest);
         }
 
         [HttpPut("{questId}/revoke")]
-        public ActionResult<QuestInfoResponse> Revoke([FromRoute] int questId)
+        public async Task<ActionResult<QuestInfoResponse>> Revoke([FromRoute] int questId)
         {
             AuthorizedUser author = this.TryAuthWithToken();
-            return Ok(_questService.Revoke(author, questId));
+            QuestInfoResponse quest = await _questService.Revoke(author, questId);
+            return Ok(quest);
         }
     }
 }

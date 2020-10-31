@@ -24,7 +24,7 @@ namespace Iwentys.Tests.Core.Services
 
             test.WithQuest(user, 50, out QuestInfoResponse quest);
 
-            List<QuestInfoResponse> quests = test.QuestService.GetActive();
+            List<QuestInfoResponse> quests = test.QuestService.GetActiveAsync().Result;
 
             Assert.IsTrue(quests.Any(q => q.Id == quest.Id));
         }

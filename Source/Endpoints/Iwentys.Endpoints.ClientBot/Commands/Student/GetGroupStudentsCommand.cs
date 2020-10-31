@@ -28,11 +28,11 @@ namespace Iwentys.Endpoints.ClientBot.Commands.Student
             return Result.Ok();
         }
 
-        public Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
+        public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            List<StudentFullProfileDto> profileDtos = _studentService.GetAsync(args.Arguments[0]);
+            List<StudentFullProfileDto> profileDtos = await _studentService.GetAsync(args.Arguments[0]);
 
-            return Task.FromResult(Result.Ok($"Group list {args.Arguments[0]}\n{ResultFormatter.FormatAsList(profileDtos)}"));
+            return Result.Ok($"Group list {args.Arguments[0]}\n{ResultFormatter.FormatAsList(profileDtos)}");
         }
 
         public string CommandName => nameof(GetGroupStudentsCommand);

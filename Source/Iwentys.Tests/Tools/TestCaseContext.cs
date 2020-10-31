@@ -73,7 +73,7 @@ namespace Iwentys.Tests.Tools
 
         public TestCaseContext WithGuild(AuthorizedUser user, out GuildProfileDto guildProfile)
         {
-            guildProfile = GuildService.Create(user, new GuildCreateRequest()).To(g => GuildService.Get(g.Id, user.Id).Result);
+            guildProfile = GuildService.CreateAsync(user, new GuildCreateRequest()).To(g => GuildService.GetAsync(g.Id, user.Id).Result);
             return this;
         }
 
@@ -175,7 +175,7 @@ namespace Iwentys.Tests.Tools
 
         public TestCaseContext WithQuest(AuthorizedUser user, int price, out QuestInfoResponse quest)
         {
-            quest = QuestService.Create(user, new CreateQuestRequest
+            quest = QuestService.CreateAsync(user, new CreateQuestRequest
             {
                 Title = "Some quest",
                 Description = "Some desc",

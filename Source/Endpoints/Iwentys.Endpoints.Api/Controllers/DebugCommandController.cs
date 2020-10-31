@@ -42,11 +42,11 @@ namespace Iwentys.Endpoints.Api.Controllers
         //[HttpPost("UpdateSubjectActivityData")]
         //public void UpdateSubjectActivityData(SubjectActivityEntity activity)
         //{
-        //    _databaseAccessor.SubjectActivity.Update(activity);
+        //    _databaseAccessor.SubjectActivity.UpdateAsync(activity);
         //}
 
         [HttpPost("UpdateSubjectActivityForGroup")]
-        public void UpdateSubjectActivityForGroup(int subjectId, int groupId)
+        public ActionResult UpdateSubjectActivityForGroup(int subjectId, int groupId)
         {
             GroupSubjectEntity groupSubjectData = _databaseAccessor.GroupSubject
                 .Read()
@@ -55,24 +55,25 @@ namespace Iwentys.Endpoints.Api.Controllers
             if (groupSubjectData == null)
             {
                 _logger.LogWarning($"Subject info was not found: subjectId:{subjectId}, groupId:{groupId}");
-                return;
+                return Ok();
             }
 
             _markGoogleTableUpdateService.UpdateSubjectActivityForGroup(groupSubjectData);
+            return Ok();
         }
 
         [HttpGet("login/{userId}")]
         public async Task<ActionResult<IwentysAuthResponse>> Login(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
             await _databaseAccessor.Student.GetAsync(userId);
-            return TokenGenerator.Generate(userId, signingEncodingKey);
+            return Ok(TokenGenerator.Generate(userId, signingEncodingKey));
         }
 
         [HttpGet("loginOrCreate/{userId}")]
         public async Task<ActionResult<IwentysAuthResponse>> LoginOrCreate(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
             await _studentService.GetOrCreateAsync(userId);
-            return TokenGenerator.Generate(userId, signingEncodingKey);
+            return Ok(TokenGenerator.Generate(userId, signingEncodingKey));
         }
 
         [HttpGet("ValidateToken")]
@@ -93,15 +94,15 @@ namespace Iwentys.Endpoints.Api.Controllers
         }
 
         [HttpPost("register")]
-        public ActionResult<IwentysAuthResponse> Register([FromBody] StudentCreateArgumentsDto arguments,
+        public async Task<ActionResult<IwentysAuthResponse>> Register([FromBody] StudentCreateArgumentsDto arguments,
             [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
             int groupId = _databaseAccessor.StudyGroup.ReadByNamePattern(new GroupName(arguments.Group)).Id;
             var student = new StudentEntity(arguments, groupId);
 
-            _databaseAccessor.Student.CreateAsync(student);
+            await _databaseAccessor.Student.CreateAsync(student);
 
-            return TokenGenerator.Generate(student.Id, signingEncodingKey);
+            return Ok(TokenGenerator.Generate(student.Id, signingEncodingKey));
         }
 
         //[HttpGet("teachers")]

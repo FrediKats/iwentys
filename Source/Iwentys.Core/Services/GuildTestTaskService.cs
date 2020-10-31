@@ -54,7 +54,7 @@ namespace Iwentys.Core.Services
         }
 
         //TODO: ensure project belong to user
-        public GuildTestTaskInfoResponse Submit(AuthorizedUser user, int guildId, string projectOwner, string projectName)
+        public async Task<GuildTestTaskInfoResponse> Submit(AuthorizedUser user, int guildId, string projectOwner, string projectName)
         {
             GuildTestTaskSolvingInfoEntity testTask = _database.GuildTestTaskSolvingInfo
                 .Read()

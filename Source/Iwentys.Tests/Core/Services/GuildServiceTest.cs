@@ -314,7 +314,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out GuildProfileDto guild)
                 .WithGuildRequest(guild, out AuthorizedUser _);
-            context.GuildService.Update(user, new GuildUpdateRequest {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Close});
+            context.GuildService.UpdateAsync(user, new GuildUpdateRequest {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Close});
 
             Assert.That(context.GuildRepository.GetAsync(guild.Id).Result.HiringPolicy, Is.EqualTo(GuildHiringPolicy.Close));
         }
@@ -327,8 +327,8 @@ namespace Iwentys.Tests.Core.Services
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out GuildProfileDto guild)
                 .WithGuildRequest(guild, out AuthorizedUser student);
-            context.GuildService.Update(user, new GuildUpdateRequest() {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Close});
-            context.GuildService.Update(user, new GuildUpdateRequest() {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Open});
+            context.GuildService.UpdateAsync(user, new GuildUpdateRequest() {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Close});
+            context.GuildService.UpdateAsync(user, new GuildUpdateRequest() {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Open});
 
             GuildMemberEntity newMember = context.GuildRepository.GetAsync(guild.Id).Result.Members.Find(m => m.MemberId == student.Id);
             Assert.IsNotNull(newMember);

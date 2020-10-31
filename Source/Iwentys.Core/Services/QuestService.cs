@@ -37,41 +37,42 @@ namespace Iwentys.Core.Services
             return entities.SelectToList(QuestInfoResponse.Wrap);
         }
 
-        public List<QuestInfoResponse> GetCompletedByUser(AuthorizedUser user)
+        public async Task<List<QuestInfoResponse>> GetCompletedByUserAsync(AuthorizedUser user)
         {
-            return _databaseAccessor.Quest.Read()
+            List<QuestEntity> quests = await _databaseAccessor.Quest.Read()
                 .Where(q => q.State == QuestState.Completed && q.Responses.Any(r => r.StudentId == user.Id))
-                .SelectToList(QuestInfoResponse.Wrap);
+                .ToListAsync();
+
+            return quests.SelectToList(QuestInfoResponse.Wrap);
         }
 
-        public List<QuestInfoResponse> GetActive()
+        public async Task<List<QuestInfoResponse>> GetActiveAsync()
         {
-            return _databaseAccessor.Quest
-                .Read()
+            List<QuestEntity> quests = await _databaseAccessor.Quest.Read()
                 .Where(q => q.State == QuestState.Active && (q.Deadline == null || q.Deadline > DateTime.UtcNow))
-                .SelectToList(QuestInfoResponse.Wrap);
+                .ToListAsync();
+
+            return quests.SelectToList(QuestInfoResponse.Wrap);
         }
 
-        public List<QuestInfoResponse> GetArchived()
+        public async Task<List<QuestInfoResponse>> GetArchivedAsync()
         {
-            List<QuestEntity> repos = _databaseAccessor.Quest
-                .Read()
+            List<QuestEntity> quests = await _databaseAccessor.Quest.Read()
                 .Where(q => q.State == QuestState.Completed || q.Deadline > DateTime.UtcNow)
-                .ToList();
+                .ToListAsync();
 
-            return repos
-                .SelectToList(QuestInfoResponse.Wrap);
+            return quests.SelectToList(QuestInfoResponse.Wrap);
         }
 
-        public async Task<QuestInfoResponse> Create(AuthorizedUser user, CreateQuestRequest createQuest)
+        public async Task<QuestInfoResponse> CreateAsync(AuthorizedUser user, CreateQuestRequest createQuest)
         {
             StudentEntity student = await user.GetProfile(_databaseAccessor.Student);
-            QuestInfoResponse quest = _databaseAccessor.Quest.Create(student, createQuest).To(QuestInfoResponse.Wrap);
+            QuestEntity quest = await _databaseAccessor.Quest.CreateAsync(student, createQuest);
             _achievementProvider.Achieve(AchievementList.QuestCreator, user.Id);
-            return quest;
+            return QuestInfoResponse.Wrap(quest);
         }
 
-        public async Task<QuestInfoResponse> SendResponse(AuthorizedUser user, int id)
+        public async Task<QuestInfoResponse> SendResponseAsync(AuthorizedUser user, int id)
         {
             QuestEntity questEntity = await _databaseAccessor.Quest.ReadByIdAsync(id);
             if (questEntity.State != QuestState.Active || questEntity.IsOutdated)
@@ -82,7 +83,7 @@ namespace Iwentys.Core.Services
             return QuestInfoResponse.Wrap(updatedQuest);
         }
 
-        public async Task<QuestInfoResponse> Complete(AuthorizedUser author, int questId, int userId)
+        public async Task<QuestInfoResponse> CompleteAsync(AuthorizedUser author, int questId, int userId)
         {
             QuestEntity questEntity = await _databaseAccessor.Quest.ReadByIdAsync(questId);
             if (questEntity.AuthorId != author.Id)

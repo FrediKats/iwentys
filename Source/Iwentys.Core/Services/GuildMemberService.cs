@@ -27,7 +27,7 @@ namespace Iwentys.Core.Services
             _githubApiAccessor = githubApiAccessor;
         }
 
-        public async Task<GuildProfileDto> EnterGuild(AuthorizedUser user, Int32 guildId)
+        public async Task<GuildProfileDto> EnterGuildAsync(AuthorizedUser user, Int32 guildId)
         {
             GuildEntity guildEntity = await _database.Guild.GetAsync(guildId);
             GuildDomain guild = new GuildDomain(guildEntity, _database, _githubUserDataService, _githubApiAccessor);
@@ -41,7 +41,7 @@ namespace Iwentys.Core.Services
             return await Get(guildId, user.Id);
         }
 
-        public async Task<GuildProfileDto> RequestGuild(AuthorizedUser user, Int32 guildId)
+        public async Task<GuildProfileDto> RequestGuildAsync(AuthorizedUser user, Int32 guildId)
         {
             GuildEntity guildEntity = await _database.Guild.GetAsync(guildId);
             GuildDomain guild = new GuildDomain(guildEntity, _database, _githubUserDataService, _githubApiAccessor);
@@ -54,7 +54,7 @@ namespace Iwentys.Core.Services
             return await Get(guildId, user.Id);
         }
 
-        public Task<GuildProfileDto> LeaveGuild(AuthorizedUser user, int guildId)
+        public Task<GuildProfileDto> LeaveGuildAsync(AuthorizedUser user, int guildId)
         {
             GuildEntity studentGuild = _database.Guild.ReadForStudent(user.Id);
             if (studentGuild == null || studentGuild.Id != guildId)

@@ -9,7 +9,6 @@ using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Transferable.Study;
 using Microsoft.EntityFrameworkCore;
-using MoreLinq;
 
 namespace Iwentys.Core.Services
 {

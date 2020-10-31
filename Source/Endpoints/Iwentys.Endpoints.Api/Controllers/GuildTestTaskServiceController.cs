@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services;
 using Iwentys.Endpoints.Api.Tools;
@@ -25,24 +26,27 @@ namespace Iwentys.Endpoints.Api.Controllers
         }
 
         [HttpPut("accept")]
-        public ActionResult<GuildTestTaskInfoResponse> Accept([FromQuery]int guildId)
+        public async Task<ActionResult<GuildTestTaskInfoResponse>> Accept([FromQuery]int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(_guildTestTaskService.Accept(user, guildId));
+            GuildTestTaskInfoResponse testTask = await _guildTestTaskService.Accept(user, guildId);
+            return Ok(testTask);
         }
 
         [HttpPut("submit")]
-        public ActionResult<GuildTestTaskInfoResponse> Accept([FromQuery] int guildId, [FromQuery] string projectOwner, [FromQuery] string projectName)
+        public async Task<ActionResult<GuildTestTaskInfoResponse>> AcceptAsync([FromQuery] int guildId, [FromQuery] string projectOwner, [FromQuery] string projectName)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(_guildTestTaskService.Submit(user, guildId, projectOwner, projectName));
+            GuildTestTaskInfoResponse testTask = await _guildTestTaskService.Submit(user, guildId, projectOwner, projectName);
+            return Ok(testTask);
         }
 
         [HttpPut("complete")]
-        public ActionResult<GuildTestTaskInfoResponse> Submit([FromQuery] int guildId, [FromQuery] int taskSolveOwnerId)
+        public async Task<ActionResult<GuildTestTaskInfoResponse>> Submit([FromQuery] int guildId, [FromQuery] int taskSolveOwnerId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(_guildTestTaskService.Complete(user, guildId, taskSolveOwnerId));
+            GuildTestTaskInfoResponse testTask = await _guildTestTaskService.Complete(user, guildId, taskSolveOwnerId);
+            return Ok(testTask);
         }
     }
 }

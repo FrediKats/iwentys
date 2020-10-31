@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Core.DomainModel;
 using Iwentys.Database.Context;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities.Guilds;
+using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Tournaments;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Core.Services
 {
@@ -23,13 +26,13 @@ namespace Iwentys.Core.Services
             _githubUserDataService = githubUserDataService;
         }
 
-        public TournamentInfoResponse[] Get()
+        public async Task<List<TournamentInfoResponse>> Get()
         {
-            return _databaseAccessor.Tournament
+            List<TournamentEntity> tournaments = await _databaseAccessor.Tournament
                 .Read()
-                .AsEnumerable()
-                .Select(TournamentInfoResponse.Wrap)
-                .ToArray();
+                .ToListAsync();
+
+            return tournaments.SelectToList(TournamentInfoResponse.Wrap);
         }
 
         public TournamentInfoResponse[] GetActive()

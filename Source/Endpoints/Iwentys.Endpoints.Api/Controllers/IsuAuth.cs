@@ -1,4 +1,5 @@
-﻿using Iwentys.Endpoints.Api.Tools;
+﻿using System.Threading.Tasks;
+using Iwentys.Endpoints.Api.Tools;
 using Iwentys.Endpoints.Shared;
 using Iwentys.Endpoints.Shared.Auth;
 using Iwentys.Models.Transferable;
@@ -24,15 +25,15 @@ namespace Iwentys.Endpoints.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IsuAuthResponse> Get(string code, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
+        public async Task<ActionResult<IsuAuthResponse>> Get(string code, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
             _logger.LogInformation($"Get code for isu auth: {code}");
 
-            AuthorizeResponse authResponse = _isuApiAccessor.Authorize(code).Result;
+            AuthorizeResponse authResponse = await _isuApiAccessor.Authorize(code);
             if (!authResponse.IsSuccess)
                 return BadRequest(authResponse.ErrorResponse);
 
-            IsuUserDataResponse userData = _isuApiAccessor.GetUserData(authResponse.TokenResponse.AccessToken).Result;
+            IsuUserDataResponse userData = await _isuApiAccessor.GetUserData(authResponse.TokenResponse.AccessToken);
 
             IwentysAuthResponse token = TokenGenerator.Generate(userData.Id, signingEncodingKey);
             var response = new IsuAuthResponse

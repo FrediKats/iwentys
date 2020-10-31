@@ -71,7 +71,7 @@ namespace Iwentys.Database.Repositories
             return questEntity;
         }
 
-        public QuestEntity Create(StudentEntity student, CreateQuestRequest createQuest)
+        public async Task<QuestEntity> CreateAsync(StudentEntity student, CreateQuestRequest createQuest)
         {
             //TODO: add transaction
             if (student.BarsPoints < createQuest.Price)
@@ -79,14 +79,9 @@ namespace Iwentys.Database.Repositories
 
             student.BarsPoints -= createQuest.Price;
             var quest = QuestEntity.New(createQuest.Title, createQuest.Description, createQuest.Price, createQuest.Deadline, student);
-            return _dbContext.Quests.Add(quest).Entity;
-        }
-
-        public QuestEntity Create(QuestEntity entity)
-        {
-            EntityEntry<QuestEntity> createdEntity = _dbContext.Quests.Add(entity);
-            _dbContext.SaveChanges();
-            return createdEntity.Entity;
+            EntityEntry<QuestEntity> entity = await _dbContext.Quests.AddAsync(quest);
+            await _dbContext.SaveChangesAsync();
+            return entity.Entity;
         }
     }
 }

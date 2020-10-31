@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services;
 using Iwentys.Endpoints.Api.Tools;
@@ -35,24 +36,27 @@ namespace Iwentys.Endpoints.Api.Controllers
         }
 
         [HttpPost("create")]
-        public ActionResult<TributeInfoResponse> SendTribute([FromBody] CreateProjectRequest createProject)
+        public async Task<ActionResult<TributeInfoResponse>> SendTribute([FromBody] CreateProjectRequest createProject)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(_guildService.CreateTribute(user, createProject));
+            TributeInfoResponse tributes = await _guildService.CreateTribute(user, createProject);
+            return Ok(tributes);
         }
 
         [HttpPut("cancel")]
-        public ActionResult<TributeInfoResponse> CancelTribute([FromBody] long tributeId)
+        public async Task<ActionResult<TributeInfoResponse>> CancelTribute([FromBody] long tributeId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(_guildService.CancelTribute(user, tributeId));
+            TributeInfoResponse tributes = await _guildService.CancelTribute(user, tributeId);
+            return Ok(tributes);
         }
 
         [HttpPut("complete")]
-        public ActionResult<TributeInfoResponse> CompleteTribute([FromBody] TributeCompleteRequest tributeCompleteRequest)
+        public async Task<ActionResult<TributeInfoResponse>> CompleteTribute([FromBody] TributeCompleteRequest tributeCompleteRequest)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(_guildService.CompleteTribute(user, tributeCompleteRequest));
+            TributeInfoResponse tributes = await _guildService.CompleteTribute(user, tributeCompleteRequest);
+            return Ok(tributes);
         }
     }
 }

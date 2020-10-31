@@ -29,7 +29,7 @@ namespace Iwentys.Core.Services
             _githubApiAccessor = githubApiAccessor;
         }
 
-        public async Task<GuildProfileShortInfoDto> Create(AuthorizedUser creator, GuildCreateRequest arguments)
+        public async Task<GuildProfileShortInfoDto> CreateAsync(AuthorizedUser creator, GuildCreateRequest arguments)
         {
             StudentEntity creatorUser = await _database.Student.GetAsync(creator.Id);
 
@@ -42,7 +42,7 @@ namespace Iwentys.Core.Services
                 .ToGuildProfileShortInfoDto();
         }
 
-        public async Task<GuildProfileShortInfoDto> Update(AuthorizedUser user, GuildUpdateRequest arguments)
+        public async Task<GuildProfileShortInfoDto> UpdateAsync(AuthorizedUser user, GuildUpdateRequest arguments)
         {
             StudentEntity student = await user.GetProfile(_database.Student);
             GuildEntity info = await _database.Guild.GetAsync(arguments.Id);
@@ -93,7 +93,7 @@ namespace Iwentys.Core.Services
                 .ToArray();
         }
 
-        public async Task<GuildProfileDto> Get(int id, int? userId)
+        public async Task<GuildProfileDto> GetAsync(int id, int? userId)
         {
             GuildEntity guild = await _database.Guild.GetAsync(id);
 
@@ -108,7 +108,7 @@ namespace Iwentys.Core.Services
                 .ToGuildProfileDto(userId);
         }
 
-        public async Task<GithubRepository> AddPinnedRepository(AuthorizedUser user, int guildId, string owner, string projectName)
+        public async Task<GithubRepository> AddPinnedRepositoryAsync(AuthorizedUser user, int guildId, string owner, string projectName)
         {
             GuildEntity guild = await _database.Guild.GetAsync(guildId);
             StudentEntity profile = await user.GetProfile(_database.Student);
