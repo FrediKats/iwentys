@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
@@ -33,10 +34,10 @@ namespace Iwentys.Database.Repositories
             return createdEntity.Entity;
         }
 
-        public void Delete(long key)
+        public Task<int> Delete(long key)
         {
             _dbContext.Tributes.Remove(this.Get(key));
-            _dbContext.SaveChanges();
+            return _dbContext.SaveChangesAsync();
         }
 
         public TributeEntity Create(GuildEntity guild, GithubProjectEntity githubProject)

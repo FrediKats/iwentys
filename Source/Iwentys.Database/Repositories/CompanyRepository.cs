@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;
@@ -43,11 +44,10 @@ namespace Iwentys.Database.Repositories
             return createdEntity.Entity;
         }
 
-        public void Delete(int key)
+        public Task<int> Delete(int key)
         {
-            CompanyEntity entity = this.Get(key);
-            _dbContext.Companies.Remove(entity);
-            _dbContext.SaveChanges();
+            _dbContext.Companies.Remove(this.Get(key));
+            return _dbContext.SaveChangesAsync();
         }
 
         public StudentEntity[] ReadWorkers(CompanyEntity companyEntity)

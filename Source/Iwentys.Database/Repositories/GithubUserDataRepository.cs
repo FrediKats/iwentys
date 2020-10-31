@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities.Github;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -38,10 +39,10 @@ namespace Iwentys.Database.Repositories
             return createdEntry.Entity;
         }
 
-        public void Delete(int key)
+        public Task<int> Delete(int key)
         {
             _dbContext.GithubUsersData.Remove(this.Get(key));
-            _dbContext.SaveChanges();
+            return _dbContext.SaveChangesAsync();
         }
 
         public GithubUserEntity FindByUsername(string username)

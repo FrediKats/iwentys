@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models;
 using Iwentys.Models.Entities.Study;
@@ -35,11 +36,10 @@ namespace Iwentys.Database.Repositories
             return createdEntity.Entity;
         }
 
-        public void Delete(int key)
+        public Task<int> Delete(int key)
         {
-            StudyGroupEntity studyGroup = this.Get(key);
-            _dbContext.StudyGroups.Remove(studyGroup);
-            _dbContext.SaveChanges();
+            _dbContext.StudyGroups.Remove(this.Get(key));
+            return _dbContext.SaveChangesAsync();
         }
 
         public StudyGroupEntity ReadByNamePattern(GroupName group)

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models;
 using Iwentys.Models.Entities;
@@ -41,10 +42,10 @@ namespace Iwentys.Database.Repositories
             return createdEntity.Entity;
         }
 
-        public void Delete(long key)
+        public Task<int> Delete(long key)
         {
             _dbContext.StudentProjects.Remove(this.Get(key));
-            _dbContext.SaveChanges();
+            return _dbContext.SaveChangesAsync();
         }
 
         public GithubProjectEntity GetOrCreate(GithubRepository project, StudentEntity creator)

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities.Guilds;
 using Microsoft.EntityFrameworkCore;
@@ -49,10 +50,10 @@ namespace Iwentys.Database.Repositories
             return result.Entity;
         }
 
-        public void Delete(int key)
+        public Task<int> Delete(int key)
         {
             _dbContext.GuildRecruitment.Remove(ReadById(key));
-            _dbContext.SaveChanges();
+            return _dbContext.SaveChangesAsync();
         }
     }
 }

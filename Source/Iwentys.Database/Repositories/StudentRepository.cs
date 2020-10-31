@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -48,11 +49,11 @@ namespace Iwentys.Database.Repositories
             return createdEntity.Entity;
         }
 
-        public void Delete(int key)
+        public Task<int> Delete(int key)
         {
             StudentEntity user = this.Get(key);
             _dbContext.Students.Remove(user);
-            _dbContext.SaveChanges();
+            return _dbContext.SaveChangesAsync();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models;
 using Iwentys.Models.Entities.Study;
@@ -36,11 +37,10 @@ namespace Iwentys.Database.Repositories
             return createdEntity.Entity;
         }
 
-        public void Delete(int key)
+        public Task<int> Delete(int key)
         {
-            GroupSubjectEntity groupSubjectEntity = this.Get(key);
-            _dbContext.GroupSubjects.Remove(groupSubjectEntity);
-            _dbContext.SaveChanges();
+            _dbContext.GroupSubjects.Remove(this.Get(key));
+            return _dbContext.SaveChangesAsync();
         }
 
         public IEnumerable<GroupSubjectEntity> GetSubjectForGroupForDto(StudySearchParameters searchParameters)

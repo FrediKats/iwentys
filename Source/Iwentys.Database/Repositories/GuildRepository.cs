@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
@@ -50,11 +51,10 @@ namespace Iwentys.Database.Repositories
             return createdEntity.Entity;
         }
 
-        public void Delete(int key)
+        public Task<int> Delete(int key)
         {
-            GuildEntity user = this.Get(key);
-            _dbContext.Guilds.Remove(user);
-            _dbContext.SaveChanges();
+            _dbContext.Guilds.Remove(this.Get(key));
+            return _dbContext.SaveChangesAsync();
         }
 
         public GuildEntity Create(StudentEntity creator, GuildCreateRequest arguments)

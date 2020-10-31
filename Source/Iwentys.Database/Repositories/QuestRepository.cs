@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;
@@ -38,10 +39,10 @@ namespace Iwentys.Database.Repositories
             return createdEntity.Entity;
         }
 
-        public void Delete(int key)
+        public Task<int> Delete(int key)
         {
             _dbContext.Quests.Remove(this.Get(key));
-            _dbContext.SaveChanges();
+            return _dbContext.SaveChangesAsync();
         }
 
         public void SendResponse(QuestEntity questEntity, int userId)

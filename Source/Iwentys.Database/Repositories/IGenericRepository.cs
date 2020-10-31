@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Models.Exceptions;
 
 namespace Iwentys.Database.Repositories
@@ -8,7 +9,7 @@ namespace Iwentys.Database.Repositories
         IQueryable<TEntity> Read();
         TEntity ReadById(TKey key);
         TEntity Update(TEntity entity);
-        void Delete(TKey key);
+        Task<int> Delete(TKey key);
     }
 
     public static class GenericRepositoryExtensions
