@@ -41,7 +41,7 @@ namespace Iwentys.Core.DomainModel.Guilds
             return new GuildProfileShortInfoDto(Profile);
         }
 
-        public GuildProfileDto ToGuildProfileDto(int? userId = null)
+        public async Task<GuildProfileDto> ToGuildProfileDto(int? userId = null)
         {
             GuildMemberLeaderBoard dashboard = GetMemberDashboard();
 
@@ -58,7 +58,7 @@ namespace Iwentys.Core.DomainModel.Guilds
             if (userId != null && Profile.Members.Any(m => m.MemberId == userId))
                 info.Tribute = _dbAccessor.Tribute.ReadStudentActiveTribute(Profile.Id, userId.Value)?.To(ActiveTributeResponse.Create);
             if (userId != null)
-                info.UserMembershipState = GetUserMembershipState(userId.Value);
+                info.UserMembershipState = await GetUserMembershipState(userId.Value);
 
             return info;
         }
@@ -95,9 +95,9 @@ namespace Iwentys.Core.DomainModel.Guilds
             };
         }
 
-        public UserMembershipState GetUserMembershipState(Int32 userId)
+        public async Task<UserMembershipState> GetUserMembershipState(Int32 userId)
         {
-            StudentEntity user = _dbAccessor.Student.Get(userId);
+            StudentEntity user = await _dbAccessor.Student.Get(userId);
             GuildEntity userGuild = _dbAccessor.Guild.ReadForStudent(user.Id);
             GuildMemberType? userStatusInGuild = Profile.Members.Find(m => m.Member.Id == user.Id)?.MemberType;
 

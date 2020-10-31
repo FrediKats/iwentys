@@ -18,10 +18,10 @@ namespace Iwentys.Database.Repositories
 
     public static class GenericRepositoryExtensions
     {
-        public static TEntity Get<TEntity, TKey>(this IGenericRepository<TEntity, TKey> repository, TKey key)
+        public static async Task<TEntity> Get<TEntity, TKey>(this IGenericRepository<TEntity, TKey> repository, TKey key)
         {
-            //TODO: add async
-            return repository.ReadById(key).Result ?? throw EntityNotFoundException.Create(repository.GetType().Name, key);
+            TEntity entity = await repository.ReadById(key);
+            return entity ?? throw EntityNotFoundException.Create(repository.GetType().Name, key);
         }
     }
 }

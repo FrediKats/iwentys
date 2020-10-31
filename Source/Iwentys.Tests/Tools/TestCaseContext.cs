@@ -73,7 +73,7 @@ namespace Iwentys.Tests.Tools
 
         public TestCaseContext WithGuild(AuthorizedUser user, out GuildProfileDto guildProfile)
         {
-            guildProfile = GuildService.Create(user, new GuildCreateRequest()).To(g => GuildService.Get(g.Id, user.Id));
+            guildProfile = GuildService.Create(user, new GuildCreateRequest()).To(g => GuildService.Get(g.Id, user.Id).Result);
             return this;
         }
 

@@ -35,20 +35,21 @@ namespace Iwentys.Core.Services
                 .SelectToArray(cw => cw.To(CompanyWorkRequestDto.Create));
         }
 
-        public void RequestAdding(int companyId, int userId)
+        public async Task RequestAdding(int companyId, int userId)
         {
-            CompanyEntity companyEntity = _database.Company.Get(companyId);
-            StudentEntity profile = _database.Student.Get(userId);
+            CompanyEntity companyEntity = await _database.Company.Get(companyId);
+            StudentEntity profile = await _database.Student.Get(userId);
             _database.Company.AddCompanyWorkerRequest(companyEntity, profile);
         }
 
-        public void ApproveAdding(int userId, int adminId)
+        public async Task ApproveAdding(int userId, int adminId)
         {
-            _database.Student
-                .Get(adminId)
-                .EnsureIsAdmin();
+            var student = await _database.Student
+                .Get(adminId);
 
-            StudentEntity user = _database.Student.Get(userId);
+            student.EnsureIsAdmin();
+
+            StudentEntity user = await _database.Student.Get(userId);
 
             _database.Company.ApproveRequest(user);
         }

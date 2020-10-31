@@ -75,7 +75,7 @@ namespace Iwentys.Core.Services
         public async Task<GuildTestTaskInfoResponse> Complete(AuthorizedUser user, int guildId, int taskSolveOwnerId)
         {
             StudentEntity review = await user.GetProfile(_database.Student);
-            review.EnsureIsMentor(_database.Guild, guildId);
+            await review.EnsureIsMentor(_database.Guild, guildId);
 
             GuildTestTaskSolvingInfoEntity testTask = _database.GuildTestTaskSolvingInfo
                 .Read()

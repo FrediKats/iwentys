@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-
+using System.Threading.Tasks;
 using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
@@ -22,9 +22,9 @@ namespace Iwentys.Core.DomainModel
 
     public static class GuildMentorUserExtensions
     {
-        public static GuildMentorUser EnsureIsMentor(this StudentEntity student, GuildRepository guildRepository, int guildId)
+        public static async Task<GuildMentorUser> EnsureIsMentor(this StudentEntity student, GuildRepository guildRepository, int guildId)
         {
-            GuildEntity guild = guildRepository.Get(guildId);
+            GuildEntity guild = await guildRepository.Get(guildId);
             GuildMemberEntity membership = guild.Members.First(m => m.MemberId == student.Id);
             if (!membership.MemberType.IsEditor())
                 throw InnerLogicException.NotEnoughPermission(student.Id);

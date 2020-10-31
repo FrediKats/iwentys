@@ -26,7 +26,7 @@
     protected override void OnInitialized()
     {
     //TODO: fix
-        Guild = GuildService.Get(GuildId, 228617);
+        Guild = GuildService.Get(GuildId, 228617).Result;
     }
 
 }

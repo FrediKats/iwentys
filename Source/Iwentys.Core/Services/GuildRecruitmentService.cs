@@ -1,4 +1,5 @@
-﻿using Iwentys.Database.Context;
+﻿using System.Threading.Tasks;
+using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities.Guilds;
 
@@ -13,9 +14,9 @@ namespace Iwentys.Core.Services
             _databaseAccessor = databaseAccessor;
         }
 
-        public GuildRecruitmentEntity Create(int guildId, int memberId, string description)
+        public async Task<GuildRecruitmentEntity> Create(int guildId, int memberId, string description)
         {
-            GuildEntity guild = _databaseAccessor.Guild.Get(guildId);
+            GuildEntity guild = await _databaseAccessor.Guild.Get(guildId);
             return _databaseAccessor.GuildRecruitment.Create(guild, guild.Members.Find(m => m.MemberId == memberId), description);
         }
     }

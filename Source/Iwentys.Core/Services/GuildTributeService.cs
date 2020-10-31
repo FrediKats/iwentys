@@ -51,7 +51,7 @@ namespace Iwentys.Core.Services
 
         public async Task<TributeInfoResponse> CreateTribute(AuthorizedUser user, CreateProjectRequest createProject)
         {
-            StudentEntity student = _database.Student.Get(user.Id);
+            StudentEntity student = await _database.Student.Get(user.Id);
             if (student.GithubUsername != createProject.Owner)
                 throw InnerLogicException.TributeEx.TributeCanBeSendFromStudentAccount(student, createProject);
 
@@ -72,7 +72,7 @@ namespace Iwentys.Core.Services
         public async Task<TributeInfoResponse> CancelTribute(AuthorizedUser user, long tributeId)
         {
             StudentEntity student = await user.GetProfile(_database.Student);
-            TributeEntity tribute = _database.Tribute.Get(tributeId);
+            TributeEntity tribute = await _database.Tribute.Get(tributeId);
 
             if (tribute.State != TributeState.Active)
                 throw InnerLogicException.TributeEx.IsNotActive(tribute);
@@ -83,7 +83,7 @@ namespace Iwentys.Core.Services
             }
             else
             {
-                student.EnsureIsMentor(_database.Guild, tribute.GuildId);
+                await student.EnsureIsMentor(_database.Guild, tribute.GuildId);
                 tribute.SetCanceled();
             }
 
@@ -94,8 +94,8 @@ namespace Iwentys.Core.Services
         public async Task<TributeInfoResponse> CompleteTribute(AuthorizedUser user, TributeCompleteRequest tributeCompleteRequest)
         {
             StudentEntity student = await user.GetProfile(_database.Student);
-            TributeEntity tribute = _database.Tribute.Get(tributeCompleteRequest.TributeId);
-            GuildMentorUser mentor = student.EnsureIsMentor(_database.Guild, tribute.GuildId);
+            TributeEntity tribute = await _database.Tribute.Get(tributeCompleteRequest.TributeId);
+            GuildMentorUser mentor = await student.EnsureIsMentor(_database.Guild, tribute.GuildId);
 
             if (tribute.State != TributeState.Active)
                 throw InnerLogicException.TributeEx.IsNotActive(tribute);

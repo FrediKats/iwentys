@@ -1,4 +1,5 @@
-﻿using FluentResults;
+﻿using System.Threading.Tasks;
+using FluentResults;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
@@ -15,11 +16,11 @@ namespace Iwentys.Core.Services
             _database = database;
         }
 
-        public Result<BarsPointTransactionLog> Transfer(int fromId, int toId, int value)
+        public async Task<Result<BarsPointTransactionLog>> Transfer(int fromId, int toId, int value)
         {
             //TODO: Use transaction for whole method
-            StudentEntity from = _database.Student.Get(fromId);
-            StudentEntity to = _database.Student.Get(toId);
+            StudentEntity from = await _database.Student.Get(fromId);
+            StudentEntity to = await _database.Student.Get(toId);
 
             Result<BarsPointTransactionLog> transaction;
             if (from.BarsPoints < value)
@@ -32,8 +33,8 @@ namespace Iwentys.Core.Services
                 from.BarsPoints -= value;
                 to.BarsPoints += value;
 
-                _database.Student.Update(from);
-                _database.Student.Update(to);
+                await _database.Student.Update(@from);
+                await _database.Student.Update(to);
             }
 
             _database.BarsPointTransactionLog.Create(transaction.Value);

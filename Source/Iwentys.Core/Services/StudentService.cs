@@ -33,9 +33,10 @@ namespace Iwentys.Core.Services
                 .Select(s => new StudentFullProfileDto(s)).ToArray();
         }
 
-        public StudentFullProfileDto Get(int id)
+        public async Task<StudentFullProfileDto> Get(int id)
         {
-            return _databaseAccessor.Student.Get(id).To(s => new StudentFullProfileDto(s));
+            StudentEntity student = await _databaseAccessor.Student.Get(id);
+            return new StudentFullProfileDto(student);
         }
 
         public List<StudentFullProfileDto> Get(string groupName)
@@ -57,30 +58,31 @@ namespace Iwentys.Core.Services
 
             student = _databaseAccessor.Student.Create(StudentEntity.CreateFromIsu(id, "userInfo.FirstName", "userInfo.MiddleName", "userInfo.SecondName"));
 
-            student = _databaseAccessor.Student.Get(student.Id);
+            student = await _databaseAccessor.Student.Get(student.Id);
 
             return student
                 .To(s => new StudentFullProfileDto(s));
         }
 
-        public StudentFullProfileDto AddGithubUsername(int id, string githubUsername)
+        public async Task<StudentFullProfileDto> AddGithubUsername(int id, string githubUsername)
         {
             if (_databaseAccessor.Student.Read().Any(s => s.GithubUsername == githubUsername))
                 throw InnerLogicException.StudentEx.GithubAlreadyUser(githubUsername);
 
             //TODO:
             //throw new NotImplementedException("Need to validate github credentials");
-            StudentEntity user = _databaseAccessor.Student.Get(id);
+            StudentEntity user = await _databaseAccessor.Student.Get(id);
             user.GithubUsername = githubUsername;
-            _databaseAccessor.Student.Update(user);
+            await _databaseAccessor.Student.Update(user);
 
             _achievementProvider.Achieve(AchievementList.AddGithubAchievement, user.Id);
-            return new StudentFullProfileDto(_databaseAccessor.Student.Get(id));
+            user = await _databaseAccessor.Student.Get(id);
+            return new StudentFullProfileDto(user);
         }
 
         public async Task<StudentFullProfileDto> RemoveGithubUsername(int id, string githubUsername)
         {
-            StudentEntity user = _databaseAccessor.Student.Get(id);
+            StudentEntity user = await _databaseAccessor.Student.Get(id);
             user.GithubUsername = null;
             StudentEntity updatedUser = await _databaseAccessor.Student.Update(user);
             return new StudentFullProfileDto(updatedUser);
