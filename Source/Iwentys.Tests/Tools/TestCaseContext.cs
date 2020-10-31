@@ -67,7 +67,7 @@ namespace Iwentys.Tests.Tools
                 GithubUsername = $"{Constants.GithubUsername}{id}"
             };
 
-            user = AuthorizedUser.DebugAuth(StudentRepository.Create(userInfo).Id);
+            user = AuthorizedUser.DebugAuth(StudentRepository.CreateAsync(userInfo).Id);
             return this;
         }
 
@@ -118,7 +118,7 @@ namespace Iwentys.Tests.Tools
         public TestCaseContext WithCompany(out CompanyInfoResponse companyInfo)
         {
             var company = new CompanyEntity();
-            company = DatabaseAccessor.Company.Create(company);
+            company = DatabaseAccessor.Company.Create(company).Result;
             companyInfo = CompanyInfoResponse.Create(company);
             return this;
         }

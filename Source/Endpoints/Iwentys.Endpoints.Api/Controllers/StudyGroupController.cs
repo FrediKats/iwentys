@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Iwentys.Core.Services;
 using Iwentys.Models.Entities.Study;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +18,10 @@ namespace Iwentys.Endpoints.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<StudyGroupEntity>> GetAllGroups([FromQuery] int? courseId)
+        public async Task<ActionResult<List<StudyGroupEntity>>> GetAllGroups([FromQuery] int? courseId)
         {
-            return Ok(_studyLeaderboardService.GetStudyGroupsForDto(courseId));
+            List<StudyGroupEntity> result = await _studyLeaderboardService.GetStudyGroupsForDtoAsync(courseId);
+            return Ok(result);
         }
     }
 }

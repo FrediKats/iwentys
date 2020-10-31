@@ -38,19 +38,19 @@ namespace Iwentys.Database.Repositories
             return _dbContext.GuildRecruitment.Include(r => r.RecruitmentMembers);
         }
 
-        public Task<GuildRecruitmentEntity> ReadById(int key)
+        public Task<GuildRecruitmentEntity> ReadByIdAsync(int key)
         {
             return Read().FirstOrDefaultAsync(g => g.Id == key);
         }
 
-        public async Task<GuildRecruitmentEntity> Update(GuildRecruitmentEntity entity)
+        public async Task<GuildRecruitmentEntity> UpdateAsync(GuildRecruitmentEntity entity)
         {
             EntityEntry<GuildRecruitmentEntity> result = _dbContext.GuildRecruitment.Update(entity);
             await _dbContext.SaveChangesAsync();
             return result.Entity;
         }
 
-        public Task<int> Delete(int key)
+        public Task<int> DeleteAsync(int key)
         {
             return _dbContext.GuildRecruitment.Where(gr => gr.Id == key).DeleteFromQueryAsync();
         }

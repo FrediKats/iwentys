@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services;
 using Iwentys.Endpoints.Api.Tools;
@@ -20,10 +21,11 @@ namespace Iwentys.Endpoints.Api.Controllers
         }
 
         [HttpGet("created")]
-        public ActionResult<List<QuestInfoResponse>> GetCreatedByUser()
+        public async Task<ActionResult<List<QuestInfoResponse>>> GetCreatedByUser()
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(_questService.GetCreatedByUser(user));
+            List<QuestInfoResponse> quests = await _questService.GetCreatedByUserAsync(user);
+            return Ok(quests);
         }
 
         [HttpGet("completed")]

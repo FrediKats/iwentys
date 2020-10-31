@@ -13,7 +13,7 @@ namespace Iwentys.Core.DomainModel
 
         public Task<StudentEntity> GetProfile(StudentRepository repository)
         {
-            return repository.ReadById(Id);
+            return repository.ReadByIdAsync(Id);
         }
     }
 }

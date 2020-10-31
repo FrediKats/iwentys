@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services;
 using Iwentys.Endpoints.Api.Tools;
@@ -20,29 +21,32 @@ namespace Iwentys.Endpoints.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<StudentFullProfileDto>> Get()
+        public async Task<ActionResult<List<StudentFullProfileDto>>> Get()
         {
-            return Ok(_studentService.Get());
+            List<StudentFullProfileDto> students = await _studentService.GetAsync();
+            return Ok(students);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<StudentFullProfileDto> Get(int id)
+        public async Task<ActionResult<StudentFullProfileDto>> Get(int id)
         {
-            return Ok(_studentService.Get(id));
+            StudentFullProfileDto student = await _studentService.GetAsync(id);
+            return Ok(student);
         }
 
         [HttpGet("for-group/{groupName}")]
-        public ActionResult<List<StudentFullProfileDto>> Get(string groupName)
+        public async Task<ActionResult<List<StudentFullProfileDto>>> Get(string groupName)
         {
-            return Ok(_studentService.Get(groupName));
+            List<StudentFullProfileDto> students = await _studentService.GetAsync(groupName);
+            return Ok(students);
         }
 
         [HttpPut]
-        public ActionResult<StudentFullProfileDto> Update([FromBody] StudentUpdateRequest studentUpdateRequest)
+        public async Task<ActionResult<StudentFullProfileDto>> Update([FromBody] StudentUpdateRequest studentUpdateRequest)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-
-            return Ok(_studentService.AddGithubUsername(user.Id, studentUpdateRequest.GithubUsername));
+            StudentFullProfileDto student = await _studentService.AddGithubUsernameAsync(user.Id, studentUpdateRequest.GithubUsername);
+            return Ok(student);
         }
     }
 }

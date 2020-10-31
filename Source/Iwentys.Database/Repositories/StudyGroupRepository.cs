@@ -24,19 +24,19 @@ namespace Iwentys.Database.Repositories
                 .ThenInclude(s => s.StudyProgramEntity);
         }
 
-        public Task<StudyGroupEntity> ReadById(int key)
+        public Task<StudyGroupEntity> ReadByIdAsync(int key)
         {
             return Read().FirstOrDefaultAsync(s => s.Id == key);
         }
 
-        public async Task<StudyGroupEntity> Update(StudyGroupEntity entity)
+        public async Task<StudyGroupEntity> UpdateAsync(StudyGroupEntity entity)
         {
             EntityEntry<StudyGroupEntity> createdEntity = _dbContext.StudyGroups.Update(entity);
             await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
-        public Task<int> Delete(int key)
+        public Task<int> DeleteAsync(int key)
         {
             return _dbContext.StudyGroups.Where(sg => sg.Id == key).DeleteFromQueryAsync();
         }

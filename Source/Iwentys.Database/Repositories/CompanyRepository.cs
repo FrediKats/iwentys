@@ -18,10 +18,10 @@ namespace Iwentys.Database.Repositories
             _dbContext = dbContext;
         }
 
-        public CompanyEntity Create(CompanyEntity entity)
+        public async Task<CompanyEntity> Create(CompanyEntity entity)
         {
-            EntityEntry<CompanyEntity> createdEntity = _dbContext.Companies.Add(entity);
-            _dbContext.SaveChanges();
+            EntityEntry<CompanyEntity> createdEntity = await _dbContext.Companies.AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
@@ -30,21 +30,21 @@ namespace Iwentys.Database.Repositories
             return _dbContext.Companies;
         }
 
-        public Task<CompanyEntity> ReadById(int key)
+        public Task<CompanyEntity> ReadByIdAsync(int key)
         {
             return _dbContext
                 .Companies
                 .FirstOrDefaultAsync(v => v.Id == key);
         }
 
-        public async Task<CompanyEntity> Update(CompanyEntity entity)
+        public async Task<CompanyEntity> UpdateAsync(CompanyEntity entity)
         {
             EntityEntry<CompanyEntity> createdEntity = _dbContext.Companies.Update(entity);
             await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
-        public Task<int> Delete(int key)
+        public Task<int> DeleteAsync(int key)
         {
             return _dbContext.Companies.Where(c => c.Id == key).DeleteFromQueryAsync();
         }

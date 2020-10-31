@@ -27,19 +27,19 @@ namespace Iwentys.Database.Repositories
                 .Include(r => r.Responses);
         }
 
-        public Task<QuestEntity> ReadById(int key)
+        public Task<QuestEntity> ReadByIdAsync(int key)
         {
             return Read().FirstOrDefaultAsync(q => q.Id == key);
         }
 
-        public async Task<QuestEntity> Update(QuestEntity entity)
+        public async Task<QuestEntity> UpdateAsync(QuestEntity entity)
         {
             EntityEntry<QuestEntity> createdEntity = _dbContext.Quests.Update(entity);
             await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
-        public Task<int> Delete(int key)
+        public Task<int> DeleteAsync(int key)
         {
             return _dbContext.Quests.Where(q => q.Id == key).DeleteFromQueryAsync();
         }

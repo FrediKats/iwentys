@@ -28,19 +28,19 @@ namespace Iwentys.Database.Repositories
             return _dbContext.GithubUsersData;
         }
 
-        public Task<GithubUserEntity> ReadById(int key)
+        public Task<GithubUserEntity> ReadByIdAsync(int key)
         {
             return _dbContext.GithubUsersData.FirstOrDefaultAsync(v => v.StudentId == key);
         }
 
-        public async Task<GithubUserEntity> Update(GithubUserEntity entity)
+        public async Task<GithubUserEntity> UpdateAsync(GithubUserEntity entity)
         {
             EntityEntry<GithubUserEntity> createdEntry = _dbContext.GithubUsersData.Update(entity);
             await _dbContext.SaveChangesAsync();
             return createdEntry.Entity;
         }
 
-        public Task<int> Delete(int key)
+        public Task<int> DeleteAsync(int key)
         {
             return _dbContext.GithubUsersData.Where(gu => gu.StudentId == key).DeleteFromQueryAsync();
         }

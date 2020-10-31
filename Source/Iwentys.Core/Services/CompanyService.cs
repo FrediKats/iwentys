@@ -24,7 +24,7 @@ namespace Iwentys.Core.Services
 
         public async Task<CompanyInfoResponse> Get(int id)
         {
-            CompanyEntity company = await _database.Company.ReadById(id);
+            CompanyEntity company = await _database.Company.ReadByIdAsync(id);
             return WrapToDto(company);
         }
 
@@ -37,19 +37,19 @@ namespace Iwentys.Core.Services
 
         public async Task RequestAdding(int companyId, int userId)
         {
-            CompanyEntity companyEntity = await _database.Company.Get(companyId);
-            StudentEntity profile = await _database.Student.Get(userId);
+            CompanyEntity companyEntity = await _database.Company.GetAsync(companyId);
+            StudentEntity profile = await _database.Student.GetAsync(userId);
             _database.Company.AddCompanyWorkerRequest(companyEntity, profile);
         }
 
         public async Task ApproveAdding(int userId, int adminId)
         {
             var student = await _database.Student
-                .Get(adminId);
+                .GetAsync(adminId);
 
             student.EnsureIsAdmin();
 
-            StudentEntity user = await _database.Student.Get(userId);
+            StudentEntity user = await _database.Student.GetAsync(userId);
 
             _database.Company.ApproveRequest(user);
         }

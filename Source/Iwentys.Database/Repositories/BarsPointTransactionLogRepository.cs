@@ -16,10 +16,10 @@ namespace Iwentys.Database.Repositories
             _dbContext = dbContext;
         }
 
-        public BarsPointTransactionLog Create(BarsPointTransactionLog entity)
+        public async Task<BarsPointTransactionLog> CreateAsync(BarsPointTransactionLog entity)
         {
-            EntityEntry<BarsPointTransactionLog> createdEntity = _dbContext.BarsPointTransactionLogs.Add(entity);
-            _dbContext.SaveChanges();
+            EntityEntry<BarsPointTransactionLog> createdEntity = await _dbContext.BarsPointTransactionLogs.AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
@@ -28,19 +28,19 @@ namespace Iwentys.Database.Repositories
             return _dbContext.BarsPointTransactionLogs;
         }
 
-        public Task<BarsPointTransactionLog> ReadById(int key)
+        public Task<BarsPointTransactionLog> ReadByIdAsync(int key)
         {
             return _dbContext.BarsPointTransactionLogs.FirstOrDefaultAsync(v => v.Id == key);
         }
 
-        public async Task<BarsPointTransactionLog> Update(BarsPointTransactionLog entity)
+        public async Task<BarsPointTransactionLog> UpdateAsync(BarsPointTransactionLog entity)
         {
             EntityEntry<BarsPointTransactionLog> createdEntity = _dbContext.BarsPointTransactionLogs.Update(entity);
             await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
-        public Task<int> Delete(int key)
+        public Task<int> DeleteAsync(int key)
         {
             return _dbContext.BarsPointTransactionLogs.Where(e => e.Id == key).DeleteFromQueryAsync();
         }

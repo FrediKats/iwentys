@@ -20,7 +20,7 @@ namespace Iwentys.Tests.Core.Services
 
             StudentEntity student = user.GetProfile(test.StudentRepository).Result;
             student.BarsPoints = 100;
-            test.StudentRepository.Update(student);
+            test.StudentRepository.UpdateAsync(student);
 
             test.WithQuest(user, 50, out QuestInfoResponse quest);
 

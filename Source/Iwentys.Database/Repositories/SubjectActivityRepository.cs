@@ -33,7 +33,7 @@ namespace Iwentys.Database.Repositories
                 .Include(s => s.GroupSubject);
         }
 
-        public async Task<SubjectActivityEntity> Update(SubjectActivityEntity entity)
+        public async Task<SubjectActivityEntity> UpdateAsync(SubjectActivityEntity entity)
         {
             EntityEntry<SubjectActivityEntity> createdEntity = _dbContext.SubjectActivities.Update(entity);
             await _dbContext.SaveChangesAsync();

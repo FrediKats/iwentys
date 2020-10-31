@@ -21,19 +21,19 @@ namespace Iwentys.Database.Repositories
             return _dbContext.Tournaments;
         }
 
-        public Task<TournamentEntity> ReadById(int key)
+        public Task<TournamentEntity> ReadByIdAsync(int key)
         {
             return _dbContext.Tournaments.FirstOrDefaultAsync(v => v.Id == key);
         }
 
-        public async Task<TournamentEntity> Update(TournamentEntity entity)
+        public async Task<TournamentEntity> UpdateAsync(TournamentEntity entity)
         {
             EntityEntry<TournamentEntity> createdEntity = _dbContext.Tournaments.Update(entity);
             await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
-        public Task<int> Delete(int key)
+        public Task<int> DeleteAsync(int key)
         {
             return _dbContext.Tournaments.Where(t => t.Id == key).DeleteFromQueryAsync();
         }

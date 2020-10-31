@@ -97,7 +97,7 @@ namespace Iwentys.Core.DomainModel.Guilds
 
         public async Task<UserMembershipState> GetUserMembershipState(Int32 userId)
         {
-            StudentEntity user = await _dbAccessor.Student.Get(userId);
+            StudentEntity user = await _dbAccessor.Student.GetAsync(userId);
             GuildEntity userGuild = _dbAccessor.Guild.ReadForStudent(user.Id);
             GuildMemberType? userStatusInGuild = Profile.Members.Find(m => m.Member.Id == user.Id)?.MemberType;
 
@@ -143,7 +143,7 @@ namespace Iwentys.Core.DomainModel.Guilds
                 //TODO: need to fix after https://github.com/octokit/octokit.net/pull/2239
                 //_profile.Bio = organizationInfo.Bio;
                 Profile.LogoUrl = organizationInfo.Url;
-                _dbAccessor.Guild.Update(Profile);
+                _dbAccessor.Guild.UpdateAsync(Profile);
             }
 
             return this;

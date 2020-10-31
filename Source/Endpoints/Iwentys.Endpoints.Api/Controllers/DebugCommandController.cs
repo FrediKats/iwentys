@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Iwentys.Core;
 using Iwentys.Core.Services;
 using Iwentys.Database.Context;
@@ -61,16 +62,16 @@ namespace Iwentys.Endpoints.Api.Controllers
         }
 
         [HttpGet("login/{userId}")]
-        public ActionResult<IwentysAuthResponse> Login(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
+        public async Task<ActionResult<IwentysAuthResponse>> Login(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
-            _databaseAccessor.Student.Get(userId);
+            await _databaseAccessor.Student.GetAsync(userId);
             return TokenGenerator.Generate(userId, signingEncodingKey);
         }
 
         [HttpGet("loginOrCreate/{userId}")]
-        public ActionResult<IwentysAuthResponse> LoginOrCreate(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
+        public async Task<ActionResult<IwentysAuthResponse>> LoginOrCreate(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
-            _studentService.GetOrCreate(userId);
+            await _studentService.GetOrCreateAsync(userId);
             return TokenGenerator.Generate(userId, signingEncodingKey);
         }
 
@@ -98,7 +99,7 @@ namespace Iwentys.Endpoints.Api.Controllers
             int groupId = _databaseAccessor.StudyGroup.ReadByNamePattern(new GroupName(arguments.Group)).Id;
             var student = new StudentEntity(arguments, groupId);
 
-            _databaseAccessor.Student.Create(student);
+            _databaseAccessor.Student.CreateAsync(student);
 
             return TokenGenerator.Generate(student.Id, signingEncodingKey);
         }

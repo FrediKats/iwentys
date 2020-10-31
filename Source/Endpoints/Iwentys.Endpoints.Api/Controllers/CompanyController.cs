@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Iwentys.Core.Services;
 using Iwentys.Models.Transferable.Companies;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +24,10 @@ namespace Iwentys.Endpoints.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<CompanyInfoResponse> Get(int id)
+        public async Task<ActionResult<CompanyInfoResponse>> Get(int id)
         {
-            return Ok(_companyService.Get(id));
+            CompanyInfoResponse company = await _companyService.Get(id);
+            return Ok(company);
         }
     }
 }

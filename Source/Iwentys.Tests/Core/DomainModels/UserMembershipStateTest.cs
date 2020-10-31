@@ -89,7 +89,7 @@ namespace Iwentys.Tests.Core.DomainModels
 
             _studentRepository = new Mock<StudentRepository>();
             _studentRepository
-                .Setup(r => r.ReadById(It.IsAny<Int32>()))
+                .Setup(r => r.ReadByIdAsync(It.IsAny<Int32>()))
                 .Returns(Task.FromResult(_student));
 
             //TODO:

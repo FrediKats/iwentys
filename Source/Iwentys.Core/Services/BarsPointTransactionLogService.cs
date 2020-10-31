@@ -19,8 +19,8 @@ namespace Iwentys.Core.Services
         public async Task<Result<BarsPointTransactionLog>> Transfer(int fromId, int toId, int value)
         {
             //TODO: Use transaction for whole method
-            StudentEntity from = await _database.Student.Get(fromId);
-            StudentEntity to = await _database.Student.Get(toId);
+            StudentEntity from = await _database.Student.GetAsync(fromId);
+            StudentEntity to = await _database.Student.GetAsync(toId);
 
             Result<BarsPointTransactionLog> transaction;
             if (from.BarsPoints < value)
@@ -32,12 +32,12 @@ namespace Iwentys.Core.Services
                 transaction = Result.Ok(BarsPointTransactionLog.CompletedFor(from, to, value));
                 from.BarsPoints -= value;
                 to.BarsPoints += value;
-
-                await _database.Student.Update(@from);
-                await _database.Student.Update(to);
+                    
+                await _database.Student.UpdateAsync(@from);
+                await _database.Student.UpdateAsync(to);
             }
 
-            _database.BarsPointTransactionLog.Create(transaction.Value);
+            await _database.BarsPointTransactionLog.CreateAsync(transaction.Value);
 
             return transaction;
         }

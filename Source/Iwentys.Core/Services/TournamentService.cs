@@ -44,17 +44,16 @@ namespace Iwentys.Core.Services
 
         public async Task<TournamentInfoResponse> Get(int tournamentId)
         {
-            TournamentEntity tournamentEntity = await _databaseAccessor.Tournament.ReadById(tournamentId);
+            TournamentEntity tournamentEntity = await _databaseAccessor.Tournament.ReadByIdAsync(tournamentId);
             return TournamentInfoResponse.Wrap(tournamentEntity);
         }
 
         public async Task<TournamentLeaderboardDto> GetLeaderboard(int tournamentId)
         {
-            TournamentEntity tournamentEntity = await _databaseAccessor.Tournament.ReadById(tournamentId);
+            TournamentEntity tournamentEntity = await _databaseAccessor.Tournament.ReadByIdAsync(tournamentId);
             return tournamentEntity
                 .WrapToDomain(_githubApi, _databaseAccessor, _githubUserDataService)
                 .GetLeaderboard();
-                
         }
     }
 }

@@ -16,10 +16,10 @@ namespace Iwentys.Database.Repositories
             _dbContext = dbContext;
         }
 
-        public StudentEntity Create(StudentEntity entity)
+        public async Task<StudentEntity> CreateAsync(StudentEntity entity)
         {
-            EntityEntry<StudentEntity> createdEntity = _dbContext.Students.Add(entity);
-            _dbContext.SaveChanges();
+            EntityEntry<StudentEntity> createdEntity = await _dbContext.Students.AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
@@ -37,19 +37,19 @@ namespace Iwentys.Database.Repositories
                 .ThenInclude(gm => gm.Guild);
         }
 
-        public Task<StudentEntity> ReadById(int key)
+        public Task<StudentEntity> ReadByIdAsync(int key)
         {
             return Read().FirstOrDefaultAsync(s => s.Id == key);
         }
 
-        public async Task<StudentEntity> Update(StudentEntity entity)
+        public async Task<StudentEntity> UpdateAsync(StudentEntity entity)
         {
             EntityEntry<StudentEntity> createdEntity = _dbContext.Students.Update(entity);
             await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
-        public Task<int> Delete(int key)
+        public Task<int> DeleteAsync(int key)
         {
             return _dbContext.Students.Where(s => s.Id == key).DeleteFromQueryAsync();
         }

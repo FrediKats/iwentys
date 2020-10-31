@@ -7,20 +7,20 @@ namespace Iwentys.Database.Repositories
     public interface IGenericRepository<TEntity>
     {
         IQueryable<TEntity> Read();
-        Task<TEntity> Update(TEntity entity);
+        Task<TEntity> UpdateAsync(TEntity entity);
     }
 
     public interface IGenericRepository<TEntity, TKey> : IGenericRepository<TEntity>
     {
-        Task<TEntity> ReadById(TKey key);
-        Task<int> Delete(TKey key);
+        Task<TEntity> ReadByIdAsync(TKey key);
+        Task<int> DeleteAsync(TKey key);
     }
 
     public static class GenericRepositoryExtensions
     {
-        public static async Task<TEntity> Get<TEntity, TKey>(this IGenericRepository<TEntity, TKey> repository, TKey key)
+        public static async Task<TEntity> GetAsync<TEntity, TKey>(this IGenericRepository<TEntity, TKey> repository, TKey key)
         {
-            TEntity entity = await repository.ReadById(key);
+            TEntity entity = await repository.ReadByIdAsync(key);
             return entity ?? throw EntityNotFoundException.Create(repository.GetType().Name, key);
         }
     }

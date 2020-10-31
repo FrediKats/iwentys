@@ -37,7 +37,7 @@ namespace Iwentys.Endpoints.Api.BackgroundServices
                     var githubUserDataService = scope.ServiceProvider.GetRequiredService<GithubUserDataService>();
                     foreach (StudentEntity student in studentRepository.Read().Where(s => s.GithubUsername != null))
                     {
-                        githubUserDataService.CreateOrUpdate(student.Id);
+                        await githubUserDataService.CreateOrUpdate(student.Id);
                     }
                 }
                 catch (Exception e)

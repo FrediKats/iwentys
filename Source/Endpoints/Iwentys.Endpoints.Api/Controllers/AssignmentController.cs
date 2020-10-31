@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services;
 using Iwentys.Endpoints.Api.Tools;
@@ -19,17 +20,19 @@ namespace Iwentys.Endpoints.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<AssignmentInfoResponse>> Get()
+        public async Task<ActionResult<List<AssignmentInfoResponse>>> Get()
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(_assignmentService.Read(user));
+            List<AssignmentInfoResponse> assignments = await _assignmentService.ReadAsync(user);
+            return Ok(assignments);
         }
 
         [HttpPost]
-        public ActionResult<List<AssignmentInfoResponse>> Create([FromBody] AssignmentCreateRequest assignmentCreateRequest)
+        public async Task<ActionResult<List<AssignmentInfoResponse>>> Create([FromBody] AssignmentCreateRequest assignmentCreateRequest)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(_assignmentService.Create(user, assignmentCreateRequest));
+            AssignmentInfoResponse assignment = await _assignmentService.CreateAsync(user, assignmentCreateRequest);
+            return Ok(assignment);
         }
     }
 }

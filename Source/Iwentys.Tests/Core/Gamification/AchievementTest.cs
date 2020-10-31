@@ -17,7 +17,7 @@ namespace Iwentys.Tests.Core.Gamification
                 .Case()
                 .WithNewStudent(out AuthorizedUser user);
 
-            testCase.StudentService.AddGithubUsername(user.Id, "username");
+            testCase.StudentService.AddGithubUsernameAsync(user.Id, "username");
             StudentAchievementEntity achievement = testCase.Context.StudentAchievements.FirstOrDefault(a => a.StudentId == user.Id && a.AchievementId == AchievementList.AddGithubAchievement.Id);
             Assert.NotNull(achievement);
         }

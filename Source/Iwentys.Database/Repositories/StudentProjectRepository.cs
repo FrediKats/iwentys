@@ -31,26 +31,26 @@ namespace Iwentys.Database.Repositories
             return _dbContext.StudentProjects;
         }
 
-        public Task<GithubProjectEntity> ReadById(long key)
+        public Task<GithubProjectEntity> ReadByIdAsync(long key)
         {
             return _dbContext.StudentProjects.FirstOrDefaultAsync(v => v.Id == key);
         }
 
-        public async Task<GithubProjectEntity> Update(GithubProjectEntity entity)
+        public async Task<GithubProjectEntity> UpdateAsync(GithubProjectEntity entity)
         {
             EntityEntry<GithubProjectEntity> createdEntity = _dbContext.StudentProjects.Update(entity);
             await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
-        public Task<int> Delete(long key)
+        public Task<int> DeleteAsync(long key)
         {
             return _dbContext.StudentProjects.Where(sp => sp.Id == key).DeleteFromQueryAsync();
         }
 
-        public async Task<GithubProjectEntity> GetOrCreate(GithubRepository project, StudentEntity creator)
+        public async Task<GithubProjectEntity> GetOrCreateAsync(GithubRepository project, StudentEntity creator)
         {
-            GithubProjectEntity githubProjectEntity = await ReadById(project.Id);
+            GithubProjectEntity githubProjectEntity = await ReadByIdAsync(project.Id);
             return githubProjectEntity ?? Create(new GithubProjectEntity(creator, project));
         }
 

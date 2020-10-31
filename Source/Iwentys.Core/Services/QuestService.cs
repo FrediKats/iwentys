@@ -12,6 +12,7 @@ using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Gamification;
 using Iwentys.Models.Types;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Core.Services
 {
@@ -26,12 +27,14 @@ namespace Iwentys.Core.Services
             _databaseAccessor = databaseAccessor;
         }
 
-        public List<QuestInfoResponse> GetCreatedByUser(AuthorizedUser user)
+        public async Task<List<QuestInfoResponse>> GetCreatedByUserAsync(AuthorizedUser user)
         {
-            return _databaseAccessor.Quest
+            List<QuestEntity> entities = await _databaseAccessor.Quest
                 .Read()
                 .Where(q => q.AuthorId == user.Id)
-                .SelectToList(QuestInfoResponse.Wrap);
+                .ToListAsync();
+
+            return entities.SelectToList(QuestInfoResponse.Wrap);
         }
 
         public List<QuestInfoResponse> GetCompletedByUser(AuthorizedUser user)
@@ -70,18 +73,18 @@ namespace Iwentys.Core.Services
 
         public async Task<QuestInfoResponse> SendResponse(AuthorizedUser user, int id)
         {
-            QuestEntity questEntity = await _databaseAccessor.Quest.ReadById(id);
+            QuestEntity questEntity = await _databaseAccessor.Quest.ReadByIdAsync(id);
             if (questEntity.State != QuestState.Active || questEntity.IsOutdated)
                 throw new InnerLogicException("Quest is not active");
 
             _databaseAccessor.Quest.SendResponse(questEntity, user.Id);
-            QuestEntity updatedQuest = await _databaseAccessor.Quest.ReadById(id);
+            QuestEntity updatedQuest = await _databaseAccessor.Quest.ReadByIdAsync(id);
             return QuestInfoResponse.Wrap(updatedQuest);
         }
 
         public async Task<QuestInfoResponse> Complete(AuthorizedUser author, int questId, int userId)
         {
-            QuestEntity questEntity = await _databaseAccessor.Quest.ReadById(questId);
+            QuestEntity questEntity = await _databaseAccessor.Quest.ReadByIdAsync(questId);
             if (questEntity.AuthorId != author.Id)
                 throw InnerLogicException.NotEnoughPermission(author.Id);
 
@@ -92,7 +95,7 @@ namespace Iwentys.Core.Services
 
         public async Task<QuestInfoResponse> Revoke(AuthorizedUser author, int questId)
         {
-            QuestEntity questEntity = await _databaseAccessor.Quest.ReadById(questId);
+            QuestEntity questEntity = await _databaseAccessor.Quest.ReadByIdAsync(questId);
             if (questEntity.AuthorId != author.Id)
                 throw InnerLogicException.NotEnoughPermission(author.Id);
 
@@ -100,7 +103,7 @@ namespace Iwentys.Core.Services
                 throw new InnerLogicException("Quest is not active");
 
             questEntity.State = QuestState.Revoked;
-            QuestEntity updatedQuest = await _databaseAccessor.Quest.Update(questEntity);
+            QuestEntity updatedQuest = await _databaseAccessor.Quest.UpdateAsync(questEntity);
             return QuestInfoResponse.Wrap(updatedQuest);
         }
     }

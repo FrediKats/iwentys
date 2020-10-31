@@ -32,7 +32,7 @@ namespace Iwentys.Database.Repositories
                 .Where(g => g.GuildType == GuildType.Created);
         }
 
-        public Task<GuildEntity> ReadById(int key)
+        public Task<GuildEntity> ReadByIdAsync(int key)
         {
             return _dbContext.Guilds
                 .Include(g => g.Members)
@@ -44,14 +44,14 @@ namespace Iwentys.Database.Repositories
                 .FirstOrDefaultAsync(g => g.Id == key);
         }
 
-        public async Task<GuildEntity> Update(GuildEntity entity)
+        public async Task<GuildEntity> UpdateAsync(GuildEntity entity)
         {
             EntityEntry<GuildEntity> createdEntity = _dbContext.Guilds.Update(entity);
             await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
-        public Task<int> Delete(int key)
+        public Task<int> DeleteAsync(int key)
         {
             return _dbContext.Guilds.Where(g => g.Id == key).DeleteFromQueryAsync();
         }

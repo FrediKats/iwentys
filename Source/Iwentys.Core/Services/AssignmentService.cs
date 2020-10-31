@@ -6,6 +6,7 @@ using Iwentys.Database.Context;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Core.Services
 {
@@ -18,19 +19,21 @@ namespace Iwentys.Core.Services
             _database = database;
         }
 
-        public async Task<AssignmentInfoResponse> Create(AuthorizedUser user, AssignmentCreateRequest assignmentCreateRequest)
+        public async Task<AssignmentInfoResponse> CreateAsync(AuthorizedUser user, AssignmentCreateRequest assignmentCreateRequest)
         {
             StudentEntity creator = await user.GetProfile(_database.Student);
-            return _database.Assignment.Create(creator, assignmentCreateRequest).To(AssignmentInfoResponse.Wrap);
+            StudentAssignmentEntity assignment = await _database.Assignment.CreateAsync(creator, assignmentCreateRequest);
+            return AssignmentInfoResponse.Wrap(assignment);
         }
 
-        public List<AssignmentInfoResponse> Read(AuthorizedUser user)
+        public async Task<List<AssignmentInfoResponse>> ReadAsync(AuthorizedUser user)
         {
-            return _database.Assignment
+            List<StudentAssignmentEntity> assignments = await _database.Assignment
                 .Read()
                 .Where(a => a.StudentId == user.Id)
-                .AsEnumerable()
-                .SelectToList(AssignmentInfoResponse.Wrap);
+                .ToListAsync();
+
+            return assignments.SelectToList(AssignmentInfoResponse.Wrap);
         }
     }
 }

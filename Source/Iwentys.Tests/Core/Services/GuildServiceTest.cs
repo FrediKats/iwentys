@@ -34,7 +34,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out GuildProfileDto guild);
 
-            var createdGuild = context.GuildRepository.Get(guild.Id);
+            var createdGuild = context.GuildRepository.GetAsync(guild.Id);
 
             Assert.AreEqual(GuildType.Pending, createdGuild.Result.GuildType);
         }
@@ -49,7 +49,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuild(user, out GuildProfileDto guild);
 
             context.GuildService.ApproveGuildCreating(admin, guild.Id);
-            var createdGuild = context.GuildRepository.Get(guild.Id);
+            var createdGuild = context.GuildRepository.GetAsync(guild.Id);
 
             Assert.AreEqual(GuildType.Created, createdGuild.Result.GuildType);
         }
@@ -257,7 +257,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuildRequest(guild, out AuthorizedUser student);
 
             context.GuildMemberService.AcceptRequest(user, guild.Id, student.Id);
-            GuildMemberEntity member = context.GuildRepository.Get(guild.Id).Result.Members.Find(m => m.MemberId == student.Id);
+            GuildMemberEntity member = context.GuildRepository.GetAsync(guild.Id).Result.Members.Find(m => m.MemberId == student.Id);
             List<GuildMemberEntity> requests = context.GuildMemberService.GetGuildRequests(user, guild.Id).Result.ToList();
 
             Assert.IsNotNull(member);
@@ -287,7 +287,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuildRequest(guild, out AuthorizedUser student);
 
             context.GuildMemberService.RejectRequest(user, guild.Id, student.Id);
-            GuildMemberEntity member = context.GuildRepository.Get(guild.Id).Result.Members.Find(m => m.MemberId == student.Id);
+            GuildMemberEntity member = context.GuildRepository.GetAsync(guild.Id).Result.Members.Find(m => m.MemberId == student.Id);
             List<GuildMemberEntity> requests = context.GuildMemberService.GetGuildRequests(user, guild.Id).Result.ToList();
 
             Assert.That(member, Is.Null);
@@ -316,7 +316,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuildRequest(guild, out AuthorizedUser _);
             context.GuildService.Update(user, new GuildUpdateRequest {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Close});
 
-            Assert.That(context.GuildRepository.Get(guild.Id).Result.HiringPolicy, Is.EqualTo(GuildHiringPolicy.Close));
+            Assert.That(context.GuildRepository.GetAsync(guild.Id).Result.HiringPolicy, Is.EqualTo(GuildHiringPolicy.Close));
         }
 
         [Test]
@@ -330,7 +330,7 @@ namespace Iwentys.Tests.Core.Services
             context.GuildService.Update(user, new GuildUpdateRequest() {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Close});
             context.GuildService.Update(user, new GuildUpdateRequest() {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Open});
 
-            GuildMemberEntity newMember = context.GuildRepository.Get(guild.Id).Result.Members.Find(m => m.MemberId == student.Id);
+            GuildMemberEntity newMember = context.GuildRepository.GetAsync(guild.Id).Result.Members.Find(m => m.MemberId == student.Id);
             Assert.IsNotNull(newMember);
             Assert.That(newMember.MemberType, Is.EqualTo(GuildMemberType.Member));
         }

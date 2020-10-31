@@ -23,19 +23,19 @@ namespace Iwentys.Database.Repositories
             return _dbContext.Tributes;
         }
 
-        public Task<TributeEntity> ReadById(long key)
+        public Task<TributeEntity> ReadByIdAsync(long key)
         {
             return _dbContext.Tributes.FirstOrDefaultAsync(v => v.ProjectId == key);
         }
 
-        public async Task<TributeEntity> Update(TributeEntity entity)
+        public async Task<TributeEntity> UpdateAsync(TributeEntity entity)
         {
             EntityEntry<TributeEntity> createdEntity = _dbContext.Tributes.Update(entity);
             await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
-        public Task<int> Delete(long key)
+        public Task<int> DeleteAsync(long key)
         {
             return _dbContext.Tributes.Where(t => t.ProjectId == key).DeleteFromQueryAsync();
         }

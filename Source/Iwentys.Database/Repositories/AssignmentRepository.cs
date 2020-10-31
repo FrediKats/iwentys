@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Transferable;
@@ -16,16 +17,16 @@ namespace Iwentys.Database.Repositories
             _dbContext = dbContext;
         }
 
-        public StudentAssignmentEntity Create(StudentEntity creator, AssignmentCreateRequest assignmentCreateRequest)
+        public async Task<StudentAssignmentEntity> CreateAsync(StudentEntity creator, AssignmentCreateRequest assignmentCreateRequest)
         {
-            EntityEntry<AssignmentEntity> createdAssignment = _dbContext.Assignments.Add(AssignmentEntity.Create(creator, assignmentCreateRequest));
-            EntityEntry<StudentAssignmentEntity> studentAssignment = _dbContext.StudentAssignments.Add(new StudentAssignmentEntity
+            EntityEntry<AssignmentEntity> createdAssignment = await _dbContext.Assignments.AddAsync(AssignmentEntity.Create(creator, assignmentCreateRequest));
+            EntityEntry<StudentAssignmentEntity> studentAssignment = await _dbContext.StudentAssignments.AddAsync(new StudentAssignmentEntity
             {
                 StudentId = creator.Id,
                 Assignment = createdAssignment.Entity
             });
 
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return studentAssignment.Entity;
         }
 

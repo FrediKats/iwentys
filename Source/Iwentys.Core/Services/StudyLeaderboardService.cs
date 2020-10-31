@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Database.Tools;
 using Iwentys.Models;
@@ -7,6 +8,7 @@ using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Transferable.Study;
+using Microsoft.EntityFrameworkCore;
 using MoreLinq;
 
 namespace Iwentys.Core.Services
@@ -22,14 +24,14 @@ namespace Iwentys.Core.Services
             _githubUserDataService = githubUserDataService;
         }
 
-        public List<SubjectEntity> GetSubjectsForDto(StudySearchParameters searchParameters)
+        public Task<List<SubjectEntity>> GetSubjectsForDtoAsync(StudySearchParameters searchParameters)
         {
-            return _databaseAccessor.GroupSubject.GetSubjectsForDto(searchParameters).DistinctBy(s => s.Id).ToList();
+            return _databaseAccessor.GroupSubject.GetSubjectsForDto(searchParameters).ToListAsync();
         }
 
-        public List<StudyGroupEntity> GetStudyGroupsForDto(int? courseId)
+        public Task<List<StudyGroupEntity>> GetStudyGroupsForDtoAsync(int? courseId)
         {
-            return _databaseAccessor.GroupSubject.GetStudyGroupsForDto(courseId).ToList();
+            return _databaseAccessor.GroupSubject.GetStudyGroupsForDto(courseId).ToListAsync();
         }
 
         public List<StudyLeaderboardRow> GetStudentsRatings(StudySearchParameters searchParameters)
