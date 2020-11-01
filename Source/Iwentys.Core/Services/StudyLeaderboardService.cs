@@ -47,10 +47,12 @@ namespace Iwentys.Core.Services
                 .GroupBy(r => r.StudentId)
                 .Select(g => new StudyLeaderboardRow(g))
                 .OrderByDescending(a => a.Activity)
+                .Skip(searchParameters.Skip)
+                .Take(searchParameters.Take)
                 .ToList();
         }
 
-        public List<StudyLeaderboardRow> GetCodingRating(int? courseId)
+        public List<StudyLeaderboardRow> GetCodingRating(int? courseId, int skip, int take)
         {
             IQueryable<StudentEntity> query = _databaseAccessor.Student.Read();
 
@@ -60,6 +62,8 @@ namespace Iwentys.Core.Services
             return query.AsEnumerable()
                 .Select(s => new StudyLeaderboardRow(s, _githubUserDataService.FindByUsername(s.GithubUsername).Result?.ContributionFullInfo.Total ?? 0))
                 .OrderBy(a => a.Activity)
+                .Skip(skip)
+                .Take(take)
                 .ToList();
         }
     }

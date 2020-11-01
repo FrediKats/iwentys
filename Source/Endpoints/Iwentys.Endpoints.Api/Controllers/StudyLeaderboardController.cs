@@ -19,21 +19,29 @@ namespace Iwentys.Endpoints.Api.Controllers
         }
 
         [HttpGet("study-rate")]
-        public ActionResult<List<StudyLeaderboardRow>> GetStudyRating([FromQuery] int? subjectId, [FromQuery] int? courseId, [FromQuery] int? groupId, [FromQuery] StudySemester? semester)
+        public ActionResult<List<StudyLeaderboardRow>> GetStudyRating(
+            [FromQuery] int? subjectId,
+            [FromQuery] int? courseId,
+            [FromQuery] int? groupId,
+            [FromQuery] StudySemester? semester,
+            [FromQuery] int skip = 0,
+            [FromQuery] int take = 20)
         {
             return Ok(_studyLeaderboardService.GetStudentsRatings(new StudySearchParameters
             {
                 SubjectId = subjectId,
                 CourseId = courseId,
                 GroupId = groupId,
-                StudySemester = semester
+                StudySemester = semester,
+                Skip = skip,
+                Take = take
             }));
         }
 
         [HttpGet("coding-rate")]
-        public ActionResult<List<StudyLeaderboardRow>> GetCodingRating([FromQuery] int? courseId)
+        public ActionResult<List<StudyLeaderboardRow>> GetCodingRating([FromQuery] int? courseId, [FromQuery] int skip = 0, [FromQuery] int take = 20)
         {
-            return Ok(_studyLeaderboardService.GetCodingRating(courseId));
+            return Ok(_studyLeaderboardService.GetCodingRating(courseId, skip, take));
         }
     }
 }
