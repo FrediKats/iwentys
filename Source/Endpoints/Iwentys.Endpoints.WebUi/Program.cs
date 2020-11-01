@@ -1,5 +1,8 @@
+using Iwentys.Endpoints.Api.BackgroundServices;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace Iwentys.Endpoints.WebUi
 {
@@ -15,6 +18,9 @@ namespace Iwentys.Endpoints.WebUi
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+                .UseSerilog()
+                .ConfigureServices(s => s.AddHostedService<MarkUpdateBackgroundService>())
+                .ConfigureServices(s => s.AddHostedService<GithubUpdateBackgroundService>());
     }
 }
