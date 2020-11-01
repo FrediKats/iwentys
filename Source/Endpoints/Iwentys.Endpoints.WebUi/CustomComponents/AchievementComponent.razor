@@ -1,11 +1,14 @@
 ﻿@using Iwentys.Models.Transferable.Guilds
 @using Iwentys.Models
+@using Iwentys.Models.Transferable
+
+@namespace Iwentys.Endpoints.WebUi.CustomComponents
 
 <div class="text-center">
     <MatHeadline5>Ачивки</MatHeadline5>
     @*TODO: add scroll*@
     <div class="container-fluid d-flex flex-row">
-        @foreach (var achievement in GuildProfile.Achievements)
+        @foreach (AchievementInfoDto achievement in Achievements)
         {
             <div class="d-flex flex-column guild-rating-row">
                 @*TODO: rename to ImageUrl*@
@@ -19,5 +22,5 @@
 
 @code {
     [Parameter]
-    public GuildProfileDto GuildProfile { get; set; }
+    public List<AchievementInfoDto> Achievements { get; set; }
 }

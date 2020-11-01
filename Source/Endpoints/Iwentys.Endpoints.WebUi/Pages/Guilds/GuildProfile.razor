@@ -1,6 +1,7 @@
 ﻿@page "/guild/{GuildId:int}"
 @using Iwentys.Core.Services
 @using Iwentys.Models.Transferable.Guilds
+@using Iwentys.Endpoints.WebUi.CustomComponents
 @using Iwentys.Endpoints.WebUi.CustomComponents.Guild
 
 @inject GuildService GuildService
@@ -9,9 +10,9 @@
     <div class="col-md-3 d-flex flex-column">
         <GuildProfileInfoComponent GuildProfile=@Guild></GuildProfileInfoComponent>
     </div>
-
+    
     <div class="col-md-6 d-flex flex-column">
-        <GuildProfileAchievementComponent GuildProfile=@Guild></GuildProfileAchievementComponent>
+        <AchievementComponent Achievements=@Guild.Achievements></AchievementComponent>
     </div>
 
     <div class="col-md-3 d-flex flex-column">
@@ -21,17 +22,13 @@
 </div>
 
 
-@code {
-
-    [Parameter]
+@code { [Parameter]
     public int GuildId { get; set; }
 
     public GuildProfileDto Guild { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-    //TODO: fix
+        //TODO: fix
         Guild = await GuildService.GetAsync(GuildId, 228617);
-    }
-
-}
+    } }

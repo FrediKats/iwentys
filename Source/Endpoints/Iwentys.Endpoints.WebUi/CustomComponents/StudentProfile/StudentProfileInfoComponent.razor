@@ -1,0 +1,18 @@
+﻿@using Iwentys.Models.Transferable.Guilds
+@using Iwentys.Models.Transferable.Students
+@namespace Iwentys.Endpoints.WebUi.CustomComponents.StudentProfile
+
+    <div class="container-fluid d-flex flex-row">
+        <img class="guild-preview-logo" />
+        <div class="container-fluid d-flex flex-column">
+            <MatHeadline4>@StudentProfile.GithubUsername</MatHeadline4>
+            <MatBody1>Лидер: @StudentProfile.GetFullName()</MatBody1>
+            <MatBody1>Группа: @StudentProfile.Group</MatBody1>
+            <MatBody1>Гильдия: @StudentProfile.GuildName</MatBody1>
+        </div>
+    </div>
+
+@code {
+    [Parameter]
+    public StudentFullProfileDto StudentProfile { get; set; }
+}
