@@ -1,7 +1,7 @@
 ﻿@page "/guild/{GuildId:int}"
 @using Iwentys.Core.Services
 @using Iwentys.Models.Transferable.Guilds
-@using Iwentys.Endpoints.WebUi.CustomComponents.Guild.Profile
+@using Iwentys.Endpoints.WebUi.CustomComponents.Guild
 
 @inject GuildService GuildService
 
@@ -12,9 +12,8 @@
     <li>Rate: @Guild.Rating</li>
 </ul>
 
-<GuildProfileMemberRateComponent GuildProfile=@Guild>
-
-</GuildProfileMemberRateComponent>
+<GuildProfileMemberRateComponent GuildProfile=@Guild></GuildProfileMemberRateComponent>
+<GuildProfileInfoComponent GuildProfile=@Guild></GuildProfileInfoComponent>
 
 @code {
 
