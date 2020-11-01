@@ -5,16 +5,21 @@
 
 @inject GuildService GuildService
 
-<h3>GuildProfile</h3>
-<h3>@Guild.Title</h3>
-<ul>
-    <li>Leader: @Guild.Leader.GithubUsername</li>
-    <li>Rate: @Guild.Rating</li>
-</ul>
+<div class="container-fluid d-flex flex-row">
+    <div class="col-md-3 d-flex flex-column">
+        <GuildProfileInfoComponent GuildProfile=@Guild></GuildProfileInfoComponent>
+    </div>
 
-<GuildProfileMemberRateComponent GuildProfile=@Guild></GuildProfileMemberRateComponent>
-<GuildProfileInfoComponent GuildProfile=@Guild></GuildProfileInfoComponent>
-<GuildProfilePinnedRepositoriesComponent GuildProfile=@Guild></GuildProfilePinnedRepositoriesComponent>
+    <div class="col-md-6 d-flex flex-column">
+        <GuildProfileAchievementComponent GuildProfile=@Guild></GuildProfileAchievementComponent>
+    </div>
+
+    <div class="col-md-3 d-flex flex-column">
+        <GuildProfileMemberRateComponent GuildProfile=@Guild></GuildProfileMemberRateComponent>
+        <GuildProfilePinnedRepositoriesComponent GuildProfile=@Guild></GuildProfilePinnedRepositoriesComponent>
+    </div>
+</div>
+
 
 @code {
 

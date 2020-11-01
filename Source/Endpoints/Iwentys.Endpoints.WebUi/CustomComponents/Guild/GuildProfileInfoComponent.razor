@@ -2,12 +2,11 @@
 @namespace Iwentys.Endpoints.WebUi.CustomComponents.Guild
 
 
-<div class="container-fluid d-flex flex-column align-self-center">
-
+<div class="container-fluid d-flex flex-column align-items-center">
     <img src=@GuildProfile.LogoUrl class="guild-preview-logo" />
-    <h2>@GuildProfile.Title</h2>
-    <p>Лидер: @GuildProfile.Leader.GithubUsername</p>
-    <p>@GuildProfile.Bio</p>
+    <MatHeadline4>@GuildProfile.Title</MatHeadline4>
+    <MatBody1>Лидер: @GuildProfile.Leader.GithubUsername</MatBody1>
+    <MatBody1>@GuildProfile.Bio</MatBody1>
     <MatButton>Редактировать</MatButton>
     <MatButton>Трибьюты</MatButton>
 </div>

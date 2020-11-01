@@ -1,29 +1,30 @@
 ﻿@using Iwentys.Models.Transferable.Guilds
 @using Iwentys.Models
-
 <div class="text-center">
-    <h3>Репозитории</h3>
+    <MatHeadline5>Репозитории</MatHeadline5>
 
     <div class="container-fluid d-flex flex-column">
         @foreach (GithubRepository repository in GuildProfile.PinnedRepositories)
         {
             <MatNavItem href=@repository.Url class="d-flex flex-row guild-rating-row justify-content-md-between">
                 <div class="col-md-10">
-                    <h4>@repository.Name</h4>
+                    <MatHeadline6>@repository.Name</MatHeadline6>
 
-                    <p href="guild">@repository.Description</p>
+                    <MatBody1>@repository.Description</MatBody1>
                 </div>
-                
+
                 @*TODO: add icon-button*@
                 <MatButton class="col-md-2">X</MatButton>
             </MatNavItem>
         }
     </div>
-    
+
     <MatButton>Запинить</MatButton>
 </div>
 
 @code {
+
     [Parameter]
     public GuildProfileDto GuildProfile { get; set; }
+
 }
