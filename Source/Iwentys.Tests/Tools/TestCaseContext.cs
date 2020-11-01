@@ -118,7 +118,7 @@ namespace Iwentys.Tests.Tools
         public TestCaseContext WithCompany(out CompanyInfoResponse companyInfo)
         {
             var company = new CompanyEntity();
-            company = DatabaseAccessor.Company.Create(company).Result;
+            company = DatabaseAccessor.Company.CreateAsync(company).Result;
             companyInfo = CompanyInfoResponse.Create(company);
             return this;
         }

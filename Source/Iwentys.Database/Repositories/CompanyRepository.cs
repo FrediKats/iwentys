@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities;
@@ -18,7 +19,7 @@ namespace Iwentys.Database.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<CompanyEntity> Create(CompanyEntity entity)
+        public async Task<CompanyEntity> CreateAsync(CompanyEntity entity)
         {
             EntityEntry<CompanyEntity> createdEntity = await _dbContext.Companies.AddAsync(entity);
             await _dbContext.SaveChangesAsync();
@@ -49,41 +50,45 @@ namespace Iwentys.Database.Repositories
             return _dbContext.Companies.Where(c => c.Id == key).DeleteFromQueryAsync();
         }
 
-        public StudentEntity[] ReadWorkers(CompanyEntity companyEntity)
+        public Task<List<StudentEntity>> ReadWorkersAsync(CompanyEntity companyEntity)
         {
             return _dbContext
                 .CompanyWorkers
                 .Where(cw => cw.CompanyId == companyEntity.Id)
                 .Where(cw => cw.Type == CompanyWorkerType.Accepted)
                 .Select(cw => cw.Worker)
-                .ToArray();
+                .ToListAsync();
         }
 
-        public CompanyWorkerEntity[] ReadWorkerRequest()
+        public Task<List<CompanyWorkerEntity>> ReadWorkerRequestAsync()
         {
             return _dbContext
                 .CompanyWorkers
                 .Where(cw => cw.Type == CompanyWorkerType.Requested)
                 .Include(cw => cw.Worker)
                 .Include(cw => cw.CompanyEntity)
-                .ToArray();
+                .ToListAsync();
         }
 
-        public void AddCompanyWorkerRequest(CompanyEntity companyEntity, StudentEntity worker)
+        public async Task AddCompanyWorkerRequestAsync(CompanyEntity companyEntity, StudentEntity worker)
         {
-            if (ReadWorkerRequest().Any(r => r.WorkerId == worker.Id))
+            List<CompanyWorkerEntity> workerRequests = await ReadWorkerRequestAsync();
+            if (workerRequests.Any(r => r.WorkerId == worker.Id))
                 throw new InnerLogicException("Student already request adding to company");
 
-            _dbContext.CompanyWorkers.Add(CompanyWorkerEntity.NewRequest(companyEntity, worker));
-            _dbContext.SaveChanges();
+            await _dbContext.CompanyWorkers.AddAsync(CompanyWorkerEntity.NewRequest(companyEntity, worker));
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void ApproveRequest(StudentEntity user)
+        public async Task ApproveRequestAsync(StudentEntity user)
         {
-            CompanyWorkerEntity workerEntity = _dbContext.CompanyWorkers.SingleOrDefault(cw => cw.WorkerId == user.Id) ?? throw EntityNotFoundException.Create(nameof(CompanyWorkerEntity), user.Id);
+            CompanyWorkerEntity workerEntity = await _dbContext.CompanyWorkers.SingleOrDefaultAsync(cw => cw.WorkerId == user.Id);
+            if (workerEntity == null)
+                throw EntityNotFoundException.Create(nameof(CompanyWorkerEntity), user.Id);
+
             workerEntity.Type = CompanyWorkerType.Accepted;
             _dbContext.CompanyWorkers.Update(workerEntity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

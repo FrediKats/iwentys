@@ -16,20 +16,20 @@ namespace Iwentys.Database.Repositories
             _dbContext = dbContext;
         }
 
-        public GuildRecruitmentEntity Create(GuildEntity guild, GuildMemberEntity creator, string description)
+        public async Task<GuildRecruitmentEntity> CreateAsync(GuildEntity guild, GuildMemberEntity creator, string description)
         {
-            EntityEntry<GuildRecruitmentEntity> recruitment = _dbContext.GuildRecruitment.Add(new GuildRecruitmentEntity
+            EntityEntry<GuildRecruitmentEntity> recruitment = await _dbContext.GuildRecruitment.AddAsync(new GuildRecruitmentEntity
             {
                 Description = description,
                 GuildId = guild.Id
             });
-            _dbContext.GuildRecruitmentMembers.Add(new GuildRecruitmentMemberEntity
+            await _dbContext.GuildRecruitmentMembers.AddAsync(new GuildRecruitmentMemberEntity
             {
                 GuildRecruitmentId = recruitment.Entity.Id,
                 MemberId = creator.MemberId
             });
 
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return recruitment.Entity;
         }
 

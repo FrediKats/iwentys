@@ -78,7 +78,8 @@ namespace Iwentys.Core.DomainModel.Guilds
                 .Members
                 .Select(m => m.Member.GithubUsername)
                 .Where(gh => gh != null)
-                .Select(ghName => _githubUserDataService.FindByUsername(ghName))
+                .ToList()
+                .Select(ghName => _githubUserDataService.FindByUsername(ghName).Result)
                 .Where(userData => userData != null)
                 .ToList();
         }

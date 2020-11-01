@@ -115,7 +115,7 @@ namespace Iwentys.Core.Services
             profile.EnsureIsGuildEditor(guild);
 
             GithubRepository repository = _githubApiAccessor.GetRepository(owner, projectName);
-            _database.Guild.PinProject(guildId, owner, projectName);
+            await _database.Guild.PinProjectAsync(guildId, owner, projectName);
             return repository;
         }
 

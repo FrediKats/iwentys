@@ -58,7 +58,7 @@ namespace Iwentys.Core.Services
                 .WhereIf(courseId, () => query.Where(q => q.Group.StudyCourseId == courseId));
 
             return query.AsEnumerable()
-                .Select(s => new StudyLeaderboardRow(s, _githubUserDataService.FindByUsername(s.GithubUsername)?.ContributionFullInfo.Total ?? 0))
+                .Select(s => new StudyLeaderboardRow(s, _githubUserDataService.FindByUsername(s.GithubUsername).Result?.ContributionFullInfo.Total ?? 0))
                 .OrderBy(a => a.Activity)
                 .ToList();
         }

@@ -45,9 +45,9 @@ namespace Iwentys.Database.Repositories
             return _dbContext.GithubUsersData.Where(gu => gu.StudentId == key).DeleteFromQueryAsync();
         }
 
-        public GithubUserEntity FindByUsername(string username)
+        public Task<GithubUserEntity> FindByUsernameAsync(string username)
         {
-            return Read().SingleOrDefault(g => g.Username == username);
+            return Read().SingleOrDefaultAsync(g => g.Username == username);
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Iwentys.Core.Services
                 throw new InnerLogicException($"Student unable to enter this guild! UserId: {user.Id} GuildId: {guildId}");
 
             StudentEntity profile = await user.GetProfile(_database.Student);
-            _database.GuildMember.AddMember(guild.Profile, profile, GuildMemberType.Member);
+            await _database.GuildMember.AddMemberAsync(guild.Profile, profile, GuildMemberType.Member);
 
             return await Get(guildId, user.Id);
         }
@@ -50,7 +50,7 @@ namespace Iwentys.Core.Services
                 throw new InnerLogicException($"Student unable to send request to this guild! UserId: {user.Id} GuildId: {guildId}");
 
             StudentEntity profile = await user.GetProfile(_database.Student);
-            _database.GuildMember.AddMember(guild.Profile, profile, GuildMemberType.Requested);
+            await _database.GuildMember.AddMemberAsync(guild.Profile, profile, GuildMemberType.Requested);
             return await Get(guildId, user.Id);
         }
 
@@ -64,7 +64,7 @@ namespace Iwentys.Core.Services
             if (userTribute != null)
                 _database.Tribute.DeleteAsync(userTribute.ProjectId);
 
-            _database.GuildMember.RemoveMember(guildId, user.Id);
+            _database.GuildMember.RemoveMemberAsync(guildId, user.Id);
 
             return Get(guildId, user.Id);
         }
@@ -98,7 +98,7 @@ namespace Iwentys.Core.Services
 
             memberToKick.Member.GuildLeftTime = DateTime.UtcNow.ToUniversalTime();
             memberToKick.MemberType = GuildMemberType.Blocked;
-            _database.GuildMember.UpdateMember(memberToKick);
+            await _database.GuildMember.UpdateMemberAsync(memberToKick);
         }
 
         public async Task UnblockStudent(AuthorizedUser user, Int32 guildId, Int32 studentId)
@@ -112,7 +112,7 @@ namespace Iwentys.Core.Services
             if (member is null || member.MemberType != GuildMemberType.Blocked)
                 throw new InnerLogicException($"Student is not blocked in guild! StudentId: {studentId} GuildId: {guildId}");
 
-            _database.GuildMember.RemoveMember(guildId, studentId);
+            _database.GuildMember.RemoveMemberAsync(guildId, studentId);
         }
 
         public async Task KickGuildMember(AuthorizedUser user, Int32 guildId, Int32 memberId)
@@ -121,7 +121,7 @@ namespace Iwentys.Core.Services
             GuildMemberEntity memberToKick = await guildDomain.EnsureMemberCanRestrictPermissionForOther(user, memberId);
 
             memberToKick.Member.GuildLeftTime = DateTime.UtcNow.ToUniversalTime();
-            _database.GuildMember.RemoveMember(guildId, memberId);
+            _database.GuildMember.RemoveMemberAsync(guildId, memberId);
         }
 
         public async Task AcceptRequest(AuthorizedUser user, Int32 guildId, Int32 studentId)
@@ -137,7 +137,7 @@ namespace Iwentys.Core.Services
 
             member.MemberType = GuildMemberType.Member;
 
-            _database.GuildMember.UpdateMember(member);
+            await _database.GuildMember.UpdateMemberAsync(member);
         }
 
         public async Task RejectRequest(AuthorizedUser user, Int32 guildId, Int32 studentId)
@@ -151,7 +151,7 @@ namespace Iwentys.Core.Services
             if (member is null || member.MemberType != GuildMemberType.Requested)
                 throw InnerLogicException.Guild.RequestWasNotFound(studentId, guildId);
 
-            _database.GuildMember.RemoveMember(guildId, studentId);
+            _database.GuildMember.RemoveMemberAsync(guildId, studentId);
         }
 
         public async Task<GuildProfileDto> Get(int id, int? userId)

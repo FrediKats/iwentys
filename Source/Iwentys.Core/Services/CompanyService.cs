@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Iwentys.Core.DomainModel;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Companies;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Core.Services
 {
@@ -17,29 +19,29 @@ namespace Iwentys.Core.Services
             _database = database;
         }
 
-        public CompanyInfoResponse[] Get()
+        public async Task<List<CompanyInfoResponse>> Get()
         {
-            return _database.Company.Read().SelectToArray(WrapToDto);
+            var info = await _database.Company.Read().ToListAsync();
+            return info.SelectToList(entity => WrapToDto(entity).Result);
         }
 
         public async Task<CompanyInfoResponse> Get(int id)
         {
             CompanyEntity company = await _database.Company.ReadByIdAsync(id);
-            return WrapToDto(company);
+            return await WrapToDto(company);
         }
 
-        public CompanyWorkRequestDto[] GetCompanyWorkRequest()
+        public async Task<List<CompanyWorkRequestDto>> GetCompanyWorkRequest()
         {
-            return _database.Company
-                .ReadWorkerRequest()
-                .SelectToArray(cw => cw.To(CompanyWorkRequestDto.Create));
+            List<CompanyWorkerEntity> workers = await _database.Company.ReadWorkerRequestAsync();
+            return workers.SelectToList(cw => cw.To(CompanyWorkRequestDto.Create));
         }
 
         public async Task RequestAdding(int companyId, int userId)
         {
             CompanyEntity companyEntity = await _database.Company.GetAsync(companyId);
             StudentEntity profile = await _database.Student.GetAsync(userId);
-            _database.Company.AddCompanyWorkerRequest(companyEntity, profile);
+            await _database.Company.AddCompanyWorkerRequestAsync(companyEntity, profile);
         }
 
         public async Task ApproveAdding(int userId, int adminId)
@@ -51,12 +53,12 @@ namespace Iwentys.Core.Services
 
             StudentEntity user = await _database.Student.GetAsync(userId);
 
-            _database.Company.ApproveRequest(user);
+            await _database.Company.ApproveRequestAsync(user);
         }
 
-        private CompanyInfoResponse WrapToDto(CompanyEntity companyEntity)
+        private async Task<CompanyInfoResponse> WrapToDto(CompanyEntity companyEntity)
         {
-            StudentEntity[] workers = _database.Company.ReadWorkers(companyEntity);
+            List<StudentEntity> workers = await _database.Company.ReadWorkersAsync(companyEntity);
             return CompanyInfoResponse.Create(companyEntity, workers);
         }
     }

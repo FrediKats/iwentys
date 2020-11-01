@@ -73,9 +73,9 @@ namespace Iwentys.Core.Services
             return githubUserData;
         }
 
-        public GithubUserEntity FindByUsername(string username)
+        public Task<GithubUserEntity> FindByUsername(string username)
         {
-            return _database.GithubUserData.FindByUsername(username);
+            return _database.GithubUserData.FindByUsernameAsync(username);
         }
 
         public IEnumerable<GithubRepository> GetGithubRepositories(string username)

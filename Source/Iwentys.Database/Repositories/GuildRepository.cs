@@ -97,15 +97,15 @@ namespace Iwentys.Database.Repositories
                 .SingleOrDefault();
         }
 
-        public GuildPinnedProjectEntity PinProject(int guildId, string owner, string projectName)
+        public async Task<GuildPinnedProjectEntity> PinProjectAsync(int guildId, string owner, string projectName)
         {
-            EntityEntry<GuildPinnedProjectEntity> entry = _dbContext.GuildPinnedProjects.Add(new GuildPinnedProjectEntity
+            EntityEntry<GuildPinnedProjectEntity> entry = await _dbContext.GuildPinnedProjects.AddAsync(new GuildPinnedProjectEntity
             {
                 GuildId = guildId,
                 RepositoryName = projectName,
                 RepositoryOwner = owner
             });
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return entry.Entity;
         }
 

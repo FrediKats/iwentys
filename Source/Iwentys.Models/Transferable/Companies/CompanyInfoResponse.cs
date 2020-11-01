@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Iwentys.Models.Entities;
 
 namespace Iwentys.Models.Transferable.Companies
@@ -10,14 +10,14 @@ namespace Iwentys.Models.Transferable.Companies
         public double Latitude { get; set; }
         public double Longitude { get; set; }
 
-        public StudentEntity[] Workers { get; set; }
+        public List<StudentEntity> Workers { get; set; }
 
         public static CompanyInfoResponse Create(CompanyEntity companyEntity)
         {
-            return Create(companyEntity, Array.Empty<StudentEntity>());
+            return Create(companyEntity, new List<StudentEntity>());
         }
 
-        public static CompanyInfoResponse Create(CompanyEntity companyEntity, StudentEntity[] workers)
+        public static CompanyInfoResponse Create(CompanyEntity companyEntity, List<StudentEntity> workers)
         {
             return new CompanyInfoResponse
             {

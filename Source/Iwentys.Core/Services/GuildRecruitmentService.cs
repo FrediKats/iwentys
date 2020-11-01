@@ -17,7 +17,7 @@ namespace Iwentys.Core.Services
         public async Task<GuildRecruitmentEntity> Create(int guildId, int memberId, string description)
         {
             GuildEntity guild = await _databaseAccessor.Guild.GetAsync(guildId);
-            return _databaseAccessor.GuildRecruitment.Create(guild, guild.Members.Find(m => m.MemberId == memberId), description);
+            return await _databaseAccessor.GuildRecruitment.CreateAsync(guild, guild.Members.Find(m => m.MemberId == memberId), description);
         }
     }
 }

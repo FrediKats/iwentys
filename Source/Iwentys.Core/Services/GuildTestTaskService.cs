@@ -13,6 +13,7 @@ using Iwentys.Models.Exceptions;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Types;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Core.Services
 {
@@ -56,9 +57,10 @@ namespace Iwentys.Core.Services
         //TODO: ensure project belong to user
         public async Task<GuildTestTaskInfoResponse> Submit(AuthorizedUser user, int guildId, string projectOwner, string projectName)
         {
-            GuildTestTaskSolvingInfoEntity testTask = _database.GuildTestTaskSolvingInfo
-                .Read()
-                .SingleOrDefault(t => t.StudentId == user.Id && t.GuildId == guildId)?? throw new EntityNotFoundException("Test task was not started");
+            GuildTestTaskSolvingInfoEntity testTask = await _database.GuildTestTaskSolvingInfo
+                                                          .Read()
+                                                          .SingleOrDefaultAsync(t => t.StudentId == user.Id && t.GuildId == guildId)
+                                                      ?? throw new EntityNotFoundException("Test task was not started");
 
             if (testTask.GetState() == GuildTestTaskState.Completed)
                 throw new InnerLogicException("Task already completed");
