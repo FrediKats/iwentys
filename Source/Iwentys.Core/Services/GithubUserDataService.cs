@@ -86,7 +86,13 @@ namespace Iwentys.Core.Services
 
         public GithubRepository GetCertainRepository(string username, string projectName)
         {
-            return _database.StudentProject.FindCertainProject(username, projectName).Maybe(s => new GithubRepository(s));
+            GithubProjectEntity githubRepository = _database.StudentProject.FindCertainProject(username, projectName);
+            if (githubRepository is null)
+            {
+                return _githubApiAccessor.GetRepository(username, projectName);
+            }
+
+            return new GithubRepository(githubRepository);
         }
 
         public IEnumerable<GithubUserEntity> GetAll()
