@@ -1,0 +1,32 @@
+﻿@page "/student/{StudebtId:int}"
+
+@using Iwentys.Core.Services
+@using Iwentys.Endpoints.WebUi.CustomComponents
+@using Iwentys.Endpoints.WebUi.CustomComponents.StudentProfile
+@using Iwentys.Models.Transferable.Students
+
+@inject StudentService StudentService
+
+<div class="container-fluid d-flex flex-row">
+    <div class="col-md-6 d-flex flex-column">
+        <StudentProfileInfoComponent StudentProfile=@StudentFullProfile></StudentProfileInfoComponent>
+    </div>
+
+    <div class="col-md-6 d-flex flex-column">
+        <AchievementComponent Achievements=@StudentFullProfile.Achievements></AchievementComponent>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public int StudebtId { get; set; }
+
+    public StudentFullProfileDto StudentFullProfile { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //TODO: fix
+        StudentFullProfile = await StudentService.GetAsync(StudebtId);
+    }
+}
