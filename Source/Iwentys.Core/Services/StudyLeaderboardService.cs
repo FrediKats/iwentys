@@ -57,7 +57,7 @@ namespace Iwentys.Core.Services
             IQueryable<StudentEntity> query = _databaseAccessor.Student.Read();
 
             query = query
-                .WhereIf(courseId, () => query.Where(q => q.Group.StudyCourseId == courseId));
+                .WhereIf(courseId, q => q.Group.StudyCourseId == courseId);
 
             return query.AsEnumerable()
                 .Select(s => new StudyLeaderboardRow(s, _githubUserDataService.FindByUsername(s.GithubUsername).Result?.ContributionFullInfo.Total ?? 0))
