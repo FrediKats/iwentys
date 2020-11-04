@@ -1,21 +1,8 @@
-﻿using System;
-using System.Globalization;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Iwentys.Core;
-using Iwentys.Core.Services;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories;
-using Iwentys.Endpoints.Api.Tools;
 using Iwentys.Endpoints.Shared;
-using Iwentys.Endpoints.Shared.Auth;
-using Iwentys.Models;
-using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
-using Iwentys.Models.Transferable;
-using Iwentys.Models.Transferable.Students;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -28,15 +15,13 @@ namespace Iwentys.Endpoints.Api.Controllers
         private readonly MarkGoogleTableUpdateService _markGoogleTableUpdateService;
         private readonly ILogger<DebugCommandController> _logger;
         private readonly DatabaseAccessor _databaseAccessor;
-        private readonly StudentService _studentService;
 
-        public DebugCommandController(ILogger<DebugCommandController> logger, DatabaseAccessor databaseAccessor, StudentService studentService)
+        public DebugCommandController(ILogger<DebugCommandController> logger, DatabaseAccessor databaseAccessor)
         {
             _logger = logger;
             _databaseAccessor = databaseAccessor;
 
             _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(_logger, _databaseAccessor, ApplicationOptions.GoogleServiceToken);
-            _studentService = studentService;
         }
 
         //[HttpPost("UpdateSubjectActivityData")]
@@ -60,49 +45,6 @@ namespace Iwentys.Endpoints.Api.Controllers
 
             _markGoogleTableUpdateService.UpdateSubjectActivityForGroup(groupSubjectData);
             return Ok();
-        }
-
-        [HttpGet("login/{userId}")]
-        public async Task<ActionResult<IwentysAuthResponse>> Login(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
-        {
-            await _databaseAccessor.Student.GetAsync(userId);
-            return Ok(TokenGenerator.Generate(userId, signingEncodingKey));
-        }
-
-        [HttpGet("loginOrCreate/{userId}")]
-        public async Task<ActionResult<IwentysAuthResponse>> LoginOrCreate(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
-        {
-            await _studentService.GetOrCreateAsync(userId);
-            return Ok(TokenGenerator.Generate(userId, signingEncodingKey));
-        }
-
-        [HttpGet("ValidateToken")]
-        public int ValidateToken()
-        {
-            var token = HttpContext.Request.Headers["Authorization"].ToString();
-            if (token.StartsWith("Bearer "))
-                token = token.Remove(0, "Bearer ".Length);
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            if (tokenHandler.ReadToken(token) is JwtSecurityToken securityToken)
-            {
-                string stringClaimValue = securityToken.Claims.First(claim => claim.Type == ClaimTypes.UserData).Value;
-                return int.Parse(stringClaimValue, CultureInfo.InvariantCulture);
-            }
-
-            throw new Exception("Invalid token");
-        }
-
-        [HttpPost("register")]
-        public async Task<ActionResult<IwentysAuthResponse>> Register([FromBody] StudentCreateArgumentsDto arguments,
-            [FromServices] IJwtSigningEncodingKey signingEncodingKey)
-        {
-            int groupId = _databaseAccessor.StudyGroup.ReadByNamePattern(new GroupName(arguments.Group)).Id;
-            var student = new StudentEntity(arguments, groupId);
-
-            await _databaseAccessor.Student.CreateAsync(student);
-
-            return Ok(TokenGenerator.Generate(student.Id, signingEncodingKey));
         }
 
         //[HttpGet("teachers")]
