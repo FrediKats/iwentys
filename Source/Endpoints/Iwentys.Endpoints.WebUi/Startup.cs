@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using Iwentys.Database.Context;
 using Iwentys.Endpoints.Shared;
 using Microsoft.AspNetCore.Builder;
@@ -23,6 +24,7 @@ namespace Iwentys.Endpoints.WebUi
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddBlazoredLocalStorage();
 
             services
                 .AddApplicationOptions(Configuration)
