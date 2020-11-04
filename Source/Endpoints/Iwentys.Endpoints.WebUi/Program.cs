@@ -1,4 +1,5 @@
-using Iwentys.Endpoints.Api.BackgroundServices;
+using Google.Apis.Logging;
+using Iwentys.Endpoints.Shared.BackgroundServices;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

@@ -4,13 +4,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Core;
 using Iwentys.Database.Context;
-using Iwentys.Endpoints.Shared;
 using Iwentys.Models.Entities.Study;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Iwentys.Endpoints.Api.BackgroundServices
+namespace Iwentys.Endpoints.Shared.BackgroundServices
 {
     public class MarkUpdateBackgroundService : BackgroundService
     {

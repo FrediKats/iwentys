@@ -1,6 +1,7 @@
 ﻿using Iwentys.Core.Gamification;
 using Iwentys.Core.Services;
 using Iwentys.Database.Context;
+using Iwentys.Database.Repositories;
 using Iwentys.Endpoints.Shared.Auth;
 using Iwentys.Integrations.GithubIntegration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -30,6 +31,8 @@ namespace Iwentys.Endpoints.Shared
                 GithubApiAccessor.Token = ApplicationOptions.GithubToken;
                 services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
             }
+
+            services.AddScoped<StudentRepository>();
 
             services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();
@@ -92,7 +95,7 @@ namespace Iwentys.Endpoints.Shared
         {
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
-                .WriteTo.RollingFile("Logs/iwentys-{Date}.log", LogEventLevel.Warning)
+                .WriteTo.RollingFile("Logs/iwentys-{Date}.log", LogEventLevel.Verbose)
                 .CreateLogger();
 
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
