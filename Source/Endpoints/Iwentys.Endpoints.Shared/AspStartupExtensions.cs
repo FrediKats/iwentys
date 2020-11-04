@@ -32,6 +32,8 @@ namespace Iwentys.Endpoints.Shared
                 services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
             }
 
+            services.AddScoped<AppState>();
+
             services.AddScoped<StudentRepository>();
 
             services.AddScoped<DatabaseAccessor>();

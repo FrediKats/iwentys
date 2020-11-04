@@ -5,7 +5,6 @@ using Iwentys.Database.Context;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models;
 using Iwentys.Models.Entities.Github;
-using Iwentys.Models.Tools;
 
 namespace Iwentys.Core.Services
 {

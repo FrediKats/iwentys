@@ -1,0 +1,11 @@
+﻿@using Iwentys.Endpoints.Shared
+
+@inject AppState AppState
+
+<CascadingValue Value="@AppState">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}
