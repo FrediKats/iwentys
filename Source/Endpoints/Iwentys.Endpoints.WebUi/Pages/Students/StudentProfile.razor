@@ -4,6 +4,16 @@
 @using Iwentys.Endpoints.WebUi.CustomComponents
 @using Iwentys.Endpoints.WebUi.CustomComponents.StudentProfile
 @using Iwentys.Models.Transferable.Students
+@using ChartJs.Blazor.ChartJS.LineChart
+@using ChartJs.Blazor.ChartJS.Common.Properties
+@using ChartJs.Blazor.ChartJS.Common.Enums
+@using ChartJs.Blazor.ChartJS.Common
+@using ChartJs.Blazor.ChartJS.Common.Axes
+@using ChartJs.Blazor.ChartJS.Common.Wrappers
+@using ChartJs.Blazor.Charts
+@using ChartJs.Blazor.Util
+@using System.Drawing
+
 
 @inject StudentService StudentService
 
@@ -14,19 +24,78 @@
 
     <div class="col-md-6 d-flex flex-column">
         <AchievementComponent Achievements=@StudentFullProfile.Achievements></AchievementComponent>
+        <ChartJsLineChart @ref="_chart" Config="_config"></ChartJsLineChart>
     </div>
 </div>
 
 
 @code {
+
     [Parameter]
     public int StudebtId { get; set; }
 
     public StudentFullProfileDto StudentFullProfile { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    private LineConfig _config;
+    private ChartJsLineChart _chart;
+
+    protected override void OnInitialized()
     {
-        //TODO: fix
-        StudentFullProfile = await StudentService.GetAsync(StudebtId);
+    //TODO: fix
+        StudentFullProfile = StudentService.GetAsync(StudebtId).Result;
+
+        var lineDataset = new LineDataset<Int32Wrapper>(StudentFullProfile.CodingActivityInfo.Select(a => new Int32Wrapper(a.Activity)))
+        {
+            Label = "Github",
+            BackgroundColor = ColorUtil.FromDrawingColor(Color.PaleVioletRed),
+            PointBackgroundColor = ColorUtil.FromDrawingColor(Color.BlueViolet),
+            Fill = true
+        };
+
+        _config = new LineConfig
+        {
+            Options = new LineOptions
+            {
+                Responsive = true,
+                Title = new OptionsTitle
+                {
+                    Display = true,
+                    Text = "ChartJs.Blazor Line Chart"
+                },
+                Tooltips = new Tooltips
+                {
+                    Mode = InteractionMode.Nearest,
+                    Intersect = true
+                },
+                Scales = new Scales
+                {
+                    xAxes = new List<CartesianAxis>
+                    {
+                        new CategoryAxis
+                        {
+                            ScaleLabel = new ScaleLabel
+                            {
+                                LabelString = "Month"
+                            }
+                        }
+                    },
+                    yAxes = new List<CartesianAxis>
+                    {
+                        new LinearCartesianAxis
+                        {
+                            ScaleLabel = new ScaleLabel
+                            {
+                                LabelString = "Value"
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+    //TODO: add real month
+        _config.Data.Labels = Enumerable.Repeat("zxc", 12).ToList();
+        _config.Data.Datasets.Add(lineDataset);
     }
+
 }
