@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Core.DomainModel;
 using Iwentys.Database.Context;
 using Iwentys.Integrations.GithubIntegration;
+using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Tournaments;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Core.Services
 {
@@ -22,13 +26,13 @@ namespace Iwentys.Core.Services
             _githubUserDataService = githubUserDataService;
         }
 
-        public TournamentInfoResponse[] Get()
+        public async Task<List<TournamentInfoResponse>> Get()
         {
-            return _databaseAccessor.Tournament
+            List<TournamentEntity> tournaments = await _databaseAccessor.Tournament
                 .Read()
-                .AsEnumerable()
-                .Select(TournamentInfoResponse.Wrap)
-                .ToArray();
+                .ToListAsync();
+
+            return tournaments.SelectToList(TournamentInfoResponse.Wrap);
         }
 
         public TournamentInfoResponse[] GetActive()
@@ -41,15 +45,16 @@ namespace Iwentys.Core.Services
                 .ToArray();
         }
 
-        public TournamentInfoResponse Get(int tournamentId)
+        public async Task<TournamentInfoResponse> Get(int tournamentId)
         {
-            return _databaseAccessor.Tournament.ReadById(tournamentId).To(TournamentInfoResponse.Wrap);
+            TournamentEntity tournamentEntity = await _databaseAccessor.Tournament.ReadByIdAsync(tournamentId);
+            return TournamentInfoResponse.Wrap(tournamentEntity);
         }
 
-        public TournamentLeaderboardDto GetLeaderboard(int tournamentId)
+        public async Task<TournamentLeaderboardDto> GetLeaderboard(int tournamentId)
         {
-            return _databaseAccessor.Tournament
-                .ReadById(tournamentId)
+            TournamentEntity tournamentEntity = await _databaseAccessor.Tournament.ReadByIdAsync(tournamentId);
+            return tournamentEntity
                 .WrapToDomain(_githubApi, _databaseAccessor, _githubUserDataService)
                 .GetLeaderboard();
         }

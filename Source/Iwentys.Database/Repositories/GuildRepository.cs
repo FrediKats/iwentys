@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
@@ -31,7 +32,7 @@ namespace Iwentys.Database.Repositories
                 .Where(g => g.GuildType == GuildType.Created);
         }
 
-        public GuildEntity ReadById(int key)
+        public Task<GuildEntity> ReadByIdAsync(int key)
         {
             return _dbContext.Guilds
                 .Include(g => g.Members)
@@ -40,21 +41,19 @@ namespace Iwentys.Database.Repositories
                 .Include(g => g.Achievements)
                 .ThenInclude(a => a.Achievement)
                 .Include(g => g.TestTasks)
-                .FirstOrDefault(g => g.Id == key);
+                .FirstOrDefaultAsync(g => g.Id == key);
         }
 
-        public GuildEntity Update(GuildEntity entity)
+        public async Task<GuildEntity> UpdateAsync(GuildEntity entity)
         {
             EntityEntry<GuildEntity> createdEntity = _dbContext.Guilds.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
-        public void Delete(int key)
+        public Task<int> DeleteAsync(int key)
         {
-            GuildEntity user = this.Get(key);
-            _dbContext.Guilds.Remove(user);
-            _dbContext.SaveChanges();
+            return _dbContext.Guilds.Where(g => g.Id == key).DeleteFromQueryAsync();
         }
 
         public GuildEntity Create(StudentEntity creator, GuildCreateRequest arguments)
@@ -98,15 +97,15 @@ namespace Iwentys.Database.Repositories
                 .SingleOrDefault();
         }
 
-        public GuildPinnedProjectEntity PinProject(int guildId, string owner, string projectName)
+        public async Task<GuildPinnedProjectEntity> PinProjectAsync(int guildId, string owner, string projectName)
         {
-            EntityEntry<GuildPinnedProjectEntity> entry = _dbContext.GuildPinnedProjects.Add(new GuildPinnedProjectEntity
+            EntityEntry<GuildPinnedProjectEntity> entry = await _dbContext.GuildPinnedProjects.AddAsync(new GuildPinnedProjectEntity
             {
                 GuildId = guildId,
                 RepositoryName = projectName,
                 RepositoryOwner = owner
             });
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return entry.Entity;
         }
 

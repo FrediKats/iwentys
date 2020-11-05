@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Iwentys.Core.Services;
 using Iwentys.Models;
 using Iwentys.Models.Entities.Study;
@@ -19,13 +20,15 @@ namespace Iwentys.Endpoints.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<SubjectEntity>> GetAllSubjects([FromQuery] int? courseId, [FromQuery] StudySemester? semester)
+        public async Task<ActionResult<List<SubjectEntity>>> GetAllSubjects([FromQuery] int? courseId, [FromQuery] StudySemester? semester)
         {
-            return Ok(_studyLeaderboardService.GetSubjectsForDto(new StudySearchParameters
+            List<SubjectEntity> result = await _studyLeaderboardService.GetSubjectsForDtoAsync(new StudySearchParameters
             {
                 CourseId = courseId,
                 StudySemester = semester
-            }));
+            });
+
+            return Ok(result);
         }
     }
 }

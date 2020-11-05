@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -15,10 +16,10 @@ namespace Iwentys.Database.Repositories
             _dbContext = dbContext;
         }
 
-        public StudentEntity Create(StudentEntity entity)
+        public async Task<StudentEntity> CreateAsync(StudentEntity entity)
         {
-            EntityEntry<StudentEntity> createdEntity = _dbContext.Students.Add(entity);
-            _dbContext.SaveChanges();
+            EntityEntry<StudentEntity> createdEntity = await _dbContext.Students.AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
@@ -36,23 +37,21 @@ namespace Iwentys.Database.Repositories
                 .ThenInclude(gm => gm.Guild);
         }
 
-        public StudentEntity ReadById(int key)
+        public Task<StudentEntity> ReadByIdAsync(int key)
         {
-            return Read().FirstOrDefault(s => s.Id == key);
+            return Read().FirstOrDefaultAsync(s => s.Id == key);
         }
 
-        public StudentEntity Update(StudentEntity entity)
+        public async Task<StudentEntity> UpdateAsync(StudentEntity entity)
         {
             EntityEntry<StudentEntity> createdEntity = _dbContext.Students.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
-        public void Delete(int key)
+        public Task<int> DeleteAsync(int key)
         {
-            StudentEntity user = this.Get(key);
-            _dbContext.Students.Remove(user);
-            _dbContext.SaveChanges();
+            return _dbContext.Students.Where(s => s.Id == key).DeleteFromQueryAsync();
         }
     }
 }

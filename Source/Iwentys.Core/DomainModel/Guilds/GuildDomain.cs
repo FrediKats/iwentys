@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Core.Services;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
@@ -40,7 +41,7 @@ namespace Iwentys.Core.DomainModel.Guilds
             return new GuildProfileShortInfoDto(Profile);
         }
 
-        public GuildProfileDto ToGuildProfileDto(int? userId = null)
+        public async Task<GuildProfileDto> ToGuildProfileDto(int? userId = null)
         {
             GuildMemberLeaderBoard dashboard = GetMemberDashboard();
 
@@ -57,7 +58,7 @@ namespace Iwentys.Core.DomainModel.Guilds
             if (userId != null && Profile.Members.Any(m => m.MemberId == userId))
                 info.Tribute = _dbAccessor.Tribute.ReadStudentActiveTribute(Profile.Id, userId.Value)?.To(ActiveTributeResponse.Create);
             if (userId != null)
-                info.UserMembershipState = GetUserMembershipState(userId.Value);
+                info.UserMembershipState = await GetUserMembershipState(userId.Value);
 
             return info;
         }
@@ -77,7 +78,8 @@ namespace Iwentys.Core.DomainModel.Guilds
                 .Members
                 .Select(m => m.Member.GithubUsername)
                 .Where(gh => gh != null)
-                .Select(ghName => _githubUserDataService.FindByUsername(ghName))
+                .ToList()
+                .Select(ghName => _githubUserDataService.FindByUsername(ghName).Result)
                 .Where(userData => userData != null)
                 .ToList();
         }
@@ -94,9 +96,9 @@ namespace Iwentys.Core.DomainModel.Guilds
             };
         }
 
-        public UserMembershipState GetUserMembershipState(Int32 userId)
+        public async Task<UserMembershipState> GetUserMembershipState(Int32 userId)
         {
-            StudentEntity user = _dbAccessor.Student.Get(userId);
+            StudentEntity user = await _dbAccessor.Student.GetAsync(userId);
             GuildEntity userGuild = _dbAccessor.Guild.ReadForStudent(user.Id);
             GuildMemberType? userStatusInGuild = Profile.Members.Find(m => m.Member.Id == user.Id)?.MemberType;
 
@@ -142,15 +144,15 @@ namespace Iwentys.Core.DomainModel.Guilds
                 //TODO: need to fix after https://github.com/octokit/octokit.net/pull/2239
                 //_profile.Bio = organizationInfo.Bio;
                 Profile.LogoUrl = organizationInfo.Url;
-                _dbAccessor.Guild.Update(Profile);
+                _dbAccessor.Guild.UpdateAsync(Profile);
             }
 
             return this;
         }
 
-        public GuildMemberEntity EnsureMemberCanRestrictPermissionForOther(AuthorizedUser editor, int memberToKickId)
+        public async Task<GuildMemberEntity> EnsureMemberCanRestrictPermissionForOther(AuthorizedUser editor, int memberToKickId)
         {
-            StudentEntity editorStudentAccount = editor.GetProfile(_dbAccessor.Student);
+            StudentEntity editorStudentAccount = await editor.GetProfile(_dbAccessor.Student);
             editorStudentAccount.EnsureIsGuildEditor(Profile);
 
             GuildMemberEntity memberToKick = Profile.Members.Find(m => m.MemberId == memberToKickId);

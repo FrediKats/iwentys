@@ -34,9 +34,9 @@ namespace Iwentys.Tests.Core.Services
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out GuildProfileDto guild);
 
-            var createdGuild = context.GuildRepository.Get(guild.Id);
+            var createdGuild = context.GuildRepository.GetAsync(guild.Id);
 
-            Assert.AreEqual(GuildType.Pending, createdGuild.GuildType);
+            Assert.AreEqual(GuildType.Pending, createdGuild.Result.GuildType);
         }
 
         [Test]
@@ -49,9 +49,9 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuild(user, out GuildProfileDto guild);
 
             context.GuildService.ApproveGuildCreating(admin, guild.Id);
-            var createdGuild = context.GuildRepository.Get(guild.Id);
+            var createdGuild = context.GuildRepository.GetAsync(guild.Id);
 
-            Assert.AreEqual(GuildType.Created, createdGuild.GuildType);
+            Assert.AreEqual(GuildType.Created, createdGuild.Result.GuildType);
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out GuildProfileDto guild);
 
-            List<GuildMemberEntity> requests = context.GuildMemberService.GetGuildRequests(user, guild.Id).ToList();
+            List<GuildMemberEntity> requests = context.GuildMemberService.GetGuildRequests(user, guild.Id).Result.ToList();
 
             Assert.That(requests, Is.Not.Null);
             Assert.That(requests.Any(), Is.False);
@@ -89,7 +89,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuild(user, out GuildProfileDto guild)
                 .WithNewStudent(out AuthorizedUser student);
 
-            Assert.Throws<InnerLogicException>(() => context.GuildMemberService.GetGuildRequests(student, guild.Id));
+            Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.GetGuildRequests(student, guild.Id));
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuild(user, out GuildProfileDto guild)
                 .WithGuildMember(guild, out AuthorizedUser member);
 
-            Assert.Throws<InnerLogicException>(() => context.GuildMemberService.GetGuildRequests(member, guild.Id));
+            Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.GetGuildRequests(member, guild.Id));
         }
 
         [Test]
@@ -113,7 +113,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuild(user, out GuildProfileDto guild)
                 .WithGuildRequest(guild, out AuthorizedUser student);
 
-            List<GuildMemberEntity> requests = context.GuildMemberService.GetGuildRequests(user, guild.Id).ToList();
+            List<GuildMemberEntity> requests = context.GuildMemberService.GetGuildRequests(user, guild.Id).Result.ToList();
 
             Assert.That(requests, Is.Not.Null);
             Assert.That(requests.Length, Is.EqualTo(1));
@@ -130,7 +130,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuild(user, out GuildProfileDto guild)
                 .WithGuildBlocked(guild, out AuthorizedUser student);
 
-            List<GuildMemberEntity> blocked = context.GuildMemberService.GetGuildBlocked(user, guild.Id).ToList();
+            List<GuildMemberEntity> blocked = context.GuildMemberService.GetGuildBlocked(user, guild.Id).Result.ToList();
 
             Assert.That(blocked, Is.Not.Null);
             Assert.That(blocked.Length, Is.EqualTo(1));
@@ -148,7 +148,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuildMember(guild, out AuthorizedUser member);
 
             context.GuildMemberService.BlockGuildMember(user, guild.Id, member.Id);
-            List<GuildMemberEntity> blocked = context.GuildMemberService.GetGuildBlocked(user, guild.Id).ToList();
+            List<GuildMemberEntity> blocked = context.GuildMemberService.GetGuildBlocked(user, guild.Id).Result.ToList();
             GuildEntity memberGuild = context.GuildRepository.ReadForStudent(member.Id);
 
             Assert.That(blocked.Find(m => m.MemberId == member.Id), Is.Not.Null);
@@ -163,7 +163,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out GuildProfileDto guild);
 
-            Assert.Throws<InnerLogicException>(() =>  context.GuildMemberService.BlockGuildMember(user, guild.Id, user.Id));
+            Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.BlockGuildMember(user, guild.Id, user.Id));
         }
 
         [Test]
@@ -175,7 +175,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuild(user, out GuildProfileDto guild)
                 .WithNewStudent(out AuthorizedUser student);
 
-            Assert.Throws<InnerLogicException>(() =>  context.GuildMemberService.BlockGuildMember(user, guild.Id, student.Id));
+            Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.BlockGuildMember(user, guild.Id, student.Id));
         }
 
         [Test]
@@ -188,7 +188,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuildMentor(guild, out AuthorizedUser mentor)
                 .WithGuildMentor(guild, out AuthorizedUser anotherMentor);
 
-            Assert.Throws<InnerLogicException>(() =>  context.GuildMemberService.BlockGuildMember(mentor, guild.Id, anotherMentor.Id));
+            Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.BlockGuildMember(mentor, guild.Id, anotherMentor.Id));
         }
 
         [Test]
@@ -216,7 +216,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuildMentor(guild, out AuthorizedUser mentor)
                 .WithGuildMentor(guild, out AuthorizedUser anotherMentor);
 
-            Assert.Throws<InnerLogicException>(() =>  context.GuildMemberService.KickGuildMember(mentor, guild.Id, anotherMentor.Id));
+            Assert.ThrowsAsync<InnerLogicException>(() =>  context.GuildMemberService.KickGuildMember(mentor, guild.Id, anotherMentor.Id));
         }
 
         [Test]
@@ -229,7 +229,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuildBlocked(guild, out AuthorizedUser student);
 
             context.GuildMemberService.UnblockStudent(user, guild.Id, student.Id);
-            List<GuildMemberEntity> blocked = context.GuildMemberService.GetGuildBlocked(user, guild.Id).ToList();
+            List<GuildMemberEntity> blocked = context.GuildMemberService.GetGuildBlocked(user, guild.Id).Result.ToList();
 
 
             Assert.That(blocked.Find(m => m.MemberId == student.Id), Is.Null);
@@ -244,7 +244,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuild(user, out GuildProfileDto guild)
                 .WithNewStudent(out AuthorizedUser student);
 
-            Assert.Throws<InnerLogicException>(() => context.GuildMemberService.UnblockStudent(user, guild.Id, student.Id));
+            Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.UnblockStudent(user, guild.Id, student.Id));
         }
 
         [Test]
@@ -257,8 +257,8 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuildRequest(guild, out AuthorizedUser student);
 
             context.GuildMemberService.AcceptRequest(user, guild.Id, student.Id);
-            GuildMemberEntity member = context.GuildRepository.Get(guild.Id).Members.Find(m => m.MemberId == student.Id);
-            List<GuildMemberEntity> requests = context.GuildMemberService.GetGuildRequests(user, guild.Id).ToList();
+            GuildMemberEntity member = context.GuildRepository.GetAsync(guild.Id).Result.Members.Find(m => m.MemberId == student.Id);
+            List<GuildMemberEntity> requests = context.GuildMemberService.GetGuildRequests(user, guild.Id).Result.ToList();
 
             Assert.IsNotNull(member);
             Assert.That(member.MemberType, Is.EqualTo(GuildMemberType.Member));
@@ -274,7 +274,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuild(user, out GuildProfileDto guild)
                 .WithNewStudent(out AuthorizedUser student);
 
-            Assert.Throws<InnerLogicException>(() => context.GuildMemberService.AcceptRequest(user, guild.Id, student.Id));
+            Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.AcceptRequest(user, guild.Id, student.Id));
         }
 
         [Test]
@@ -287,8 +287,8 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuildRequest(guild, out AuthorizedUser student);
 
             context.GuildMemberService.RejectRequest(user, guild.Id, student.Id);
-            GuildMemberEntity member = context.GuildRepository.Get(guild.Id).Members.Find(m => m.MemberId == student.Id);
-            List<GuildMemberEntity> requests = context.GuildMemberService.GetGuildRequests(user, guild.Id).ToList();
+            GuildMemberEntity member = context.GuildRepository.GetAsync(guild.Id).Result.Members.Find(m => m.MemberId == student.Id);
+            List<GuildMemberEntity> requests = context.GuildMemberService.GetGuildRequests(user, guild.Id).Result.ToList();
 
             Assert.That(member, Is.Null);
             Assert.That(requests.Find(m => m.MemberId == student.Id), Is.Null);
@@ -303,7 +303,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuild(user, out GuildProfileDto guild)
                 .WithNewStudent(out AuthorizedUser student);
 
-            Assert.Throws<InnerLogicException>(() => context.GuildMemberService.RejectRequest(user, guild.Id, student.Id));
+            Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.RejectRequest(user, guild.Id, student.Id));
         }
 
         [Test]
@@ -314,9 +314,9 @@ namespace Iwentys.Tests.Core.Services
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out GuildProfileDto guild)
                 .WithGuildRequest(guild, out AuthorizedUser _);
-            context.GuildService.Update(user, new GuildUpdateRequest {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Close});
+            context.GuildService.UpdateAsync(user, new GuildUpdateRequest {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Close});
 
-            Assert.That(context.GuildRepository.Get(guild.Id).HiringPolicy, Is.EqualTo(GuildHiringPolicy.Close));
+            Assert.That(context.GuildRepository.GetAsync(guild.Id).Result.HiringPolicy, Is.EqualTo(GuildHiringPolicy.Close));
         }
 
         [Test]
@@ -327,11 +327,12 @@ namespace Iwentys.Tests.Core.Services
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out GuildProfileDto guild)
                 .WithGuildRequest(guild, out AuthorizedUser student);
-            context.GuildService.Update(user, new GuildUpdateRequest() {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Close});
-            context.GuildService.Update(user, new GuildUpdateRequest() {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Open});
+            context.GuildService.UpdateAsync(user, new GuildUpdateRequest() {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Close});
+            context.GuildService.UpdateAsync(user, new GuildUpdateRequest() {Id = guild.Id, HiringPolicy = GuildHiringPolicy.Open});
 
-            Assert.That(context.GuildRepository.Get(guild.Id).Members.ToList().Find(m => m.MemberId == student.Id).MemberType,
-                Is.EqualTo(GuildMemberType.Member));
+            GuildMemberEntity newMember = context.GuildRepository.GetAsync(guild.Id).Result.Members.Find(m => m.MemberId == student.Id);
+            Assert.IsNotNull(newMember);
+            Assert.That(newMember.MemberType, Is.EqualTo(GuildMemberType.Member));
         }
 
         [Test]
@@ -344,7 +345,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGithubRepository(user, out GithubUserEntity userData)
                 .WithGuild(user, out GuildProfileDto guild);
 
-            Assert.That(context.GuildService.GetGuildMemberLeaderBoard(guild.Id).MembersImpact.Single().TotalRate,
+            Assert.That(context.GuildService.GetGuildMemberLeaderBoard(guild.Id).Result.MembersImpact.Single().TotalRate,
                 Is.EqualTo(userData.ContributionFullInfo.Total));
         }
     }

@@ -18,13 +18,13 @@ namespace Iwentys.Tests.Core.Services
                 .Case()
                 .WithNewStudent(out AuthorizedUser user);
 
-            StudentEntity student = user.GetProfile(test.StudentRepository);
+            StudentEntity student = user.GetProfile(test.StudentRepository).Result;
             student.BarsPoints = 100;
-            test.StudentRepository.Update(student);
+            test.StudentRepository.UpdateAsync(student);
 
             test.WithQuest(user, 50, out QuestInfoResponse quest);
 
-            List<QuestInfoResponse> quests = test.QuestService.GetActive();
+            List<QuestInfoResponse> quests = test.QuestService.GetActiveAsync().Result;
 
             Assert.IsTrue(quests.Any(q => q.Id == quest.Id));
         }

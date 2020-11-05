@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Core.DomainModel;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
@@ -48,14 +49,14 @@ namespace Iwentys.Core.Services
                 .ToArray();
         }
 
-        public TributeInfoResponse CreateTribute(AuthorizedUser user, CreateProjectRequest createProject)
+        public async Task<TributeInfoResponse> CreateTribute(AuthorizedUser user, CreateProjectRequest createProject)
         {
-            StudentEntity student = _database.Student.Get(user.Id);
+            StudentEntity student = await _database.Student.GetAsync(user.Id);
             if (student.GithubUsername != createProject.Owner)
                 throw InnerLogicException.TributeEx.TributeCanBeSendFromStudentAccount(student, createProject);
 
             GithubRepository githubProject = _githubApi.GetRepository(createProject.Owner, createProject.RepositoryName);
-            GithubProjectEntity projectEntity = _database.StudentProject.GetOrCreate(githubProject, student);
+            GithubProjectEntity projectEntity = await _database.StudentProject.GetOrCreateAsync(githubProject, student);
             GuildEntity guild = _database.Guild.ReadForStudent(student.Id);
             TributeEntity[] allTributes = _database.Tribute.Read().ToArray();
 
@@ -68,10 +69,10 @@ namespace Iwentys.Core.Services
             return _database.Tribute.Create(guild, projectEntity).To(TributeInfoResponse.Wrap);
         }
 
-        public TributeInfoResponse CancelTribute(AuthorizedUser user, long tributeId)
+        public async Task<TributeInfoResponse> CancelTribute(AuthorizedUser user, long tributeId)
         {
-            StudentEntity student = user.GetProfile(_database.Student);
-            TributeEntity tribute = _database.Tribute.Get(tributeId);
+            StudentEntity student = await user.GetProfile(_database.Student);
+            TributeEntity tribute = await _database.Tribute.GetAsync(tributeId);
 
             if (tribute.State != TributeState.Active)
                 throw InnerLogicException.TributeEx.IsNotActive(tribute);
@@ -82,24 +83,26 @@ namespace Iwentys.Core.Services
             }
             else
             {
-                student.EnsureIsMentor(_database.Guild, tribute.GuildId);
+                await student.EnsureIsMentor(_database.Guild, tribute.GuildId);
                 tribute.SetCanceled();
             }
 
-            return _database.Tribute.Update(tribute).To(TributeInfoResponse.Wrap);
+            TributeEntity updatedTribute = await _database.Tribute.UpdateAsync(tribute);
+            return TributeInfoResponse.Wrap(updatedTribute);
         }
 
-        public TributeInfoResponse CompleteTribute(AuthorizedUser user, TributeCompleteRequest tributeCompleteRequest)
+        public async Task<TributeInfoResponse> CompleteTribute(AuthorizedUser user, TributeCompleteRequest tributeCompleteRequest)
         {
-            StudentEntity student = user.GetProfile(_database.Student);
-            TributeEntity tribute = _database.Tribute.Get(tributeCompleteRequest.TributeId);
-            GuildMentorUser mentor = student.EnsureIsMentor(_database.Guild, tribute.GuildId);
+            StudentEntity student = await user.GetProfile(_database.Student);
+            TributeEntity tribute = await _database.Tribute.GetAsync(tributeCompleteRequest.TributeId);
+            GuildMentorUser mentor = await student.EnsureIsMentor(_database.Guild, tribute.GuildId);
 
             if (tribute.State != TributeState.Active)
                 throw InnerLogicException.TributeEx.IsNotActive(tribute);
 
             tribute.SetCompleted(mentor.Student.Id, tributeCompleteRequest.DifficultLevel, tributeCompleteRequest.Mark);
-            return _database.Tribute.Update(tribute).To(TributeInfoResponse.Wrap);
+            TributeEntity updatedTribute = await _database.Tribute.UpdateAsync(tribute);
+            return TributeInfoResponse.Wrap(updatedTribute);
         }
     }
 }

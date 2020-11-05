@@ -1,0 +1,17 @@
+﻿@using Iwentys.Models.Transferable.Guilds
+@namespace Iwentys.Endpoints.WebUi.CustomComponents.Guild
+
+
+<div class="container-fluid d-flex flex-column align-items-center">
+    <img src=@GuildProfile.LogoUrl class="guild-preview-logo" />
+    <MatHeadline4>@GuildProfile.Title</MatHeadline4>
+    <MatBody1>Лидер: @GuildProfile.Leader.GithubUsername</MatBody1>
+    <MatBody1>@GuildProfile.Bio</MatBody1>
+    <MatButton>Редактировать</MatButton>
+    <MatButton>Трибьюты</MatButton>
+</div>
+
+@code {
+    [Parameter]
+    public GuildProfileDto GuildProfile { get; set; }
+}

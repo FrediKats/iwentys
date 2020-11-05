@@ -1,6 +1,8 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities.Github;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories
@@ -26,27 +28,26 @@ namespace Iwentys.Database.Repositories
             return _dbContext.GithubUsersData;
         }
 
-        public GithubUserEntity ReadById(int key)
+        public Task<GithubUserEntity> ReadByIdAsync(int key)
         {
-            return _dbContext.GithubUsersData.Find(key);
+            return _dbContext.GithubUsersData.FirstOrDefaultAsync(v => v.StudentId == key);
         }
 
-        public GithubUserEntity Update(GithubUserEntity entity)
+        public async Task<GithubUserEntity> UpdateAsync(GithubUserEntity entity)
         {
             EntityEntry<GithubUserEntity> createdEntry = _dbContext.GithubUsersData.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return createdEntry.Entity;
         }
 
-        public void Delete(int key)
+        public Task<int> DeleteAsync(int key)
         {
-            _dbContext.GithubUsersData.Remove(this.Get(key));
-            _dbContext.SaveChanges();
+            return _dbContext.GithubUsersData.Where(gu => gu.StudentId == key).DeleteFromQueryAsync();
         }
 
-        public GithubUserEntity FindByUsername(string username)
+        public Task<GithubUserEntity> FindByUsernameAsync(string username)
         {
-            return Read().SingleOrDefault(g => g.Username == username);
+            return Read().SingleOrDefaultAsync(g => g.Username == username);
         }
     }
 }

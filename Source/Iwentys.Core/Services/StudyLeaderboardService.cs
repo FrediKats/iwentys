@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Database.Tools;
 using Iwentys.Models;
@@ -7,7 +8,7 @@ using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Exceptions;
 using Iwentys.Models.Transferable.Study;
-using MoreLinq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Core.Services
 {
@@ -22,14 +23,14 @@ namespace Iwentys.Core.Services
             _githubUserDataService = githubUserDataService;
         }
 
-        public List<SubjectEntity> GetSubjectsForDto(StudySearchParameters searchParameters)
+        public Task<List<SubjectEntity>> GetSubjectsForDtoAsync(StudySearchParameters searchParameters)
         {
-            return _databaseAccessor.GroupSubject.GetSubjectsForDto(searchParameters).DistinctBy(s => s.Id).ToList();
+            return _databaseAccessor.GroupSubject.GetSubjectsForDto(searchParameters).ToListAsync();
         }
 
-        public List<StudyGroupEntity> GetStudyGroupsForDto(int? courseId)
+        public Task<List<StudyGroupEntity>> GetStudyGroupsForDtoAsync(int? courseId)
         {
-            return _databaseAccessor.GroupSubject.GetStudyGroupsForDto(courseId).ToList();
+            return _databaseAccessor.GroupSubject.GetStudyGroupsForDto(courseId).ToListAsync();
         }
 
         public List<StudyLeaderboardRow> GetStudentsRatings(StudySearchParameters searchParameters)
@@ -46,19 +47,23 @@ namespace Iwentys.Core.Services
                 .GroupBy(r => r.StudentId)
                 .Select(g => new StudyLeaderboardRow(g))
                 .OrderByDescending(a => a.Activity)
+                .Skip(searchParameters.Skip)
+                .Take(searchParameters.Take)
                 .ToList();
         }
 
-        public List<StudyLeaderboardRow> GetCodingRating(int? courseId)
+        public List<StudyLeaderboardRow> GetCodingRating(int? courseId, int skip, int take)
         {
             IQueryable<StudentEntity> query = _databaseAccessor.Student.Read();
 
             query = query
-                .WhereIf(courseId, () => query.Where(q => q.Group.StudyCourseId == courseId));
+                .WhereIf(courseId, q => q.Group.StudyCourseId == courseId);
 
             return query.AsEnumerable()
-                .Select(s => new StudyLeaderboardRow(s, _githubUserDataService.FindByUsername(s.GithubUsername)?.ContributionFullInfo.Total ?? 0))
+                .Select(s => new StudyLeaderboardRow(s, _githubUserDataService.FindByUsername(s.GithubUsername).Result?.ContributionFullInfo.Total ?? 0))
                 .OrderBy(a => a.Activity)
+                .Skip(skip)
+                .Take(take)
                 .ToList();
         }
     }

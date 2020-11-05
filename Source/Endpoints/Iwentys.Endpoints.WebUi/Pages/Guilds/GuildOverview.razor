@@ -1,0 +1,44 @@
+﻿@page "/guild/overview"
+@using Iwentys.Core.Services
+@using Iwentys.Models.Transferable.Guilds
+@inject GuildService GuildService
+
+<div class="text-center">
+    <h3>Рейтинг Гильдий</h3>
+
+    <div class="container-fluid d-flex flex-column">
+        @foreach (GuildProfilePreviewDto guild in _guildProfiles)
+        {
+            var linToProfile = $"guild/{guild.Id}";
+
+            <MatNavItem href=@linToProfile class="d-flex flex-row guild-rating-row justify-content-md-between">
+
+                <div class="col-md-2">
+                    <img src=@guild.LogoUrl class="guild-preview-logo" />
+                </div>
+
+                <div class="col-md-4">
+                    <h4>@guild.Title</h4>
+
+                    <p href="guild">Some bio @guild.Bio</p>
+                </div>
+
+                <div class="col-md-2">
+                    <p>@guild.Rating</p>
+                </div>
+
+            </MatNavItem>
+        }
+    </div>
+</div>
+
+
+@code {
+    private IReadOnlyList<GuildProfilePreviewDto> _guildProfiles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _guildProfiles = GuildService.GetOverview(0, 20);
+    }
+
+}

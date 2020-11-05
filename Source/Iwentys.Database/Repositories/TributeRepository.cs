@@ -1,8 +1,10 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Types;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories
@@ -21,22 +23,21 @@ namespace Iwentys.Database.Repositories
             return _dbContext.Tributes;
         }
 
-        public TributeEntity ReadById(long key)
+        public Task<TributeEntity> ReadByIdAsync(long key)
         {
-            return _dbContext.Tributes.Find(key);
+            return _dbContext.Tributes.FirstOrDefaultAsync(v => v.ProjectId == key);
         }
 
-        public TributeEntity Update(TributeEntity entity)
+        public async Task<TributeEntity> UpdateAsync(TributeEntity entity)
         {
             EntityEntry<TributeEntity> createdEntity = _dbContext.Tributes.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
-        public void Delete(long key)
+        public Task<int> DeleteAsync(long key)
         {
-            _dbContext.Tributes.Remove(this.Get(key));
-            _dbContext.SaveChanges();
+            return _dbContext.Tributes.Where(t => t.ProjectId == key).DeleteFromQueryAsync();
         }
 
         public TributeEntity Create(GuildEntity guild, GithubProjectEntity githubProject)

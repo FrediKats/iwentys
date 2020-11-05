@@ -67,13 +67,13 @@ namespace Iwentys.Tests.Tools
                 GithubUsername = $"{Constants.GithubUsername}{id}"
             };
 
-            user = AuthorizedUser.DebugAuth(StudentRepository.Create(userInfo).Id);
+            user = AuthorizedUser.DebugAuth(StudentRepository.CreateAsync(userInfo).Id);
             return this;
         }
 
         public TestCaseContext WithGuild(AuthorizedUser user, out GuildProfileDto guildProfile)
         {
-            guildProfile = GuildService.Create(user, new GuildCreateRequest()).To(g => GuildService.Get(g.Id, user.Id));
+            guildProfile = GuildService.CreateAsync(user, new GuildCreateRequest()).To(g => GuildService.GetAsync(g.Id, user.Id).Result);
             return this;
         }
 
@@ -118,7 +118,7 @@ namespace Iwentys.Tests.Tools
         public TestCaseContext WithCompany(out CompanyInfoResponse companyInfo)
         {
             var company = new CompanyEntity();
-            company = DatabaseAccessor.Company.Create(company);
+            company = DatabaseAccessor.Company.CreateAsync(company).Result;
             companyInfo = CompanyInfoResponse.Create(company);
             return this;
         }
@@ -138,7 +138,7 @@ namespace Iwentys.Tests.Tools
                 //TODO: hack for work with dummy github
                 Id = 17,
                 StudentId = userInfo.Id,
-                Author = userInfo.GetProfile(DatabaseAccessor.Student).GithubUsername,
+                Author = userInfo.GetProfile(DatabaseAccessor.Student).Result.GithubUsername,
                 Name = "Test repo"
             };
             githubProjectEntity = DatabaseAccessor.StudentProject.Create(project);
@@ -148,7 +148,7 @@ namespace Iwentys.Tests.Tools
 
         public TestCaseContext WithTribute(AuthorizedUser userInfo, CreateProjectRequest project, out TributeInfoResponse tribute)
         {
-            tribute = GuildTributeServiceService.CreateTribute(userInfo, project);
+            tribute = GuildTributeServiceService.CreateTribute(userInfo, project).Result;
             return this;
         }
 
@@ -156,9 +156,9 @@ namespace Iwentys.Tests.Tools
         {
             tribute = GuildTributeServiceService.CreateTribute(userInfo, new CreateProjectRequest
             {
-                Owner = userInfo.GetProfile(DatabaseAccessor.Student).GithubUsername,
+                Owner = userInfo.GetProfile(DatabaseAccessor.Student).Result.GithubUsername,
                 RepositoryName = projectEntity.Name
-            });
+            }).Result;
             return this;
         }
 
@@ -169,19 +169,19 @@ namespace Iwentys.Tests.Tools
                 DifficultLevel = 1,
                 Mark = 1,
                 TributeId = tribute.Project.Id
-            });
+            }).Result;
             return this;
         }
 
         public TestCaseContext WithQuest(AuthorizedUser user, int price, out QuestInfoResponse quest)
         {
-            quest = QuestService.Create(user, new CreateQuestRequest
+            quest = QuestService.CreateAsync(user, new CreateQuestRequest
             {
                 Title = "Some quest",
                 Description = "Some desc",
                 Deadline = DateTime.UtcNow.AddDays(1),
                 Price = price
-            });
+            }).Result;
 
             return this;
         }
@@ -189,12 +189,11 @@ namespace Iwentys.Tests.Tools
         private static class Constants
         {
             public const string GithubUsername = "GhUser";
-            public const string GithubRepoName = "GhRepo";
         }
 
         public TestCaseContext WithGithubRepository(AuthorizedUser userInfo, out GithubUserEntity userEntity)
         {
-            userEntity = GithubUserDataService.CreateOrUpdate(userInfo.Id);
+            userEntity = GithubUserDataService.CreateOrUpdate(userInfo.Id).Result;
             return this;
         }
     }

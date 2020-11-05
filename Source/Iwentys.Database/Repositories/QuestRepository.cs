@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;
@@ -26,22 +27,21 @@ namespace Iwentys.Database.Repositories
                 .Include(r => r.Responses);
         }
 
-        public QuestEntity ReadById(int key)
+        public Task<QuestEntity> ReadByIdAsync(int key)
         {
-            return Read().FirstOrDefault(q => q.Id == key);
+            return Read().FirstOrDefaultAsync(q => q.Id == key);
         }
 
-        public QuestEntity Update(QuestEntity entity)
+        public async Task<QuestEntity> UpdateAsync(QuestEntity entity)
         {
             EntityEntry<QuestEntity> createdEntity = _dbContext.Quests.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
-        public void Delete(int key)
+        public Task<int> DeleteAsync(int key)
         {
-            _dbContext.Quests.Remove(this.Get(key));
-            _dbContext.SaveChanges();
+            return _dbContext.Quests.Where(q => q.Id == key).DeleteFromQueryAsync();
         }
 
         public void SendResponse(QuestEntity questEntity, int userId)
@@ -71,7 +71,7 @@ namespace Iwentys.Database.Repositories
             return questEntity;
         }
 
-        public QuestEntity Create(StudentEntity student, CreateQuestRequest createQuest)
+        public async Task<QuestEntity> CreateAsync(StudentEntity student, CreateQuestRequest createQuest)
         {
             //TODO: add transaction
             if (student.BarsPoints < createQuest.Price)
@@ -79,14 +79,9 @@ namespace Iwentys.Database.Repositories
 
             student.BarsPoints -= createQuest.Price;
             var quest = QuestEntity.New(createQuest.Title, createQuest.Description, createQuest.Price, createQuest.Deadline, student);
-            return _dbContext.Quests.Add(quest).Entity;
-        }
-
-        public QuestEntity Create(QuestEntity entity)
-        {
-            EntityEntry<QuestEntity> createdEntity = _dbContext.Quests.Add(entity);
-            _dbContext.SaveChanges();
-            return createdEntity.Entity;
+            EntityEntry<QuestEntity> entity = await _dbContext.Quests.AddAsync(quest);
+            await _dbContext.SaveChangesAsync();
+            return entity.Entity;
         }
     }
 }

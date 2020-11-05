@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentResults;
 using Iwentys.Core.Services;
@@ -24,10 +25,10 @@ namespace Iwentys.Endpoints.ClientBot.Commands.Student
             return Result.Ok();
         }
 
-        public Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
+        public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            StudentFullProfileDto[] profileDtos = _studentService.Get();
-            return ResultFormatter.FormatToTask(profileDtos);
+            List<StudentFullProfileDto> profileDtos = await _studentService.GetAsync();
+            return ResultFormatter.FormatToResult(profileDtos);
         }
 
         public string CommandName => nameof(GetAllStudentsCommand);

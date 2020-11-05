@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services;
 using Iwentys.Endpoints.Api.Tools;
@@ -23,17 +24,17 @@ namespace Iwentys.Endpoints.Api.Controllers
         }
 
         [HttpPost]
-        public ActionResult<GuildProfileShortInfoDto> Create([FromBody] GuildCreateRequest arguments)
+        public async Task<ActionResult<GuildProfileShortInfoDto>> Create([FromBody] GuildCreateRequest arguments)
         {
             AuthorizedUser creator = this.TryAuthWithToken();
-            return Ok(_guildService.Create(creator, arguments));
+            return Ok(await _guildService.CreateAsync(creator, arguments));
         }
 
         [HttpPut]
-        public ActionResult<GuildProfileShortInfoDto> Update([FromBody] GuildUpdateRequest arguments)
+        public async Task<ActionResult<GuildProfileShortInfoDto>> Update([FromBody] GuildUpdateRequest arguments)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(_guildService.Update(user, arguments));
+            return Ok(await _guildService.UpdateAsync(user, arguments));
         }
 
         [HttpGet]
@@ -43,100 +44,100 @@ namespace Iwentys.Endpoints.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<GuildProfileDto> Get(int id)
+        public async Task<ActionResult<GuildProfileDto>> Get(int id)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(_guildService.Get(id, user.Id));
+            return Ok(await _guildService.GetAsync(id, user.Id));
         }
 
         [HttpPut("{guildId}/enter")]
-        public ActionResult<GuildProfileDto> Enter(int guildId)
+        public async Task<ActionResult<GuildProfileDto>> Enter(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(_guildMemberService.EnterGuild(user, guildId));
+            return Ok(await _guildMemberService.EnterGuildAsync(user, guildId));
         }
 
         [HttpPut("{guildId}/request")]
-        public ActionResult<GuildProfileDto> SendRequest(int guildId)
+        public async Task<ActionResult<GuildProfileDto>> SendRequest(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(_guildMemberService.RequestGuild(user, guildId));
+            return Ok(await _guildMemberService.RequestGuildAsync(user, guildId));
         }
 
         [HttpPut("{guildId}/leave")]
-        public ActionResult<GuildProfileDto> Leave(int guildId)
+        public async Task<ActionResult<GuildProfileDto>> Leave(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(_guildMemberService.LeaveGuild(user, guildId));
+            return Ok(await _guildMemberService.LeaveGuildAsync(user, guildId));
         }
 
         [HttpGet("{guildId}/request")]
-        public ActionResult<GuildMemberEntity[]> GetGuildRequests(int guildId)
+        public async Task<ActionResult<GuildMemberEntity[]>> GetGuildRequests(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(_guildMemberService.GetGuildRequests(user, guildId));
+            return Ok(await _guildMemberService.GetGuildRequests(user, guildId));
         }
 
         [HttpGet("{guildId}/blocked")]
-        public ActionResult<GuildMemberEntity[]> GetGuildBlocked(int guildId)
+        public async Task<ActionResult<GuildMemberEntity[]>> GetGuildBlocked(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(_guildMemberService.GetGuildBlocked(user, guildId));
+            return Ok(await _guildMemberService.GetGuildBlocked(user, guildId));
         }
 
         [HttpPut("{guildId}/member/{memberId}/block")]
-        public IActionResult BlockGuildMember(int guildId, int memberId)
+        public async Task<IActionResult> BlockGuildMember(int guildId, int memberId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            _guildMemberService.BlockGuildMember(user, guildId, memberId);
+            await _guildMemberService.BlockGuildMember(user, guildId, memberId);
             return Ok();
         }
 
         [HttpPut("{guildId}/blocked/{studentId}/unblock")]
-        public IActionResult UnblockGuildMember(int guildId, int studentId)
+        public async Task<IActionResult> UnblockGuildMember(int guildId, int studentId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            _guildMemberService.UnblockStudent(user, guildId, studentId);
+            await _guildMemberService.UnblockStudent(user, guildId, studentId);
             return Ok();
         }
 
         [HttpPut("{guildId}/member/{memberId}/kick")]
-        public IActionResult KickGuildMember(int guildId, int memberId)
+        public async Task<IActionResult> KickGuildMember(int guildId, int memberId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            _guildMemberService.KickGuildMember(user, guildId, memberId);
+            await _guildMemberService.KickGuildMember(user, guildId, memberId);
             return Ok();
         }
 
         [HttpPut("{guildId}/request/{studentId}/accept")]
-        public IActionResult AcceptRequest(int guildId, int studentId)
+        public async Task<IActionResult> AcceptRequest(int guildId, int studentId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            _guildMemberService.AcceptRequest(user, guildId, studentId);
+            await _guildMemberService.AcceptRequest(user, guildId, studentId);
             return Ok();
         }
 
         [HttpPut("{guildId}/request/{studentId}/reject")]
-        public IActionResult RejectRequest(int guildId, int studentId)
+        public async Task<IActionResult> RejectRequest(int guildId, int studentId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            _guildMemberService.RejectRequest(user, guildId, studentId);
+            await _guildMemberService.RejectRequest(user, guildId, studentId);
             return Ok();
         }
 
         [HttpPost("{guildId}/pinned")]
-        public ActionResult<GithubRepository> AddPinnedProject([FromRoute] int guildId, [FromBody] CreateProjectRequest createProject)
+        public async Task<ActionResult<GithubRepository>> AddPinnedProject([FromRoute] int guildId, [FromBody] CreateProjectRequest createProject)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(_guildService.AddPinnedRepository(user, guildId, createProject.Owner, createProject.RepositoryName));
+            return Ok(await _guildService.AddPinnedRepositoryAsync(user, guildId, createProject.Owner, createProject.RepositoryName));
         }
 
         [HttpDelete("{guildId}/pinned/{repositoryId}")]
-        public ActionResult DeletePinnedProject(int guildId, int repositoryId)
+        public async Task<ActionResult> DeletePinnedProject(int guildId, int repositoryId)
         {
             //TODO: Need to rework all links between GithubRepository, Student project and PinnedRepository
             AuthorizedUser user = this.TryAuthWithToken();
-            _guildService.UnpinProject(user, repositoryId);
+            await _guildService.UnpinProject(user, repositoryId);
             return Ok();
         }
     }

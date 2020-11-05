@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models;
 using Iwentys.Models.Entities.Github;
-using Iwentys.Models.Tools;
 
 namespace Iwentys.Core.Services
 {
@@ -19,9 +19,9 @@ namespace Iwentys.Core.Services
             _database = database;
         }
 
-        public GithubUserEntity CreateOrUpdate(int studentId)
+        public async Task<GithubUserEntity> CreateOrUpdate(int studentId)
         {
-            var student = _database.Student.ReadById(studentId);
+            var student = await _database.Student.ReadByIdAsync(studentId);
             if (student.GithubUsername == null)
                 return null;
             var githubUserData = _database.GithubUserData.Read().SingleOrDefault(gh => gh.StudentId == studentId);
@@ -53,14 +53,14 @@ namespace Iwentys.Core.Services
                 foreach (var project in studentProjects)
                 {
                     if (_database.StudentProject.Contains(project))
-                        _database.StudentProject.Update(project);
+                        await _database.StudentProject.UpdateAsync(project);
                     else
                         _database.StudentProject.Create(project);
                 }
 
                 githubUserData.ContributionFullInfo = _githubApiAccessor.GetUserActivity(student.GithubUsername);
 
-                _database.GithubUserData.Update(githubUserData);
+                await _database.GithubUserData.UpdateAsync(githubUserData);
             }
             else
             {
@@ -72,9 +72,9 @@ namespace Iwentys.Core.Services
             return githubUserData;
         }
 
-        public GithubUserEntity FindByUsername(string username)
+        public Task<GithubUserEntity> FindByUsername(string username)
         {
-            return _database.GithubUserData.FindByUsername(username);
+            return _database.GithubUserData.FindByUsernameAsync(username);
         }
 
         public IEnumerable<GithubRepository> GetGithubRepositories(string username)
@@ -85,7 +85,13 @@ namespace Iwentys.Core.Services
 
         public GithubRepository GetCertainRepository(string username, string projectName)
         {
-            return _database.StudentProject.FindCertainProject(username, projectName).Maybe(s => new GithubRepository(s));
+            GithubProjectEntity githubRepository = _database.StudentProject.FindCertainProject(username, projectName);
+            if (githubRepository is null)
+            {
+                return _githubApiAccessor.GetRepository(username, projectName);
+            }
+
+            return new GithubRepository(githubRepository);
         }
 
         public IEnumerable<GithubUserEntity> GetAll()

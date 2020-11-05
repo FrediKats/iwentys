@@ -1,0 +1,60 @@
+﻿@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+
+@using Iwentys.Endpoints.Shared
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">Iwentys.Endpoints.WebUi</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <a class="nav-link" href="student/@UserId">
+                <span class="oi oi-plus" aria-hidden="true"></span> My profile
+            </a>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="guild/overview">
+                <span class="oi oi-plus" aria-hidden="true"></span> Guilds
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            @*TODO: fix const value*@
+            <NavLink class="nav-link" href="StudyLeaderboard/4">
+                <span class="oi oi-plus" aria-hidden="true"></span> Student rating
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            @*TODO: fix const value*@
+            <NavLink class="nav-link" href="debug/fakeauth">
+                <span class="oi oi-plus" aria-hidden="true"></span> Fake auth
+            </NavLink>
+        </li>
+    </ul>
+</div>
+
+@code {
+    private bool _collapseNavMenu = true;
+
+    private string NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
+    private string SudentUrl;
+    private int UserId { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        UserId = await LocalStorage.GetItemAsync<int>("user-id-key");
+        SudentUrl = $"/student/{UserId}";
+    }
+
+    private void ToggleNavMenu()
+    {
+        _collapseNavMenu = !_collapseNavMenu;
+    }
+}

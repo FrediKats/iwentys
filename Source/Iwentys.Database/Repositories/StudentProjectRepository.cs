@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Github;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories
@@ -29,27 +31,27 @@ namespace Iwentys.Database.Repositories
             return _dbContext.StudentProjects;
         }
 
-        public GithubProjectEntity ReadById(long key)
+        public Task<GithubProjectEntity> ReadByIdAsync(long key)
         {
-            return _dbContext.StudentProjects.Find(key);
+            return _dbContext.StudentProjects.FirstOrDefaultAsync(v => v.Id == key);
         }
 
-        public GithubProjectEntity Update(GithubProjectEntity entity)
+        public async Task<GithubProjectEntity> UpdateAsync(GithubProjectEntity entity)
         {
             EntityEntry<GithubProjectEntity> createdEntity = _dbContext.StudentProjects.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
-        public void Delete(long key)
+        public Task<int> DeleteAsync(long key)
         {
-            _dbContext.StudentProjects.Remove(this.Get(key));
-            _dbContext.SaveChanges();
+            return _dbContext.StudentProjects.Where(sp => sp.Id == key).DeleteFromQueryAsync();
         }
 
-        public GithubProjectEntity GetOrCreate(GithubRepository project, StudentEntity creator)
+        public async Task<GithubProjectEntity> GetOrCreateAsync(GithubRepository project, StudentEntity creator)
         {
-            return ReadById(project.Id) ?? Create(new GithubProjectEntity(creator, project));
+            GithubProjectEntity githubProjectEntity = await ReadByIdAsync(project.Id);
+            return githubProjectEntity ?? Create(new GithubProjectEntity(creator, project));
         }
 
         public void CreateMany(IEnumerable<GithubProjectEntity> studentsProjects)

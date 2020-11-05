@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Core.DomainModel;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Transferable.Companies;
@@ -17,26 +19,28 @@ namespace Iwentys.Tests.Core.Services
                 .WithCompany(out CompanyInfoResponse company)
                 .WithCompanyWorker(company, out AuthorizedUser user);
 
-            StudentEntity[] companyMembers = testCase.CompanyService.Get(company.Id).Workers;
+            List<StudentEntity> companyMembers = testCase.CompanyService.Get(company.Id).Result.Workers;
 
-            Assert.IsTrue(companyMembers.Length == 1);
+            Assert.IsTrue(companyMembers.Count == 1);
             Assert.AreEqual(user.Id, companyMembers.Single().Id);
         }
 
         [Test]
-        public void SendCompanyWorkerRequest_RequestWillExists()
+        public async Task SendCompanyWorkerRequest_RequestWillExists()
         {
             TestCaseContext testCase = TestCaseContext
                 .Case()
                 .WithCompany(out CompanyInfoResponse company)
                 .WithNewStudent(out AuthorizedUser worker);
 
-            testCase.CompanyService.RequestAdding(company.Id, worker.Id);
-            CompanyWorkRequestDto[] request = testCase.CompanyService.GetCompanyWorkRequest();
-            StudentEntity[] companyMembers = testCase.CompanyService.Get(company.Id).Workers;
+            await testCase.CompanyService.RequestAdding(company.Id, worker.Id);
+            List<CompanyWorkRequestDto> request = await testCase.CompanyService.GetCompanyWorkRequest();
+            CompanyInfoResponse companyInfo = await testCase.CompanyService.Get(company.Id);
 
-            Assert.IsTrue(companyMembers.Length == 0);
-            Assert.IsTrue(request.Length == 1);
+            List<StudentEntity> companyMembers = companyInfo.Workers;
+
+            Assert.IsTrue(companyMembers.Count == 0);
+            Assert.IsTrue(request.Count == 1);
             Assert.AreEqual(worker.Id, request.Single().Worker.Id);
         }
     }

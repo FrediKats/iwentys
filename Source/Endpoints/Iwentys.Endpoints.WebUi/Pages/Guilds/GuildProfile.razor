@@ -1,0 +1,34 @@
+﻿@page "/guild/{GuildId:int}"
+@using Iwentys.Core.Services
+@using Iwentys.Models.Transferable.Guilds
+@using Iwentys.Endpoints.WebUi.CustomComponents
+@using Iwentys.Endpoints.WebUi.CustomComponents.Guild
+
+@inject GuildService GuildService
+
+<div class="container-fluid d-flex flex-row">
+    <div class="col-md-3 d-flex flex-column">
+        <GuildProfileInfoComponent GuildProfile=@Guild></GuildProfileInfoComponent>
+    </div>
+    
+    <div class="col-md-6 d-flex flex-column">
+        <AchievementComponent Achievements=@Guild.Achievements></AchievementComponent>
+    </div>
+
+    <div class="col-md-3 d-flex flex-column">
+        <GuildProfileMemberRateComponent GuildProfile=@Guild></GuildProfileMemberRateComponent>
+        <GuildProfilePinnedRepositoriesComponent GuildProfile=@Guild></GuildProfilePinnedRepositoriesComponent>
+    </div>
+</div>
+
+
+@code { [Parameter]
+    public int GuildId { get; set; }
+
+    public GuildProfileDto Guild { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //TODO: fix
+        Guild = await GuildService.GetAsync(GuildId, 228617);
+    } }

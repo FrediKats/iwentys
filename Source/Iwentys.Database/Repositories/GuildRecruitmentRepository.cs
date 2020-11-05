@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities.Guilds;
 using Microsoft.EntityFrameworkCore;
@@ -15,20 +16,20 @@ namespace Iwentys.Database.Repositories
             _dbContext = dbContext;
         }
 
-        public GuildRecruitmentEntity Create(GuildEntity guild, GuildMemberEntity creator, string description)
+        public async Task<GuildRecruitmentEntity> CreateAsync(GuildEntity guild, GuildMemberEntity creator, string description)
         {
-            EntityEntry<GuildRecruitmentEntity> recruitment = _dbContext.GuildRecruitment.Add(new GuildRecruitmentEntity
+            EntityEntry<GuildRecruitmentEntity> recruitment = await _dbContext.GuildRecruitment.AddAsync(new GuildRecruitmentEntity
             {
                 Description = description,
                 GuildId = guild.Id
             });
-            _dbContext.GuildRecruitmentMembers.Add(new GuildRecruitmentMemberEntity
+            await _dbContext.GuildRecruitmentMembers.AddAsync(new GuildRecruitmentMemberEntity
             {
                 GuildRecruitmentId = recruitment.Entity.Id,
                 MemberId = creator.MemberId
             });
 
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return recruitment.Entity;
         }
 
@@ -37,22 +38,21 @@ namespace Iwentys.Database.Repositories
             return _dbContext.GuildRecruitment.Include(r => r.RecruitmentMembers);
         }
 
-        public GuildRecruitmentEntity ReadById(int key)
+        public Task<GuildRecruitmentEntity> ReadByIdAsync(int key)
         {
-            return Read().FirstOrDefault(g => g.Id == key);
+            return Read().FirstOrDefaultAsync(g => g.Id == key);
         }
 
-        public GuildRecruitmentEntity Update(GuildRecruitmentEntity entity)
+        public async Task<GuildRecruitmentEntity> UpdateAsync(GuildRecruitmentEntity entity)
         {
             EntityEntry<GuildRecruitmentEntity> result = _dbContext.GuildRecruitment.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return result.Entity;
         }
 
-        public void Delete(int key)
+        public Task<int> DeleteAsync(int key)
         {
-            _dbContext.GuildRecruitment.Remove(ReadById(key));
-            _dbContext.SaveChanges();
+            return _dbContext.GuildRecruitment.Where(gr => gr.Id == key).DeleteFromQueryAsync();
         }
     }
 }

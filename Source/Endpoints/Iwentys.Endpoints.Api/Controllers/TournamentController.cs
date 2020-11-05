@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Iwentys.Core.Services;
 using Iwentys.Models.Transferable;
 using Microsoft.AspNetCore.Mvc;
@@ -17,15 +18,17 @@ namespace Iwentys.Endpoints.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<TournamentInfoResponse>> Get()
+        public async Task<ActionResult<IEnumerable<TournamentInfoResponse>>> Get()
         {
-            return Ok(_tournamentService.Get());
+            List<TournamentInfoResponse> tournaments = await _tournamentService.Get();
+            return Ok(tournaments);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<TournamentInfoResponse> Get(int id)
+        public async Task<ActionResult<TournamentInfoResponse>> Get(int id)
         {
-            return Ok(_tournamentService.Get(id));
+            TournamentInfoResponse tournament = await _tournamentService.Get(id);
+            return Ok(tournament);
         }
     }
 }

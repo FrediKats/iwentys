@@ -1,4 +1,4 @@
-﻿using Iwentys.Core;
+﻿using Iwentys.Endpoints.Shared;
 using Tef.BotFramework.Settings;
 using Tef.BotFramework.Telegram;
 

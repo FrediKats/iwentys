@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Core;
 using Iwentys.Core.Services;
 using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
@@ -10,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Iwentys.Endpoints.Api.BackgroundServices
+namespace Iwentys.Endpoints.Shared.BackgroundServices
 {
     public class GithubUpdateBackgroundService : BackgroundService
     {
@@ -37,8 +36,15 @@ namespace Iwentys.Endpoints.Api.BackgroundServices
                     var githubUserDataService = scope.ServiceProvider.GetRequiredService<GithubUserDataService>();
                     foreach (StudentEntity student in studentRepository.Read().Where(s => s.GithubUsername != null))
                     {
-                        githubUserDataService.CreateOrUpdate(student.Id);
+                        await githubUserDataService.CreateOrUpdate(student.Id);
                     }
+                }
+                catch (InvalidOperationException operationException)
+                {
+                    _logger.LogError(operationException, "Probably some services was not load.");
+                    await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
+                    continue;
+
                 }
                 catch (Exception e)
                 {

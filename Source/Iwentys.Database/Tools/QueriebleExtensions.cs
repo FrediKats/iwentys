@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Iwentys.Database.Tools
 {
     public static class QueryableExtensions
     {
-        public static IQueryable<T> WhereIf<T, TFilter>(this IQueryable<T> query, TFilter? filter, Func<IQueryable<T>> func) where TFilter : struct
+        public static IQueryable<T> WhereIf<T, TFilter>(this IQueryable<T> query, TFilter? filter, Expression<Func<T, bool>> func) where TFilter : struct
         {
             return filter is null
                 ? query
-                : func();
+                : query.Where(func);
         }
     }
 }

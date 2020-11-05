@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
@@ -24,23 +25,23 @@ namespace Iwentys.Database.Repositories
                 .Any(m => m.MemberType == GuildMemberType.Requested);
         }
 
-        public GuildMemberEntity AddMember(GuildEntity guild, StudentEntity student, GuildMemberType memberType)
+        public async Task<GuildMemberEntity> AddMemberAsync(GuildEntity guild, StudentEntity student, GuildMemberType memberType)
         {
-            EntityEntry<GuildMemberEntity> addedEntity = _dbContext.GuildMembers.Add(new GuildMemberEntity(guild, student, memberType));
-            _dbContext.SaveChanges();
+            EntityEntry<GuildMemberEntity> addedEntity = await _dbContext.GuildMembers.AddAsync(new GuildMemberEntity(guild, student, memberType));
+            await _dbContext.SaveChangesAsync();
             return addedEntity.Entity;
         }
 
-        public GuildMemberEntity UpdateMember(GuildMemberEntity member)
+        public async Task<GuildMemberEntity> UpdateMemberAsync(GuildMemberEntity member)
         {
             EntityEntry<GuildMemberEntity> updatedEntity = _dbContext.GuildMembers.Update(member);
 
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
 
             return updatedEntity.Entity;
         }
 
-        public void RemoveMember(int guildId, int userId)
+        public void RemoveMemberAsync(int guildId, int userId)
         {
             GuildMemberEntity guildMember = _dbContext.GuildMembers.Single(gm => gm.GuildId == guildId && gm.MemberId == userId);
             if (guildMember.MemberType == GuildMemberType.Creator)

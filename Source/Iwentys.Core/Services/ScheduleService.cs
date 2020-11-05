@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ItmoScheduleApiWrapper;
 using ItmoScheduleApiWrapper.Models;
 
@@ -8,9 +9,10 @@ namespace Iwentys.Core.Services
     {
         public readonly ItmoApiProvider ApiProvider = new ItmoApiProvider();
 
-        public List<ScheduleItemModel> GetForGroup(string group)
+        public async Task<List<ScheduleItemModel>> GetForGroup(string group)
         {
-            return ApiProvider.ScheduleApi.GetGroupScheduleAsync(group).Result.Schedule;
+            GroupScheduleModel schedule = await ApiProvider.ScheduleApi.GetGroupScheduleAsync(group);
+            return schedule.Schedule;
         }
     }
 }

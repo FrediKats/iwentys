@@ -31,11 +31,11 @@ namespace Iwentys.Endpoints.ClientBot.Commands.Student
             return Result.Ok();
         }
 
-        public Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
+        public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
             AuthorizedUser currentUser = _userIdentifier.GetUser(args.Sender.UserSenderId);
-            StudentFullProfileDto profile = _studentService.Get(currentUser.Id);
-            return Task.FromResult(Result.Ok(profile.FormatFullInfo()));
+            StudentFullProfileDto profile = await _studentService.GetAsync(currentUser.Id);
+            return Result.Ok(profile.FormatFullInfo());
         }
 
         public string CommandName => nameof(GetCurrentStudentCommand);
