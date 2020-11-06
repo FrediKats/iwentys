@@ -36,11 +36,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Endpoints.Shared", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Features", "Features", "{95512D3C-159E-4224-B79E-E445AE17B0E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Features.Achievements", "Features\Iwentys.Features.Achievements\Iwentys.Features.Achievements.csproj", "{64780360-31E5-4F14-8309-A416913B0816}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.Achievements", "Features\Iwentys.Features.Achievements\Iwentys.Features.Achievements.csproj", "{64780360-31E5-4F14-8309-A416913B0816}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.StudentFeature", "Features\Iwentys.Features.StudentFeature\Iwentys.Features.StudentFeature.csproj", "{04F1312B-E2FA-44F6-A8D5-119D16F3DB69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Common", "Iwentys.Common\Iwentys.Common.csproj", "{E888EB7B-9C83-46FD-8D11-C706C63B4973}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Common", "Iwentys.Common\Iwentys.Common.csproj", "{E888EB7B-9C83-46FD-8D11-C706C63B4973}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

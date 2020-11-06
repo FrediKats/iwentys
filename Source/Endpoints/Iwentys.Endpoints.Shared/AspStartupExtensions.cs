@@ -7,10 +7,11 @@ using Iwentys.Features.Achievements;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Integrations.GithubIntegration;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
@@ -80,21 +81,23 @@ namespace Iwentys.Endpoints.Shared
             var signingKey = new SigningSymmetricKey(ApplicationOptions.SigningSecurityKey);
             services.AddSingleton<IJwtSigningEncodingKey>(signingKey);
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = false,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = ApplicationOptions.JwtIssuer,
-                        ValidAudience = ApplicationOptions.JwtIssuer,
-                        IssuerSigningKey = signingKey.GetKey()
-                    };
-                });
+            //TODO: fix
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //    .AddJwtBearer(options =>
+            //    {
+            //        options.TokenValidationParameters = new TokenValidationParameters
+            //        {
+            //            ValidateIssuer = true,
+            //            ValidateAudience = true,
+            //            ValidateLifetime = false,
+            //            ValidateIssuerSigningKey = true,
+            //            ValidIssuer = ApplicationOptions.JwtIssuer,
+            //            ValidAudience = ApplicationOptions.JwtIssuer,
+            //            IssuerSigningKey = signingKey.GetKey()
+            //        };
+            //    });
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             return services;
         }
 

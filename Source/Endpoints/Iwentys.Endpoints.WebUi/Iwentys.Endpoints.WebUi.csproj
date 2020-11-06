@@ -32,12 +32,15 @@
     <PackageReference Include="BuildWebCompiler" Version="1.12.394" />
     <PackageReference Include="ChartJs.Blazor" Version="1.1.0" />
     <PackageReference Include="MatBlazor" Version="2.7.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Iwentys.Endpoints.Shared\Iwentys.Endpoints.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Update="**/*.css" Visible="false" />
-    <ProjectReference Include="..\Iwentys.Endpoints.Shared\Iwentys.Endpoints.Shared.csproj" />
   </ItemGroup>
 
 </Project>
