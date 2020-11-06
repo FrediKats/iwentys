@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Features\Iwentys.Features.Achievements\Iwentys.Features.Achievements.csproj" />
+    <ProjectReference Include="..\Features\Iwentys.Features.GithubIntegration\Iwentys.Features.GithubIntegration.csproj" />
     <ProjectReference Include="..\Features\Iwentys.Features.StudentFeature\Iwentys.Features.StudentFeature.csproj" />
     <ProjectReference Include="..\Iwentys.Models\Iwentys.Models.csproj" />
   </ItemGroup>

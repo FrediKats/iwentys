@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Tools;
 using Iwentys.Core.DomainModel;
 using Iwentys.Database.Context;
+using Iwentys.Features.GithubIntegration;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable;

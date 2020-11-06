@@ -1,4 +1,6 @@
 ﻿using Iwentys.Database.Repositories;
+using Iwentys.Database.Repositories.GithubIntegration;
+using Iwentys.Features.GithubIntegration.Repositories;
 
 namespace Iwentys.Database.Context
 {
@@ -31,14 +33,14 @@ namespace Iwentys.Database.Context
             GuildMemberRepository guildMember,
             CompanyRepository company,
             TournamentRepository tournament,
-            StudentProjectRepository studentProject,
+            IStudentProjectRepository studentProject,
             TributeRepository tribute,
             BarsPointTransactionLogRepository barsPointTransactionLog,
             QuestRepository quest,
             SubjectActivityRepository subjectActivity,
             GroupSubjectRepository groupSubject,
             StudyGroupRepository studyGroup,
-            GithubUserDataRepository githubUserData,
+            IGithubUserDataRepository githubUserData,
             GuildTestTaskSolvingInfoRepository guildTestTaskSolvingInfo,
             AssignmentRepository assignment,
             GuildRecruitmentRepository guildRecruitment)
@@ -71,11 +73,11 @@ namespace Iwentys.Database.Context
 
         public CompanyRepository Company { get; }
         public TournamentRepository Tournament { get; }
-        public StudentProjectRepository StudentProject { get; }
+        public IStudentProjectRepository StudentProject { get; }
         public TributeRepository Tribute { get; }
         public BarsPointTransactionLogRepository BarsPointTransactionLog { get; }
         public QuestRepository Quest { get; }
-        public GithubUserDataRepository GithubUserData { get; }
+        public IGithubUserDataRepository GithubUserData { get; }
         public GuildTestTaskSolvingInfoRepository GuildTestTaskSolvingInfo { get; }
 
         public AssignmentRepository Assignment { get; }

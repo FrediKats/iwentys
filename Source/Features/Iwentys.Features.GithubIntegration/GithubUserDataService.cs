@@ -1,30 +1,35 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Database.Context;
+using Iwentys.Features.GithubIntegration.Repositories;
+using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models;
 using Iwentys.Models.Entities.Github;
 
-namespace Iwentys.Core.Services
+namespace Iwentys.Features.GithubIntegration
 {
     public class GithubUserDataService
     {
         private readonly IGithubApiAccessor _githubApiAccessor;
-        private readonly DatabaseAccessor _database;
+        private readonly IGithubUserDataRepository _githubUserDataRepository;
+        private readonly IStudentProjectRepository _studentProjectRepository;
+        private readonly IStudentRepository _studentRepository;
 
-        public GithubUserDataService(DatabaseAccessor database, IGithubApiAccessor githubApiAccessor)
+        public GithubUserDataService(IGithubApiAccessor githubApiAccessor, IGithubUserDataRepository githubUserDataRepository, IStudentProjectRepository studentProjectRepository, IStudentRepository studentRepository)
         {
             _githubApiAccessor = githubApiAccessor;
-            _database = database;
+            _githubUserDataRepository = githubUserDataRepository;
+            _studentProjectRepository = studentProjectRepository;
+            _studentRepository = studentRepository;
         }
 
         public async Task<GithubUserEntity> CreateOrUpdate(int studentId)
         {
-            var student = await _database.Student.ReadByIdAsync(studentId);
+            var student = await _studentRepository.ReadByIdAsync(studentId);
             if (student.GithubUsername == null)
                 return null;
-            var githubUserData = _database.GithubUserData.Read().SingleOrDefault(gh => gh.StudentId == studentId);
+            var githubUserData = _githubUserDataRepository.Read().SingleOrDefault(gh => gh.StudentId == studentId);
             bool exists = true;
 
             if (githubUserData == null)
@@ -52,21 +57,21 @@ namespace Iwentys.Core.Services
             {
                 foreach (var project in studentProjects)
                 {
-                    if (_database.StudentProject.Contains(project))
-                        await _database.StudentProject.UpdateAsync(project);
+                    if (_studentProjectRepository.Contains(project))
+                        await _studentProjectRepository.UpdateAsync(project);
                     else
-                        _database.StudentProject.Create(project);
+                        _studentProjectRepository.Create(project);
                 }
 
                 githubUserData.ContributionFullInfo = _githubApiAccessor.GetUserActivity(student.GithubUsername);
 
-                await _database.GithubUserData.UpdateAsync(githubUserData);
+                await _githubUserDataRepository.UpdateAsync(githubUserData);
             }
             else
             {
-                _database.StudentProject.CreateMany(studentProjects);
+                _studentProjectRepository.CreateMany(studentProjects);
 
-                _database.GithubUserData.Create(githubUserData);
+                _githubUserDataRepository.Create(githubUserData);
             }
 
             return githubUserData;
@@ -74,18 +79,18 @@ namespace Iwentys.Core.Services
 
         public Task<GithubUserEntity> FindByUsername(string username)
         {
-            return _database.GithubUserData.FindByUsernameAsync(username);
+            return _githubUserDataRepository.FindByUsernameAsync(username);
         }
 
         public IEnumerable<GithubRepository> GetGithubRepositories(string username)
         {
-            return _database.StudentProject.FindProjectsByUserName(username)
+            return _studentProjectRepository.FindProjectsByUserName(username)
                 .Select(p => new GithubRepository(p));
         }
 
         public GithubRepository GetCertainRepository(string username, string projectName)
         {
-            GithubProjectEntity githubRepository = _database.StudentProject.FindCertainProject(username, projectName);
+            GithubProjectEntity githubRepository = _studentProjectRepository.FindCertainProject(username, projectName);
             if (githubRepository is null)
             {
                 return _githubApiAccessor.GetRepository(username, projectName);
@@ -96,7 +101,7 @@ namespace Iwentys.Core.Services
 
         public IEnumerable<GithubUserEntity> GetAll()
         {
-            return _database.GithubUserData.Read();
+            return _githubUserDataRepository.Read();
         }
     }
 }

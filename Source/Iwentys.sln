@@ -42,6 +42,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.StudentFea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Common", "Iwentys.Common\Iwentys.Common.csproj", "{E888EB7B-9C83-46FD-8D11-C706C63B4973}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Features.GithubIntegration", "Features\Iwentys.Features.GithubIntegration\Iwentys.Features.GithubIntegration.csproj", "{221671CF-E721-4418-872A-79F591C2024D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,6 +110,10 @@ Global
 		{E888EB7B-9C83-46FD-8D11-C706C63B4973}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E888EB7B-9C83-46FD-8D11-C706C63B4973}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E888EB7B-9C83-46FD-8D11-C706C63B4973}.Release|Any CPU.Build.0 = Release|Any CPU
+		{221671CF-E721-4418-872A-79F591C2024D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{221671CF-E721-4418-872A-79F591C2024D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{221671CF-E721-4418-872A-79F591C2024D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{221671CF-E721-4418-872A-79F591C2024D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,6 +128,7 @@ Global
 		{94F0B70B-E2D4-4853-A228-FB077043E121} = {70E1C0FF-AA6C-4ED5-AE29-587699CF170C}
 		{64780360-31E5-4F14-8309-A416913B0816} = {95512D3C-159E-4224-B79E-E445AE17B0E7}
 		{04F1312B-E2FA-44F6-A8D5-119D16F3DB69} = {95512D3C-159E-4224-B79E-E445AE17B0E7}
+		{221671CF-E721-4418-872A-79F591C2024D} = {95512D3C-159E-4224-B79E-E445AE17B0E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C699E386-11E7-4ABB-9AD6-C676F3CA2061}

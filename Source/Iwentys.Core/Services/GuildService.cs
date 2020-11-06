@@ -6,6 +6,7 @@ using Iwentys.Common.Tools;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.DomainModel.Guilds;
 using Iwentys.Database.Context;
+using Iwentys.Features.GithubIntegration;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models;
 using Iwentys.Models.Entities;

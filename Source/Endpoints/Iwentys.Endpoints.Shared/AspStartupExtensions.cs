@@ -2,8 +2,11 @@
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Achievements;
+using Iwentys.Database.Repositories.GithubIntegration;
 using Iwentys.Endpoints.Shared.Auth;
 using Iwentys.Features.Achievements;
+using Iwentys.Features.GithubIntegration;
+using Iwentys.Features.GithubIntegration.Repositories;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Integrations.GithubIntegration;
@@ -11,8 +14,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
 namespace Iwentys.Endpoints.Shared
@@ -41,6 +42,8 @@ namespace Iwentys.Endpoints.Shared
             services.AddScoped<IStudyGroupRepository, StudyGroupRepository>();
             services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
             services.AddScoped<IAchievementRepository, AchievementRepository>();
+            services.AddScoped<IGithubUserDataRepository, GithubUserDataRepository>();
+            services.AddScoped<IStudentProjectRepository, StudentProjectRepository>();
 
             services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();
