@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Core.Gamification;
-using Iwentys.Database;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories;
+using Iwentys.Features.Achievements;
 using Iwentys.Models;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;

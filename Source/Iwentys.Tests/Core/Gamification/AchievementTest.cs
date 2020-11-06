@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Iwentys.Core.DomainModel;
-using Iwentys.Database;
 using Iwentys.Features.Achievements;
 using Iwentys.Models.Entities.Gamification;
 using Iwentys.Tests.Tools;

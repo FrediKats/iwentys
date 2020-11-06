@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using FluentResults;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Exceptions;
+using Iwentys.Models.Tools;
 
 namespace Iwentys.Core.Services
 {

@@ -2,9 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Core.DomainModel;
-using Iwentys.Core.Gamification;
-using Iwentys.Database;
 using Iwentys.Database.Context;
+using Iwentys.Features.Achievements;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models;
 using Iwentys.Models.Entities;

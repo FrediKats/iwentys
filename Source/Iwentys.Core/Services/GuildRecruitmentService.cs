@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories;
 using Iwentys.Models.Entities.Guilds;
+using Iwentys.Models.Tools;
 
 namespace Iwentys.Core.Services
 {

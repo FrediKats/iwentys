@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Iwentys.Core.DomainModel;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models;
 using Iwentys.Models.Entities;

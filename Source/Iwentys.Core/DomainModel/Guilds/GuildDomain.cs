@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Core.Services;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Github;

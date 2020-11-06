@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
+using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Types;
 using Microsoft.EntityFrameworkCore;
