@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Iwentys.Features.Achievements;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Gamification;
 using Iwentys.Models.Entities.Github;

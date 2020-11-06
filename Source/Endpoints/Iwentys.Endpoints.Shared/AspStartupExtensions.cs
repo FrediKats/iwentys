@@ -1,8 +1,9 @@
-﻿using Iwentys.Core.Gamification;
-using Iwentys.Core.Services;
+﻿using Iwentys.Core.Services;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
+using Iwentys.Database.Repositories.Achievements;
 using Iwentys.Endpoints.Shared.Auth;
+using Iwentys.Features.Achievements;
 using Iwentys.Integrations.GithubIntegration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,7 @@ namespace Iwentys.Endpoints.Shared
             services.AddScoped<AppState>();
 
             services.AddScoped<StudentRepository>();
+            services.AddScoped<IAchievementRepository, AchievementRepository>();
 
             services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();

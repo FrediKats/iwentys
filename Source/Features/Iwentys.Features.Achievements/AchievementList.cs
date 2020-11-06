@@ -2,7 +2,7 @@
 using Iwentys.Models.Entities.Gamification;
 using Iwentys.Models.Tools;
 
-namespace Iwentys.Database
+namespace Iwentys.Features.Achievements
 {
     public static class AchievementList
     {
