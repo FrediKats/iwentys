@@ -1,6 +1,6 @@
-﻿using Iwentys.Models.Entities;
+﻿using Iwentys.Common.Exceptions;
+using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.Exceptions;
 using Iwentys.Models.Types;
 
 namespace Iwentys.Core.DomainModel.Guilds

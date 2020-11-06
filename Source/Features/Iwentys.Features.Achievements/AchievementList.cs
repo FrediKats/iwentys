@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Iwentys.Common.Tools;
 using Iwentys.Models.Entities.Gamification;
-using Iwentys.Models.Tools;
 
 namespace Iwentys.Features.Achievements
 {

@@ -1,19 +1,19 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Models.Exceptions;
+using Iwentys.Common.Exceptions;
 
-namespace Iwentys.Models.Tools
+namespace Iwentys.Common.Tools
 {
     public interface IGenericRepository<TEntity>
     {
-        public IQueryable<TEntity> Read();
-        public Task<TEntity> UpdateAsync(TEntity entity);
+        IQueryable<TEntity> Read();
+        Task<TEntity> UpdateAsync(TEntity entity);
     }
 
     public interface IGenericRepository<TEntity, TKey> : IGenericRepository<TEntity>
     {
-        public Task<TEntity> ReadByIdAsync(TKey key);
-        public Task<int> DeleteAsync(TKey key);
+        Task<TEntity> ReadByIdAsync(TKey key);
+        Task<int> DeleteAsync(TKey key);
     }
 
     public static class GenericRepositoryExtensions

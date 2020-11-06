@@ -40,6 +40,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Features.Achievemen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.StudentFeature", "Features\Iwentys.Features.StudentFeature\Iwentys.Features.StudentFeature.csproj", "{04F1312B-E2FA-44F6-A8D5-119D16F3DB69}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Common", "Iwentys.Common\Iwentys.Common.csproj", "{E888EB7B-9C83-46FD-8D11-C706C63B4973}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +104,10 @@ Global
 		{04F1312B-E2FA-44F6-A8D5-119D16F3DB69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04F1312B-E2FA-44F6-A8D5-119D16F3DB69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04F1312B-E2FA-44F6-A8D5-119D16F3DB69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E888EB7B-9C83-46FD-8D11-C706C63B4973}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E888EB7B-9C83-46FD-8D11-C706C63B4973}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E888EB7B-9C83-46FD-8D11-C706C63B4973}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E888EB7B-9C83-46FD-8D11-C706C63B4973}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

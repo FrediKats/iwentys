@@ -1,7 +1,7 @@
 ﻿using System;
-using Iwentys.Models.ExceptionMessages;
+using Iwentys.Common.ExceptionMessages;
 
-namespace Iwentys.Models.Exceptions
+namespace Iwentys.Common.Exceptions
 {
     public class EntityNotFoundException : IwentysException
     {

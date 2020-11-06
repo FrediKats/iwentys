@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Iwentys.Common.Exceptions;
 using Iwentys.Database.Context;
 using Iwentys.Database.Tools;
 using Iwentys.Models;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
-using Iwentys.Models.Exceptions;
 using Iwentys.Models.Transferable.Study;
 using Microsoft.EntityFrameworkCore;
 

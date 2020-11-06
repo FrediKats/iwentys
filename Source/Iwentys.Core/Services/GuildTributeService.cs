@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Iwentys.Common.Exceptions;
+using Iwentys.Common.Tools;
 using Iwentys.Core.DomainModel;
 using Iwentys.Database.Context;
 using Iwentys.Integrations.GithubIntegration;
@@ -7,8 +9,6 @@ using Iwentys.Models;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.Exceptions;
-using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.GuildTribute;
@@ -52,7 +52,7 @@ namespace Iwentys.Core.Services
         {
             StudentEntity student = await _database.Student.GetAsync(user.Id);
             if (student.GithubUsername != createProject.Owner)
-                throw InnerLogicException.TributeEx.TributeCanBeSendFromStudentAccount(student, createProject);
+                throw InnerLogicException.TributeEx.TributeCanBeSendFromStudentAccount(student.Id, createProject.Owner);
 
             GithubRepository githubProject = _githubApi.GetRepository(createProject.Owner, createProject.RepositoryName);
             GithubProjectEntity projectEntity = await _database.StudentProject.GetOrCreateAsync(githubProject, student);
@@ -74,7 +74,7 @@ namespace Iwentys.Core.Services
             TributeEntity tribute = await _database.Tribute.GetAsync(tributeId);
 
             if (tribute.State != TributeState.Active)
-                throw InnerLogicException.TributeEx.IsNotActive(tribute);
+                throw InnerLogicException.TributeEx.IsNotActive(tribute.ProjectId);
 
             if (tribute.ProjectEntity.StudentId == user.Id)
             {
@@ -97,7 +97,7 @@ namespace Iwentys.Core.Services
             GuildMentorUser mentor = await student.EnsureIsMentor(_database.Guild, tribute.GuildId);
 
             if (tribute.State != TributeState.Active)
-                throw InnerLogicException.TributeEx.IsNotActive(tribute);
+                throw InnerLogicException.TributeEx.IsNotActive(tribute.ProjectId);
 
             tribute.SetCompleted(mentor.Student.Id, tributeCompleteRequest.DifficultLevel, tributeCompleteRequest.Mark);
             TributeEntity updatedTribute = await _database.Tribute.UpdateAsync(tribute);

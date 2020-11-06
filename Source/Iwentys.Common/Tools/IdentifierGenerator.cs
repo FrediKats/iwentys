@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Models.Tools
+﻿namespace Iwentys.Common.Tools
 {
     public class IdentifierGenerator
     {

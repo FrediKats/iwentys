@@ -1,6 +1,6 @@
-﻿using Iwentys.Models;
+﻿using Iwentys.Common.Tools;
+using Iwentys.Models;
 using Iwentys.Models.Entities.Study;
-using Iwentys.Models.Tools;
 
 namespace Iwentys.Features.StudentFeature.Repositories
 {

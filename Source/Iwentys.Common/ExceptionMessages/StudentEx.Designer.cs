@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Iwentys.Models.ExceptionMessages {
+namespace Iwentys.Common.ExceptionMessages {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Iwentys.Models.ExceptionMessages {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Iwentys.Models.ExceptionMessages.StudentEx", typeof(StudentEx).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Iwentys.Common.ExceptionMessages.StudentEx", typeof(StudentEx).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

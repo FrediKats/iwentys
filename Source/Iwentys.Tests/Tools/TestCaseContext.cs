@@ -1,4 +1,5 @@
 using System;
+using Iwentys.Common.Tools;
 using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services;
 using Iwentys.Database.Context;
@@ -10,7 +11,6 @@ using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Companies;
 using Iwentys.Models.Transferable.Gamification;

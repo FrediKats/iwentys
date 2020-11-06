@@ -1,8 +1,8 @@
-﻿using Iwentys.Core.Services;
+﻿using Iwentys.Common.Exceptions;
+using Iwentys.Core.Services;
 using Iwentys.Database.Context;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.Exceptions;
 using Iwentys.Models.Transferable.Tournaments;
 using Iwentys.Models.Types;
 

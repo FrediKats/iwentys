@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentResults;
 
-namespace Iwentys.Models.Tools
+namespace Iwentys.Common.Tools
 {
     public static class ResultFormatter
     {

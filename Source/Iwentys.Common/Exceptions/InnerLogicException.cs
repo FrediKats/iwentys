@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Globalization;
-using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.ExceptionMessages;
-using Iwentys.Models.Transferable.Guilds;
+using Iwentys.Common.ExceptionMessages;
 
-namespace Iwentys.Models.Exceptions
+namespace Iwentys.Common.Exceptions
 {
     public class InnerLogicException : IwentysException
     {
@@ -76,14 +73,14 @@ namespace Iwentys.Models.Exceptions
                 return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, TributeExceptions.UserAlreadyHaveTribute, userId));
             }
 
-            public static InnerLogicException IsNotActive(TributeEntity tribute)
+            public static InnerLogicException IsNotActive(long projectId)
             {
-                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, TributeExceptions.IsNotActive, tribute.ProjectId, tribute.State));
+                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, TributeExceptions.IsNotActive, projectId));
             }
 
-            public static InnerLogicException TributeCanBeSendFromStudentAccount(StudentEntity student, CreateProjectRequest createProject)
+            public static InnerLogicException TributeCanBeSendFromStudentAccount(int studentId, string projectOwner)
             {
-                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, TributeExceptions.TributeCanBeSendFromStudentAccount, student.Id, createProject.Owner));
+                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, TributeExceptions.TributeCanBeSendFromStudentAccount, studentId, projectOwner));
             }
         }
 
@@ -91,7 +88,7 @@ namespace Iwentys.Models.Exceptions
         {
             public static InnerLogicException GithubAlreadyUser(string githubUsername)
             {
-                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, ExceptionMessages.StudentEx.GithubAlreadyUser, githubUsername));
+                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, Common.ExceptionMessages.StudentEx.GithubAlreadyUser, githubUsername));
             }
         }
     }

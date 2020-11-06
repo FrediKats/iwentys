@@ -1,5 +1,5 @@
-﻿using Iwentys.Models.Entities;
-using Iwentys.Models.Exceptions;
+﻿using Iwentys.Common.Exceptions;
+using Iwentys.Models.Entities;
 using Iwentys.Models.Types;
 
 namespace Iwentys.Core.DomainModel

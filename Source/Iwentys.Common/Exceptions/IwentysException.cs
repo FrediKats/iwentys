@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iwentys.Models.Exceptions
+namespace Iwentys.Common.Exceptions
 {
     public class IwentysException : Exception
     {
