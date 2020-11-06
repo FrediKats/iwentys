@@ -1,0 +1,52 @@
+﻿@page "/dev/fakeauth"
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IHostEnvironmentAuthenticationStateProvider HostAuthentication
+@inject SignInManager<IdentityUser> SignInManager
+
+@using Iwentys.Endpoints.Shared
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using Microsoft.AspNetCore.Http
+@using System.Security.Claims
+@using System.Globalization
+@using Iwentys.Common.Tools
+@using Microsoft.AspNetCore.Identity
+
+<p>
+    @UserId
+</p>
+<MatTextField @bind-Value="@UserId" Label="UserId"></MatTextField>
+<MatButton @onclick="@(async () => await Update())"></MatButton>
+
+@code {
+
+    [CascadingParameter]
+    AppState AppState { get; set; }
+
+    public int UserId { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        
+        var value = SignInManager.Context.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.UserData)?.Value;
+        UserId = value.Maybe(Int32.Parse);
+        return base.OnInitializedAsync();
+    }
+
+    private async Task Update()
+    {
+        var claim = new Claim(ClaimTypes.UserData, UserId.ToString(CultureInfo.InvariantCulture));
+
+        var identity = new ClaimsIdentity(
+            new[] { claim },
+        Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme
+        );
+        var principal = new System.Security.Claims.ClaimsPrincipal(identity);
+        SignInManager.Context.User = principal;
+        HostAuthentication.SetAuthenticationState(Task.FromResult(new AuthenticationState(principal)));
+
+        // now the authState is updated
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    }
+}
