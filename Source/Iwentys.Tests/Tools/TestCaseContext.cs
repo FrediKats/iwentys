@@ -5,6 +5,7 @@ using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Achievements;
 using Iwentys.Features.Achievements;
+using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Github;
@@ -48,7 +49,7 @@ namespace Iwentys.Tests.Tools
             var achievementProvider = new AchievementProvider(new AchievementRepository(Context));
             DummyGithubApiAccessor githubApiAccessor = new DummyGithubApiAccessor();
 
-            StudentService = new StudentService(DatabaseAccessor, achievementProvider);
+            StudentService = new StudentService(DatabaseAccessor.Student, achievementProvider);
             GithubUserDataService = new GithubUserDataService(DatabaseAccessor, githubApiAccessor);
             GuildService = new GuildService(DatabaseAccessor, GithubUserDataService, githubApiAccessor);
             GuildMemberService = new GuildMemberService(DatabaseAccessor, GithubUserDataService, githubApiAccessor);

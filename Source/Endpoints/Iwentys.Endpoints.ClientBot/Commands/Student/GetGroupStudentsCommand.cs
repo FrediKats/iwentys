@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentResults;
-using Iwentys.Core.Services;
+using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Students;
 using Microsoft.Extensions.DependencyInjection;

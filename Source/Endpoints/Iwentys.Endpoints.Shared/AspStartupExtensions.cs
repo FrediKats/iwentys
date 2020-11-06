@@ -4,6 +4,8 @@ using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Achievements;
 using Iwentys.Endpoints.Shared.Auth;
 using Iwentys.Features.Achievements;
+using Iwentys.Features.StudentFeature.Repositories;
+using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Integrations.GithubIntegration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +13,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
-using Serilog.Events;
 
 namespace Iwentys.Endpoints.Shared
 {
@@ -35,7 +36,9 @@ namespace Iwentys.Endpoints.Shared
 
             services.AddScoped<AppState>();
 
-            services.AddScoped<StudentRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IStudyGroupRepository, StudyGroupRepository>();
+            services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
             services.AddScoped<IAchievementRepository, AchievementRepository>();
 
             services.AddScoped<DatabaseAccessor>();
@@ -99,7 +102,7 @@ namespace Iwentys.Endpoints.Shared
         {
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
-                .WriteTo.RollingFile("Logs/iwentys-{Date}.log", LogEventLevel.Verbose)
+                .WriteTo.RollingFile("Logs/iwentys-{Date}.log")
                 .CreateLogger();
 
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));

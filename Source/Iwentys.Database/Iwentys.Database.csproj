@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -22,7 +22,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Features\Iwentys.Features.Achievements\Iwentys.Features.Achievements.csproj" />
+    <ProjectReference Include="..\Features\Iwentys.Features.StudentFeature\Iwentys.Features.StudentFeature.csproj" />
     <ProjectReference Include="..\Iwentys.Models\Iwentys.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Repositories\Achievements\" />
   </ItemGroup>
 
 </Project>

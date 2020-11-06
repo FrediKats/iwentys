@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Database.Tools;
+using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Models;
 using Iwentys.Models.Entities.Study;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories
 {
-    public class SubjectActivityRepository : IGenericRepository<SubjectActivityEntity>
+    public class SubjectActivityRepository : ISubjectActivityRepository
     {
         private readonly IwentysDbContext _dbContext;
 
