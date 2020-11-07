@@ -13,6 +13,5 @@
     <ProjectReference Include="..\..\Iwentys.Core\Iwentys.Core.csproj" />
     <ProjectReference Include="..\..\Iwentys.Database\Iwentys.Database.csproj" />
   </ItemGroup>
-  </ItemGroup>
 
 </Project>
