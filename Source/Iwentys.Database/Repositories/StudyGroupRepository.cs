@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Database.Context;
+using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Models;
 using Iwentys.Models.Entities.Study;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories
 {
-    public class StudyGroupRepository : IGenericRepository<StudyGroupEntity, int>
+    public class StudyGroupRepository : IStudyGroupRepository
     {
         private readonly IwentysDbContext _dbContext;
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Iwentys.Common.Exceptions;
 using Iwentys.Models.Entities.Github;
-using Iwentys.Models.Exceptions;
 using Iwentys.Models.Types;
 
 namespace Iwentys.Models.Entities.Guilds
@@ -44,7 +44,7 @@ namespace Iwentys.Models.Entities.Guilds
         public void SetCompleted(int mentorId, int difficultLevel, int mark)
         {
             if (State != TributeState.Active)
-                throw InnerLogicException.TributeEx.IsNotActive(this);
+                throw InnerLogicException.TributeEx.IsNotActive(this.ProjectId);
 
             MentorId = mentorId;
             DifficultLevel = difficultLevel;

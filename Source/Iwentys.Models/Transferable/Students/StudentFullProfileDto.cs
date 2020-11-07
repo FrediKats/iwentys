@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using Iwentys.Common.Tools;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Tools;
 
 namespace Iwentys.Models.Transferable.Students
 {

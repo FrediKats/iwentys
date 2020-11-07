@@ -1,13 +1,14 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Database.Context;
+using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories
 {
-    public class StudentRepository : IGenericRepository<StudentEntity, int>
+    public class StudentRepository : IStudentRepository
     {
         private readonly IwentysDbContext _dbContext;
 

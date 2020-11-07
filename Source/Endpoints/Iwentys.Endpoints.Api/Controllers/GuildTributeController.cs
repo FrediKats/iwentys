@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Core.DomainModel;
-using Iwentys.Core.Services;
 using Iwentys.Endpoints.Api.Tools;
+using Iwentys.Features.Guilds.Services;
+using Iwentys.Features.StudentFeature;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.GuildTribute;

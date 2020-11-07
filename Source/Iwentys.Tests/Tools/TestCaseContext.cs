@@ -1,14 +1,20 @@
 using System;
-using Iwentys.Core.DomainModel;
-using Iwentys.Core.Gamification;
+using Iwentys.Common.Tools;
 using Iwentys.Core.Services;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
+using Iwentys.Database.Repositories.Achievements;
+using Iwentys.Database.Repositories.Guilds;
+using Iwentys.Features.Achievements;
+using Iwentys.Features.GithubIntegration;
+using Iwentys.Features.Guilds;
+using Iwentys.Features.Guilds.Services;
+using Iwentys.Features.StudentFeature;
+using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Companies;
 using Iwentys.Models.Transferable.Gamification;
@@ -44,14 +50,16 @@ namespace Iwentys.Tests.Tools
             GuildRepository = new GuildRepository(Context);
 
             DatabaseAccessor = new DatabaseAccessor(Context);
-            var achievementProvider = new AchievementProvider(DatabaseAccessor);
+            var achievementProvider = new AchievementProvider(new AchievementRepository(Context));
             DummyGithubApiAccessor githubApiAccessor = new DummyGithubApiAccessor();
 
-            StudentService = new StudentService(DatabaseAccessor, achievementProvider);
-            GithubUserDataService = new GithubUserDataService(DatabaseAccessor, githubApiAccessor);
-            GuildService = new GuildService(DatabaseAccessor, GithubUserDataService, githubApiAccessor);
-            GuildMemberService = new GuildMemberService(DatabaseAccessor, GithubUserDataService, githubApiAccessor);
-            GuildTributeServiceService = new GuildTributeService(DatabaseAccessor, githubApiAccessor);
+            GuildRepositoriesScope database = new GuildRepositoriesScope(DatabaseAccessor.Student, DatabaseAccessor.Guild, DatabaseAccessor.GuildMember, DatabaseAccessor.GuildTribute);
+
+            StudentService = new StudentService(DatabaseAccessor.Student, achievementProvider);
+            GithubUserDataService = new GithubUserDataService(githubApiAccessor, DatabaseAccessor.GithubUserData, DatabaseAccessor.StudentProject, DatabaseAccessor.Student);
+            GuildService = new GuildService(database, GithubUserDataService, githubApiAccessor);
+            GuildMemberService = new GuildMemberService(GithubUserDataService, githubApiAccessor, database.Student, database.Guild, database.GuildMember, database.GuildTribute);
+            GuildTributeServiceService = new GuildTributeService(database, githubApiAccessor, DatabaseAccessor.StudentProject);
             CompanyService = new CompanyService(DatabaseAccessor);
             QuestService = new QuestService(DatabaseAccessor, achievementProvider);
         }

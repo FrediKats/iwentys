@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Core.Services;
 using Iwentys.Database.Repositories;
+using Iwentys.Features.GithubIntegration;
 using Iwentys.Models.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

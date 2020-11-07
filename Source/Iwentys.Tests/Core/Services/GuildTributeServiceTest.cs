@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Iwentys.Core.DomainModel;
+using Iwentys.Features.StudentFeature;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.GuildTribute;

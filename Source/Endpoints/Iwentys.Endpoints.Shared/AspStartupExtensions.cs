@@ -1,16 +1,24 @@
-﻿using Iwentys.Core.Gamification;
-using Iwentys.Core.Services;
+﻿using Iwentys.Core.Services;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
+using Iwentys.Database.Repositories.Achievements;
+using Iwentys.Database.Repositories.GithubIntegration;
+using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Endpoints.Shared.Auth;
+using Iwentys.Features.Achievements;
+using Iwentys.Features.GithubIntegration;
+using Iwentys.Features.GithubIntegration.Repositories;
+using Iwentys.Features.Guilds;
+using Iwentys.Features.Guilds.Repositories;
+using Iwentys.Features.Guilds.Services;
+using Iwentys.Features.StudentFeature.Repositories;
+using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Integrations.GithubIntegration;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using Serilog;
-using Serilog.Events;
 
 namespace Iwentys.Endpoints.Shared
 {
@@ -34,7 +42,19 @@ namespace Iwentys.Endpoints.Shared
 
             services.AddScoped<AppState>();
 
-            services.AddScoped<StudentRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IStudyGroupRepository, StudyGroupRepository>();
+            services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
+            services.AddScoped<IAchievementRepository, AchievementRepository>();
+            services.AddScoped<IGithubUserDataRepository, GithubUserDataRepository>();
+            services.AddScoped<IStudentProjectRepository, StudentProjectRepository>();
+
+            services.AddScoped<IGuildMemberRepository, GuildMemberRepository>();
+            services.AddScoped<IGuildRecruitmentRepository, GuildRecruitmentRepository>();
+            services.AddScoped<IGuildRepository, GuildRepository>();
+            services.AddScoped<IGuildTestTaskSolvingInfoRepository, GuildTestTaskSolvingInfoRepository>();
+            services.AddScoped<IGuildTributeRepository, GuildTributeRepository>();
+            services.AddScoped<GuildRepositoriesScope>();
 
             services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();
@@ -75,21 +95,23 @@ namespace Iwentys.Endpoints.Shared
             var signingKey = new SigningSymmetricKey(ApplicationOptions.SigningSecurityKey);
             services.AddSingleton<IJwtSigningEncodingKey>(signingKey);
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = false,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = ApplicationOptions.JwtIssuer,
-                        ValidAudience = ApplicationOptions.JwtIssuer,
-                        IssuerSigningKey = signingKey.GetKey()
-                    };
-                });
+            //TODO: fix
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //    .AddJwtBearer(options =>
+            //    {
+            //        options.TokenValidationParameters = new TokenValidationParameters
+            //        {
+            //            ValidateIssuer = true,
+            //            ValidateAudience = true,
+            //            ValidateLifetime = false,
+            //            ValidateIssuerSigningKey = true,
+            //            ValidIssuer = ApplicationOptions.JwtIssuer,
+            //            ValidAudience = ApplicationOptions.JwtIssuer,
+            //            IssuerSigningKey = signingKey.GetKey()
+            //        };
+            //    });
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             return services;
         }
 
@@ -97,7 +119,7 @@ namespace Iwentys.Endpoints.Shared
         {
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
-                .WriteTo.RollingFile("Logs/iwentys-{Date}.log", LogEventLevel.Verbose)
+                .WriteTo.RollingFile("Logs/iwentys-{Date}.log")
                 .CreateLogger();
 
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));

@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Core.DomainModel;
+using Iwentys.Common.Tools;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories;
+using Iwentys.Features.StudentFeature;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Tools;
 using Iwentys.Models.Transferable.Companies;
 using Microsoft.EntityFrameworkCore;
 

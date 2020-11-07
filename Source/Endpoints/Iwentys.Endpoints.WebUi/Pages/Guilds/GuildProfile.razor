@@ -3,14 +3,19 @@
 @using Iwentys.Models.Transferable.Guilds
 @using Iwentys.Endpoints.WebUi.CustomComponents
 @using Iwentys.Endpoints.WebUi.CustomComponents.Guild
+@using Microsoft.AspNetCore.Http
+@using System.Security.Claims
+@using Iwentys.Common.Tools
+@using Iwentys.Features.Guilds.Services
 
 @inject GuildService GuildService
+@inject IHttpContextAccessor HttpContextAccessor
 
 <div class="container-fluid d-flex flex-row">
     <div class="col-md-3 d-flex flex-column">
         <GuildProfileInfoComponent GuildProfile=@Guild></GuildProfileInfoComponent>
     </div>
-    
+
     <div class="col-md-6 d-flex flex-column">
         <AchievementComponent Achievements=@Guild.Achievements></AchievementComponent>
     </div>
@@ -30,5 +35,7 @@
     protected override async Task OnInitializedAsync()
     {
         //TODO: fix
-        Guild = await GuildService.GetAsync(GuildId, 228617);
+        var value = HttpContextAccessor.HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.UserData)?.Value;
+        var userId = value.Maybe(Int32.Parse);
+        Guild = await GuildService.GetAsync(GuildId, userId);
     } }
