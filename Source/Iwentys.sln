@@ -13,11 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Models", "Iwentys.M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Polygon", "Iwentys.Polygon\Iwentys.Polygon.csproj", "{5AAA44F2-958B-4A3B-A846-7F15F6F5E2B8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integrations", "Integrations", "{EFFD7D55-2DC3-471F-8422-627864F5B57B}"
-	ProjectSection(SolutionItems) = preProject
-		Endpoints\Iwentys.Endpoints.WebUi\Startup.cs = Endpoints\Iwentys.Endpoints.WebUi\Startup.cs
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Integrations.GithubIntegration", "Integrations\Iwentys.Integrations.GithubIntegration\Iwentys.Integrations.GithubIntegration.csproj", "{901C84FD-31CC-4999-8CB8-C6207AB2700A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Integrations.GoogleTableIntegration", "Integrations\Iwentys.Integrations.GoogleTableIntegration\Iwentys.Integrations.GoogleTableIntegration.csproj", "{F3AEE03E-AEB2-4F5D-A961-A5852E72AB46}"
@@ -26,11 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Integrations.Telegr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Endpoints", "Endpoints", "{70E1C0FF-AA6C-4ED5-AE29-587699CF170C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Endpoints.Api", "Endpoints\Iwentys.Endpoints.Api\Iwentys.Endpoints.Api.csproj", "{CCD33FDF-3387-4B4B-91B5-0B6D3E1D62C4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Endpoints.ClientBot", "Endpoints\Iwentys.Endpoints.ClientBot\Iwentys.Endpoints.ClientBot.csproj", "{FF834952-062F-4DD4-B381-59409F9BC890}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Endpoints.WebUi", "Endpoints\Iwentys.Endpoints.WebUi\Iwentys.Endpoints.WebUi.csproj", "{3132C9F0-74AB-4737-AF40-AFEC9D62DEC3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Endpoints.Shared", "Endpoints\Iwentys.Endpoints.Shared\Iwentys.Endpoints.Shared.csproj", "{94F0B70B-E2D4-4853-A228-FB077043E121}"
 EndProject
@@ -45,6 +36,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.GithubIntegration", "Features\Iwentys.Features.GithubIntegration\Iwentys.Features.GithubIntegration.csproj", "{221671CF-E721-4418-872A-79F591C2024D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.Guilds", "Features\Iwentys.Features.Guilds\Iwentys.Features.Guilds.csproj", "{29510D58-8FDB-4224-9F5E-11FEB5FECFF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Endpoints.Server", "Endpoints\Iwentys.Endpoints.Server\Iwentys.Endpoints.Server.csproj", "{5FB97259-289E-4027-9734-E2059E16FA7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Endpoints.Client", "Endpoints\Iwentys.Endpoints.Client\Iwentys.Endpoints.Client.csproj", "{F586BD76-4DA9-4E82-88EB-008308924C3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,18 +79,10 @@ Global
 		{468062FC-41F2-45A9-A4FB-66175D90C102}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{468062FC-41F2-45A9-A4FB-66175D90C102}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{468062FC-41F2-45A9-A4FB-66175D90C102}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CCD33FDF-3387-4B4B-91B5-0B6D3E1D62C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CCD33FDF-3387-4B4B-91B5-0B6D3E1D62C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CCD33FDF-3387-4B4B-91B5-0B6D3E1D62C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CCD33FDF-3387-4B4B-91B5-0B6D3E1D62C4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FF834952-062F-4DD4-B381-59409F9BC890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FF834952-062F-4DD4-B381-59409F9BC890}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF834952-062F-4DD4-B381-59409F9BC890}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF834952-062F-4DD4-B381-59409F9BC890}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3132C9F0-74AB-4737-AF40-AFEC9D62DEC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3132C9F0-74AB-4737-AF40-AFEC9D62DEC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3132C9F0-74AB-4737-AF40-AFEC9D62DEC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3132C9F0-74AB-4737-AF40-AFEC9D62DEC3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{94F0B70B-E2D4-4853-A228-FB077043E121}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{94F0B70B-E2D4-4853-A228-FB077043E121}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94F0B70B-E2D4-4853-A228-FB077043E121}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -120,6 +107,14 @@ Global
 		{29510D58-8FDB-4224-9F5E-11FEB5FECFF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29510D58-8FDB-4224-9F5E-11FEB5FECFF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29510D58-8FDB-4224-9F5E-11FEB5FECFF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FB97259-289E-4027-9734-E2059E16FA7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FB97259-289E-4027-9734-E2059E16FA7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FB97259-289E-4027-9734-E2059E16FA7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FB97259-289E-4027-9734-E2059E16FA7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F586BD76-4DA9-4E82-88EB-008308924C3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F586BD76-4DA9-4E82-88EB-008308924C3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F586BD76-4DA9-4E82-88EB-008308924C3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F586BD76-4DA9-4E82-88EB-008308924C3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -128,14 +123,14 @@ Global
 		{901C84FD-31CC-4999-8CB8-C6207AB2700A} = {EFFD7D55-2DC3-471F-8422-627864F5B57B}
 		{F3AEE03E-AEB2-4F5D-A961-A5852E72AB46} = {EFFD7D55-2DC3-471F-8422-627864F5B57B}
 		{468062FC-41F2-45A9-A4FB-66175D90C102} = {EFFD7D55-2DC3-471F-8422-627864F5B57B}
-		{CCD33FDF-3387-4B4B-91B5-0B6D3E1D62C4} = {70E1C0FF-AA6C-4ED5-AE29-587699CF170C}
 		{FF834952-062F-4DD4-B381-59409F9BC890} = {70E1C0FF-AA6C-4ED5-AE29-587699CF170C}
-		{3132C9F0-74AB-4737-AF40-AFEC9D62DEC3} = {70E1C0FF-AA6C-4ED5-AE29-587699CF170C}
 		{94F0B70B-E2D4-4853-A228-FB077043E121} = {70E1C0FF-AA6C-4ED5-AE29-587699CF170C}
 		{64780360-31E5-4F14-8309-A416913B0816} = {95512D3C-159E-4224-B79E-E445AE17B0E7}
 		{04F1312B-E2FA-44F6-A8D5-119D16F3DB69} = {95512D3C-159E-4224-B79E-E445AE17B0E7}
 		{221671CF-E721-4418-872A-79F591C2024D} = {95512D3C-159E-4224-B79E-E445AE17B0E7}
 		{29510D58-8FDB-4224-9F5E-11FEB5FECFF3} = {95512D3C-159E-4224-B79E-E445AE17B0E7}
+		{5FB97259-289E-4027-9734-E2059E16FA7B} = {70E1C0FF-AA6C-4ED5-AE29-587699CF170C}
+		{F586BD76-4DA9-4E82-88EB-008308924C3D} = {70E1C0FF-AA6C-4ED5-AE29-587699CF170C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C699E386-11E7-4ABB-9AD6-C676F3CA2061}

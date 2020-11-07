@@ -126,5 +126,18 @@ namespace Iwentys.Endpoints.Shared
 
             return services;
         }
+
+        //TODO: Temp fix for CORS
+        public static IServiceCollection AddIwentysCorsHack(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            {
+                builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
+            return services;
+        }
     }
 }
