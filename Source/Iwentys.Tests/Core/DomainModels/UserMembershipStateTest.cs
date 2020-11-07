@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Core.DomainModel.Guilds;
-using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
+using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Features.GithubIntegration;
+using Iwentys.Features.Guilds;
 using Iwentys.Models;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Gamification;
@@ -24,7 +24,7 @@ namespace Iwentys.Tests.Core.DomainModels
 
         private StudentEntity _student;
 
-        private Mock<TributeRepository> _tributeRepository;
+        private Mock<GuildTributeRepository> _tributeRepository;
         private Mock<GuildRepository> _guildRepository;
         private Mock<GuildMemberRepository> _guildMemberRepository;
         private Mock<StudentRepository> _studentRepository;
@@ -64,7 +64,7 @@ namespace Iwentys.Tests.Core.DomainModels
                 Achievements = new List<GuildAchievementEntity>()
             };
 
-            _tributeRepository = new Mock<TributeRepository>();
+            _tributeRepository = new Mock<GuildTributeRepository>();
             _tributeRepository
                 .Setup(r => r.ReadStudentActiveTribute(It.IsAny<Int32>(), It.IsAny<Int32>()))
                 .Returns(default(TributeEntity));
@@ -92,26 +92,8 @@ namespace Iwentys.Tests.Core.DomainModels
                 .Setup(r => r.ReadByIdAsync(It.IsAny<Int32>()))
                 .Returns(Task.FromResult(_student));
 
-            //TODO:
-            DatabaseAccessor databaseAccessor = new DatabaseAccessor(null,
-                _studentRepository.Object,
-                _guildRepository.Object,
-                _guildMemberRepository.Object,
-                null,
-                null,
-                null,
-                _tributeRepository.Object,
-                null,
-                null, 
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null);
-
-            _guildDomain = new GuildDomain(_guild, databaseAccessor, _githubUserDataService.Object, null);
+            GuildRepositoriesScope repositoriesScope = new GuildRepositoriesScope(_studentRepository.Object, _guildRepository.Object, _guildMemberRepository.Object, _tributeRepository.Object);
+            _guildDomain = new GuildDomain(_guild, _githubUserDataService.Object, null, repositoriesScope);
         }
 
         [Test]

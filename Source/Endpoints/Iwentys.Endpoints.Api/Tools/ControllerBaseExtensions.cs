@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using Iwentys.Core.DomainModel;
+using Iwentys.Features.StudentFeature;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoints.Api.Tools

@@ -2,12 +2,12 @@
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
-using Iwentys.Database.Repositories;
+using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Types;
 
-namespace Iwentys.Core.DomainModel
+namespace Iwentys.Features.Guilds
 {
     public class GuildMentorUser
     {
@@ -23,7 +23,7 @@ namespace Iwentys.Core.DomainModel
 
     public static class GuildMentorUserExtensions
     {
-        public static async Task<GuildMentorUser> EnsureIsMentor(this StudentEntity student, GuildRepository guildRepository, int guildId)
+        public static async Task<GuildMentorUser> EnsureIsMentor(this StudentEntity student, IGuildRepository guildRepository, int guildId)
         {
             GuildEntity guild = await guildRepository.GetAsync(guildId);
             GuildMemberEntity membership = guild.Members.First(m => m.MemberId == student.Id);

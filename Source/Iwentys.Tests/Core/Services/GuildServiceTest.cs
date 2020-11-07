@@ -2,7 +2,7 @@
 using System.Linq;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
-using Iwentys.Core.DomainModel;
+using Iwentys.Features.StudentFeature;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Guilds;

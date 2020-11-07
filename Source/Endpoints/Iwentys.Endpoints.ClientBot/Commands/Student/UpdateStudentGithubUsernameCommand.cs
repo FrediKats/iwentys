@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using FluentResults;
-using Iwentys.Core.DomainModel;
 using Iwentys.Endpoints.ClientBot.Tools;
+using Iwentys.Features.StudentFeature;
 using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Models.Transferable.Students;
 using Microsoft.Extensions.DependencyInjection;

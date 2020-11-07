@@ -2,7 +2,7 @@
 using Iwentys.Models.Entities;
 using Iwentys.Models.Types;
 
-namespace Iwentys.Core.DomainModel
+namespace Iwentys.Features.StudentFeature
 {
     public class AdminUser
     {

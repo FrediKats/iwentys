@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Linq;
 using Iwentys.Database.Context;
+using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Iwentys.Database.Repositories
+namespace Iwentys.Database.Repositories.Guilds
 {
-    public class GuildTestTaskSolvingInfoRepository
+    public class GuildTestTaskSolvingInfoRepository : IGuildTestTaskSolvingInfoRepository
     {
         private readonly IwentysDbContext _dbContext;
 

@@ -3,7 +3,7 @@ using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Types;
 
-namespace Iwentys.Core.DomainModel.Guilds
+namespace Iwentys.Features.Guilds
 {
     public class GuildEditor
     {

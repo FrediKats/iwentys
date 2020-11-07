@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Common.Tools;
 using Iwentys.Database.Context;
+using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Guilds;
@@ -10,9 +10,9 @@ using Iwentys.Models.Types;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Iwentys.Database.Repositories
+namespace Iwentys.Database.Repositories.Guilds
 {
-    public class GuildRepository : IGenericRepository<GuildEntity, int>
+    public class GuildRepository : IGuildRepository
     {
         private readonly IwentysDbContext _dbContext;
 

@@ -1,12 +1,15 @@
 using System;
 using Iwentys.Common.Tools;
-using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Achievements;
+using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Features.Achievements;
 using Iwentys.Features.GithubIntegration;
+using Iwentys.Features.Guilds;
+using Iwentys.Features.Guilds.Services;
+using Iwentys.Features.StudentFeature;
 using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities;
@@ -50,11 +53,13 @@ namespace Iwentys.Tests.Tools
             var achievementProvider = new AchievementProvider(new AchievementRepository(Context));
             DummyGithubApiAccessor githubApiAccessor = new DummyGithubApiAccessor();
 
+            GuildRepositoriesScope database = new GuildRepositoriesScope(DatabaseAccessor.Student, DatabaseAccessor.Guild, DatabaseAccessor.GuildMember, DatabaseAccessor.GuildTribute);
+
             StudentService = new StudentService(DatabaseAccessor.Student, achievementProvider);
             GithubUserDataService = new GithubUserDataService(githubApiAccessor, DatabaseAccessor.GithubUserData, DatabaseAccessor.StudentProject, DatabaseAccessor.Student);
-            GuildService = new GuildService(DatabaseAccessor, GithubUserDataService, githubApiAccessor);
-            GuildMemberService = new GuildMemberService(DatabaseAccessor, GithubUserDataService, githubApiAccessor);
-            GuildTributeServiceService = new GuildTributeService(DatabaseAccessor, githubApiAccessor);
+            GuildService = new GuildService(database, GithubUserDataService, githubApiAccessor);
+            GuildMemberService = new GuildMemberService(GithubUserDataService, githubApiAccessor, database.Student, database.Guild, database.GuildMember, database.GuildTribute);
+            GuildTributeServiceService = new GuildTributeService(database, githubApiAccessor, DatabaseAccessor.StudentProject);
             CompanyService = new CompanyService(DatabaseAccessor);
             QuestService = new QuestService(DatabaseAccessor, achievementProvider);
         }

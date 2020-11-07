@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
-using Iwentys.Database.Context;
 using Iwentys.Features.GithubIntegration;
+using Iwentys.Features.Guilds.Repositories;
+using Iwentys.Features.StudentFeature;
+using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Github;
@@ -14,25 +16,52 @@ using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Students;
 using Iwentys.Models.Types;
-
 using Octokit;
 
-namespace Iwentys.Core.DomainModel.Guilds
+namespace Iwentys.Features.Guilds
 {
     public class GuildDomain
     {
         public GuildEntity Profile { get; }
 
-        private readonly DatabaseAccessor _dbAccessor;
         private readonly GithubUserDataService _githubUserDataService;
         private readonly IGithubApiAccessor _apiAccessor;
+        private readonly IStudentRepository _studentRepository;
+        private readonly IGuildRepository _guildRepository;
+        private readonly IGuildMemberRepository _guildMemberRepository;
+        private readonly IGuildTributeRepository _guildTributeRepository;
 
-        public GuildDomain(GuildEntity profile, DatabaseAccessor dbAccessor, GithubUserDataService githubUserDataService, IGithubApiAccessor apiAccessor)
+        public GuildDomain(
+            GuildEntity profile,
+            GithubUserDataService githubUserDataService,
+            IGithubApiAccessor apiAccessor,
+            GuildRepositoriesScope repositoriesScope)
         {
             Profile = profile;
-            _dbAccessor = dbAccessor;
             _githubUserDataService = githubUserDataService;
             _apiAccessor = apiAccessor;
+            _studentRepository = repositoriesScope.Student;
+            _guildRepository = repositoriesScope.Guild;
+            _guildMemberRepository = repositoriesScope.GuildMember;
+            _guildTributeRepository = repositoriesScope.GuildTribute;
+        }
+
+        public GuildDomain(
+            GuildEntity profile,
+            GithubUserDataService githubUserDataService,
+            IGithubApiAccessor apiAccessor,
+            IStudentRepository studentRepository,
+            IGuildRepository guildRepository,
+            IGuildMemberRepository guildMemberRepository,
+            IGuildTributeRepository guildTributeRepository)
+        {
+            Profile = profile;
+            _githubUserDataService = githubUserDataService;
+            _apiAccessor = apiAccessor;
+            _studentRepository = studentRepository;
+            _guildRepository = guildRepository;
+            _guildMemberRepository = guildMemberRepository;
+            _guildTributeRepository = guildTributeRepository;
         }
 
         public GuildProfileShortInfoDto ToGuildProfileShortInfoDto()
@@ -55,7 +84,7 @@ namespace Iwentys.Core.DomainModel.Guilds
             };
 
             if (userId != null && Profile.Members.Any(m => m.MemberId == userId))
-                info.Tribute = _dbAccessor.Tribute.ReadStudentActiveTribute(Profile.Id, userId.Value)?.To(ActiveTributeResponse.Create);
+                info.Tribute = _guildTributeRepository.ReadStudentActiveTribute(Profile.Id, userId.Value)?.To(ActiveTributeResponse.Create);
             if (userId != null)
                 info.UserMembershipState = await GetUserMembershipState(userId.Value);
 
@@ -97,8 +126,8 @@ namespace Iwentys.Core.DomainModel.Guilds
 
         public async Task<UserMembershipState> GetUserMembershipState(Int32 userId)
         {
-            StudentEntity user = await _dbAccessor.Student.GetAsync(userId);
-            GuildEntity userGuild = _dbAccessor.Guild.ReadForStudent(user.Id);
+            StudentEntity user = await _studentRepository.GetAsync(userId);
+            GuildEntity userGuild = _guildRepository.ReadForStudent(user.Id);
             GuildMemberType? userStatusInGuild = Profile.Members.Find(m => m.Member.Id == user.Id)?.MemberType;
 
             if (userStatusInGuild == GuildMemberType.Blocked)
@@ -112,11 +141,11 @@ namespace Iwentys.Core.DomainModel.Guilds
                 userGuild.Id == Profile.Id)
                 return UserMembershipState.Entered;
 
-            if (_dbAccessor.GuildMember.IsStudentHaveRequest(userId) &&
+            if (_guildMemberRepository.IsStudentHaveRequest(userId) &&
                 userStatusInGuild != GuildMemberType.Requested)
                 return UserMembershipState.Blocked;
 
-            if (_dbAccessor.GuildMember.IsStudentHaveRequest(userId) &&
+            if (_guildMemberRepository.IsStudentHaveRequest(userId) &&
                 userStatusInGuild == GuildMemberType.Requested)
                 return UserMembershipState.Requested;
 
@@ -143,7 +172,7 @@ namespace Iwentys.Core.DomainModel.Guilds
                 //TODO: need to fix after https://github.com/octokit/octokit.net/pull/2239
                 //_profile.Bio = organizationInfo.Bio;
                 Profile.LogoUrl = organizationInfo.Url;
-                _dbAccessor.Guild.UpdateAsync(Profile);
+                _guildRepository.UpdateAsync(Profile);
             }
 
             return this;
@@ -151,7 +180,7 @@ namespace Iwentys.Core.DomainModel.Guilds
 
         public async Task<GuildMemberEntity> EnsureMemberCanRestrictPermissionForOther(AuthorizedUser editor, int memberToKickId)
         {
-            StudentEntity editorStudentAccount = await editor.GetProfile(_dbAccessor.Student);
+            StudentEntity editorStudentAccount = await editor.GetProfile(_studentRepository);
             editorStudentAccount.EnsureIsGuildEditor(Profile);
 
             GuildMemberEntity memberToKick = Profile.Members.Find(m => m.MemberId == memberToKickId);

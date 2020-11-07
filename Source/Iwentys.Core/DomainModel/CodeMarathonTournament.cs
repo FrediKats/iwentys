@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Core.DomainModel.Guilds;
 using Iwentys.Database.Context;
 using Iwentys.Features.GithubIntegration;
+using Iwentys.Features.Guilds;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Guilds;
@@ -42,7 +42,7 @@ namespace Iwentys.Core.DomainModel
 
         private int CountGuildRating(GuildEntity guild)
         {
-            var guildDomain = new GuildDomain(guild, _database, _githubUserDataService, _githubApiAccessor);
+            var guildDomain = new GuildDomain(guild, _githubUserDataService, _githubApiAccessor, new GuildRepositoriesScope(_database.Student, _database.Guild, _database.GuildMember, _database.GuildTribute));
             return guildDomain.GetGithubUserData().Select(userData => userData.ContributionFullInfo.GetActivityForPeriod(_tournament.StartTime, _tournament.EndTime)).Sum();
         }
     }

@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
-using Iwentys.Core.DomainModel;
-using Iwentys.Database.Context;
 using Iwentys.Features.Achievements;
+using Iwentys.Features.Guilds.Repositories;
+using Iwentys.Features.StudentFeature;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models;
 using Iwentys.Models.Entities;
@@ -14,25 +14,26 @@ using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Types;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Core.Services
+namespace Iwentys.Features.Guilds.Services
 {
     public class GuildTestTaskService
     {
-        private readonly DatabaseAccessor _database;
+        private readonly GuildRepositoriesScope _database;
         private readonly IGithubApiAccessor _githubApi;
         private readonly AchievementProvider _achievementProvider;
+        private readonly IGuildTestTaskSolvingInfoRepository _guildTestTaskSolvingInfoRepository;
 
-        public GuildTestTaskService(DatabaseAccessor database, IGithubApiAccessor githubApi, AchievementProvider achievementProvider)
+        public GuildTestTaskService(GuildRepositoriesScope database, IGithubApiAccessor githubApi, AchievementProvider achievementProvider, IGuildTestTaskSolvingInfoRepository guildTestTaskSolvingInfoRepository)
         {
             _database = database;
             _githubApi = githubApi;
             _achievementProvider = achievementProvider;
+            _guildTestTaskSolvingInfoRepository = guildTestTaskSolvingInfoRepository;
         }
 
         public List<GuildTestTaskInfoResponse> Get(int guildId)
         {
-            return _database
-                .GuildTestTaskSolvingInfo
+            return _guildTestTaskSolvingInfoRepository
                 .Read()
                 .Where(t => t.GuildId == guildId)
                 .AsEnumerable()
@@ -48,7 +49,7 @@ namespace Iwentys.Core.Services
                 throw InnerLogicException.Guild.IsNotGuildMember(user.Id, guildId);
 
             StudentEntity studentProfile = await user.GetProfile(_database.Student);
-            return _database.GuildTestTaskSolvingInfo
+            return _guildTestTaskSolvingInfoRepository
                 .Create(studentGuild, studentProfile)
                 .To(GuildTestTaskInfoResponse.Wrap);
         }
@@ -56,7 +57,7 @@ namespace Iwentys.Core.Services
         //TODO: ensure project belong to user
         public async Task<GuildTestTaskInfoResponse> Submit(AuthorizedUser user, int guildId, string projectOwner, string projectName)
         {
-            GuildTestTaskSolvingInfoEntity testTask = await _database.GuildTestTaskSolvingInfo
+            GuildTestTaskSolvingInfoEntity testTask = await _guildTestTaskSolvingInfoRepository
                                                           .Read()
                                                           .SingleOrDefaultAsync(t => t.StudentId == user.Id && t.GuildId == guildId)
                                                       ?? throw new EntityNotFoundException("Test task was not started");
@@ -68,7 +69,7 @@ namespace Iwentys.Core.Services
             GithubRepository githubRepository = _githubApi.GetRepository(projectOwner, projectName);
             testTask.SendSubmit(githubRepository.Id);
 
-            return _database.GuildTestTaskSolvingInfo
+            return _guildTestTaskSolvingInfoRepository
                 .Update(testTask)
                 .To(GuildTestTaskInfoResponse.Wrap);
         }
@@ -78,7 +79,7 @@ namespace Iwentys.Core.Services
             StudentEntity review = await user.GetProfile(_database.Student);
             await review.EnsureIsMentor(_database.Guild, guildId);
 
-            GuildTestTaskSolvingInfoEntity testTask = _database.GuildTestTaskSolvingInfo
+            GuildTestTaskSolvingInfoEntity testTask = _guildTestTaskSolvingInfoRepository
                 .Read()
                 .SingleOrDefault(t => t.StudentId == taskSolveOwnerId && t.GuildId == guildId) ?? throw new EntityNotFoundException("Test task was not started");
 
@@ -88,7 +89,7 @@ namespace Iwentys.Core.Services
             testTask.SetCompleted(review);
             _achievementProvider.Achieve(AchievementList.TestTaskDone, taskSolveOwnerId);
 
-            return _database.GuildTestTaskSolvingInfo
+            return _guildTestTaskSolvingInfoRepository
                 .Update(testTask)
                 .To(GuildTestTaskInfoResponse.Wrap);
         }

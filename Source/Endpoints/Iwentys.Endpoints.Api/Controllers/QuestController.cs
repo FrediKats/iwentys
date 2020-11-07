@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Core.DomainModel;
 using Iwentys.Core.Services;
 using Iwentys.Endpoints.Api.Tools;
+using Iwentys.Features.StudentFeature;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Gamification;
 using Microsoft.AspNetCore.Mvc;

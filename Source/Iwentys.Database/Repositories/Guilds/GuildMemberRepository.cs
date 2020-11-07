@@ -2,14 +2,15 @@
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Database.Context;
+using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Types;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Iwentys.Database.Repositories
+namespace Iwentys.Database.Repositories.Guilds
 {
-    public class GuildMemberRepository
+    public class GuildMemberRepository : IGuildMemberRepository
     {
         private readonly IwentysDbContext _dbContext;
 

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Core.DomainModel;
+using Iwentys.Features.StudentFeature;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Transferable.Companies;
 using Iwentys.Tests.Tools;
