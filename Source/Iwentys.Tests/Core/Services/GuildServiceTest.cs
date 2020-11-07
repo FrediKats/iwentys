@@ -200,7 +200,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuild(user, out GuildProfileDto guild)
                 .WithGuildMember(guild, out AuthorizedUser member);
 
-            context.GuildMemberService.KickGuildMember(user, guild.Id, member.Id);
+            context.GuildMemberService.KickGuildMemberAsync(user, guild.Id, member.Id);
             GuildEntity memberGuild = context.GuildRepository.ReadForStudent(member.Id);
 
             Assert.That(memberGuild, Is.Null);
@@ -216,7 +216,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithGuildMentor(guild, out AuthorizedUser mentor)
                 .WithGuildMentor(guild, out AuthorizedUser anotherMentor);
 
-            Assert.ThrowsAsync<InnerLogicException>(() =>  context.GuildMemberService.KickGuildMember(mentor, guild.Id, anotherMentor.Id));
+            Assert.ThrowsAsync<InnerLogicException>(() =>  context.GuildMemberService.KickGuildMemberAsync(mentor, guild.Id, anotherMentor.Id));
         }
 
         [Test]

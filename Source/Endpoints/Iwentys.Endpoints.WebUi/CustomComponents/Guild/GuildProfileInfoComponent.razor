@@ -7,11 +7,16 @@
     <MatHeadline4>@GuildProfile.Title</MatHeadline4>
     <MatBody1>Лидер: @GuildProfile.Leader.GithubUsername</MatBody1>
     <MatBody1>@GuildProfile.Bio</MatBody1>
-    <MatButton>Редактировать</MatButton>
+    <MatButton Link="@EditProfileLink()">Редактировать</MatButton>
     <MatButton>Трибьюты</MatButton>
 </div>
 
 @code {
     [Parameter]
     public GuildProfileDto GuildProfile { get; set; }
+
+    private string EditProfileLink()
+    {
+        return $"guild/{GuildProfile.Id}/edit";
+    }
 }

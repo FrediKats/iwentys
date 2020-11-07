@@ -42,9 +42,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.StudentFea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Common", "Iwentys.Common\Iwentys.Common.csproj", "{E888EB7B-9C83-46FD-8D11-C706C63B4973}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Features.GithubIntegration", "Features\Iwentys.Features.GithubIntegration\Iwentys.Features.GithubIntegration.csproj", "{221671CF-E721-4418-872A-79F591C2024D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.GithubIntegration", "Features\Iwentys.Features.GithubIntegration\Iwentys.Features.GithubIntegration.csproj", "{221671CF-E721-4418-872A-79F591C2024D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Features.Guilds", "Features\Iwentys.Features.Guilds\Iwentys.Features.Guilds.csproj", "{29510D58-8FDB-4224-9F5E-11FEB5FECFF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.Guilds", "Features\Iwentys.Features.Guilds\Iwentys.Features.Guilds.csproj", "{29510D58-8FDB-4224-9F5E-11FEB5FECFF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

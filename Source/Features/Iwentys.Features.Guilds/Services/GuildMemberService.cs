@@ -122,9 +122,9 @@ namespace Iwentys.Features.Guilds.Services
             _guildMemberRepository.RemoveMemberAsync(guildId, studentId);
         }
 
-        public async Task KickGuildMember(AuthorizedUser user, Int32 guildId, Int32 memberId)
+        public async Task KickGuildMemberAsync(AuthorizedUser user, Int32 guildId, Int32 memberId)
         {
-            var guildDomain = CreateDomain(await _guildRepository.GetAsync(guildId));
+            GuildDomain guildDomain = CreateDomain(await _guildRepository.GetAsync(guildId));
             GuildMemberEntity memberToKick = await guildDomain.EnsureMemberCanRestrictPermissionForOther(user, memberId);
 
             memberToKick.Member.GuildLeftTime = DateTime.UtcNow.ToUniversalTime();

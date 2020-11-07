@@ -105,7 +105,7 @@ namespace Iwentys.Endpoints.Api.Controllers
         public async Task<IActionResult> KickGuildMember(int guildId, int memberId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            await _guildMemberService.KickGuildMember(user, guildId, memberId);
+            await _guildMemberService.KickGuildMemberAsync(user, guildId, memberId);
             return Ok();
         }
 
