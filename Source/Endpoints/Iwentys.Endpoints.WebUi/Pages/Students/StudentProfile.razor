@@ -8,8 +8,11 @@
 @using ChartJs.Blazor.Charts
 @using ChartJs.Blazor.Util
 @using System.Drawing
+@using ChartJs.Blazor.ChartJS.PieChart
 @using Iwentys.Features.StudentFeature.Services
 
+@using Iwentys.Endpoints.WebUi.CustomComponents
+@using Iwentys.Endpoints.WebUi.CustomComponents.StudentProfile
 
 @inject StudentService StudentService
 
@@ -20,7 +23,8 @@
 
     <div class="col-md-6 d-flex flex-column">
         <AchievementComponent Achievements=@StudentFullProfile.Achievements></AchievementComponent>
-        <ChartJsLineChart @ref="_chart" Config="_config"></ChartJsLineChart>
+        <ChartJsLineChart @ref="_githubChart" Config="_githubChartConfig"></ChartJsLineChart>
+        <ChartJsPieChart @ref="_studyChart" Config="@_studyChartConfig" Width="600" Height="300" />
     </div>
 </div>
 
@@ -32,14 +36,23 @@
 
     public StudentFullProfileDto StudentFullProfile { get; set; }
 
-    private LineConfig _config;
-    private ChartJsLineChart _chart;
+    private LineConfig _githubChartConfig;
+    private ChartJsLineChart _githubChart;
+
+    private PieConfig _studyChartConfig;
+    private ChartJsPieChart _studyChart;
 
     protected override void OnInitialized()
     {
-    //TODO: fix
+        //TODO: fix
         StudentFullProfile = StudentService.GetAsync(StudebtId).Result;
 
+        InitGithubChart();
+        InitStudyChart();
+    }
+
+    private void InitGithubChart()
+    {
         var lineDataset = new LineDataset<Int32Wrapper>(StudentFullProfile.CodingActivityInfo.Select(a => new Int32Wrapper(a.Activity)))
         {
             Label = "Github",
@@ -48,16 +61,11 @@
             Fill = true
         };
 
-        _config = new LineConfig
+        _githubChartConfig = new LineConfig
         {
             Options = new LineOptions
             {
                 Responsive = true,
-                Title = new OptionsTitle
-                {
-                    Display = true,
-                    Text = "ChartJs.Blazor Line Chart"
-                },
                 Tooltips = new Tooltips
                 {
                     Mode = InteractionMode.Nearest,
@@ -89,9 +97,38 @@
             }
         };
 
-    //TODO: add real month
-        _config.Data.Labels = Enumerable.Repeat("zxc", 12).ToList();
-        _config.Data.Datasets.Add(lineDataset);
+        //TODO: add real month
+        _githubChartConfig.Data.Labels = Enumerable.Repeat("zxc", 12).ToList();
+        _githubChartConfig.Data.Datasets.Add(lineDataset);
     }
 
+    private void InitStudyChart()
+    {
+        _studyChartConfig = new PieConfig
+        {
+            Options = new PieOptions
+            {
+                Responsive = true,
+                Animation = new ArcAnimation
+                {
+                    AnimateRotate = true,
+                    AnimateScale = true
+                }
+            }
+        };
+
+        var pieSet = new PieDataset
+        {
+            BackgroundColor = new[] { ColorUtil.RandomColorString(), ColorUtil.RandomColorString(), ColorUtil.RandomColorString(), ColorUtil.RandomColorString() },
+            BorderWidth = 0,
+            HoverBackgroundColor = ColorUtil.RandomColorString(),
+            HoverBorderColor = ColorUtil.RandomColorString(),
+            HoverBorderWidth = 1,
+            BorderColor = "#ffffff",
+        };
+
+        pieSet.Data.AddRange(StudentFullProfile.SubjectActivityInfo.Select(sa => sa.Points));
+        _studyChartConfig.Data.Labels.AddRange(StudentFullProfile.SubjectActivityInfo.Select(sa => sa.SubjectTitle));
+        _studyChartConfig.Data.Datasets.Add(pieSet);
+    }
 }
