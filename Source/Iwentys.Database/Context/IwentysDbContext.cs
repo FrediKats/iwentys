@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using IdentityServer4.EntityFramework.Options;
 using Iwentys.Features.Achievements;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Gamification;
@@ -8,16 +7,15 @@ using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Entities.Study;
 
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Options;
 
 namespace Iwentys.Database.Context
 {
-    public class IwentysDbContext : ApiAuthorizationDbContext<ApplicationUser>
+    public class IwentysDbContext : DbContext
     {
-        public IwentysDbContext(DbContextOptions<IwentysDbContext> options, IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
+        public IwentysDbContext(DbContextOptions<IwentysDbContext> options) : base(options)
         {
         }
 

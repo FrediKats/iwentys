@@ -13,7 +13,7 @@ namespace Iwentys.Tests.Tools
             DbContextOptions<IwentysDbContext> options = new DbContextOptionsBuilder<IwentysDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
-            var databaseContext = new IwentysDbContext(options, new OptionsWrapper<OperationalStoreOptions>(new OperationalStoreOptions()));
+            var databaseContext = new IwentysDbContext(options);
             databaseContext.Database.EnsureCreated();
 
             return databaseContext;
