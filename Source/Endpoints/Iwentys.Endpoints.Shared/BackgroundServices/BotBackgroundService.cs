@@ -2,14 +2,15 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Endpoints.ClientBot;
-using Iwentys.Endpoints.OldServer.Tools;
+using Iwentys.Endpoints.ClientBot.Tools;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Tef.BotFramework.Core;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
-namespace Iwentys.Endpoints.OldServer.BackgroundServices
+namespace Iwentys.Endpoints.OldShared.BackgroundServices
 {
     public class BotBackgroundService : BackgroundService
     {
@@ -26,7 +27,10 @@ namespace Iwentys.Endpoints.OldServer.BackgroundServices
 
             try
             {
-                Bot bot = BotProvider.Init(new TelegramDebugSettings(), Log.Logger);
+                //TODO: ALARM
+                var serviceCollection = new ServiceCollection();
+                serviceCollection.AddIwentysServices();
+                Bot bot = BotProvider.Init(new TelegramDebugSettings(ApplicationOptions.TelegramToken), Log.Logger, serviceCollection);
                 bot.Start();
             }
             catch (Exception e)

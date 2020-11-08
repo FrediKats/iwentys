@@ -1,22 +1,13 @@
-using Iwentys.Endpoint.Server.Data;
-using Iwentys.Endpoint.Server.Models;
-
-using Microsoft.AspNetCore.Authentication;
+using System.Text.Json.Serialization;
+using Iwentys.Database.Context;
+using Iwentys.Endpoints.OldShared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using System.Linq;
-using System.Text.Json.Serialization;
-using Iwentys.Database.Context;
-using Iwentys.Endpoints.Shared;
-
-namespace Iwentys.Endpoint.Server
+namespace Iwentys.Endpoints.OldServer
 {
     public class Startup
     {
@@ -27,27 +18,11 @@ namespace Iwentys.Endpoint.Server
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(
-            //        Configuration.GetConnectionString("DefaultConnection")));
-
-            services
-                .AddIwentysLogging(Configuration)
-                .AddIwentysCorsHack(Configuration)
-                //TODO:
-                //.AddSwaggerGen()
-                .AddApplicationOptions(Configuration)
-                .AddIwentysDatabase(Configuration)
-                .AddIwentysTokenFactory(Configuration)
-                .AddIwentysServices();
+            services.ConfigIwentysOptions(Configuration);
 
             services.AddDatabaseDeveloperPageExceptionFilter();
-
-            services.AddIwentysFakeAuth(Configuration);
 
             services.AddControllersWithViews().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
             services.AddRazorPages();
@@ -56,9 +31,6 @@ namespace Iwentys.Endpoint.Server
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IwentysDbContext db)
         {
-            //TODO: Temp fix for CORS
-            app.UseCors("CorsPolicy");
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -71,13 +43,6 @@ namespace Iwentys.Endpoint.Server
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
-            //app.UseSwagger();
-            //app.UseSwaggerUI(c =>
-            //{
-            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            //    c.RoutePrefix = "swagger";
-            //});
 
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();

@@ -1,11 +1,11 @@
 ﻿using Iwentys.Core.Services;
+using Iwentys.Database;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Achievements;
 using Iwentys.Database.Repositories.GithubIntegration;
 using Iwentys.Database.Repositories.Guilds;
-using Iwentys.Endpoint.Server.Models;
-using Iwentys.Endpoints.Shared.Auth;
+using Iwentys.Endpoints.OldShared.Auth;
 using Iwentys.Features.Achievements;
 using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Repositories;
@@ -17,18 +17,32 @@ using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Integrations.GithubIntegration;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace Iwentys.Endpoints.Shared
+namespace Iwentys.Endpoints.OldShared
 {
     public static class AspStartupExtensions
     {
-        public static IServiceCollection AddIwentysDatabase(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection ConfigIwentysOptions(this IServiceCollection services, IConfiguration configuration)
         {
+            services
+                .AddIwentysLogging(configuration)
+                .AddIwentysCorsHack(configuration)
+                .AddApplicationOptions(configuration)
+                .AddIwentysDatabase()
+                .AddIwentysTokenFactory(configuration)
+                .AddIwentysServices()
+                .AddIwentysFakeAuth(configuration);
+            return services;
+        }
+
+
+        public static IServiceCollection AddIwentysDatabase(this IServiceCollection services)
+        {
+            //TODO: replace with normal db
             //services.AddDbContext<IwentysDbContext>(o => o.UseSqlite("Data Source=Iwentys.db"));
             services.AddDbContext<IwentysDbContext>(o => o.UseInMemoryDatabase("Data Source=Iwentys.db"));
             return services;
@@ -43,8 +57,6 @@ namespace Iwentys.Endpoints.Shared
                 GithubApiAccessor.Token = ApplicationOptions.GithubToken;
                 services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
             }
-
-            services.AddScoped<AppState>();
 
             services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<IStudyGroupRepository, StudyGroupRepository>();

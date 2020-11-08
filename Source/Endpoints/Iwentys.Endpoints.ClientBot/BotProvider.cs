@@ -3,7 +3,6 @@ using Iwentys.Endpoints.ClientBot.Commands.Student;
 using Iwentys.Endpoints.ClientBot.Commands.StudentLeaderboard;
 using Iwentys.Endpoints.ClientBot.Commands.Tools;
 using Iwentys.Endpoints.ClientBot.Tools;
-using Iwentys.Endpoints.OldShared;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Tef.BotFramework.Core;
@@ -14,10 +13,8 @@ namespace Iwentys.Endpoints.ClientBot
 {
     public static class BotProvider
     {
-        public static Bot Init(IGetSettings<TelegramSettings> settings, ILogger logger)
+        public static Bot Init(IGetSettings<TelegramSettings> settings, ILogger logger, ServiceCollection serviceCollection)
         {
-            var serviceCollection = new ServiceCollection();
-            serviceCollection.AddIwentysServices();
             ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
             var identifier = new UserIdentifier();

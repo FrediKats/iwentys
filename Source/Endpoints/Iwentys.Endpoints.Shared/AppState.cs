@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Endpoints.Shared
+﻿namespace Iwentys.Endpoints.OldShared
 {
     public class AppState
     {

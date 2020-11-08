@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using IdentityServer4.EntityFramework.Options;
-using Iwentys.Endpoint.Server.Models;
 using Iwentys.Features.Achievements;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Gamification;

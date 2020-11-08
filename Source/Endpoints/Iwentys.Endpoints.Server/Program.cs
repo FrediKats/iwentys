@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Iwentys.Endpoints.OldShared.BackgroundServices;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using Iwentys.Endpoints.Shared.BackgroundServices;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Iwentys.Endpoint.Server
+namespace Iwentys.Endpoints.OldServer
 {
     public class Program
     {
