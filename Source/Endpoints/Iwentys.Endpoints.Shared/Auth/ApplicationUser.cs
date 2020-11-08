@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Iwentys.Database
+namespace Iwentys.Endpoints.OldShared.Auth
 {
     public class ApplicationUser : IdentityUser
     {

@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Client\Iwentys.Endpoint.Client.csproj" />
-    <ProjectReference Include="..\Shared\Iwentys.Endpoint.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

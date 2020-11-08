@@ -12,8 +12,4 @@
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0-rc.2.20475.5" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Shared\Iwentys.Endpoint.Shared.csproj" />
-  </ItemGroup>
-
 </Project>

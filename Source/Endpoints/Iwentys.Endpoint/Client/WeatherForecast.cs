@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Iwentys.Endpoint.Shared
+namespace Iwentys.Endpoint.Client
 {
     public class WeatherForecast
     {
