@@ -6,11 +6,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Logs\**" />
+    <Content Remove="Logs\**" />
+    <EmbeddedResource Remove="Logs\**" />
+    <None Remove="Logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="5.0.0-rc.2.20475.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.0-rc.2.20475.6" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Iwentys.Endpoints.Shared\Iwentys.Endpoints.OldShared.csproj" />
     <ProjectReference Include="..\Client\Iwentys.Endpoint.Client.csproj" />
   </ItemGroup>
 

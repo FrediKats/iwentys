@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Iwentys.Endpoints.OldShared.BackgroundServices;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Iwentys.Endpoint.Server
 {
@@ -21,7 +23,9 @@ namespace Iwentys.Endpoint.Server
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>()
+                        .ConfigureServices(s => s.AddHostedService<MarkUpdateBackgroundService>())
+                        .ConfigureServices(s => s.AddHostedService<GithubUpdateBackgroundService>());
                 });
     }
 }

@@ -30,12 +30,13 @@ namespace Iwentys.Endpoints.OldShared
         {
             services
                 .AddIwentysLogging(configuration)
-                .AddIwentysCorsHack(configuration)
+                //.AddIwentysCorsHack(configuration)
                 .AddApplicationOptions(configuration)
                 .AddIwentysDatabase()
-                .AddIwentysTokenFactory(configuration)
-                .AddIwentysServices()
-                .AddIwentysFakeAuth(configuration);
+                //.AddIwentysTokenFactory(configuration)
+                .AddIwentysServices();
+            //TODO: meh (
+            //.AddIwentysFakeAuth(configuration);
             return services;
         }
 

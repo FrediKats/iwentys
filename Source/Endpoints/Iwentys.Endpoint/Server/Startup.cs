@@ -4,14 +4,14 @@ using Iwentys.Endpoint.Server.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using System.Linq;
+using System.Text.Json.Serialization;
+using Iwentys.Database.Context;
+using Iwentys.Endpoints.OldShared;
 
 namespace Iwentys.Endpoint.Server
 {
@@ -42,12 +42,14 @@ namespace Iwentys.Endpoint.Server
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())); ;
             services.AddRazorPages();
+
+            services.ConfigIwentysOptions(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IwentysDbContext db)
         {
             if (env.IsDevelopment())
             {
@@ -78,6 +80,9 @@ namespace Iwentys.Endpoint.Server
                 endpoints.MapControllers();
                 endpoints.MapFallbackToFile("index.html");
             });
+
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
         }
     }
 }
