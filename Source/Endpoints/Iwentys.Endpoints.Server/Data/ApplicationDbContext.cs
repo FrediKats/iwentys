@@ -1,17 +1,10 @@
 ﻿using IdentityServer4.EntityFramework.Options;
-
-using Iwentys.Endpoint.Server.Models;
-
+using Iwentys.Database;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Iwentys.Endpoint.Server.Data
+namespace Iwentys.Endpoints.OldServer.Data
 {
     public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     {

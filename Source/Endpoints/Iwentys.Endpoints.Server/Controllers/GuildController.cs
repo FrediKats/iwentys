@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Endpoints.Api.Tools;
+using Iwentys.Endpoints.OldServer.Tools;
 using Iwentys.Features.Guilds.Services;
 using Iwentys.Features.StudentFeature;
 using Iwentys.Models;
@@ -8,7 +8,7 @@ using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Guilds;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoints.Api.Controllers
+namespace Iwentys.Endpoints.OldServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

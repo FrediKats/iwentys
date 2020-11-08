@@ -2,11 +2,10 @@
 @using Iwentys.Models.Transferable.Guilds
 @using Iwentys.Endpoints.WebUi.CustomComponents
 @using Iwentys.Endpoints.WebUi.CustomComponents.Guild
-@using Microsoft.AspNetCore.Http
-@using Iwentys.Features.Guilds.Services
 
-@inject GuildService GuildService
-@inject IHttpContextAccessor HttpContextAccessor
+@using Iwentys.Models.Transferable.Guilds
+
+@inject HttpClient Http
 
 <div class="container-fluid d-flex flex-row">
     <div class="col-md-3 d-flex flex-column">
@@ -31,6 +30,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Guild = await GuildService.GetAsync(GuildId, HttpContextAccessor.GetUserId());
+        Guild = Http.GetJsonAsync<GuildProfileDto>($"api/guild/{GuildId}").Result;
     }
 }

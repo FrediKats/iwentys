@@ -1,9 +1,10 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿//using Microsoft.IdentityModel.Tokens;
 
-namespace Iwentys.Endpoints.Shared.Auth
-{
-    public interface IJwtSigningDecodingKey
-    {
-        SecurityKey GetKey();
-    }
-}
+//namespace Iwentys.Endpoints.Shared.Auth
+//{
+//    public interface IJwtSigningDecodingKey
+//    {
+//        SecurityKey GetKey();
+//    }
+//}
+//TODO: fix

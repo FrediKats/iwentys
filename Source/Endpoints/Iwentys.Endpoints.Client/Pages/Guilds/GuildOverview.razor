@@ -1,8 +1,8 @@
 ﻿@page "/guild/overview"
-@using Iwentys.Core.Services
-@using Iwentys.Features.Guilds.Services
 @using Iwentys.Models.Transferable.Guilds
-@inject GuildService GuildService
+
+
+@inject HttpClient Http
 
 <div class="text-center">
     <h3>Рейтинг Гильдий</h3>
@@ -39,7 +39,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _guildProfiles = GuildService.GetOverview(0, 20);
+        _guildProfiles = Http.GetJsonAsync<IReadOnlyList<GuildProfilePreviewDto>>($"api/guild").Result;
     }
 
 }

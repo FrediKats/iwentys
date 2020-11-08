@@ -1,10 +1,7 @@
 ﻿@using Iwentys.Models.Transferable.Guilds
 @using Iwentys.Models.Transferable.Students
-@using Iwentys.Features.Guilds.Services
-@using Microsoft.AspNetCore.Http
 
-@inject GuildMemberService GuildMemberService
-@inject IHttpContextAccessor HttpContextAccessor
+@namespace Iwentys.Endpoints.OldClient.CustomComponents.Guild
 
 <div class="text-center card">
     <MatHeadline5>Members</MatHeadline5>
@@ -29,6 +26,7 @@
 
     private async Task KicMember(int memberId)
     {
-        await GuildMemberService.KickGuildMemberAsync(HttpContextAccessor.GetAuthUser(), GuildProfile.Id, memberId);
+        //TODO: fix
+        //await GuildMemberService.KickGuildMemberAsync(HttpContextAccessor.GetAuthUser(), GuildProfile.Id, memberId);
     }
 }

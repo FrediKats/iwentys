@@ -4,7 +4,7 @@ using ItmoScheduleApiWrapper.Models;
 using Iwentys.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoints.Api.Controllers
+namespace Iwentys.Endpoints.OldServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

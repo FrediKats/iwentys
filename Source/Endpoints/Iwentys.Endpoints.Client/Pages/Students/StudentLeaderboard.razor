@@ -1,10 +1,9 @@
 ﻿@page "/StudyLeaderboard/{CourseId:int}"
 
-@using Iwentys.Core.Services
 @using Iwentys.Models
 @using Iwentys.Models.Transferable.Study
 
-@inject StudyLeaderboardService StudyLeaderboardService
+@inject HttpClient Http
 
 <div class="text-center">
     <h3>Рейтинг студентов</h3>
@@ -16,7 +15,7 @@
             var linToProfile = $"student/{studentProfile.Student.Id}";
 
             <MatNavItem href=@linToProfile class="d-flex flex-row guild-rating-row justify-content-md-between">
-                
+
                 @*//TODO: add avatars*@
                 <div class="col-md-2">
                     <img src="favicon.ico" class="guild-preview-logo" />
@@ -44,13 +43,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _studentProfiles = StudyLeaderboardService.GetStudentsRatings(new StudySearchParameters
-        {
-            CourseId = CourseId,
-            //TODO: remove const values
-            Skip = 0,
-            Take = 20
-        });
+        List<KeyValuePair<string, string>> allIputParams = new List<KeyValuePair<string, string>>();  
+        string requestParams = string.Empty;  
+        allIputParams.Add(new KeyValuePair<string, string>("courseId", CourseId.ToString()));  
+        requestParams = new FormUrlEncodedContent(allIputParams).ReadAsStringAsync().Result;
+
+        _studentProfiles = Http.GetFromJsonAsync<IReadOnlyList<StudyLeaderboardRow>>($"api/StudentLeaderboard/study-rate?{requestParams}").Result;
     }
 
 }

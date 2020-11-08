@@ -4,6 +4,7 @@ using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Achievements;
 using Iwentys.Database.Repositories.GithubIntegration;
 using Iwentys.Database.Repositories.Guilds;
+using Iwentys.Endpoint.Server.Models;
 using Iwentys.Endpoints.Shared.Auth;
 using Iwentys.Features.Achievements;
 using Iwentys.Features.GithubIntegration;
@@ -14,7 +15,9 @@ using Iwentys.Features.Guilds.Services;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Integrations.GithubIntegration;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,7 +29,8 @@ namespace Iwentys.Endpoints.Shared
     {
         public static IServiceCollection AddIwentysDatabase(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<IwentysDbContext>(o => o.UseSqlite("Data Source=Iwentys.db"));
+            //services.AddDbContext<IwentysDbContext>(o => o.UseSqlite("Data Source=Iwentys.db"));
+            services.AddDbContext<IwentysDbContext>(o => o.UseInMemoryDatabase("Data Source=Iwentys.db"));
             return services;
         }
 
@@ -92,8 +96,9 @@ namespace Iwentys.Endpoints.Shared
 
         public static IServiceCollection AddIwentysTokenFactory(this IServiceCollection services, IConfiguration configuration)
         {
-            var signingKey = new SigningSymmetricKey(ApplicationOptions.SigningSecurityKey);
-            services.AddSingleton<IJwtSigningEncodingKey>(signingKey);
+            //TODO: fix
+            //var signingKey = new SigningSymmetricKey(ApplicationOptions.SigningSecurityKey);
+            //services.AddSingleton<IJwtSigningEncodingKey>(signingKey);
 
             //TODO: fix
             //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -137,6 +142,27 @@ namespace Iwentys.Endpoints.Shared
                     .AllowAnyMethod()
                     .AllowAnyHeader();
             }));
+            return services;
+        }
+
+        public static IServiceCollection AddIwentysFakeAuth(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<ApplicationContext>(options =>
+                options.UseInMemoryDatabase("IdentityDb"));
+
+
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationContext>();
+
+            services.AddIdentityServer()
+                .AddApiAuthorization<ApplicationUser, ApplicationContext>();
+
+            services.AddAuthentication()
+                .AddIdentityServerJwt();
+
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+
             return services;
         }
     }

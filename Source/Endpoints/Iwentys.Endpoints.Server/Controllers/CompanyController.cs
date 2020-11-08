@@ -4,7 +4,7 @@ using Iwentys.Core.Services;
 using Iwentys.Models.Transferable.Companies;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoints.Api.Controllers
+namespace Iwentys.Endpoints.OldServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

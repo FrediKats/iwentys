@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 using Iwentys.Core;
 using Iwentys.Database.Context;
-using Iwentys.Endpoints.Shared;
+using Iwentys.Endpoints.OldShared;
 using Iwentys.Models.Entities.Study;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Iwentys.Endpoints.Api.Controllers
+namespace Iwentys.Endpoints.OldServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

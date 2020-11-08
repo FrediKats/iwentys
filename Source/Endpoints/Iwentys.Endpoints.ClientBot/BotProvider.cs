@@ -3,7 +3,7 @@ using Iwentys.Endpoints.ClientBot.Commands.Student;
 using Iwentys.Endpoints.ClientBot.Commands.StudentLeaderboard;
 using Iwentys.Endpoints.ClientBot.Commands.Tools;
 using Iwentys.Endpoints.ClientBot.Tools;
-using Iwentys.Endpoints.Shared;
+using Iwentys.Endpoints.OldShared;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Tef.BotFramework.Core;

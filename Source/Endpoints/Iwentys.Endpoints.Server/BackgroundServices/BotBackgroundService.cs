@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Endpoints.Api.Tools;
 using Iwentys.Endpoints.ClientBot;
+using Iwentys.Endpoints.OldServer.Tools;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Tef.BotFramework.Core;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
-namespace Iwentys.Endpoints.Api.BackgroundServices
+namespace Iwentys.Endpoints.OldServer.BackgroundServices
 {
     public class BotBackgroundService : BackgroundService
     {

@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Core.Services;
-using Iwentys.Endpoints.Api.Tools;
+using Iwentys.Endpoints.OldServer.Tools;
 using Iwentys.Features.StudentFeature;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Gamification;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoints.Api.Controllers
+namespace Iwentys.Endpoints.OldServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

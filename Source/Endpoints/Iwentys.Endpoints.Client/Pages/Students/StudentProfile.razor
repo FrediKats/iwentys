@@ -9,12 +9,12 @@
 @using ChartJs.Blazor.Util
 @using System.Drawing
 @using ChartJs.Blazor.ChartJS.PieChart
-@using Iwentys.Features.StudentFeature.Services
 
 @using Iwentys.Endpoints.WebUi.CustomComponents
 @using Iwentys.Endpoints.WebUi.CustomComponents.StudentProfile
+@using Iwentys.Models.Transferable.Guilds
 
-@inject StudentService StudentService
+@inject HttpClient Http
 
 <div class="container-fluid d-flex flex-row">
     <div class="col-md-6 d-flex flex-column">
@@ -32,7 +32,7 @@
 @code {
 
     [Parameter]
-    public int StudebtId { get; set; }
+    public int StudentId { get; set; }
 
     public StudentFullProfileDto StudentFullProfile { get; set; }
 
@@ -45,7 +45,7 @@
     protected override void OnInitialized()
     {
         //TODO: fix
-        StudentFullProfile = StudentService.GetAsync(StudebtId).Result;
+        StudentFullProfile = Http.GetFromJsonAsync<StudentFullProfileDto>($"api/student/{StudentId}").Result;
 
         InitGithubChart();
         InitStudyChart();
@@ -74,7 +74,7 @@
                 Scales = new Scales
                 {
                     xAxes = new List<CartesianAxis>
-                    {
+                {
                         new CategoryAxis
                         {
                             ScaleLabel = new ScaleLabel
@@ -84,7 +84,7 @@
                         }
                     },
                     yAxes = new List<CartesianAxis>
-                    {
+                {
                         new LinearCartesianAxis
                         {
                             ScaleLabel = new ScaleLabel

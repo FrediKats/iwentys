@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Iwentys.Endpoints.Shared.BackgroundServices
+namespace Iwentys.Endpoints.OldShared.BackgroundServices
 {
     public class GithubUpdateBackgroundService : BackgroundService
     {

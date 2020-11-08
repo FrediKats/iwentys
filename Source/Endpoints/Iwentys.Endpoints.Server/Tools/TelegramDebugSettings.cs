@@ -1,8 +1,8 @@
-﻿using Iwentys.Endpoints.Shared;
+﻿using Iwentys.Endpoints.OldShared;
 using Tef.BotFramework.Settings;
 using Tef.BotFramework.Telegram;
 
-namespace Iwentys.Endpoints.Api.Tools
+namespace Iwentys.Endpoints.OldServer.Tools
 {
     public class TelegramDebugSettings : IGetSettings<TelegramSettings>
     {

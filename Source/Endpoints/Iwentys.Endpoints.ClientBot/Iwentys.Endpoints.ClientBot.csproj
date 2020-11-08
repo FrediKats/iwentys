@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Iwentys.Endpoints.Shared\Iwentys.Endpoints.Shared.csproj" />
+    <ProjectReference Include="..\Iwentys.Endpoints.Shared\Iwentys.Endpoints.OldShared.csproj" />
   </ItemGroup>
 
 </Project>
