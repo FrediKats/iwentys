@@ -6,7 +6,7 @@ using Iwentys.Features.StudentFeature;
 using Iwentys.Models.Transferable.Guilds;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Server.Controllers
+namespace Iwentys.Endpoint.Server.Controllers.Guilds
 {
     [Route("api/guild/test-task")]
     [ApiController]

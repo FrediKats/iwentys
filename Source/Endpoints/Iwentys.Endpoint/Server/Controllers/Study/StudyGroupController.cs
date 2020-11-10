@@ -4,7 +4,7 @@ using Iwentys.Core.Services;
 using Iwentys.Models.Entities.Study;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Server.Controllers
+namespace Iwentys.Endpoint.Server.Controllers.Study
 {
     [Route("api/[controller]")]
     [ApiController]
