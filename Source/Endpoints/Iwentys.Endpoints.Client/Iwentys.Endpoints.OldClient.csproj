@@ -7,11 +7,11 @@
   <ItemGroup>
     <PackageReference Include="ChartJs.Blazor" Version="1.1.0" />
     <PackageReference Include="MatBlazor" Version="2.7.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.0-rc.2.20475.17" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.0-rc.2.20475.17" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="5.0.0-rc.2.20475.17" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0-rc.2.20475.5" />
-    <PackageReference Include="System.Net.Http.Json" Version="5.0.0-rc.2.20475.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
+    <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
