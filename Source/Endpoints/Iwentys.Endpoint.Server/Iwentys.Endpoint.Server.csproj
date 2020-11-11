@@ -33,6 +33,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Iwentys.Core\Iwentys.Core.csproj" />
+    <ProjectReference Include="..\Iwentys.Endpoint.Client\Iwentys.Endpoint.Client.csproj" />
     <ProjectReference Include="..\Iwentys.Endpoints.ClientBot\Iwentys.Endpoints.ClientBot.csproj" />
   </ItemGroup>
 
