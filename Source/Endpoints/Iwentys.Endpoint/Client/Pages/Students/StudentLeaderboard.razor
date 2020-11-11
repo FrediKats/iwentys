@@ -1,0 +1,54 @@
+﻿@page "/StudyLeaderboard/{CourseId:int}"
+
+@using Iwentys.Models
+@using Iwentys.Models.Transferable.Study
+
+@inject HttpClient Http
+
+<div class="text-center">
+    <h3>Рейтинг студентов</h3>
+
+    <div class="container-fluid d-flex flex-column">
+        @foreach (var studentProfile in _studentProfiles)
+        {
+            //TODO: fix link
+            var linToProfile = $"student/{studentProfile.Student.Id}";
+
+            <MatNavItem href=@linToProfile class="d-flex flex-row guild-rating-row justify-content-md-between">
+
+                @*//TODO: add avatars*@
+                <div class="col-md-2">
+                    <img src="favicon.ico" class="guild-preview-logo" />
+                </div>
+
+                <div class="col-md-4">
+                    <h4>@studentProfile.Student.GetFullName()</h4>
+                </div>
+
+                <div class="col-md-2">
+                    <p>@studentProfile.Activity</p>
+                </div>
+
+            </MatNavItem>
+        }
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+
+    private IReadOnlyList<StudyLeaderboardRow> _studentProfiles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        List<KeyValuePair<string, string>> allIputParams = new List<KeyValuePair<string, string>>();  
+        string requestParams = string.Empty;  
+        allIputParams.Add(new KeyValuePair<string, string>("courseId", CourseId.ToString()));  
+        requestParams = new FormUrlEncodedContent(allIputParams).ReadAsStringAsync().Result;
+
+        _studentProfiles = Http.GetFromJsonAsync<IReadOnlyList<StudyLeaderboardRow>>($"api/StudentLeaderboard/study-rate?{requestParams}").Result;
+    }
+
+}

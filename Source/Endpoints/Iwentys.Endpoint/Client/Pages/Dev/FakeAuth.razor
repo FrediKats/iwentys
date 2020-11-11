@@ -1,0 +1,21 @@
+﻿@page "/dev/fakeauth"
+
+@using System.Security.Claims
+@using System.Globalization
+@using Iwentys.Common.Tools
+
+<p>
+    @UserId
+</p>
+<MatTextField @bind-Value="@UserId" Label="UserId"></MatTextField>
+<MatButton @onclick="@(async () => await Update())"></MatButton>
+
+@code {
+
+    public int UserId { get; set; }
+
+    private async Task Update()
+    {
+
+    }
+}
