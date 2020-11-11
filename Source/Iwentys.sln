@@ -35,9 +35,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.GithubInte
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.Guilds", "Features\Iwentys.Features.Guilds\Iwentys.Features.Guilds.csproj", "{29510D58-8FDB-4224-9F5E-11FEB5FECFF3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Endpoint.Server", "Endpoints\Iwentys.Endpoint\Server\Iwentys.Endpoint.Server.csproj", "{F3FEE870-DF3A-4D9B-BB6F-067ED327CDB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Endpoint.Server", "Endpoints\Iwentys.Endpoint.Server\Iwentys.Endpoint.Server.csproj", "{F3FEE870-DF3A-4D9B-BB6F-067ED327CDB9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Endpoint.Client", "Endpoints\Iwentys.Endpoint\Client\Iwentys.Endpoint.Client.csproj", "{8FD43B28-FF84-40F7-93DE-77F39A111800}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Endpoint.Client", "Endpoints\Iwentys.Endpoint.Client\Iwentys.Endpoint.Client.csproj", "{8FD43B28-FF84-40F7-93DE-77F39A111800}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integrations", "Integrations", "{C2D7EE1D-FF29-410A-A710-0FB6E8C3319F}"
 EndProject
