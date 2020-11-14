@@ -39,7 +39,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _guildProfiles = Http.GetJsonAsync<IReadOnlyList<GuildProfilePreviewDto>>($"api/guild").Result;
+        _guildProfiles = await Http.GetJsonAsync<IReadOnlyList<GuildProfilePreviewDto>>($"api/guild");
     }
-
 }

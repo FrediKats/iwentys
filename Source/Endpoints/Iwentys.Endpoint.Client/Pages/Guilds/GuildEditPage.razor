@@ -22,7 +22,7 @@
     protected override async Task OnInitializedAsync()
     {
         await Http.TrySetHeader(LocalStorage);
-        Guild = Http.GetJsonAsync<GuildProfileDto>($"api/guild/{GuildId}").Result;
+        Guild = await Http.GetJsonAsync<GuildProfileDto>($"api/guild/{GuildId}");
     }
 
 }

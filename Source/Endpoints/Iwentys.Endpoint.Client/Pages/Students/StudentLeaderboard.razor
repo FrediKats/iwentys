@@ -46,11 +46,10 @@
     protected override async Task OnInitializedAsync()
     {
         List<KeyValuePair<string, string>> allIputParams = new List<KeyValuePair<string, string>>();
-        string requestParams = string.Empty;
         allIputParams.Add(new KeyValuePair<string, string>("courseId", CourseId.ToString()));
-        requestParams = new FormUrlEncodedContent(allIputParams).ReadAsStringAsync().Result;
-        await Http.TrySetHeader(LocalStorage);
-        _studentProfiles = Http.GetFromJsonAsync<IReadOnlyList<StudyLeaderboardRow>>($"api/StudentLeaderboard/study-rate?{requestParams}").Result;
-    }
+        string requestParams = await new FormUrlEncodedContent(allIputParams).ReadAsStringAsync();
 
+        await Http.TrySetHeader(LocalStorage);
+        _studentProfiles = await Http.GetFromJsonAsync<IReadOnlyList<StudyLeaderboardRow>>($"api/StudentLeaderboard/study-rate?{requestParams}");
+    }
 }
