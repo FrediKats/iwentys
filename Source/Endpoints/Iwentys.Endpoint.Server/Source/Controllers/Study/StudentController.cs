@@ -20,14 +20,22 @@ namespace Iwentys.Endpoint.Server.Controllers.Study
             _studentService = studentService;
         }
 
-        [HttpGet]
+        [HttpGet("profile")]
         public async Task<ActionResult<List<StudentFullProfileDto>>> Get()
         {
             List<StudentFullProfileDto> students = await _studentService.GetAsync();
             return Ok(students);
         }
+        [HttpGet("self")]
+        public async Task<ActionResult<StudentFullProfileDto>> GetSelf()
+        {
+            AuthorizedUser user = this.TryAuthWithToken();
+            StudentFullProfileDto result  = await _studentService.GetAsync(user.Id);
+            return Ok(result);
+        }
 
-        [HttpGet("{id}")]
+
+        [HttpGet("profile/{id}")]
         public async Task<ActionResult<StudentFullProfileDto>> Get(int id)
         {
             StudentFullProfileDto student = await _studentService.GetAsync(id);

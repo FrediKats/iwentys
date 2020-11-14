@@ -6,7 +6,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
 using Iwentys.Database.Context;
+using Iwentys.Endpoint.Server.Tools;
 using Iwentys.Endpoints.OldShared.Auth;
+using Iwentys.Features.StudentFeature;
 using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Models.Transferable;
 using Microsoft.AspNetCore.Authentication;
@@ -79,18 +81,10 @@ namespace Iwentys.Endpoint.Server.Controllers
         [HttpGet("ValidateToken")]
         public int ValidateToken()
         {
-            var token = HttpContext.Request.Headers["Authorization"].ToString();
-            if (token.StartsWith("Bearer "))
-                token = token.Remove(0, "Bearer ".Length);
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            if (tokenHandler.ReadToken(token) is JwtSecurityToken securityToken)
-            {
-                string stringClaimValue = securityToken.Claims.First(claim => claim.Type == ClaimTypes.UserData).Value;
-                return int.Parse(stringClaimValue, CultureInfo.InvariantCulture);
-            }
-
-            throw new Exception("Invalid token");
+            AuthorizedUser tryAuthWithToken = this.TryAuthWithTokenOrDefault(-1);
+            if (tryAuthWithToken.Id == -1)
+                throw new Exception("Invalid token");
+            return tryAuthWithToken.Id;
         }
 
         //[HttpPost("register")]

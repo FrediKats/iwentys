@@ -10,7 +10,11 @@ namespace Iwentys.Endpoint.Server.Tools
         {
             //TODO: for test propose
             const int defaultUserId = 289140;
+            return TryAuthWithTokenOrDefault(controller, defaultUserId);
+        }
 
+        public static AuthorizedUser TryAuthWithTokenOrDefault(this ControllerBase controller, int defaultUserId)
+        {
             ClaimsPrincipal user = controller.HttpContext.User;
             if (user is null)
                 return AuthorizedUser.DebugAuth(defaultUserId);
@@ -21,5 +25,6 @@ namespace Iwentys.Endpoint.Server.Tools
 
             return AuthorizedUser.DebugAuth(userId);
         }
+
     }
 }
