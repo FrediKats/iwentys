@@ -19,10 +19,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine(AuthService is null);
-        Console.WriteLine(Http is null);
-        Console.WriteLine(LocalStorage is null);
-
         var savedToken = await LocalStorage.GetItemAsync<string>("authToken");
         Token = string.IsNullOrEmpty(savedToken) ? "no token" : savedToken;
     }

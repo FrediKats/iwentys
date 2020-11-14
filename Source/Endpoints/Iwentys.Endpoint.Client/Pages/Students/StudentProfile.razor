@@ -1,4 +1,4 @@
-﻿@page "/student/{StudebtId:int}"
+@page "/student/{StudentId:int?}"
 @using Iwentys.Models.Transferable.Students
 @using ChartJs.Blazor.ChartJS.LineChart
 @using ChartJs.Blazor.ChartJS.Common.Properties
@@ -8,13 +8,16 @@
 @using ChartJs.Blazor.Charts
 @using ChartJs.Blazor.Util
 @using System.Drawing
+@using Blazored.LocalStorage
 @using ChartJs.Blazor.ChartJS.PieChart
 
 @using Iwentys.Endpoint.Client.CustomComponents
 @using Iwentys.Endpoint.Client.CustomComponents.StudentProfile
+@using Iwentys.Endpoint.Client.Tools
 @using Iwentys.Models.Transferable.Guilds
 
 @inject HttpClient Http
+@inject ILocalStorageService LocalStorage
 
 <div class="container-fluid d-flex flex-row">
     <div class="col-md-6 d-flex flex-column">
@@ -32,7 +35,7 @@
 @code {
 
     [Parameter]
-    public int StudentId { get; set; }
+    public int? StudentId { get; set; }
 
     public StudentFullProfileDto StudentFullProfile { get; set; }
 
@@ -42,10 +45,10 @@
     private PieConfig _studyChartConfig;
     private ChartJsPieChart _studyChart;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        //TODO: fix
-        StudentFullProfile = Http.GetFromJsonAsync<StudentFullProfileDto>($"api/student/{StudentId}").Result;
+            //TODO: fix
+            await Http.TrySetHeader(LocalStorage);
 
         InitGithubChart();
         InitStudyChart();
@@ -74,7 +77,7 @@
                 Scales = new Scales
                 {
                     xAxes = new List<CartesianAxis>
-            {
+        {
                         new CategoryAxis
                         {
                             ScaleLabel = new ScaleLabel

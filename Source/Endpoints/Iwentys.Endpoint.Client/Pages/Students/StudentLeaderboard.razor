@@ -1,9 +1,11 @@
 ﻿@page "/StudyLeaderboard/{CourseId:int}"
 
-@using Iwentys.Models
 @using Iwentys.Models.Transferable.Study
+@using Iwentys.Endpoint.Client.Tools
+@using Blazored.LocalStorage
 
 @inject HttpClient Http
+@inject ILocalStorageService LocalStorage
 
 <div class="text-center">
     <h3>Рейтинг студентов</h3>
@@ -43,11 +45,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        List<KeyValuePair<string, string>> allIputParams = new List<KeyValuePair<string, string>>();  
-        string requestParams = string.Empty;  
-        allIputParams.Add(new KeyValuePair<string, string>("courseId", CourseId.ToString()));  
+        List<KeyValuePair<string, string>> allIputParams = new List<KeyValuePair<string, string>>();
+        string requestParams = string.Empty;
+        allIputParams.Add(new KeyValuePair<string, string>("courseId", CourseId.ToString()));
         requestParams = new FormUrlEncodedContent(allIputParams).ReadAsStringAsync().Result;
-
+        await Http.TrySetHeader(LocalStorage);
         _studentProfiles = Http.GetFromJsonAsync<IReadOnlyList<StudyLeaderboardRow>>($"api/StudentLeaderboard/study-rate?{requestParams}").Result;
     }
 
