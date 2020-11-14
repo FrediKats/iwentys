@@ -1,5 +1,15 @@
-﻿using Iwentys.Database.Context;
+﻿using System;
+using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Iwentys.Common.Tools;
+using Iwentys.Database.Context;
+using Iwentys.Endpoints.OldShared.Auth;
 using Iwentys.Features.StudentFeature.Services;
+using Iwentys.Models.Transferable;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -13,12 +23,14 @@ namespace Iwentys.Endpoint.Server.Controllers
         //private readonly IsuApiAccessor _isuApiAccessor;
         private readonly DatabaseAccessor _databaseAccessor;
         private readonly StudentService _studentService;
+        private IAuthenticationService _authenticationService;
 
-        public IsuAuthController(ILogger<IsuAuthController> logger, DatabaseAccessor databaseAccessor, StudentService studentService)
+        public IsuAuthController(ILogger<IsuAuthController> logger, DatabaseAccessor databaseAccessor, StudentService studentService, IAuthenticationService authenticationService)
         {
             _logger = logger;
             _databaseAccessor = databaseAccessor;
             _studentService = studentService;
+            _authenticationService = authenticationService;
             //_isuApiAccessor = new IsuApiAccessor(ApplicationOptions.IsuClientId, ApplicationOptions.IsuClientSecret, ApplicationOptions.IsuRedirection);
         }
 
@@ -44,36 +56,42 @@ namespace Iwentys.Endpoint.Server.Controllers
         //}
         //TODO: fix
 
-        //[HttpGet("login/{userId}")]
-        //public async Task<ActionResult<IwentysAuthResponse>> Login(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
-        //{
-        //    await _databaseAccessor.Student.GetAsync(userId);
-        //    return Ok(TokenGenerator.Generate(userId, signingEncodingKey));
-        //}
+        [HttpGet("login/{userId}")]
+        public async Task<ActionResult<IwentysAuthResponse>> Login(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
+        {
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.UserData, userId.ToString(CultureInfo.InvariantCulture))
+            };
+            var user = new ClaimsPrincipal(new ClaimsIdentity(claims));
 
-        //[HttpGet("loginOrCreate/{userId}")]
-        //public async Task<ActionResult<IwentysAuthResponse>> LoginOrCreate(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
-        //{
-        //    await _studentService.GetOrCreateAsync(userId);
-        //    return Ok(TokenGenerator.Generate(userId, signingEncodingKey));
-        //}
+            //await _authenticationService.SignInAsync(HttpContext, null, user, null);
+            return Ok(TokenGenerator.Generate(userId, signingEncodingKey));
+        }
 
-        //[HttpGet("ValidateToken")]
-        //public int ValidateToken()
-        //{
-        //    var token = HttpContext.Request.Headers["Authorization"].ToString();
-        //    if (token.StartsWith("Bearer "))
-        //        token = token.Remove(0, "Bearer ".Length);
+        [HttpGet("loginOrCreate/{userId}")]
+        public async Task<ActionResult<IwentysAuthResponse>> LoginOrCreate(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
+        {
+            await _studentService.GetOrCreateAsync(userId);
+            return Ok(TokenGenerator.Generate(userId, signingEncodingKey));
+        }
 
-        //    var tokenHandler = new JwtSecurityTokenHandler();
-        //    if (tokenHandler.ReadToken(token) is JwtSecurityToken securityToken)
-        //    {
-        //        string stringClaimValue = securityToken.Claims.First(claim => claim.Type == ClaimTypes.UserData).Value;
-        //        return int.Parse(stringClaimValue, CultureInfo.InvariantCulture);
-        //    }
+        [HttpGet("ValidateToken")]
+        public int ValidateToken()
+        {
+            var token = HttpContext.Request.Headers["Authorization"].ToString();
+            if (token.StartsWith("Bearer "))
+                token = token.Remove(0, "Bearer ".Length);
 
-        //    throw new Exception("Invalid token");
-        //}
+            var tokenHandler = new JwtSecurityTokenHandler();
+            if (tokenHandler.ReadToken(token) is JwtSecurityToken securityToken)
+            {
+                string stringClaimValue = securityToken.Claims.First(claim => claim.Type == ClaimTypes.UserData).Value;
+                return int.Parse(stringClaimValue, CultureInfo.InvariantCulture);
+            }
+
+            throw new Exception("Invalid token");
+        }
 
         //[HttpPost("register")]
         //public async Task<ActionResult<IwentysAuthResponse>> Register([FromServices] IJwtSigningEncodingKey signingEncodingKey, [FromBody] StudentCreateArgumentsDto arguments)

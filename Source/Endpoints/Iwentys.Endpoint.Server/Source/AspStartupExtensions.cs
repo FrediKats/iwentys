@@ -16,10 +16,12 @@ using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Integrations.GithubIntegration;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
 namespace Iwentys.Endpoints.OldShared
@@ -30,10 +32,10 @@ namespace Iwentys.Endpoints.OldShared
         {
             services
                 .AddIwentysLogging(configuration)
-                //.AddIwentysCorsHack(configuration)
+                .AddIwentysCorsHack(configuration)
                 .AddApplicationOptions(configuration)
                 .AddIwentysDatabase()
-                //.AddIwentysTokenFactory(configuration)
+                .AddIwentysTokenFactory(configuration)
                 .AddIwentysServices();
             //TODO: meh (
             //.AddIwentysFakeAuth(configuration);
@@ -109,25 +111,23 @@ namespace Iwentys.Endpoints.OldShared
 
         public static IServiceCollection AddIwentysTokenFactory(this IServiceCollection services, IConfiguration configuration)
         {
-            //TODO: fix
-            //var signingKey = new SigningSymmetricKey(ApplicationOptions.SigningSecurityKey);
-            //services.AddSingleton<IJwtSigningEncodingKey>(signingKey);
+            var signingKey = new SigningSymmetricKey(ApplicationOptions.SigningSecurityKey);
+            services.AddSingleton<IJwtSigningEncodingKey>(signingKey);
 
-            //TODO: fix
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //    .AddJwtBearer(options =>
-            //    {
-            //        options.TokenValidationParameters = new TokenValidationParameters
-            //        {
-            //            ValidateIssuer = true,
-            //            ValidateAudience = true,
-            //            ValidateLifetime = false,
-            //            ValidateIssuerSigningKey = true,
-            //            ValidIssuer = ApplicationOptions.JwtIssuer,
-            //            ValidAudience = ApplicationOptions.JwtIssuer,
-            //            IssuerSigningKey = signingKey.GetKey()
-            //        };
-            //    });
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = false,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = ApplicationOptions.JwtIssuer,
+                        ValidAudience = ApplicationOptions.JwtIssuer,
+                        IssuerSigningKey = signingKey.GetKey()
+                    };
+                });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             return services;
