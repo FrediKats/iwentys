@@ -42,7 +42,9 @@ namespace Iwentys.Endpoint.Server
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
-            services.AddControllersWithViews().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())); ;
+            //TODO: fix
+            services.AddControllersWithViews();
+            //services.AddControllersWithViews().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
             services.AddRazorPages();
 
             services.ConfigIwentysOptions(Configuration);
