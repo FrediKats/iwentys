@@ -1,4 +1,4 @@
-@page "/student/{StudentId:int?}"
+﻿@page "/student/{StudentId:int?}"
 @using Iwentys.Models.Transferable.Students
 @using ChartJs.Blazor.ChartJS.LineChart
 @using ChartJs.Blazor.ChartJS.Common.Properties
@@ -19,17 +19,29 @@
 @inject HttpClient Http
 @inject ILocalStorageService LocalStorage
 
-<div class="container-fluid d-flex flex-row">
-    <div class="col-md-6 d-flex flex-column">
-        <StudentProfileInfoComponent StudentProfile=@StudentFullProfile></StudentProfileInfoComponent>
-    </div>
 
-    <div class="col-md-6 d-flex flex-column">
-        <AchievementComponent Achievements=@StudentFullProfile.Achievements></AchievementComponent>
-        <ChartJsLineChart @ref="_githubChart" Config="_githubChartConfig"></ChartJsLineChart>
-        <ChartJsPieChart @ref="_studyChart" Config="@_studyChartConfig" Width="600" Height="300" />
+@if (StudentFullProfile is not null)
+{
+    <div class="container-fluid d-flex flex-row">
+        <div class="col-md-6 d-flex flex-column">
+            <StudentProfileInfoComponent StudentProfile=@StudentFullProfile></StudentProfileInfoComponent>
+        </div>
+
+        <div class="col-md-6 d-flex flex-column">
+            <AchievementComponent Achievements=@StudentFullProfile.Achievements></AchievementComponent>
+
+            @if (_githubChartConfig is not null)
+            {
+                <ChartJsLineChart @ref="_githubChart" Config="_githubChartConfig"></ChartJsLineChart>
+            }
+            @if (_studyChartConfig is not null)
+            {
+                <ChartJsPieChart @ref="_studyChart" Config="@_studyChartConfig" Width="600" Height="300" />
+
+            }
+        </div>
     </div>
-</div>
+}
 
 
 @code {
@@ -47,16 +59,29 @@
 
     protected override async Task OnInitializedAsync()
     {
+        var value = StudentId;
+        if (value is null)
+        {
             //TODO: fix
             await Http.TrySetHeader(LocalStorage);
+            StudentFullProfile = await Http.GetFromJsonAsync<StudentFullProfileDto>($"api/student/self/");
+        }
+        else
+        {
+            StudentFullProfile = await Http.GetFromJsonAsync<StudentFullProfileDto>($"api/student/profile/{value.Value}");
+        }
 
-        InitGithubChart();
-        InitStudyChart();
+        if (StudentFullProfile.CodingActivityInfo is not null)
+            InitGithubChart();
+
+        if (StudentFullProfile.SubjectActivityInfo is not null)
+            InitStudyChart();
     }
 
     private void InitGithubChart()
     {
-        var lineDataset = new LineDataset<Int32Wrapper>(StudentFullProfile.CodingActivityInfo.Select(a => new Int32Wrapper(a.Activity)))
+        var elements = StudentFullProfile?.CodingActivityInfo?.Select(a => new Int32Wrapper(a.Activity)) ?? new List<Int32Wrapper>();
+        var lineDataset = new LineDataset<Int32Wrapper>(elements)
         {
             Label = "Github",
             BackgroundColor = ColorUtil.FromDrawingColor(Color.PaleVioletRed),
@@ -87,7 +112,7 @@
                         }
                     },
                     yAxes = new List<CartesianAxis>
-            {
+        {
                         new LinearCartesianAxis
                         {
                             ScaleLabel = new ScaleLabel
@@ -130,8 +155,12 @@
             BorderColor = "#ffffff",
         };
 
-        pieSet.Data.AddRange(StudentFullProfile.SubjectActivityInfo.Select(sa => sa.Points));
-        _studyChartConfig.Data.Labels.AddRange(StudentFullProfile.SubjectActivityInfo.Select(sa => sa.SubjectTitle));
+        if (StudentFullProfile?.SubjectActivityInfo is not null)
+        {
+            pieSet.Data.AddRange(StudentFullProfile.SubjectActivityInfo.Select(sa => sa.Points));
+            _studyChartConfig.Data.Labels.AddRange(StudentFullProfile.SubjectActivityInfo.Select(sa => sa.SubjectTitle));
+        }
+        
         _studyChartConfig.Data.Datasets.Add(pieSet);
     }
 }
