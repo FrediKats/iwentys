@@ -1,21 +1,35 @@
 ﻿@page "/dev/fakeauth"
+@using Blazored.LocalStorage
+@using Iwentys.Endpoint.Client.Tools
+@using Iwentys.Models.Transferable
 
-@using System.Security.Claims
-@using System.Globalization
-@using Iwentys.Common.Tools
+@inject IAuthService AuthService
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
 
-<p>
-    @UserId
-</p>
+
+<MatTextField Value="@Token" Label="Token"></MatTextField>
 <MatTextField @bind-Value="@UserId" Label="UserId"></MatTextField>
-<MatButton @onclick="@(async () => await Update())"></MatButton>
+<MatButton @onclick="@Update">Update</MatButton>
 
 @code {
 
-    public int UserId { get; set; }
+    public int UserId { get; set; } = 1;
+    public string Token { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine(AuthService is null);
+        Console.WriteLine(Http is null);
+        Console.WriteLine(LocalStorage is null);
+
+        var savedToken = await LocalStorage.GetItemAsync<string>("authToken");
+        Token = string.IsNullOrEmpty(savedToken) ? "no token" : savedToken;
+    }
 
     private async Task Update()
     {
 
+        IwentysAuthResponse iwentysAuthResponse = await AuthService.Login(UserId);
     }
 }

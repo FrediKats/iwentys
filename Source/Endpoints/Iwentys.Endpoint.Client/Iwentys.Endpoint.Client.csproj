@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blazored.LocalStorage" Version="3.0.0" />
     <PackageReference Include="ChartJs.Blazor" Version="1.1.0" />
     <PackageReference Include="MatBlazor" Version="2.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.0" />
@@ -16,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Iwentys.Models\Iwentys.Models.csproj" />
+    <ProjectReference Include="..\Iwentys.Endpoint.Sdk\Iwentys.Endpoint.Sdk.csproj" />
   </ItemGroup>
 
 </Project>
