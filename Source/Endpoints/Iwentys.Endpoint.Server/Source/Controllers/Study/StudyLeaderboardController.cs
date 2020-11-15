@@ -19,6 +19,7 @@ namespace Iwentys.Endpoint.Server.Source.Controllers.Study
         }
 
         [HttpGet("study-rate")]
+        [Produces("application/json")]
         public ActionResult<List<StudyLeaderboardRow>> GetStudyRating(
             [FromQuery] int? subjectId,
             [FromQuery] int? courseId,
@@ -39,6 +40,7 @@ namespace Iwentys.Endpoint.Server.Source.Controllers.Study
         }
 
         [HttpGet("coding-rate")]
+        [Produces("application/json")]
         public ActionResult<List<StudyLeaderboardRow>> GetCodingRating([FromQuery] int? courseId, [FromQuery] int skip = 0, [FromQuery] int take = 20)
         {
             return Ok(_studyLeaderboardService.GetCodingRating(courseId, skip, take));

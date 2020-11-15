@@ -13,6 +13,7 @@ namespace Iwentys.Endpoint.Client.Tools
 
             if (!string.IsNullOrWhiteSpace(savedToken))
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", savedToken);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             return client;
         }
