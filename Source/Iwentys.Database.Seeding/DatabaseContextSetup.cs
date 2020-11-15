@@ -9,7 +9,7 @@ using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Types;
 
-namespace Iwentys.Database.Context
+namespace Iwentys.Database.Seeding
 {
     //TODO: Remove after release
 

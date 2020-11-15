@@ -5,7 +5,7 @@ using System.Linq;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
 
-namespace Iwentys.Database.Context
+namespace Iwentys.Database.Seeding
 {
     public class StudentMockDataReader
     {

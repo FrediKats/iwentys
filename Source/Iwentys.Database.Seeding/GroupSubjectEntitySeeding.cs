@@ -3,7 +3,7 @@ using System.Linq;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Types;
 
-namespace Iwentys.Database.Context
+namespace Iwentys.Database.Seeding
 {
     public static class GroupSubjectEntitySeeding
     {
