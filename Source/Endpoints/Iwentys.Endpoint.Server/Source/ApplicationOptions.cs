@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iwentys.Endpoints.OldShared
+namespace Iwentys.Endpoint.Server.Source
 {
     public static class ApplicationOptions
     {

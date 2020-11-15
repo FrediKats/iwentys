@@ -5,7 +5,7 @@ using Iwentys.Models.Transferable.Study;
 using Iwentys.Models.Types;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Server.Controllers.Study
+namespace Iwentys.Endpoint.Server.Source.Controllers.Study
 {
     [Route("api/[controller]")]
     [ApiController]

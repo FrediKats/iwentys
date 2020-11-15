@@ -10,7 +10,7 @@ using Serilog;
 using Tef.BotFramework.Core;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
-namespace Iwentys.Endpoints.OldShared.BackgroundServices
+namespace Iwentys.Endpoint.Server.Source.BackgroundServices
 {
     public class BotBackgroundService : BackgroundService
     {

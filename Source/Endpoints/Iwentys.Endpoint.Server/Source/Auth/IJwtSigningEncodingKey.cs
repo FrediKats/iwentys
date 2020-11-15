@@ -1,6 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 
-namespace Iwentys.Endpoints.OldShared.Auth
+namespace Iwentys.Endpoint.Server.Source.Auth
 {
     public interface IJwtSigningEncodingKey
     {

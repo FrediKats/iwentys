@@ -2,7 +2,7 @@
 using Iwentys.Features.StudentFeature;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Server.Tools
+namespace Iwentys.Endpoint.Server.Source.Tools
 {
     public static class ControllerBaseExtensions
     {

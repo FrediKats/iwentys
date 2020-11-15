@@ -1,6 +1,3 @@
-using Iwentys.Endpoint.Server.Data;
-using Iwentys.Endpoint.Server.Models;
-
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,9 +6,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using System.Text.Json.Serialization;
 using Iwentys.Database.Context;
-using Iwentys.Endpoints.OldShared;
+using Iwentys.Endpoint.Server.Source;
+using Iwentys.Endpoint.Server.Source.Data;
+using Iwentys.Endpoint.Server.Source.Models;
 
 namespace Iwentys.Endpoint.Server
 {

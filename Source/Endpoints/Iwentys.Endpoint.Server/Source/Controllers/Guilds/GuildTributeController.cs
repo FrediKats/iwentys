@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Endpoint.Server.Tools;
+using Iwentys.Endpoint.Server.Source.Tools;
 using Iwentys.Features.Guilds.Services;
 using Iwentys.Features.StudentFeature;
 using Iwentys.Models.Transferable;
@@ -8,7 +8,7 @@ using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.GuildTribute;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Server.Controllers.Guilds
+namespace Iwentys.Endpoint.Server.Source.Controllers.Guilds
 {
     [Route("api/guild/tribute")]
     [ApiController]

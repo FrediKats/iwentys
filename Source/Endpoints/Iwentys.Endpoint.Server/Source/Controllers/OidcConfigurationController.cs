@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Iwentys.Endpoint.Server.Controllers
+namespace Iwentys.Endpoint.Server.Source.Controllers
 {
     public class OidcConfigurationController : Controller
     {

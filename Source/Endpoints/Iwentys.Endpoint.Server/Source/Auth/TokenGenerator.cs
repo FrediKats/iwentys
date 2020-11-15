@@ -4,7 +4,7 @@ using System.Security.Claims;
 using Iwentys.Models.Transferable;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Iwentys.Endpoints.OldShared.Auth
+namespace Iwentys.Endpoint.Server.Source.Auth
 {
     public static class TokenGenerator
     {

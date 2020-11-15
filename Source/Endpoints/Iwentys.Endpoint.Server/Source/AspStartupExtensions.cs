@@ -1,11 +1,10 @@
 ﻿using Iwentys.Core.Services;
-using Iwentys.Database;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Achievements;
 using Iwentys.Database.Repositories.GithubIntegration;
 using Iwentys.Database.Repositories.Guilds;
-using Iwentys.Endpoints.OldShared.Auth;
+using Iwentys.Endpoint.Server.Source.Auth;
 using Iwentys.Features.Achievements;
 using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Repositories;
@@ -24,7 +23,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
-namespace Iwentys.Endpoints.OldShared
+namespace Iwentys.Endpoint.Server.Source
 {
     public static class AspStartupExtensions
     {
