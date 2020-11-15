@@ -1,10 +1,9 @@
 ﻿@page "/dev/fakeauth"
 @using Blazored.LocalStorage
 @using Iwentys.Endpoint.Client.Tools
-@using Iwentys.Models.Transferable
 
-@inject IAuthService AuthService
 @inject HttpClient Http
+@inject IAuthService AuthService
 @inject ILocalStorageService LocalStorage
 
 
@@ -25,7 +24,6 @@
 
     private async Task Update()
     {
-
-        IwentysAuthResponse iwentysAuthResponse = await AuthService.Login(UserId);
+        await AuthService.Login(UserId);
     }
 }

@@ -1,11 +1,10 @@
-using Microsoft.Extensions.DependencyInjection;
-
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using Iwentys.Endpoint.Client.Tools;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Iwentys.Endpoint.Client
 {

@@ -1,8 +1,11 @@
 ﻿@page "/guild/overview"
 @using Iwentys.Models.Transferable.Guilds
-
+@using Iwentys.Endpoint.Sdk.ControllerClients.Guilds
+@using Iwentys.Endpoint.Client.Tools
+@using Blazored.LocalStorage
 
 @inject HttpClient Http
+@inject ILocalStorageService LocalStorage
 
 <div class="text-center">
     <h3>Рейтинг Гильдий</h3>
@@ -39,6 +42,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _guildProfiles = await Http.GetJsonAsync<IReadOnlyList<GuildProfilePreviewDto>>($"api/guild");
+        var guildControllerClient = new GuildControllerClient(await Http.TrySetHeader(LocalStorage));
+        _guildProfiles = await guildControllerClient.GetOverview();
     }
 }

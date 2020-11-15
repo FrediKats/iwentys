@@ -14,6 +14,7 @@
 @using Iwentys.Endpoint.Client.CustomComponents
 @using Iwentys.Endpoint.Client.CustomComponents.StudentProfile
 @using Iwentys.Endpoint.Client.Tools
+@using Iwentys.Endpoint.Sdk.ControllerClients.Study
 
 @inject HttpClient Http
 @inject ILocalStorageService LocalStorage
@@ -58,16 +59,17 @@
 
     protected override async Task OnInitializedAsync()
     {
+        var studentControllerClient = new StudentControllerClient(await Http.TrySetHeader(LocalStorage));
+
         var value = StudentId;
-        if (value is null)
+        if (StudentId is null)
         {
-            //TODO: fix
-            await Http.TrySetHeader(LocalStorage);
-            StudentFullProfile = await Http.GetFromJsonAsync<StudentFullProfileDto>($"api/student/self/");
+
+            StudentFullProfile = await studentControllerClient.GetSelf();
         }
         else
         {
-            StudentFullProfile = await Http.GetFromJsonAsync<StudentFullProfileDto>($"api/student/profile/{value.Value}");
+            StudentFullProfile = await studentControllerClient.Get(StudentId.Value);
         }
 
         if (StudentFullProfile.CodingActivityInfo is not null)
@@ -159,7 +161,7 @@
             pieSet.Data.AddRange(StudentFullProfile.SubjectActivityInfo.Select(sa => sa.Points));
             _studyChartConfig.Data.Labels.AddRange(StudentFullProfile.SubjectActivityInfo.Select(sa => sa.SubjectTitle));
         }
-        
+
         _studyChartConfig.Data.Datasets.Add(pieSet);
     }
 }

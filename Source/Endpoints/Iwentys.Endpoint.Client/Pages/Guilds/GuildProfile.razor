@@ -4,6 +4,7 @@
 @using Iwentys.Endpoint.Client.CustomComponents.Guild
 @using Blazored.LocalStorage
 @using Iwentys.Endpoint.Client.Tools
+@using Iwentys.Endpoint.Sdk.ControllerClients.Guilds
 
 @inject HttpClient Http
 @inject ILocalStorageService LocalStorage
@@ -31,7 +32,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await Http.TrySetHeader(LocalStorage);
-        Guild = await Http.GetJsonAsync<GuildProfileDto>($"api/guild/{GuildId}");
+        var guildControllerClient = new GuildControllerClient(await Http.TrySetHeader(LocalStorage));
+        Guild = await guildControllerClient.Get(GuildId);
     }
 }

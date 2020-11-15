@@ -9,7 +9,7 @@ namespace Iwentys.Endpoint.Client.Tools
 {
     public interface IAuthService
     {
-        Task<IwentysAuthResponse> Login(int userId);
+        Task Login(int userId);
     }
 
     public class AuthService : IAuthService
@@ -17,21 +17,17 @@ namespace Iwentys.Endpoint.Client.Tools
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorage;
 
-        public AuthService(HttpClient httpClient,
-            ILocalStorageService localStorage)
+        public AuthService(HttpClient httpClient, ILocalStorageService localStorage)
         {
             _httpClient = httpClient;
             _localStorage = localStorage;
         }
 
-        public async Task<IwentysAuthResponse> Login(int userId)
+        public async Task Login(int userId)
         {
             IwentysAuthResponse iwentysAuthResponse = await new AuthControllerClient(_httpClient).Login(userId);
-
             await _localStorage.SetItemAsync("authToken", iwentysAuthResponse.Token);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", iwentysAuthResponse.Token);
-
-            return iwentysAuthResponse;
         }
     }
 }
