@@ -11,7 +11,10 @@
 
 <h3>GuildEditPage</h3>
 
-<GuildMemberListComponent GuildProfile="@Guild"></GuildMemberListComponent>
+@if (Guild is not null)
+{
+    <GuildMemberListComponent GuildProfile="@Guild"></GuildMemberListComponent>
+}
 
 @code
 {

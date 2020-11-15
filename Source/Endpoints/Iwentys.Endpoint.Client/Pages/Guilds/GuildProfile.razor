@@ -9,20 +9,23 @@
 @inject HttpClient Http
 @inject ILocalStorageService LocalStorage
 
-<div class="container-fluid d-flex flex-row">
-    <div class="col-md-3 d-flex flex-column">
-        <GuildProfileInfoComponent GuildProfile=@Guild></GuildProfileInfoComponent>
-    </div>
+@if (Guild is not null)
+{
+    <div class="container-fluid d-flex flex-row">
+        <div class="col-md-3 d-flex flex-column">
+            <GuildProfileInfoComponent GuildProfile=@Guild></GuildProfileInfoComponent>
+        </div>
 
-    <div class="col-md-6 d-flex flex-column">
-        <AchievementComponent Achievements=@Guild.Achievements></AchievementComponent>
-    </div>
+        <div class="col-md-6 d-flex flex-column">
+            <AchievementComponent Achievements=@Guild.Achievements></AchievementComponent>
+        </div>
 
-    <div class="col-md-3 d-flex flex-column">
-        <GuildProfileMemberRateComponent GuildProfile=@Guild></GuildProfileMemberRateComponent>
-        <GuildProfilePinnedRepositoriesComponent GuildProfile=@Guild></GuildProfilePinnedRepositoriesComponent>
+        <div class="col-md-3 d-flex flex-column">
+            <GuildProfileMemberRateComponent GuildProfile=@Guild></GuildProfileMemberRateComponent>
+            <GuildProfilePinnedRepositoriesComponent GuildProfile=@Guild></GuildProfilePinnedRepositoriesComponent>
+        </div>
     </div>
-</div>
+}
 
 
 @code { [Parameter]
