@@ -1,0 +1,45 @@
+﻿@page "/group/{GroupName}"
+
+@using Iwentys.Models.Transferable.Students
+@using Blazored.LocalStorage
+@using Iwentys.Endpoint.Sdk.ControllerClients.Study
+@using Iwentys.Endpoint.Client.Tools
+
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+
+<h2>Group page: {@GroupName}</h2>
+
+@if (Students is not null)
+{
+    <div class="container-fluid d-flex flex-row">
+        <div class="col-md-6 d-flex flex-column">
+            <MatList>
+                @foreach (var student in Students)
+                {
+                    <MatListItem>
+                        @student.GetFullName()
+                    </MatListItem>
+                }
+            </MatList>
+        </div>
+
+        <div class="col-md-6 d-flex flex-column">
+            
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string GroupName { get; set; }
+
+    public List<StudentFullProfileDto> Students { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var studentControllerClient = new StudentControllerClient(await Http.TrySetHeader(LocalStorage));
+
+        Students = await studentControllerClient.Get(GroupName);
+    }
+}

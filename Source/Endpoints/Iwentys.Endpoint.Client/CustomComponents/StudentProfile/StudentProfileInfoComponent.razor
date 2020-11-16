@@ -1,4 +1,6 @@
-﻿@using Iwentys.Models.Transferable.Students
+﻿
+@using Iwentys.Models.Transferable.Students
+
 @namespace Iwentys.Endpoint.Client.CustomComponents.StudentProfile
 
     <div class="container-fluid d-flex flex-row">
@@ -6,7 +8,7 @@
         <div class="container-fluid d-flex flex-column">
             <MatHeadline4>@StudentProfile.GithubUsername</MatHeadline4>
             <MatBody1>Лидер: @StudentProfile.GetFullName()</MatBody1>
-            <MatBody1>Группа: @StudentProfile.Group</MatBody1>
+            <MatButtonLink  Href="@LinkToGroupProfile">Группа: @StudentProfile.Group</MatButtonLink>
             <MatBody1>Гильдия: @StudentProfile.GuildName</MatBody1>
         </div>
     </div>
@@ -14,4 +16,6 @@
 @code {
     [Parameter]
     public StudentFullProfileDto StudentProfile { get; set; }
+
+    public string LinkToGroupProfile => $"/group/{StudentProfile.Group}";
 }
