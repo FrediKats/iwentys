@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
+using Iwentys.Database.Seeding;
 using Iwentys.Features.Achievements;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Gamification;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Entities.Study;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -13,7 +15,7 @@ namespace Iwentys.Database.Context
 {
     public class IwentysDbContext : DbContext
     {
-        public IwentysDbContext(DbContextOptions options) : base(options)
+        public IwentysDbContext(DbContextOptions<IwentysDbContext> options) : base(options)
         {
         }
 

@@ -1,0 +1,167 @@
+﻿@page "/student/{StudentId:int?}"
+@using Iwentys.Models.Transferable.Students
+@using ChartJs.Blazor.ChartJS.LineChart
+@using ChartJs.Blazor.ChartJS.Common.Properties
+@using ChartJs.Blazor.ChartJS.Common.Enums
+@using ChartJs.Blazor.ChartJS.Common.Axes
+@using ChartJs.Blazor.ChartJS.Common.Wrappers
+@using ChartJs.Blazor.Charts
+@using ChartJs.Blazor.Util
+@using System.Drawing
+@using Blazored.LocalStorage
+@using ChartJs.Blazor.ChartJS.PieChart
+
+@using Iwentys.Endpoint.Client.CustomComponents
+@using Iwentys.Endpoint.Client.CustomComponents.StudentProfile
+@using Iwentys.Endpoint.Client.Tools
+@using Iwentys.Endpoint.Sdk.ControllerClients.Study
+
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+
+
+@if (StudentFullProfile is not null)
+{
+    <div class="container-fluid d-flex flex-row">
+        <div class="col-md-6 d-flex flex-column">
+            <StudentProfileInfoComponent StudentProfile=@StudentFullProfile></StudentProfileInfoComponent>
+        </div>
+
+        <div class="col-md-6 d-flex flex-column">
+            <AchievementComponent Achievements=@StudentFullProfile.Achievements></AchievementComponent>
+
+            @if (_githubChartConfig is not null)
+            {
+                <ChartJsLineChart @ref="_githubChart" Config="_githubChartConfig"></ChartJsLineChart>
+            }
+            @if (_studyChartConfig is not null)
+            {
+                <ChartJsPieChart @ref="_studyChart" Config="@_studyChartConfig" Width="600" Height="300" />
+
+            }
+        </div>
+    </div>
+}
+
+
+@code {
+
+    [Parameter]
+    public int? StudentId { get; set; }
+
+    public StudentFullProfileDto StudentFullProfile { get; set; }
+
+    private LineConfig _githubChartConfig;
+    private ChartJsLineChart _githubChart;
+
+    private PieConfig _studyChartConfig;
+    private ChartJsPieChart _studyChart;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var studentControllerClient = new StudentControllerClient(await Http.TrySetHeader(LocalStorage));
+
+        var value = StudentId;
+        if (StudentId is null)
+        {
+
+            StudentFullProfile = await studentControllerClient.GetSelf();
+        }
+        else
+        {
+            StudentFullProfile = await studentControllerClient.Get(StudentId.Value);
+        }
+
+        if (StudentFullProfile.CodingActivityInfo is not null)
+            InitGithubChart();
+
+        if (StudentFullProfile.SubjectActivityInfo is not null)
+            InitStudyChart();
+    }
+
+    private void InitGithubChart()
+    {
+        var elements = StudentFullProfile?.CodingActivityInfo?.Select(a => new Int32Wrapper(a.Activity)) ?? new List<Int32Wrapper>();
+        var lineDataset = new LineDataset<Int32Wrapper>(elements)
+        {
+            Label = "Github",
+            BackgroundColor = ColorUtil.FromDrawingColor(Color.PaleVioletRed),
+            PointBackgroundColor = ColorUtil.FromDrawingColor(Color.BlueViolet),
+            Fill = true
+        };
+
+        _githubChartConfig = new LineConfig
+        {
+            Options = new LineOptions
+            {
+                Responsive = true,
+                Tooltips = new Tooltips
+                {
+                    Mode = InteractionMode.Nearest,
+                    Intersect = true
+                },
+                Scales = new Scales
+                {
+                    xAxes = new List<CartesianAxis>
+        {
+                        new CategoryAxis
+                        {
+                            ScaleLabel = new ScaleLabel
+                            {
+                                LabelString = "Month"
+                            }
+                        }
+                    },
+                    yAxes = new List<CartesianAxis>
+        {
+                        new LinearCartesianAxis
+                        {
+                            ScaleLabel = new ScaleLabel
+                            {
+                                LabelString = "Value"
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        //TODO: add real month
+        _githubChartConfig.Data.Labels = Enumerable.Repeat("zxc", 12).ToList();
+        _githubChartConfig.Data.Datasets.Add(lineDataset);
+    }
+
+    private void InitStudyChart()
+    {
+        _studyChartConfig = new PieConfig
+        {
+            Options = new PieOptions
+            {
+                Responsive = true,
+                Animation = new ArcAnimation
+                {
+                    AnimateRotate = true,
+                    AnimateScale = true
+                }
+            }
+        };
+
+        var pieSet = new PieDataset
+        {
+            BackgroundColor = new[] { ColorUtil.RandomColorString(), ColorUtil.RandomColorString(), ColorUtil.RandomColorString(), ColorUtil.RandomColorString() },
+            BorderWidth = 0,
+            HoverBackgroundColor = ColorUtil.RandomColorString(),
+            HoverBorderColor = ColorUtil.RandomColorString(),
+            HoverBorderWidth = 1,
+            BorderColor = "#ffffff",
+        };
+
+        if (StudentFullProfile?.SubjectActivityInfo is not null)
+        {
+            pieSet.Data.AddRange(StudentFullProfile.SubjectActivityInfo.Select(sa => sa.Points));
+            _studyChartConfig.Data.Labels.AddRange(StudentFullProfile.SubjectActivityInfo.Select(sa => sa.SubjectTitle));
+        }
+
+        _studyChartConfig.Data.Datasets.Add(pieSet);
+    }
+}

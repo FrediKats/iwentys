@@ -1,0 +1,41 @@
+﻿@page "/guild/{GuildId:int}"
+@using Iwentys.Models.Transferable.Guilds
+@using Iwentys.Endpoint.Client.CustomComponents
+@using Iwentys.Endpoint.Client.CustomComponents.Guild
+@using Blazored.LocalStorage
+@using Iwentys.Endpoint.Client.Tools
+@using Iwentys.Endpoint.Sdk.ControllerClients.Guilds
+
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+
+@if (Guild is not null)
+{
+    <div class="container-fluid d-flex flex-row">
+        <div class="col-md-3 d-flex flex-column">
+            <GuildProfileInfoComponent GuildProfile=@Guild></GuildProfileInfoComponent>
+        </div>
+
+        <div class="col-md-6 d-flex flex-column">
+            <AchievementComponent Achievements=@Guild.Achievements></AchievementComponent>
+        </div>
+
+        <div class="col-md-3 d-flex flex-column">
+            <GuildProfileMemberRateComponent GuildProfile=@Guild></GuildProfileMemberRateComponent>
+            <GuildProfilePinnedRepositoriesComponent GuildProfile=@Guild></GuildProfilePinnedRepositoriesComponent>
+        </div>
+    </div>
+}
+
+
+@code { [Parameter]
+    public int GuildId { get; set; }
+
+    public GuildProfileDto Guild { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var guildControllerClient = new GuildControllerClient(await Http.TrySetHeader(LocalStorage));
+        Guild = await guildControllerClient.Get(GuildId);
+    }
+}

@@ -1,6 +1,8 @@
 ﻿using System;
+using IdentityServer4.EntityFramework.Options;
 using Iwentys.Database.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace Iwentys.Tests.Tools
 {

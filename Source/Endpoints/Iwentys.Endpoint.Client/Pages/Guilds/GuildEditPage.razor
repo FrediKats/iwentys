@@ -1,0 +1,31 @@
+﻿@page "/guild/{GuildId:int}/edit"
+@using Iwentys.Models.Transferable.Guilds
+@using Iwentys.Endpoint.Client.CustomComponents
+@using Iwentys.Endpoint.Client.CustomComponents.Guild
+@using Blazored.LocalStorage
+@using Iwentys.Endpoint.Client.Tools
+@using Iwentys.Endpoint.Sdk.ControllerClients.Guilds
+
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+
+<h3>GuildEditPage</h3>
+
+@if (Guild is not null)
+{
+    <GuildMemberListComponent GuildProfile="@Guild"></GuildMemberListComponent>
+}
+
+@code
+{
+    [Parameter]
+    public int GuildId { get; set; }
+
+    public GuildProfileDto Guild { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var guildControllerClient = new GuildControllerClient(await Http.TrySetHeader(LocalStorage));
+        Guild = await guildControllerClient.Get(GuildId);
+    }
+}
