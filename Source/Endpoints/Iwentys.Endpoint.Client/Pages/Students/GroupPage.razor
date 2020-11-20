@@ -14,14 +14,15 @@
 {
     <div class="container-fluid d-flex flex-row">
         <div class="col-md-6 d-flex flex-column">
-            <MatList>
+            <MatNavMenu>
                 @foreach (var student in Students)
                 {
-                    <MatListItem>
+                    string linkToProfile = $"student/profile/{student.Id}";
+                    <MatNavItem Href=@linkToProfile>
                         @student.GetFullName()
-                    </MatListItem>
+                    </MatNavItem>
                 }
-            </MatList>
+            </MatNavMenu>
         </div>
 
         <div class="col-md-6 d-flex flex-column">
