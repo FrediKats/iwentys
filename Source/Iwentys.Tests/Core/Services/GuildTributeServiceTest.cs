@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Features.StudentFeature;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Transferable.Guilds;
@@ -31,7 +32,7 @@ namespace Iwentys.Tests.Core.Services
         }
 
         [Test]
-        public void CancelTribute_DoNotReturnForMentorAndReturnForStudent()
+        public async Task CancelTribute_DoNotReturnForMentorAndReturnForStudent()
         {
             TestCaseContext context = TestCaseContext
                 .Case()
@@ -42,7 +43,7 @@ namespace Iwentys.Tests.Core.Services
                 .WithStudentProject(student, out GithubProjectEntity project)
                 .WithTribute(student, project, out TributeInfoResponse tributeInfo);
 
-            context.GuildTributeServiceService.CancelTribute(student, tributeInfo.Project.Id);
+            await context.GuildTributeServiceService.CancelTribute(student, tributeInfo.Project.Id);
             TributeInfoResponse[] pendingTributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
             TributeInfoResponse[] studentTributes = context.GuildTributeServiceService.GetStudentTributeResult(student);
 

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Iwentys.Common.Tools;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Models.Entities;
 
@@ -14,7 +15,7 @@ namespace Iwentys.Features.StudentFeature
 
         public Task<StudentEntity> GetProfile(IStudentRepository repository)
         {
-            return repository.ReadByIdAsync(Id);
+            return repository.GetAsync(Id);
         }
     }
 }

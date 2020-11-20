@@ -75,13 +75,15 @@ namespace Iwentys.Tests.Tools
                 GithubUsername = $"{Constants.GithubUsername}{id}"
             };
 
-            user = AuthorizedUser.DebugAuth(StudentRepository.CreateAsync(userInfo).Id);
+            StudentEntity student = StudentRepository.CreateAsync(userInfo).Result;
+            user = AuthorizedUser.DebugAuth(student.Id);
             return this;
         }
 
         public TestCaseContext WithGuild(AuthorizedUser user, out GuildProfileDto guildProfile)
         {
-            guildProfile = GuildService.CreateAsync(user, new GuildCreateRequest()).To(g => GuildService.GetAsync(g.Id, user.Id).Result);
+            GuildProfileShortInfoDto guild = GuildService.CreateAsync(user, new GuildCreateRequest()).Result;
+            guildProfile = guild.To(g => GuildService.GetAsync(g.Id, user.Id).Result);
             return this;
         }
 
@@ -113,6 +115,7 @@ namespace Iwentys.Tests.Tools
         {
             WithNewStudent(out user);
             Context.GuildMembers.Add(new GuildMemberEntity(guild.Id, user.Id, GuildMemberType.Blocked));
+            //TODO: move save changes to repository
             Context.SaveChanges();
             return this;
         }
@@ -133,6 +136,7 @@ namespace Iwentys.Tests.Tools
 
         public TestCaseContext WithCompanyWorker(CompanyInfoResponse companyInfo, out AuthorizedUser userInfo)
         {
+            //TODO: move save changes to repository
             WithNewStudent(out userInfo);
             Context.CompanyWorkers.Add(new CompanyWorkerEntity {CompanyId = companyInfo.Id, WorkerId = userInfo.Id, Type = CompanyWorkerType.Accepted});
             Context.SaveChanges();
