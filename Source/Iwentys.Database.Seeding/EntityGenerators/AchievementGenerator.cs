@@ -1,0 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Iwentys.Features.Achievements;
+using Iwentys.Models.Entities;
+using Iwentys.Models.Entities.Gamification;
+using Iwentys.Models.Entities.Guilds;
+
+namespace Iwentys.Database.Seeding.EntityGenerators
+{
+    public class AchievementGenerator
+    {
+        public List<GuildAchievementEntity> GuildAchievementModels { get; set; }
+        public List<StudentAchievementEntity> StudentAchievementModels { get; set; }
+
+        public AchievementGenerator(List<StudentEntity> students, List<GuildEntity> guilds)
+        {
+            StudentAchievementModels = students
+                .Select(s => new StudentAchievementEntity
+                {
+                    AchievementId = AchievementList.BetaTester.Id,
+                    StudentId = s.Id,
+                    GettingTime = DateTime.UtcNow
+                }).ToList();
+
+            GuildAchievementModels = guilds
+                .Select(g => new GuildAchievementEntity
+                {
+                    AchievementId = AchievementList.BetaTester.Id,
+                    GuildId = g.Id,
+                    GettingTime = DateTime.UtcNow
+                }).ToList();
+        }
+    }
+}

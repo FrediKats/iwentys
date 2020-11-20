@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Iwentys.Common.Tools;
 using Iwentys.Database.Seeding.Tools;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Types;
@@ -25,14 +27,14 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             StudyPrograms = new List<StudyProgramEntity> { new StudyProgramEntity { Id = 1, Name = "ИС" } };
             StudyCourses = new List<StudyCourseEntity>
             {
-                DatabaseContextSetup.Create.IsCourse(StudentGraduationYear.Y20),
-                DatabaseContextSetup.Create.IsCourse(StudentGraduationYear.Y21),
-                DatabaseContextSetup.Create.IsCourse(StudentGraduationYear.Y22),
-                DatabaseContextSetup.Create.IsCourse(StudentGraduationYear.Y23),
-                DatabaseContextSetup.Create.IsCourse(StudentGraduationYear.Y24)
+                Create.IsCourse(StudentGraduationYear.Y20),
+                Create.IsCourse(StudentGraduationYear.Y21),
+                Create.IsCourse(StudentGraduationYear.Y22),
+                Create.IsCourse(StudentGraduationYear.Y23),
+                Create.IsCourse(StudentGraduationYear.Y24)
             };
 
-            StudyGroups = new StudentMockDataReader().ReadGroups();
+            StudyGroups = ReadGroups();
             GroupSubjects = new List<GroupSubjectEntity>();
 
             foreach (SubjectEntity subject in Subjects)
@@ -46,13 +48,56 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             //FYI: we do not init SerializedGoogleTableConfig here
             return new GroupSubjectEntity
             {
-                Id = DatabaseContextSetup.Create.GroupSubjectIdentifierGenerator.Next(),
+                Id = Create.GroupSubjectIdentifierGenerator.Next(),
                 SubjectId = subject.Id,
                 StudyGroupId = groupEntity.Id,
                 LectorTeacherId = Teachers.GetRandom().Id,
                 PracticeTeacherId = Teachers.GetRandom().Id,
                 StudySemester = CurrentSemester
             };
+        }
+
+        private List<StudyGroupEntity> ReadGroups()
+        {
+            var result = new List<StudyGroupEntity>();
+            result.AddRange(CourseGroup(1, 5, 3, 9));
+            result.AddRange(CourseGroup(2, 4, 2, 10));
+            result.AddRange(CourseGroup(3, 3, 1, 9));
+            result.AddRange(CourseGroup(4, 2, 1, 12));
+            result.AddRange(CourseGroup(5, 1, 1, 12));
+
+            for (var i = 0; i < result.Count; i++)
+                result[i].Id = i + 1;
+
+            return result;
+        }
+
+        public static List<StudyGroupEntity> CourseGroup(int courseId, int course, int firstGroup, int lastGroup)
+        {
+            return Enumerable
+                .Range(firstGroup, lastGroup - firstGroup + 1)
+                .Select(g => new StudyGroupEntity
+                {
+                    StudyCourseId = courseId,
+                    GroupName = $"M3{course}{g:00}"
+                })
+                .ToList();
+        }
+
+        public static class Create
+        {
+            private static readonly IdentifierGenerator CourseIdentifierGenerator = new IdentifierGenerator();
+            public static readonly IdentifierGenerator GroupSubjectIdentifierGenerator = new IdentifierGenerator();
+
+            public static StudyCourseEntity IsCourse(StudentGraduationYear year)
+            {
+                return new StudyCourseEntity
+                {
+                    Id = CourseIdentifierGenerator.Next(),
+                    GraduationYear = year,
+                    StudyProgramId = 1
+                };
+            }
         }
     }
 }
