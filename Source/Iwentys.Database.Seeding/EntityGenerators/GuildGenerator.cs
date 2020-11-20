@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Bogus;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Guilds;
@@ -10,8 +11,9 @@ namespace Iwentys.Database.Seeding.EntityGenerators
     {
         private const int GuildCount = 5;
 
-        public List<GuildEntity> Guilds;
+        public List<GuildEntity> Guilds { get; }
         private List<StudentEntity> _students;
+
         public GuildGenerator(List<StudentEntity> students)
         {
             _students = students;
@@ -24,6 +26,24 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 .RuleFor(g => g.GuildType, GuildType.Created);
 
             Guilds = faker.Generate(GuildCount);
+
+            int usedCount = 0;
+            foreach (GuildEntity guild in Guilds)
+            {
+                var creator = new GuildMemberEntity(guild, _students[usedCount], GuildMemberType.Creator);
+                guild.Members.Add(creator);
+                usedCount++;
+                
+                List<GuildMemberEntity> members = _students
+                    .Skip(usedCount)
+                    .Take(10)
+                    .Select(s => new GuildMemberEntity(guild, s, GuildMemberType.Creator))
+                    .ToList();
+                guild.Members.AddRange(members);
+                usedCount += 10;
+            }
+
+            //TODO: add guild pinned project
         }
     }
 }

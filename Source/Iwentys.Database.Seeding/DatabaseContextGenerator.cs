@@ -8,9 +8,11 @@ namespace Iwentys.Database.Seeding
         {
             SubjectActivityGenerator = new SubjectActivityGenerator();
             StudentGenerator = new StudentGenerator(SubjectActivityGenerator.StudyGroups);
+            GuildGenerator = new GuildGenerator(StudentGenerator.Students);
         }
 
         public SubjectActivityGenerator SubjectActivityGenerator { get; set; }
         public StudentGenerator StudentGenerator { get; set; }
+        public GuildGenerator GuildGenerator { get; set; }
     }
 }
