@@ -117,8 +117,9 @@ namespace Iwentys.Features.Guilds.Services
             return repository;
         }
 
-        public async Task UnpinProject(AuthorizedUser user, int pinnedProjectId)
+        public Task UnpinProject(AuthorizedUser user, int pinnedProjectId)
         {
+            return Task.CompletedTask;
             //TODO: fix
             //GuildPinnedProjectEntity guildPinnedProject = await _database.Context.GuildPinnedProjects.FindAsync(pinnedProjectId) ?? throw EntityNotFoundException.PinnedRepoWasNotFound(pinnedProjectId);
             //GuildEntity guild = await _database.Guild.ReadByIdAsync(guildPinnedProject.GuildId);
