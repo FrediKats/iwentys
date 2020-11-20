@@ -74,23 +74,22 @@ namespace Iwentys.Database.Context
 
         private void Seeding(ModelBuilder modelBuilder)
         {
-            var seedData = new DatabaseContextSetup();
+            var seedData = new DatabaseContextGenerator();
 
-            modelBuilder.Entity<StudyProgramEntity>().HasData(seedData.StudyPrograms);
-            modelBuilder.Entity<StudyCourseEntity>().HasData(seedData.StudyCourses);
-            modelBuilder.Entity<StudyGroupEntity>().HasData(seedData.StudyGroups);
-            modelBuilder.Entity<TeacherEntity>().HasData(seedData.Teachers);
-            modelBuilder.Entity<SubjectEntity>().HasData(seedData.Subjects);
-            modelBuilder.Entity<GroupSubjectEntity>().HasData(seedData.GroupSubjects);
+            modelBuilder.Entity<StudyProgramEntity>().HasData(seedData.SubjectActivityGenerator.StudyPrograms);
+            modelBuilder.Entity<StudyCourseEntity>().HasData(seedData.SubjectActivityGenerator.StudyCourses);
+            modelBuilder.Entity<StudyGroupEntity>().HasData(seedData.SubjectActivityGenerator.StudyGroups);
+            modelBuilder.Entity<TeacherEntity>().HasData(seedData.SubjectActivityGenerator.Teachers);
+            modelBuilder.Entity<SubjectEntity>().HasData(seedData.SubjectActivityGenerator.Subjects);
+            modelBuilder.Entity<GroupSubjectEntity>().HasData(seedData.SubjectActivityGenerator.GroupSubjects);
 
-            modelBuilder.Entity<StudentEntity>().HasData(seedData.Students);
-            modelBuilder.Entity<GuildEntity>().HasData(seedData.Guilds);
-            modelBuilder.Entity<GuildMemberEntity>().HasData(seedData.GuildMembers);
-            modelBuilder.Entity<GuildPinnedProjectEntity>().HasData(seedData.GuildPinnedProjects);
+            modelBuilder.Entity<StudentEntity>().HasData(seedData.StudentGenerator.Students);
+            modelBuilder.Entity<GuildEntity>().HasData(seedData.GuildGenerator.Guilds);
+            modelBuilder.Entity<GuildMemberEntity>().HasData(seedData.GuildGenerator.GuildMembers);
 
             modelBuilder.Entity<AchievementEntity>().HasData(AchievementList.Achievements);
-            modelBuilder.Entity<StudentAchievementEntity>().HasData(seedData.StudentAchievementModels);
-            modelBuilder.Entity<GuildAchievementEntity>().HasData(seedData.GuildAchievementModels);
+            modelBuilder.Entity<StudentAchievementEntity>().HasData(seedData.AchievementGenerator.StudentAchievementModels);
+            modelBuilder.Entity<GuildAchievementEntity>().HasData(seedData.AchievementGenerator.GuildAchievementModels);
         }
 
         //TODO: Hack for removing cascade. Need to rework keys
