@@ -1,0 +1,54 @@
+﻿@page "/assignment/create"
+@using Iwentys.Models.Transferable
+@using Iwentys.Endpoint.Sdk.ControllerClients
+@using Blazored.LocalStorage
+@using Iwentys.Endpoint.Client.Tools
+
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+
+<h3>AssignmentCreatePage</h3>
+
+<div class="container-fluid d-flex flex-row">
+    <div class="col-md-3 d-flex flex-column">
+        <MatButton>First</MatButton>
+        <MatButton>Second</MatButton>
+        <MatButton>Third</MatButton>
+    </div>
+
+    <div class="col-md-6 d-flex flex-column">
+        <h5>Create assignment</h5>
+
+        <p>
+            <MatTextField @bind-Value="@_title" Label="Standard"></MatTextField>
+        </p>
+
+        <p>
+            <MatTextField @bind-Value="@_description" Label="Standard"></MatTextField>
+        </p>
+        
+        <MatButton OnClick="@CreateButton">Create</MatButton>
+    </div>
+</div>
+
+
+
+@code {
+    private AssignmentControllerClient _assignmentControllerClient;
+    private string _title;
+    private string _description;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _assignmentControllerClient = new AssignmentControllerClient(await Http.TrySetHeader(LocalStorage));
+    }
+
+    private async Task CreateButton()
+    {
+        await _assignmentControllerClient.Create(new AssignmentCreateRequest()
+        {
+            Title = _title,
+            Description = _description
+        });
+    }
+}
