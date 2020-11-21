@@ -1,0 +1,45 @@
+﻿@page "/assignment"
+
+@using Blazored.LocalStorage
+@using Iwentys.Endpoint.Client.Tools
+@using Iwentys.Endpoint.Sdk.ControllerClients
+@using Iwentys.Endpoint.Sdk.ControllerClients.Guilds
+@using Iwentys.Models.Transferable
+
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+
+<div class="container-fluid d-flex flex-row">
+    <div class="col-md-3 d-flex flex-column">
+        <MatButton>First</MatButton>
+        <MatButton>Second</MatButton>
+        <MatButton>Third</MatButton>
+    </div>
+
+    <div class="col-md-6 d-flex flex-column">
+        <h5>Assignment list</h5>
+        @if (_assignment is not null)
+        {
+            <MatList>
+                @foreach (AssignmentInfoResponse assignment in _assignment)
+                {
+                    <MatListItem>
+                        @(assignment.IsCompeted == false ? "Active task:" : "Completed task:") @assignment.Title
+                    </MatListItem>
+                }
+            </MatList>
+        }
+    </div>
+</div>
+
+
+
+@code {
+    private List<AssignmentInfoResponse> _assignment;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var assignmentControllerClient = new AssignmentControllerClient(await Http.TrySetHeader(LocalStorage));
+        _assignment = await assignmentControllerClient.Get();
+    }
+}
