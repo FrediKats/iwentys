@@ -28,7 +28,7 @@ namespace Iwentys.Endpoint.Server.Source.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<AssignmentInfoResponse>>> Create([FromBody] AssignmentCreateRequest assignmentCreateRequest)
+        public async Task<ActionResult<AssignmentInfoResponse>> Create([FromBody] AssignmentCreateRequest assignmentCreateRequest)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             AssignmentInfoResponse assignment = await _assignmentService.CreateAsync(user, assignmentCreateRequest);
