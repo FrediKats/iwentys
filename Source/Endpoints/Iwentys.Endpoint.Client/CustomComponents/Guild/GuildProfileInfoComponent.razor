@@ -3,20 +3,20 @@
 
 
 <div class="container-fluid d-flex flex-column align-items-center">
-    <img src=@GuildProfile.LogoUrl class="guild-preview-logo" />
-    <MatHeadline4>@GuildProfile.Title</MatHeadline4>
-    <MatBody1>Лидер: @GuildProfile.Leader.GithubUsername</MatBody1>
-    <MatBody1>@GuildProfile.Bio</MatBody1>
+    <img src=@SelectedGuildProfile.LogoUrl class="guild-preview-logo" />
+    <MatHeadline4>@SelectedGuildProfile.Title</MatHeadline4>
+    <MatBody1>Лидер: @SelectedGuildProfile.Leader.GithubUsername</MatBody1>
+    <MatBody1>@SelectedGuildProfile.Bio</MatBody1>
     <MatButton Link="@EditProfileLink()">Редактировать</MatButton>
     <MatButton>Трибьюты</MatButton>
 </div>
 
 @code {
     [Parameter]
-    public GuildProfileDto GuildProfile { get; set; }
+    public GuildProfileDto SelectedGuildProfile { get; set; }
 
     private string EditProfileLink()
     {
-        return $"guild/{GuildProfile.Id}/edit";
+        return $"guild/{SelectedGuildProfile.Id}/edit";
     }
 }

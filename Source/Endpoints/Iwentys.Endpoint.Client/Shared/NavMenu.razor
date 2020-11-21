@@ -13,7 +13,7 @@
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <a class="nav-link" href="student">
+            <a class="nav-link" href="student/profile">
                 <span class="oi oi-plus" aria-hidden="true"></span> My profile
             </a>
         </li>
@@ -38,12 +38,12 @@
 </div>
 
 @code {
-    private bool collapseNavMenu = true;
+    private bool _collapseNavMenu = true;
 
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
 
     private void ToggleNavMenu()
     {
-        collapseNavMenu = !collapseNavMenu;
+        _collapseNavMenu = !_collapseNavMenu;
     }
 }

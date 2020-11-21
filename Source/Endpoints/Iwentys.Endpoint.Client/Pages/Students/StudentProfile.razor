@@ -20,15 +20,15 @@
 @inject ILocalStorageService LocalStorage
 
 
-@if (StudentFullProfile is not null)
+@if (_studentFullProfile is not null)
 {
     <div class="container-fluid d-flex flex-row">
         <div class="col-md-6 d-flex flex-column">
-            <StudentProfileInfoComponent StudentProfile=@StudentFullProfile></StudentProfileInfoComponent>
+            <StudentProfileInfoComponent StudentProfile=@_studentFullProfile></StudentProfileInfoComponent>
         </div>
 
         <div class="col-md-6 d-flex flex-column">
-            <AchievementComponent Achievements=@StudentFullProfile.Achievements></AchievementComponent>
+            <AchievementComponent Achievements=@_studentFullProfile.Achievements></AchievementComponent>
 
             @if (_githubChartConfig is not null)
             {
@@ -49,7 +49,7 @@
     [Parameter]
     public int? StudentId { get; set; }
 
-    public StudentFullProfileDto StudentFullProfile { get; set; }
+    private StudentFullProfileDto _studentFullProfile;
 
     private LineConfig _githubChartConfig;
     private ChartJsLineChart _githubChart;
@@ -61,27 +61,28 @@
     {
         var studentControllerClient = new StudentControllerClient(await Http.TrySetHeader(LocalStorage));
 
-        var value = StudentId;
         if (StudentId is null)
         {
 
-            StudentFullProfile = await studentControllerClient.GetSelf();
+            _studentFullProfile = await studentControllerClient.GetSelf();
         }
         else
         {
-            StudentFullProfile = await studentControllerClient.Get(StudentId.Value);
+            _studentFullProfile = await studentControllerClient.Get(StudentId.Value);
         }
 
-        if (StudentFullProfile.CodingActivityInfo is not null)
+        if (_studentFullProfile.CodingActivityInfo is not null)
             InitGithubChart();
 
-        if (StudentFullProfile.SubjectActivityInfo is not null)
+        if (_studentFullProfile.SubjectActivityInfo is not null)
             InitStudyChart();
     }
 
     private void InitGithubChart()
     {
-        var elements = StudentFullProfile?.CodingActivityInfo?.Select(a => new Int32Wrapper(a.Activity)) ?? new List<Int32Wrapper>();
+        IEnumerable<Int32Wrapper> elements = _studentFullProfile?.CodingActivityInfo?.Select(a => new Int32Wrapper(a.Activity))
+                                             ?? new List<Int32Wrapper>();
+
         var lineDataset = new LineDataset<Int32Wrapper>(elements)
         {
             Label = "Github",
@@ -156,10 +157,10 @@
             BorderColor = "#ffffff",
         };
 
-        if (StudentFullProfile?.SubjectActivityInfo is not null)
+        if (_studentFullProfile?.SubjectActivityInfo is not null)
         {
-            pieSet.Data.AddRange(StudentFullProfile.SubjectActivityInfo.Select(sa => sa.Points));
-            _studyChartConfig.Data.Labels.AddRange(StudentFullProfile.SubjectActivityInfo.Select(sa => sa.SubjectTitle));
+            pieSet.Data.AddRange(_studentFullProfile.SubjectActivityInfo.Select(sa => sa.Points));
+            _studyChartConfig.Data.Labels.AddRange(_studentFullProfile.SubjectActivityInfo.Select(sa => sa.SubjectTitle));
         }
 
         _studyChartConfig.Data.Datasets.Add(pieSet);

@@ -16,8 +16,6 @@ namespace Iwentys.Endpoint.Server.Source.Tools
         public static AuthorizedUser TryAuthWithTokenOrDefault(this ControllerBase controller, int defaultUserId)
         {
             ClaimsPrincipal user = controller.HttpContext.User;
-            if (user is null)
-                return AuthorizedUser.DebugAuth(defaultUserId);
 
             Claim userIdClaim = user.FindFirst(ClaimTypes.UserData);
             if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))

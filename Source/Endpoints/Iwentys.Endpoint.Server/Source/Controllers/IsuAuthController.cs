@@ -83,16 +83,5 @@ namespace Iwentys.Endpoint.Server.Source.Controllers
                 throw new Exception("Invalid token");
             return tryAuthWithToken.Id;
         }
-
-        //[HttpPost("register")]
-        //public async Task<ActionResult<IwentysAuthResponse>> Register([FromServices] IJwtSigningEncodingKey signingEncodingKey, [FromBody] StudentCreateArgumentsDto arguments)
-        //{
-        //    int groupId = _databaseAccessor.StudyGroup.ReadByNamePattern(new GroupName(arguments.Group)).Id;
-        //    var student = new StudentEntity(arguments, groupId);
-
-        //    await _databaseAccessor.Student.CreateAsync(student);
-
-        //    return Ok(TokenGenerator.Generate(student.Id, signingEncodingKey));
-        //}
     }
 }

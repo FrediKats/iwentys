@@ -14,7 +14,6 @@ using Iwentys.Features.Guilds.Services;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Integrations.GithubIntegration;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -154,27 +153,6 @@ namespace Iwentys.Endpoint.Server.Source
                     .AllowAnyMethod()
                     .AllowAnyHeader();
             }));
-            return services;
-        }
-
-        public static IServiceCollection AddIwentysFakeAuth(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddDbContext<ApplicationContext>(options =>
-                options.UseInMemoryDatabase("IdentityDb"));
-
-
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationContext>();
-
-            services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationContext>();
-
-            services.AddAuthentication()
-                .AddIdentityServerJwt();
-
-            services.AddControllersWithViews();
-            services.AddRazorPages();
-
             return services;
         }
     }

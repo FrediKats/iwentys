@@ -1,6 +1,5 @@
 ﻿@page "/guild/{GuildId:int}/edit"
 @using Iwentys.Models.Transferable.Guilds
-@using Iwentys.Endpoint.Client.CustomComponents
 @using Iwentys.Endpoint.Client.CustomComponents.Guild
 @using Blazored.LocalStorage
 @using Iwentys.Endpoint.Client.Tools
@@ -11,9 +10,9 @@
 
 <h3>GuildEditPage</h3>
 
-@if (Guild is not null)
+@if (_guild is not null)
 {
-    <GuildMemberListComponent GuildProfile="@Guild"></GuildMemberListComponent>
+    <GuildMemberListComponent GuildProfile="@_guild"></GuildMemberListComponent>
 }
 
 @code
@@ -21,11 +20,11 @@
     [Parameter]
     public int GuildId { get; set; }
 
-    public GuildProfileDto Guild { get; set; }
+    private GuildProfileDto _guild;
 
     protected override async Task OnInitializedAsync()
     {
         var guildControllerClient = new GuildControllerClient(await Http.TrySetHeader(LocalStorage));
-        Guild = await guildControllerClient.Get(GuildId);
+        _guild = await guildControllerClient.Get(GuildId);
     }
 }
