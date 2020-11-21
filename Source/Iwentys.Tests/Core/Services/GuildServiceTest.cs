@@ -234,7 +234,7 @@ namespace Iwentys.Tests.Core.Services
             await context.GuildMemberService.UnblockStudent(user, guild.Id, student.Id);
             GuildMemberEntity[] blocked = await context.GuildMemberService.GetGuildBlocked(user, guild.Id);
 
-            Assert.That(blocked.Find(m => m.MemberId == student.Id), Is.Null);
+            Assert.That(blocked.FirstOrDefault(m => m.MemberId == student.Id), Is.Null);
         }
 
         [Test]
@@ -265,7 +265,7 @@ namespace Iwentys.Tests.Core.Services
 
             Assert.IsNotNull(member);
             Assert.That(member.MemberType, Is.EqualTo(GuildMemberType.Member));
-            Assert.That(requests.Find(m => m.MemberId == student.Id), Is.Null);
+            Assert.That(requests.FirstOrDefault(m => m.MemberId == student.Id), Is.Null);
         }
 
         [Test]
@@ -295,7 +295,7 @@ namespace Iwentys.Tests.Core.Services
             GuildMemberEntity[] requests = await context.GuildMemberService.GetGuildRequests(user, guild.Id);
 
             Assert.That(member, Is.Null);
-            Assert.That(requests.Find(m => m.MemberId == student.Id), Is.Null);
+            Assert.That(requests.FirstOrDefault(m => m.MemberId == student.Id), Is.Null);
         }
 
         [Test]
