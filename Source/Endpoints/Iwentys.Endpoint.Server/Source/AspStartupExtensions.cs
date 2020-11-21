@@ -76,6 +76,7 @@ namespace Iwentys.Endpoint.Server.Source
             services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();
 
+            services.AddScoped<AssignmentService>();
             services.AddScoped<BarsPointTransactionLogService>();
             services.AddScoped<CompanyService>();
             services.AddScoped<GithubUserDataService>();

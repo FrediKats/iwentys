@@ -17,8 +17,10 @@ namespace Iwentys.Endpoint.Server
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>()
-                        .ConfigureServices(s => s.AddHostedService<MarkUpdateBackgroundService>())
-                        .ConfigureServices(s => s.AddHostedService<GithubUpdateBackgroundService>());
+                        //TODO: return this updates
+                        //.ConfigureServices(s => s.AddHostedService<MarkUpdateBackgroundService>())
+                        //.ConfigureServices(s => s.AddHostedService<GithubUpdateBackgroundService>())
+                        ;
                 });
     }
 }

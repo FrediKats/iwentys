@@ -30,6 +30,7 @@ namespace Iwentys.Core.Services
         {
             List<StudentAssignmentEntity> assignments = await _database.Assignment
                 .Read()
+                .Include(a => a.Student)
                 .Where(a => a.StudentId == user.Id)
                 .ToListAsync();
 
