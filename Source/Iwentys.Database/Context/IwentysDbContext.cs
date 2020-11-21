@@ -76,12 +76,13 @@ namespace Iwentys.Database.Context
         {
             var seedData = new DatabaseContextGenerator();
 
-            modelBuilder.Entity<StudyProgramEntity>().HasData(seedData.SubjectActivityGenerator.StudyPrograms);
-            modelBuilder.Entity<StudyCourseEntity>().HasData(seedData.SubjectActivityGenerator.StudyCourses);
-            modelBuilder.Entity<StudyGroupEntity>().HasData(seedData.SubjectActivityGenerator.StudyGroups);
-            modelBuilder.Entity<TeacherEntity>().HasData(seedData.SubjectActivityGenerator.Teachers);
-            modelBuilder.Entity<SubjectEntity>().HasData(seedData.SubjectActivityGenerator.Subjects);
-            modelBuilder.Entity<GroupSubjectEntity>().HasData(seedData.SubjectActivityGenerator.GroupSubjects);
+            modelBuilder.Entity<StudyProgramEntity>().HasData(seedData.StudyEntitiesGenerator.StudyPrograms);
+            modelBuilder.Entity<StudyCourseEntity>().HasData(seedData.StudyEntitiesGenerator.StudyCourses);
+            modelBuilder.Entity<StudyGroupEntity>().HasData(seedData.StudyEntitiesGenerator.StudyGroups);
+            modelBuilder.Entity<TeacherEntity>().HasData(seedData.StudyEntitiesGenerator.Teachers);
+            modelBuilder.Entity<SubjectEntity>().HasData(seedData.StudyEntitiesGenerator.Subjects);
+            modelBuilder.Entity<GroupSubjectEntity>().HasData(seedData.StudyEntitiesGenerator.GroupSubjects);
+            modelBuilder.Entity<SubjectActivityEntity>().HasData(seedData.SubjectActivityGenerator.SubjectActivityEntities);
 
             modelBuilder.Entity<StudentEntity>().HasData(seedData.StudentGenerator.Students);
             modelBuilder.Entity<GuildEntity>().HasData(seedData.GuildGenerator.Guilds);
