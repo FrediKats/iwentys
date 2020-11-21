@@ -91,6 +91,9 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<AchievementEntity>().HasData(AchievementList.Achievements);
             modelBuilder.Entity<StudentAchievementEntity>().HasData(seedData.AchievementGenerator.StudentAchievementModels);
             modelBuilder.Entity<GuildAchievementEntity>().HasData(seedData.AchievementGenerator.GuildAchievementModels);
+
+            modelBuilder.Entity<AssignmentEntity>().HasData(seedData.AssignmentGenerator.Assignments);
+            modelBuilder.Entity<StudentAssignmentEntity>().HasData(seedData.AssignmentGenerator.StudentAssignments);
         }
 
         //TODO: Hack for removing cascade. Need to rework keys
