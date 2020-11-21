@@ -15,6 +15,7 @@ namespace Iwentys.Models
             return RawActivity
                 .Contributions
                 .GroupBy(c => c.Date.Substring(0, 7))
+                .Take(12)
                 .Select(c => new ContributionsInfo(c.Key, c.Sum(_ => _.Count)))
                 .ToList();
         }

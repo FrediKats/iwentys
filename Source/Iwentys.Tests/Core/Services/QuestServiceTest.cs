@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Core.DomainModel;
+using System.Threading.Tasks;
+using Iwentys.Features.StudentFeature;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Transferable.Gamification;
 using Iwentys.Tests.Tools;
@@ -12,19 +13,19 @@ namespace Iwentys.Tests.Core.Services
     public class QuestServiceTest
     {
         [Test]
-        public void CreateGuild_ShouldReturnCreatorAsMember()
+        public async Task CreateGuild_ShouldReturnCreatorAsMember()
         {
             TestCaseContext test = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user);
 
-            StudentEntity student = user.GetProfile(test.StudentRepository);
+            StudentEntity student = await user.GetProfile(test.StudentRepository);
             student.BarsPoints = 100;
-            test.StudentRepository.Update(student);
+            await test.StudentRepository.UpdateAsync(student);
 
             test.WithQuest(user, 50, out QuestInfoResponse quest);
 
-            List<QuestInfoResponse> quests = test.QuestService.GetActive();
+            List<QuestInfoResponse> quests = await test.QuestService.GetActiveAsync();
 
             Assert.IsTrue(quests.Any(q => q.Id == quest.Id));
         }

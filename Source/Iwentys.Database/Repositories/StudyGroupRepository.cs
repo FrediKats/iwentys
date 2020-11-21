@@ -1,5 +1,7 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
+using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Models;
 using Iwentys.Models.Entities.Study;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +9,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories
 {
-    public class StudyGroupRepository : IGenericRepository<StudyGroupEntity, int>
+    public class StudyGroupRepository : IStudyGroupRepository
     {
         private readonly IwentysDbContext _dbContext;
 
@@ -23,23 +25,21 @@ namespace Iwentys.Database.Repositories
                 .ThenInclude(s => s.StudyProgramEntity);
         }
 
-        public StudyGroupEntity ReadById(int key)
+        public Task<StudyGroupEntity> ReadByIdAsync(int key)
         {
-            return Read().FirstOrDefault(s => s.Id == key);
+            return Read().FirstOrDefaultAsync(s => s.Id == key);
         }
 
-        public StudyGroupEntity Update(StudyGroupEntity entity)
+        public async Task<StudyGroupEntity> UpdateAsync(StudyGroupEntity entity)
         {
             EntityEntry<StudyGroupEntity> createdEntity = _dbContext.StudyGroups.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
-        public void Delete(int key)
+        public Task<int> DeleteAsync(int key)
         {
-            StudyGroupEntity studyGroup = this.Get(key);
-            _dbContext.StudyGroups.Remove(studyGroup);
-            _dbContext.SaveChanges();
+            return _dbContext.StudyGroups.Where(sg => sg.Id == key).DeleteFromQueryAsync();
         }
 
         public StudyGroupEntity ReadByNamePattern(GroupName group)

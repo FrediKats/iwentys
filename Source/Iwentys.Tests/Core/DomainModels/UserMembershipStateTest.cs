@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Iwentys.Core.DomainModel.Guilds;
-using Iwentys.Core.Services;
-using Iwentys.Database.Context;
+using System.Threading.Tasks;
 using Iwentys.Database.Repositories;
+using Iwentys.Database.Repositories.Guilds;
+using Iwentys.Features.GithubIntegration;
+using Iwentys.Features.Guilds;
 using Iwentys.Models;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Gamification;
@@ -23,7 +24,7 @@ namespace Iwentys.Tests.Core.DomainModels
 
         private StudentEntity _student;
 
-        private Mock<TributeRepository> _tributeRepository;
+        private Mock<GuildTributeRepository> _tributeRepository;
         private Mock<GuildRepository> _guildRepository;
         private Mock<GuildMemberRepository> _guildMemberRepository;
         private Mock<StudentRepository> _studentRepository;
@@ -63,7 +64,7 @@ namespace Iwentys.Tests.Core.DomainModels
                 Achievements = new List<GuildAchievementEntity>()
             };
 
-            _tributeRepository = new Mock<TributeRepository>();
+            _tributeRepository = new Mock<GuildTributeRepository>();
             _tributeRepository
                 .Setup(r => r.ReadStudentActiveTribute(It.IsAny<Int32>(), It.IsAny<Int32>()))
                 .Returns(default(TributeEntity));
@@ -74,7 +75,7 @@ namespace Iwentys.Tests.Core.DomainModels
                 .Returns(default(GithubRepository));
             _githubUserDataService
                 .Setup(a => a.FindByUsername(It.IsAny<String>()))
-                .Returns(new GithubUserEntity{ContributionFullInfo = new ContributionFullInfo { RawActivity = new ActivityInfo() { Contributions = new List<ContributionsInfo>(), Years = new List<YearActivityInfo>() } }});
+                .Returns(Task.FromResult(new GithubUserEntity { ContributionFullInfo = new ContributionFullInfo { RawActivity = new ActivityInfo() { Contributions = new List<ContributionsInfo>(), Years = new List<YearActivityInfo>() } } }));
 
             _guildRepository = new Mock<GuildRepository>();
             _guildRepository
@@ -88,36 +89,18 @@ namespace Iwentys.Tests.Core.DomainModels
 
             _studentRepository = new Mock<StudentRepository>();
             _studentRepository
-                .Setup(r => r.ReadById(It.IsAny<Int32>()))
-                .Returns(_student);
+                .Setup(r => r.ReadByIdAsync(It.IsAny<Int32>()))
+                .Returns(Task.FromResult(_student));
 
-            //TODO:
-            DatabaseAccessor databaseAccessor = new DatabaseAccessor(null,
-                _studentRepository.Object,
-                _guildRepository.Object,
-                _guildMemberRepository.Object,
-                null,
-                null,
-                null,
-                _tributeRepository.Object,
-                null,
-                null, 
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null);
-
-            _guildDomain = new GuildDomain(_guild, databaseAccessor, _githubUserDataService.Object, null);
+            GuildRepositoriesScope repositoriesScope = new GuildRepositoriesScope(_studentRepository.Object, _guildRepository.Object, _guildMemberRepository.Object, _tributeRepository.Object);
+            _guildDomain = new GuildDomain(_guild, _githubUserDataService.Object, null, repositoriesScope);
         }
 
         [Test]
         [Ignore("NSE")]
         public void GetGuild_ForUserWithNoGuildAndForOpenedGuild_UserMembershipStateIsCanEnter()
         {
-            Assert.That(_guildDomain.ToGuildProfileDto(_student.Id).UserMembershipState, Is.EqualTo(UserMembershipState.CanEnter));
+            Assert.That(_guildDomain.ToGuildProfileDto(_student.Id).Result.UserMembershipState, Is.EqualTo(UserMembershipState.CanEnter));
         }
 
         [Test]
@@ -126,7 +109,7 @@ namespace Iwentys.Tests.Core.DomainModels
         {
             _guild.HiringPolicy = GuildHiringPolicy.Close;
 
-            Assert.That(_guildDomain.ToGuildProfileDto(_student.Id).UserMembershipState, Is.EqualTo(UserMembershipState.CanRequest));
+            Assert.That(_guildDomain.ToGuildProfileDto(_student.Id).Result.UserMembershipState, Is.EqualTo(UserMembershipState.CanRequest));
         }
 
         [Test]
@@ -139,7 +122,7 @@ namespace Iwentys.Tests.Core.DomainModels
                 .Returns(_guild);
 
 
-            Assert.That(_guildDomain.ToGuildProfileDto(1).UserMembershipState, Is.EqualTo(UserMembershipState.Entered));
+            Assert.That(_guildDomain.ToGuildProfileDto(1).Result.UserMembershipState, Is.EqualTo(UserMembershipState.Entered));
         }
 
         [Test]
@@ -148,7 +131,7 @@ namespace Iwentys.Tests.Core.DomainModels
         {
             _guild.Members.Add(new GuildMemberEntity(_guild, _student, GuildMemberType.Blocked));
 
-            Assert.That(_guildDomain.ToGuildProfileDto(1).UserMembershipState, Is.EqualTo(UserMembershipState.Blocked));
+            Assert.That(_guildDomain.ToGuildProfileDto(1).Result.UserMembershipState, Is.EqualTo(UserMembershipState.Blocked));
         }
 
         [Test]
@@ -159,7 +142,7 @@ namespace Iwentys.Tests.Core.DomainModels
                 .Setup(r => r.ReadForStudent(_student.Id))
                 .Returns(new GuildEntity() {Id = 2});
 
-            Assert.That(_guildDomain.ToGuildProfileDto(1).UserMembershipState, Is.EqualTo(UserMembershipState.Blocked));
+            Assert.That(_guildDomain.ToGuildProfileDto(1).Result.UserMembershipState, Is.EqualTo(UserMembershipState.Blocked));
         }
 
         [Test]
@@ -171,7 +154,7 @@ namespace Iwentys.Tests.Core.DomainModels
                 .Setup(r => r.IsStudentHaveRequest(_student.Id))
                 .Returns(true);
 
-            Assert.That(_guildDomain.ToGuildProfileDto(1).UserMembershipState, Is.EqualTo(UserMembershipState.Requested));
+            Assert.That(_guildDomain.ToGuildProfileDto(1).Result.UserMembershipState, Is.EqualTo(UserMembershipState.Requested));
         }
 
         [Test]
@@ -182,7 +165,7 @@ namespace Iwentys.Tests.Core.DomainModels
                 .Setup(r => r.IsStudentHaveRequest(_student.Id))
                 .Returns(true);
 
-            Assert.That(_guildDomain.ToGuildProfileDto(1).UserMembershipState, Is.EqualTo(UserMembershipState.Blocked));
+            Assert.That(_guildDomain.ToGuildProfileDto(1).Result.UserMembershipState, Is.EqualTo(UserMembershipState.Blocked));
         }
 
         [Test]
@@ -191,7 +174,7 @@ namespace Iwentys.Tests.Core.DomainModels
         {
             _student.GuildLeftTime = DateTime.UtcNow.AddHours(-23);
 
-            Assert.That(_guildDomain.ToGuildProfileDto(1).UserMembershipState, Is.EqualTo(UserMembershipState.Blocked));
+            Assert.That(_guildDomain.ToGuildProfileDto(1).Result.UserMembershipState, Is.EqualTo(UserMembershipState.Blocked));
         }
     }
 }

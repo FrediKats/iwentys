@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FluentResults;
-using Iwentys.Core.DomainModel;
-using Iwentys.Core.Services;
 using Iwentys.Endpoints.ClientBot.Tools;
+using Iwentys.Features.StudentFeature;
+using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Models.Transferable.Students;
 using Microsoft.Extensions.DependencyInjection;
 using Tef.BotFramework.Abstractions;
@@ -31,11 +31,11 @@ namespace Iwentys.Endpoints.ClientBot.Commands.Student
             return Result.Ok();
         }
 
-        public Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
+        public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
             AuthorizedUser currentUser = _userIdentifier.GetUser(args.Sender.UserSenderId);
-            StudentFullProfileDto profile = _studentService.Get(currentUser.Id);
-            return Task.FromResult(Result.Ok(profile.FormatFullInfo()));
+            StudentFullProfileDto profile = await _studentService.GetAsync(currentUser.Id);
+            return Result.Ok(profile.FormatFullInfo());
         }
 
         public string CommandName => nameof(GetCurrentStudentCommand);

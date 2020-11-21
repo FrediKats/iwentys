@@ -1,6 +1,9 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
+using Iwentys.Common.Tools;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities.Guilds;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories
@@ -19,22 +22,21 @@ namespace Iwentys.Database.Repositories
             return _dbContext.Tournaments;
         }
 
-        public TournamentEntity ReadById(int key)
+        public Task<TournamentEntity> ReadByIdAsync(int key)
         {
-            return _dbContext.Tournaments.Find(key);
+            return _dbContext.Tournaments.FirstOrDefaultAsync(v => v.Id == key);
         }
 
-        public TournamentEntity Update(TournamentEntity entity)
+        public async Task<TournamentEntity> UpdateAsync(TournamentEntity entity)
         {
             EntityEntry<TournamentEntity> createdEntity = _dbContext.Tournaments.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
-        public void Delete(int key)
+        public Task<int> DeleteAsync(int key)
         {
-            _dbContext.Tournaments.Remove(this.Get(key));
-            _dbContext.SaveChanges();
+            return _dbContext.Tournaments.Where(t => t.Id == key).DeleteFromQueryAsync();
         }
 
         public TournamentEntity Create(TournamentEntity entity)

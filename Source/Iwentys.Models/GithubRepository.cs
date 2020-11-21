@@ -22,7 +22,7 @@ namespace Iwentys.Models
             StarCount = projectEntity.StarCount;
         }
 
-        private GithubRepository()
+        public GithubRepository()
         {
         }
 

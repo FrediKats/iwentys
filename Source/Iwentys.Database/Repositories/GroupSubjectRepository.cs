@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Iwentys.Common.Tools;
 using Iwentys.Database.Context;
 using Iwentys.Models;
 using Iwentys.Models.Entities.Study;
@@ -24,26 +25,24 @@ namespace Iwentys.Database.Repositories
                 .Include(s => s.Subject);
         }
 
-        public GroupSubjectEntity ReadById(int key)
+        public Task<GroupSubjectEntity> ReadByIdAsync(int key)
         {
-            return _dbContext.GroupSubjects.Find(key);
+            return _dbContext.GroupSubjects.FirstOrDefaultAsync(v => v.Id == key);
         }
 
-        public GroupSubjectEntity Update(GroupSubjectEntity entity)
+        public async Task<GroupSubjectEntity> UpdateAsync(GroupSubjectEntity entity)
         {
             EntityEntry<GroupSubjectEntity> createdEntity = _dbContext.GroupSubjects.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
-        public void Delete(int key)
+        public Task<int> DeleteAsync(int key)
         {
-            GroupSubjectEntity groupSubjectEntity = this.Get(key);
-            _dbContext.GroupSubjects.Remove(groupSubjectEntity);
-            _dbContext.SaveChanges();
+            return _dbContext.GroupSubjects.Where(gs => gs.Id == key).DeleteFromQueryAsync();
         }
 
-        public IEnumerable<GroupSubjectEntity> GetSubjectForGroupForDto(StudySearchParameters searchParameters)
+        public IQueryable<SubjectEntity> GetSubjectsForDto(StudySearchParameters searchParameters)
         {
             IQueryable<GroupSubjectEntity> query = Read();
 
@@ -58,16 +57,13 @@ namespace Iwentys.Database.Repositories
 
             if (searchParameters.CourseId != null)
                 query = query.Where(gs => gs.StudyGroup.StudyCourseId == searchParameters.CourseId);
-
-            return query;
+            
+            return query
+                .Select(s => s.Subject)
+                .Distinct();
         }
 
-        public IEnumerable<SubjectEntity> GetSubjectsForDto(StudySearchParameters searchParameters)
-        {
-            return GetSubjectForGroupForDto(searchParameters).Select(s => s.Subject);
-        }
-
-        public IEnumerable<StudyGroupEntity> GetStudyGroupsForDto(int? courseId)
+        public IQueryable<StudyGroupEntity> GetStudyGroupsForDto(int? courseId)
         {
             IQueryable<StudyGroupEntity> query = _dbContext.StudyGroups;
 

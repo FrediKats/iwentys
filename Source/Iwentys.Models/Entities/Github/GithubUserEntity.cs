@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Iwentys.Models.Tools;
+using Iwentys.Common.Tools;
 using Newtonsoft.Json;
 
 namespace Iwentys.Models.Entities.Github

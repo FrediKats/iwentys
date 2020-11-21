@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using FluentResults;
-using Iwentys.Core.DomainModel;
-using Iwentys.Core.Services;
 using Iwentys.Endpoints.ClientBot.Tools;
+using Iwentys.Features.StudentFeature;
+using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Models.Transferable.Students;
 using Microsoft.Extensions.DependencyInjection;
 using Tef.BotFramework.Abstractions;
@@ -29,11 +29,11 @@ namespace Iwentys.Endpoints.ClientBot.Commands.Student
             return Result.Ok();
         }
 
-        public Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
+        public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
             AuthorizedUser user = _userIdentifier.GetUser(args.Sender.UserSenderId);
-            StudentFullProfileDto profile = _studentService.AddGithubUsername(user.Id, args.Arguments[0]);
-            return Task.FromResult(Result.Ok(profile.FormatFullInfo()));
+            StudentFullProfileDto profile = await _studentService.AddGithubUsernameAsync(user.Id, args.Arguments[0]);
+            return Result.Ok(profile.FormatFullInfo());
         }
 
         public string CommandName { get; } = nameof(UpdateStudentGithubUsernameCommand);

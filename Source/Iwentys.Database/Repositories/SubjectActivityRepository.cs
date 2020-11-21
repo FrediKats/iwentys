@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Database.Tools;
+using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Models;
 using Iwentys.Models.Entities.Study;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +11,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories
 {
-    public class SubjectActivityRepository : IGenericRepository<SubjectActivityEntity, int>
+    public class SubjectActivityRepository : ISubjectActivityRepository
     {
         private readonly IwentysDbContext _dbContext;
 
@@ -32,23 +34,11 @@ namespace Iwentys.Database.Repositories
                 .Include(s => s.GroupSubject);
         }
 
-        public SubjectActivityEntity ReadById(int key)
-        {
-            return _dbContext.SubjectActivities.Find(key);
-        }
-
-        public SubjectActivityEntity Update(SubjectActivityEntity entity)
+        public async Task<SubjectActivityEntity> UpdateAsync(SubjectActivityEntity entity)
         {
             EntityEntry<SubjectActivityEntity> createdEntity = _dbContext.SubjectActivities.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
-        }
-
-        public void Delete(int key)
-        {
-            SubjectActivityEntity activity = this.Get(key);
-            _dbContext.SubjectActivities.Remove(activity);
-            _dbContext.SaveChanges();
         }
 
         public IReadOnlyCollection<SubjectActivityEntity> GetStudentActivities(StudySearchParameters searchParameters)
@@ -60,10 +50,10 @@ namespace Iwentys.Database.Repositories
                 select new { SubjectActivities = sa, StudyGroups = sg, GroupSubjects = gs };
 
             query = query
-                .WhereIf(searchParameters.GroupId, () => query.Where(q => q.StudyGroups.Id == searchParameters.GroupId))
-                .WhereIf(searchParameters.SubjectId, () => query.Where(q => q.GroupSubjects.SubjectId == searchParameters.SubjectId))
-                .WhereIf(searchParameters.CourseId, () => query.Where(q => q.StudyGroups.StudyCourseId == searchParameters.CourseId))
-                .WhereIf(searchParameters.StudySemester, () => query.Where(q => q.GroupSubjects.StudySemester == searchParameters.StudySemester));
+                .WhereIf(searchParameters.GroupId, q => q.StudyGroups.Id == searchParameters.GroupId)
+                .WhereIf(searchParameters.SubjectId, q => q.GroupSubjects.SubjectId == searchParameters.SubjectId)
+                .WhereIf(searchParameters.CourseId, q => q.StudyGroups.StudyCourseId == searchParameters.CourseId)
+                .WhereIf(searchParameters.StudySemester, q => q.GroupSubjects.StudySemester == searchParameters.StudySemester);
 
             return query
                 .Select(_ => _.SubjectActivities)

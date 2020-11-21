@@ -1,6 +1,6 @@
-﻿using Iwentys.Models.Entities;
-using Iwentys.Models.Exceptions;
-using Iwentys.Models.Tools;
+﻿using Iwentys.Common.Exceptions;
+using Iwentys.Common.Tools;
+using Iwentys.Models.Entities;
 using Iwentys.Models.Types;
 
 namespace Iwentys.Models.Transferable.Companies

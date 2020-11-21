@@ -74,7 +74,7 @@ namespace Iwentys.Core
                 }
 
                 activity.Points = pointsCount;
-                _databaseAccessor.SubjectActivity.Update(activity);
+                _databaseAccessor.SubjectActivity.UpdateAsync(activity);
             }
         }
     }

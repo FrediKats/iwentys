@@ -1,5 +1,4 @@
-﻿using Iwentys.Core;
-using Iwentys.Endpoints.ClientBot.Commands.Guild;
+﻿using Iwentys.Endpoints.ClientBot.Commands.Guild;
 using Iwentys.Endpoints.ClientBot.Commands.Student;
 using Iwentys.Endpoints.ClientBot.Commands.StudentLeaderboard;
 using Iwentys.Endpoints.ClientBot.Commands.Tools;
@@ -14,10 +13,8 @@ namespace Iwentys.Endpoints.ClientBot
 {
     public static class BotProvider
     {
-        public static Bot Init(IGetSettings<TelegramSettings> settings, ILogger logger)
+        public static Bot Init(IGetSettings<TelegramSettings> settings, ILogger logger, ServiceCollection serviceCollection)
         {
-            var serviceCollection = new ServiceCollection();
-            ServiceDiManager.RegisterAbstractionsImplementation(serviceCollection, ApplicationOptions.GithubToken);
             ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
             var identifier = new UserIdentifier();

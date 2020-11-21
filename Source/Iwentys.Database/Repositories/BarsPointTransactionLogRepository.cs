@@ -1,6 +1,9 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
+using Iwentys.Common.Tools;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories
@@ -14,10 +17,10 @@ namespace Iwentys.Database.Repositories
             _dbContext = dbContext;
         }
 
-        public BarsPointTransactionLog Create(BarsPointTransactionLog entity)
+        public async Task<BarsPointTransactionLog> CreateAsync(BarsPointTransactionLog entity)
         {
-            EntityEntry<BarsPointTransactionLog> createdEntity = _dbContext.BarsPointTransactionLogs.Add(entity);
-            _dbContext.SaveChanges();
+            EntityEntry<BarsPointTransactionLog> createdEntity = await _dbContext.BarsPointTransactionLogs.AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
@@ -26,22 +29,21 @@ namespace Iwentys.Database.Repositories
             return _dbContext.BarsPointTransactionLogs;
         }
 
-        public BarsPointTransactionLog ReadById(int key)
+        public Task<BarsPointTransactionLog> ReadByIdAsync(int key)
         {
-            return _dbContext.BarsPointTransactionLogs.Find(key);
+            return _dbContext.BarsPointTransactionLogs.FirstOrDefaultAsync(v => v.Id == key);
         }
 
-        public BarsPointTransactionLog Update(BarsPointTransactionLog entity)
+        public async Task<BarsPointTransactionLog> UpdateAsync(BarsPointTransactionLog entity)
         {
             EntityEntry<BarsPointTransactionLog> createdEntity = _dbContext.BarsPointTransactionLogs.Update(entity);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
-        public void Delete(int key)
+        public Task<int> DeleteAsync(int key)
         {
-            _dbContext.BarsPointTransactionLogs.Remove(this.Get(key));
-            _dbContext.SaveChanges();
+            return _dbContext.BarsPointTransactionLogs.Where(e => e.Id == key).DeleteFromQueryAsync();
         }
     }
 }

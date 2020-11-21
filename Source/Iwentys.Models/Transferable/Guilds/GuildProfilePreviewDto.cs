@@ -1,5 +1,5 @@
-﻿using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.Tools;
+﻿using Iwentys.Common.Tools;
+using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable.Students;
 
 namespace Iwentys.Models.Transferable.Guilds

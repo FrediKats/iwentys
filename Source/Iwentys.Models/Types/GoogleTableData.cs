@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Iwentys.Models.Tools;
+using Iwentys.Common.Tools;
 using Newtonsoft.Json;
 
 namespace Iwentys.Models.Types
