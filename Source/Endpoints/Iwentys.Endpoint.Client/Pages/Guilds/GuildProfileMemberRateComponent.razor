@@ -4,8 +4,9 @@
 
 <div class="text-center card">
     <MatHeadline5>Рейтинг гильдии - @GuildProfile.MemberLeaderBoard.TotalRate</MatHeadline5>
+    <MatHeadline6>Импакт:</MatHeadline6>
     <MatList>
-        @foreach (var member in GuildProfile.MemberLeaderBoard.MembersImpact)
+        @foreach (GuildMemberImpact member in GuildProfile.MemberLeaderBoard.MembersImpact)
         {
             <MatListItem>
                 @member.Username (@member.TotalRate)
