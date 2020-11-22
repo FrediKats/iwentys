@@ -27,16 +27,24 @@
             <StudentProfileInfoComponent StudentProfile=@_studentFullProfile></StudentProfileInfoComponent>
         </div>
 
-        <div class="col-md-6 d-flex flex-column">
+        <div class="col-md-6 d-flex flex-column text-center">
             <AchievementComponent Achievements=@_studentFullProfile.Achievements></AchievementComponent>
 
             @if (_githubChartConfig is not null)
             {
-                <ChartJsLineChart @ref="_githubChart" Config="_githubChartConfig"></ChartJsLineChart>
+                <div>
+                    <MatHeadline5>Coding activity</MatHeadline5>
+                    <ChartJsLineChart @ref="_githubChart" Config="_githubChartConfig"></ChartJsLineChart>
+
+                </div>
             }
+
             @if (_studyChartConfig is not null)
             {
-                <ChartJsPieChart @ref="_studyChart" Config="@_studyChartConfig" Width="600" Height="300" />
+                <div>
+                    <MatHeadline5>Study activity</MatHeadline5>
+                    <ChartJsPieChart @ref="_studyChart" Config="@_studyChartConfig" Width="600" Height="300" />
+                </div>
 
             }
         </div>
@@ -104,7 +112,7 @@
                 Scales = new Scales
                 {
                     xAxes = new List<CartesianAxis>
-        {
+                    {
                         new CategoryAxis
                         {
                             ScaleLabel = new ScaleLabel
@@ -114,7 +122,7 @@
                         }
                     },
                     yAxes = new List<CartesianAxis>
-        {
+                    {
                         new LinearCartesianAxis
                         {
                             ScaleLabel = new ScaleLabel
@@ -123,12 +131,12 @@
                             }
                         }
                     }
-                }
+                },
             }
         };
 
         //TODO: add real month
-        _githubChartConfig.Data.Labels = Enumerable.Repeat("zxc", 12).ToList();
+        _githubChartConfig.Data.Labels = Enumerable.Repeat("", 12).ToList();
         _githubChartConfig.Data.Datasets.Add(lineDataset);
     }
 
