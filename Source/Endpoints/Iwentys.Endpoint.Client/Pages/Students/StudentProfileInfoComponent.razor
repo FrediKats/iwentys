@@ -1,0 +1,29 @@
+﻿
+@using Iwentys.Models.Transferable.Students
+
+@namespace Iwentys.Endpoint.Client.Pages.Students
+
+@if (StudentProfile is not null)
+{
+    <div class="container-fluid d-flex flex-row">
+        <img class="student-profile-logo" src=@StudentProfile.AvatarUrl />
+        <div class="container-fluid d-flex flex-column">
+            <MatHeadline4>@StudentProfile.GithubUsername</MatHeadline4>
+            <MatBody1>Лидер: @StudentProfile.GetFullName()</MatBody1>
+
+            <a href=@LinkToGroupProfile>Группа: @StudentProfile.Group</a>
+            @if (StudentProfile.Guild is not null)
+            {
+                <a href=@LinkToGuildProfile>Гильдия: @StudentProfile.Guild.Title</a>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public StudentFullProfileDto StudentProfile { get; set; }
+
+    public string LinkToGroupProfile => $"/group/profile/{StudentProfile.Group}";
+    public string LinkToGuildProfile => $"/guild/profile/{StudentProfile.Guild?.Id}";
+}

@@ -2,6 +2,7 @@
 using System.Text;
 using Iwentys.Common.Tools;
 using Iwentys.Models.Entities;
+using Iwentys.Models.Transferable.Guilds;
 
 namespace Iwentys.Models.Transferable.Students
 {
@@ -16,7 +17,8 @@ namespace Iwentys.Models.Transferable.Students
             Group = student.Group?.GroupName;
             Achievements = student.Achievements.SelectToList(AchievementInfoDto.Wrap);
             SubjectActivityInfo = student.SubjectActivities.SelectToList(sa => new SubjectActivityInfoResponse(sa));
-            GuildName = student.GuildMember?.Guild?.Title;
+            if (student.GuildMember?.Guild is not null)
+                Guild = new GuildProfileShortInfoDto(student.GuildMember.Guild);
 
             if (student.GithubUserEntity is null || student.GithubUserEntity.ContributionFullInfo is null)
                 CodingActivityInfo = new List<CodingActivityInfoResponse>();
@@ -25,10 +27,9 @@ namespace Iwentys.Models.Transferable.Students
         }
 
         public string Group { get; set; }
-
+        public GuildProfileShortInfoDto Guild { get; set; }
         public List<AchievementInfoDto> Achievements { get; set; }
 
-        public string GuildName { get; set; }
         //public int StudyLeaderBoardPlace { get; set; }
         //public int CodingLeaderBoardPlace { get; set; }
         //public string SocialStatus { get; set; }
@@ -44,8 +45,8 @@ namespace Iwentys.Models.Transferable.Students
             builder.Append(Format());
             if (!string.IsNullOrWhiteSpace(Group))
                 builder.Append(" (").Append(Group).Append(')');
-            if (!string.IsNullOrWhiteSpace(GuildName))
-                builder.Append("\nGuild: ").Append(GuildName);
+            if (!string.IsNullOrWhiteSpace(Guild?.Title))
+                builder.Append("\nGuild: ").Append(Guild?.Title);
             if (!string.IsNullOrWhiteSpace(GithubUsername))
                 builder.Append("\nGithub: ").Append(GithubUsername);
 

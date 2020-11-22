@@ -23,6 +23,7 @@ namespace Iwentys.Models.Transferable.Students
             CreationTime = student.CreationTime;
             LastOnlineTime = student.LastOnlineTime;
             BarsPoints = student.BarsPoints;
+            AvatarUrl = student.AvatarUrl;
         }
 
         public int Id { get; set; }
@@ -35,6 +36,8 @@ namespace Iwentys.Models.Transferable.Students
         public DateTime CreationTime { get; set; }
         public DateTime LastOnlineTime { get; set; }
         public int BarsPoints { get; set; }
+        public string AvatarUrl { get; set; }
+
 
         public string Format()
         {

@@ -23,7 +23,8 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 .RuleFor(s => s.Type, StudentType.Budgetary)
                 .RuleFor(s => s.CreationTime, DateTime.UtcNow)
                 .RuleFor(s => s.LastOnlineTime, DateTime.UtcNow)
-                .RuleFor(s => s.GroupId, _ => studyGroups.GetRandom().Id);
+                .RuleFor(s => s.GroupId, _ => studyGroups.GetRandom().Id)
+                .RuleFor(s => s.AvatarUrl, f => f.Image.PicsumUrl());
 
             Students = Faker.Generate(StudentCount);
             Students.Add(new StudentEntity
@@ -37,7 +38,8 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 GithubUsername = "InRedikaWB",
                 CreationTime = DateTime.UtcNow,
                 LastOnlineTime = DateTime.UtcNow,
-                BarsPoints = short.MaxValue
+                BarsPoints = short.MaxValue,
+                AvatarUrl = new Faker().Image.PicsumUrl()
             });
         }
 
