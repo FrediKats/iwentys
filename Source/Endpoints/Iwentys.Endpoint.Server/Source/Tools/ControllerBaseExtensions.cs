@@ -9,7 +9,7 @@ namespace Iwentys.Endpoint.Server.Source.Tools
         public static AuthorizedUser TryAuthWithToken(this ControllerBase controller)
         {
             //TODO: for test propose
-            const int defaultUserId = 289140;
+            const int defaultUserId = 228617;
             return TryAuthWithTokenOrDefault(controller, defaultUserId);
         }
 

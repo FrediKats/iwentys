@@ -56,15 +56,13 @@ namespace Iwentys.Endpoint.Server.Source.Controllers
         //TODO: fix
 
         [HttpGet("login/{userId}")]
-        public async Task<ActionResult<IwentysAuthResponse>> Login(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
+        public ActionResult<IwentysAuthResponse> Login(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
             var claims = new[]
             {
                 new Claim(ClaimTypes.UserData, userId.ToString(CultureInfo.InvariantCulture))
             };
-            var user = new ClaimsPrincipal(new ClaimsIdentity(claims));
 
-            //await _authenticationService.SignInAsync(HttpContext, null, user, null);
             return Ok(TokenGenerator.Generate(userId, signingEncodingKey));
         }
 
