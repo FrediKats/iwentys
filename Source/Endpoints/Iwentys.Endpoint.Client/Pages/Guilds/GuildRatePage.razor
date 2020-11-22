@@ -7,21 +7,19 @@
 
 @inject HttpClient Http
 @inject ILocalStorageService LocalStorage
+@inject NavigationManager NavigationManagerClient
 
 <div class="text-center">
     <h3>Рейтинг Гильдий</h3>
 
     @if (_guildProfiles is not null)
     {
-        <div class="container-fluid d-flex flex-column">
+        <MatList class="container-fluid d-flex flex-column">
             @foreach (GuildProfilePreviewDto guild in _guildProfiles)
             {
-                var linToProfile = $"guild/profile/{guild.Id}";
-
-                <MatNavItem href=@linToProfile class="d-flex flex-row guild-rating-row justify-content-md-between">
-
+                <MatCard @onclick=@(() => NavigateToProfile(guild)) class="guild-rating-row d-flex flex-row">
                     <div class="col-md-2">
-                        <img src=@guild.LogoUrl class="guild-preview-logo" />
+                        <img src=@guild.LogoUrl class="guild-logo" />
                     </div>
 
                     <div class="col-md-4">
@@ -33,10 +31,9 @@
                     <div class="col-md-2">
                         <p>@guild.Rating</p>
                     </div>
-
-                </MatNavItem>
+                </MatCard>
             }
-        </div>
+        </MatList>
     }
 </div>
 
@@ -44,9 +41,16 @@
 @code {
     private IReadOnlyList<GuildProfilePreviewDto> _guildProfiles;
 
+    private string LinkToProfile(GuildProfilePreviewDto guild) => $"guild/profile/{guild.Id}";
+
     protected override async Task OnInitializedAsync()
     {
         var guildControllerClient = new GuildControllerClient(await Http.TrySetHeader(LocalStorage));
         _guildProfiles = await guildControllerClient.GetOverview();
+    }
+
+    private void NavigateToProfile(GuildProfilePreviewDto guild)
+    {
+        NavigationManagerClient.NavigateTo($"guild/profile/{guild.Id}");
     }
 }
