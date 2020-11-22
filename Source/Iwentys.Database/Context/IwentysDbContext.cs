@@ -94,6 +94,9 @@ namespace Iwentys.Database.Context
 
             modelBuilder.Entity<AssignmentEntity>().HasData(seedData.AssignmentGenerator.Assignments);
             modelBuilder.Entity<StudentAssignmentEntity>().HasData(seedData.AssignmentGenerator.StudentAssignments);
+
+            modelBuilder.Entity<GithubUserEntity>().HasData(seedData.GithubActivityGenerator.GithubUserEntities);
+
         }
 
         //TODO: Hack for removing cascade. Need to rework keys

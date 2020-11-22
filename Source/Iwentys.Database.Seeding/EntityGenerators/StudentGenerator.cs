@@ -24,7 +24,8 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 .RuleFor(s => s.CreationTime, DateTime.UtcNow)
                 .RuleFor(s => s.LastOnlineTime, DateTime.UtcNow)
                 .RuleFor(s => s.GroupId, _ => studyGroups.GetRandom().Id)
-                .RuleFor(s => s.AvatarUrl, f => f.Image.PicsumUrl());
+                .RuleFor(s => s.AvatarUrl, f => f.Image.PicsumUrl())
+                .RuleFor(s => s.GithubUsername, f => f.Person.UserName);
 
             Students = Faker.Generate(StudentCount);
             Students.Add(new StudentEntity
