@@ -5,7 +5,7 @@
 <div class="container-fluid d-flex flex-column align-items-center">
     <img src=@SelectedGuildProfile.LogoUrl class="guild-preview-logo" />
     <MatHeadline4>@SelectedGuildProfile.Title</MatHeadline4>
-    <MatBody1>Лидер: @SelectedGuildProfile.Leader.GithubUsername</MatBody1>
+    <MatButton Link="@LeaderProfileLink()">Лидер: @SelectedGuildProfile.Leader.GetFullName()</MatButton>
     <MatBody1>@SelectedGuildProfile.Bio</MatBody1>
     <MatButton Link="@EditProfileLink()">Редактировать</MatButton>
     <MatButton>Трибьюты</MatButton>
@@ -15,8 +15,6 @@
     [Parameter]
     public GuildProfileDto SelectedGuildProfile { get; set; }
 
-    private string EditProfileLink()
-    {
-        return $"guild/{SelectedGuildProfile.Id}/edit";
-    }
+    private string EditProfileLink() => $"guild/{SelectedGuildProfile.Id}/edit";
+    private string LeaderProfileLink() => $"student/{SelectedGuildProfile.Leader.Id}";
 }
