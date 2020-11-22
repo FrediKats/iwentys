@@ -1,4 +1,5 @@
-﻿@page "/guild/overview"
+﻿@page "/guild/rate"
+
 @using Iwentys.Models.Transferable.Guilds
 @using Iwentys.Endpoint.Sdk.ControllerClients.Guilds
 @using Iwentys.Endpoint.Client.Tools
@@ -15,7 +16,7 @@
         <div class="container-fluid d-flex flex-column">
             @foreach (GuildProfilePreviewDto guild in _guildProfiles)
             {
-                var linToProfile = $"guild/{guild.Id}";
+                var linToProfile = $"guild/profile/{guild.Id}";
 
                 <MatNavItem href=@linToProfile class="d-flex flex-row guild-rating-row justify-content-md-between">
 

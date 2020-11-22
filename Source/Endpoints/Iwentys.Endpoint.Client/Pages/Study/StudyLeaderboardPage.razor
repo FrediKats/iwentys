@@ -1,4 +1,4 @@
-﻿@page "/StudyLeaderboard/{CourseId:int}"
+﻿@page "/leaderboard/study/{CourseId:int}"
 
 @using Iwentys.Models.Transferable.Study
 @using Iwentys.Endpoint.Client.Tools
@@ -16,8 +16,7 @@
         <div class="container-fluid d-flex flex-column">
             @foreach (var studentProfile in _studentProfiles)
             {
-                //TODO: fix link
-                var linToProfile = $"student/{studentProfile.Student.Id}";
+                var linToProfile = $"student/profile/{studentProfile.Student.Id}";
 
                 <MatNavItem href=@linToProfile class="d-flex flex-row guild-rating-row justify-content-md-between">
 

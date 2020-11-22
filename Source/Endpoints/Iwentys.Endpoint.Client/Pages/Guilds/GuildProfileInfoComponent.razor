@@ -1,6 +1,6 @@
 ﻿@using Iwentys.Models.Transferable.Guilds
-@namespace Iwentys.Endpoint.Client.CustomComponents.Guild
 
+@namespace Iwentys.Endpoint.Client.Pages.Guilds
 
 <div class="container-fluid d-flex flex-column align-items-center">
     <img src=@SelectedGuildProfile.LogoUrl class="guild-preview-logo" />
@@ -15,6 +15,6 @@
     [Parameter]
     public GuildProfileDto SelectedGuildProfile { get; set; }
 
-    private string EditProfileLink() => $"guild/{SelectedGuildProfile.Id}/edit";
-    private string LeaderProfileLink() => $"student/{SelectedGuildProfile.Leader.Id}";
+    private string EditProfileLink() => $"guild/profile/{SelectedGuildProfile.Id}/edit";
+    private string LeaderProfileLink() => $"student/profile/{SelectedGuildProfile.Leader.Id}";
 }

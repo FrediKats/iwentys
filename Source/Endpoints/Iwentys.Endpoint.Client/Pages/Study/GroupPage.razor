@@ -1,4 +1,4 @@
-﻿@page "/group/{GroupName}"
+﻿@page "/group/profile/{GroupName}"
 
 @using Iwentys.Models.Transferable.Students
 @using Blazored.LocalStorage
@@ -8,7 +8,7 @@
 @inject HttpClient Http
 @inject ILocalStorageService LocalStorage
 
-<h2>Group page: {@GroupName}</h2>
+<h2>Group page: @GroupName</h2>
 
 @if (Students is not null)
 {
