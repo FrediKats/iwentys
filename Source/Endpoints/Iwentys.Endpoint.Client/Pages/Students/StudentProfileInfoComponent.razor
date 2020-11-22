@@ -9,7 +9,7 @@
         <img class="student-profile-logo" src=@StudentProfile.AvatarUrl />
         <div class="container-fluid d-flex flex-column">
             <MatHeadline4>@StudentProfile.GithubUsername</MatHeadline4>
-            <MatBody1>Лидер: @StudentProfile.GetFullName()</MatBody1>
+            <MatBody1>@StudentProfile.GetFullName()</MatBody1>
 
             <a href=@LinkToGroupProfile>Группа: @StudentProfile.Group</a>
             @if (StudentProfile.Guild is not null)

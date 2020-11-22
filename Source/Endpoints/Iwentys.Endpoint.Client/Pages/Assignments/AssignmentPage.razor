@@ -10,9 +10,10 @@
 
 <div class="container-fluid d-flex flex-row">
     <div class="col-md-3 d-flex flex-column">
-        <MatButton>First</MatButton>
-        <MatButton>Second</MatButton>
-        <MatButton>Third</MatButton>
+        <MatButton>Все задачи</MatButton>
+        <MatButton>Персональные задачи</MatButton>
+        <MatButton>Календарь</MatButton>
+        <MatButton Link="/assignment/create">Добавить задачу</MatButton>
     </div>
 
     <div class="col-md-6 d-flex flex-column">
@@ -23,7 +24,7 @@
                 @foreach (AssignmentInfoResponse assignment in _assignment)
                 {
                     <MatListItem>
-                        @(assignment.IsCompeted == false ? "Active task:" : "Completed task:") @assignment.Title
+                        @(assignment.IsCompeted == false ? "[ ] " : "[x] ") @assignment.Title
                     </MatListItem>
                 }
             </MatList>

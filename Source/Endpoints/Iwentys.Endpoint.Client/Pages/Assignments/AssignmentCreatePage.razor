@@ -7,27 +7,26 @@
 
 @inject HttpClient Http
 @inject ILocalStorageService LocalStorage
-
-<h3>AssignmentCreatePage</h3>
+@inject NavigationManager NavigationManagerClient
 
 <div class="container-fluid d-flex flex-row">
     <div class="col-md-3 d-flex flex-column">
-        <MatButton>First</MatButton>
-        <MatButton>Second</MatButton>
-        <MatButton>Third</MatButton>
+        <MatButton>Все задачи</MatButton>
+        <MatButton>Персональные задачи</MatButton>
+        <MatButton>Календарь</MatButton>
     </div>
 
     <div class="col-md-6 d-flex flex-column">
         <h5>Create assignment</h5>
 
         <p>
-            <MatTextField @bind-Value="@_title" Label="Standard"></MatTextField>
+            <MatTextField @bind-Value="@_title" Label="Title"></MatTextField>
         </p>
 
         <p>
-            <MatTextField @bind-Value="@_description" Label="Standard"></MatTextField>
+            <MatTextField @bind-Value="@_description" Label="Description"></MatTextField>
         </p>
-        
+
         <MatButton OnClick="@CreateButton">Create</MatButton>
     </div>
 </div>
@@ -51,6 +50,6 @@
             Title = _title,
             Description = _description
         });
-        //TODO: navigate to assignment page
+        NavigationManagerClient.NavigateTo("/assignment");
     }
 }
