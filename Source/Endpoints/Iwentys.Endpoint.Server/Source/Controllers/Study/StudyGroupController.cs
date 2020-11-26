@@ -28,12 +28,11 @@ namespace Iwentys.Endpoint.Server.Source.Controllers.Study
             return Ok(result);
         }
 
-        [HttpGet]
-        public async Task<ActionResult<GroupProfileResponse>> GetAllGroups([FromQuery] string groupName)
+        [HttpGet("by-name/{groupName}")]
+        public async Task<ActionResult<GroupProfileResponse>> Get([FromQuery] string groupName)
         {
             GroupProfileResponse result = await _studyGroupService.Get(groupName);
             return Ok(result);
         }
-
     }
 }
