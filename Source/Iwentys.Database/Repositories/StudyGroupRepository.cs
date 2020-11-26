@@ -22,6 +22,8 @@ namespace Iwentys.Database.Repositories
         {
             return _dbContext.StudyGroups
                 .Include(s => s.Students)
+                .Include(s => s.GroupSubjects)
+                .ThenInclude(gs => gs.Subject)
                 .Include(s => s.StudyCourseEntity)
                 .ThenInclude(s => s.StudyProgramEntity);
         }

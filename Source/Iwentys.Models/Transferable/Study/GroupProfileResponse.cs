@@ -11,6 +11,7 @@ namespace Iwentys.Models.Transferable.Study
         public string GroupName { get; set; }
 
         public List<StudentPartialProfileDto> Students { get; set; }
+        public List<SubjectEntity> Subjects { get; set; }
 
         public static GroupProfileResponse Create(StudyGroupEntity group)
         {
@@ -18,7 +19,8 @@ namespace Iwentys.Models.Transferable.Study
             {
                 Id = group.Id,
                 GroupName = group.GroupName,
-                Students = group.Students.SelectToList(s => new StudentPartialProfileDto(s));
+                Students = group.Students.SelectToList(s => new StudentPartialProfileDto(s)),
+                Subjects = group.GroupSubjects.SelectToList(gs => gs.Subject)
             };
         }
     }

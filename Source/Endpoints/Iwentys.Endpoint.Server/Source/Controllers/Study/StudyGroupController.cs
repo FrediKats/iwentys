@@ -29,7 +29,7 @@ namespace Iwentys.Endpoint.Server.Source.Controllers.Study
         }
 
         [HttpGet("by-name/{groupName}")]
-        public async Task<ActionResult<GroupProfileResponse>> Get([FromQuery] string groupName)
+        public async Task<ActionResult<GroupProfileResponse>> Get([FromRoute] string groupName)
         {
             GroupProfileResponse result = await _studyGroupService.Get(groupName);
             return Ok(result);

@@ -11,5 +11,6 @@ namespace Iwentys.Models.Entities.Study
         public StudyCourseEntity StudyCourseEntity { get; set; }
 
         public List<StudentEntity> Students { get; set; }
+        public List<GroupSubjectEntity> GroupSubjects { get; set; }
     }
 }

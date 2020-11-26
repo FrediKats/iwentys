@@ -4,6 +4,7 @@
 @using Blazored.LocalStorage
 @using Iwentys.Endpoint.Sdk.ControllerClients.Study
 @using Iwentys.Endpoint.Client.Tools
+@using Iwentys.Models.Entities.Study
 @using Iwentys.Models.Transferable.Study
 
 @inject HttpClient Http
@@ -15,6 +16,7 @@
 {
     <div class="container-fluid d-flex flex-row">
         <div class="col-md-6 d-flex flex-column">
+            <MatH6>Students</MatH6>
             <MatNavMenu>
                 @foreach (StudentPartialProfileDto student in _groupProfile.Students)
                 {
@@ -27,7 +29,15 @@
         </div>
 
         <div class="col-md-6 d-flex flex-column">
-            
+            <MatH6>Subjetcs</MatH6>
+            <MatNavMenu>
+                @foreach (SubjectEntity subject in _groupProfile.Subjects)
+                {
+                    <MatNavItem>
+                        @subject.Name
+                    </MatNavItem>
+                }
+            </MatNavMenu>
         </div>
     </div>
 }
