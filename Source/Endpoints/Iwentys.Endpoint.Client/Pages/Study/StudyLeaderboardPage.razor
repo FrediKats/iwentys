@@ -17,19 +17,21 @@
         <div class="container-fluid d-flex flex-column">
             @foreach (StudyLeaderboardRow studentProfile in _studentProfiles)
             {
-                <MatCard @onclick=@(() => NavigateToProfile(studentProfile)) class="guild-rating-row d-flex flex-row">
-                    <div class="col-md-2">
-                        <img src=@studentProfile.Student.AvatarUrl class="student-logo"/>
-                    </div>
+                <NavLink href=@LinkToProfile(studentProfile) class="student-rating-row">
+                    <MatCard class="d-flex flex-row">
+                        <div class="col-md-2">
+                            <img src=@studentProfile.Student.AvatarUrl class="student-logo" />
+                        </div>
 
-                    <div class="col-md-8">
-                        <h4>@studentProfile.Student.GetFullName()</h4>
-                    </div>
+                        <div class="col-md-8">
+                            <h4>@studentProfile.Student.GetFullName()</h4>
+                        </div>
 
-                    <div class="col-md-2">
-                        <p>@studentProfile.Activity.ToString("F2")</p>
-                    </div>
-                </MatCard>
+                        <div class="col-md-2">
+                            <p>@studentProfile.Activity.ToString("F2")</p>
+                        </div>
+                    </MatCard>
+                </NavLink>
             }
         </div>
     }
@@ -40,16 +42,13 @@
     [Parameter]
     public int CourseId { get; set; }
 
+    private string LinkToProfile(StudyLeaderboardRow row) => $"student/profile/{row.Student.Id}";
+
     private IReadOnlyList<StudyLeaderboardRow> _studentProfiles;
 
     protected override async Task OnInitializedAsync()
     {
         var studyLeaderboardControllerClient = new StudyLeaderboardControllerClient(await Http.TrySetHeader(LocalStorage));
         _studentProfiles = await studyLeaderboardControllerClient.GetStudyRating(CourseId);
-    }
-
-    private void NavigateToProfile(StudyLeaderboardRow row)
-    {
-        NavigationManagerClient.NavigateTo($"student/profile/{row.Student.Id}");
     }
 }

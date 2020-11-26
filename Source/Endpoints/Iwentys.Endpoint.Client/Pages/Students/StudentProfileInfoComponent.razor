@@ -11,10 +11,10 @@
             <MatHeadline4>@StudentProfile.GithubUsername</MatHeadline4>
             <MatBody1>@StudentProfile.GetFullName()</MatBody1>
 
-            <a href=@LinkToGroupProfile>Группа: @StudentProfile.Group</a>
+            <NavLink href=@LinkToGroupProfile>Группа: @StudentProfile.Group</NavLink>
             @if (StudentProfile.Guild is not null)
             {
-                <a href=@LinkToGuildProfile>Гильдия: @StudentProfile.Guild.Title</a>
+                <NavLink href=@LinkToGuildProfile>Гильдия: @StudentProfile.Guild.Title</NavLink>
             }
         </div>
     </div>

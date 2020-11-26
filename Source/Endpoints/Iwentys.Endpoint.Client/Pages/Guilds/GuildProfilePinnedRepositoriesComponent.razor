@@ -9,16 +9,18 @@
     <div class="container-fluid d-flex flex-column">
         @foreach (GithubRepository repository in GuildProfile.PinnedRepositories)
         {
-            <MatNavItem href=@repository.Url class="d-flex flex-row guild-rating-row justify-content-md-between">
-                <div class="col-md-10">
-                    <MatHeadline6>@repository.Name</MatHeadline6>
+            <NavLink href=@repository.Url>
+                <MatNavItem class="d-flex flex-row justify-content-md-between">
+                    <div class="col-md-10">
+                        <MatHeadline6>@repository.Name</MatHeadline6>
 
-                    <MatBody1>@repository.Description</MatBody1>
-                </div>
+                        <MatBody1>@repository.Description</MatBody1>
+                    </div>
 
-                @*TODO: add icon-button*@
-                <MatButton class="col-md-2">X</MatButton>
-            </MatNavItem>
+                    @*TODO: add icon-button*@
+                    <MatButton class="col-md-2">X</MatButton>
+                </MatNavItem>
+            </NavLink>
         }
     </div>
 
