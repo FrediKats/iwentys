@@ -21,6 +21,7 @@ namespace Iwentys.Database.Repositories
         public IQueryable<StudyGroupEntity> Read()
         {
             return _dbContext.StudyGroups
+                .Include(s => s.Students)
                 .Include(s => s.StudyCourseEntity)
                 .ThenInclude(s => s.StudyProgramEntity);
         }
@@ -42,15 +43,15 @@ namespace Iwentys.Database.Repositories
             return _dbContext.StudyGroups.Where(sg => sg.Id == key).DeleteFromQueryAsync();
         }
 
-        public StudyGroupEntity ReadByNamePattern(GroupName group)
+        public Task<StudyGroupEntity> ReadByNamePattern(GroupName group)
         {
-            return Read().FirstOrDefault(s => s.GroupName == group.Name);
+            return Read().FirstOrDefaultAsync(s => s.GroupName == group.Name);
         }
 
-        public StudyGroupEntity Create(StudyGroupEntity entity)
+        public async Task<StudyGroupEntity> Create(StudyGroupEntity entity)
         {
-            EntityEntry<StudyGroupEntity> createdEntity = _dbContext.StudyGroups.Add(entity);
-            _dbContext.SaveChanges();
+            EntityEntry<StudyGroupEntity> createdEntity = await _dbContext.StudyGroups.AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
     }

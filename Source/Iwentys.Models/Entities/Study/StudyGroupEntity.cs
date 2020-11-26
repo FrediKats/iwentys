@@ -1,4 +1,6 @@
-﻿namespace Iwentys.Models.Entities.Study
+﻿using System.Collections.Generic;
+
+namespace Iwentys.Models.Entities.Study
 {
     public class StudyGroupEntity
     {
@@ -7,5 +9,7 @@
 
         public int StudyCourseId { get; set; }
         public StudyCourseEntity StudyCourseEntity { get; set; }
+
+        public List<StudentEntity> Students { get; set; }
     }
 }

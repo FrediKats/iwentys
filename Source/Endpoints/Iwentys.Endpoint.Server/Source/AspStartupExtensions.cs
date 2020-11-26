@@ -87,6 +87,7 @@ namespace Iwentys.Endpoint.Server.Source
             services.AddScoped<GuildTributeService>();
             services.AddScoped<QuestService>();
             services.AddScoped<StudentService>();
+            services.AddScoped<StudyGroupService>();
             services.AddScoped<StudyLeaderboardService>();
             services.AddScoped<TournamentService>();
 
