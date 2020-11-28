@@ -6,6 +6,7 @@ using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Gamification;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
+using Iwentys.Models.Entities.Newsfeeds;
 using Iwentys.Models.Entities.Study;
 
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +42,9 @@ namespace Iwentys.Database.Context
 
         public DbSet<AssignmentEntity> Assignments { get; set; }
         public DbSet<StudentAssignmentEntity> StudentAssignments { get; set; }
+
+        public DbSet<NewsfeedEntity> Newsfeeds { get; set; }
+        public DbSet<SubjectNewsfeedEntity> SubjectNewsfeeds { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
