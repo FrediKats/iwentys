@@ -4,15 +4,16 @@ using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Database.Context;
+using Iwentys.Features.Economy.Repositories;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Types;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Iwentys.Database.Repositories
+namespace Iwentys.Database.Repositories.Economy
 {
-    public class QuestRepository : IGenericRepository<QuestEntity, int>
+    public class QuestRepository : IQuestRepository
     {
         private readonly IwentysDbContext _dbContext;
 

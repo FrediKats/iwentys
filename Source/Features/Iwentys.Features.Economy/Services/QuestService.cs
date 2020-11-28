@@ -4,9 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
-using Iwentys.Database.Context;
 using Iwentys.Features.Achievements;
+using Iwentys.Features.Economy.Repositories;
 using Iwentys.Features.StudentFeature;
+using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Gamification;
@@ -17,18 +18,21 @@ namespace Iwentys.Core.Services
 {
     public class QuestService
     {
-        private readonly DatabaseAccessor _databaseAccessor;
+        private readonly IStudentRepository _studentRepository;
+        private readonly IQuestRepository _questRepository;
+
         private readonly AchievementProvider _achievementProvider;
 
-        public QuestService(DatabaseAccessor databaseAccessor, AchievementProvider achievementProvider)
+        public QuestService(IStudentRepository studentRepository, IQuestRepository questRepository, AchievementProvider achievementProvider)
         {
+            _studentRepository = studentRepository;
+            _questRepository = questRepository;
             _achievementProvider = achievementProvider;
-            _databaseAccessor = databaseAccessor;
         }
 
         public async Task<List<QuestInfoResponse>> GetCreatedByUserAsync(AuthorizedUser user)
         {
-            List<QuestEntity> entities = await _databaseAccessor.Quest
+            List<QuestEntity> entities = await _questRepository
                 .Read()
                 .Where(q => q.AuthorId == user.Id)
                 .ToListAsync();
@@ -38,7 +42,7 @@ namespace Iwentys.Core.Services
 
         public async Task<List<QuestInfoResponse>> GetCompletedByUserAsync(AuthorizedUser user)
         {
-            List<QuestEntity> quests = await _databaseAccessor.Quest.Read()
+            List<QuestEntity> quests = await _questRepository.Read()
                 .Where(q => q.State == QuestState.Completed && q.Responses.Any(r => r.StudentId == user.Id))
                 .ToListAsync();
 
@@ -47,7 +51,7 @@ namespace Iwentys.Core.Services
 
         public async Task<List<QuestInfoResponse>> GetActiveAsync()
         {
-            List<QuestEntity> quests = await _databaseAccessor.Quest.Read()
+            List<QuestEntity> quests = await _questRepository.Read()
                 .Where(q => q.State == QuestState.Active && (q.Deadline == null || q.Deadline > DateTime.UtcNow))
                 .ToListAsync();
 
@@ -56,7 +60,7 @@ namespace Iwentys.Core.Services
 
         public async Task<List<QuestInfoResponse>> GetArchivedAsync()
         {
-            List<QuestEntity> quests = await _databaseAccessor.Quest.Read()
+            List<QuestEntity> quests = await _questRepository.Read()
                 .Where(q => q.State == QuestState.Completed || q.Deadline > DateTime.UtcNow)
                 .ToListAsync();
 
@@ -65,37 +69,37 @@ namespace Iwentys.Core.Services
 
         public async Task<QuestInfoResponse> CreateAsync(AuthorizedUser user, CreateQuestRequest createQuest)
         {
-            StudentEntity student = await user.GetProfile(_databaseAccessor.Student);
-            QuestEntity quest = await _databaseAccessor.Quest.CreateAsync(student, createQuest);
+            StudentEntity student = await user.GetProfile(_studentRepository);
+            QuestEntity quest = await _questRepository.CreateAsync(student, createQuest);
             _achievementProvider.Achieve(AchievementList.QuestCreator, user.Id);
             return QuestInfoResponse.Wrap(quest);
         }
 
         public async Task<QuestInfoResponse> SendResponseAsync(AuthorizedUser user, int id)
         {
-            QuestEntity questEntity = await _databaseAccessor.Quest.ReadByIdAsync(id);
+            QuestEntity questEntity = await _questRepository.ReadByIdAsync(id);
             if (questEntity.State != QuestState.Active || questEntity.IsOutdated)
                 throw new InnerLogicException("Quest is not active");
 
-            _databaseAccessor.Quest.SendResponse(questEntity, user.Id);
-            QuestEntity updatedQuest = await _databaseAccessor.Quest.ReadByIdAsync(id);
+            _questRepository.SendResponse(questEntity, user.Id);
+            QuestEntity updatedQuest = await _questRepository.ReadByIdAsync(id);
             return QuestInfoResponse.Wrap(updatedQuest);
         }
 
         public async Task<QuestInfoResponse> CompleteAsync(AuthorizedUser author, int questId, int userId)
         {
-            QuestEntity questEntity = await _databaseAccessor.Quest.ReadByIdAsync(questId);
+            QuestEntity questEntity = await _questRepository.ReadByIdAsync(questId);
             if (questEntity.AuthorId != author.Id)
                 throw InnerLogicException.NotEnoughPermission(author.Id);
 
-            QuestInfoResponse completedQuest = _databaseAccessor.Quest.SetCompleted(questEntity, userId).To(QuestInfoResponse.Wrap);
+            QuestInfoResponse completedQuest = _questRepository.SetCompleted(questEntity, userId).To(QuestInfoResponse.Wrap);
             _achievementProvider.Achieve(AchievementList.QuestComplete, userId);
             return completedQuest;
         }
 
         public async Task<QuestInfoResponse> Revoke(AuthorizedUser author, int questId)
         {
-            QuestEntity questEntity = await _databaseAccessor.Quest.ReadByIdAsync(questId);
+            QuestEntity questEntity = await _questRepository.ReadByIdAsync(questId);
             if (questEntity.AuthorId != author.Id)
                 throw InnerLogicException.NotEnoughPermission(author.Id);
 
@@ -103,7 +107,7 @@ namespace Iwentys.Core.Services
                 throw new InnerLogicException("Quest is not active");
 
             questEntity.State = QuestState.Revoked;
-            QuestEntity updatedQuest = await _databaseAccessor.Quest.UpdateAsync(questEntity);
+            QuestEntity updatedQuest = await _questRepository.UpdateAsync(questEntity);
             return QuestInfoResponse.Wrap(updatedQuest);
         }
     }

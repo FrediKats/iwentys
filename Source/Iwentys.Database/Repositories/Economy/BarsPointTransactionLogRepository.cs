@@ -1,14 +1,14 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Common.Tools;
 using Iwentys.Database.Context;
+using Iwentys.Features.Economy.Repositories;
 using Iwentys.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Iwentys.Database.Repositories
+namespace Iwentys.Database.Repositories.Economy
 {
-    public class BarsPointTransactionLogRepository : IGenericRepository<BarsPointTransactionLog, int>
+    public class BarsPointTransactionLogRepository : IBarsPointTransactionLogRepository
     {
         private readonly IwentysDbContext _dbContext;
 

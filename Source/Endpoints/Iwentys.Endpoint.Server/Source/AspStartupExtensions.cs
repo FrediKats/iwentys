@@ -2,10 +2,12 @@
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Achievements;
+using Iwentys.Database.Repositories.Economy;
 using Iwentys.Database.Repositories.GithubIntegration;
 using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Endpoint.Server.Source.Auth;
 using Iwentys.Features.Achievements;
+using Iwentys.Features.Economy.Repositories;
 using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Repositories;
 using Iwentys.Features.Guilds;
@@ -71,6 +73,9 @@ namespace Iwentys.Endpoint.Server.Source
             services.AddScoped<IGuildRepository, GuildRepository>();
             services.AddScoped<IGuildTestTaskSolvingInfoRepository, GuildTestTaskSolvingInfoRepository>();
             services.AddScoped<IGuildTributeRepository, GuildTributeRepository>();
+            services.AddScoped<IBarsPointTransactionLogRepository, BarsPointTransactionLogRepository>();
+            services.AddScoped<IQuestRepository, QuestRepository>();
+
             services.AddScoped<GuildRepositoriesScope>();
 
             services.AddScoped<DatabaseAccessor>();

@@ -1,4 +1,5 @@
 ﻿using Iwentys.Database.Repositories;
+using Iwentys.Database.Repositories.Economy;
 using Iwentys.Database.Repositories.GithubIntegration;
 using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Features.GithubIntegration.Repositories;

@@ -61,7 +61,7 @@ namespace Iwentys.Tests.Tools
             GuildMemberService = new GuildMemberService(GithubUserDataService, githubApiAccessor, database.Student, database.Guild, database.GuildMember, database.GuildTribute);
             GuildTributeServiceService = new GuildTributeService(database, githubApiAccessor, DatabaseAccessor.StudentProject);
             CompanyService = new CompanyService(DatabaseAccessor);
-            QuestService = new QuestService(DatabaseAccessor, achievementProvider);
+            QuestService = new QuestService(DatabaseAccessor.Student, DatabaseAccessor.Quest, achievementProvider);
         }
 
         public TestCaseContext WithNewStudent(out AuthorizedUser user, UserType userType = UserType.Common)

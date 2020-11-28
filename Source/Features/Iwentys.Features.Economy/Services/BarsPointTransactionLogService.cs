@@ -2,25 +2,28 @@
 using FluentResults;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
-using Iwentys.Database.Context;
+using Iwentys.Features.Economy.Repositories;
+using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Models.Entities;
 
 namespace Iwentys.Core.Services
 {
     public class BarsPointTransactionLogService
     {
-        private readonly DatabaseAccessor _database;
+        private readonly IStudentRepository _studentRepository;
+        private readonly IBarsPointTransactionLogRepository _barsPointTransactionLogRepository;
 
-        public BarsPointTransactionLogService(DatabaseAccessor database)
+        public BarsPointTransactionLogService(IStudentRepository studentRepository, IBarsPointTransactionLogRepository barsPointTransactionLogRepository)
         {
-            _database = database;
+            _studentRepository = studentRepository;
+            _barsPointTransactionLogRepository = barsPointTransactionLogRepository;
         }
 
         public async Task<Result<BarsPointTransactionLog>> Transfer(int fromId, int toId, int value)
         {
             //TODO: Use transaction for whole method
-            StudentEntity from = await _database.Student.GetAsync(fromId);
-            StudentEntity to = await _database.Student.GetAsync(toId);
+            StudentEntity from = await _studentRepository.GetAsync(fromId);
+            StudentEntity to = await _studentRepository.GetAsync(toId);
 
             Result<BarsPointTransactionLog> transaction;
             if (from.BarsPoints < value)
@@ -33,11 +36,11 @@ namespace Iwentys.Core.Services
                 from.BarsPoints -= value;
                 to.BarsPoints += value;
                     
-                await _database.Student.UpdateAsync(@from);
-                await _database.Student.UpdateAsync(to);
+                await _studentRepository.UpdateAsync(@from);
+                await _studentRepository.UpdateAsync(to);
             }
 
-            await _database.BarsPointTransactionLog.CreateAsync(transaction.Value);
+            await _barsPointTransactionLogRepository.CreateAsync(transaction.Value);
 
             return transaction;
         }
