@@ -14,6 +14,7 @@ namespace Iwentys.Database.Seeding
             SubjectActivityGenerator = new SubjectActivityGenerator(StudyEntitiesGenerator.GroupSubjects, StudentGenerator.Students);
             AssignmentGenerator = new AssignmentGenerator(StudentGenerator.Students);
             GithubActivityGenerator = new GithubActivityGenerator(StudentGenerator.Students);
+            NewsfeedGenerator = new NewsfeedGenerator(StudentGenerator.Students, GuildGenerator.Guilds, StudyEntitiesGenerator.Subjects);
         }
 
         public StudyEntitiesGenerator StudyEntitiesGenerator { get; set; }
@@ -23,5 +24,6 @@ namespace Iwentys.Database.Seeding
         public SubjectActivityGenerator SubjectActivityGenerator { get; set; }
         public AssignmentGenerator AssignmentGenerator { get; set; }
         public GithubActivityGenerator GithubActivityGenerator { get; set; }
+        public NewsfeedGenerator NewsfeedGenerator { get; set; }
     }
 }

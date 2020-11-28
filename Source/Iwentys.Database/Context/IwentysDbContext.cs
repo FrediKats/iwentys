@@ -66,6 +66,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<GuildTestTaskSolvingInfoEntity>().HasKey(a => new {a.GuildId, a.StudentId});
             modelBuilder.Entity<StudentAssignmentEntity>().HasKey(a => new {a.AssignmentId, a.StudentId});
             modelBuilder.Entity<GuildRecruitmentMemberEntity>().HasKey(g => new {g.GuildRecruitmentId, g.MemberId});
+            modelBuilder.Entity<SubjectNewsfeedEntity>().HasKey(g => new {g.SubjectId, g.NewsfeedId});
         }
 
         private void SetUniqKey(ModelBuilder modelBuilder)
@@ -100,6 +101,8 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<StudentAssignmentEntity>().HasData(seedData.AssignmentGenerator.StudentAssignments);
 
             modelBuilder.Entity<GithubUserEntity>().HasData(seedData.GithubActivityGenerator.GithubUserEntities);
+            modelBuilder.Entity<NewsfeedEntity>().HasData(seedData.NewsfeedGenerator.Newsfeeds);
+            modelBuilder.Entity<SubjectNewsfeedEntity>().HasData(seedData.NewsfeedGenerator.SubjectNewsfeeds);
 
         }
 
