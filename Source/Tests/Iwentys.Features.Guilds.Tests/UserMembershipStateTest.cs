@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Features.GithubIntegration;
-using Iwentys.Features.Guilds;
 using Iwentys.Models;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Gamification;
@@ -14,7 +13,7 @@ using Iwentys.Models.Types;
 using Moq;
 using NUnit.Framework;
 
-namespace Iwentys.Tests.Core.DomainModels
+namespace Iwentys.Features.Guilds.Tests
 {
     [TestFixture]
     public class UserMembershipStateTest
@@ -38,7 +37,7 @@ namespace Iwentys.Tests.Core.DomainModels
         // Guild is open
         [SetUp]
         public void SetUp()
-        { 
+        {
             _student = new StudentEntity()
             {
                 Id = 1,
@@ -140,7 +139,7 @@ namespace Iwentys.Tests.Core.DomainModels
         {
             _guildRepository
                 .Setup(r => r.ReadForStudent(_student.Id))
-                .Returns(new GuildEntity() {Id = 2});
+                .Returns(new GuildEntity() { Id = 2 });
 
             Assert.That(_guildDomain.ToGuildProfileDto(1).Result.UserMembershipState, Is.EqualTo(UserMembershipState.Blocked));
         }
@@ -149,7 +148,7 @@ namespace Iwentys.Tests.Core.DomainModels
         [Ignore("NRE")]
         public void GetGuild_ForUserWithRequestToThisGuild_UserMembershipStateIsRequested()
         {
-            _guild.Members.Add(new GuildMemberEntity(_guild, _student, GuildMemberType.Requested) );
+            _guild.Members.Add(new GuildMemberEntity(_guild, _student, GuildMemberType.Requested));
             _guildMemberRepository
                 .Setup(r => r.IsStudentHaveRequest(_student.Id))
                 .Returns(true);

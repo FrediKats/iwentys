@@ -8,7 +8,7 @@ using Iwentys.Models.Types;
 using Iwentys.Tests.Tools;
 using NUnit.Framework;
 
-namespace Iwentys.Tests.Core.Services
+namespace Iwentys.Features.Guilds.Tests
 {
     [TestFixture]
     public class GuildTributeServiceTest

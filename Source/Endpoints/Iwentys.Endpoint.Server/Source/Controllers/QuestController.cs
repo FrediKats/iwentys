@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Core.Services;
 using Iwentys.Endpoint.Server.Source.Tools;
 using Iwentys.Features.Economy.Services;
 using Iwentys.Features.StudentFeature;
