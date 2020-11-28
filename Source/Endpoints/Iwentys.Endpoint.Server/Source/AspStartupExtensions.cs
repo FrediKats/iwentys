@@ -5,6 +5,7 @@ using Iwentys.Database.Repositories.Achievements;
 using Iwentys.Database.Repositories.Economy;
 using Iwentys.Database.Repositories.GithubIntegration;
 using Iwentys.Database.Repositories.Guilds;
+using Iwentys.Database.Repositories.Newsfeeds;
 using Iwentys.Endpoint.Server.Source.Auth;
 using Iwentys.Features.Achievements;
 using Iwentys.Features.Economy.Repositories;
@@ -14,6 +15,7 @@ using Iwentys.Features.GithubIntegration.Repositories;
 using Iwentys.Features.Guilds;
 using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Features.Guilds.Services;
+using Iwentys.Features.Newsfeeds.Repositories;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Integrations.GithubIntegration;
@@ -76,6 +78,7 @@ namespace Iwentys.Endpoint.Server.Source
             services.AddScoped<IGuildTributeRepository, GuildTributeRepository>();
             services.AddScoped<IBarsPointTransactionLogRepository, BarsPointTransactionLogRepository>();
             services.AddScoped<IQuestRepository, QuestRepository>();
+            services.AddScoped<INewsfeedRepository, NewsfeedRepository>();
 
             services.AddScoped<GuildRepositoriesScope>();
 
@@ -96,6 +99,7 @@ namespace Iwentys.Endpoint.Server.Source
             services.AddScoped<StudyGroupService>();
             services.AddScoped<StudyLeaderboardService>();
             services.AddScoped<TournamentService>();
+            services.AddScoped<NewsfeedRepository>();
 
             return services;
         }

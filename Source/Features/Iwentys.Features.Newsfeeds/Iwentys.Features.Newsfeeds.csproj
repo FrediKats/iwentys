@@ -8,8 +8,4 @@
     <ProjectReference Include="..\..\Iwentys.Models\Iwentys.Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>
