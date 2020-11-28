@@ -45,6 +45,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Endpoint.Sdk", "End
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Database.Seeding", "Iwentys.Database.Seeding\Iwentys.Database.Seeding.csproj", "{983F15ED-65F0-464D-8301-71567A7A7B75}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Features.Economy", "Features\Iwentys.Features.Economy\Iwentys.Features.Economy.csproj", "{F56BC660-6940-4E43-A4CD-146A09DAD760}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +125,10 @@ Global
 		{983F15ED-65F0-464D-8301-71567A7A7B75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{983F15ED-65F0-464D-8301-71567A7A7B75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{983F15ED-65F0-464D-8301-71567A7A7B75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F56BC660-6940-4E43-A4CD-146A09DAD760}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F56BC660-6940-4E43-A4CD-146A09DAD760}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F56BC660-6940-4E43-A4CD-146A09DAD760}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F56BC660-6940-4E43-A4CD-146A09DAD760}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -139,6 +145,7 @@ Global
 		{F3FEE870-DF3A-4D9B-BB6F-067ED327CDB9} = {70E1C0FF-AA6C-4ED5-AE29-587699CF170C}
 		{8FD43B28-FF84-40F7-93DE-77F39A111800} = {70E1C0FF-AA6C-4ED5-AE29-587699CF170C}
 		{C4F448D4-9FFA-42E8-808C-7163C1E83536} = {70E1C0FF-AA6C-4ED5-AE29-587699CF170C}
+		{F56BC660-6940-4E43-A4CD-146A09DAD760} = {95512D3C-159E-4224-B79E-E445AE17B0E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C699E386-11E7-4ABB-9AD6-C676F3CA2061}
