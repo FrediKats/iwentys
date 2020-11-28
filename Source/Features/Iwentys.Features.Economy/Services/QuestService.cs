@@ -14,7 +14,7 @@ using Iwentys.Models.Transferable.Gamification;
 using Iwentys.Models.Types;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Core.Services
+namespace Iwentys.Features.Economy.Services
 {
     public class QuestService
     {
@@ -81,7 +81,7 @@ namespace Iwentys.Core.Services
             if (questEntity.State != QuestState.Active || questEntity.IsOutdated)
                 throw new InnerLogicException("Quest is not active");
 
-            _questRepository.SendResponse(questEntity, user.Id);
+            await _questRepository.SendResponseAsync(questEntity, user.Id);
             QuestEntity updatedQuest = await _questRepository.ReadByIdAsync(id);
             return QuestInfoResponse.Wrap(updatedQuest);
         }
@@ -92,12 +92,13 @@ namespace Iwentys.Core.Services
             if (questEntity.AuthorId != author.Id)
                 throw InnerLogicException.NotEnoughPermission(author.Id);
 
-            QuestInfoResponse completedQuest = _questRepository.SetCompleted(questEntity, userId).To(QuestInfoResponse.Wrap);
+            questEntity = await _questRepository.SetCompletedAsync(questEntity, userId);
+            QuestInfoResponse completedQuest = QuestInfoResponse.Wrap(questEntity);
             _achievementProvider.Achieve(AchievementList.QuestComplete, userId);
             return completedQuest;
         }
 
-        public async Task<QuestInfoResponse> Revoke(AuthorizedUser author, int questId)
+        public async Task<QuestInfoResponse> RevokeAsync(AuthorizedUser author, int questId)
         {
             QuestEntity questEntity = await _questRepository.ReadByIdAsync(questId);
             if (questEntity.AuthorId != author.Id)

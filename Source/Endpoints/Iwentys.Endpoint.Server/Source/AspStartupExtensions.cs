@@ -8,6 +8,7 @@ using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Endpoint.Server.Source.Auth;
 using Iwentys.Features.Achievements;
 using Iwentys.Features.Economy.Repositories;
+using Iwentys.Features.Economy.Services;
 using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Repositories;
 using Iwentys.Features.Guilds;

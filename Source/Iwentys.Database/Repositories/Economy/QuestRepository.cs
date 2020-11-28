@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
-using Iwentys.Common.Tools;
 using Iwentys.Database.Context;
 using Iwentys.Features.Economy.Repositories;
 using Iwentys.Models.Entities;
@@ -46,13 +45,13 @@ namespace Iwentys.Database.Repositories.Economy
             return _dbContext.Quests.Where(q => q.Id == key).DeleteFromQueryAsync();
         }
 
-        public void SendResponse(QuestEntity questEntity, int userId)
+        public async Task SendResponseAsync(QuestEntity questEntity, int userId)
         {
-            _dbContext.QuestResponses.Add(QuestResponseEntity.New(questEntity.Id, userId));
-            _dbContext.SaveChanges();
+            await _dbContext.QuestResponses.AddAsync(QuestResponseEntity.New(questEntity.Id, userId));
+            await _dbContext.SaveChangesAsync();
         }
 
-        public QuestEntity SetCompleted(QuestEntity questEntity, int studentId)
+        public async Task<QuestEntity> SetCompletedAsync(QuestEntity questEntity, int studentId)
         {
             if (questEntity.State != QuestState.Active || questEntity.IsOutdated)
                 throw new InnerLogicException("Quest is not active");
@@ -64,11 +63,11 @@ namespace Iwentys.Database.Repositories.Economy
             List<QuestResponseEntity> responsesToDelete = questEntity.Responses.Where(qr => qr.StudentId != responseEntity.StudentId).ToList();
             _dbContext.QuestResponses.RemoveRange(responsesToDelete);
 
-            StudentEntity student = _dbContext.Students.Find(studentId);
+            StudentEntity student = await _dbContext.Students.FindAsync(studentId);
             student.BarsPoints += questEntity.Price;
             _dbContext.Students.Update(student);
 
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
 
             return questEntity;
         }

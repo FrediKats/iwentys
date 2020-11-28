@@ -6,6 +6,7 @@ using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Achievements;
 using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Features.Achievements;
+using Iwentys.Features.Economy.Services;
 using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.Guilds;
 using Iwentys.Features.Guilds.Services;

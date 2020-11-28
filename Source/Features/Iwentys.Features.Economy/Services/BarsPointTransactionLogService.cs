@@ -6,7 +6,7 @@ using Iwentys.Features.Economy.Repositories;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Models.Entities;
 
-namespace Iwentys.Core.Services
+namespace Iwentys.Features.Economy.Services
 {
     public class BarsPointTransactionLogService
     {
@@ -19,7 +19,7 @@ namespace Iwentys.Core.Services
             _barsPointTransactionLogRepository = barsPointTransactionLogRepository;
         }
 
-        public async Task<Result<BarsPointTransactionLog>> Transfer(int fromId, int toId, int value)
+        public async Task<Result<BarsPointTransactionLog>> TransferAsync(int fromId, int toId, int value)
         {
             //TODO: Use transaction for whole method
             StudentEntity from = await _studentRepository.GetAsync(fromId);

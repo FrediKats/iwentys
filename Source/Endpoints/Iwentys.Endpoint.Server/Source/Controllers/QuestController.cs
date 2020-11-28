@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Core.Services;
 using Iwentys.Endpoint.Server.Source.Tools;
+using Iwentys.Features.Economy.Services;
 using Iwentys.Features.StudentFeature;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Gamification;
@@ -79,7 +80,7 @@ namespace Iwentys.Endpoint.Server.Source.Controllers
         public async Task<ActionResult<QuestInfoResponse>> Revoke([FromRoute] int questId)
         {
             AuthorizedUser author = this.TryAuthWithToken();
-            QuestInfoResponse quest = await _questService.Revoke(author, questId);
+            QuestInfoResponse quest = await _questService.RevokeAsync(author, questId);
             return Ok(quest);
         }
     }
