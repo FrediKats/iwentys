@@ -2,10 +2,7 @@
 
 @using Iwentys.Models.Transferable.Students
 @using Blazored.LocalStorage
-@using Iwentys.Endpoint.Sdk.ControllerClients.Study
-@using Iwentys.Endpoint.Client.Tools
 @using Iwentys.Models.Entities.Study
-@using Iwentys.Models.Transferable.Study
 
 @inject HttpClient Http
 @inject ILocalStorageService LocalStorage
@@ -45,13 +42,4 @@
 @code {
     [Parameter]
     public string GroupName { get; set; }
-
-    private GroupProfileResponse _groupProfile;
-
-    protected override async Task OnInitializedAsync()
-    {
-        var studentControllerClient = new StudyGroupControllerClient(await Http.TrySetHeader(LocalStorage));
-
-        _groupProfile = await studentControllerClient.Get(GroupName);
-    }
 }

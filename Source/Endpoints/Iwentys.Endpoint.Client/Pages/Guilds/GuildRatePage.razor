@@ -1,13 +1,10 @@
 ﻿@page "/guild/rate"
 
 @using Iwentys.Models.Transferable.Guilds
-@using Iwentys.Endpoint.Sdk.ControllerClients.Guilds
-@using Iwentys.Endpoint.Client.Tools
 @using Blazored.LocalStorage
 
 @inject HttpClient Http
 @inject ILocalStorageService LocalStorage
-@inject NavigationManager NavigationManagerClient
 
 <div class="text-center">
     <h3>Рейтинг Гильдий</h3>
@@ -38,21 +35,3 @@
         </MatList>
     }
 </div>
-
-
-@code {
-    private IReadOnlyList<GuildProfilePreviewDto> _guildProfiles;
-
-    private string LinkToProfile(GuildProfilePreviewDto guild) => $"guild/profile/{guild.Id}";
-
-    protected override async Task OnInitializedAsync()
-    {
-        var guildControllerClient = new GuildControllerClient(await Http.TrySetHeader(LocalStorage));
-        _guildProfiles = await guildControllerClient.GetOverview();
-    }
-
-    private void NavigateToProfile(GuildProfilePreviewDto guild)
-    {
-        NavigationManagerClient.NavigateTo($"guild/profile/{guild.Id}");
-    }
-}
