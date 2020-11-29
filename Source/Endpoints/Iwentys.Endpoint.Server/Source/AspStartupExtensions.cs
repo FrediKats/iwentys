@@ -6,6 +6,7 @@ using Iwentys.Database.Repositories.Economy;
 using Iwentys.Database.Repositories.GithubIntegration;
 using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Repositories.Newsfeeds;
+using Iwentys.Database.Repositories.Study;
 using Iwentys.Endpoint.Server.Source.Auth;
 using Iwentys.Features.Achievements;
 using Iwentys.Features.Economy.Repositories;
@@ -79,6 +80,7 @@ namespace Iwentys.Endpoint.Server.Source
             services.AddScoped<IBarsPointTransactionLogRepository, BarsPointTransactionLogRepository>();
             services.AddScoped<IQuestRepository, QuestRepository>();
             services.AddScoped<INewsfeedRepository, NewsfeedRepository>();
+            services.AddScoped<ISubjectRepository, SubjectRepository>();
 
             services.AddScoped<GuildRepositoriesScope>();
 
@@ -100,6 +102,7 @@ namespace Iwentys.Endpoint.Server.Source
             services.AddScoped<StudyLeaderboardService>();
             services.AddScoped<TournamentService>();
             services.AddScoped<NewsfeedRepository>();
+            services.AddScoped<SubjectService>();
 
             return services;
         }
