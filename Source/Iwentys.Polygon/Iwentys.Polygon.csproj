@@ -6,8 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Integrations\Iwentys.Integrations.GoogleTableIntegration\Iwentys.Integrations.GoogleTableIntegration.csproj" />
-    <ProjectReference Include="..\Integrations\Iwentys.Integrations.TelegramIntegration\Iwentys.Integrations.TelegramIntegration.csproj" />
     <ProjectReference Include="..\Iwentys.Core\Iwentys.Core.csproj" />
   </ItemGroup>
 

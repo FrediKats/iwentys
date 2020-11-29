@@ -14,9 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Features\Iwentys.Features.GithubIntegration\Iwentys.Features.GithubIntegration.csproj" />
+    <ProjectReference Include="..\Features\Iwentys.Features.Guilds\Iwentys.Features.Guilds.csproj" />
     <ProjectReference Include="..\Integrations\Iwentys.Integrations.GithubIntegration\Iwentys.Integrations.GithubIntegration.csproj" />
     <ProjectReference Include="..\Integrations\Iwentys.Integrations.GoogleTableIntegration\Iwentys.Integrations.GoogleTableIntegration.csproj" />
-    <ProjectReference Include="..\Iwentys.Database\Iwentys.Database.csproj" />
+    <ProjectReference Include="..\Iwentys.Models\Iwentys.Models.csproj" />
   </ItemGroup>
 
 </Project>

@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Iwentys.Database\Iwentys.Database.csproj" />
-    <ProjectReference Include="..\..\Iwentys.Models\Iwentys.Models.csproj" />
     <ProjectReference Include="..\Iwentys.Tests\Iwentys.Tests.csproj" />
   </ItemGroup>
 

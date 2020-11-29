@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Iwentys.Models\Iwentys.Models.csproj" />
     <ProjectReference Include="..\Iwentys.Endpoint.Sdk\Iwentys.Endpoint.Sdk.csproj" />
   </ItemGroup>
 
