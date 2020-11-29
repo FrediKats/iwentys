@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Database.Context;
+using Iwentys.Features.Assignments.Repositories;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Transferable;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories
 {
-    public class AssignmentRepository
+    public class AssignmentRepository : IAssignmentRepository
     {
         private readonly IwentysDbContext _dbContext;
 

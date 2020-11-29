@@ -17,6 +17,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Features\Iwentys.Features.Achievements\Iwentys.Features.Achievements.csproj" />
+    <ProjectReference Include="..\Features\Iwentys.Features.Assignments\Iwentys.Features.Assignments.csproj" />
+    <ProjectReference Include="..\Features\Iwentys.Features.Companies\Iwentys.Features.Companies.csproj" />
     <ProjectReference Include="..\Features\Iwentys.Features.Economy\Iwentys.Features.Economy.csproj" />
     <ProjectReference Include="..\Features\Iwentys.Features.GithubIntegration\Iwentys.Features.GithubIntegration.csproj" />
     <ProjectReference Include="..\Features\Iwentys.Features.Guilds\Iwentys.Features.Guilds.csproj" />
@@ -28,7 +30,6 @@
 
   <ItemGroup>
     <Folder Include="Repositories\Achievements\" />
-    <Folder Include="Repositories\Study\" />
   </ItemGroup>
 
 </Project>

@@ -20,7 +20,7 @@ namespace Iwentys.Endpoint.Server.Source.Controllers
             _logger = logger;
             _databaseAccessor = databaseAccessor;
 
-            _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(_logger, _databaseAccessor, ApplicationOptions.GoogleServiceToken);
+            _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(databaseAccessor.Student, databaseAccessor.SubjectActivity, _logger, ApplicationOptions.GoogleServiceToken);
         }
 
         //[HttpPost("UpdateSubjectActivityData")]

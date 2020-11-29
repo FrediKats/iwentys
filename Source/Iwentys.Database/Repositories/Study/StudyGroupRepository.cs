@@ -7,7 +7,7 @@ using Iwentys.Models.Entities.Study;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Iwentys.Database.Repositories
+namespace Iwentys.Database.Repositories.Study
 {
     public class StudyGroupRepository : IStudyGroupRepository
     {

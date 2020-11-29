@@ -5,6 +5,7 @@ using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Achievements;
 using Iwentys.Database.Repositories.Guilds;
+using Iwentys.Database.Repositories.Study;
 using Iwentys.Features.Achievements;
 using Iwentys.Features.Economy.Services;
 using Iwentys.Features.GithubIntegration;
@@ -61,7 +62,7 @@ namespace Iwentys.Tests.Tools
             GuildService = new GuildService(database, GithubUserDataService, githubApiAccessor);
             GuildMemberService = new GuildMemberService(GithubUserDataService, githubApiAccessor, database.Student, database.Guild, database.GuildMember, database.GuildTribute);
             GuildTributeServiceService = new GuildTributeService(database, githubApiAccessor, DatabaseAccessor.StudentProject);
-            CompanyService = new CompanyService(DatabaseAccessor);
+            CompanyService = new CompanyService(DatabaseAccessor.Company, DatabaseAccessor.Student);
             QuestService = new QuestService(DatabaseAccessor.Student, DatabaseAccessor.Quest, achievementProvider);
         }
 

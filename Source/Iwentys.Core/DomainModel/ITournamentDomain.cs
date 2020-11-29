@@ -1,5 +1,4 @@
 ﻿using Iwentys.Common.Exceptions;
-using Iwentys.Database.Context;
 using Iwentys.Features.GithubIntegration;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities.Guilds;
@@ -15,11 +14,11 @@ namespace Iwentys.Core.DomainModel
 
     public static class TournamentDomainHelper
     {
-        public static ITournamentDomain WrapToDomain(this TournamentEntity tournament, IGithubApiAccessor githubApiAccessor, DatabaseAccessor databaseAccessor, GithubUserDataService githubUserDataService)
+        public static ITournamentDomain WrapToDomain(this TournamentEntity tournament, IGithubApiAccessor githubApiAccessor, GithubUserDataService githubUserDataService)
         {
             return tournament.Type switch
             {
-                TournamentType.CodeMarathon => new CodeMarathonTournament(tournament, githubApiAccessor, databaseAccessor, githubUserDataService),
+                TournamentType.CodeMarathon => new CodeMarathonTournament(tournament, githubApiAccessor, githubUserDataService),
                 _ => throw InnerLogicException.NotSupportedEnumValue(tournament.Type)
             };
         }

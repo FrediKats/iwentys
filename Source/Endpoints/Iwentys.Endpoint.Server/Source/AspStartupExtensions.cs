@@ -1,6 +1,5 @@
 ﻿using Iwentys.Core.Services;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Achievements;
 using Iwentys.Database.Repositories.Economy;
 using Iwentys.Database.Repositories.GithubIntegration;

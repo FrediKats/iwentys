@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
 using Iwentys.Core.DomainModel;
-using Iwentys.Database.Context;
 using Iwentys.Features.GithubIntegration;
+using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable;
@@ -16,20 +16,20 @@ namespace Iwentys.Core.Services
 {
     public class TournamentService
     {
-        private readonly DatabaseAccessor _databaseAccessor;
+        private readonly ITournamentRepository _tournamentRepository;
         private readonly IGithubApiAccessor _githubApi;
         private readonly GithubUserDataService _githubUserDataService;
 
-        public TournamentService(DatabaseAccessor databaseAccessor, IGithubApiAccessor githubApi, GithubUserDataService githubUserDataService)
+        public TournamentService(ITournamentRepository tournamentRepository, IGithubApiAccessor githubApi, GithubUserDataService githubUserDataService)
         {
+            _tournamentRepository = tournamentRepository;
             _githubApi = githubApi;
-            _databaseAccessor = databaseAccessor;
             _githubUserDataService = githubUserDataService;
         }
 
         public async Task<List<TournamentInfoResponse>> Get()
         {
-            List<TournamentEntity> tournaments = await _databaseAccessor.Tournament
+            List<TournamentEntity> tournaments = await _tournamentRepository
                 .Read()
                 .ToListAsync();
 
@@ -38,7 +38,7 @@ namespace Iwentys.Core.Services
 
         public TournamentInfoResponse[] GetActive()
         {
-            return _databaseAccessor.Tournament
+            return _tournamentRepository
                 .Read()
                 .Where(t => t.StartTime < DateTime.UtcNow && t.EndTime > DateTime.UtcNow)
                 .AsEnumerable()
@@ -48,15 +48,15 @@ namespace Iwentys.Core.Services
 
         public async Task<TournamentInfoResponse> Get(int tournamentId)
         {
-            TournamentEntity tournamentEntity = await _databaseAccessor.Tournament.ReadByIdAsync(tournamentId);
+            TournamentEntity tournamentEntity = await _tournamentRepository.ReadByIdAsync(tournamentId);
             return TournamentInfoResponse.Wrap(tournamentEntity);
         }
 
         public async Task<TournamentLeaderboardDto> GetLeaderboard(int tournamentId)
         {
-            TournamentEntity tournamentEntity = await _databaseAccessor.Tournament.ReadByIdAsync(tournamentId);
+            TournamentEntity tournamentEntity = await _tournamentRepository.ReadByIdAsync(tournamentId);
             return tournamentEntity
-                .WrapToDomain(_githubApi, _databaseAccessor, _githubUserDataService)
+                .WrapToDomain(_githubApi, _githubUserDataService)
                 .GetLeaderboard();
         }
     }

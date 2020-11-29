@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
-using Iwentys.Database.Context;
 using Iwentys.Features.GithubIntegration;
+using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Models;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
@@ -15,23 +15,27 @@ namespace Iwentys.Core.Services
 {
     public class StudyLeaderboardService
     {
-        private readonly DatabaseAccessor _databaseAccessor;
         private readonly GithubUserDataService _githubUserDataService;
+        private readonly IStudentRepository _studentRepository;
+        private readonly ISubjectActivityRepository _subjectActivityRepository;
+        private readonly IGroupSubjectRepository _groupSubjectRepository;
 
-        public StudyLeaderboardService(DatabaseAccessor databaseAccessor, GithubUserDataService githubUserDataService)
+        public StudyLeaderboardService(GithubUserDataService githubUserDataService, IStudentRepository studentRepository, ISubjectActivityRepository subjectActivityRepository, IGroupSubjectRepository groupSubjectRepository)
         {
-            _databaseAccessor = databaseAccessor;
             _githubUserDataService = githubUserDataService;
+            _studentRepository = studentRepository;
+            _subjectActivityRepository = subjectActivityRepository;
+            _groupSubjectRepository = groupSubjectRepository;
         }
 
         public Task<List<SubjectEntity>> GetSubjectsForDtoAsync(StudySearchParameters searchParameters)
         {
-            return _databaseAccessor.GroupSubject.GetSubjectsForDto(searchParameters).ToListAsync();
+            return _groupSubjectRepository.GetSubjectsForDto(searchParameters).ToListAsync();
         }
 
         public Task<List<StudyGroupEntity>> GetStudyGroupsForDtoAsync(int? courseId)
         {
-            return _databaseAccessor.GroupSubject.GetStudyGroupsForDto(courseId).ToListAsync();
+            return _groupSubjectRepository.GetStudyGroupsForDto(courseId).ToListAsync();
         }
 
         public List<StudyLeaderboardRow> GetStudentsRatings(StudySearchParameters searchParameters)
@@ -42,7 +46,7 @@ namespace Iwentys.Core.Services
                 throw new IwentysException("One of StudySearchParameters fields: CourseId or GroupId should be null");
             }
 
-            List<SubjectActivityEntity> result = _databaseAccessor.SubjectActivity.GetStudentActivities(searchParameters).ToList();
+            List<SubjectActivityEntity> result = _subjectActivityRepository.GetStudentActivities(searchParameters).ToList();
 
             return result
                 .GroupBy(r => r.StudentId)
@@ -55,7 +59,7 @@ namespace Iwentys.Core.Services
 
         public List<StudyLeaderboardRow> GetCodingRating(int? courseId, int skip, int take)
         {
-            IQueryable<StudentEntity> query = _databaseAccessor.Student.Read();
+            IQueryable<StudentEntity> query = _studentRepository.Read();
 
             query = query
                 .WhereIf(courseId, q => q.Group.StudyCourseId == courseId);

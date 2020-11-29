@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
-using Iwentys.Database.Context;
+using Iwentys.Features.Companies.Repositories;
 using Iwentys.Features.StudentFeature;
+using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Transferable.Companies;
 using Microsoft.EntityFrameworkCore;
@@ -11,53 +12,55 @@ namespace Iwentys.Core.Services
 {
     public class CompanyService
     {
-        private readonly DatabaseAccessor _database;
+        private readonly ICompanyRepository _companyRepository;
+        private readonly IStudentRepository _studentRepository;
 
-        public CompanyService(DatabaseAccessor database)
+        public CompanyService(ICompanyRepository companyRepository, IStudentRepository studentRepository)
         {
-            _database = database;
+            _companyRepository = companyRepository;
+            _studentRepository = studentRepository;
         }
 
         public async Task<List<CompanyInfoResponse>> Get()
         {
-            var info = await _database.Company.Read().ToListAsync();
+            var info = await _companyRepository.Read().ToListAsync();
             return info.SelectToList(entity => WrapToDto(entity).Result);
         }
 
         public async Task<CompanyInfoResponse> Get(int id)
         {
-            CompanyEntity company = await _database.Company.ReadByIdAsync(id);
+            CompanyEntity company = await _companyRepository.ReadByIdAsync(id);
             return await WrapToDto(company);
         }
 
         public async Task<List<CompanyWorkRequestDto>> GetCompanyWorkRequest()
         {
-            List<CompanyWorkerEntity> workers = await _database.Company.ReadWorkerRequestAsync();
+            List<CompanyWorkerEntity> workers = await _companyRepository.ReadWorkerRequestAsync();
             return workers.SelectToList(cw => cw.To(CompanyWorkRequestDto.Create));
         }
 
         public async Task RequestAdding(int companyId, int userId)
         {
-            CompanyEntity companyEntity = await _database.Company.GetAsync(companyId);
-            StudentEntity profile = await _database.Student.GetAsync(userId);
-            await _database.Company.AddCompanyWorkerRequestAsync(companyEntity, profile);
+            CompanyEntity companyEntity = await _companyRepository.GetAsync(companyId);
+            StudentEntity profile = await _studentRepository.GetAsync(userId);
+            await _companyRepository.AddCompanyWorkerRequestAsync(companyEntity, profile);
         }
 
         public async Task ApproveAdding(int userId, int adminId)
         {
-            var student = await _database.Student
+            var student = await _studentRepository
                 .GetAsync(adminId);
 
             student.EnsureIsAdmin();
 
-            StudentEntity user = await _database.Student.GetAsync(userId);
+            StudentEntity user = await _studentRepository.GetAsync(userId);
 
-            await _database.Company.ApproveRequestAsync(user);
+            await _companyRepository.ApproveRequestAsync(user);
         }
 
         private async Task<CompanyInfoResponse> WrapToDto(CompanyEntity companyEntity)
         {
-            List<StudentEntity> workers = await _database.Company.ReadWorkersAsync(companyEntity);
+            List<StudentEntity> workers = await _companyRepository.ReadWorkersAsync(companyEntity);
             return CompanyInfoResponse.Create(companyEntity, workers);
         }
     }

@@ -2,6 +2,7 @@
 using Iwentys.Database.Repositories.Economy;
 using Iwentys.Database.Repositories.GithubIntegration;
 using Iwentys.Database.Repositories.Guilds;
+using Iwentys.Database.Repositories.Study;
 using Iwentys.Features.GithubIntegration.Repositories;
 using Iwentys.Features.Guilds.Repositories;
 
