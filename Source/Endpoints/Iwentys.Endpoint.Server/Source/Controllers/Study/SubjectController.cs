@@ -45,9 +45,7 @@ namespace Iwentys.Endpoint.Server.Source.Controllers.Study
         public async Task<ActionResult<SubjectProfileResponse>> GetProfile([FromRoute] int subjectId)
         {
             SubjectProfileResponse subject = await _subjectService.Get(subjectId);
-            List<SubjectNewsfeedEntity> subjectNewsfeeds = await _newsfeedService.GetSubjectNewsfeeds(subjectId);
-            subject.Newsfeeds = subjectNewsfeeds.SelectToList(n => NewsfeedInfoResponse.Wrap(n.Newsfeed));
-
+            subject.Newsfeeds = await _newsfeedService.GetSubjectNewsfeedsAsync(subjectId);
             return Ok(subject);
         }
     }

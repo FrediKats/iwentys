@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Iwentys.Common.Tools;
 using Iwentys.Features.Newsfeeds.Repositories;
 using Iwentys.Models.Entities.Newsfeeds;
+using Iwentys.Models.Transferable.Study;
 
 namespace Iwentys.Features.Newsfeeds.Services
 {
@@ -14,9 +16,16 @@ namespace Iwentys.Features.Newsfeeds.Services
             _newsfeedRepository = newsfeedRepository;
         }
 
-        public Task<List<SubjectNewsfeedEntity>> GetSubjectNewsfeeds(int subjectId)
+        public async Task<List<NewsfeedInfoResponse>> GetSubjectNewsfeedsAsync(int subjectId)
         {
-            return _newsfeedRepository.GetSubjectNewsfeeds(subjectId);
+            List<SubjectNewsfeedEntity> result = await _newsfeedRepository.GetSubjectNewsfeeds(subjectId);
+            return result.SelectToList(n => NewsfeedInfoResponse.Wrap(n.Newsfeed));
+        }
+
+        public async Task<List<NewsfeedInfoResponse>> GetGuildNewsfeeds(int guildId)
+        {
+            List<GuildNewsfeedEntity> result = await _newsfeedRepository.GetGuildNewsfeeds(guildId);
+            return result.SelectToList(n => NewsfeedInfoResponse.Wrap(n.Newsfeed));
         }
     }
 }

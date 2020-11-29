@@ -26,5 +26,15 @@ namespace Iwentys.Database.Repositories.Newsfeeds
                 .Where(s => s.SubjectId == subjectId)
                 .ToListAsync();
         }
+
+        public Task<List<GuildNewsfeedEntity>> GetGuildNewsfeeds(int guildId)
+        {
+            return _dbContext
+                .GuildNewsfeeds
+                .Include(s => s.Newsfeed)
+                .ThenInclude(n => n.Author)
+                .Where(s => s.GuildId == guildId)
+                .ToListAsync();
+        }
     }
 }

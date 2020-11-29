@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Features.Newsfeeds.Services;
-using Iwentys.Models.Entities.Newsfeeds;
+using Iwentys.Models.Transferable.Study;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Server.Source.Controllers
@@ -18,10 +18,15 @@ namespace Iwentys.Endpoint.Server.Source.Controllers
         }
 
         [HttpGet("subject/{subjectId}")]
-        public async Task<ActionResult<List<SubjectNewsfeedEntity>>> GetCreatedByUser(int subjectId)
+        public async Task<ActionResult<NewsfeedInfoResponse>> GetForSubject(int subjectId)
         {
-            List<SubjectNewsfeedEntity> result = await _newsfeedService.GetSubjectNewsfeeds(subjectId);
-            return Ok(result);
+            return Ok(await _newsfeedService.GetSubjectNewsfeedsAsync(subjectId));
+        }
+
+        [HttpGet("guild/{subjectId}")]
+        public async Task<ActionResult<List<NewsfeedInfoResponse>>> GetForGuild(int guildId)
+        {
+            return Ok(await _newsfeedService.GetGuildNewsfeeds(guildId));
         }
     }
 }

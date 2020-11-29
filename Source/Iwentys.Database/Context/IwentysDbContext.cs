@@ -45,6 +45,7 @@ namespace Iwentys.Database.Context
 
         public DbSet<NewsfeedEntity> Newsfeeds { get; set; }
         public DbSet<SubjectNewsfeedEntity> SubjectNewsfeeds { get; set; }
+        public DbSet<GuildNewsfeedEntity> GuildNewsfeeds { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -103,6 +104,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<GithubUserEntity>().HasData(seedData.GithubActivityGenerator.GithubUserEntities);
             modelBuilder.Entity<NewsfeedEntity>().HasData(seedData.NewsfeedGenerator.Newsfeeds);
             modelBuilder.Entity<SubjectNewsfeedEntity>().HasData(seedData.NewsfeedGenerator.SubjectNewsfeeds);
+            modelBuilder.Entity<GuildNewsfeedEntity>().HasData(seedData.NewsfeedGenerator.GuildNewsfeeds);
 
         }
 
