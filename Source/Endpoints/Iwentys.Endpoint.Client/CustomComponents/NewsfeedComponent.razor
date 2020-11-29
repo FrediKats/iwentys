@@ -1,0 +1,28 @@
+﻿@using Iwentys.Models.Transferable.Study
+
+@namespace Iwentys.Endpoint.Client.CustomComponents
+
+<div class="container-fluid d-flex flex-column">
+    @foreach (NewsfeedInfoResponse newsfeed in Newsfeeds)
+    {
+        <MatCard>
+            <MatCardContent>
+                <MatHeadline6>
+                    @newsfeed.Title
+                </MatHeadline6>
+                <MatBody1>
+                    @newsfeed.Content
+                </MatBody1>
+                <MatBody2>
+                    @newsfeed.CreationTimeUtc
+                </MatBody2>
+            </MatCardContent>
+        </MatCard>
+    }
+</div>
+
+@code
+{
+    [Parameter]
+    public List<NewsfeedInfoResponse> Newsfeeds { get; set; }
+}

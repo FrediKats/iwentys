@@ -24,18 +24,26 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 
             foreach (SubjectEntity subject in subjects)
             {
-                var newsfeedEntity = new NewsfeedEntity
+                for (int i = 0; i < 3; i++)
                 {
-                    Id = faker.IndexVariable++,
-                    AuthorId = students.First().Id,
-                    Content = faker.Lorem.Paragraph(),
-                    CreationTimeUtc = DateTime.UtcNow,
-                    Title = faker.Lorem.Slug(),
-                };
-
-                Newsfeeds.Add(newsfeedEntity);
-                SubjectNewsfeeds.Add(new SubjectNewsfeedEntity {SubjectId = subject.Id, NewsfeedId = newsfeedEntity.Id});
+                    Generate(subject, students.First(), faker);
+                }
             }
+        }
+
+        private void Generate(SubjectEntity subject, StudentEntity student, Faker faker)
+        {
+            var newsfeedEntity = new NewsfeedEntity
+            {
+                Id = faker.IndexVariable++,
+                AuthorId = student.Id,
+                Content = faker.Lorem.Paragraph(),
+                CreationTimeUtc = DateTime.UtcNow,
+                Title = faker.Lorem.Slug(),
+            };
+
+            Newsfeeds.Add(newsfeedEntity);
+            SubjectNewsfeeds.Add(new SubjectNewsfeedEntity { SubjectId = subject.Id, NewsfeedId = newsfeedEntity.Id });
         }
     }
 }

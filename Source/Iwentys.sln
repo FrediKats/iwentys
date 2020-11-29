@@ -43,15 +43,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Endpoint.Sdk", "End
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Database.Seeding", "Iwentys.Database.Seeding\Iwentys.Database.Seeding.csproj", "{983F15ED-65F0-464D-8301-71567A7A7B75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Features.Economy", "Features\Iwentys.Features.Economy\Iwentys.Features.Economy.csproj", "{F56BC660-6940-4E43-A4CD-146A09DAD760}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.Economy", "Features\Iwentys.Features.Economy\Iwentys.Features.Economy.csproj", "{F56BC660-6940-4E43-A4CD-146A09DAD760}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Features.Guilds.Tests", "Tests\Iwentys.Features.Guilds.Tests\Iwentys.Features.Guilds.Tests.csproj", "{D537E74A-0DA7-49E7-B910-30AF3DC9F58D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.Guilds.Tests", "Tests\Iwentys.Features.Guilds.Tests\Iwentys.Features.Guilds.Tests.csproj", "{D537E74A-0DA7-49E7-B910-30AF3DC9F58D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{708E281D-A2FC-4E6D-AFA6-84482952AAC0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Tests", "Tests\Iwentys.Tests\Iwentys.Tests.csproj", "{3915CC73-987F-4AAA-95BA-0DB16242D5AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Features.Newsfeeds", "Features\Iwentys.Features.Newsfeeds\Iwentys.Features.Newsfeeds.csproj", "{1306D6D9-8EA8-46E1-8FDB-00CCBBBAA189}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.Newsfeeds", "Features\Iwentys.Features.Newsfeeds\Iwentys.Features.Newsfeeds.csproj", "{1306D6D9-8EA8-46E1-8FDB-00CCBBBAA189}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
