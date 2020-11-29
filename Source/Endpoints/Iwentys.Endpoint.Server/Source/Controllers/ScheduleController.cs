@@ -10,7 +10,7 @@ namespace Iwentys.Endpoint.Server.Source.Controllers
     [ApiController]
     public class ScheduleController : ControllerBase
     {
-        private ScheduleService _scheduleService = new ScheduleService();
+        private readonly ScheduleService _scheduleService = new ScheduleService();
 
         [HttpGet("today/{group}")]
         public async Task<ActionResult<ScheduleItemModel>> GetTodaySchedule(string group)

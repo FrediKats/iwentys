@@ -42,7 +42,7 @@ namespace Iwentys.Endpoint.Server.Source.Controllers.Study
         }
 
         [HttpGet("profile/{subjectId}")]
-        public async Task<ActionResult<SubjectProfileResponse>> GetAllSubjects([FromRoute] int subjectId)
+        public async Task<ActionResult<SubjectProfileResponse>> GetProfile([FromRoute] int subjectId)
         {
             SubjectProfileResponse subject = await _subjectService.Get(subjectId);
             List<SubjectNewsfeedEntity> subjectNewsfeeds = await _newsfeedService.GetSubjectNewsfeeds(subjectId);

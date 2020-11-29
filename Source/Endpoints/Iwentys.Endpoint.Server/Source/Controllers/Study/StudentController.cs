@@ -26,6 +26,7 @@ namespace Iwentys.Endpoint.Server.Source.Controllers.Study
             List<StudentFullProfileDto> students = await _studentService.GetAsync();
             return Ok(students);
         }
+
         [HttpGet("self")]
         public async Task<ActionResult<StudentFullProfileDto>> GetSelf()
         {

@@ -17,6 +17,7 @@ using Iwentys.Features.Guilds;
 using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Features.Guilds.Services;
 using Iwentys.Features.Newsfeeds.Repositories;
+using Iwentys.Features.Newsfeeds.Services;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Integrations.GithubIntegration;
@@ -101,7 +102,7 @@ namespace Iwentys.Endpoint.Server.Source
             services.AddScoped<StudyGroupService>();
             services.AddScoped<StudyLeaderboardService>();
             services.AddScoped<TournamentService>();
-            services.AddScoped<NewsfeedRepository>();
+            services.AddScoped<NewsfeedService>();
             services.AddScoped<SubjectService>();
 
             return services;

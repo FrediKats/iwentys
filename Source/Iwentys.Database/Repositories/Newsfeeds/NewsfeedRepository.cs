@@ -22,6 +22,7 @@ namespace Iwentys.Database.Repositories.Newsfeeds
             return _dbContext
                 .SubjectNewsfeeds
                 .Include(s => s.Newsfeed)
+                .ThenInclude(n => n.Author)
                 .Where(s => s.SubjectId == subjectId)
                 .ToListAsync();
         }
