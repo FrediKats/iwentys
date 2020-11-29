@@ -17,8 +17,7 @@
             <MatNavMenu>
                 @foreach (StudentPartialProfileDto student in _groupProfile.Students)
                 {
-                    string linkToProfile = $"student/profile/{student.Id}";
-                    <MatNavItem Href=@linkToProfile>
+                    <MatNavItem Href=@LinkToStudentProfile(student)>
                         @student.GetFullName()
                     </MatNavItem>
                 }
@@ -26,11 +25,11 @@
         </div>
 
         <div class="col-md-6 d-flex flex-column">
-            <MatH6>Subjetcs</MatH6>
+            <MatH6>Subjects</MatH6>
             <MatNavMenu>
                 @foreach (SubjectEntity subject in _groupProfile.Subjects)
                 {
-                    <MatNavItem>
+                    <MatNavItem Href=@LinkToSubjectProfile(subject)>
                         @subject.Name
                     </MatNavItem>
                 }

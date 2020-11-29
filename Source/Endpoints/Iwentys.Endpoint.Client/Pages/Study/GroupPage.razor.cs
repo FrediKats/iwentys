@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients.Study;
+using Iwentys.Models.Entities.Study;
+using Iwentys.Models.Transferable.Students;
 using Iwentys.Models.Transferable.Study;
 using Microsoft.AspNetCore.Components;
 
@@ -16,5 +18,8 @@ namespace Iwentys.Endpoint.Client.Pages.Study
 
             _groupProfile = await studentControllerClient.Get(GroupName);
         }
+
+        private string LinkToStudentProfile(StudentPartialProfileDto student) => $"student/profile/{student.Id}";
+        private string LinkToSubjectProfile(SubjectEntity subject) => $"subject/profile/{subject.Id}";
     }
 }
