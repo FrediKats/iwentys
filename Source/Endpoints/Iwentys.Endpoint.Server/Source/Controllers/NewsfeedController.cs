@@ -18,12 +18,12 @@ namespace Iwentys.Endpoint.Server.Source.Controllers
         }
 
         [HttpGet("subject/{subjectId}")]
-        public async Task<ActionResult<NewsfeedInfoResponse>> GetForSubject(int subjectId)
+        public async Task<ActionResult<List<NewsfeedInfoResponse>>> GetForSubject(int subjectId)
         {
             return Ok(await _newsfeedService.GetSubjectNewsfeedsAsync(subjectId));
         }
 
-        [HttpGet("guild/{subjectId}")]
+        [HttpGet("guild/{guildId}")]
         public async Task<ActionResult<List<NewsfeedInfoResponse>>> GetForGuild(int guildId)
         {
             return Ok(await _newsfeedService.GetGuildNewsfeeds(guildId));

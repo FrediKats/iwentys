@@ -68,6 +68,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<StudentAssignmentEntity>().HasKey(a => new {a.AssignmentId, a.StudentId});
             modelBuilder.Entity<GuildRecruitmentMemberEntity>().HasKey(g => new {g.GuildRecruitmentId, g.MemberId});
             modelBuilder.Entity<SubjectNewsfeedEntity>().HasKey(g => new {g.SubjectId, g.NewsfeedId});
+            modelBuilder.Entity<GuildNewsfeedEntity>().HasKey(g => new {g.GuildId, g.NewsfeedId});
         }
 
         private void SetUniqKey(ModelBuilder modelBuilder)
