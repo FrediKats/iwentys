@@ -53,8 +53,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Tests", "Tests\Iwen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.Newsfeeds", "Features\Iwentys.Features.Newsfeeds\Iwentys.Features.Newsfeeds.csproj", "{1306D6D9-8EA8-46E1-8FDB-00CCBBBAA189}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Database.Abstractions", "Iwentys.Database.Abstractions\Iwentys.Database.Abstractions.csproj", "{C71E5574-840A-47D0-B06E-611934BCCD38}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.Companies", "Features\Iwentys.Features.Companies\Iwentys.Features.Companies.csproj", "{4EBE0935-C8A7-41B6-9C31-A74597A8C92E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Features.Assignments", "Features\Iwentys.Features.Assignments\Iwentys.Features.Assignments.csproj", "{EE88A143-851D-4B85-AFD8-F81C8423C156}"
@@ -149,10 +147,6 @@ Global
 		{1306D6D9-8EA8-46E1-8FDB-00CCBBBAA189}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1306D6D9-8EA8-46E1-8FDB-00CCBBBAA189}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1306D6D9-8EA8-46E1-8FDB-00CCBBBAA189}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C71E5574-840A-47D0-B06E-611934BCCD38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C71E5574-840A-47D0-B06E-611934BCCD38}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C71E5574-840A-47D0-B06E-611934BCCD38}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C71E5574-840A-47D0-B06E-611934BCCD38}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4EBE0935-C8A7-41B6-9C31-A74597A8C92E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4EBE0935-C8A7-41B6-9C31-A74597A8C92E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EBE0935-C8A7-41B6-9C31-A74597A8C92E}.Release|Any CPU.ActiveCfg = Release|Any CPU

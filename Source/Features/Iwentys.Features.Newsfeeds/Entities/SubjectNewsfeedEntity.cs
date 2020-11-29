@@ -1,6 +1,6 @@
 ﻿using Iwentys.Models.Entities.Study;
 
-namespace Iwentys.Models.Entities.Newsfeeds
+namespace Iwentys.Features.Newsfeeds.Entities
 {
     public class SubjectNewsfeedEntity
     {

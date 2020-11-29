@@ -1,6 +1,6 @@
 ﻿using Iwentys.Models.Entities.Guilds;
 
-namespace Iwentys.Models.Entities.Newsfeeds
+namespace Iwentys.Features.Newsfeeds.Entities
 {
     public class GuildNewsfeedEntity
     {

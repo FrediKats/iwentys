@@ -2,10 +2,8 @@
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
 using Iwentys.Core.Services;
-using Iwentys.Features.Newsfeeds.Services;
 using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Models;
-using Iwentys.Models.Entities.Newsfeeds;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Transferable.Study;
 using Iwentys.Models.Types;
@@ -19,12 +17,10 @@ namespace Iwentys.Endpoint.Server.Source.Controllers.Study
     {
         private readonly StudyLeaderboardService _studyLeaderboardService;
         private readonly SubjectService _subjectService;
-        private readonly NewsfeedService _newsfeedService;
 
-        public SubjectController(StudyLeaderboardService studyLeaderboardService, NewsfeedService newsfeedService, SubjectService subjectService)
+        public SubjectController(StudyLeaderboardService studyLeaderboardService, SubjectService subjectService)
         {
             _studyLeaderboardService = studyLeaderboardService;
-            _newsfeedService = newsfeedService;
             _subjectService = subjectService;
         }
 
@@ -37,7 +33,7 @@ namespace Iwentys.Endpoint.Server.Source.Controllers.Study
                 StudySemester = semester
             });
 
-            List<SubjectProfileResponse> response = subjectInfo.SelectToList(entity => SubjectProfileResponse.Wrap(entity, new List<SubjectNewsfeedEntity>()));
+            List<SubjectProfileResponse> response = subjectInfo.SelectToList(SubjectProfileResponse.Wrap);
             return Ok(response);
         }
 
@@ -45,7 +41,6 @@ namespace Iwentys.Endpoint.Server.Source.Controllers.Study
         public async Task<ActionResult<SubjectProfileResponse>> GetProfile([FromRoute] int subjectId)
         {
             SubjectProfileResponse subject = await _subjectService.Get(subjectId);
-            subject.Newsfeeds = await _newsfeedService.GetSubjectNewsfeedsAsync(subjectId);
             return Ok(subject);
         }
     }

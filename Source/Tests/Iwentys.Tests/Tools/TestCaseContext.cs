@@ -2,7 +2,6 @@ using System;
 using Iwentys.Common.Tools;
 using Iwentys.Core.Services;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Achievements;
 using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Repositories.Study;

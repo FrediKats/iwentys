@@ -16,7 +16,6 @@ namespace Iwentys.Models.Transferable.Guilds
 
         public GuildMemberLeaderBoard MemberLeaderBoard { get; set; }
 
-        //TODO: add newsfeeds
         public ActiveTributeResponse Tribute { get; set; }
         public List<AchievementInfoDto> Achievements { get; set; }
         public List<GithubRepository> PinnedRepositories { get; set; }

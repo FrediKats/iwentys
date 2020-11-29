@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Features.Newsfeeds.Services;
-using Iwentys.Models.Transferable.Study;
+using Iwentys.Features.Newsfeeds.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Server.Source.Controllers

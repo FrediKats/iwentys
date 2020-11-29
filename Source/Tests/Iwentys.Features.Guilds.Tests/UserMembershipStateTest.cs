@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Repositories.Study;
 using Iwentys.Features.GithubIntegration;

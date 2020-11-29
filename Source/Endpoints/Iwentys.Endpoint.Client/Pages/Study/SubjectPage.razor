@@ -19,7 +19,10 @@
 
         <div class="col-md-6 d-flex flex-column">
             <MatH6>Newsfeed</MatH6>
-            <NewsfeedComponent Newsfeeds=@_subjectProfile.Newsfeeds></NewsfeedComponent>
+            @if (_newsfeeds is not null)
+            {
+                <NewsfeedComponent Newsfeeds=@_newsfeeds></NewsfeedComponent>
+            }
         </div>
     </div>
 }

@@ -1,8 +1,8 @@
 ﻿using System;
-using Iwentys.Models.Entities.Newsfeeds;
+using Iwentys.Features.Newsfeeds.Entities;
 using Iwentys.Models.Transferable.Students;
 
-namespace Iwentys.Models.Transferable.Study
+namespace Iwentys.Features.Newsfeeds.ViewModels
 {
     public class NewsfeedInfoResponse
     {

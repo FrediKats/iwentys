@@ -25,7 +25,8 @@ namespace Iwentys.Features.Guilds.Tests
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out GuildProfileDto guild);
 
-            Assert.IsTrue(guild.MemberLeaderBoard.Members.Any(m => m.Id == user.Id));
+            bool isExist = guild.MemberLeaderBoard.Members.Any(_ => _.Id == user.Id);
+            Assert.IsTrue(isExist);
         }
 
         [Test]

@@ -1,6 +1,7 @@
 ﻿using System;
+using Iwentys.Models.Entities;
 
-namespace Iwentys.Models.Entities.Newsfeeds
+namespace Iwentys.Features.Newsfeeds.Entities
 {
     public class NewsfeedEntity
     {

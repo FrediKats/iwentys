@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Iwentys.Endpoint.Server.Source.BackgroundServices;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Iwentys.Endpoint.Server
 {
