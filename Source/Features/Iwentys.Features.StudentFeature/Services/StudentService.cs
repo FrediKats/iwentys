@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
-using Iwentys.Features.Achievements;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Models;
 using Iwentys.Models.Entities;
@@ -15,12 +14,11 @@ namespace Iwentys.Features.StudentFeature.Services
     public class StudentService
     {
         private readonly IStudentRepository _studentRepository;
-        private readonly AchievementProvider _achievementProvider;
+        //private readonly AchievementProvider _achievementProvider;
 
-        public StudentService(IStudentRepository studentRepository, AchievementProvider achievementProvider)
+        public StudentService(IStudentRepository studentRepository)
         {
             _studentRepository = studentRepository;
-            _achievementProvider = achievementProvider;
         }
 
         public async Task<List<StudentFullProfileDto>> GetAsync()
@@ -72,7 +70,8 @@ namespace Iwentys.Features.StudentFeature.Services
             user.GithubUsername = githubUsername;
             await _studentRepository.UpdateAsync(user);
 
-            _achievementProvider.Achieve(AchievementList.AddGithubAchievement, user.Id);
+            //TODO:
+            //_achievementProvider.Achieve(AchievementList.AddGithubAchievement, user.Id);
             user = await _studentRepository.GetAsync(id);
             return new StudentFullProfileDto(user);
         }
