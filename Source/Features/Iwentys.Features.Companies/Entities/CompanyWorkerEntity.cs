@@ -1,6 +1,7 @@
-﻿using Iwentys.Models.Types;
+﻿using Iwentys.Features.Companies.Enums;
+using Iwentys.Models.Entities;
 
-namespace Iwentys.Models.Entities
+namespace Iwentys.Features.Companies.Entities
 {
     public class CompanyWorkerEntity
     {

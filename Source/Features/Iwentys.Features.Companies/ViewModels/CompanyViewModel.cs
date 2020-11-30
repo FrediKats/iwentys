@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using Iwentys.Features.Companies.Entities;
 using Iwentys.Models.Entities;
 
-namespace Iwentys.Models.Transferable.Companies
+namespace Iwentys.Features.Companies.ViewModels
 {
-    public class CompanyInfoResponse
+    public class CompanyViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -12,14 +13,14 @@ namespace Iwentys.Models.Transferable.Companies
 
         public List<StudentEntity> Workers { get; set; }
 
-        public static CompanyInfoResponse Create(CompanyEntity companyEntity)
+        public static CompanyViewModel Create(CompanyEntity companyEntity)
         {
             return Create(companyEntity, new List<StudentEntity>());
         }
 
-        public static CompanyInfoResponse Create(CompanyEntity companyEntity, List<StudentEntity> workers)
+        public static CompanyViewModel Create(CompanyEntity companyEntity, List<StudentEntity> workers)
         {
-            return new CompanyInfoResponse
+            return new CompanyViewModel
             {
                 Id = companyEntity.Id,
                 Name = companyEntity.Name,

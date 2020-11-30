@@ -6,6 +6,10 @@ using Iwentys.Database.Repositories.Achievements;
 using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Repositories.Study;
 using Iwentys.Features.Achievements;
+using Iwentys.Features.Companies.Entities;
+using Iwentys.Features.Companies.Enums;
+using Iwentys.Features.Companies.Services;
+using Iwentys.Features.Companies.ViewModels;
 using Iwentys.Features.Economy.Services;
 using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.Guilds;
@@ -17,7 +21,6 @@ using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable;
-using Iwentys.Models.Transferable.Companies;
 using Iwentys.Models.Transferable.Gamification;
 using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.GuildTribute;
@@ -127,15 +130,15 @@ namespace Iwentys.Tests.Tools
             return this;
         }
 
-        public TestCaseContext WithCompany(out CompanyInfoResponse companyInfo)
+        public TestCaseContext WithCompany(out CompanyViewModel companyInfo)
         {
             var company = new CompanyEntity();
             company = DatabaseAccessor.Company.CreateAsync(company).Result;
-            companyInfo = CompanyInfoResponse.Create(company);
+            companyInfo = CompanyViewModel.Create(company);
             return this;
         }
 
-        public TestCaseContext WithCompanyWorker(CompanyInfoResponse companyInfo, out AuthorizedUser userInfo)
+        public TestCaseContext WithCompanyWorker(CompanyViewModel companyInfo, out AuthorizedUser userInfo)
         {
             //TODO: move save changes to repository
             WithNewStudent(out userInfo);

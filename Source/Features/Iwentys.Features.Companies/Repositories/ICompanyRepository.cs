@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
+using Iwentys.Features.Companies.Entities;
 using Iwentys.Models.Entities;
 
 namespace Iwentys.Features.Companies.Repositories

@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Models.Entities
+﻿namespace Iwentys.Features.Companies.Entities
 {
     public class CompanyEntity
     {

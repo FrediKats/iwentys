@@ -8,6 +8,7 @@ using Iwentys.Database.Repositories.Newsfeeds;
 using Iwentys.Database.Repositories.Study;
 using Iwentys.Endpoint.Server.Source.Auth;
 using Iwentys.Features.Achievements;
+using Iwentys.Features.Companies.Services;
 using Iwentys.Features.Economy.Repositories;
 using Iwentys.Features.Economy.Services;
 using Iwentys.Features.GithubIntegration;

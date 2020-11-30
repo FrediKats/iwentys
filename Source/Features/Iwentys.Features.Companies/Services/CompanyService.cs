@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
+using Iwentys.Features.Companies.Entities;
 using Iwentys.Features.Companies.Repositories;
+using Iwentys.Features.Companies.ViewModels;
 using Iwentys.Features.StudentFeature;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Transferable.Companies;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Core.Services
+namespace Iwentys.Features.Companies.Services
 {
     public class CompanyService
     {
@@ -21,22 +22,22 @@ namespace Iwentys.Core.Services
             _studentRepository = studentRepository;
         }
 
-        public async Task<List<CompanyInfoResponse>> Get()
+        public async Task<List<CompanyViewModel>> Get()
         {
             var info = await _companyRepository.Read().ToListAsync();
             return info.SelectToList(entity => WrapToDto(entity).Result);
         }
 
-        public async Task<CompanyInfoResponse> Get(int id)
+        public async Task<CompanyViewModel> Get(int id)
         {
             CompanyEntity company = await _companyRepository.ReadByIdAsync(id);
             return await WrapToDto(company);
         }
 
-        public async Task<List<CompanyWorkRequestDto>> GetCompanyWorkRequest()
+        public async Task<List<CompanyWorkRequestViewModel>> GetCompanyWorkRequest()
         {
             List<CompanyWorkerEntity> workers = await _companyRepository.ReadWorkerRequestAsync();
-            return workers.SelectToList(cw => cw.To(CompanyWorkRequestDto.Create));
+            return workers.SelectToList(cw => cw.To(CompanyWorkRequestViewModel.Create));
         }
 
         public async Task RequestAdding(int companyId, int userId)
@@ -58,10 +59,10 @@ namespace Iwentys.Core.Services
             await _companyRepository.ApproveRequestAsync(user);
         }
 
-        private async Task<CompanyInfoResponse> WrapToDto(CompanyEntity companyEntity)
+        private async Task<CompanyViewModel> WrapToDto(CompanyEntity companyEntity)
         {
             List<StudentEntity> workers = await _companyRepository.ReadWorkersAsync(companyEntity);
-            return CompanyInfoResponse.Create(companyEntity, workers);
+            return CompanyViewModel.Create(companyEntity, workers);
         }
     }
 }

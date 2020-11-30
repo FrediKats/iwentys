@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Iwentys.Features.Companies.ViewModels;
 using Iwentys.Features.StudentFeature;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Transferable.Companies;
 using Iwentys.Tests.Tools;
 using NUnit.Framework;
 
@@ -16,7 +16,7 @@ namespace Iwentys.Tests.Core.Services
         {
             TestCaseContext testCase = TestCaseContext
                 .Case()
-                .WithCompany(out CompanyInfoResponse company)
+                .WithCompany(out CompanyViewModel company)
                 .WithCompanyWorker(company, out AuthorizedUser user);
 
             List<StudentEntity> companyMembers = testCase.CompanyService.Get(company.Id).Result.Workers;
@@ -30,12 +30,12 @@ namespace Iwentys.Tests.Core.Services
         {
             TestCaseContext testCase = TestCaseContext
                 .Case()
-                .WithCompany(out CompanyInfoResponse company)
+                .WithCompany(out CompanyViewModel company)
                 .WithNewStudent(out AuthorizedUser worker);
 
             await testCase.CompanyService.RequestAdding(company.Id, worker.Id);
-            List<CompanyWorkRequestDto> request = await testCase.CompanyService.GetCompanyWorkRequest();
-            CompanyInfoResponse companyInfo = await testCase.CompanyService.Get(company.Id);
+            List<CompanyWorkRequestViewModel> request = await testCase.CompanyService.GetCompanyWorkRequest();
+            CompanyViewModel companyInfo = await testCase.CompanyService.Get(company.Id);
 
             List<StudentEntity> companyMembers = companyInfo.Workers;
 

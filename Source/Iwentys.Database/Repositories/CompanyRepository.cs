@@ -3,6 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Database.Context;
+using Iwentys.Features.Companies.Entities;
+using Iwentys.Features.Companies.Enums;
 using Iwentys.Features.Companies.Repositories;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Types;
