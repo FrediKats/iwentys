@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using Iwentys.Models.Entities.Gamification;
+using Iwentys.Features.Achievements.Entities;
 
-namespace Iwentys.Features.Achievements
+namespace Iwentys.Features.Achievements.Repositories
 {
     public interface IAchievementRepository
     {

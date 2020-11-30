@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Features.Achievements;
+using Iwentys.Features.Achievements.Entities;
+using Iwentys.Features.Guilds.Entities;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Gamification;
-using Iwentys.Models.Entities.Guilds;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {

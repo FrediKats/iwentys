@@ -11,7 +11,10 @@ using ChartJs.Blazor.ChartJS.PieChart;
 using ChartJs.Blazor.Charts;
 using ChartJs.Blazor.Util;
 using Iwentys.Endpoint.Client.Tools;
+using Iwentys.Endpoint.Sdk.ControllerClients;
 using Iwentys.Endpoint.Sdk.ControllerClients.Study;
+using Iwentys.Features.Achievements.ViewModels;
+using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Students;
 using Microsoft.AspNetCore.Components;
 
@@ -21,6 +24,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
     {
 
         private StudentFullProfileDto _studentFullProfile;
+        private List<AchievementInfoDto> _achievements;
 
         private LineConfig _githubChartConfig;
         private ChartJsLineChart _githubChart;
@@ -30,7 +34,8 @@ namespace Iwentys.Endpoint.Client.Pages.Students
 
         protected override async Task OnInitializedAsync()
         {
-            var studentControllerClient = new StudentControllerClient(await Http.TrySetHeader(LocalStorage));
+            var httpClient = await Http.TrySetHeader(LocalStorage);
+            var studentControllerClient = new StudentControllerClient(httpClient);
 
             if (StudentId is null)
             {
@@ -47,6 +52,8 @@ namespace Iwentys.Endpoint.Client.Pages.Students
 
             if (_studentFullProfile.SubjectActivityInfo is not null)
                 InitStudyChart();
+
+            _achievements = await new AchievementControllerClient(httpClient).GetForStudent(_studentFullProfile.Id);
         }
 
         private void InitGithubChart()

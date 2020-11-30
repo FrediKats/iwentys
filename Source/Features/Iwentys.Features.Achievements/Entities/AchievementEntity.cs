@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Models.Entities.Gamification
+﻿namespace Iwentys.Features.Achievements.Entities
 {
     public class AchievementEntity
     {

@@ -28,14 +28,10 @@ namespace Iwentys.Database.Repositories.Study
         {
             return _dbContext.Students
                 .Include(s => s.Group)
-                .Include(s => s.Achievements)
-                .ThenInclude(a => a.Achievement)
                 .Include(s => s.SubjectActivities)
                 .ThenInclude(a => a.GroupSubject)
                 .ThenInclude(sg => sg.Subject)
-                .Include(s => s.GithubUserEntity)
-                .Include(s => s.GuildMember)
-                .ThenInclude(gm => gm.Guild);
+                .Include(s => s.GithubUserEntity);
         }
 
         public Task<StudentEntity> ReadByIdAsync(int key)

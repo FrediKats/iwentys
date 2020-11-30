@@ -1,8 +1,8 @@
 ﻿using System;
-using Iwentys.Models.Entities.Gamification;
+using Iwentys.Features.Achievements.Entities;
 using Newtonsoft.Json;
 
-namespace Iwentys.Models.Transferable
+namespace Iwentys.Features.Achievements.ViewModels
 {
     public class AchievementInfoDto
     {

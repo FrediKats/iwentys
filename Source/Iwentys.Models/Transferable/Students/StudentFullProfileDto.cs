@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Text;
 using Iwentys.Common.Tools;
 using Iwentys.Models.Entities;
@@ -15,7 +15,6 @@ namespace Iwentys.Models.Transferable.Students
         public StudentFullProfileDto(StudentEntity student) : base(student)
         {
             Group = student.Group?.GroupName;
-            Achievements = student.Achievements.SelectToList(AchievementInfoDto.Wrap);
             SubjectActivityInfo = student.SubjectActivities.SelectToList(sa => new SubjectActivityInfoResponse(sa));
             if (student.GuildMember?.Guild is not null)
                 Guild = new GuildProfileShortInfoDto(student.GuildMember.Guild);
@@ -28,7 +27,6 @@ namespace Iwentys.Models.Transferable.Students
 
         public string Group { get; set; }
         public GuildProfileShortInfoDto Guild { get; set; }
-        public List<AchievementInfoDto> Achievements { get; set; }
 
         //public int StudyLeaderBoardPlace { get; set; }
         //public int CodingLeaderBoardPlace { get; set; }

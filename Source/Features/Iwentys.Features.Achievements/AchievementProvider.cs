@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
-using Iwentys.Models.Entities.Gamification;
+using Iwentys.Features.Achievements.Entities;
+using Iwentys.Features.Achievements.Repositories;
 
 namespace Iwentys.Features.Achievements
 {

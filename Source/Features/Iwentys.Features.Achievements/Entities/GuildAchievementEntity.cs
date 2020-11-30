@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Iwentys.Models.Entities.Gamification
+namespace Iwentys.Features.Achievements.Entities
 {
-    public class StudentAchievementEntity
+    public class GuildAchievementEntity
     {
-        public int StudentId { get; set; }
-        public StudentEntity Student { get; set; }
+        public int GuildId { get; set; }
+        //public GuildEntity Guild { get; set; }
         public int AchievementId { get; set; }
         public AchievementEntity Achievement { get; set; }
 

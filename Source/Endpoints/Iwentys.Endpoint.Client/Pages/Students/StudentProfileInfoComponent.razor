@@ -1,7 +1,11 @@
 ﻿
 @using Iwentys.Models.Transferable.Students
+@using Blazored.LocalStorage
 
 @namespace Iwentys.Endpoint.Client.Pages.Students
+
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
 
 @if (StudentProfile is not null)
 {
@@ -12,9 +16,9 @@
             <MatBody1>@StudentProfile.GetFullName()</MatBody1>
 
             <NavLink href=@LinkToGroupProfile>Группа: @StudentProfile.Group</NavLink>
-            @if (StudentProfile.Guild is not null)
+            @if (_guild is not null)
             {
-                <NavLink href=@LinkToGuildProfile>Гильдия: @StudentProfile.Guild.Title</NavLink>
+                <NavLink href=@LinkToGuild()>Гильдия: @_guild.Title</NavLink>
             }
         </div>
     </div>
@@ -25,5 +29,4 @@
     public StudentFullProfileDto StudentProfile { get; set; }
 
     public string LinkToGroupProfile => $"/group/profile/{StudentProfile.Group}";
-    public string LinkToGuildProfile => $"/guild/profile/{StudentProfile.Guild?.Id}";
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -59,7 +59,6 @@ namespace Iwentys.Models.Entities
         public GuildMemberEntity GuildMember { get; set; }
         public GithubUserEntity GithubUserEntity { get; set; }
 
-        public List<StudentAchievementEntity> Achievements { get; set; }
         public List<SubjectActivityEntity> SubjectActivities { get; set; }
 
         public static StudentEntity CreateFromIsu(int id, string firstName, string secondName, StudyGroupEntity group = null)

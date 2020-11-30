@@ -2,13 +2,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Database.Seeding;
 using Iwentys.Features.Achievements;
+using Iwentys.Features.Achievements.Entities;
 using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Companies.Entities;
+using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Newsfeeds.Entities;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Gamification;
 using Iwentys.Models.Entities.Github;
-using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Entities.Study;
 
 using Microsoft.EntityFrameworkCore;

@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Iwentys.Database.Context;
-using Iwentys.Features.Achievements;
-using Iwentys.Models.Entities.Gamification;
+using Iwentys.Features.Achievements.Entities;
+using Iwentys.Features.Achievements.Repositories;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Achievements
