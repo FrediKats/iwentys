@@ -4,7 +4,6 @@ using Iwentys.Common.Tools;
 using Iwentys.Features.Newsfeeds.Entities;
 using Iwentys.Features.Newsfeeds.Repositories;
 using Iwentys.Features.Newsfeeds.ViewModels;
-using Iwentys.Models.Transferable.Study;
 
 namespace Iwentys.Features.Newsfeeds.Services
 {

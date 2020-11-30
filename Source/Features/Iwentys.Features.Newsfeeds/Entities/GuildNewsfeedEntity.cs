@@ -1,4 +1,4 @@
-﻿using Iwentys.Models.Entities.Guilds;
+﻿using Iwentys.Features.Guilds.Entities;
 
 namespace Iwentys.Features.Newsfeeds.Entities
 {

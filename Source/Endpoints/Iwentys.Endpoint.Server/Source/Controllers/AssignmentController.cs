@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Core.Services;
 using Iwentys.Endpoint.Server.Source.Tools;
 using Iwentys.Features.Assignments.Services;
 using Iwentys.Features.Assignments.ViewModels;
 using Iwentys.Features.StudentFeature;
-using Iwentys.Models.Transferable;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Server.Source.Controllers

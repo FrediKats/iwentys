@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Endpoint.Server.Source.Tools;
+using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Services;
 using Iwentys.Features.StudentFeature;
-using Iwentys.Models.Entities.Guilds;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Server.Source.Controllers.Guilds

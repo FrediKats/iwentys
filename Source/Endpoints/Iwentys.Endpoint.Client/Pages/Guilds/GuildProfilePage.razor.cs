@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients;
 using Iwentys.Endpoint.Sdk.ControllerClients.Guilds;
+using Iwentys.Features.Guilds.ViewModels.Guilds;
 using Iwentys.Features.Newsfeeds.ViewModels;
-using Iwentys.Models.Transferable.Guilds;
 using Iwentys.Models.Transferable.Study;
 using Microsoft.AspNetCore.Components;
 

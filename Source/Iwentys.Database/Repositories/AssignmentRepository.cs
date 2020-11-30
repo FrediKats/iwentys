@@ -5,7 +5,6 @@ using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Assignments.Repositories;
 using Iwentys.Features.Assignments.ViewModels;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Transferable;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

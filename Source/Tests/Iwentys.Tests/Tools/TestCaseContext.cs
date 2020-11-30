@@ -1,6 +1,5 @@
 using System;
 using Iwentys.Common.Tools;
-using Iwentys.Core.Services;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Achievements;
 using Iwentys.Database.Repositories.Guilds;
@@ -13,17 +12,18 @@ using Iwentys.Features.Companies.ViewModels;
 using Iwentys.Features.Economy.Services;
 using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.Guilds;
+using Iwentys.Features.Guilds.Entities;
+using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Services;
+using Iwentys.Features.Guilds.ViewModels.Guilds;
+using Iwentys.Features.Guilds.ViewModels.GuildTribute;
 using Iwentys.Features.StudentFeature;
 using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Github;
-using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Gamification;
-using Iwentys.Models.Transferable.Guilds;
-using Iwentys.Models.Transferable.GuildTribute;
 using Iwentys.Models.Types;
 
 namespace Iwentys.Tests.Tools
@@ -59,7 +59,7 @@ namespace Iwentys.Tests.Tools
 
             GuildRepositoriesScope database = new GuildRepositoriesScope(DatabaseAccessor.Student, DatabaseAccessor.Guild, DatabaseAccessor.GuildMember, DatabaseAccessor.GuildTribute);
 
-            StudentService = new StudentService(DatabaseAccessor.Student, achievementProvider);
+            StudentService = new StudentService(DatabaseAccessor.Student);
             GithubUserDataService = new GithubUserDataService(githubApiAccessor, DatabaseAccessor.GithubUserData, DatabaseAccessor.StudentProject, DatabaseAccessor.Student);
             GuildService = new GuildService(database, GithubUserDataService, githubApiAccessor);
             GuildMemberService = new GuildMemberService(GithubUserDataService, githubApiAccessor, database.Student, database.Guild, database.GuildMember, database.GuildTribute);

@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using Iwentys.Models.Transferable.Guilds;
+using Iwentys.Features.Guilds.ViewModels.Guilds;
 
 namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
 {
@@ -25,6 +25,11 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
         public Task<GuildProfileDto> Get(int id)
         {
             return Client.GetFromJsonAsync<GuildProfileDto>($"/api/guild/{id}");
+        }
+
+        public Task<GuildProfileDto> GetForMember(int memberId)
+        {
+            return Client.GetFromJsonAsync<GuildProfileDto>($"/api/guild/for-member?memberId={memberId}");
         }
     }
 }

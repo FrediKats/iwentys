@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Bogus;
+using Iwentys.Features.Guilds.Entities;
+using Iwentys.Features.Guilds.Enums;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Types;
 
 namespace Iwentys.Database.Seeding.EntityGenerators

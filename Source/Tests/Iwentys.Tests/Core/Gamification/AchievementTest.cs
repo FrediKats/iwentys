@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Features.Achievements;
+using Iwentys.Features.Achievements.Entities;
 using Iwentys.Features.StudentFeature;
-using Iwentys.Models.Entities.Gamification;
 using Iwentys.Tests.Tools;
 using NUnit.Framework;
 

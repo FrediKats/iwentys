@@ -7,7 +7,6 @@ using Iwentys.Features.Companies.Entities;
 using Iwentys.Features.Companies.Enums;
 using Iwentys.Features.Companies.Repositories;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Types;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

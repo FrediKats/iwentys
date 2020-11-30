@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Bogus;
+using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Newsfeeds.Entities;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Entities.Study;
 
 namespace Iwentys.Database.Seeding.EntityGenerators

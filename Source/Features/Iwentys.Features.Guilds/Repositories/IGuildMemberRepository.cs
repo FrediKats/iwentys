@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Iwentys.Features.Guilds.Entities;
+using Iwentys.Features.Guilds.Enums;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.Types;
 
 namespace Iwentys.Features.Guilds.Repositories
 {

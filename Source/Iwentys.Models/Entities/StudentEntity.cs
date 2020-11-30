@@ -1,10 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Iwentys.Models.Entities.Gamification;
 using Iwentys.Models.Entities.Github;
-using Iwentys.Models.Entities.Guilds;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Transferable.Students;
 using Iwentys.Models.Types;
@@ -55,8 +53,8 @@ namespace Iwentys.Models.Entities
         public int BarsPoints { get; set; }
         public string AvatarUrl { get; set; }
 
+        //TODO: thik about this hack. We cant store guild info in student table
         public DateTime GuildLeftTime { get; set; }
-        public GuildMemberEntity GuildMember { get; set; }
         public GithubUserEntity GithubUserEntity { get; set; }
 
         public List<SubjectActivityEntity> SubjectActivities { get; set; }

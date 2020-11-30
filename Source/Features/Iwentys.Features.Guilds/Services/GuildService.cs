@@ -4,13 +4,14 @@ using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.GithubIntegration;
+using Iwentys.Features.Guilds.Domain;
+using Iwentys.Features.Guilds.Entities;
+using Iwentys.Features.Guilds.Enums;
+using Iwentys.Features.Guilds.ViewModels.Guilds;
 using Iwentys.Features.StudentFeature;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.Transferable.Guilds;
-using Iwentys.Models.Types;
 
 namespace Iwentys.Features.Guilds.Services
 {
@@ -99,10 +100,11 @@ namespace Iwentys.Features.Guilds.Services
                 .ToGuildProfileDto(userId);
         }
 
-        public Task<GuildProfileDto> GetStudentGuild(int userId)
+        public Task<GuildProfileDto> FindStudentGuild(int userId)
         {
-            return _database.Guild.ReadForStudent(userId).To(g =>
-                    new GuildDomain(g, _githubUserDataService, _githubApiAccessor, _database))
+            return _database.Guild
+                .ReadForStudent(userId)
+                ?.To(g => new GuildDomain(g, _githubUserDataService, _githubApiAccessor, _database))
                 .ToGuildProfileDto(userId);
         }
 
