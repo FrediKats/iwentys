@@ -1,8 +1,9 @@
 ﻿using System;
+using Iwentys.Features.Assignments.ViewModels;
+using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
-using Iwentys.Models.Transferable;
 
-namespace Iwentys.Models.Entities
+namespace Iwentys.Features.Assignments.Entities
 {
     public class AssignmentEntity
     {

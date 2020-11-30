@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Models.Transferable
+﻿namespace Iwentys.Features.Assignments.ViewModels
 {
     public class AssignmentCreateRequest
     {

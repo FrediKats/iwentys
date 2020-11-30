@@ -1,4 +1,6 @@
-﻿namespace Iwentys.Models.Entities
+﻿using Iwentys.Models.Entities;
+
+namespace Iwentys.Features.Assignments.Entities
 {
     public class StudentAssignmentEntity
     {

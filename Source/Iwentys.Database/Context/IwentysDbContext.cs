@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Database.Seeding;
 using Iwentys.Features.Achievements;
+using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Companies.Entities;
 using Iwentys.Features.Newsfeeds.Entities;
 using Iwentys.Models.Entities;

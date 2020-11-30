@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Features\Iwentys.Features.Achievements\Iwentys.Features.Achievements.csproj" />
+    <ProjectReference Include="..\Features\Iwentys.Features.Assignments\Iwentys.Features.Assignments.csproj" />
     <ProjectReference Include="..\Features\Iwentys.Features.Newsfeeds\Iwentys.Features.Newsfeeds.csproj" />
     <ProjectReference Include="..\Iwentys.Models\Iwentys.Models.csproj" />
   </ItemGroup>

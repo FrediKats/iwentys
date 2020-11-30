@@ -2,14 +2,15 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
+using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Assignments.Repositories;
+using Iwentys.Features.Assignments.ViewModels;
 using Iwentys.Features.StudentFeature;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Transferable;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Core.Services
+namespace Iwentys.Features.Assignments.Services
 {
     public class AssignmentService
     {
