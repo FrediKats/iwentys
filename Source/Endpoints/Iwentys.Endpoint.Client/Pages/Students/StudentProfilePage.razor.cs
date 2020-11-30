@@ -14,7 +14,6 @@ using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients;
 using Iwentys.Endpoint.Sdk.ControllerClients.Study;
 using Iwentys.Features.Achievements.ViewModels;
-using Iwentys.Models.Transferable;
 using Iwentys.Models.Transferable.Students;
 using Microsoft.AspNetCore.Components;
 
@@ -25,6 +24,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
 
         private StudentFullProfileDto _studentFullProfile;
         private List<AchievementInfoDto> _achievements;
+        private List<CodingActivityInfoResponse> _codingActivityInfo;
 
         private LineConfig _githubChartConfig;
         private ChartJsLineChart _githubChart;
@@ -36,6 +36,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
         {
             var httpClient = await Http.TrySetHeader(LocalStorage);
             var studentControllerClient = new StudentControllerClient(httpClient);
+            var githubControllerClient = new GithubControllerClient(httpClient);
 
             if (StudentId is null)
             {
@@ -47,7 +48,8 @@ namespace Iwentys.Endpoint.Client.Pages.Students
                 _studentFullProfile = await studentControllerClient.Get(StudentId.Value);
             }
 
-            if (_studentFullProfile.CodingActivityInfo is not null)
+            _codingActivityInfo = await githubControllerClient.Get(_studentFullProfile.Id);
+            if (_codingActivityInfo is not null)
                 InitGithubChart();
 
             if (_studentFullProfile.SubjectActivityInfo is not null)
@@ -58,7 +60,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
 
         private void InitGithubChart()
         {
-            IEnumerable<Int32Wrapper> elements = _studentFullProfile?.CodingActivityInfo?.Select(a => new Int32Wrapper(a.Activity))
+            IEnumerable<Int32Wrapper> elements = _codingActivityInfo?.Select(a => new Int32Wrapper(a.Activity))
                                                  ?? new List<Int32Wrapper>();
 
             var lineDataset = new LineDataset<Int32Wrapper>(elements)

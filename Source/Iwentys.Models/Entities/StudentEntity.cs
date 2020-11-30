@@ -55,6 +55,7 @@ namespace Iwentys.Models.Entities
 
         //TODO: thik about this hack. We cant store guild info in student table
         public DateTime GuildLeftTime { get; set; }
+        //TODO: need to remove this reference
         public GithubUserEntity GithubUserEntity { get; set; }
 
         public List<SubjectActivityEntity> SubjectActivities { get; set; }

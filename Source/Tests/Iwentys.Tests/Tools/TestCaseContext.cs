@@ -11,6 +11,7 @@ using Iwentys.Features.Companies.Services;
 using Iwentys.Features.Companies.ViewModels;
 using Iwentys.Features.Economy.Services;
 using Iwentys.Features.GithubIntegration;
+using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;

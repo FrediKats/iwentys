@@ -6,8 +6,9 @@ using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models;
 using Iwentys.Models.Entities.Github;
+using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.GithubIntegration
+namespace Iwentys.Features.GithubIntegration.Services
 {
     public class GithubUserDataService
     {
@@ -102,6 +103,13 @@ namespace Iwentys.Features.GithubIntegration
         public IEnumerable<GithubUserEntity> GetAll()
         {
             return _githubUserDataRepository.Read();
+        }
+
+        public Task<GithubUserEntity> Read(int studentId)
+        {
+            return _githubUserDataRepository
+                .Read()
+                .FirstAsync(g => g.StudentId == studentId);
         }
     }
 }

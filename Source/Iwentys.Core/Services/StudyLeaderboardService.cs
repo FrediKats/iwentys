@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.GithubIntegration;
+using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Models;
 using Iwentys.Models.Entities;
