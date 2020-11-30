@@ -1,7 +1,7 @@
 ﻿using System;
-using Iwentys.Models.Types;
+using Iwentys.Features.Voting.Enums;
 
-namespace Iwentys.Models.Entities.Votes
+namespace Iwentys.Features.Voting.Entities
 {
     public class Voting
     {

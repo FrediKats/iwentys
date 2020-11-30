@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Models.Types
+﻿namespace Iwentys.Features.Voting.Enums
 {
     public enum VotingType
     {

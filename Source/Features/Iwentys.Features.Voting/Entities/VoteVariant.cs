@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Models.Entities.Votes
+﻿namespace Iwentys.Features.Voting.Entities
 {
     public class VoteVariant
     {

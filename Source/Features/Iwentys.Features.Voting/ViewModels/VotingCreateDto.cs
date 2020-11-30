@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Iwentys.Models.Transferable.Voting
+namespace Iwentys.Features.Voting.ViewModels
 {
     public class VotingCreateDto
     {

@@ -1,4 +1,6 @@
-﻿namespace Iwentys.Models.Entities.Votes
+﻿using Iwentys.Models.Entities;
+
+namespace Iwentys.Features.Voting.Entities
 {
     public class GuildLeaderVotingAnswer
     {

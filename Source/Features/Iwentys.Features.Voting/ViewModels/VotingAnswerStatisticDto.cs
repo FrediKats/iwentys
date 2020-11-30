@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Models.Entities;
 
-namespace Iwentys.Models.Transferable.Voting
+namespace Iwentys.Features.Voting.ViewModels
 {
     public class VotingAnswerStatisticDto
     {

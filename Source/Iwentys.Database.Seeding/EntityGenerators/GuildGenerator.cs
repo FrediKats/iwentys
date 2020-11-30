@@ -4,7 +4,6 @@ using Bogus;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Types;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {
