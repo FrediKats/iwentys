@@ -1,6 +1,7 @@
 ﻿using System;
+using Iwentys.Models.Entities;
 
-namespace Iwentys.Models.Entities
+namespace Iwentys.Features.Quests.Entities
 {
     public class QuestResponseEntity
     {

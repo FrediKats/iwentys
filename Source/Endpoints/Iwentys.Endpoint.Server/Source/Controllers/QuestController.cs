@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Server.Source.Tools;
-using Iwentys.Features.Economy.Services;
+using Iwentys.Features.Quests.Services;
+using Iwentys.Features.Quests.ViewModels;
 using Iwentys.Features.StudentFeature;
-using Iwentys.Models.Transferable;
-using Iwentys.Models.Transferable.Gamification;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Server.Source.Controllers

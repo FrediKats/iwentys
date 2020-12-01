@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Iwentys.Features.Quests.ViewModels;
 using Iwentys.Features.StudentFeature;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Transferable.Gamification;
 using Iwentys.Tests.Tools;
 using NUnit.Framework;
 

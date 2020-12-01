@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Common.Tools;
+using Iwentys.Features.Quests.Entities;
+using Iwentys.Features.Quests.ViewModels;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Transferable;
 
-namespace Iwentys.Features.Economy.Repositories
+namespace Iwentys.Features.Quests.Repositories
 {
     public interface IQuestRepository : IGenericRepository<QuestEntity, int>
     {

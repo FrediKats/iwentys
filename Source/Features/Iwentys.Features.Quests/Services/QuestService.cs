@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Achievements;
-using Iwentys.Features.Economy.Repositories;
+using Iwentys.Features.Quests.Entities;
+using Iwentys.Features.Quests.Enums;
+using Iwentys.Features.Quests.Repositories;
+using Iwentys.Features.Quests.ViewModels;
 using Iwentys.Features.StudentFeature;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Transferable;
-using Iwentys.Models.Transferable.Gamification;
-using Iwentys.Models.Types;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Economy.Services
+namespace Iwentys.Features.Quests.Services
 {
     public class QuestService
     {

@@ -2,6 +2,7 @@
 using FluentResults;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
+using Iwentys.Features.Economy.Entities;
 using Iwentys.Features.Economy.Repositories;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Models.Entities;

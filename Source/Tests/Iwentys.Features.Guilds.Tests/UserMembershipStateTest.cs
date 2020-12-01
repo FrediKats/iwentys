@@ -4,16 +4,13 @@ using System.Threading.Tasks;
 using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Repositories.Study;
 using Iwentys.Features.Achievements.Entities;
-using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Integrations.GithubIntegration.Models;
-using Iwentys.Models;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Types;
 using Moq;
 using NUnit.Framework;
 

@@ -20,6 +20,8 @@ using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Features.Guilds.Services;
 using Iwentys.Features.Newsfeeds.Repositories;
 using Iwentys.Features.Newsfeeds.Services;
+using Iwentys.Features.Quests.Repositories;
+using Iwentys.Features.Quests.Services;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Integrations.GithubIntegration;

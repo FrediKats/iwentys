@@ -19,12 +19,13 @@ using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Services;
 using Iwentys.Features.Guilds.ViewModels.Guilds;
 using Iwentys.Features.Guilds.ViewModels.GuildTribute;
+using Iwentys.Features.Quests.Services;
+using Iwentys.Features.Quests.ViewModels;
 using Iwentys.Features.StudentFeature;
 using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Transferable;
-using Iwentys.Models.Transferable.Gamification;
 using Iwentys.Models.Types;
 
 namespace Iwentys.Tests.Tools

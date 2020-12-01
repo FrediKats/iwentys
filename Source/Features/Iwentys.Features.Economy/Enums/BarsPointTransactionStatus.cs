@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Models.Types
+﻿namespace Iwentys.Features.Economy.Enums
 {
     public enum BarsPointTransactionStatus
     {

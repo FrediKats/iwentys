@@ -1,10 +1,10 @@
 ﻿using System;
 using Iwentys.Common.Tools;
-using Iwentys.Models.Entities;
+using Iwentys.Features.Quests.Entities;
+using Iwentys.Features.Quests.Enums;
 using Iwentys.Models.Transferable.Students;
-using Iwentys.Models.Types;
 
-namespace Iwentys.Models.Transferable.Gamification
+namespace Iwentys.Features.Quests.ViewModels
 {
     public class QuestInfoResponse
     {

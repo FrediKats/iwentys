@@ -3,10 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Database.Context;
-using Iwentys.Features.Economy.Repositories;
+using Iwentys.Features.Quests.Entities;
+using Iwentys.Features.Quests.Enums;
+using Iwentys.Features.Quests.Repositories;
+using Iwentys.Features.Quests.ViewModels;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Transferable;
-using Iwentys.Models.Types;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

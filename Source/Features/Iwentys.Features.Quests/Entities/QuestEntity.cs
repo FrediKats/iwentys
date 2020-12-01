@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Iwentys.Models.Types;
+using Iwentys.Features.Quests.Enums;
+using Iwentys.Models.Entities;
 
-namespace Iwentys.Models.Entities
+namespace Iwentys.Features.Quests.Entities
 {
     public class QuestEntity
     {

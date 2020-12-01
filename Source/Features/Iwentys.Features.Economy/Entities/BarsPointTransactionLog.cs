@@ -1,7 +1,8 @@
 ﻿using System;
-using Iwentys.Models.Types;
+using Iwentys.Features.Economy.Enums;
+using Iwentys.Models.Entities;
 
-namespace Iwentys.Models.Entities
+namespace Iwentys.Features.Economy.Entities
 {
     public class BarsPointTransactionLog
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iwentys.Models.Transferable
+namespace Iwentys.Features.Quests.ViewModels
 {
     public class CreateQuestRequest
     {

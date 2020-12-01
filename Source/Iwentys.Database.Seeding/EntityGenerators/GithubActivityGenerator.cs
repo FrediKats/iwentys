@@ -3,7 +3,6 @@ using Bogus;
 using Iwentys.Database.Seeding.Tools;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Integrations.GithubIntegration.Models;
-using Iwentys.Models;
 using Iwentys.Models.Entities;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
