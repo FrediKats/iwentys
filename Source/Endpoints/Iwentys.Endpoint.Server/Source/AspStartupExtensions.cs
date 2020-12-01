@@ -1,5 +1,4 @@
-﻿using Iwentys.Core.Services;
-using Iwentys.Database.Context;
+﻿using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Achievements;
 using Iwentys.Database.Repositories.Economy;
 using Iwentys.Database.Repositories.GithubIntegration;
@@ -13,6 +12,7 @@ using Iwentys.Features.Assignments.Services;
 using Iwentys.Features.Companies.Services;
 using Iwentys.Features.Economy.Repositories;
 using Iwentys.Features.Economy.Services;
+using Iwentys.Features.Gamification.Services;
 using Iwentys.Features.GithubIntegration.Repositories;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds;

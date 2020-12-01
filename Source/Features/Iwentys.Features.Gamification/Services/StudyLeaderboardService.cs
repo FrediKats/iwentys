@@ -3,15 +3,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
+using Iwentys.Features.Gamification.ViewModels;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Models;
 using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
-using Iwentys.Models.Transferable.Study;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Core.Services
+namespace Iwentys.Features.Gamification.Services
 {
     public class StudyLeaderboardService
     {

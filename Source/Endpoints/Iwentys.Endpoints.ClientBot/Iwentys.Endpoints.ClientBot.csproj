@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Features\Iwentys.Features.Gamification\Iwentys.Features.Gamification.csproj" />
     <ProjectReference Include="..\..\Iwentys.Core\Iwentys.Core.csproj" />
   </ItemGroup>
 

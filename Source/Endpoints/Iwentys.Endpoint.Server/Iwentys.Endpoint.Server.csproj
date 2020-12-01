@@ -33,6 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Features\Iwentys.Features.Gamification\Iwentys.Features.Gamification.csproj" />
     <ProjectReference Include="..\..\Iwentys.Core\Iwentys.Core.csproj" />
     <ProjectReference Include="..\..\Iwentys.Database\Iwentys.Database.csproj" />
     <ProjectReference Include="..\Iwentys.Endpoint.Client\Iwentys.Endpoint.Client.csproj" />

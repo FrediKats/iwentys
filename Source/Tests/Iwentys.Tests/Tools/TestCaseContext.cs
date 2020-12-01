@@ -9,8 +9,6 @@ using Iwentys.Features.Companies.Entities;
 using Iwentys.Features.Companies.Enums;
 using Iwentys.Features.Companies.Services;
 using Iwentys.Features.Companies.ViewModels;
-using Iwentys.Features.Economy.Services;
-using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds;
@@ -25,7 +23,6 @@ using Iwentys.Features.StudentFeature;
 using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Transferable;
 using Iwentys.Models.Types;
 
 namespace Iwentys.Tests.Tools

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Iwentys.Core.Services;
+using Iwentys.Features.Gamification.Services;
+using Iwentys.Features.Gamification.ViewModels;
 using Iwentys.Models;
-using Iwentys.Models.Transferable.Study;
 using Iwentys.Models.Types;
 using Microsoft.AspNetCore.Mvc;
 

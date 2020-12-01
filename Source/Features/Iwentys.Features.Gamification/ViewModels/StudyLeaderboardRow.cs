@@ -5,7 +5,7 @@ using Iwentys.Models.Entities;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Transferable.Students;
 
-namespace Iwentys.Models.Transferable.Study
+namespace Iwentys.Features.Gamification.ViewModels
 {
     public class StudyLeaderboardRow : IResultFormat
     {

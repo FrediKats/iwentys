@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
-using Iwentys.Core.Services;
+using Iwentys.Features.Gamification.Services;
 using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Models;
 using Iwentys.Models.Entities.Study;

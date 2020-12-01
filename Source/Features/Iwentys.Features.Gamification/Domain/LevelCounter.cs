@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Iwentys.Core.Gamification
+namespace Iwentys.Features.Gamification.Domain
 {
     public class LevelCounter
     {
