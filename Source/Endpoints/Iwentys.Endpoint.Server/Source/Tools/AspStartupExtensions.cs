@@ -1,4 +1,5 @@
 ﻿using Iwentys.Database.Context;
+using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.Achievements;
 using Iwentys.Database.Repositories.Economy;
 using Iwentys.Database.Repositories.GithubIntegration;
@@ -8,7 +9,9 @@ using Iwentys.Database.Repositories.Study;
 using Iwentys.Endpoint.Server.Source.Auth;
 using Iwentys.Features.Achievements;
 using Iwentys.Features.Achievements.Repositories;
+using Iwentys.Features.Assignments.Repositories;
 using Iwentys.Features.Assignments.Services;
+using Iwentys.Features.Companies.Repositories;
 using Iwentys.Features.Companies.Services;
 using Iwentys.Features.Economy.Repositories;
 using Iwentys.Features.Economy.Services;
@@ -70,44 +73,54 @@ namespace Iwentys.Endpoint.Server.Source
                 services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
             }
 
-            services.AddScoped<IStudentRepository, StudentRepository>();
-            services.AddScoped<IStudyGroupRepository, StudyGroupRepository>();
-            services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
             services.AddScoped<IAchievementRepository, AchievementRepository>();
+
+            services.AddScoped<IAssignmentRepository, AssignmentRepository>();
+            services.AddScoped<AssignmentService>();
+
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<CompanyService>();
+
+            services.AddScoped<IBarsPointTransactionLogRepository, BarsPointTransactionLogRepository>();
+            services.AddScoped<BarsPointTransactionLogService>();
+
             services.AddScoped<IGithubUserDataRepository, GithubUserDataRepository>();
             services.AddScoped<IStudentProjectRepository, StudentProjectRepository>();
+            services.AddScoped<GithubUserDataService>();
+            services.AddScoped<StudyLeaderboardService>();
 
             services.AddScoped<IGuildMemberRepository, GuildMemberRepository>();
             services.AddScoped<IGuildRecruitmentRepository, GuildRecruitmentRepository>();
             services.AddScoped<IGuildRepository, GuildRepository>();
             services.AddScoped<IGuildTestTaskSolvingInfoRepository, GuildTestTaskSolvingInfoRepository>();
             services.AddScoped<IGuildTributeRepository, GuildTributeRepository>();
-            services.AddScoped<IBarsPointTransactionLogRepository, BarsPointTransactionLogRepository>();
-            services.AddScoped<IQuestRepository, QuestRepository>();
+            services.AddScoped<ITournamentRepository, TournamentRepository>();
+            services.AddScoped<GuildMemberService>();
+            services.AddScoped<GuildRecruitmentService>();
+            services.AddScoped<GuildService>();
+            services.AddScoped<GuildTestTaskService>();
+            services.AddScoped<GuildTributeService>();
+            services.AddScoped<TournamentService>();
+
             services.AddScoped<INewsfeedRepository, NewsfeedRepository>();
+            services.AddScoped<NewsfeedService>();
+
+            services.AddScoped<IQuestRepository, QuestRepository>();
+            services.AddScoped<QuestService>();
+
+            services.AddScoped<IGroupSubjectRepository, GroupSubjectRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IStudyGroupRepository, StudyGroupRepository>();
+            services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
             services.AddScoped<ISubjectRepository, SubjectRepository>();
+            services.AddScoped<StudentService>();
+            services.AddScoped<StudyGroupService>();
+            services.AddScoped<SubjectService>();
 
             services.AddScoped<GuildRepositoriesScope>();
 
             services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();
-
-            services.AddScoped<AssignmentService>();
-            services.AddScoped<BarsPointTransactionLogService>();
-            services.AddScoped<CompanyService>();
-            services.AddScoped<GithubUserDataService>();
-            services.AddScoped<GuildMemberService>();
-            services.AddScoped<GuildService>();
-            services.AddScoped<GuildRecruitmentService>();
-            services.AddScoped<GuildTestTaskService>();
-            services.AddScoped<GuildTributeService>();
-            services.AddScoped<QuestService>();
-            services.AddScoped<StudentService>();
-            services.AddScoped<StudyGroupService>();
-            services.AddScoped<StudyLeaderboardService>();
-            services.AddScoped<TournamentService>();
-            services.AddScoped<NewsfeedService>();
-            services.AddScoped<SubjectService>();
 
             return services;
         }

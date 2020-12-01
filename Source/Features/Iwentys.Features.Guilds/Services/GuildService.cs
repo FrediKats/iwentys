@@ -100,11 +100,13 @@ namespace Iwentys.Features.Guilds.Services
                 .ToGuildProfileDto(userId);
         }
 
-        public Task<GuildProfileDto> FindStudentGuild(int userId)
+        public async Task<GuildProfileDto> FindStudentGuild(int userId)
         {
-            return _database.Guild
-                .ReadForStudent(userId)
-                ?.To(g => new GuildDomain(g, _githubUserDataService, _githubApiAccessor, _database))
+            GuildEntity guild = _database.Guild.ReadForStudent(userId);
+            if (guild is null)
+                return null;
+            return await guild
+                .To(g => new GuildDomain(g, _githubUserDataService, _githubApiAccessor, _database))
                 .ToGuildProfileDto(userId);
         }
 

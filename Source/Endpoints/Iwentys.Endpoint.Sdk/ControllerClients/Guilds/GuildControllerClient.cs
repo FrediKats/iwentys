@@ -29,6 +29,8 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
 
         public Task<GuildProfileDto> GetForMember(int memberId)
         {
+            //TODO: fix
+            return Task.FromResult<GuildProfileDto>(null);
             return Client.GetFromJsonAsync<GuildProfileDto>($"/api/guild/for-member?memberId={memberId}");
         }
     }

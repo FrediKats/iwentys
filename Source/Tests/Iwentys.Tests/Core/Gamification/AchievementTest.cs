@@ -11,7 +11,9 @@ namespace Iwentys.Tests.Core.Gamification
     [TestFixture]
     public class AchievementTest
     {
+        //TODO:
         [Test]
+        [Ignore("Achievement disabled")]
         public async Task CreateGuild_ShouldReturnCreatorAsMember()
         {
             TestCaseContext testCase = TestCaseContext

@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Iwentys.Common.Tools;
-using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Integrations.GithubIntegration.Models;
 using Newtonsoft.Json;
 
@@ -10,8 +9,6 @@ namespace Iwentys.Features.GithubIntegration.Entities
     public class GithubUserEntity
     {
         [Key] public int StudentId { get; set; }
-
-        public StudentEntity Student { get; set; }
 
         public string Username { get; set; }
         public string AvatarUrl { get; set; }
