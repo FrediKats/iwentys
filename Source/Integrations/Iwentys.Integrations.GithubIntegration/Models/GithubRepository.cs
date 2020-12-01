@@ -1,6 +1,4 @@
-﻿using Iwentys.Models.Entities.Github;
-
-namespace Iwentys.Models
+﻿namespace Iwentys.Integrations.GithubIntegration.Models
 {
     public class GithubRepository
     {
@@ -11,15 +9,6 @@ namespace Iwentys.Models
             Description = description;
             Url = url;
             StarCount = starCount;
-        }
-
-        public GithubRepository(GithubProjectEntity projectEntity) : this()
-        {
-            Id = projectEntity.GithubRepositoryId;
-            Name = projectEntity.Name;
-            Description = projectEntity.Description;
-            Url = projectEntity.FullUrl;
-            StarCount = projectEntity.StarCount;
         }
 
         public GithubRepository()

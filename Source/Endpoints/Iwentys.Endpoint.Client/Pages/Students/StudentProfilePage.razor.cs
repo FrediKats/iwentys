@@ -14,6 +14,7 @@ using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients;
 using Iwentys.Endpoint.Sdk.ControllerClients.Study;
 using Iwentys.Features.Achievements.ViewModels;
+using Iwentys.Features.GithubIntegration.ViewModels;
 using Iwentys.Models.Transferable.Students;
 using Microsoft.AspNetCore.Components;
 

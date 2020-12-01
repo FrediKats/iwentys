@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Database.Context;
+using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Repositories;
-using Iwentys.Models;
+using Iwentys.Integrations.GithubIntegration.Models;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Github;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

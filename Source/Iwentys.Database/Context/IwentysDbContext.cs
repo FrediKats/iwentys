@@ -5,10 +5,10 @@ using Iwentys.Features.Achievements;
 using Iwentys.Features.Achievements.Entities;
 using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Companies.Entities;
+using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Newsfeeds.Entities;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Study;
 
 using Microsoft.EntityFrameworkCore;

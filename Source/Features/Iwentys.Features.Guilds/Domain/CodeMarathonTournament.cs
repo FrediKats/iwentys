@@ -1,5 +1,4 @@
 ﻿using System;
-using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.ViewModels.Tournaments;

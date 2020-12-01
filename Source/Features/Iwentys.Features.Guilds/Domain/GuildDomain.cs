@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Achievements.ViewModels;
-using Iwentys.Features.GithubIntegration;
+using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
@@ -15,7 +15,6 @@ using Iwentys.Features.StudentFeature;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Transferable.Students;
 using Octokit;
 

@@ -2,7 +2,7 @@
 using Iwentys.Features.Achievements.ViewModels;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
-using Iwentys.Models;
+using Iwentys.Integrations.GithubIntegration.Models;
 
 namespace Iwentys.Features.Guilds.ViewModels.Guilds
 {

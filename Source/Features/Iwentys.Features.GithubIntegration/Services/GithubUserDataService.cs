@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Repositories;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Integrations.GithubIntegration;
+using Iwentys.Integrations.GithubIntegration.Models;
 using Iwentys.Models;
-using Iwentys.Models.Entities.Github;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.GithubIntegration.Services
@@ -86,7 +87,7 @@ namespace Iwentys.Features.GithubIntegration.Services
         public IEnumerable<GithubRepository> GetGithubRepositories(string username)
         {
             return _studentProjectRepository.FindProjectsByUserName(username)
-                .Select(p => new GithubRepository(p));
+                .Select(p => p.ToGithubRepository());
         }
 
         public GithubRepository GetCertainRepository(string username, string projectName)
@@ -97,7 +98,7 @@ namespace Iwentys.Features.GithubIntegration.Services
                 return _githubApiAccessor.GetRepository(username, projectName);
             }
 
-            return new GithubRepository(githubRepository);
+            return githubRepository.ToGithubRepository();
         }
 
         public IEnumerable<GithubUserEntity> GetAll()

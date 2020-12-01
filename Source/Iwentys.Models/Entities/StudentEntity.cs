@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Iwentys.Models.Entities.Github;
 using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Transferable.Students;
 using Iwentys.Models.Types;
@@ -55,8 +54,6 @@ namespace Iwentys.Models.Entities
 
         //TODO: thik about this hack. We cant store guild info in student table
         public DateTime GuildLeftTime { get; set; }
-        //TODO: need to remove this reference
-        public GithubUserEntity GithubUserEntity { get; set; }
 
         public List<SubjectActivityEntity> SubjectActivities { get; set; }
 

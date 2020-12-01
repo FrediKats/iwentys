@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Features\Iwentys.Features.GithubIntegration\Iwentys.Features.GithubIntegration.csproj" />
     <ProjectReference Include="..\..\Iwentys.Database\Iwentys.Database.csproj" />
     <ProjectReference Include="..\Iwentys.Tests\Iwentys.Tests.csproj" />
   </ItemGroup>

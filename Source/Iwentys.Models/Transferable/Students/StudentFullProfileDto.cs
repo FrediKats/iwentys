@@ -15,11 +15,6 @@ namespace Iwentys.Models.Transferable.Students
         {
             Group = student.Group?.GroupName;
             SubjectActivityInfo = student.SubjectActivities.SelectToList(sa => new SubjectActivityInfoResponse(sa));
-
-            if (student.GithubUserEntity is null || student.GithubUserEntity.ContributionFullInfo is null)
-                CodingActivityInfo = new List<CodingActivityInfoResponse>();
-            else
-                CodingActivityInfo = student.GithubUserEntity.ContributionFullInfo.PerMonthActivity().SelectToList(CodingActivityInfoResponse.Wrap);
         }
 
         public string Group { get; set; }
@@ -30,7 +25,6 @@ namespace Iwentys.Models.Transferable.Students
         //public string AdditionalLink { get; set; }
 
         public List<SubjectActivityInfoResponse> SubjectActivityInfo { get; set; }
-        public List<CodingActivityInfoResponse> CodingActivityInfo { get; set; }
 
         public string FormatFullInfo()
         {

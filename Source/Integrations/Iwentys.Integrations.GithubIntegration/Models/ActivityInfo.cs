@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Iwentys.Models
+namespace Iwentys.Integrations.GithubIntegration.Models
 {
     public class ActivityInfo
     {

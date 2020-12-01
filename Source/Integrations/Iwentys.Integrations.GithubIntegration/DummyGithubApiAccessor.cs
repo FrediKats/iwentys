@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Iwentys.Models;
+using Iwentys.Integrations.GithubIntegration.Models;
 using Octokit;
 
 namespace Iwentys.Integrations.GithubIntegration

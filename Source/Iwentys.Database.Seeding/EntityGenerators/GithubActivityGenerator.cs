@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using Bogus;
 using Iwentys.Database.Seeding.Tools;
+using Iwentys.Features.GithubIntegration.Entities;
+using Iwentys.Integrations.GithubIntegration.Models;
 using Iwentys.Models;
 using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Github;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {

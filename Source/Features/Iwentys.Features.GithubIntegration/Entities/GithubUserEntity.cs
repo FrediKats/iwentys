@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Iwentys.Common.Tools;
+using Iwentys.Integrations.GithubIntegration.Models;
+using Iwentys.Models.Entities;
 using Newtonsoft.Json;
 
-namespace Iwentys.Models.Entities.Github
+namespace Iwentys.Features.GithubIntegration.Entities
 {
     public class GithubUserEntity
     {

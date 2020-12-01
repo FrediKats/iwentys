@@ -1,4 +1,6 @@
-﻿namespace Iwentys.Models.Transferable.Students
+﻿using Iwentys.Integrations.GithubIntegration.Models;
+
+namespace Iwentys.Features.GithubIntegration.ViewModels
 {
     public class CodingActivityInfoResponse
     {

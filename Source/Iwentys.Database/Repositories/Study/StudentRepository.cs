@@ -30,8 +30,7 @@ namespace Iwentys.Database.Repositories.Study
                 .Include(s => s.Group)
                 .Include(s => s.SubjectActivities)
                 .ThenInclude(a => a.GroupSubject)
-                .ThenInclude(sg => sg.Subject)
-                .Include(s => s.GithubUserEntity);
+                .ThenInclude(sg => sg.Subject);
         }
 
         public Task<StudentEntity> ReadByIdAsync(int key)

@@ -1,4 +1,7 @@
-﻿namespace Iwentys.Models.Entities.Github
+﻿using Iwentys.Integrations.GithubIntegration.Models;
+using Iwentys.Models.Entities;
+
+namespace Iwentys.Features.GithubIntegration.Entities
 {
     public class GithubProjectEntity
     {
@@ -28,5 +31,10 @@
         public int StarCount { get; set; }
         public long GithubRepositoryId { get; set; }
         public string UserName { get; set; }
+
+        public GithubRepository ToGithubRepository()
+        {
+            return new GithubRepository(Id, Name, Description, FullUrl, StarCount);
+        }
     }
 }

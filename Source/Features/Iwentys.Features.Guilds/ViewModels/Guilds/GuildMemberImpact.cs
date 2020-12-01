@@ -1,4 +1,4 @@
-﻿using Iwentys.Models.Entities.Github;
+﻿using Iwentys.Features.GithubIntegration.Entities;
 
 namespace Iwentys.Features.Guilds.ViewModels.Guilds
 {

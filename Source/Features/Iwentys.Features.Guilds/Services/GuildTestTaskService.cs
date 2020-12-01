@@ -11,7 +11,7 @@ using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Features.Guilds.ViewModels.Guilds;
 using Iwentys.Features.StudentFeature;
 using Iwentys.Integrations.GithubIntegration;
-using Iwentys.Models;
+using Iwentys.Integrations.GithubIntegration.Models;
 using Iwentys.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 

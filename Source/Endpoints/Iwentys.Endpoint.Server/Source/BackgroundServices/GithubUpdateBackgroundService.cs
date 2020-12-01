@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Models.Entities;
