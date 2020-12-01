@@ -19,5 +19,10 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
         {
             return Client.GetFromJsonAsync<List<CodingActivityInfoResponse>>($"/api/github/student/{studnetId}");
         }
+
+        public Task<List<CodingActivityInfoResponse>> GetStudentRepositories(int studnetId)
+        {
+            return Client.GetFromJsonAsync<List<CodingActivityInfoResponse>>($"/api/github/student/{studnetId}/repository");
+        }
     }
 }

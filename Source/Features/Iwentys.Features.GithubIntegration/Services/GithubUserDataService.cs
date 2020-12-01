@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Iwentys.Common.Tools;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Repositories;
+using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Integrations.GithubIntegration.Models;
@@ -10,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.GithubIntegration.Services
 {
+    //TODO: rename
     public class GithubUserDataService
     {
         private readonly IGithubApiAccessor _githubApiAccessor;
@@ -110,6 +113,16 @@ namespace Iwentys.Features.GithubIntegration.Services
             return _githubUserDataRepository
                 .Read()
                 .FirstAsync(g => g.StudentId == studentId);
+        }
+
+        public async Task<IReadOnlyList<GithubRepository>> GetStudentRepositories(int studentId)
+        {
+            //TODO: throw exception?
+            StudentEntity student = await _studentRepository.GetAsync(studentId);
+            if (student.GithubUsername is null)
+                return new List<GithubRepository>();
+
+            return _githubApiAccessor.GetUserRepositories(student.GithubUsername);
         }
     }
 }
