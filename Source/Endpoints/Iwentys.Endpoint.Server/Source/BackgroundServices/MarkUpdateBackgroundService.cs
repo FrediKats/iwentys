@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Core;
 using Iwentys.Database.Context;
 using Iwentys.Models.Entities.Study;
 using Microsoft.Extensions.DependencyInjection;

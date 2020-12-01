@@ -9,7 +9,7 @@ using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Types;
 using Microsoft.Extensions.Logging;
 
-namespace Iwentys.Core
+namespace Iwentys.Endpoint.Server.Source.BackgroundServices
 {
     public class MarkGoogleTableUpdateService
     {
@@ -43,7 +43,7 @@ namespace Iwentys.Core
                     .SingleOrDefault(s => subjectScore.IsMatchedWithStudent(s.Student)
                                           && s.GroupSubject.SubjectId == groupSubjectData.SubjectId);
 
-                if (!Tools.ParseInAnyCulture(subjectScore.Score, out double pointsCount))
+                if (!Integrations.GoogleTableIntegration.Tools.ParseInAnyCulture(subjectScore.Score, out double pointsCount))
                 {
                     pointsCount = 0;
                     _logger.LogWarning($"Cannot parse value: student:{subjectScore.Name}, subjectId:{groupSubjectData.SubjectId}, groupId:{groupSubjectData.StudyGroupId}");

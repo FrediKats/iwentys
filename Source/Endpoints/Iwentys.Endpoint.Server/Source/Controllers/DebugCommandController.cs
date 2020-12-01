@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using Iwentys.Core;
 using Iwentys.Database.Context;
+using Iwentys.Endpoint.Server.Source.BackgroundServices;
 using Iwentys.Models.Entities.Study;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

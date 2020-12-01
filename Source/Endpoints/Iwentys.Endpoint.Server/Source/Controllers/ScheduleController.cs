@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using ItmoScheduleApiWrapper;
 using ItmoScheduleApiWrapper.Models;
-using Iwentys.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Server.Source.Controllers
@@ -10,14 +9,14 @@ namespace Iwentys.Endpoint.Server.Source.Controllers
     [ApiController]
     public class ScheduleController : ControllerBase
     {
-        private readonly ScheduleService _scheduleService = new ScheduleService();
+        public readonly ItmoApiProvider ApiProvider = new ItmoApiProvider();
 
         [HttpGet("today/{group}")]
         public async Task<ActionResult<ScheduleItemModel>> GetTodaySchedule(string group)
         {
+            GroupScheduleModel schedule = await ApiProvider.ScheduleApi.GetGroupScheduleAsync(group);
             //TODO: group validation
-            List<ScheduleItemModel> schedule = await _scheduleService.GetForGroup(group);
-            return Ok(schedule);
+            return Ok(schedule.Schedule);
         }
     }
 }
