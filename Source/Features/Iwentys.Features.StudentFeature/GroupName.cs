@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Models
+﻿namespace Iwentys.Features.StudentFeature
 {
     public class GroupName
     {

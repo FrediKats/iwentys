@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Iwentys.Models.Entities;
+using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Features.Voting.ViewModels
 {

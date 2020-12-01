@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Iwentys.Database.Context;
 using Iwentys.Endpoint.Server.Source.BackgroundServices;
-using Iwentys.Models.Entities.Study;
+using Iwentys.Features.StudentFeature.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

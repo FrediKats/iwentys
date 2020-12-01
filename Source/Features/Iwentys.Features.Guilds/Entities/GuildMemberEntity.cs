@@ -1,5 +1,5 @@
 ﻿using Iwentys.Features.Guilds.Enums;
-using Iwentys.Models.Entities;
+using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Features.Guilds.Entities
 {

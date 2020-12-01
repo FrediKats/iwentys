@@ -10,9 +10,9 @@ using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Features.Guilds.ViewModels.Guilds;
 using Iwentys.Features.StudentFeature;
+using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Integrations.GithubIntegration;
-using Iwentys.Models.Entities;
 
 namespace Iwentys.Features.Guilds.Services
 {

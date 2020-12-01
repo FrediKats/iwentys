@@ -6,8 +6,8 @@ using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Assignments.Repositories;
 using Iwentys.Features.Assignments.ViewModels;
 using Iwentys.Features.StudentFeature;
+using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Features.StudentFeature.Repositories;
-using Iwentys.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Assignments.Services

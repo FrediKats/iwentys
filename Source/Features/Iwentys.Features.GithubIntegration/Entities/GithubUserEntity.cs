@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Iwentys.Common.Tools;
+using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Integrations.GithubIntegration.Models;
-using Iwentys.Models.Entities;
 using Newtonsoft.Json;
 
 namespace Iwentys.Features.GithubIntegration.Entities

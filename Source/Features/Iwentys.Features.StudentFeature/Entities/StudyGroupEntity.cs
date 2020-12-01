@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Iwentys.Models.Entities.Study
+namespace Iwentys.Features.StudentFeature.Entities
 {
     public class StudyGroupEntity
     {

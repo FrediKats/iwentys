@@ -2,12 +2,12 @@
 using System.Globalization;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Iwentys.Common.Transferable;
 using Iwentys.Database.Context;
 using Iwentys.Endpoint.Server.Source.Auth;
 using Iwentys.Endpoint.Server.Source.Tools;
 using Iwentys.Features.StudentFeature;
 using Iwentys.Features.StudentFeature.Services;
-using Iwentys.Models.Transferable;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Models.Transferable
+﻿namespace Iwentys.Features.StudentFeature.ViewModels
 {
     public class StudentUpdateRequest
     {

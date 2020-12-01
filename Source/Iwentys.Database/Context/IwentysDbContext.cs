@@ -10,9 +10,7 @@ using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Newsfeeds.Entities;
 using Iwentys.Features.Quests.Entities;
-using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Study;
-
+using Iwentys.Features.StudentFeature.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 

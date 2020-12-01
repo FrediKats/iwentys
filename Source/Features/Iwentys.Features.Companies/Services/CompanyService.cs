@@ -5,8 +5,8 @@ using Iwentys.Features.Companies.Entities;
 using Iwentys.Features.Companies.Repositories;
 using Iwentys.Features.Companies.ViewModels;
 using Iwentys.Features.StudentFeature;
+using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Features.StudentFeature.Repositories;
-using Iwentys.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Companies.Services

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Companies.Entities;
-using Iwentys.Models.Entities;
+using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Features.Companies.Repositories
 {

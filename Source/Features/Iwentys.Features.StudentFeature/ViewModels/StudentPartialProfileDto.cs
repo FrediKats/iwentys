@@ -1,9 +1,9 @@
 ﻿using System;
 using Iwentys.Common.Tools;
-using Iwentys.Models.Entities;
-using Iwentys.Models.Types;
+using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.StudentFeature.Enums;
 
-namespace Iwentys.Models.Transferable.Students
+namespace Iwentys.Features.StudentFeature.ViewModels
 {
     public class StudentPartialProfileDto : IResultFormat
     {

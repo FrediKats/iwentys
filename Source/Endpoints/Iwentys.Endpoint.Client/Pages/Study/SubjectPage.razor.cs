@@ -4,7 +4,7 @@ using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients;
 using Iwentys.Endpoint.Sdk.ControllerClients.Study;
 using Iwentys.Features.Newsfeeds.ViewModels;
-using Iwentys.Models.Transferable.Study;
+using Iwentys.Features.StudentFeature.ViewModels;
 using Microsoft.AspNetCore.Components;
 
 namespace Iwentys.Endpoint.Client.Pages.Study

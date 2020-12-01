@@ -1,9 +1,10 @@
 ﻿using System;
 using FluentResults;
+using Iwentys.Features.StudentFeature.Enums;
 using Iwentys.Models.Types;
 using Newtonsoft.Json;
 
-namespace Iwentys.Models.Entities.Study
+namespace Iwentys.Features.StudentFeature.Entities
 {
     public class GroupSubjectEntity
     {

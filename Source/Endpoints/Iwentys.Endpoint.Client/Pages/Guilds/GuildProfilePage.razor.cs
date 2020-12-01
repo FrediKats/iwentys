@@ -6,7 +6,6 @@ using Iwentys.Endpoint.Sdk.ControllerClients;
 using Iwentys.Endpoint.Sdk.ControllerClients.Guilds;
 using Iwentys.Features.Guilds.ViewModels.Guilds;
 using Iwentys.Features.Newsfeeds.ViewModels;
-using Iwentys.Models.Transferable.Study;
 using Microsoft.AspNetCore.Components;
 
 namespace Iwentys.Endpoint.Client.Pages.Guilds

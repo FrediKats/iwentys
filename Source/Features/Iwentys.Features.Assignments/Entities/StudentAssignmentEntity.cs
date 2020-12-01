@@ -1,4 +1,4 @@
-﻿using Iwentys.Models.Entities;
+﻿using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Features.Assignments.Entities
 {

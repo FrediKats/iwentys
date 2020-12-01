@@ -9,7 +9,7 @@ using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.ViewModels.Guilds;
 using Iwentys.Features.StudentFeature;
-using Iwentys.Models.Types;
+using Iwentys.Features.StudentFeature.Enums;
 using Iwentys.Tests.Tools;
 using NUnit.Framework;
 

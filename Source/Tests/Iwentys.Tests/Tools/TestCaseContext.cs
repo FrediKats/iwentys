@@ -20,10 +20,10 @@ using Iwentys.Features.Guilds.ViewModels.GuildTribute;
 using Iwentys.Features.Quests.Services;
 using Iwentys.Features.Quests.ViewModels;
 using Iwentys.Features.StudentFeature;
+using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.StudentFeature.Enums;
 using Iwentys.Features.StudentFeature.Services;
 using Iwentys.Integrations.GithubIntegration;
-using Iwentys.Models.Entities;
-using Iwentys.Models.Types;
 
 namespace Iwentys.Tests.Tools
 {

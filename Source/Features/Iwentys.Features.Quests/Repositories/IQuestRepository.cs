@@ -2,7 +2,7 @@
 using Iwentys.Common.Tools;
 using Iwentys.Features.Quests.Entities;
 using Iwentys.Features.Quests.ViewModels;
-using Iwentys.Models.Entities;
+using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Features.Quests.Repositories
 {

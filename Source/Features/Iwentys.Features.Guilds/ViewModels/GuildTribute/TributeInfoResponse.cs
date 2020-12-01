@@ -1,8 +1,7 @@
 ﻿using System;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
-using Iwentys.Models.Transferable.Students;
-using LanguageExt;
+using Iwentys.Features.StudentFeature.ViewModels;
 
 namespace Iwentys.Features.Guilds.ViewModels.GuildTribute
 {
@@ -30,7 +29,7 @@ namespace Iwentys.Features.Guilds.ViewModels.GuildTribute
                 DifficultLevel = project.DifficultLevel,
                 Mark = project.Mark,
                 CreationTime = project.CreationTime,
-                Mentor = project.Mentor.IsNull() ? null : new StudentPartialProfileDto(project.Mentor)
+                Mentor = project.Mentor is null ? null : new StudentPartialProfileDto(project.Mentor)
             };
         }
     }

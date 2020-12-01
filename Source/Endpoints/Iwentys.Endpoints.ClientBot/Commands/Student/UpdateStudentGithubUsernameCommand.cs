@@ -3,7 +3,7 @@ using FluentResults;
 using Iwentys.Endpoints.ClientBot.Tools;
 using Iwentys.Features.StudentFeature;
 using Iwentys.Features.StudentFeature.Services;
-using Iwentys.Models.Transferable.Students;
+using Iwentys.Features.StudentFeature.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Tef.BotFramework.Abstractions;
 using Tef.BotFramework.Core;

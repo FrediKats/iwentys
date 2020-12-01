@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Features.Quests.ViewModels;
 using Iwentys.Features.StudentFeature;
-using Iwentys.Models.Entities;
+using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Tests.Tools;
 using NUnit.Framework;
 

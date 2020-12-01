@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients.Study;
-using Iwentys.Models.Entities.Study;
-using Iwentys.Models.Transferable.Students;
-using Iwentys.Models.Transferable.Study;
+using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.StudentFeature.ViewModels;
 using Microsoft.AspNetCore.Components;
 
 namespace Iwentys.Endpoint.Client.Pages.Study

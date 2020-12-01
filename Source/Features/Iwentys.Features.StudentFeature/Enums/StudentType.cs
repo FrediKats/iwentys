@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Models.Types
+﻿namespace Iwentys.Features.StudentFeature.Enums
 {
     public enum StudentType
     {

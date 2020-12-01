@@ -10,8 +10,8 @@ using Iwentys.Features.Quests.Enums;
 using Iwentys.Features.Quests.Repositories;
 using Iwentys.Features.Quests.ViewModels;
 using Iwentys.Features.StudentFeature;
+using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Features.StudentFeature.Repositories;
-using Iwentys.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Quests.Services

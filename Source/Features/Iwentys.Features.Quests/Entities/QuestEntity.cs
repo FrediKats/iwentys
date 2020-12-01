@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Iwentys.Features.Quests.Enums;
-using Iwentys.Models.Entities;
+using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Features.Quests.Entities
 {

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using Iwentys.Common.Tools;
-using Iwentys.Models.Entities;
+using Iwentys.Features.StudentFeature.Entities;
 
-namespace Iwentys.Models.Transferable.Students
+namespace Iwentys.Features.StudentFeature.ViewModels
 {
     public class StudentFullProfileDto : StudentPartialProfileDto
     {

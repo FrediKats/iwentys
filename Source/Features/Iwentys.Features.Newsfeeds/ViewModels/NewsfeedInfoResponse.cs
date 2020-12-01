@@ -1,6 +1,6 @@
 ﻿using System;
 using Iwentys.Features.Newsfeeds.Entities;
-using Iwentys.Models.Transferable.Students;
+using Iwentys.Features.StudentFeature.ViewModels;
 
 namespace Iwentys.Features.Newsfeeds.ViewModels
 {

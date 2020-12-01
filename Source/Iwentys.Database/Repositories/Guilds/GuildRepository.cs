@@ -6,7 +6,7 @@ using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Features.Guilds.ViewModels.Guilds;
-using Iwentys.Models.Entities;
+using Iwentys.Features.StudentFeature.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

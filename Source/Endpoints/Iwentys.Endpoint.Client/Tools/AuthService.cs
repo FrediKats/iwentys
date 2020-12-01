@@ -2,8 +2,8 @@
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
+using Iwentys.Common.Transferable;
 using Iwentys.Endpoint.Sdk.ControllerClients;
-using Iwentys.Models.Transferable;
 
 namespace Iwentys.Endpoint.Client.Tools
 {

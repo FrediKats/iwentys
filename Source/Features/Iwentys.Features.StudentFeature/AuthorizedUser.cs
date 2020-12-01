@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Common.Tools;
+using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Features.StudentFeature.Repositories;
-using Iwentys.Models.Entities;
 
 namespace Iwentys.Features.StudentFeature
 {

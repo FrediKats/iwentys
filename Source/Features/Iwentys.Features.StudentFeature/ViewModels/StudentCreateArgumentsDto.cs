@@ -1,6 +1,6 @@
-﻿using Iwentys.Models.Types;
+﻿using Iwentys.Features.StudentFeature.Enums;
 
-namespace Iwentys.Models.Transferable.Students
+namespace Iwentys.Features.StudentFeature.ViewModels
 {
     public class StudentCreateArgumentsDto
     {

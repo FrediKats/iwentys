@@ -2,7 +2,7 @@
 using Iwentys.Common.Tools;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.ViewModels.Guilds;
-using Iwentys.Models.Entities;
+using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Features.Guilds.Repositories
 {

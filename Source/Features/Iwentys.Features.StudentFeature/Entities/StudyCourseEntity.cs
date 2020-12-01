@@ -1,6 +1,6 @@
-﻿using Iwentys.Models.Types;
+﻿using Iwentys.Features.StudentFeature.Enums;
 
-namespace Iwentys.Models.Entities.Study
+namespace Iwentys.Features.StudentFeature.Entities
 {
     public class StudyCourseEntity
     {

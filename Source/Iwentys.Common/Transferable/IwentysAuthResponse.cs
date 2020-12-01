@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Models.Transferable
+﻿namespace Iwentys.Common.Transferable
 {
     public class IwentysAuthResponse
     {

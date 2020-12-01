@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Iwentys.Models.Transferable.Students;
+using Iwentys.Features.StudentFeature.ViewModels;
 
 namespace Iwentys.Features.Guilds.ViewModels.Guilds
 {

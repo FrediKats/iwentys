@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Iwentys.Models.Entities.Study;
-using Iwentys.Models.Transferable.Students;
-using Iwentys.Models.Types;
+using Iwentys.Features.StudentFeature.Enums;
 
-namespace Iwentys.Models.Entities
+namespace Iwentys.Features.StudentFeature.Entities
 {
     public class StudentEntity
     {
@@ -24,15 +22,6 @@ namespace Iwentys.Models.Entities
             CreationTime = DateTime.UtcNow;
             LastOnlineTime = DateTime.UtcNow;
             GuildLeftTime = DateTime.MinValue;
-        }
-
-        public StudentEntity(StudentCreateArgumentsDto arguments, int groupId) : this(arguments.Id, arguments.FirstName, arguments.MiddleName, arguments.SecondName)
-        {
-            GroupId = groupId;
-            //TODO:??
-            Role = arguments.Role;
-            GithubUsername = arguments.GithubUsername;
-            BarsPoints = arguments.BarsPoints;
         }
 
         [Key]

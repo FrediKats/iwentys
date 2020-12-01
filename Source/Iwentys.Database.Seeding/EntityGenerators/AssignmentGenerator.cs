@@ -2,7 +2,7 @@
 using Bogus;
 using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Assignments.ViewModels;
-using Iwentys.Models.Entities;
+using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {

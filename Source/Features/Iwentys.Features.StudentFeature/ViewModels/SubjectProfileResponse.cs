@@ -1,6 +1,6 @@
-﻿using Iwentys.Models.Entities.Study;
+﻿using Iwentys.Features.StudentFeature.Entities;
 
-namespace Iwentys.Models.Transferable.Study
+namespace Iwentys.Features.StudentFeature.ViewModels
 {
     public class SubjectProfileResponse
     {

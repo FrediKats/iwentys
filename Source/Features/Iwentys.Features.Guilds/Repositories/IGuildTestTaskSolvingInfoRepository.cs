@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Iwentys.Features.Guilds.Entities;
-using Iwentys.Models.Entities;
+using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Features.Guilds.Repositories
 {

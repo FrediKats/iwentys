@@ -7,7 +7,7 @@ using Iwentys.Features.Quests.Entities;
 using Iwentys.Features.Quests.Enums;
 using Iwentys.Features.Quests.Repositories;
 using Iwentys.Features.Quests.ViewModels;
-using Iwentys.Models.Entities;
+using Iwentys.Features.StudentFeature.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

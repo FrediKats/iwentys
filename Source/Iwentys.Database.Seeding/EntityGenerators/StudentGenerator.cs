@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Bogus;
 using Iwentys.Database.Seeding.Tools;
-using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Study;
-using Iwentys.Models.Types;
+using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.StudentFeature.Enums;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {

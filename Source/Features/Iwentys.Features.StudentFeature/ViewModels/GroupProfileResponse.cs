@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Common.Tools;
-using Iwentys.Models.Entities.Study;
-using Iwentys.Models.Transferable.Students;
+using Iwentys.Features.StudentFeature.Entities;
 
-namespace Iwentys.Models.Transferable.Study
+namespace Iwentys.Features.StudentFeature.ViewModels
 {
     public class GroupProfileResponse
     {

@@ -1,6 +1,6 @@
-﻿using Iwentys.Models.Types;
+﻿using Iwentys.Features.StudentFeature.Enums;
 
-namespace Iwentys.Models
+namespace Iwentys.Features.StudentFeature.ViewModels
 {
     public class StudySearchParameters
     {

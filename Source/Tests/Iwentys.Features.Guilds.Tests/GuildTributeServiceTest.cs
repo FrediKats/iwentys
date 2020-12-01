@@ -4,7 +4,7 @@ using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.ViewModels.Guilds;
 using Iwentys.Features.Guilds.ViewModels.GuildTribute;
 using Iwentys.Features.StudentFeature;
-using Iwentys.Models.Types;
+using Iwentys.Features.StudentFeature.Enums;
 using Iwentys.Tests.Tools;
 using NUnit.Framework;
 

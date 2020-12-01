@@ -1,5 +1,5 @@
 ﻿using System;
-using Iwentys.Models.Entities;
+using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Features.Newsfeeds.Entities
 {

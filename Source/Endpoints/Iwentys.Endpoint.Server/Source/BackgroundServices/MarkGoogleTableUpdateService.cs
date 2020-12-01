@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentResults;
+using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Integrations.GoogleTableIntegration;
 using Iwentys.Integrations.GoogleTableIntegration.Marks;
-using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Study;
 using Iwentys.Models.Types;
 using Microsoft.Extensions.Logging;
 
@@ -40,7 +39,7 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
             foreach (StudentSubjectScore subjectScore in _tableParser.Execute(new MarkParser(googleTableData.Value, _logger)))
             {
                 SubjectActivityEntity activity = activities
-                    .SingleOrDefault(s => subjectScore.IsMatchedWithStudent(s.Student)
+                    .SingleOrDefault(s => IsMatchedWithStudent(subjectScore, s.Student)
                                           && s.GroupSubject.SubjectId == groupSubjectData.SubjectId);
 
                 if (!Integrations.GoogleTableIntegration.Tools.ParseInAnyCulture(subjectScore.Score, out double pointsCount))
@@ -77,6 +76,12 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
                 activity.Points = pointsCount;
                 _subjectActivityRepository.UpdateAsync(activity);
             }
+        }
+
+        private bool IsMatchedWithStudent(StudentSubjectScore ss, StudentEntity student)
+        {
+            return ss.Name.Contains(student.FirstName)
+                   && ss.Name.Contains(student.SecondName);
         }
     }
 }

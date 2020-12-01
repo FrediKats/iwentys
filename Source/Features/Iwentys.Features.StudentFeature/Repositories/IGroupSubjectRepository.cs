@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Iwentys.Common.Tools;
-using Iwentys.Models;
-using Iwentys.Models.Entities.Study;
+using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.StudentFeature.ViewModels;
 
 namespace Iwentys.Features.StudentFeature.Repositories
 {

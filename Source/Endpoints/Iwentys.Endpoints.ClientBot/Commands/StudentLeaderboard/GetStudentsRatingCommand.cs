@@ -5,7 +5,7 @@ using FluentResults;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Gamification.Services;
 using Iwentys.Features.Gamification.ViewModels;
-using Iwentys.Models;
+using Iwentys.Features.StudentFeature.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Tef.BotFramework.Abstractions;
 using Tef.BotFramework.Core;

@@ -5,10 +5,9 @@ using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Gamification.ViewModels;
 using Iwentys.Features.GithubIntegration.Services;
+using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Features.StudentFeature.Repositories;
-using Iwentys.Models;
-using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Study;
+using Iwentys.Features.StudentFeature.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Gamification.Services
