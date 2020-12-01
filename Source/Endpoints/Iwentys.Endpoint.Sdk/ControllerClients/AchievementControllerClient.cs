@@ -15,9 +15,9 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
 
         public HttpClient Client { get; }
 
-        public Task<List<AchievementInfoDto>> GetForStudent(int studentId)
+        public Task<List<AchievementViewModel>> GetForStudent(int studentId)
         {
-            return Client.GetFromJsonAsync<List<AchievementInfoDto>>($"/api/achievement/for-student?studentId={studentId}");
+            return Client.GetFromJsonAsync<List<AchievementViewModel>>($"/api/achievement/for-student?studentId={studentId}");
         }
     }
 }

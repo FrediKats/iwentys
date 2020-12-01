@@ -4,35 +4,35 @@ using Newtonsoft.Json;
 
 namespace Iwentys.Features.Achievements.ViewModels
 {
-    public class AchievementInfoDto
+    public class AchievementViewModel
     {
         [JsonConstructor]
-        public AchievementInfoDto(string url, string name, string description, DateTime gettingTime)
+        public AchievementViewModel(string imageUrl, string name, string description, DateTime gettingTime)
         {
-            Url = url;
+            ImageUrl = imageUrl;
             Name = name;
             Description = description;
             GettingTime = gettingTime;
         }
 
-        public string Url { get; set; }
+        public string ImageUrl { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 
         public DateTime GettingTime { get; set; }
 
-        public static AchievementInfoDto Wrap(StudentAchievementEntity achievement)
+        public static AchievementViewModel Wrap(StudentAchievementEntity achievement)
         {
-            return new AchievementInfoDto(
+            return new AchievementViewModel(
                 achievement.Achievement.Url,
                 achievement.Achievement.Title,
                 achievement.Achievement.Description,
                 achievement.GettingTime);
         }
 
-        public static AchievementInfoDto Wrap(GuildAchievementEntity achievement)
+        public static AchievementViewModel Wrap(GuildAchievementEntity achievement)
         {
-            return new AchievementInfoDto(
+            return new AchievementViewModel(
                 achievement.Achievement.Url,
                 achievement.Achievement.Title,
                 achievement.Achievement.Description,

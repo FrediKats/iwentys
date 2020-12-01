@@ -79,7 +79,7 @@ namespace Iwentys.Features.Guilds.Domain
                 MemberLeaderBoard = dashboard,
                 Rating = dashboard.TotalRate,
                 PinnedRepositories = Profile.PinnedProjects.SelectToList(p => _githubUserDataService.GetCertainRepository(p.RepositoryOwner, p.RepositoryName)),
-                Achievements = Profile.Achievements.SelectToList(AchievementInfoDto.Wrap),
+                Achievements = Profile.Achievements.SelectToList(AchievementViewModel.Wrap),
                 TestTasks = Profile.TestTasks.SelectToList(GuildTestTaskInfoResponse.Wrap)
             };
 

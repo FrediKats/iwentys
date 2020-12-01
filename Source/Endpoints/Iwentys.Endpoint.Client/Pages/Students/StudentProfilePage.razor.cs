@@ -24,7 +24,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
     {
 
         private StudentFullProfileDto _studentFullProfile;
-        private List<AchievementInfoDto> _achievements;
+        private List<AchievementViewModel> _achievements;
         private List<CodingActivityInfoResponse> _codingActivityInfo;
 
         private LineConfig _githubChartConfig;

@@ -14,7 +14,7 @@
             @foreach (GuildProfilePreviewDto guild in _guildProfiles)
             {
                 <NavLink href=@LinkToProfile(guild) class="guild-rating-row">
-                    <MatCard class="d-flex flex-row">
+                    <MatPaper Elevation="10" Rounded="true" Class="d-flex flex-row">
                         <div class="col-md-2">
                             <img src=@guild.LogoUrl class="guild-logo" />
                         </div>
@@ -28,7 +28,7 @@
                         <div class="col-md-2">
                             <p>@guild.Rating</p>
                         </div>
-                    </MatCard>
+                    </MatPaper>
                 </NavLink>
             }
         </MatList>

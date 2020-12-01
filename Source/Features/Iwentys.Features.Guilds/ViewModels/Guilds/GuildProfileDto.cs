@@ -19,7 +19,7 @@ namespace Iwentys.Features.Guilds.ViewModels.Guilds
         public GuildMemberLeaderBoard MemberLeaderBoard { get; set; }
 
         public ActiveTributeResponse Tribute { get; set; }
-        public List<AchievementInfoDto> Achievements { get; set; }
+        public List<AchievementViewModel> Achievements { get; set; }
         public List<GithubRepository> PinnedRepositories { get; set; }
         public List<GuildTestTaskInfoResponse> TestTasks { get; set; } = new List<GuildTestTaskInfoResponse>();
 
