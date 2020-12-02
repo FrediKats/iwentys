@@ -34,7 +34,7 @@ namespace Iwentys.Features.GithubIntegration.Entities
 
         public GithubRepository ToGithubRepository()
         {
-            return new GithubRepository(Id, Name, Description, FullUrl, StarCount);
+            return new GithubRepository(Id, Author, Name, Description, FullUrl, StarCount);
         }
     }
 }

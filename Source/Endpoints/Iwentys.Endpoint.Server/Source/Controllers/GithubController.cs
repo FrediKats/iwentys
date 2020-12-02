@@ -35,7 +35,7 @@ namespace Iwentys.Endpoint.Server.Source.Controllers
         }
 
         [HttpGet("student/{studentId}/repository")]
-        public async Task<ActionResult<IReadOnlyList<CodingActivityInfoResponse>>> GetStudentRepositories(int studentId)
+        public async Task<ActionResult<IReadOnlyList<GithubRepository>>> GetStudentRepositories(int studentId)
         {
             IReadOnlyList<GithubRepository> result = await _githubUserDataService.GetStudentRepositories(studentId);
             return Ok(result);

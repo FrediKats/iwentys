@@ -9,7 +9,7 @@ namespace Iwentys.Integrations.GithubIntegration
     {
         public GithubRepository GetRepository(string username, string repositoryName)
         {
-            return new GithubRepository(17, $"{username}/{repositoryName}", "No desc", null, 0);
+            return new GithubRepository(17, username, repositoryName, "No desc", null, 0);
         }
 
         public IReadOnlyList<GithubRepository> GetUserRepositories(string username)

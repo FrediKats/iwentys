@@ -2,7 +2,8 @@
 {
     public class GuildPinnedProjectEntity
     {
-        public int Id { get; set; }
+        //FYI: It's always must be github repo id
+        public long Id { get; set; }
 
         public GuildEntity Guild { get; set; }
         public int GuildId { get; set; }

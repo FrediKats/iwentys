@@ -7,6 +7,7 @@ using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Features.Guilds.ViewModels.Guilds;
 using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Integrations.GithubIntegration.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -98,19 +99,20 @@ namespace Iwentys.Database.Repositories.Guilds
                 .SingleOrDefault();
         }
 
-        public async Task<GuildPinnedProjectEntity> PinProjectAsync(int guildId, string owner, string projectName)
+        public async Task<GuildPinnedProjectEntity> PinProjectAsync(int guildId, GithubRepository repository)
         {
             EntityEntry<GuildPinnedProjectEntity> entry = await _dbContext.GuildPinnedProjects.AddAsync(new GuildPinnedProjectEntity
             {
+                Id = repository.Id,
                 GuildId = guildId,
-                RepositoryName = projectName,
-                RepositoryOwner = owner
+                RepositoryName = repository.Name,
+                RepositoryOwner = repository.Owner
             });
             await _dbContext.SaveChangesAsync();
             return entry.Entity;
         }
 
-        public void UnpinProject(int pinnedProjectId)
+        public void UnpinProject(long pinnedProjectId)
         {
             _dbContext.GuildPinnedProjects.Remove(_dbContext.GuildPinnedProjects.Find(pinnedProjectId));
             _dbContext.SaveChanges();
