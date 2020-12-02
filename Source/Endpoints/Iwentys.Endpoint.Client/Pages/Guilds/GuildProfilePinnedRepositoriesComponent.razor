@@ -24,7 +24,7 @@
         }
     </div>
 
-    <MatButton>Запинить</MatButton>
+    <MatButton Link=@LinkToPinCreating>Запинить</MatButton>
 </div>
 
 @code {
@@ -32,4 +32,5 @@
     [Parameter]
     public GuildProfileDto GuildProfile { get; set; }
 
+    private string LinkToPinCreating => $"guild/{GuildProfile.Id}/create-pinned";
 }
