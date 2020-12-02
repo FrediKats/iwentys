@@ -16,16 +16,24 @@ namespace Iwentys.Features.Newsfeeds.Services
             _newsfeedRepository = newsfeedRepository;
         }
 
-        public async Task<List<NewsfeedInfoResponse>> GetSubjectNewsfeedsAsync(int subjectId)
+        public async Task<NewsfeedViewModel> CreateSubjectNewsfeed(NewsfeedCreateViewModel createViewModel, int authorId, int subjectId)
         {
-            List<SubjectNewsfeedEntity> result = await _newsfeedRepository.GetSubjectNewsfeeds(subjectId);
-            return result.SelectToList(n => NewsfeedInfoResponse.Wrap(n.Newsfeed));
+            //TODO: add validation
+            SubjectNewsfeedEntity subjectNewsfeedEntity = await _newsfeedRepository.CreateSubjectNewsfeed(createViewModel, authorId, subjectId);
+
+            return NewsfeedViewModel.Wrap(subjectNewsfeedEntity.Newsfeed);
         }
 
-        public async Task<List<NewsfeedInfoResponse>> GetGuildNewsfeeds(int guildId)
+        public async Task<List<NewsfeedViewModel>> GetSubjectNewsfeedsAsync(int subjectId)
+        {
+            List<SubjectNewsfeedEntity> result = await _newsfeedRepository.ReadSubjectNewsfeeds(subjectId);
+            return result.SelectToList(n => NewsfeedViewModel.Wrap(n.Newsfeed));
+        }
+
+        public async Task<List<NewsfeedViewModel>> GetGuildNewsfeeds(int guildId)
         {
             List<GuildNewsfeedEntity> result = await _newsfeedRepository.GetGuildNewsfeeds(guildId);
-            return result.SelectToList(n => NewsfeedInfoResponse.Wrap(n.Newsfeed));
+            return result.SelectToList(n => NewsfeedViewModel.Wrap(n.Newsfeed));
         }
     }
 }

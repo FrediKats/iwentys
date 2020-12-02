@@ -15,14 +15,14 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
 
         public HttpClient Client { get; }
 
-        public Task<List<NewsfeedInfoResponse>> GetForSubject(int subjectId)
+        public Task<List<NewsfeedViewModel>> GetForSubject(int subjectId)
         {
-            return Client.GetFromJsonAsync<List<NewsfeedInfoResponse>>($"/api/newsfeed/subject/{subjectId}");
+            return Client.GetFromJsonAsync<List<NewsfeedViewModel>>($"/api/newsfeed/subject/{subjectId}");
         }
 
-        public Task<List<NewsfeedInfoResponse>> GetForGuild(int guildId)
+        public Task<List<NewsfeedViewModel>> GetForGuild(int guildId)
         {
-            return Client.GetFromJsonAsync<List<NewsfeedInfoResponse>>($"/api/newsfeed/guild/{guildId}");
+            return Client.GetFromJsonAsync<List<NewsfeedViewModel>>($"/api/newsfeed/guild/{guildId}");
         }
     }
 }

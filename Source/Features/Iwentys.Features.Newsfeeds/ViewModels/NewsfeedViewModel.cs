@@ -4,7 +4,7 @@ using Iwentys.Features.StudentFeature.ViewModels;
 
 namespace Iwentys.Features.Newsfeeds.ViewModels
 {
-    public class NewsfeedInfoResponse
+    public class NewsfeedViewModel
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -14,9 +14,9 @@ namespace Iwentys.Features.Newsfeeds.ViewModels
 
         public StudentPartialProfileDto Author { get; set; }
 
-        public static NewsfeedInfoResponse Wrap(NewsfeedEntity entity)
+        public static NewsfeedViewModel Wrap(NewsfeedEntity entity)
         {
-            return new NewsfeedInfoResponse
+            return new NewsfeedViewModel
             {
                 Id = entity.Id,
                 Title = entity.Title,

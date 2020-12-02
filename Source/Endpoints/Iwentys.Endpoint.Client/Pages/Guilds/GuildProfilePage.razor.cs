@@ -13,7 +13,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
     public partial class GuildProfilePage : ComponentBase
     {
         private GuildProfileDto _guild;
-        private List<NewsfeedInfoResponse> _newsfeeds;
+        private List<NewsfeedViewModel> _newsfeeds;
 
         protected override async Task OnInitializedAsync()
         {
