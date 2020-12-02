@@ -13,13 +13,25 @@
         </div>
 
         <div class="col-md-6 d-flex flex-column">
-            <AchievementComponent Achievements=@_guild.Achievements></AchievementComponent>
-            <NewsfeedComponent Newsfeeds=@_newsfeeds></NewsfeedComponent>
+            <div class="profile-block">
+                <AchievementComponent Achievements=@_guild.Achievements></AchievementComponent>
+
+            </div>
+            <div class="profile-block">
+                <NewsfeedComponent Newsfeeds=@_newsfeeds></NewsfeedComponent>
+
+            </div>
         </div>
 
         <div class="col-md-3 d-flex flex-column">
-            <GuildProfileMemberRateComponent GuildProfile=@_guild></GuildProfileMemberRateComponent>
-            <GuildProfilePinnedRepositoriesComponent GuildProfile=@_guild></GuildProfilePinnedRepositoriesComponent>
+            <div class="profile-block">
+                <GuildProfileMemberRateComponent GuildProfile=@_guild></GuildProfileMemberRateComponent>
+
+            </div>
+            <div class="profile-block">
+                <GuildProfilePinnedRepositoriesComponent GuildProfile=@_guild></GuildProfilePinnedRepositoriesComponent>
+
+            </div>
         </div>
     </div>
 }

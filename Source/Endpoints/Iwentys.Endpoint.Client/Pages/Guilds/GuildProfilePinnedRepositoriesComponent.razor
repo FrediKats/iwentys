@@ -7,7 +7,7 @@
 @inject HttpClient Http
 @inject ILocalStorageService LocalStorage
 
-<div class="text-center">
+<MatPaper Elevation="10" Rounded="true" class="text-center">
     <MatHeadline5>Репозитории</MatHeadline5>
 
     <div class="container-fluid d-flex flex-column">
@@ -31,7 +31,7 @@
     </div>
 
     <MatButton Link=@LinkToPinCreating>Запинить</MatButton>
-</div>
+</MatPaper>
 
 @code {
 

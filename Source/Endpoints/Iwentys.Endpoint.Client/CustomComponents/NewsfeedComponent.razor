@@ -2,7 +2,7 @@
 
 @namespace Iwentys.Endpoint.Client.CustomComponents
 
-<div class="container-fluid d-flex flex-column">
+<MatPaper Elevation="10" Rounded="true" class="container-fluid d-flex flex-column">
     @foreach (NewsfeedViewModel newsfeed in Newsfeeds)
     {
         <MatCard>
@@ -19,7 +19,7 @@
             </MatCardContent>
         </MatCard>
     }
-</div>
+</MatPaper>
 
 @code
 {

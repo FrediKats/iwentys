@@ -1,7 +1,7 @@
 ﻿@using Iwentys.Features.Guilds.ViewModels.Guilds
 @namespace Iwentys.Endpoint.Client.Pages.Guilds
 
-<div class="container-fluid d-flex flex-column align-items-center">
+<MatPaper Elevation="10" Rounded="true" class="container-fluid d-flex flex-column align-items-center">
     <img src=@SelectedGuildProfile.LogoUrl class="guild-logo" />
 
     <MatHeadline4>@SelectedGuildProfile.Title</MatHeadline4>
@@ -11,7 +11,7 @@
     <MatButton Link="@EditProfileLink()">Редактировать</MatButton>
     @*TODO: add tributes*@
     <MatButton>Трибьюты</MatButton>
-</div>
+</MatPaper>
 
 @code {
     [Parameter]

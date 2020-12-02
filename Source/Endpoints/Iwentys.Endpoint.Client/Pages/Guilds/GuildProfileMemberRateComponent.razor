@@ -1,7 +1,7 @@
 ﻿@using Iwentys.Features.Guilds.ViewModels.Guilds
 @namespace Iwentys.Endpoint.Client.Pages.Guilds
 
-<div class="text-center card">
+<MatPaper Elevation="10" Rounded="true" class="text-center">
     <MatHeadline5>Рейтинг гильдии - @GuildProfile.MemberLeaderBoard.TotalRate</MatHeadline5>
     <MatHeadline6>Импакт:</MatHeadline6>
     <MatList>
@@ -12,7 +12,7 @@
             </MatListItem>
         }
     </MatList>
-</div>
+</MatPaper>
 
 @code {
     [Parameter]
