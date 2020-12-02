@@ -116,21 +116,19 @@ namespace Iwentys.Features.Guilds.Services
             StudentEntity profile = await user.GetProfile(_database.Student);
             profile.EnsureIsGuildEditor(guild);
 
+            //TODO: add work with cache
             GithubRepository repository = _githubApiAccessor.GetRepository(owner, projectName);
-            await _database.Guild.PinProjectAsync(guildId, owner, projectName);
+            await _database.Guild.PinProjectAsync(guildId, repository);
             return repository;
         }
 
-        public Task UnpinProject(AuthorizedUser user, int pinnedProjectId)
+        public async Task UnpinProject(AuthorizedUser user, int guildId, long pinnedProjectId)
         {
-            return Task.CompletedTask;
-            //TODO: fix
-            //GuildPinnedProjectEntity guildPinnedProject = await _database.Context.GuildPinnedProjects.FindAsync(pinnedProjectId) ?? throw EntityNotFoundException.PinnedRepoWasNotFound(pinnedProjectId);
-            //GuildEntity guild = await _database.Guild.ReadByIdAsync(guildPinnedProject.GuildId);
-            //StudentEntity profile = await user.GetProfile(_database.Student);
-            //profile.EnsureIsGuildEditor(guild);
+            GuildEntity guild = await _database.Guild.ReadByIdAsync(guildId);
+            StudentEntity profile = await user.GetProfile(_database.Student);
+            profile.EnsureIsGuildEditor(guild);
 
-            //_database.Guild.UnpinProject(pinnedProjectId);
+            _database.Guild.UnpinProject(pinnedProjectId);
         }
 
         public async Task<GuildMemberLeaderBoard> GetGuildMemberLeaderBoard(int guildId)

@@ -41,7 +41,7 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
             return await responseMessage.Content.ReadFromJsonAsync<GithubRepository>();
         }
 
-        public async Task DeletePinnedProject(int guildId, int repositoryId)
+        public async Task DeletePinnedProject(int guildId, long repositoryId)
         {
             HttpResponseMessage responseMessage = await Client.DeleteAsync($"/api/guild/{guildId}/pinned/{repositoryId}");
         }
