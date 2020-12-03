@@ -51,5 +51,12 @@ namespace Iwentys.Database.Repositories
             await _dbContext.SaveChangesAsync();
             return result.Entity;
         }
+
+        public async Task Delete(int assignmentId)
+        {
+            AssignmentEntity assignment = await _dbContext.Assignments.FindAsync(assignmentId);
+            _dbContext.Assignments.Remove(assignment);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

@@ -43,5 +43,15 @@ namespace Iwentys.Endpoint.Server.Source.Controllers
             await _assignmentService.CompleteAsync(user, assignmentId);
             return Ok();
         }
+
+        //TODO: rework verbs
+        //TODO: it isn't work =\
+        [HttpGet("{assignmentId}/delete")]
+        public async Task<ActionResult> Delete(int assignmentId)
+        {
+            AuthorizedUser user = this.TryAuthWithToken();
+            await _assignmentService.DeleteAsync(user, assignmentId);
+            return Ok();
+        }
     }
 }

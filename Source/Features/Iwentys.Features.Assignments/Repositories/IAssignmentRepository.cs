@@ -11,5 +11,6 @@ namespace Iwentys.Features.Assignments.Repositories
         Task<StudentAssignmentEntity> CreateAsync(StudentEntity creator, AssignmentCreateRequest assignmentCreateRequest);
         IQueryable<StudentAssignmentEntity> Read();
         Task<AssignmentEntity> MarkCompleted(int assignmentId);
+        Task Delete(int assignmentId);
     }
 }

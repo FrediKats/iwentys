@@ -24,5 +24,11 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
             //TODO: refresh
             NavigationManagerClient.NavigateTo("/assignment");
         }
+        private async Task Delete(int assignmentId)
+        {
+            await _assignmentControllerClient.Delete(assignmentId);
+            //TODO: refresh
+            NavigationManagerClient.NavigateTo("/assignment");
+        }
     }
 }

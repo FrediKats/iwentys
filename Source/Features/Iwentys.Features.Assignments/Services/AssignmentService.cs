@@ -48,5 +48,11 @@ namespace Iwentys.Features.Assignments.Services
             AssignmentEntity assignmentEntity = await _assignmentRepository.MarkCompleted(assignmentId);
             return;
         }
+
+        public Task DeleteAsync(AuthorizedUser user, int assignmentId)
+        {
+            //TODO: ensure user is creator
+            return _assignmentRepository.Delete(assignmentId);
+        }
     }
 }
