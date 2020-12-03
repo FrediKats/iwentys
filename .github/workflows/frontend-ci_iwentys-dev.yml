@@ -6,7 +6,7 @@ name: Build and deploy ASP.Net Core app to Azure Web App - iwentys-dev
 on:
   push:
     branches:
-      - dev
+      - master
 
 jobs:
   build-and-deploy:
@@ -34,7 +34,7 @@ jobs:
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v1
       with:
-        app-name: 'iwentys-dev'
+        app-name: 'iwentys'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_a2aad1ea5cc8491993076769528bbb5e  }}
+        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F55F72046FDD4898A3415E6654CB6D92  }}
         package: ${{env.DOTNET_ROOT}}/myapp 
