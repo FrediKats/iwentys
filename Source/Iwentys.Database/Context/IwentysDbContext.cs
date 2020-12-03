@@ -109,6 +109,8 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<SubjectNewsfeedEntity>().HasData(seedData.NewsfeedGenerator.SubjectNewsfeeds);
             modelBuilder.Entity<GuildNewsfeedEntity>().HasData(seedData.NewsfeedGenerator.GuildNewsfeeds);
 
+            modelBuilder.Entity<QuestEntity>().HasData(seedData.QuestGenerator.Quest);
+            modelBuilder.Entity<QuestResponseEntity>().HasData(seedData.QuestGenerator.QuestResponse);
         }
 
         //TODO: Hack for removing cascade. Need to rework keys
