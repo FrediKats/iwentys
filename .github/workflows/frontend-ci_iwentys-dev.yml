@@ -36,5 +36,5 @@ jobs:
       with:
         app-name: 'iwentys'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F55F72046FDD4898A3415E6654CB6D92  }}
+        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A2AAD1EA5CC8491993076769528BBB5E  }}
         package: ${{env.DOTNET_ROOT}}/myapp 
