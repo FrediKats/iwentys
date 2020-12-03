@@ -34,5 +34,14 @@ namespace Iwentys.Endpoint.Server.Source.Controllers
             AssignmentInfoResponse assignment = await _assignmentService.CreateAsync(user, assignmentCreateRequest);
             return Ok(assignment);
         }
+
+        //TODO: rework verbs
+        [HttpGet("{assignmentId}/complete")]
+        public async Task<ActionResult> Complete(int assignmentId)
+        {
+            AuthorizedUser user = this.TryAuthWithToken();
+            await _assignmentService.CompleteAsync(user, assignmentId);
+            return Ok();
+        }
     }
 }

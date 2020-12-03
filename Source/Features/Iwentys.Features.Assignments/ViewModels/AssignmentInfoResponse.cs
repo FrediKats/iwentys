@@ -18,16 +18,21 @@ namespace Iwentys.Features.Assignments.ViewModels
 
         public static AssignmentInfoResponse Wrap(StudentAssignmentEntity studentAssignment)
         {
+            return Wrap(studentAssignment.Assignment);
+        }
+
+        public static AssignmentInfoResponse Wrap(AssignmentEntity assignment)
+        {
             return new AssignmentInfoResponse
             {
-                Id = studentAssignment.AssignmentId,
-                Title = studentAssignment.Assignment.Title,
-                Description = studentAssignment.Assignment.Description,
-                CreationTime = studentAssignment.Assignment.CreationTime,
-                Deadline = studentAssignment.Assignment.Deadline,
-                Creator = new StudentPartialProfileDto(studentAssignment.Assignment.Creator),
-                Subject = studentAssignment.Assignment.Subject,
-                IsCompeted = studentAssignment.IsCompeted
+                Id = assignment.Id,
+                Title = assignment.Title,
+                Description = assignment.Description,
+                CreationTime = assignment.CreationTime,
+                Deadline = assignment.Deadline,
+                Creator = new StudentPartialProfileDto(assignment.Creator),
+                Subject = assignment.Subject,
+                IsCompeted = assignment.IsCompleted
             };
         }
     }

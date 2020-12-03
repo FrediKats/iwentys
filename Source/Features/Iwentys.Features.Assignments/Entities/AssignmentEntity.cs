@@ -11,6 +11,7 @@ namespace Iwentys.Features.Assignments.Entities
         public string Description { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime? Deadline { get; set; }
+        public bool IsCompleted { get; set; }
 
         public int CreatorId { get; set; }
         public StudentEntity Creator { get; set; }

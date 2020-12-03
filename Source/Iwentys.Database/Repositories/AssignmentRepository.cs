@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Features.Assignments.Entities;
@@ -37,6 +38,18 @@ namespace Iwentys.Database.Repositories
             return _dbContext.StudentAssignments
                 .Include(sa => sa.Assignment)
                 .ThenInclude(a => a.Subject);
+        }
+
+        public async Task<AssignmentEntity> MarkCompleted(int assignmentId)
+        {
+            AssignmentEntity assignmentEntity = await _dbContext.Assignments.FindAsync(assignmentId);
+            if (assignmentEntity is null)
+                //TODO: meh
+                throw new Exception();
+            assignmentEntity.IsCompleted = true;
+            EntityEntry<AssignmentEntity> result = _dbContext.Assignments.Update(assignmentEntity);
+            await _dbContext.SaveChangesAsync();
+            return result.Entity;
         }
     }
 }

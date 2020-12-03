@@ -40,5 +40,13 @@ namespace Iwentys.Features.Assignments.Services
 
             return assignments.SelectToList(AssignmentInfoResponse.Wrap);
         }
+
+        public async Task CompleteAsync(AuthorizedUser user, int assignmentId)
+        {
+            //TODO: ensure user is creator
+
+            AssignmentEntity assignmentEntity = await _assignmentRepository.MarkCompleted(assignmentId);
+            return;
+        }
     }
 }

@@ -25,5 +25,10 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
             HttpResponseMessage responseMessage = await Client.PostAsJsonAsync($"api/assignment", assignmentCreateRequest);
             return await responseMessage.Content.ReadFromJsonAsync<AssignmentInfoResponse>();
         }
+
+        public Task Complete(int assignmentId)
+        {
+            return Client.GetAsync($"api/assignment/{assignmentId}/complete");
+        }
     }
 }

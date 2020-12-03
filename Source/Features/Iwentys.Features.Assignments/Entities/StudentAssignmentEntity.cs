@@ -9,7 +9,5 @@ namespace Iwentys.Features.Assignments.Entities
 
         public int StudentId { get; set; }
         public StudentEntity Student { get; set; }
-
-        public bool IsCompeted { get; set; }
     }
 }
