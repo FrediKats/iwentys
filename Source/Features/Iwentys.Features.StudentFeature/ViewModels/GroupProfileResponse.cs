@@ -4,11 +4,8 @@ using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Features.StudentFeature.ViewModels
 {
-    public class GroupProfileResponse
+    public class GroupProfileResponse : GroupInfo
     {
-        public int Id { get; set; }
-        public string GroupName { get; set; }
-
         public List<StudentPartialProfileDto> Students { get; set; }
         public List<SubjectEntity> Subjects { get; set; }
 

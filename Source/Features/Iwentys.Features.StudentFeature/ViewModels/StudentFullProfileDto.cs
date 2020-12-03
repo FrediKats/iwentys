@@ -13,11 +13,11 @@ namespace Iwentys.Features.StudentFeature.ViewModels
 
         public StudentFullProfileDto(StudentEntity student) : base(student)
         {
-            Group = student.Group?.GroupName;
+            Group = student.Group.Maybe(GroupInfo.Wrap);
             SubjectActivityInfo = student.SubjectActivities.SelectToList(sa => new SubjectActivityInfoResponse(sa));
         }
 
-        public string Group { get; set; }
+        public GroupInfo Group { get; set; }
 
         //public int StudyLeaderBoardPlace { get; set; }
         //public int CodingLeaderBoardPlace { get; set; }
@@ -31,8 +31,8 @@ namespace Iwentys.Features.StudentFeature.ViewModels
             var builder = new StringBuilder();
 
             builder.Append(Format());
-            if (!string.IsNullOrWhiteSpace(Group))
-                builder.Append(" (").Append(Group).Append(')');
+            if (!string.IsNullOrWhiteSpace(Group?.GroupName))
+                builder.Append(" (").Append(Group.GroupName).Append(')');
             if (!string.IsNullOrWhiteSpace(GithubUsername))
                 builder.Append("\nGithub: ").Append(GithubUsername);
 

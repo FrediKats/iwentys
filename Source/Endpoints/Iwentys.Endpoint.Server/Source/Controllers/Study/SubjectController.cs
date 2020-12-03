@@ -42,5 +42,11 @@ namespace Iwentys.Endpoint.Server.Source.Controllers.Study
             SubjectProfileResponse subject = await _subjectService.Get(subjectId);
             return Ok(subject);
         }
+
+        [HttpGet("search/for-group")]
+        public async Task<ActionResult<List<SubjectProfileResponse>>> GetGroupSubjects(int groupId)
+        {
+            return Ok(await _subjectService.GetGroupSubjects(groupId));
+        }
     }
 }

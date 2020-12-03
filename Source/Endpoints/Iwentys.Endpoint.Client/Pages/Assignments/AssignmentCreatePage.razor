@@ -3,6 +3,7 @@
 @using Blazored.LocalStorage
 @using Iwentys.Endpoint.Client.Tools
 @using Iwentys.Features.Assignments.ViewModels
+@using Iwentys.Features.StudentFeature.ViewModels
 
 @inject HttpClient Http
 @inject ILocalStorageService LocalStorage
@@ -26,29 +27,22 @@
             <MatTextField @bind-Value="@_description" Label="Description"></MatTextField>
         </p>
 
-        <MatButton OnClick="@CreateButton">Create</MatButton>
+        @if (_subjects is not null)
+        {
+            <p>
+                <MatSelectItem @bind-Value="@_selectedSubject" Items="@_subjects">
+                    <ItemTemplate>
+                        <span>@context?.Name</span>
+                    </ItemTemplate>
+                </MatSelectItem>
+            </p>
+        }
+
+        <MatButton OnClick="@ExecuteAssignmentCreation">Create</MatButton>
     </div>
 </div>
 
 
 
 @code {
-    private AssignmentControllerClient _assignmentControllerClient;
-    private string _title;
-    private string _description;
-
-    protected override async Task OnInitializedAsync()
-    {
-        _assignmentControllerClient = new AssignmentControllerClient(await Http.TrySetHeader(LocalStorage));
-    }
-
-    private async Task CreateButton()
-    {
-        await _assignmentControllerClient.Create(new AssignmentCreateRequest()
-        {
-            Title = _title,
-            Description = _description
-        });
-        NavigationManagerClient.NavigateTo("/assignment");
-    }
 }

@@ -14,7 +14,7 @@
             <MatHeadline4>@StudentProfile.GithubUsername</MatHeadline4>
             <MatBody1>@StudentProfile.GetFullName()</MatBody1>
 
-            <NavLink href=@LinkToGroupProfile>Группа: @StudentProfile.Group</NavLink>
+            <NavLink href=@LinkToGroupProfile>Группа: @StudentProfile.Group.GroupName</NavLink>
             @if (_guild is not null)
             {
                 <NavLink href=@LinkToGuild()>Гильдия: @_guild.Title</NavLink>
@@ -27,5 +27,5 @@
     [Parameter]
     public StudentFullProfileDto StudentProfile { get; set; }
 
-    public string LinkToGroupProfile => $"/group/profile/{StudentProfile.Group}";
+    public string LinkToGroupProfile => $"/group/profile/{StudentProfile.Group.GroupName}";
 }
