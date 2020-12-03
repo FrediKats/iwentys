@@ -2,12 +2,12 @@
 using System.Globalization;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Iwentys.Common.Transferable;
 using Iwentys.Database.Context;
 using Iwentys.Endpoint.Server.Source.Auth;
 using Iwentys.Endpoint.Server.Source.Tools;
 using Iwentys.Features.StudentFeature;
 using Iwentys.Features.StudentFeature.Services;
-using Iwentys.Models.Transferable;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -56,15 +56,13 @@ namespace Iwentys.Endpoint.Server.Source.Controllers
         //TODO: fix
 
         [HttpGet("login/{userId}")]
-        public async Task<ActionResult<IwentysAuthResponse>> Login(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
+        public ActionResult<IwentysAuthResponse> Login(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
             var claims = new[]
             {
                 new Claim(ClaimTypes.UserData, userId.ToString(CultureInfo.InvariantCulture))
             };
-            var user = new ClaimsPrincipal(new ClaimsIdentity(claims));
 
-            //await _authenticationService.SignInAsync(HttpContext, null, user, null);
             return Ok(TokenGenerator.Generate(userId, signingEncodingKey));
         }
 

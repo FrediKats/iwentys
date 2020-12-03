@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Core.Services;
-using Iwentys.Models;
-using Iwentys.Models.Entities.Study;
-using Iwentys.Models.Types;
+using Iwentys.Common.Tools;
+using Iwentys.Features.Gamification.Services;
+using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.StudentFeature.Enums;
+using Iwentys.Features.StudentFeature.Services;
+using Iwentys.Features.StudentFeature.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Server.Source.Controllers.Study
@@ -13,22 +15,38 @@ namespace Iwentys.Endpoint.Server.Source.Controllers.Study
     public class SubjectController : ControllerBase
     {
         private readonly StudyLeaderboardService _studyLeaderboardService;
+        private readonly SubjectService _subjectService;
 
-        public SubjectController(StudyLeaderboardService studyLeaderboardService)
+        public SubjectController(StudyLeaderboardService studyLeaderboardService, SubjectService subjectService)
         {
             _studyLeaderboardService = studyLeaderboardService;
+            _subjectService = subjectService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<SubjectEntity>>> GetAllSubjects([FromQuery] int? courseId, [FromQuery] StudySemester? semester)
+        [HttpGet("search")]
+        public async Task<ActionResult<List<SubjectProfileResponse>>> GetAllSubjects([FromQuery] int? courseId, [FromQuery] StudySemester? semester)
         {
-            List<SubjectEntity> result = await _studyLeaderboardService.GetSubjectsForDtoAsync(new StudySearchParameters
+            List<SubjectEntity> subjectInfo = await _studyLeaderboardService.GetSubjectsForDtoAsync(new StudySearchParameters
             {
                 CourseId = courseId,
                 StudySemester = semester
             });
 
-            return Ok(result);
+            List<SubjectProfileResponse> response = subjectInfo.SelectToList(SubjectProfileResponse.Wrap);
+            return Ok(response);
+        }
+
+        [HttpGet("profile/{subjectId}")]
+        public async Task<ActionResult<SubjectProfileResponse>> GetProfile([FromRoute] int subjectId)
+        {
+            SubjectProfileResponse subject = await _subjectService.Get(subjectId);
+            return Ok(subject);
+        }
+
+        [HttpGet("search/for-group")]
+        public async Task<ActionResult<List<SubjectProfileResponse>>> GetGroupSubjects(int groupId)
+        {
+            return Ok(await _subjectService.GetGroupSubjects(groupId));
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Iwentys.Models;
+using Iwentys.Integrations.GithubIntegration.Models;
 using Octokit;
 
 namespace Iwentys.Integrations.GithubIntegration
@@ -9,7 +9,7 @@ namespace Iwentys.Integrations.GithubIntegration
     {
         public GithubRepository GetRepository(string username, string repositoryName)
         {
-            return new GithubRepository(17, $"{username}/{repositoryName}", "No desc", null, 0);
+            return new GithubRepository(17, username, repositoryName, "No desc", null, 0);
         }
 
         public IReadOnlyList<GithubRepository> GetUserRepositories(string username)

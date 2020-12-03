@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Database.Context;
+using Iwentys.Features.GithubIntegration.Entities;
+using Iwentys.Features.Guilds.Entities;
+using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Repositories;
-using Iwentys.Models.Entities.Github;
-using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.Types;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

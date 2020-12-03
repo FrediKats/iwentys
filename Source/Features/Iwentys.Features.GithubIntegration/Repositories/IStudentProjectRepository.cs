@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
-using Iwentys.Models;
-using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Github;
+using Iwentys.Features.GithubIntegration.Entities;
+using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Integrations.GithubIntegration.Models;
 
 namespace Iwentys.Features.GithubIntegration.Repositories
 {

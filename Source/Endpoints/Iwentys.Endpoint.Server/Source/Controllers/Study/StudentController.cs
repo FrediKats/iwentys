@@ -3,8 +3,7 @@ using System.Threading.Tasks;
 using Iwentys.Endpoint.Server.Source.Tools;
 using Iwentys.Features.StudentFeature;
 using Iwentys.Features.StudentFeature.Services;
-using Iwentys.Models.Transferable;
-using Iwentys.Models.Transferable.Students;
+using Iwentys.Features.StudentFeature.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Server.Source.Controllers.Study
@@ -26,6 +25,7 @@ namespace Iwentys.Endpoint.Server.Source.Controllers.Study
             List<StudentFullProfileDto> students = await _studentService.GetAsync();
             return Ok(students);
         }
+
         [HttpGet("self")]
         public async Task<ActionResult<StudentFullProfileDto>> GetSelf()
         {

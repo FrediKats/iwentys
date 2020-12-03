@@ -1,12 +1,12 @@
-﻿using Iwentys.Common.Tools;
-using Iwentys.Models;
-using Iwentys.Models.Entities.Study;
+﻿using System.Threading.Tasks;
+using Iwentys.Common.Tools;
+using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Features.StudentFeature.Repositories
 {
     public interface IStudyGroupRepository : IGenericRepository<StudyGroupEntity, int>
     {
-        StudyGroupEntity ReadByNamePattern(GroupName group);
-        StudyGroupEntity Create(StudyGroupEntity entity);
+        Task<StudyGroupEntity> ReadByNamePattern(GroupName group);
+        Task<StudyGroupEntity> Create(StudyGroupEntity entity);
     }
 }

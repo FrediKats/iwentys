@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Features.GithubIntegration;
+using Iwentys.Features.GithubIntegration.Services;
+using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Features.StudentFeature.Repositories;
-using Iwentys.Models.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;

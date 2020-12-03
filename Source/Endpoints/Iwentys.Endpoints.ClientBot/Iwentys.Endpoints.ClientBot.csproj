@@ -6,11 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Tef.BotFramework" Version="0.9.64" />
     <PackageReference Include="Telegram.Bot" Version="15.7.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Iwentys.Core\Iwentys.Core.csproj" />
+    <ProjectReference Include="..\..\Features\Iwentys.Features.Gamification\Iwentys.Features.Gamification.csproj" />
+    <ProjectReference Include="..\..\Features\Iwentys.Features.Guilds\Iwentys.Features.Guilds.csproj" />
   </ItemGroup>
 
 </Project>

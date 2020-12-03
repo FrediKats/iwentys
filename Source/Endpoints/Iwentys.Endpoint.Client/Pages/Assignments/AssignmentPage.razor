@@ -1,0 +1,48 @@
+﻿@page "/assignment"
+
+@using Blazored.LocalStorage
+@using Iwentys.Endpoint.Client.Tools
+@using Iwentys.Endpoint.Sdk.ControllerClients
+@using Iwentys.Features.Assignments.ViewModels
+
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+@inject NavigationManager NavigationManagerClient
+
+<div class="container-fluid d-flex flex-row">
+    <div class="col-md-3 d-flex flex-column">
+        <MatButton>Все задачи</MatButton>
+        <MatButton>Персональные задачи</MatButton>
+        <MatButton>Календарь</MatButton>
+        <MatButton Link="/assignment/create">Добавить задачу</MatButton>
+    </div>
+
+    <div class="col-md-6 d-flex flex-column">
+        <h5>Assignment list</h5>
+        @if (_assignment is not null)
+        {
+            <MatList>
+                @foreach (AssignmentInfoResponse assignment in _assignment)
+                {
+                    <MatListItem>
+                        @if (assignment.IsCompeted)
+                        {
+                            @("[x] ") @assignment.Title @(assignment.Deadline is not null ? assignment.Deadline : "")
+                        }
+
+                        @if (!assignment.IsCompeted)
+                        {
+                            <MatButton OnClick=@(async() => await MakeCompleted(assignment.Id))>[ ]</MatButton>
+                            @assignment.Title @(assignment.Deadline is not null ? assignment.Deadline : "")
+                        }
+                        <MatButton OnClick=@(async() => await Delete(assignment.Id))>Delete</MatButton>
+                    </MatListItem>
+                }
+            </MatList>
+        }
+    </div>
+</div>
+
+@code {
+
+}

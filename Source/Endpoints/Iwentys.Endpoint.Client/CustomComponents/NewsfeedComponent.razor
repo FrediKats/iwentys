@@ -1,0 +1,28 @@
+﻿@using Iwentys.Features.Newsfeeds.ViewModels
+
+@namespace Iwentys.Endpoint.Client.CustomComponents
+
+<MatPaper Elevation="10" Rounded="true" class="container-fluid d-flex flex-column">
+    @foreach (NewsfeedViewModel newsfeed in Newsfeeds)
+    {
+        <MatCard>
+            <MatCardContent>
+                <MatHeadline6>
+                    @newsfeed.Title
+                </MatHeadline6>
+                <MatBody1>
+                    @newsfeed.Content
+                </MatBody1>
+                <MatBody2>
+                    @newsfeed.CreationTimeUtc
+                </MatBody2>
+            </MatCardContent>
+        </MatCard>
+    }
+</MatPaper>
+
+@code
+{
+    [Parameter]
+    public List<NewsfeedViewModel> Newsfeeds { get; set; }
+}

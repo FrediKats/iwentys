@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Server.Source.Tools;
+using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Services;
+using Iwentys.Features.Guilds.ViewModels.Guilds;
 using Iwentys.Features.StudentFeature;
-using Iwentys.Models;
-using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.Transferable.Guilds;
+using Iwentys.Integrations.GithubIntegration.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Server.Source.Controllers.Guilds
@@ -48,6 +48,12 @@ namespace Iwentys.Endpoint.Server.Source.Controllers.Guilds
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(await _guildService.GetAsync(id, user.Id));
+        }
+
+        [HttpGet("for-member")]
+        public async Task<ActionResult<GuildProfileDto>> GetForMember(int memberId)
+        {
+            return Ok(await _guildService.FindStudentGuild(memberId));
         }
 
         [HttpPut("{guildId}/enter")]
@@ -133,11 +139,11 @@ namespace Iwentys.Endpoint.Server.Source.Controllers.Guilds
         }
 
         [HttpDelete("{guildId}/pinned/{repositoryId}")]
-        public async Task<ActionResult> DeletePinnedProject(int guildId, int repositoryId)
+        public async Task<ActionResult> DeletePinnedProject(int guildId, long repositoryId)
         {
             //TODO: Need to rework all links between GithubRepository, Student project and PinnedRepository
             AuthorizedUser user = this.TryAuthWithToken();
-            await _guildService.UnpinProject(user, repositoryId);
+            await _guildService.UnpinProject(user, guildId, repositoryId);
             return Ok();
         }
     }

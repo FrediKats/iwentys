@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Iwentys.Core.Services;
-using Iwentys.Models;
-using Iwentys.Models.Transferable.Study;
-using Iwentys.Models.Types;
+using Iwentys.Features.Gamification.Services;
+using Iwentys.Features.Gamification.ViewModels;
+using Iwentys.Features.StudentFeature.Enums;
+using Iwentys.Features.StudentFeature.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Server.Source.Controllers.Study

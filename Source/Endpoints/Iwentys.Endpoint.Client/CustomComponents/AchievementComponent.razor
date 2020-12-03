@@ -1,24 +1,23 @@
-﻿@using Iwentys.Models.Transferable
+﻿@using Iwentys.Features.Achievements.ViewModels
 
 @namespace Iwentys.Endpoint.Client.CustomComponents
 
-<div class="text-center">
+<MatPaper Elevation="10" Rounded="true" Class="text-center">
     <MatHeadline5>Ачивки</MatHeadline5>
     @*TODO: add scroll*@
     <div class="container-fluid d-flex flex-row">
-        @foreach (AchievementInfoDto achievement in Achievements)
+        @foreach (AchievementViewModel achievement in Achievements)
         {
-            <div class="d-flex flex-column guild-rating-row">
-                @*TODO: rename to ImageUrl*@
-                <img src="@achievement.Url" class="guild-preview-logo" />
+            <div class="d-flex flex-column achievement-item">
+                <img src="@achievement.ImageUrl" />
                 @*TODO: add description on hover *@
                 <MatHeadline6>@achievement.Name</MatHeadline6>
             </div>
         }
     </div>
-</div>
+</MatPaper>
 
 @code {
     [Parameter]
-    public List<AchievementInfoDto> Achievements { get; set; }
+    public List<AchievementViewModel> Achievements { get; set; }
 }

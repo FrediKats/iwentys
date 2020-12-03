@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Integrations\Iwentys.Integrations.GithubIntegration\Iwentys.Integrations.GithubIntegration.csproj" />
-    <ProjectReference Include="..\..\Iwentys.Models\Iwentys.Models.csproj" />
+    <ProjectReference Include="..\Iwentys.Features.Achievements\Iwentys.Features.Achievements.csproj" />
     <ProjectReference Include="..\Iwentys.Features.GithubIntegration\Iwentys.Features.GithubIntegration.csproj" />
   </ItemGroup>
 

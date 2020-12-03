@@ -3,14 +3,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
-using Iwentys.Features.GithubIntegration;
+using Iwentys.Features.GithubIntegration.Services;
+using Iwentys.Features.Guilds.Domain;
+using Iwentys.Features.Guilds.Entities;
+using Iwentys.Features.Guilds.Enums;
+using Iwentys.Features.Guilds.ViewModels.Guilds;
 using Iwentys.Features.StudentFeature;
+using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Integrations.GithubIntegration;
-using Iwentys.Models;
-using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.Transferable.Guilds;
-using Iwentys.Models.Types;
+using Iwentys.Integrations.GithubIntegration.Models;
 
 namespace Iwentys.Features.Guilds.Services
 {
@@ -99,10 +100,13 @@ namespace Iwentys.Features.Guilds.Services
                 .ToGuildProfileDto(userId);
         }
 
-        public Task<GuildProfileDto> GetStudentGuild(int userId)
+        public async Task<GuildProfileDto> FindStudentGuild(int userId)
         {
-            return _database.Guild.ReadForStudent(userId).To(g =>
-                    new GuildDomain(g, _githubUserDataService, _githubApiAccessor, _database))
+            GuildEntity guild = _database.Guild.ReadForStudent(userId);
+            if (guild is null)
+                return null;
+            return await guild
+                .To(g => new GuildDomain(g, _githubUserDataService, _githubApiAccessor, _database))
                 .ToGuildProfileDto(userId);
         }
 
@@ -112,21 +116,19 @@ namespace Iwentys.Features.Guilds.Services
             StudentEntity profile = await user.GetProfile(_database.Student);
             profile.EnsureIsGuildEditor(guild);
 
+            //TODO: add work with cache
             GithubRepository repository = _githubApiAccessor.GetRepository(owner, projectName);
-            await _database.Guild.PinProjectAsync(guildId, owner, projectName);
+            await _database.Guild.PinProjectAsync(guildId, repository);
             return repository;
         }
 
-        public Task UnpinProject(AuthorizedUser user, int pinnedProjectId)
+        public async Task UnpinProject(AuthorizedUser user, int guildId, long pinnedProjectId)
         {
-            return Task.CompletedTask;
-            //TODO: fix
-            //GuildPinnedProjectEntity guildPinnedProject = await _database.Context.GuildPinnedProjects.FindAsync(pinnedProjectId) ?? throw EntityNotFoundException.PinnedRepoWasNotFound(pinnedProjectId);
-            //GuildEntity guild = await _database.Guild.ReadByIdAsync(guildPinnedProject.GuildId);
-            //StudentEntity profile = await user.GetProfile(_database.Student);
-            //profile.EnsureIsGuildEditor(guild);
+            GuildEntity guild = await _database.Guild.ReadByIdAsync(guildId);
+            StudentEntity profile = await user.GetProfile(_database.Student);
+            profile.EnsureIsGuildEditor(guild);
 
-            //_database.Guild.UnpinProject(pinnedProjectId);
+            _database.Guild.UnpinProject(pinnedProjectId);
         }
 
         public async Task<GuildMemberLeaderBoard> GetGuildMemberLeaderBoard(int guildId)

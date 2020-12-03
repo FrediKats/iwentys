@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Database.Context;
+using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Repositories;
-using Iwentys.Models.Entities.Guilds;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

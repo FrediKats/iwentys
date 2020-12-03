@@ -1,9 +1,8 @@
-﻿@page "/guild/{GuildId:int}/edit"
-@using Iwentys.Models.Transferable.Guilds
-@using Iwentys.Endpoint.Client.CustomComponents.Guild
+﻿@page "/guild/profile/{GuildId:int}/edit"
 @using Blazored.LocalStorage
 @using Iwentys.Endpoint.Client.Tools
 @using Iwentys.Endpoint.Sdk.ControllerClients.Guilds
+@using Iwentys.Features.Guilds.ViewModels.Guilds
 
 @inject HttpClient Http
 @inject ILocalStorageService LocalStorage

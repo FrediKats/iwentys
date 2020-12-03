@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Bogus;
 using Iwentys.Database.Seeding.Tools;
-using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Study;
-using Iwentys.Models.Types;
+using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.StudentFeature.Enums;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {
@@ -23,7 +22,9 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 .RuleFor(s => s.Type, StudentType.Budgetary)
                 .RuleFor(s => s.CreationTime, DateTime.UtcNow)
                 .RuleFor(s => s.LastOnlineTime, DateTime.UtcNow)
-                .RuleFor(s => s.GroupId, _ => studyGroups.GetRandom().Id);
+                .RuleFor(s => s.GroupId, _ => studyGroups.GetRandom().Id)
+                .RuleFor(s => s.AvatarUrl, f => f.Image.PicsumUrl())
+                .RuleFor(s => s.GithubUsername, f => f.Person.UserName);
 
             Students = Faker.Generate(StudentCount);
             Students.Add(new StudentEntity
@@ -37,7 +38,8 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 GithubUsername = "InRedikaWB",
                 CreationTime = DateTime.UtcNow,
                 LastOnlineTime = DateTime.UtcNow,
-                BarsPoints = short.MaxValue
+                BarsPoints = short.MaxValue,
+                AvatarUrl = new Faker().Image.PicsumUrl()
             });
         }
 

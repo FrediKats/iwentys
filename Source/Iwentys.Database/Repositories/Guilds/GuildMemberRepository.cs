@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Database.Context;
+using Iwentys.Features.Guilds.Entities;
+using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Repositories;
-using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.Types;
+using Iwentys.Features.StudentFeature.Entities;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Guilds

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Core.Services;
 using Iwentys.Endpoint.Server.Source.Tools;
+using Iwentys.Features.Assignments.Services;
+using Iwentys.Features.Assignments.ViewModels;
 using Iwentys.Features.StudentFeature;
-using Iwentys.Models.Transferable;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Server.Source.Controllers
@@ -28,11 +28,30 @@ namespace Iwentys.Endpoint.Server.Source.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<AssignmentInfoResponse>>> Create([FromBody] AssignmentCreateRequest assignmentCreateRequest)
+        public async Task<ActionResult<AssignmentInfoResponse>> Create([FromBody] AssignmentCreateRequest assignmentCreateRequest)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             AssignmentInfoResponse assignment = await _assignmentService.CreateAsync(user, assignmentCreateRequest);
             return Ok(assignment);
+        }
+
+        //TODO: rework verbs
+        [HttpGet("{assignmentId}/complete")]
+        public async Task<ActionResult> Complete(int assignmentId)
+        {
+            AuthorizedUser user = this.TryAuthWithToken();
+            await _assignmentService.CompleteAsync(user, assignmentId);
+            return Ok();
+        }
+
+        //TODO: rework verbs
+        //TODO: it isn't work =\
+        [HttpGet("{assignmentId}/delete")]
+        public async Task<ActionResult> Delete(int assignmentId)
+        {
+            AuthorizedUser user = this.TryAuthWithToken();
+            await _assignmentService.DeleteAsync(user, assignmentId);
+            return Ok();
         }
     }
 }

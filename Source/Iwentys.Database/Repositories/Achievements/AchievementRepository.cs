@@ -1,7 +1,8 @@
 ﻿using System.Linq;
 using Iwentys.Database.Context;
-using Iwentys.Features.Achievements;
-using Iwentys.Models.Entities.Gamification;
+using Iwentys.Features.Achievements.Entities;
+using Iwentys.Features.Achievements.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Achievements
@@ -24,7 +25,7 @@ namespace Iwentys.Database.Repositories.Achievements
 
         public IQueryable<StudentAchievementEntity> ReadStudentAchievements()
         {
-            return _dbContext.StudentAchievements;
+            return _dbContext.StudentAchievements.Include(sa => sa.Achievement);
         }
     }
 }

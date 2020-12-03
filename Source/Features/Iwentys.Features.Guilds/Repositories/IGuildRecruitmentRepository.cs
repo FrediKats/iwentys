@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Common.Tools;
-using Iwentys.Models.Entities.Guilds;
+using Iwentys.Features.Guilds.Entities;
 
 namespace Iwentys.Features.Guilds.Repositories
 {

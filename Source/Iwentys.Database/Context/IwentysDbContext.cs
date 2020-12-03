@@ -2,12 +2,15 @@ using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Database.Seeding;
 using Iwentys.Features.Achievements;
-using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Gamification;
-using Iwentys.Models.Entities.Github;
-using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.Entities.Study;
-
+using Iwentys.Features.Achievements.Entities;
+using Iwentys.Features.Assignments.Entities;
+using Iwentys.Features.Companies.Entities;
+using Iwentys.Features.Economy.Entities;
+using Iwentys.Features.GithubIntegration.Entities;
+using Iwentys.Features.Guilds.Entities;
+using Iwentys.Features.Newsfeeds.Entities;
+using Iwentys.Features.Quests.Entities;
+using Iwentys.Features.StudentFeature.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -42,6 +45,10 @@ namespace Iwentys.Database.Context
         public DbSet<AssignmentEntity> Assignments { get; set; }
         public DbSet<StudentAssignmentEntity> StudentAssignments { get; set; }
 
+        public DbSet<NewsfeedEntity> Newsfeeds { get; set; }
+        public DbSet<SubjectNewsfeedEntity> SubjectNewsfeeds { get; set; }
+        public DbSet<GuildNewsfeedEntity> GuildNewsfeeds { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             SetCompositeKeys(modelBuilder);
@@ -62,6 +69,8 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<GuildTestTaskSolvingInfoEntity>().HasKey(a => new {a.GuildId, a.StudentId});
             modelBuilder.Entity<StudentAssignmentEntity>().HasKey(a => new {a.AssignmentId, a.StudentId});
             modelBuilder.Entity<GuildRecruitmentMemberEntity>().HasKey(g => new {g.GuildRecruitmentId, g.MemberId});
+            modelBuilder.Entity<SubjectNewsfeedEntity>().HasKey(g => new {g.SubjectId, g.NewsfeedId});
+            modelBuilder.Entity<GuildNewsfeedEntity>().HasKey(g => new {g.GuildId, g.NewsfeedId});
         }
 
         private void SetUniqKey(ModelBuilder modelBuilder)
@@ -91,6 +100,15 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<AchievementEntity>().HasData(AchievementList.Achievements);
             modelBuilder.Entity<StudentAchievementEntity>().HasData(seedData.AchievementGenerator.StudentAchievementModels);
             modelBuilder.Entity<GuildAchievementEntity>().HasData(seedData.AchievementGenerator.GuildAchievementModels);
+
+            modelBuilder.Entity<AssignmentEntity>().HasData(seedData.AssignmentGenerator.Assignments);
+            modelBuilder.Entity<StudentAssignmentEntity>().HasData(seedData.AssignmentGenerator.StudentAssignments);
+
+            modelBuilder.Entity<GithubUserEntity>().HasData(seedData.GithubActivityGenerator.GithubUserEntities);
+            modelBuilder.Entity<NewsfeedEntity>().HasData(seedData.NewsfeedGenerator.Newsfeeds);
+            modelBuilder.Entity<SubjectNewsfeedEntity>().HasData(seedData.NewsfeedGenerator.SubjectNewsfeeds);
+            modelBuilder.Entity<GuildNewsfeedEntity>().HasData(seedData.NewsfeedGenerator.GuildNewsfeeds);
+
         }
 
         //TODO: Hack for removing cascade. Need to rework keys

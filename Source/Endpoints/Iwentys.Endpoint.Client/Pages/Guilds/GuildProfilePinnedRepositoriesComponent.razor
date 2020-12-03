@@ -1,0 +1,42 @@
+﻿@using Iwentys.Features.Guilds.ViewModels.Guilds
+@using Iwentys.Integrations.GithubIntegration.Models
+@using Blazored.LocalStorage
+
+@namespace Iwentys.Endpoint.Client.Pages.Guilds
+
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+
+<MatPaper Elevation="10" Rounded="true" class="text-center">
+    <MatHeadline5>Репозитории</MatHeadline5>
+
+    <div class="container-fluid d-flex flex-column">
+        @foreach (GithubRepository repository in GuildProfile.PinnedRepositories)
+        {
+
+            <MatNavItem class="d-flex flex-row justify-content-md-between">
+                @*TODO: fix link*@
+                <NavLink href=@repository.Url>
+                    <div class="col-md-10">
+                        <MatHeadline6>@repository.Name</MatHeadline6>
+
+                        <MatBody1>@repository.Description</MatBody1>
+                    </div>
+                </NavLink>
+
+                @*TODO: add icon-button*@
+                <MatButton OnClick=@(async () => await RemovePin(repository.Id)) class="col-md-2">X</MatButton>
+            </MatNavItem>
+        }
+    </div>
+
+    <MatButton Link=@LinkToPinCreating>Запинить</MatButton>
+</MatPaper>
+
+@code {
+
+    [Parameter]
+    public GuildProfileDto GuildProfile { get; set; }
+
+    private string LinkToPinCreating => $"guild/{GuildProfile.Id}/create-pinned";
+}

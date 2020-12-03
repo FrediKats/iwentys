@@ -1,0 +1,31 @@
+﻿@using Blazored.LocalStorage
+@using Iwentys.Features.StudentFeature.ViewModels
+
+@namespace Iwentys.Endpoint.Client.Pages.Students
+
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+
+@if (StudentProfile is not null)
+{
+    <div class="container-fluid d-flex flex-row">
+        <img class="student-profile-logo" src=@StudentProfile.AvatarUrl />
+        <div class="container-fluid d-flex flex-column">
+            <MatHeadline4>@StudentProfile.GithubUsername</MatHeadline4>
+            <MatBody1>@StudentProfile.GetFullName()</MatBody1>
+
+            <NavLink href=@LinkToGroupProfile>Группа: @StudentProfile.Group.GroupName</NavLink>
+            @if (_guild is not null)
+            {
+                <NavLink href=@LinkToGuild()>Гильдия: @_guild.Title</NavLink>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public StudentFullProfileDto StudentProfile { get; set; }
+
+    public string LinkToGroupProfile => $"/group/profile/{StudentProfile.Group.GroupName}";
+}

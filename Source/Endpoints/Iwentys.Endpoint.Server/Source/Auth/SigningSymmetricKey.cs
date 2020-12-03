@@ -10,6 +10,9 @@ namespace Iwentys.Endpoint.Server.Source.Auth
 
         public SigningSymmetricKey(string key)
         {
+            if (key is null)
+                throw new ArgumentException("SigningSymmetricKey is not set. Check app settings.");
+
             _securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
         }
 

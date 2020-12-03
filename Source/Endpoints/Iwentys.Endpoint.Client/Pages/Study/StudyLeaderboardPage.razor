@@ -1,0 +1,40 @@
+﻿@page "/leaderboard/study/{CourseId:int}"
+@using Blazored.LocalStorage
+@using Iwentys.Features.Gamification.ViewModels
+
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+@inject NavigationManager NavigationManagerClient
+
+<div class="text-center">
+    <h3>Рейтинг студентов</h3>
+
+    @if (_studentProfiles is not null)
+    {
+        <div class="container-fluid d-flex flex-column">
+            @foreach (StudyLeaderboardRow studentProfile in _studentProfiles)
+            {
+                <NavLink href=@LinkToProfile(studentProfile) class="student-rating-row">
+                    <MatPaper Elevation="10" Rounded="true" class="d-flex flex-row">
+                        <div class="col-md-2">
+                            <img src=@studentProfile.Student.AvatarUrl class="student-logo" />
+                        </div>
+
+                        <div class="col-md-8">
+                            <h4>@studentProfile.Student.GetFullName()</h4>
+                        </div>
+
+                        <div class="col-md-2">
+                            <p>@studentProfile.Activity.ToString("F2")</p>
+                        </div>
+                    </MatPaper>
+                </NavLink>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+}

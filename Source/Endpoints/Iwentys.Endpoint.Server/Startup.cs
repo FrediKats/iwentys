@@ -42,6 +42,7 @@ namespace Iwentys.Endpoint.Server
             services.AddControllersWithViews();
             //services.AddControllersWithViews().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
             services.AddRazorPages();
+            services.AddSwaggerGen();
 
             services.ConfigIwentysOptions(Configuration);
         }
@@ -77,6 +78,13 @@ namespace Iwentys.Endpoint.Server
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
                 endpoints.MapFallbackToFile("index.html");
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Unstable API v0.1");
+                c.RoutePrefix = string.Empty;
             });
 
             db.Database.EnsureDeleted();

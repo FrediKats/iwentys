@@ -1,6 +1,6 @@
 ﻿using Iwentys.Common.Tools;
-using Iwentys.Models.Entities.Github;
-using Iwentys.Models.Entities.Guilds;
+using Iwentys.Features.GithubIntegration.Entities;
+using Iwentys.Features.Guilds.Entities;
 
 namespace Iwentys.Features.Guilds.Repositories
 {

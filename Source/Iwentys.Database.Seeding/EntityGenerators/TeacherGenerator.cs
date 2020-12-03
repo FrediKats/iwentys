@@ -1,5 +1,5 @@
 ﻿using Bogus;
-using Iwentys.Models.Entities.Study;
+using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {

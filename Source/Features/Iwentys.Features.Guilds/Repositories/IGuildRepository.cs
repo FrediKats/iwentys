@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Common.Tools;
-using Iwentys.Models.Entities;
-using Iwentys.Models.Entities.Guilds;
-using Iwentys.Models.Transferable.Guilds;
+using Iwentys.Features.Guilds.Entities;
+using Iwentys.Features.Guilds.ViewModels.Guilds;
+using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Integrations.GithubIntegration.Models;
 
 namespace Iwentys.Features.Guilds.Repositories
 {
@@ -11,7 +12,7 @@ namespace Iwentys.Features.Guilds.Repositories
         GuildEntity Create(StudentEntity creator, GuildCreateRequest arguments);
         GuildEntity[] ReadPending();
         GuildEntity ReadForStudent(int studentId);
-        Task<GuildPinnedProjectEntity> PinProjectAsync(int guildId, string owner, string projectName);
-        void UnpinProject(int pinnedProjectId);
+        Task<GuildPinnedProjectEntity> PinProjectAsync(int guildId, GithubRepository repository);
+        void UnpinProject(long pinnedProjectId);
     }
 }

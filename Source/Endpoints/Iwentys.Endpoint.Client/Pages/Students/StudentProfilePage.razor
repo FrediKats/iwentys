@@ -1,0 +1,53 @@
+﻿@page "/student/profile/{StudentId:int?}"
+@using Blazored.LocalStorage
+@using Iwentys.Endpoint.Client.CustomComponents
+@using Iwentys.Features.StudentFeature.ViewModels
+@using Iwentys.Endpoint.Client.Pages.Students
+@using ChartJs.Blazor.Charts
+
+
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+
+
+@if (_studentFullProfile is not null)
+{
+<div class="container-fluid d-flex flex-row">
+    <div class="col-md-6 d-flex flex-column">
+        <MatPaper Elevation="10" Rounded="true" Class="profile-element">
+            <StudentProfileInfoComponent StudentProfile=@_studentFullProfile></StudentProfileInfoComponent>
+        </MatPaper>
+    </div>
+
+    
+
+    <div class="col-md-6 d-flex flex-column text-center">
+        <div class="profile-element">
+            <AchievementComponent Achievements=@_achievements></AchievementComponent>
+        </div>
+
+        @if (_githubChartConfig is not null)
+        {
+            <MatPaper Elevation="10" Rounded="true" Class="profile-element">
+                <MatHeadline5>Coding activity</MatHeadline5>
+                <ChartJsLineChart @ref="_githubChart" Config="_githubChartConfig"></ChartJsLineChart>
+            </MatPaper>
+        }
+
+        @if (_studyChartConfig is not null)
+        {
+            <MatPaper Elevation="10" Rounded="true" Class="profile-element">
+                <MatHeadline5>Study activity</MatHeadline5>
+                <ChartJsPieChart @ref="_studyChart" Config="@_studyChartConfig" Width="600" Height="300" />
+            </MatPaper>
+
+        }
+    </div>
+</div>
+}
+
+
+@code {
+    [Parameter]
+    public int? StudentId { get; set; }
+}

@@ -1,0 +1,36 @@
+﻿@page "/guild/rate"
+@using Blazored.LocalStorage
+@using Iwentys.Features.Guilds.ViewModels.Guilds
+
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+
+<div class="text-center">
+    <h3>Рейтинг Гильдий</h3>
+
+    @if (_guildProfiles is not null)
+    {
+        <MatList class="container-fluid d-flex flex-column">
+            @foreach (GuildProfilePreviewDto guild in _guildProfiles)
+            {
+                <NavLink href=@LinkToProfile(guild) class="guild-rating-row">
+                    <MatPaper Elevation="10" Rounded="true" Class="d-flex flex-row">
+                        <div class="col-md-2">
+                            <img src=@guild.LogoUrl class="guild-logo" />
+                        </div>
+
+                        <div class="col-md-8">
+                            <h4>@guild.Title</h4>
+
+                            <p>Some bio @guild.Bio</p>
+                        </div>
+
+                        <div class="col-md-2">
+                            <p>@guild.Rating</p>
+                        </div>
+                    </MatPaper>
+                </NavLink>
+            }
+        </MatList>
+    }
+</div>

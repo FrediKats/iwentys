@@ -1,0 +1,43 @@
+﻿@page "/guild/profile/{GuildId:int}"
+@using Blazored.LocalStorage
+@using Iwentys.Endpoint.Client.CustomComponents
+
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+
+@if (_guild is not null)
+{
+    <div class="container-fluid d-flex flex-row">
+        <div class="col-md-3 d-flex flex-column">
+            <GuildProfileInfoComponent SelectedGuildProfile=@_guild></GuildProfileInfoComponent>
+        </div>
+
+        <div class="col-md-6 d-flex flex-column">
+            <div class="profile-block">
+                <AchievementComponent Achievements=@_guild.Achievements></AchievementComponent>
+
+            </div>
+            <div class="profile-block">
+                <NewsfeedComponent Newsfeeds=@_newsfeeds></NewsfeedComponent>
+
+            </div>
+        </div>
+
+        <div class="col-md-3 d-flex flex-column">
+            <div class="profile-block">
+                <GuildProfileMemberRateComponent GuildProfile=@_guild></GuildProfileMemberRateComponent>
+
+            </div>
+            <div class="profile-block">
+                <GuildProfilePinnedRepositoriesComponent GuildProfile=@_guild></GuildProfilePinnedRepositoriesComponent>
+
+            </div>
+        </div>
+    </div>
+}
+
+
+@code {
+    [Parameter]
+    public int GuildId { get; set; }
+}

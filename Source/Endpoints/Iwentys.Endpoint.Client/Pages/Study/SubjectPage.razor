@@ -1,0 +1,31 @@
+﻿@page "/subject/profile/{SubjectId:int}"
+
+@using Blazored.LocalStorage
+
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+
+<h3>SubjectPage</h3>
+
+@if (_subjectProfile is not null)
+{
+    <div class="container-fluid d-flex flex-row">
+        <div class="col-md-6 d-flex flex-column">
+            <MatHeadline4>Info</MatHeadline4>
+            <MatBody1>@_subjectProfile.Name</MatBody1>
+        </div>
+
+        <div class="col-md-6 d-flex flex-column">
+            <MatH6>Newsfeed</MatH6>
+            @if (_newsfeeds is not null)
+            {
+                <NewsfeedComponent Newsfeeds=@_newsfeeds></NewsfeedComponent>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int SubjectId { get; set; }
+}

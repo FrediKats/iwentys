@@ -1,0 +1,32 @@
+﻿@using Iwentys.Features.Guilds.ViewModels.Guilds
+@using Iwentys.Features.StudentFeature.ViewModels
+
+@namespace Iwentys.Endpoint.Client.Pages.Guilds
+
+<div class="text-center card">
+    <MatHeadline5>Members</MatHeadline5>
+    <MatList>
+        @foreach (StudentPartialProfileDto member in GuildProfile.MemberLeaderBoard.Members)
+        {
+            <MatListItem>
+                <p>
+                    @member.GithubUsername (@member.GetFullName())
+                </p>
+                <MatButton OnClick="() => KicMember(member.Id)">
+                    Kick
+                </MatButton>
+            </MatListItem>
+        }
+    </MatList>
+</div>
+
+@code {
+    [Parameter]
+    public GuildProfileDto GuildProfile { get; set; }
+
+    private async Task KicMember(int memberId)
+    {
+        //TODO: fix
+        //await GuildMemberService.KickGuildMemberAsync(HttpContextAccessor.GetAuthUser(), GuildProfile.Id, memberId);
+    }
+}

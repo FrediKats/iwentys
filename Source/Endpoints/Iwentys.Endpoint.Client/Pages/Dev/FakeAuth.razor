@@ -1,11 +1,11 @@
 ﻿@page "/dev/fakeauth"
+
 @using Blazored.LocalStorage
 @using Iwentys.Endpoint.Client.Tools
 
 @inject HttpClient Http
 @inject IAuthService AuthService
 @inject ILocalStorageService LocalStorage
-
 
 <MatTextField Value="@Token" Label="Token"></MatTextField>
 <MatTextField @bind-Value="@UserId" Label="UserId"></MatTextField>

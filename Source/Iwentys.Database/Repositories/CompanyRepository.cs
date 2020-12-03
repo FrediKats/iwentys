@@ -2,16 +2,17 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
-using Iwentys.Common.Tools;
 using Iwentys.Database.Context;
-using Iwentys.Models.Entities;
-using Iwentys.Models.Types;
+using Iwentys.Features.Companies.Entities;
+using Iwentys.Features.Companies.Enums;
+using Iwentys.Features.Companies.Repositories;
+using Iwentys.Features.StudentFeature.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories
 {
-    public class CompanyRepository : IGenericRepository<CompanyEntity, int>
+    public class CompanyRepository : ICompanyRepository
     {
         private readonly IwentysDbContext _dbContext;
 

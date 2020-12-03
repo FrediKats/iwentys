@@ -2,8 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using Iwentys.Models.Transferable;
-using Iwentys.Models.Transferable.Students;
+using Iwentys.Features.StudentFeature.ViewModels;
 
 namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
 {

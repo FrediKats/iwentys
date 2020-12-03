@@ -1,0 +1,43 @@
+﻿@page "/group/profile/{GroupName}"
+@using Blazored.LocalStorage
+@using Iwentys.Features.StudentFeature.Entities
+@using Iwentys.Features.StudentFeature.ViewModels
+
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+
+<h2>Group page: @GroupName</h2>
+
+@if (_groupProfile is not null)
+{
+    <div class="container-fluid d-flex flex-row">
+        <div class="col-md-6 d-flex flex-column">
+            <MatH6>Students</MatH6>
+            <MatNavMenu>
+                @foreach (StudentPartialProfileDto student in _groupProfile.Students)
+                {
+                    <MatNavItem Href=@LinkToStudentProfile(student)>
+                        @student.GetFullName()
+                    </MatNavItem>
+                }
+            </MatNavMenu>
+        </div>
+
+        <div class="col-md-6 d-flex flex-column">
+            <MatH6>Subjects</MatH6>
+            <MatNavMenu>
+                @foreach (SubjectEntity subject in _groupProfile.Subjects)
+                {
+                    <MatNavItem Href=@LinkToSubjectProfile(subject)>
+                        @subject.Name
+                    </MatNavItem>
+                }
+            </MatNavMenu>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string GroupName { get; set; }
+}

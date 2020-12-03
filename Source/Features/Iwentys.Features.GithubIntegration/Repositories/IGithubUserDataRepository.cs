@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Common.Tools;
-using Iwentys.Models.Entities.Github;
+using Iwentys.Features.GithubIntegration.Entities;
 
 namespace Iwentys.Features.GithubIntegration.Repositories
 {

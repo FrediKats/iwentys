@@ -1,14 +1,17 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Database.Context;
-using Iwentys.Models.Entities;
-using Iwentys.Models.Transferable;
+using Iwentys.Features.Assignments.Entities;
+using Iwentys.Features.Assignments.Repositories;
+using Iwentys.Features.Assignments.ViewModels;
+using Iwentys.Features.StudentFeature.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories
 {
-    public class AssignmentRepository
+    public class AssignmentRepository : IAssignmentRepository
     {
         private readonly IwentysDbContext _dbContext;
 
@@ -35,6 +38,25 @@ namespace Iwentys.Database.Repositories
             return _dbContext.StudentAssignments
                 .Include(sa => sa.Assignment)
                 .ThenInclude(a => a.Subject);
+        }
+
+        public async Task<AssignmentEntity> MarkCompleted(int assignmentId)
+        {
+            AssignmentEntity assignmentEntity = await _dbContext.Assignments.FindAsync(assignmentId);
+            if (assignmentEntity is null)
+                //TODO: meh
+                throw new Exception();
+            assignmentEntity.IsCompleted = true;
+            EntityEntry<AssignmentEntity> result = _dbContext.Assignments.Update(assignmentEntity);
+            await _dbContext.SaveChangesAsync();
+            return result.Entity;
+        }
+
+        public async Task Delete(int assignmentId)
+        {
+            AssignmentEntity assignment = await _dbContext.Assignments.FindAsync(assignmentId);
+            _dbContext.Assignments.Remove(assignment);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

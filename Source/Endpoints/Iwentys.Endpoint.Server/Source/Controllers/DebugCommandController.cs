@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using Iwentys.Core;
 using Iwentys.Database.Context;
-using Iwentys.Models.Entities.Study;
+using Iwentys.Endpoint.Server.Source.BackgroundServices;
+using Iwentys.Features.StudentFeature.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -20,7 +20,7 @@ namespace Iwentys.Endpoint.Server.Source.Controllers
             _logger = logger;
             _databaseAccessor = databaseAccessor;
 
-            _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(_logger, _databaseAccessor, ApplicationOptions.GoogleServiceToken);
+            _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(databaseAccessor.Student, databaseAccessor.SubjectActivity, _logger, ApplicationOptions.GoogleServiceToken);
         }
 
         //[HttpPost("UpdateSubjectActivityData")]
