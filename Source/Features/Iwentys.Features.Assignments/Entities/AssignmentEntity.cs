@@ -10,6 +10,7 @@ namespace Iwentys.Features.Assignments.Entities
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime CreationTime { get; set; }
+        public DateTime? Deadline { get; set; }
 
         public int CreatorId { get; set; }
         public StudentEntity Creator { get; set; }
@@ -24,6 +25,7 @@ namespace Iwentys.Features.Assignments.Entities
                 Title = assignmentCreateRequest.Title,
                 Description = assignmentCreateRequest.Description,
                 CreationTime = DateTime.UtcNow,
+                Deadline = assignmentCreateRequest.Deadline,
                 CreatorId = creator.Id,
                 SubjectId = assignmentCreateRequest.SubjectId
             };

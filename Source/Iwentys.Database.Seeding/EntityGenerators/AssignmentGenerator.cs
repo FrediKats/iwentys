@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Bogus;
 using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Assignments.ViewModels;
@@ -22,7 +23,8 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 var assignmentEntity = AssignmentEntity.Create(student, new AssignmentCreateRequest
                 {
                     Title = faker.Hacker.IngVerb(),
-                    Description = faker.Lorem.Paragraph(1)
+                    Description = faker.Lorem.Paragraph(1),
+                    Deadline = DateTime.UtcNow.AddDays(1)
                 });
                 assignmentEntity.Id = 1 + faker.IndexVariable++;
                 Assignments.Add(assignmentEntity);

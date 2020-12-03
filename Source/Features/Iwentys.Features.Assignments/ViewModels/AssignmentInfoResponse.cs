@@ -11,6 +11,7 @@ namespace Iwentys.Features.Assignments.ViewModels
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime CreationTime { get; set; }
+        public DateTime? Deadline { get; set; }
         public StudentPartialProfileDto Creator { get; set; }
         public SubjectEntity Subject { get; set; }
         public bool IsCompeted { get; set; }
@@ -23,6 +24,7 @@ namespace Iwentys.Features.Assignments.ViewModels
                 Title = studentAssignment.Assignment.Title,
                 Description = studentAssignment.Assignment.Description,
                 CreationTime = studentAssignment.Assignment.CreationTime,
+                Deadline = studentAssignment.Assignment.Deadline,
                 Creator = new StudentPartialProfileDto(studentAssignment.Assignment.Creator),
                 Subject = studentAssignment.Assignment.Subject,
                 IsCompeted = studentAssignment.IsCompeted

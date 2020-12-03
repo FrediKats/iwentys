@@ -24,7 +24,7 @@
                 @foreach (AssignmentInfoResponse assignment in _assignment)
                 {
                     <MatListItem>
-                        @(assignment.IsCompeted == false ? "[ ] " : "[x] ") @assignment.Title
+                        @(assignment.IsCompeted == false ? "[ ] " : "[x] ") @assignment.Title @(assignment.Deadline is not null ? assignment.Deadline : "")
                     </MatListItem>
                 }
             </MatList>

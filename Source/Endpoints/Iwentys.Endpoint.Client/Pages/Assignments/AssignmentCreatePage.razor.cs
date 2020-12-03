@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
 
         private string _title;
         private string _description;
+        private DateTime? _deadline;
 
         private List<SubjectProfileResponse> _subjects;
         private SubjectProfileResponse _selectedSubject;
@@ -42,7 +44,8 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
             var createArguments = new AssignmentCreateRequest()
             {
                 Title = _title,
-                Description = _description
+                Description = _description,
+                Deadline = _deadline
             };
 
             if (_selectedSubject is not null)
