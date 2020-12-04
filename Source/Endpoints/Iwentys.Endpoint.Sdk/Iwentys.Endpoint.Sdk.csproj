@@ -14,6 +14,7 @@
     <ProjectReference Include="..\..\Features\Iwentys.Features.Gamification\Iwentys.Features.Gamification.csproj" />
     <ProjectReference Include="..\..\Features\Iwentys.Features.Guilds\Iwentys.Features.Guilds.csproj" />
     <ProjectReference Include="..\..\Features\Iwentys.Features.Newsfeeds\Iwentys.Features.Newsfeeds.csproj" />
+    <ProjectReference Include="..\..\Features\Iwentys.Features.Quests\Iwentys.Features.Quests.csproj" />
   </ItemGroup>
 
 </Project>

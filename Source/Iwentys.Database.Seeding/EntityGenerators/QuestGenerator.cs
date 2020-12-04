@@ -21,7 +21,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             StudentEntity author = students.First();
 
             faker
-                .RuleFor(q => q.Id, f => f.IndexVariable++)
+                .RuleFor(q => q.Id, f => ++f.IndexVariable)
                 .RuleFor(q => q.Title, f => f.Lorem.Slug())
                 .RuleFor(q => q.Description, f => f.Lorem.Paragraph())
                 .RuleFor(q => q.Price, 100)
