@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using FluentResults;
 using Iwentys.Features.Students.Enums;
-using Newtonsoft.Json;
 
 namespace Iwentys.Features.Study.Entities
 {
@@ -31,7 +32,7 @@ namespace Iwentys.Features.Study.Entities
 
             try
             {
-                var googleTableData = JsonConvert.DeserializeObject<GoogleTableData>(SerializedGoogleTableConfig);
+                var googleTableData = JsonSerializer.Deserialize<GoogleTableData>(SerializedGoogleTableConfig);
                 return Result.Ok(googleTableData);
             }
             catch (Exception e)

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json;
 using Iwentys.Common.Tools;
-using Newtonsoft.Json;
 
 namespace Iwentys.Features.Study
 {
@@ -33,6 +33,6 @@ namespace Iwentys.Features.Study
         public List<string> NameColumnsList { get; set; }
         public string ScoreColumn { get; set; }
 
-        public string Serialize() => JsonConvert.SerializeObject(this);
+        public string Serialize() => JsonSerializer.Serialize(this);
     }
 }

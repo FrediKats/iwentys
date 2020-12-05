@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Json;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Models;
-using Newtonsoft.Json;
 using Octokit;
 
 namespace Iwentys.Integrations.GithubIntegration
@@ -60,7 +60,7 @@ namespace Iwentys.Integrations.GithubIntegration
             using var http = new HttpClient();
 
             string info = http.GetStringAsync(GithubContributionsApiUrl + githubUsername).Result;
-            var result = JsonConvert.DeserializeObject<ActivityInfo>(info);
+            var result = JsonSerializer.Deserialize<ActivityInfo>(info);
 
             return new ContributionFullInfo
             {
