@@ -13,7 +13,6 @@ using Iwentys.Features.Guilds.ViewModels.Guilds;
 using Iwentys.Features.StudentFeature;
 using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Features.StudentFeature.Repositories;
-using Iwentys.Integrations.GithubIntegration;
 
 namespace Iwentys.Features.Guilds.Services
 {

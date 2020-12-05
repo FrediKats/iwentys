@@ -1,7 +1,6 @@
 ﻿using System;
 using FluentResults;
 using Iwentys.Features.StudentFeature.Enums;
-using Iwentys.Models.Types;
 using Newtonsoft.Json;
 
 namespace Iwentys.Features.StudentFeature.Entities

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Google.Apis.Sheets.v4.Data;
-using Iwentys.Models.Types;
+using Iwentys.Features.StudentFeature;
 using Microsoft.Extensions.Logging;
 
 namespace Iwentys.Integrations.GoogleTableIntegration.Marks

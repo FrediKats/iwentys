@@ -5,7 +5,6 @@ using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.GithubIntegration.ViewModels;
-using Iwentys.Integrations.GithubIntegration;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers

@@ -2,8 +2,9 @@
 using Iwentys.Common.Tools;
 using Newtonsoft.Json;
 
-namespace Iwentys.Models.Types
+namespace Iwentys.Features.StudentFeature
 {
+    //TODO: very bad hack. It is not logic of StudyFeature
     public class GoogleTableData
     {
         public GoogleTableData()

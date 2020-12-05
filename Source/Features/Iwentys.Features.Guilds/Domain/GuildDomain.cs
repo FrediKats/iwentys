@@ -16,8 +16,6 @@ using Iwentys.Features.StudentFeature;
 using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Features.StudentFeature.ViewModels;
-using Iwentys.Integrations.GithubIntegration;
-using Octokit;
 
 namespace Iwentys.Features.Guilds.Domain
 {

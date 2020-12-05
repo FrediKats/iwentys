@@ -4,7 +4,6 @@ using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.ViewModels.Tournaments;
-using Iwentys.Integrations.GithubIntegration;
 
 namespace Iwentys.Features.Guilds.Domain
 {

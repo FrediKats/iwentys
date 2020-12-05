@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentResults;
+using Iwentys.Features.StudentFeature;
 using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Features.StudentFeature.Repositories;
 using Iwentys.Integrations.GoogleTableIntegration;
 using Iwentys.Integrations.GoogleTableIntegration.Marks;
-using Iwentys.Models.Types;
 using Microsoft.Extensions.Logging;
 
 namespace Iwentys.Endpoint.Server.Source.BackgroundServices

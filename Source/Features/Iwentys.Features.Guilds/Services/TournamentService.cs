@@ -9,7 +9,6 @@ using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Features.Guilds.ViewModels.Tournaments;
-using Iwentys.Integrations.GithubIntegration;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Services
