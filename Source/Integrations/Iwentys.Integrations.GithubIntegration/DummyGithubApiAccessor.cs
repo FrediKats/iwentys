@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Iwentys.Features.GithubIntegration;
-using Iwentys.Features.GithubIntegration.ViewModels;
+using Iwentys.Features.GithubIntegration.Models;
 using Octokit;
 
 namespace Iwentys.Integrations.GithubIntegration

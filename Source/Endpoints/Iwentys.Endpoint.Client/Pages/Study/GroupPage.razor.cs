@@ -4,7 +4,7 @@ using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients.Study;
 using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Features.StudentFeature.Enums;
-using Iwentys.Features.StudentFeature.ViewModels;
+using Iwentys.Features.StudentFeature.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace Iwentys.Endpoint.Client.Pages.Study

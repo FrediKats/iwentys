@@ -5,8 +5,8 @@ using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Repositories.Study;
 using Iwentys.Features.Achievements.Entities;
 using Iwentys.Features.GithubIntegration.Entities;
+using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.GithubIntegration.Services;
-using Iwentys.Features.GithubIntegration.ViewModels;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
@@ -93,7 +93,7 @@ namespace Iwentys.Features.Guilds.Tests
                 .Returns(Task.FromResult(_student));
 
             GuildRepositoriesScope repositoriesScope = new GuildRepositoriesScope(_studentRepository.Object, _guildRepository.Object, _guildMemberRepository.Object, _tributeRepository.Object);
-            _guildDomain = new GuildDomain(_guild, _githubUserDataService.Object, null, repositoriesScope);
+            _guildDomain = new GuildDomain(_guild, _githubUserDataService.Object, repositoriesScope);
         }
 
         [Test]

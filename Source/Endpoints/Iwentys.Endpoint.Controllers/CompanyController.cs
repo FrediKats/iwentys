@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Iwentys.Features.Companies.Models;
 using Iwentys.Features.Companies.Services;
-using Iwentys.Features.Companies.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers

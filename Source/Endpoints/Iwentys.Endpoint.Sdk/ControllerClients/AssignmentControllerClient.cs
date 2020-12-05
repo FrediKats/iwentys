@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using Iwentys.Features.Assignments.ViewModels;
+using Iwentys.Features.Assignments.Models;
 
 namespace Iwentys.Endpoint.Sdk.ControllerClients
 {
@@ -15,15 +15,15 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
 
         public HttpClient Client { get; }
 
-        public Task<List<AssignmentInfoResponse>> Get()
+        public Task<List<AssignmentInfoDto>> Get()
         {
-            return Client.GetFromJsonAsync<List<AssignmentInfoResponse>>("/api/assignment");
+            return Client.GetFromJsonAsync<List<AssignmentInfoDto>>("/api/assignment");
         }
 
-        public async Task<AssignmentInfoResponse> Create(AssignmentCreateRequest assignmentCreateRequest)
+        public async Task<AssignmentInfoDto> Create(AssignmentCreateRequestDto assignmentCreateRequestDto)
         {
-            HttpResponseMessage responseMessage = await Client.PostAsJsonAsync($"api/assignment", assignmentCreateRequest);
-            return await responseMessage.Content.ReadFromJsonAsync<AssignmentInfoResponse>();
+            HttpResponseMessage responseMessage = await Client.PostAsJsonAsync($"api/assignment", assignmentCreateRequestDto);
+            return await responseMessage.Content.ReadFromJsonAsync<AssignmentInfoDto>();
         }
 
         public Task Complete(int assignmentId)

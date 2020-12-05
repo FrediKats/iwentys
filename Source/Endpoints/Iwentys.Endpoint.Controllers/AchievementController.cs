@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Iwentys.Features.Achievements.Models;
 using Iwentys.Features.Achievements.Repositories;
-using Iwentys.Features.Achievements.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers
@@ -19,12 +19,12 @@ namespace Iwentys.Endpoint.Controllers
         }
 
         [HttpGet("for-student")]
-        public async Task<ActionResult<List<AchievementViewModel>>> GetForStudent(int studentId)
+        public async Task<ActionResult<List<AchievementDto>>> GetForStudent(int studentId)
         {
-            List<AchievementViewModel> achievements = _achievementRepository
+            List<AchievementDto> achievements = _achievementRepository
                 .ReadStudentAchievements()
                 .Where(a => a.StudentId == studentId)
-                .AsEnumerable().Select(AchievementViewModel.Wrap)
+                .AsEnumerable().Select(AchievementDto.Wrap)
                 .ToList();
 
             return Ok(achievements);

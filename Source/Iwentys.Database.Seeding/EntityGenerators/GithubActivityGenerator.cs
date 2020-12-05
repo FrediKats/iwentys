@@ -2,7 +2,7 @@
 using Bogus;
 using Iwentys.Database.Seeding.Tools;
 using Iwentys.Features.GithubIntegration.Entities;
-using Iwentys.Features.GithubIntegration.ViewModels;
+using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Database.Seeding.EntityGenerators

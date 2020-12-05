@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients.Study;
-using Iwentys.Features.Gamification.ViewModels;
+using Iwentys.Features.Gamification.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace Iwentys.Endpoint.Client.Pages.Study

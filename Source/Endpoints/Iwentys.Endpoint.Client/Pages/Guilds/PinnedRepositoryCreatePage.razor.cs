@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients.Guilds;
-using Iwentys.Features.GithubIntegration.ViewModels;
-using Iwentys.Features.Guilds.ViewModels.Guilds;
+using Iwentys.Features.GithubIntegration.Models;
+using Iwentys.Features.Guilds.Models.Guilds;
 
 namespace Iwentys.Endpoint.Client.Pages.Guilds
 {

@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
-using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Entities;
+using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.GithubIntegration.Services;
-using Iwentys.Features.GithubIntegration.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers
@@ -14,7 +13,6 @@ namespace Iwentys.Endpoint.Controllers
     public class GithubController : ControllerBase
     {
         private readonly GithubUserDataService _githubUserDataService;
-        private readonly IGithubApiAccessor _githubApiAccessor;
 
         public GithubController(GithubUserDataService githubUserDataService)
         {

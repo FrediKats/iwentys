@@ -3,11 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
-using Iwentys.Features.Gamification.ViewModels;
+using Iwentys.Features.Gamification.Models;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.StudentFeature.Models;
 using Iwentys.Features.StudentFeature.Repositories;
-using Iwentys.Features.StudentFeature.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Gamification.Services

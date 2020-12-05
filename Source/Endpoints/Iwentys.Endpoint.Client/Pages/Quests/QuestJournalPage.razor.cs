@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients;
-using Iwentys.Features.Quests.ViewModels;
+using Iwentys.Features.Quests.Models;
 
 namespace Iwentys.Endpoint.Client.Pages.Quests
 {

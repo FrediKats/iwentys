@@ -1,9 +1,7 @@
 ﻿@page "/assignment"
 
 @using Blazored.LocalStorage
-@using Iwentys.Endpoint.Client.Tools
-@using Iwentys.Endpoint.Sdk.ControllerClients
-@using Iwentys.Features.Assignments.ViewModels
+@using Iwentys.Features.Assignments.Models
 
 @inject HttpClient Http
 @inject ILocalStorageService LocalStorage
@@ -22,7 +20,7 @@
         @if (_assignment is not null)
         {
             <MatList>
-                @foreach (AssignmentInfoResponse assignment in _assignment)
+                @foreach (AssignmentInfoDto assignment in _assignment)
                 {
                     <MatListItem>
                         @if (assignment.IsCompeted)

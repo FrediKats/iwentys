@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using FluentResults;
 using Iwentys.Endpoints.ClientBot.Tools;
-using Iwentys.Features.StudentFeature;
+using Iwentys.Features.StudentFeature.Domain;
+using Iwentys.Features.StudentFeature.Models;
 using Iwentys.Features.StudentFeature.Services;
-using Iwentys.Features.StudentFeature.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Tef.BotFramework.Abstractions;
 using Tef.BotFramework.Core;

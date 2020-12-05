@@ -7,7 +7,7 @@ using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Repositories.Newsfeeds;
 using Iwentys.Database.Repositories.Study;
 using Iwentys.Endpoint.Server.Source.Auth;
-using Iwentys.Features.Achievements;
+using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Achievements.Repositories;
 using Iwentys.Features.Assignments.Repositories;
 using Iwentys.Features.Assignments.Services;
@@ -37,7 +37,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
-namespace Iwentys.Endpoint.Server.Source
+namespace Iwentys.Endpoint.Server.Source.Tools
 {
     public static class AspStartupExtensions
     {

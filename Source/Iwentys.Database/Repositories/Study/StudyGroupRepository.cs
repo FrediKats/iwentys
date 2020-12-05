@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Database.Context;
-using Iwentys.Features.StudentFeature;
+using Iwentys.Features.StudentFeature.Domain;
 using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Features.StudentFeature.Repositories;
 using Microsoft.EntityFrameworkCore;

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Controllers.Tools;
-using Iwentys.Features.StudentFeature;
+using Iwentys.Features.StudentFeature.Domain;
+using Iwentys.Features.StudentFeature.Models;
 using Iwentys.Features.StudentFeature.Services;
-using Iwentys.Features.StudentFeature.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Study

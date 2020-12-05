@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Bogus;
 using Iwentys.Features.Assignments.Entities;
-using Iwentys.Features.Assignments.ViewModels;
+using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
@@ -20,7 +20,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             StudentAssignments = new List<StudentAssignmentEntity>();
             foreach (StudentEntity student in students)
             {
-                var assignmentEntity = AssignmentEntity.Create(student, new AssignmentCreateRequest
+                var assignmentEntity = AssignmentEntity.Create(student, new AssignmentCreateRequestDto
                 {
                     Title = faker.Hacker.IngVerb(),
                     Description = faker.Lorem.Paragraph(1),

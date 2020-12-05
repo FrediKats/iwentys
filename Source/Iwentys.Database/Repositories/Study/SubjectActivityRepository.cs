@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Iwentys.Common.Tools;
 using Iwentys.Database.Context;
 using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.StudentFeature.Models;
 using Iwentys.Features.StudentFeature.Repositories;
-using Iwentys.Features.StudentFeature.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

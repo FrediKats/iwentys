@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Database.Seeding;
-using Iwentys.Features.Achievements;
+using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Achievements.Entities;
 using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Companies.Entities;

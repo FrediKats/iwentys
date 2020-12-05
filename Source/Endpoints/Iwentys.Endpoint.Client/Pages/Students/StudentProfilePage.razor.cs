@@ -13,9 +13,9 @@ using ChartJs.Blazor.Util;
 using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients;
 using Iwentys.Endpoint.Sdk.ControllerClients.Study;
-using Iwentys.Features.Achievements.ViewModels;
-using Iwentys.Features.GithubIntegration.ViewModels;
-using Iwentys.Features.StudentFeature.ViewModels;
+using Iwentys.Features.Achievements.Models;
+using Iwentys.Features.GithubIntegration.Models;
+using Iwentys.Features.StudentFeature.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace Iwentys.Endpoint.Client.Pages.Students
@@ -24,7 +24,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
     {
 
         private StudentFullProfileDto _studentFullProfile;
-        private List<AchievementViewModel> _achievements;
+        private List<AchievementDto> _achievements;
         private List<CodingActivityInfoResponse> _codingActivityInfo;
 
         private LineConfig _githubChartConfig;

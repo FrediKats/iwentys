@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Assignments.Entities;
+using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.Assignments.Repositories;
-using Iwentys.Features.Assignments.ViewModels;
-using Iwentys.Features.StudentFeature;
+using Iwentys.Features.StudentFeature.Domain;
 using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Features.StudentFeature.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -23,14 +23,14 @@ namespace Iwentys.Features.Assignments.Services
             _assignmentRepository = assignmentRepository;
         }
 
-        public async Task<AssignmentInfoResponse> CreateAsync(AuthorizedUser user, AssignmentCreateRequest assignmentCreateRequest)
+        public async Task<AssignmentInfoDto> CreateAsync(AuthorizedUser user, AssignmentCreateRequestDto assignmentCreateRequestDto)
         {
             StudentEntity creator = await user.GetProfile(_studentRepository);
-            StudentAssignmentEntity assignment = await _assignmentRepository.CreateAsync(creator, assignmentCreateRequest);
-            return AssignmentInfoResponse.Wrap(assignment);
+            StudentAssignmentEntity assignment = await _assignmentRepository.CreateAsync(creator, assignmentCreateRequestDto);
+            return AssignmentInfoDto.Wrap(assignment);
         }
 
-        public async Task<List<AssignmentInfoResponse>> ReadAsync(AuthorizedUser user)
+        public async Task<List<AssignmentInfoDto>> ReadAsync(AuthorizedUser user)
         {
             List<StudentAssignmentEntity> assignments = await _assignmentRepository
                 .Read()
@@ -38,21 +38,20 @@ namespace Iwentys.Features.Assignments.Services
                 .Where(a => a.StudentId == user.Id)
                 .ToListAsync();
 
-            return assignments.SelectToList(AssignmentInfoResponse.Wrap);
+            return assignments.SelectToList(AssignmentInfoDto.Wrap);
         }
 
         public async Task CompleteAsync(AuthorizedUser user, int assignmentId)
         {
             //TODO: ensure user is creator
 
-            AssignmentEntity assignmentEntity = await _assignmentRepository.MarkCompleted(assignmentId);
-            return;
+            await _assignmentRepository.MarkCompletedAsync(assignmentId);
         }
 
         public Task DeleteAsync(AuthorizedUser user, int assignmentId)
         {
             //TODO: ensure user is creator
-            return _assignmentRepository.Delete(assignmentId);
+            return _assignmentRepository.DeleteAsync(assignmentId);
         }
     }
 }

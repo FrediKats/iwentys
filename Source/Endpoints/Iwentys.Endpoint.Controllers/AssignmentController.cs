@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Controllers.Tools;
+using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.Assignments.Services;
-using Iwentys.Features.Assignments.ViewModels;
-using Iwentys.Features.StudentFeature;
+using Iwentys.Features.StudentFeature.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers
@@ -20,18 +20,18 @@ namespace Iwentys.Endpoint.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<AssignmentInfoResponse>>> Get()
+        public async Task<ActionResult<List<AssignmentInfoDto>>> Get()
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            List<AssignmentInfoResponse> assignments = await _assignmentService.ReadAsync(user);
+            List<AssignmentInfoDto> assignments = await _assignmentService.ReadAsync(user);
             return Ok(assignments);
         }
 
         [HttpPost]
-        public async Task<ActionResult<AssignmentInfoResponse>> Create([FromBody] AssignmentCreateRequest assignmentCreateRequest)
+        public async Task<ActionResult<AssignmentInfoDto>> Create([FromBody] AssignmentCreateRequestDto assignmentCreateRequestDto)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            AssignmentInfoResponse assignment = await _assignmentService.CreateAsync(user, assignmentCreateRequest);
+            AssignmentInfoDto assignment = await _assignmentService.CreateAsync(user, assignmentCreateRequestDto);
             return Ok(assignment);
         }
 

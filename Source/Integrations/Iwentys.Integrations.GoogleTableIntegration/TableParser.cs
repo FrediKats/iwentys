@@ -1,5 +1,4 @@
-﻿using Google.Apis.Auth.OAuth2;
-using Google.Apis.Services;
+﻿using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Microsoft.Extensions.Logging;
@@ -30,18 +29,19 @@ namespace Iwentys.Integrations.GoogleTableIntegration
             return request.Parse(data);
         }
 
-        private static SheetsService GetServiceForCredential(string serviceToken)
-        {
-            GoogleCredential credential = GoogleCredential
-                .FromJson(serviceToken)
-                .CreateScoped(SheetsService.Scope.SpreadsheetsReadonly);
+        //FYI: legacy
+        //private static SheetsService GetServiceForCredential(string serviceToken)
+        //{
+        //    GoogleCredential credential = GoogleCredential
+        //        .FromJson(serviceToken)
+        //        .CreateScoped(SheetsService.Scope.SpreadsheetsReadonly);
 
-            return new SheetsService(new BaseClientService.Initializer
-            {
-                ApplicationName = "IwentysTableParser",
-                HttpClientInitializer = credential
-            });
-        }
+        //    return new SheetsService(new BaseClientService.Initializer
+        //    {
+        //        ApplicationName = "IwentysTableParser",
+        //        HttpClientInitializer = credential
+        //    });
+        //}
 
         private static SheetsService GetServiceForApiToken(string serviceToken)
         {

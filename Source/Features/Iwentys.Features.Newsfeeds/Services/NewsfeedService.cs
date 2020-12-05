@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Newsfeeds.Entities;
+using Iwentys.Features.Newsfeeds.Models;
 using Iwentys.Features.Newsfeeds.Repositories;
-using Iwentys.Features.Newsfeeds.ViewModels;
 
 namespace Iwentys.Features.Newsfeeds.Services
 {

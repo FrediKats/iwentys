@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients;
 using Iwentys.Endpoint.Sdk.ControllerClients.Study;
-using Iwentys.Features.Assignments.ViewModels;
-using Iwentys.Features.StudentFeature.ViewModels;
+using Iwentys.Features.Assignments.Models;
+using Iwentys.Features.StudentFeature.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace Iwentys.Endpoint.Client.Pages.Assignments
@@ -41,7 +41,7 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
 
         private async Task ExecuteAssignmentCreation()
         {
-            var createArguments = new AssignmentCreateRequest()
+            var createArguments = new AssignmentCreateRequestDto()
             {
                 Title = _title,
                 Description = _description,

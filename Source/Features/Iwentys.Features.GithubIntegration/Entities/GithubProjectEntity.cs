@@ -1,4 +1,4 @@
-﻿using Iwentys.Features.GithubIntegration.ViewModels;
+﻿using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Features.GithubIntegration.Entities

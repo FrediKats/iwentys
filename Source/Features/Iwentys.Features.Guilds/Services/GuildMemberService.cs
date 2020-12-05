@@ -3,14 +3,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
-using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
+using Iwentys.Features.Guilds.Models.Guilds;
 using Iwentys.Features.Guilds.Repositories;
-using Iwentys.Features.Guilds.ViewModels.Guilds;
-using Iwentys.Features.StudentFeature;
+using Iwentys.Features.StudentFeature.Domain;
 using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Features.StudentFeature.Repositories;
 
@@ -19,16 +18,14 @@ namespace Iwentys.Features.Guilds.Services
     public class GuildMemberService
     {
         private readonly GithubUserDataService _githubUserDataService;
-        private readonly IGithubApiAccessor _githubApiAccessor;
         private readonly IStudentRepository _studentRepository;
         private readonly IGuildRepository _guildRepository;
         private readonly IGuildMemberRepository _guildMemberRepository;
         private readonly IGuildTributeRepository _guildTributeRepository;
 
-        public GuildMemberService(GithubUserDataService githubUserDataService, IGithubApiAccessor githubApiAccessor, IStudentRepository studentRepository, IGuildRepository guildRepository, IGuildMemberRepository guildMemberRepository, IGuildTributeRepository guildTributeRepository)
+        public GuildMemberService(GithubUserDataService githubUserDataService, IStudentRepository studentRepository, IGuildRepository guildRepository, IGuildMemberRepository guildMemberRepository, IGuildTributeRepository guildTributeRepository)
         {
             _githubUserDataService = githubUserDataService;
-            _githubApiAccessor = githubApiAccessor;
             _studentRepository = studentRepository;
             _guildRepository = guildRepository;
             _guildMemberRepository = guildMemberRepository;
@@ -170,7 +167,7 @@ namespace Iwentys.Features.Guilds.Services
 
         private GuildDomain CreateDomain(GuildEntity guild)
         {
-            return new GuildDomain(guild, _githubUserDataService, _githubApiAccessor, _studentRepository, _guildRepository, _guildMemberRepository, _guildTributeRepository);
+            return new GuildDomain(guild, _githubUserDataService, _studentRepository, _guildRepository, _guildMemberRepository, _guildTributeRepository);
         }
     }
 }

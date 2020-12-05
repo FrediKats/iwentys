@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Common.Tools;
+using Iwentys.Features.StudentFeature.Domain;
 using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Features.StudentFeature.Repositories

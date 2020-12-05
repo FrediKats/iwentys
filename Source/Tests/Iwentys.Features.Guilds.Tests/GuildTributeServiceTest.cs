@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Features.GithubIntegration.Entities;
-using Iwentys.Features.Guilds.ViewModels.Guilds;
-using Iwentys.Features.Guilds.ViewModels.GuildTribute;
-using Iwentys.Features.StudentFeature;
+using Iwentys.Features.Guilds.Models.Guilds;
+using Iwentys.Features.Guilds.Models.GuildTribute;
+using Iwentys.Features.StudentFeature.Domain;
 using Iwentys.Features.StudentFeature.Enums;
 using Iwentys.Tests.Tools;
 using NUnit.Framework;

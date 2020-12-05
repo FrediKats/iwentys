@@ -1,7 +1,8 @@
 ﻿using System.Threading.Tasks;
+using Iwentys.Features.StudentFeature.Domain;
 using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.StudentFeature.Models;
 using Iwentys.Features.StudentFeature.Repositories;
-using Iwentys.Features.StudentFeature.ViewModels;
 
 namespace Iwentys.Features.StudentFeature.Services
 {

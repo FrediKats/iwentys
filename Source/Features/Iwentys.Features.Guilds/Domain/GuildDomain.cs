@@ -4,18 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
-using Iwentys.Features.Achievements.ViewModels;
-using Iwentys.Features.GithubIntegration;
+using Iwentys.Features.Achievements.Models;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
+using Iwentys.Features.Guilds.Models.Guilds;
 using Iwentys.Features.Guilds.Repositories;
-using Iwentys.Features.Guilds.ViewModels.Guilds;
-using Iwentys.Features.StudentFeature;
+using Iwentys.Features.StudentFeature.Domain;
 using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.StudentFeature.Models;
 using Iwentys.Features.StudentFeature.Repositories;
-using Iwentys.Features.StudentFeature.ViewModels;
 
 namespace Iwentys.Features.Guilds.Domain
 {
@@ -24,7 +23,6 @@ namespace Iwentys.Features.Guilds.Domain
         public GuildEntity Profile { get; }
 
         private readonly GithubUserDataService _githubUserDataService;
-        private readonly IGithubApiAccessor _apiAccessor;
         private readonly IStudentRepository _studentRepository;
         private readonly IGuildRepository _guildRepository;
         private readonly IGuildMemberRepository _guildMemberRepository;
@@ -33,12 +31,10 @@ namespace Iwentys.Features.Guilds.Domain
         public GuildDomain(
             GuildEntity profile,
             GithubUserDataService githubUserDataService,
-            IGithubApiAccessor apiAccessor,
             GuildRepositoriesScope repositoriesScope)
         {
             Profile = profile;
             _githubUserDataService = githubUserDataService;
-            _apiAccessor = apiAccessor;
             _studentRepository = repositoriesScope.Student;
             _guildRepository = repositoriesScope.Guild;
             _guildMemberRepository = repositoriesScope.GuildMember;
@@ -48,7 +44,6 @@ namespace Iwentys.Features.Guilds.Domain
         public GuildDomain(
             GuildEntity profile,
             GithubUserDataService githubUserDataService,
-            IGithubApiAccessor apiAccessor,
             IStudentRepository studentRepository,
             IGuildRepository guildRepository,
             IGuildMemberRepository guildMemberRepository,
@@ -56,7 +51,6 @@ namespace Iwentys.Features.Guilds.Domain
         {
             Profile = profile;
             _githubUserDataService = githubUserDataService;
-            _apiAccessor = apiAccessor;
             _studentRepository = studentRepository;
             _guildRepository = guildRepository;
             _guildMemberRepository = guildMemberRepository;
@@ -78,7 +72,7 @@ namespace Iwentys.Features.Guilds.Domain
                 MemberLeaderBoard = dashboard,
                 Rating = dashboard.TotalRate,
                 PinnedRepositories = Profile.PinnedProjects.SelectToList(p => _githubUserDataService.GetCertainRepository(p.RepositoryOwner, p.RepositoryName)),
-                Achievements = Profile.Achievements.SelectToList(AchievementViewModel.Wrap),
+                Achievements = Profile.Achievements.SelectToList(AchievementDto.Wrap),
                 TestTasks = Profile.TestTasks.SelectToList(GuildTestTaskInfoResponse.Wrap)
             };
 

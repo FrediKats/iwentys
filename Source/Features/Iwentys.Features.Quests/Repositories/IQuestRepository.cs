@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Quests.Entities;
-using Iwentys.Features.Quests.ViewModels;
+using Iwentys.Features.Quests.Models;
 using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Features.Quests.Repositories

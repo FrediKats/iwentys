@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Features.Quests.ViewModels;
-using Iwentys.Features.StudentFeature;
+using Iwentys.Features.Quests.Models;
+using Iwentys.Features.StudentFeature.Domain;
 using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Tests.Tools;
 using NUnit.Framework;

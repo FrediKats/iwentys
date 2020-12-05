@@ -1,5 +1,5 @@
 ﻿using System;
-using Iwentys.Features.Assignments.ViewModels;
+using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Features.Assignments.Entities
@@ -19,16 +19,16 @@ namespace Iwentys.Features.Assignments.Entities
         public int? SubjectId { get; set; }
         public SubjectEntity Subject { get; set; }
 
-        public static AssignmentEntity Create(StudentEntity creator, AssignmentCreateRequest assignmentCreateRequest)
+        public static AssignmentEntity Create(StudentEntity creator, AssignmentCreateRequestDto assignmentCreateRequestDto)
         {
             return new AssignmentEntity
             {
-                Title = assignmentCreateRequest.Title,
-                Description = assignmentCreateRequest.Description,
+                Title = assignmentCreateRequestDto.Title,
+                Description = assignmentCreateRequestDto.Description,
                 CreationTime = DateTime.UtcNow,
-                Deadline = assignmentCreateRequest.Deadline,
+                Deadline = assignmentCreateRequestDto.Deadline,
                 CreatorId = creator.Id,
-                SubjectId = assignmentCreateRequest.SubjectId
+                SubjectId = assignmentCreateRequestDto.SubjectId
             };
         }
     }

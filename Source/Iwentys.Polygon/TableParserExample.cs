@@ -58,30 +58,31 @@ namespace Iwentys.Polygon
             Console.WriteLine(JsonConvert.SerializeObject(m3101.Concat(m3102).Concat(m3103).Concat(m3104)));
         }
 
-        private static GoogleTableData ReadFromConsole()
-        {
-            Console.WriteLine("Id Таблицы:");
-            string spreadSheetId = Console.ReadLine();
-            Console.WriteLine("Название страницы:");
-            var sheetName = Console.ReadLine();
-            Console.WriteLine("Первая строка с данными в таблице:");
-            var firstRow = Console.ReadLine();
-            Console.WriteLine("Последняя строка с данными в таблице:");
-            var lastRow = Console.ReadLine();
+        //TODO: do we need this?
+        //private static GoogleTableData ReadFromConsole()
+        //{
+        //    Console.WriteLine("Id Таблицы:");
+        //    string spreadSheetId = Console.ReadLine();
+        //    Console.WriteLine("Название страницы:");
+        //    var sheetName = Console.ReadLine();
+        //    Console.WriteLine("Первая строка с данными в таблице:");
+        //    var firstRow = Console.ReadLine();
+        //    Console.WriteLine("Последняя строка с данными в таблице:");
+        //    var lastRow = Console.ReadLine();
 
-            Console.WriteLine("На сколько столбцов разбито ФИО:");
-            var nameSplitNum = int.Parse(Console.ReadLine());
-            string[] nameArr = new string[nameSplitNum];
-            Console.WriteLine("Вводите столбцы с ФИО");
-            for (var i = 0; i < nameSplitNum; i++)
-            {
-                nameArr[i] = Console.ReadLine();
-            }
-            Console.WriteLine("Столбец с баллами:");
-            var scoreColumn = Console.ReadLine();
-            GoogleTableData test = new GoogleTableData(spreadSheetId, sheetName, firstRow, lastRow, nameArr, scoreColumn);
-            return test;
-        }
+        //    Console.WriteLine("На сколько столбцов разбито ФИО:");
+        //    var nameSplitNum = int.Parse(Console.ReadLine());
+        //    string[] nameArr = new string[nameSplitNum];
+        //    Console.WriteLine("Вводите столбцы с ФИО");
+        //    for (var i = 0; i < nameSplitNum; i++)
+        //    {
+        //        nameArr[i] = Console.ReadLine();
+        //    }
+        //    Console.WriteLine("Столбец с баллами:");
+        //    var scoreColumn = Console.ReadLine();
+        //    GoogleTableData test = new GoogleTableData(spreadSheetId, sheetName, firstRow, lastRow, nameArr, scoreColumn);
+        //    return test;
+        //}
 
         private static GoogleTableData M3101()
         {

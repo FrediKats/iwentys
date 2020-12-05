@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.GithubIntegration;
+using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.GithubIntegration.Services;
-using Iwentys.Features.GithubIntegration.ViewModels;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
-using Iwentys.Features.Guilds.ViewModels.Guilds;
-using Iwentys.Features.StudentFeature;
+using Iwentys.Features.Guilds.Models.Guilds;
+using Iwentys.Features.StudentFeature.Domain;
 using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Features.Guilds.Services
@@ -37,7 +37,7 @@ namespace Iwentys.Features.Guilds.Services
                 throw new InnerLogicException("Student already in guild");
 
             return _database.Guild.Create(creatorUser, arguments)
-                .To(g => new GuildDomain(g, _githubUserDataService, _githubApiAccessor, _database))
+                .To(g => new GuildDomain(g, _githubUserDataService, _database))
                 .ToGuildProfileShortInfoDto();
         }
 
@@ -57,7 +57,7 @@ namespace Iwentys.Features.Guilds.Services
                     guildMember.MemberType = GuildMemberType.Member;
 
             GuildEntity updatedGuid = await _database.Guild.UpdateAsync(info);
-            return new GuildDomain(updatedGuid, _githubUserDataService, _githubApiAccessor, _database).ToGuildProfileShortInfoDto();
+            return new GuildDomain(updatedGuid, _githubUserDataService, _database).ToGuildProfileShortInfoDto();
         }
 
         public async Task<GuildProfileShortInfoDto> ApproveGuildCreating(AuthorizedUser user, int guildId)
@@ -71,13 +71,13 @@ namespace Iwentys.Features.Guilds.Services
 
             guild.GuildType = GuildType.Created;
             GuildEntity updatedGuid = await _database.Guild.UpdateAsync(guild);
-            return new GuildDomain(updatedGuid, _githubUserDataService, _githubApiAccessor, _database).ToGuildProfileShortInfoDto();
+            return new GuildDomain(updatedGuid, _githubUserDataService, _database).ToGuildProfileShortInfoDto();
         }
 
         public GuildProfileDto[] Get()
         {
             return _database.Guild.Read().AsEnumerable().Select(g =>
-                new GuildDomain(g, _githubUserDataService, _githubApiAccessor, _database)
+                new GuildDomain(g, _githubUserDataService, _database)
                     .ToGuildProfileDto().Result).ToArray();
         }
 
@@ -85,7 +85,7 @@ namespace Iwentys.Features.Guilds.Services
         {
             return _database.Guild.Read()
                 .ToList()
-                .Select(g => new GuildDomain(g, _githubUserDataService, _githubApiAccessor, _database).ToGuildProfilePreviewDto())
+                .Select(g => new GuildDomain(g, _githubUserDataService, _database).ToGuildProfilePreviewDto())
                 .OrderByDescending(g => g.Rating)
                 .Skip(skippedCount)
                 .Take(takenCount)
@@ -96,7 +96,7 @@ namespace Iwentys.Features.Guilds.Services
         {
             GuildEntity guild = await _database.Guild.GetAsync(id);
 
-            return await new GuildDomain(guild, _githubUserDataService, _githubApiAccessor, _database)
+            return await new GuildDomain(guild, _githubUserDataService, _database)
                 .ToGuildProfileDto(userId);
         }
 
@@ -106,7 +106,7 @@ namespace Iwentys.Features.Guilds.Services
             if (guild is null)
                 return null;
             return await guild
-                .To(g => new GuildDomain(g, _githubUserDataService, _githubApiAccessor, _database))
+                .To(g => new GuildDomain(g, _githubUserDataService, _database))
                 .ToGuildProfileDto(userId);
         }
 
@@ -134,7 +134,7 @@ namespace Iwentys.Features.Guilds.Services
         public async Task<GuildMemberLeaderBoard> GetGuildMemberLeaderBoard(int guildId)
         {
             GuildEntity guild = await _database.Guild.GetAsync(guildId);
-            return new GuildDomain(guild, _githubUserDataService, _githubApiAccessor, _database).GetMemberDashboard();
+            return new GuildDomain(guild, _githubUserDataService, _database).GetMemberDashboard();
         }
     }
 }

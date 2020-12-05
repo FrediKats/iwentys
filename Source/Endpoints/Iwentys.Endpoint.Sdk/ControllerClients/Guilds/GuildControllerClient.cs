@@ -2,8 +2,8 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using Iwentys.Features.GithubIntegration.ViewModels;
-using Iwentys.Features.Guilds.ViewModels.Guilds;
+using Iwentys.Features.GithubIntegration.Models;
+using Iwentys.Features.Guilds.Models.Guilds;
 
 namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
 {
@@ -32,7 +32,7 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
         {
             //TODO: fix
             return Task.FromResult<GuildProfileDto>(null);
-            return Client.GetFromJsonAsync<GuildProfileDto>($"/api/guild/for-member?memberId={memberId}");
+            //return Client.GetFromJsonAsync<GuildProfileDto>($"/api/guild/for-member?memberId={memberId}");
         }
 
         public async Task<GithubRepository> AddPinnedProject(int guildId, CreateProjectRequest createProject)
@@ -43,7 +43,7 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
 
         public async Task DeletePinnedProject(int guildId, long repositoryId)
         {
-            HttpResponseMessage responseMessage = await Client.DeleteAsync($"/api/guild/{guildId}/pinned/{repositoryId}");
+            await Client.DeleteAsync($"/api/guild/{guildId}/pinned/{repositoryId}");
         }
     }
 }

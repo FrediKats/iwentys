@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Features.Assignments.Entities;
+using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.Assignments.Repositories;
-using Iwentys.Features.Assignments.ViewModels;
 using Iwentys.Features.StudentFeature.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -20,9 +20,9 @@ namespace Iwentys.Database.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<StudentAssignmentEntity> CreateAsync(StudentEntity creator, AssignmentCreateRequest assignmentCreateRequest)
+        public async Task<StudentAssignmentEntity> CreateAsync(StudentEntity creator, AssignmentCreateRequestDto assignmentCreateRequestDto)
         {
-            EntityEntry<AssignmentEntity> createdAssignment = await _dbContext.Assignments.AddAsync(AssignmentEntity.Create(creator, assignmentCreateRequest));
+            EntityEntry<AssignmentEntity> createdAssignment = await _dbContext.Assignments.AddAsync(AssignmentEntity.Create(creator, assignmentCreateRequestDto));
             EntityEntry<StudentAssignmentEntity> studentAssignment = await _dbContext.StudentAssignments.AddAsync(new StudentAssignmentEntity
             {
                 StudentId = creator.Id,
@@ -40,7 +40,7 @@ namespace Iwentys.Database.Repositories
                 .ThenInclude(a => a.Subject);
         }
 
-        public async Task<AssignmentEntity> MarkCompleted(int assignmentId)
+        public async Task<AssignmentEntity> MarkCompletedAsync(int assignmentId)
         {
             AssignmentEntity assignmentEntity = await _dbContext.Assignments.FindAsync(assignmentId);
             if (assignmentEntity is null)
@@ -52,7 +52,7 @@ namespace Iwentys.Database.Repositories
             return result.Entity;
         }
 
-        public async Task Delete(int assignmentId)
+        public async Task DeleteAsync(int assignmentId)
         {
             AssignmentEntity assignment = await _dbContext.Assignments.FindAsync(assignmentId);
             _dbContext.Assignments.Remove(assignment);

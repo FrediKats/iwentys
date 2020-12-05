@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients;
-using Iwentys.Features.Assignments.ViewModels;
+using Iwentys.Features.Assignments.Models;
 
 namespace Iwentys.Endpoint.Client.Pages.Assignments
 {
@@ -10,7 +10,7 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
     {
         private AssignmentControllerClient _assignmentControllerClient;
 
-        private List<AssignmentInfoResponse> _assignment;
+        private List<AssignmentInfoDto> _assignment;
 
         protected override async Task OnInitializedAsync()
         {

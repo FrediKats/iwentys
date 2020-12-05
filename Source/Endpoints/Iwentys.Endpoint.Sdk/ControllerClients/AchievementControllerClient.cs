@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using Iwentys.Features.Achievements.ViewModels;
+using Iwentys.Features.Achievements.Models;
 
 namespace Iwentys.Endpoint.Sdk.ControllerClients
 {
@@ -15,9 +15,9 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
 
         public HttpClient Client { get; }
 
-        public Task<List<AchievementViewModel>> GetForStudent(int studentId)
+        public Task<List<AchievementDto>> GetForStudent(int studentId)
         {
-            return Client.GetFromJsonAsync<List<AchievementViewModel>>($"/api/achievement/for-student?studentId={studentId}");
+            return Client.GetFromJsonAsync<List<AchievementDto>>($"/api/achievement/for-student?studentId={studentId}");
         }
     }
 }

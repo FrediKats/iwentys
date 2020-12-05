@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Common.Tools;
-using Iwentys.Features.GithubIntegration.ViewModels;
+using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.Guilds.Entities;
-using Iwentys.Features.Guilds.ViewModels.Guilds;
+using Iwentys.Features.Guilds.Models.Guilds;
 using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Features.Guilds.Repositories

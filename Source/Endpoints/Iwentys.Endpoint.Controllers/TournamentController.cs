@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Iwentys.Features.Guilds.Models.Tournaments;
 using Iwentys.Features.Guilds.Services;
-using Iwentys.Features.Guilds.ViewModels.Tournaments;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers

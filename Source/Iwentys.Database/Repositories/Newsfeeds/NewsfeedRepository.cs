@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Features.Newsfeeds.Entities;
+using Iwentys.Features.Newsfeeds.Models;
 using Iwentys.Features.Newsfeeds.Repositories;
-using Iwentys.Features.Newsfeeds.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

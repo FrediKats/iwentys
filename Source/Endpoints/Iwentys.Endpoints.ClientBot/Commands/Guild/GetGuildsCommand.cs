@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using FluentResults;
 using Iwentys.Common.Tools;
+using Iwentys.Features.Guilds.Models.Guilds;
 using Iwentys.Features.Guilds.Services;
-using Iwentys.Features.Guilds.ViewModels.Guilds;
 using Microsoft.Extensions.DependencyInjection;
 using Tef.BotFramework.Abstractions;
 using Tef.BotFramework.Core;

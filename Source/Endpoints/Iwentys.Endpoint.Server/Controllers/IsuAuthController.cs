@@ -6,11 +6,10 @@ using Iwentys.Common.Transferable;
 using Iwentys.Database.Context;
 using Iwentys.Endpoint.Controllers.Tools;
 using Iwentys.Endpoint.Server.Source.Auth;
-using Iwentys.Features.StudentFeature;
+using Iwentys.Features.StudentFeature.Domain;
 using Iwentys.Features.StudentFeature.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace Iwentys.Endpoint.Server.Controllers
 {
@@ -18,15 +17,13 @@ namespace Iwentys.Endpoint.Server.Controllers
     [ApiController]
     public class IsuAuthController : ControllerBase
     {
-        private readonly ILogger<IsuAuthController> _logger;
         //private readonly IsuApiAccessor _isuApiAccessor;
         private readonly DatabaseAccessor _databaseAccessor;
         private readonly StudentService _studentService;
         private IAuthenticationService _authenticationService;
 
-        public IsuAuthController(ILogger<IsuAuthController> logger, DatabaseAccessor databaseAccessor, StudentService studentService, IAuthenticationService authenticationService)
+        public IsuAuthController(DatabaseAccessor databaseAccessor, StudentService studentService, IAuthenticationService authenticationService)
         {
-            _logger = logger;
             _databaseAccessor = databaseAccessor;
             _studentService = studentService;
             _authenticationService = authenticationService;

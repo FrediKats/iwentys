@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Features.Newsfeeds.Entities;
-using Iwentys.Features.Newsfeeds.ViewModels;
+using Iwentys.Features.Newsfeeds.Models;
 
 namespace Iwentys.Features.Newsfeeds.Repositories
 {

@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Companies.Entities;
+using Iwentys.Features.Companies.Models;
 using Iwentys.Features.Companies.Repositories;
-using Iwentys.Features.Companies.ViewModels;
-using Iwentys.Features.StudentFeature;
+using Iwentys.Features.StudentFeature.Domain;
 using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Features.StudentFeature.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -34,10 +34,10 @@ namespace Iwentys.Features.Companies.Services
             return await WrapToDto(company);
         }
 
-        public async Task<List<CompanyWorkRequestViewModel>> GetCompanyWorkRequest()
+        public async Task<List<CompanyWorkRequestDto>> GetCompanyWorkRequest()
         {
             List<CompanyWorkerEntity> workers = await _companyRepository.ReadWorkerRequestAsync();
-            return workers.SelectToList(cw => cw.To(CompanyWorkRequestViewModel.Create));
+            return workers.SelectToList(cw => cw.To(CompanyWorkRequestDto.Create));
         }
 
         public async Task RequestAdding(int companyId, int userId)

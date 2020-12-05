@@ -1,16 +1,16 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Features.Assignments.Entities;
-using Iwentys.Features.Assignments.ViewModels;
+using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Features.Assignments.Repositories
 {
     public interface IAssignmentRepository
     {
-        Task<StudentAssignmentEntity> CreateAsync(StudentEntity creator, AssignmentCreateRequest assignmentCreateRequest);
+        Task<StudentAssignmentEntity> CreateAsync(StudentEntity creator, AssignmentCreateRequestDto assignmentCreateRequestDto);
         IQueryable<StudentAssignmentEntity> Read();
-        Task<AssignmentEntity> MarkCompleted(int assignmentId);
-        Task Delete(int assignmentId);
+        Task<AssignmentEntity> MarkCompletedAsync(int assignmentId);
+        Task DeleteAsync(int assignmentId);
     }
 }
