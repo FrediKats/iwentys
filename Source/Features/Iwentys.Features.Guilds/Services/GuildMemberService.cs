@@ -17,15 +17,15 @@ namespace Iwentys.Features.Guilds.Services
 {
     public class GuildMemberService
     {
-        private readonly GithubUserDataService _githubUserDataService;
+        private readonly GithubIntegrationService _githubIntegrationService;
         private readonly IStudentRepository _studentRepository;
         private readonly IGuildRepository _guildRepository;
         private readonly IGuildMemberRepository _guildMemberRepository;
         private readonly IGuildTributeRepository _guildTributeRepository;
 
-        public GuildMemberService(GithubUserDataService githubUserDataService, IStudentRepository studentRepository, IGuildRepository guildRepository, IGuildMemberRepository guildMemberRepository, IGuildTributeRepository guildTributeRepository)
+        public GuildMemberService(GithubIntegrationService githubIntegrationService, IStudentRepository studentRepository, IGuildRepository guildRepository, IGuildMemberRepository guildMemberRepository, IGuildTributeRepository guildTributeRepository)
         {
-            _githubUserDataService = githubUserDataService;
+            _githubIntegrationService = githubIntegrationService;
             _studentRepository = studentRepository;
             _guildRepository = guildRepository;
             _guildMemberRepository = guildMemberRepository;
@@ -167,7 +167,7 @@ namespace Iwentys.Features.Guilds.Services
 
         private GuildDomain CreateDomain(GuildEntity guild)
         {
-            return new GuildDomain(guild, _githubUserDataService, _studentRepository, _guildRepository, _guildMemberRepository, _guildTributeRepository);
+            return new GuildDomain(guild, _githubIntegrationService, _studentRepository, _guildRepository, _guildMemberRepository, _guildTributeRepository);
         }
     }
 }

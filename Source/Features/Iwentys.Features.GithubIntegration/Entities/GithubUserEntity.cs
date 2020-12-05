@@ -8,7 +8,8 @@ namespace Iwentys.Features.GithubIntegration.Entities
 {
     public class GithubUserEntity
     {
-        [Key] public int StudentId { get; set; }
+        [Key]
+        public int StudentId { get; set; }
 
         public string Username { get; set; }
         public string AvatarUrl { get; set; }

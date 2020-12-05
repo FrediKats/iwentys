@@ -8,19 +8,20 @@ namespace Iwentys.Integrations.GithubIntegration
 {
     public class DummyGithubApiAccessor : IGithubApiAccessor
     {
-        public GithubRepository GetRepository(string username, string repositoryName)
+        public GithubRepositoryInfoDto GetRepository(string username, string repositoryName)
         {
-            return new GithubRepository(17, username, repositoryName, "No desc", null, 0);
+            //TODO: omg, rework this plz
+            return new GithubRepositoryInfoDto(17, username, repositoryName, "No desc", null, 0);
         }
 
-        public IReadOnlyList<GithubRepository> GetUserRepositories(string username)
+        public IReadOnlyList<GithubRepositoryInfoDto> GetUserRepositories(string username)
         {
-            return new List<GithubRepository>();
+            return new List<GithubRepositoryInfoDto>();
         }
 
-        public GithubUser GetGithubUser(string githubUsername)
+        public GithubUserInfoDto GetGithubUser(string githubUsername)
         {
-            return new GithubUser(githubUsername, null, "No bio", null);
+            return new GithubUserInfoDto(17, githubUsername, null, "No bio", null);
         }
 
         public ContributionFullInfo GetUserActivity(string githubUsername)

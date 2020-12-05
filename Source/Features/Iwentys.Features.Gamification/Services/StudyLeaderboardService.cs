@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.Gamification.Models;
 using Iwentys.Features.GithubIntegration.Services;
@@ -9,36 +8,23 @@ using Iwentys.Features.Students.Repositories;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
 using Iwentys.Features.Study.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Gamification.Services
 {
     public class StudyLeaderboardService
     {
-        private readonly GithubUserDataService _githubUserDataService;
+        private readonly GithubIntegrationService _githubIntegrationService;
         private readonly IStudentRepository _studentRepository;
         private readonly ISubjectActivityRepository _subjectActivityRepository;
-        private readonly IGroupSubjectRepository _groupSubjectRepository;
 
-        public StudyLeaderboardService(GithubUserDataService githubUserDataService, IStudentRepository studentRepository, ISubjectActivityRepository subjectActivityRepository, IGroupSubjectRepository groupSubjectRepository)
+        public StudyLeaderboardService(GithubIntegrationService githubIntegrationService, IStudentRepository studentRepository, ISubjectActivityRepository subjectActivityRepository)
         {
-            _githubUserDataService = githubUserDataService;
+            _githubIntegrationService = githubIntegrationService;
             _studentRepository = studentRepository;
             _subjectActivityRepository = subjectActivityRepository;
-            _groupSubjectRepository = groupSubjectRepository;
         }
 
-        public Task<List<SubjectEntity>> GetSubjectsForDtoAsync(StudySearchParametersDto searchParametersDto)
-        {
-            return _groupSubjectRepository.GetSubjectsForDto(searchParametersDto).ToListAsync();
-        }
-
-        public Task<List<StudyGroupEntity>> GetStudyGroupsForDtoAsync(int? courseId)
-        {
-            return _groupSubjectRepository.GetStudyGroupsForDto(courseId).ToListAsync();
-        }
-
-        public List<StudyLeaderboardRow> GetStudentsRatings(StudySearchParametersDto searchParametersDto)
+        public List<StudyLeaderboardRowDto> GetStudentsRatings(StudySearchParametersDto searchParametersDto)
         {
             if (searchParametersDto.CourseId == null && searchParametersDto.GroupId == null ||
                 searchParametersDto.CourseId != null && searchParametersDto.GroupId != null)
@@ -50,14 +36,14 @@ namespace Iwentys.Features.Gamification.Services
 
             return result
                 .GroupBy(r => r.StudentId)
-                .Select(g => new StudyLeaderboardRow(g))
+                .Select(g => new StudyLeaderboardRowDto(g.ToList()))
                 .OrderByDescending(a => a.Activity)
                 .Skip(searchParametersDto.Skip)
                 .Take(searchParametersDto.Take)
                 .ToList();
         }
 
-        public List<StudyLeaderboardRow> GetCodingRating(int? courseId, int skip, int take)
+        public List<StudyLeaderboardRowDto> GetCodingRating(int? courseId, int skip, int take)
         {
             IQueryable<StudentEntity> query = _studentRepository.Read();
 
@@ -66,7 +52,7 @@ namespace Iwentys.Features.Gamification.Services
             //    .WhereIf(courseId, q => q.Group.StudyCourseId == courseId);
 
             return query.AsEnumerable()
-                .Select(s => new StudyLeaderboardRow(s, _githubUserDataService.FindByUsername(s.GithubUsername).Result?.ContributionFullInfo.Total ?? 0))
+                .Select(s => new StudyLeaderboardRowDto(s, _githubIntegrationService.FindByUsername(s.GithubUsername).Result?.ContributionFullInfo.Total ?? 0))
                 .OrderBy(a => a.Activity)
                 .Skip(skip)
                 .Take(take)

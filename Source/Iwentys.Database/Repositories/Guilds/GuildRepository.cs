@@ -99,14 +99,14 @@ namespace Iwentys.Database.Repositories.Guilds
                 .SingleOrDefault();
         }
 
-        public async Task<GuildPinnedProjectEntity> PinProjectAsync(int guildId, GithubRepository repository)
+        public async Task<GuildPinnedProjectEntity> PinProjectAsync(int guildId, GithubRepositoryInfoDto repositoryInfoDto)
         {
             EntityEntry<GuildPinnedProjectEntity> entry = await _dbContext.GuildPinnedProjects.AddAsync(new GuildPinnedProjectEntity
             {
-                Id = repository.Id,
+                Id = repositoryInfoDto.Id,
                 GuildId = guildId,
-                RepositoryName = repository.Name,
-                RepositoryOwner = repository.Owner
+                RepositoryName = repositoryInfoDto.Name,
+                RepositoryOwner = repositoryInfoDto.Owner
             });
             await _dbContext.SaveChangesAsync();
             return entry.Entity;

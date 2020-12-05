@@ -18,9 +18,9 @@ namespace Iwentys.Features.Guilds.Models.Guilds
 
         public GuildMemberLeaderBoard MemberLeaderBoard { get; set; }
 
-        public ActiveTributeResponse Tribute { get; set; }
+        public ActiveTributeResponseDto Tribute { get; set; }
         public List<AchievementDto> Achievements { get; set; }
-        public List<GithubRepository> PinnedRepositories { get; set; }
+        public List<GithubRepositoryInfoDto> PinnedRepositories { get; set; }
         public List<GuildTestTaskInfoResponse> TestTasks { get; set; } = new List<GuildTestTaskInfoResponse>();
 
         public UserMembershipState UserMembershipState { get; set; }

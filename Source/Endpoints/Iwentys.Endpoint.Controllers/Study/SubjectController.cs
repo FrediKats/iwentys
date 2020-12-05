@@ -27,7 +27,7 @@ namespace Iwentys.Endpoint.Controllers.Study
         public async Task<ActionResult<List<SubjectProfileDto>>> GetAllSubjects([FromQuery] int? courseId, [FromQuery] StudySemester? semester)
         {
             var studySearchParameters = new StudySearchParametersDto(null, null, courseId, semester, 0, 20);
-            List<SubjectEntity> subjectInfo = await _studyLeaderboardService.GetSubjectsForDtoAsync(studySearchParameters);
+            List<SubjectEntity> subjectInfo = await _subjectService.GetSubjectsForDtoAsync(studySearchParameters);
 
             List<SubjectProfileDto> response = subjectInfo.SelectToList(entity => new SubjectProfileDto(entity));
             return Ok(response);

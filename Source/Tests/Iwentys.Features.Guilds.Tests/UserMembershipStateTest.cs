@@ -28,7 +28,7 @@ namespace Iwentys.Features.Guilds.Tests
         private Mock<GuildRepository> _guildRepository;
         private Mock<GuildMemberRepository> _guildMemberRepository;
         private Mock<StudentRepository> _studentRepository;
-        private Mock<GithubUserDataService> _githubUserDataService;
+        private Mock<GithubIntegrationService> _githubUserDataService;
 
         // User without guild
         //      is not in blocked list
@@ -42,7 +42,8 @@ namespace Iwentys.Features.Guilds.Tests
             _student = new StudentEntity()
             {
                 Id = 1,
-                LastOnlineTime = DateTime.MinValue.ToUniversalTime()
+                LastOnlineTime = DateTime.MinValue.ToUniversalTime(),
+                GithubUsername = string.Empty
             };
 
             _guild = new GuildEntity()
@@ -50,14 +51,7 @@ namespace Iwentys.Features.Guilds.Tests
                 Id = 1,
                 Members = new List<GuildMemberEntity>()
                 {
-                    new GuildMemberEntity()
-                    {
-                        MemberType = GuildMemberType.Creator,
-                        Member = new StudentEntity()
-                        {
-                            GithubUsername = string.Empty
-                        }
-                    }
+                    new GuildMemberEntity(1, 1, GuildMemberType.Creator)
                 },
                 HiringPolicy = GuildHiringPolicy.Open,
                 PinnedProjects = new List<GuildPinnedProjectEntity>(),
@@ -69,10 +63,10 @@ namespace Iwentys.Features.Guilds.Tests
                 .Setup(r => r.ReadStudentActiveTribute(It.IsAny<Int32>(), It.IsAny<Int32>()))
                 .Returns(default(TributeEntity));
 
-            _githubUserDataService = new Mock<GithubUserDataService>();
+            _githubUserDataService = new Mock<GithubIntegrationService>();
             _githubUserDataService
                 .Setup(a => a.GetCertainRepository(It.IsAny<String>(), It.IsAny<String>()))
-                .Returns(default(GithubRepository));
+                .Returns(default(GithubRepositoryInfoDto));
             _githubUserDataService
                 .Setup(a => a.FindByUsername(It.IsAny<String>()))
                 .Returns(Task.FromResult(new GithubUserEntity { ContributionFullInfo = new ContributionFullInfo { RawActivity = new ActivityInfo() { Contributions = new List<ContributionsInfo>(), Years = new List<YearActivityInfo>() } } }));

@@ -12,17 +12,17 @@ namespace Iwentys.Endpoint.Controllers
     [ApiController]
     public class GithubController : ControllerBase
     {
-        private readonly GithubUserDataService _githubUserDataService;
+        private readonly GithubIntegrationService _githubIntegrationService;
 
-        public GithubController(GithubUserDataService githubUserDataService)
+        public GithubController(GithubIntegrationService githubIntegrationService)
         {
-            _githubUserDataService = githubUserDataService;
+            _githubIntegrationService = githubIntegrationService;
         }
 
         [HttpGet("student/{studentId}")]
         public async Task<ActionResult<List<CodingActivityInfoResponse>>> GetForStudent(int studentId)
         {
-            GithubUserEntity result = await _githubUserDataService.Read(studentId);
+            GithubUserEntity result = await _githubIntegrationService.Read(studentId);
 
             if (result?.ContributionFullInfo is null)
                 return Ok(new List<CodingActivityInfoResponse>());
@@ -31,9 +31,9 @@ namespace Iwentys.Endpoint.Controllers
         }
 
         [HttpGet("student/{studentId}/repository")]
-        public async Task<ActionResult<IReadOnlyList<GithubRepository>>> GetStudentRepositories(int studentId)
+        public async Task<ActionResult<IReadOnlyList<GithubRepositoryInfoDto>>> GetStudentRepositories(int studentId)
         {
-            IReadOnlyList<GithubRepository> result = await _githubUserDataService.GetStudentRepositories(studentId);
+            IReadOnlyList<GithubRepositoryInfoDto> result = await _githubIntegrationService.GetStudentRepositories(studentId);
             return Ok(result);
         }
     }

@@ -36,7 +36,7 @@ namespace Iwentys.Endpoints.ClientBot.Commands.StudentLeaderboard
         {
             var searchDto = new StudySearchParametersDto(null, null, int.Parse(args.Arguments[0]), null, 0, 20);
 
-            List<StudyLeaderboardRow> studyLeaderboardRows = _leaderboardService.GetStudentsRatings(searchDto);
+            List<StudyLeaderboardRowDto> studyLeaderboardRows = _leaderboardService.GetStudentsRatings(searchDto);
 
             return ResultFormatter.FormatToTask(studyLeaderboardRows.Take(20));
         }

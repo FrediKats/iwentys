@@ -12,7 +12,7 @@
     @if (_studentProfiles is not null)
     {
         <div class="container-fluid d-flex flex-column">
-            @foreach (StudyLeaderboardRow studentProfile in _studentProfiles)
+            @foreach (StudyLeaderboardRowDto studentProfile in _studentProfiles)
             {
                 <NavLink href=@LinkToProfile(studentProfile) class="student-rating-row">
                     <MatPaper Elevation="10" Rounded="true" class="d-flex flex-row">

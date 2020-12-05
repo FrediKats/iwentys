@@ -10,7 +10,7 @@ namespace Iwentys.Features.GithubIntegration.Repositories
     public interface IStudentProjectRepository : IGenericRepository<GithubProjectEntity, long>
     {
         GithubProjectEntity Create(GithubProjectEntity entity);
-        Task<GithubProjectEntity> GetOrCreateAsync(GithubRepository project, StudentEntity creator);
+        Task<GithubProjectEntity> GetOrCreateAsync(GithubRepositoryInfoDto project, StudentEntity creator);
         void CreateMany(IEnumerable<GithubProjectEntity> studentsProjects);
         bool Contains(GithubProjectEntity projectEntity);
         IEnumerable<GithubProjectEntity> FindProjectsByUserName(string username);

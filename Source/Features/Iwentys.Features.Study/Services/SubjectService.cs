@@ -46,5 +46,10 @@ namespace Iwentys.Features.Study.Services
 
             return subjectEntities.SelectToList(entity => new SubjectProfileDto(entity));
         }
+
+        public Task<List<SubjectEntity>> GetSubjectsForDtoAsync(StudySearchParametersDto searchParametersDto)
+        {
+            return _groupSubjectRepository.GetSubjectsForDto(searchParametersDto).ToListAsync();
+        }
     }
 }

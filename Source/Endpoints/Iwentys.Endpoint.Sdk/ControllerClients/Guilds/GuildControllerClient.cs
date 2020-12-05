@@ -35,10 +35,10 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
             //return Client.GetFromJsonAsync<GuildProfileDto>($"/api/guild/for-member?memberId={memberId}");
         }
 
-        public async Task<GithubRepository> AddPinnedProject(int guildId, CreateProjectRequest createProject)
+        public async Task<GithubRepositoryInfoDto> AddPinnedProject(int guildId, CreateProjectRequest createProject)
         {
             HttpResponseMessage responseMessage = await Client.PostAsJsonAsync($"/api/guild/{guildId}/pinned", createProject);
-            return await responseMessage.Content.ReadFromJsonAsync<GithubRepository>();
+            return await responseMessage.Content.ReadFromJsonAsync<GithubRepositoryInfoDto>();
         }
 
         public async Task DeletePinnedProject(int guildId, long repositoryId)

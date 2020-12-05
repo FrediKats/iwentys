@@ -67,8 +67,8 @@ namespace Iwentys.Features.Guilds.Services
                 throw new InnerLogicException("Task already completed");
 
             //TODO: replace with call to db cache
-            GithubRepository githubRepository = _githubApi.GetRepository(projectOwner, projectName);
-            testTask.SendSubmit(githubRepository.Id);
+            GithubRepositoryInfoDto githubRepositoryInfoDto = _githubApi.GetRepository(projectOwner, projectName);
+            testTask.SendSubmit(githubRepositoryInfoDto.Id);
 
             return _guildTestTaskSolvingInfoRepository
                 .Update(testTask)

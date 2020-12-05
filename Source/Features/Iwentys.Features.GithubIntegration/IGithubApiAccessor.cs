@@ -6,10 +6,10 @@ namespace Iwentys.Features.GithubIntegration
 {
     public interface IGithubApiAccessor
     {
-        GithubRepository GetRepository(string username, string repositoryName);
-        IReadOnlyList<GithubRepository> GetUserRepositories(string username);
+        GithubRepositoryInfoDto GetRepository(string username, string repositoryName);
+        IReadOnlyList<GithubRepositoryInfoDto> GetUserRepositories(string username);
 
-        GithubUser GetGithubUser(string githubUsername);
+        GithubUserInfoDto GetGithubUser(string githubUsername);
 
         ContributionFullInfo GetUserActivity(string githubUsername);
         int GetUserActivity(string githubUsername, DateTime from, DateTime to);

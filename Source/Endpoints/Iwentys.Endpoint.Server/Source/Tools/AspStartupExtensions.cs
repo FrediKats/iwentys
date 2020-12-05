@@ -84,12 +84,12 @@ namespace Iwentys.Endpoint.Server.Source.Tools
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<CompanyService>();
 
-            services.AddScoped<IBarsPointTransactionLogRepository, BarsPointTransactionLogRepository>();
+            services.AddScoped<IBarsPointTransactionRepository, BarsPointTransactionRepository>();
             services.AddScoped<BarsPointTransactionLogService>();
 
             services.AddScoped<IGithubUserDataRepository, GithubUserDataRepository>();
             services.AddScoped<IStudentProjectRepository, StudentProjectRepository>();
-            services.AddScoped<GithubUserDataService>();
+            services.AddScoped<GithubIntegrationService>();
             services.AddScoped<StudyLeaderboardService>();
 
             services.AddScoped<IGuildMemberRepository, GuildMemberRepository>();

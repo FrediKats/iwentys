@@ -132,7 +132,7 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         }
 
         [HttpPost("{guildId}/pinned")]
-        public async Task<ActionResult<GithubRepository>> AddPinnedProject([FromRoute] int guildId, [FromBody] CreateProjectRequest createProject)
+        public async Task<ActionResult<GithubRepositoryInfoDto>> AddPinnedProject([FromRoute] int guildId, [FromBody] CreateProjectRequest createProject)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(await _guildService.AddPinnedRepositoryAsync(user, guildId, createProject.Owner, createProject.RepositoryName));

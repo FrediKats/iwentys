@@ -5,11 +5,12 @@ namespace Iwentys.Features.Guilds.Entities
 {
     public class GuildMemberEntity
     {
-        public GuildMemberEntity()
+        private GuildMemberEntity()
         {
         }
 
-        public GuildMemberEntity(GuildEntity guild, StudentEntity student, GuildMemberType memberType) : this(guild.Id, student.Id, memberType)
+        public GuildMemberEntity(GuildEntity guild, StudentEntity student, GuildMemberType memberType)
+            : this(guild.Id, student.Id, memberType)
         {
         }
 

@@ -17,13 +17,13 @@ namespace Iwentys.Features.Guilds.Services
     {
         private readonly ITournamentRepository _tournamentRepository;
         private readonly IGithubApiAccessor _githubApi;
-        private readonly GithubUserDataService _githubUserDataService;
+        private readonly GithubIntegrationService _githubIntegrationService;
 
-        public TournamentService(ITournamentRepository tournamentRepository, IGithubApiAccessor githubApi, GithubUserDataService githubUserDataService)
+        public TournamentService(ITournamentRepository tournamentRepository, IGithubApiAccessor githubApi, GithubIntegrationService githubIntegrationService)
         {
             _tournamentRepository = tournamentRepository;
             _githubApi = githubApi;
-            _githubUserDataService = githubUserDataService;
+            _githubIntegrationService = githubIntegrationService;
         }
 
         public async Task<List<TournamentInfoResponse>> Get()
@@ -55,7 +55,7 @@ namespace Iwentys.Features.Guilds.Services
         {
             TournamentEntity tournamentEntity = await _tournamentRepository.ReadByIdAsync(tournamentId);
             return tournamentEntity
-                .WrapToDomain(_githubApi, _githubUserDataService)
+                .WrapToDomain(_githubApi, _githubIntegrationService)
                 .GetLeaderboard();
         }
     }

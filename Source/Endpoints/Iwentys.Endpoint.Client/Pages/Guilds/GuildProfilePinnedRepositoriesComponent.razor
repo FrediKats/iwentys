@@ -11,7 +11,7 @@
     <MatHeadline5>Репозитории</MatHeadline5>
 
     <div class="container-fluid d-flex flex-column">
-        @foreach (GithubRepository repository in GuildProfile.PinnedRepositories)
+        @foreach (GithubRepositoryInfoDto repository in GuildProfile.PinnedRepositories)
         {
 
             <MatNavItem class="d-flex flex-row justify-content-md-between">

@@ -33,7 +33,7 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
                     _logger.LogInformation("Execute GithubUpdateBackgroundService update");
 
                     var studentRepository = scope.ServiceProvider.GetRequiredService<IStudentRepository>();
-                    var githubUserDataService = scope.ServiceProvider.GetRequiredService<GithubUserDataService>();
+                    var githubUserDataService = scope.ServiceProvider.GetRequiredService<GithubIntegrationService>();
                     foreach (StudentEntity student in studentRepository.Read().Where(s => s.GithubUsername != null))
                     {
                         await githubUserDataService.CreateOrUpdate(student.Id);

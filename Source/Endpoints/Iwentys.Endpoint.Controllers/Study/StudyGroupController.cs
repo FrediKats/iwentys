@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Features.Gamification.Services;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
 using Iwentys.Features.Study.Services;
@@ -13,18 +12,16 @@ namespace Iwentys.Endpoint.Controllers.Study
     public class StudyGroupController : ControllerBase
     {
         private readonly StudyGroupService _studyGroupService;
-        private readonly StudyLeaderboardService _studyLeaderboardService;
 
-        public StudyGroupController(StudyLeaderboardService studyLeaderboardService, StudyGroupService studyGroupService)
+        public StudyGroupController(StudyGroupService studyGroupService)
         {
-            _studyLeaderboardService = studyLeaderboardService;
             _studyGroupService = studyGroupService;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<StudyGroupEntity>>> GetAllGroups([FromQuery] int? courseId)
         {
-            List<StudyGroupEntity> result = await _studyLeaderboardService.GetStudyGroupsForDtoAsync(courseId);
+            List<StudyGroupEntity> result = await _studyGroupService.GetStudyGroupsForDtoAsync(courseId);
             return Ok(result);
         }
 

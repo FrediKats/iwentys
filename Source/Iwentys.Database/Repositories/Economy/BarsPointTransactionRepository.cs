@@ -8,35 +8,35 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Economy
 {
-    public class BarsPointTransactionLogRepository : IBarsPointTransactionLogRepository
+    public class BarsPointTransactionRepository : IBarsPointTransactionRepository
     {
         private readonly IwentysDbContext _dbContext;
 
-        public BarsPointTransactionLogRepository(IwentysDbContext dbContext)
+        public BarsPointTransactionRepository(IwentysDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<BarsPointTransactionLog> CreateAsync(BarsPointTransactionLog entity)
+        public async Task<BarsPointTransactionEntity> CreateAsync(BarsPointTransactionEntity entity)
         {
-            EntityEntry<BarsPointTransactionLog> createdEntity = await _dbContext.BarsPointTransactionLogs.AddAsync(entity);
+            EntityEntry<BarsPointTransactionEntity> createdEntity = await _dbContext.BarsPointTransactionLogs.AddAsync(entity);
             await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }
 
-        public IQueryable<BarsPointTransactionLog> Read()
+        public IQueryable<BarsPointTransactionEntity> Read()
         {
             return _dbContext.BarsPointTransactionLogs;
         }
 
-        public Task<BarsPointTransactionLog> ReadByIdAsync(int key)
+        public Task<BarsPointTransactionEntity> ReadByIdAsync(int key)
         {
             return _dbContext.BarsPointTransactionLogs.FirstOrDefaultAsync(v => v.Id == key);
         }
 
-        public async Task<BarsPointTransactionLog> UpdateAsync(BarsPointTransactionLog entity)
+        public async Task<BarsPointTransactionEntity> UpdateAsync(BarsPointTransactionEntity entity)
         {
-            EntityEntry<BarsPointTransactionLog> createdEntity = _dbContext.BarsPointTransactionLogs.Update(entity);
+            EntityEntry<BarsPointTransactionEntity> createdEntity = _dbContext.BarsPointTransactionLogs.Update(entity);
             await _dbContext.SaveChangesAsync();
             return createdEntity.Entity;
         }

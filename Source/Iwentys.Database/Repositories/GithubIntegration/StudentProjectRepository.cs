@@ -49,7 +49,7 @@ namespace Iwentys.Database.Repositories.GithubIntegration
             return _dbContext.StudentProjects.Where(sp => sp.Id == key).DeleteFromQueryAsync();
         }
 
-        public async Task<GithubProjectEntity> GetOrCreateAsync(GithubRepository project, StudentEntity creator)
+        public async Task<GithubProjectEntity> GetOrCreateAsync(GithubRepositoryInfoDto project, StudentEntity creator)
         {
             GithubProjectEntity githubProjectEntity = await ReadByIdAsync(project.Id);
             return githubProjectEntity ?? Create(new GithubProjectEntity(creator, project));

@@ -22,7 +22,7 @@ namespace Iwentys.Features.Guilds.Domain
     {
         public GuildEntity Profile { get; }
 
-        private readonly GithubUserDataService _githubUserDataService;
+        private readonly GithubIntegrationService _githubIntegrationService;
         private readonly IStudentRepository _studentRepository;
         private readonly IGuildRepository _guildRepository;
         private readonly IGuildMemberRepository _guildMemberRepository;
@@ -30,11 +30,11 @@ namespace Iwentys.Features.Guilds.Domain
 
         public GuildDomain(
             GuildEntity profile,
-            GithubUserDataService githubUserDataService,
+            GithubIntegrationService githubIntegrationService,
             GuildRepositoriesScope repositoriesScope)
         {
             Profile = profile;
-            _githubUserDataService = githubUserDataService;
+            _githubIntegrationService = githubIntegrationService;
             _studentRepository = repositoriesScope.Student;
             _guildRepository = repositoriesScope.Guild;
             _guildMemberRepository = repositoriesScope.GuildMember;
@@ -43,14 +43,14 @@ namespace Iwentys.Features.Guilds.Domain
 
         public GuildDomain(
             GuildEntity profile,
-            GithubUserDataService githubUserDataService,
+            GithubIntegrationService githubIntegrationService,
             IStudentRepository studentRepository,
             IGuildRepository guildRepository,
             IGuildMemberRepository guildMemberRepository,
             IGuildTributeRepository guildTributeRepository)
         {
             Profile = profile;
-            _githubUserDataService = githubUserDataService;
+            _githubIntegrationService = githubIntegrationService;
             _studentRepository = studentRepository;
             _guildRepository = guildRepository;
             _guildMemberRepository = guildMemberRepository;
@@ -71,13 +71,13 @@ namespace Iwentys.Features.Guilds.Domain
                 Leader = Profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentInfoDto(s)),
                 MemberLeaderBoard = dashboard,
                 Rating = dashboard.TotalRate,
-                PinnedRepositories = Profile.PinnedProjects.SelectToList(p => _githubUserDataService.GetCertainRepository(p.RepositoryOwner, p.RepositoryName)),
+                PinnedRepositories = Profile.PinnedProjects.SelectToList(p => _githubIntegrationService.GetCertainRepository(p.RepositoryOwner, p.RepositoryName)),
                 Achievements = Profile.Achievements.SelectToList(AchievementDto.Wrap),
                 TestTasks = Profile.TestTasks.SelectToList(GuildTestTaskInfoResponse.Wrap)
             };
 
             if (userId != null && Profile.Members.Any(m => m.MemberId == userId))
-                info.Tribute = _guildTributeRepository.ReadStudentActiveTribute(Profile.Id, userId.Value)?.To(ActiveTributeResponse.Create);
+                info.Tribute = _guildTributeRepository.ReadStudentActiveTribute(Profile.Id, userId.Value)?.To(ActiveTributeResponseDto.Create);
             if (userId != null)
                 info.UserMembershipState = await GetUserMembershipState(userId.Value);
 
@@ -100,7 +100,7 @@ namespace Iwentys.Features.Guilds.Domain
                 .Select(m => m.Member.GithubUsername)
                 .Where(gh => gh != null)
                 .ToList()
-                .Select(ghName => _githubUserDataService.FindByUsername(ghName).Result)
+                .Select(ghName => _githubIntegrationService.FindByUsername(ghName).Result)
                 .Where(userData => userData != null)
                 .ToList();
         }

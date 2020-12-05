@@ -42,7 +42,7 @@ namespace Iwentys.Tests.Tools
         public readonly GuildTributeService GuildTributeServiceService;
         public readonly CompanyService CompanyService;
         public readonly QuestService QuestService;
-        public readonly GithubUserDataService GithubUserDataService;
+        public readonly GithubIntegrationService GithubIntegrationService;
 
         public static TestCaseContext Case() => new TestCaseContext();
 
@@ -59,9 +59,9 @@ namespace Iwentys.Tests.Tools
             GuildRepositoriesScope database = new GuildRepositoriesScope(DatabaseAccessor.Student, DatabaseAccessor.Guild, DatabaseAccessor.GuildMember, DatabaseAccessor.GuildTribute);
 
             StudentService = new StudentService(DatabaseAccessor.Student);
-            GithubUserDataService = new GithubUserDataService(githubApiAccessor, DatabaseAccessor.GithubUserData, DatabaseAccessor.StudentProject, DatabaseAccessor.Student);
-            GuildService = new GuildService(database, GithubUserDataService, githubApiAccessor);
-            GuildMemberService = new GuildMemberService(GithubUserDataService, database.Student, database.Guild, database.GuildMember, database.GuildTribute);
+            GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, DatabaseAccessor.GithubUserData, DatabaseAccessor.StudentProject, DatabaseAccessor.Student);
+            GuildService = new GuildService(database, GithubIntegrationService, githubApiAccessor);
+            GuildMemberService = new GuildMemberService(GithubIntegrationService, database.Student, database.Guild, database.GuildMember, database.GuildTribute);
             GuildTributeServiceService = new GuildTributeService(database, githubApiAccessor, DatabaseAccessor.StudentProject);
             CompanyService = new CompanyService(DatabaseAccessor.Company, DatabaseAccessor.Student);
             QuestService = new QuestService(DatabaseAccessor.Student, DatabaseAccessor.Quest, achievementProvider);
@@ -153,7 +153,7 @@ namespace Iwentys.Tests.Tools
                 //TODO: hack for work with dummy github
                 Id = 17,
                 StudentId = userInfo.Id,
-                Author = userInfo.GetProfile(DatabaseAccessor.Student).Result.GithubUsername,
+                Owner = userInfo.GetProfile(DatabaseAccessor.Student).Result.GithubUsername,
                 Name = "Test repo"
             };
             githubProjectEntity = DatabaseAccessor.StudentProject.Create(project);
@@ -208,7 +208,7 @@ namespace Iwentys.Tests.Tools
 
         public TestCaseContext WithGithubRepository(AuthorizedUser userInfo, out GithubUserEntity userEntity)
         {
-            userEntity = GithubUserDataService.CreateOrUpdate(userInfo.Id).Result;
+            userEntity = GithubIntegrationService.CreateOrUpdate(userInfo.Id).Result;
             return this;
         }
     }

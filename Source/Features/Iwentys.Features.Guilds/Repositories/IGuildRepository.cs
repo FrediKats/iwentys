@@ -12,7 +12,7 @@ namespace Iwentys.Features.Guilds.Repositories
         GuildEntity Create(StudentEntity creator, GuildCreateRequest arguments);
         GuildEntity[] ReadPending();
         GuildEntity ReadForStudent(int studentId);
-        Task<GuildPinnedProjectEntity> PinProjectAsync(int guildId, GithubRepository repository);
+        Task<GuildPinnedProjectEntity> PinProjectAsync(int guildId, GithubRepositoryInfoDto repositoryInfoDto);
         void UnpinProject(long pinnedProjectId);
     }
 }

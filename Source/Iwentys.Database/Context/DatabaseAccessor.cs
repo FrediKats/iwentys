@@ -19,7 +19,7 @@ namespace Iwentys.Database.Context
             new TournamentRepository(context),
             new StudentProjectRepository(context),
             new GuildTributeRepository(context),
-            new BarsPointTransactionLogRepository(context),
+            new BarsPointTransactionRepository(context),
             new QuestRepository(context),
             new SubjectActivityRepository(context),
             new GroupSubjectRepository(context),
@@ -39,7 +39,7 @@ namespace Iwentys.Database.Context
             TournamentRepository tournament,
             IStudentProjectRepository studentProject,
             GuildTributeRepository guildTribute,
-            BarsPointTransactionLogRepository barsPointTransactionLog,
+            BarsPointTransactionRepository barsPointTransaction,
             QuestRepository quest,
             SubjectActivityRepository subjectActivity,
             GroupSubjectRepository groupSubject,
@@ -57,7 +57,7 @@ namespace Iwentys.Database.Context
             Tournament = tournament;
             StudentProject = studentProject;
             GuildTribute = guildTribute;
-            BarsPointTransactionLog = barsPointTransactionLog;
+            BarsPointTransaction = barsPointTransaction;
             Quest = quest;
             SubjectActivity = subjectActivity;
             GroupSubject = groupSubject;
@@ -79,7 +79,7 @@ namespace Iwentys.Database.Context
         public TournamentRepository Tournament { get; }
         public IStudentProjectRepository StudentProject { get; }
         public GuildTributeRepository GuildTribute { get; }
-        public BarsPointTransactionLogRepository BarsPointTransactionLog { get; }
+        public BarsPointTransactionRepository BarsPointTransaction { get; }
         public QuestRepository Quest { get; }
         public IGithubUserDataRepository GithubUserData { get; }
         public IGuildTestTaskSolvingInfoRepository GuildTestTaskSolvingInfo { get; }
