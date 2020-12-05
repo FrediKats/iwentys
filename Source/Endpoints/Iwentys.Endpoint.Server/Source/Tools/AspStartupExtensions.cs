@@ -120,8 +120,6 @@ namespace Iwentys.Endpoint.Server.Source.Tools
             services.AddScoped<StudyGroupService>();
             services.AddScoped<SubjectService>();
 
-            services.AddScoped<GuildRepositoriesScope>();
-
             services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();
 

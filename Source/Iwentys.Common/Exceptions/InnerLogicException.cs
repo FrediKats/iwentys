@@ -88,7 +88,7 @@ namespace Iwentys.Common.Exceptions
         {
             public static InnerLogicException GithubAlreadyUser(string githubUsername)
             {
-                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, Common.ExceptionMessages.StudentEx.GithubAlreadyUser, githubUsername));
+                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, ExceptionMessages.StudentException.GithubAlreadyUser, githubUsername));
             }
         }
     }

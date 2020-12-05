@@ -1,12 +1,10 @@
 using System;
-using Iwentys.Common.Tools;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Achievements;
 using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Repositories.Study;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Companies.Entities;
-using Iwentys.Features.Companies.Enums;
 using Iwentys.Features.Companies.Models;
 using Iwentys.Features.Companies.Services;
 using Iwentys.Features.GithubIntegration.Entities;
@@ -56,13 +54,11 @@ namespace Iwentys.Tests.Tools
             var achievementProvider = new AchievementProvider(new AchievementRepository(Context));
             DummyGithubApiAccessor githubApiAccessor = new DummyGithubApiAccessor();
 
-            GuildRepositoriesScope database = new GuildRepositoriesScope(DatabaseAccessor.Student, DatabaseAccessor.Guild, DatabaseAccessor.GuildMember, DatabaseAccessor.GuildTribute);
-
             StudentService = new StudentService(DatabaseAccessor.Student);
             GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, DatabaseAccessor.GithubUserData, DatabaseAccessor.StudentProject, DatabaseAccessor.Student);
-            GuildService = new GuildService(database, GithubIntegrationService, githubApiAccessor);
-            GuildMemberService = new GuildMemberService(GithubIntegrationService, database.Student, database.Guild, database.GuildMember, database.GuildTribute);
-            GuildTributeServiceService = new GuildTributeService(database, githubApiAccessor, DatabaseAccessor.StudentProject);
+            GuildService = new GuildService(GithubIntegrationService, githubApiAccessor, StudentRepository, GuildRepository, DatabaseAccessor.GuildMember);
+            GuildMemberService = new GuildMemberService(GithubIntegrationService, DatabaseAccessor.Student, DatabaseAccessor.Guild, DatabaseAccessor.GuildMember, DatabaseAccessor.GuildTribute);
+            GuildTributeServiceService = new GuildTributeService(githubApiAccessor, DatabaseAccessor.StudentProject, DatabaseAccessor.Student, DatabaseAccessor.Guild, DatabaseAccessor.GuildTribute);
             CompanyService = new CompanyService(DatabaseAccessor.Company, DatabaseAccessor.Student);
             QuestService = new QuestService(DatabaseAccessor.Student, DatabaseAccessor.Quest, achievementProvider);
         }
@@ -83,12 +79,12 @@ namespace Iwentys.Tests.Tools
             return this;
         }
 
-        public TestCaseContext WithGuild(AuthorizedUser user, out GuildProfileDto guildProfile)
+        public TestCaseContext WithGuild(AuthorizedUser user, out ExtendedGuildProfileWithMemberDataDto guildProfile)
         {
             var guildCreateRequest = new GuildCreateRequestDto(null, null, null, GuildHiringPolicy.Open);
 
             GuildProfileShortInfoDto guild = GuildService.CreateAsync(user, guildCreateRequest).Result;
-            guildProfile = guild.To(g => GuildService.GetAsync(g.Id, user.Id).Result);
+            guildProfile = GuildService.GetAsync(guild.Id, user.Id).Result;
             return this;
         }
 

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
-using Iwentys.Features.Achievements.Models;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Entities;
@@ -26,71 +25,36 @@ namespace Iwentys.Features.Guilds.Domain
         private readonly IStudentRepository _studentRepository;
         private readonly IGuildRepository _guildRepository;
         private readonly IGuildMemberRepository _guildMemberRepository;
-        private readonly IGuildTributeRepository _guildTributeRepository;
-
-        public GuildDomain(
-            GuildEntity profile,
-            GithubIntegrationService githubIntegrationService,
-            GuildRepositoriesScope repositoriesScope)
-        {
-            Profile = profile;
-            _githubIntegrationService = githubIntegrationService;
-            _studentRepository = repositoriesScope.Student;
-            _guildRepository = repositoriesScope.Guild;
-            _guildMemberRepository = repositoriesScope.GuildMember;
-            _guildTributeRepository = repositoriesScope.GuildTribute;
-        }
 
         public GuildDomain(
             GuildEntity profile,
             GithubIntegrationService githubIntegrationService,
             IStudentRepository studentRepository,
             IGuildRepository guildRepository,
-            IGuildMemberRepository guildMemberRepository,
-            IGuildTributeRepository guildTributeRepository)
+            IGuildMemberRepository guildMemberRepository)
         {
             Profile = profile;
             _githubIntegrationService = githubIntegrationService;
             _studentRepository = studentRepository;
             _guildRepository = guildRepository;
             _guildMemberRepository = guildMemberRepository;
-            _guildTributeRepository = guildTributeRepository;
         }
 
-        public GuildProfileShortInfoDto ToGuildProfileShortInfoDto()
-        {
-            return new GuildProfileShortInfoDto(Profile);
-        }
-
-        public async Task<GuildProfileDto> ToGuildProfileDto(int? userId = null)
+        public async Task<ExtendedGuildProfileWithMemberDataDto> ToExtendedGuildProfileDto(int? userId = null)
         {
             GuildMemberLeaderBoardDto dashboard = GetMemberDashboard();
 
-            var info = new GuildProfileDto(Profile)
+            var info = new ExtendedGuildProfileWithMemberDataDto(Profile)
             {
                 Leader = Profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentInfoDto(s)),
                 MemberLeaderBoardDto = dashboard,
-                Rating = dashboard.TotalRate,
                 PinnedRepositories = Profile.PinnedProjects.SelectToList(p => _githubIntegrationService.GetCertainRepository(p.RepositoryOwner, p.RepositoryName)),
-                Achievements = Profile.Achievements.SelectToList(AchievementDto.Wrap),
-                TestTasks = Profile.TestTasks.SelectToList(GuildTestTaskInfoResponse.Wrap)
             };
 
-            if (userId != null && Profile.Members.Any(m => m.MemberId == userId))
-                info.Tribute = _guildTributeRepository.ReadStudentActiveTribute(Profile.Id, userId.Value)?.To(tribute => new ActiveTributeResponseDto(tribute));
             if (userId != null)
                 info.UserMembershipState = await GetUserMembershipState(userId.Value);
 
             return info;
-        }
-
-        public GuildProfilePreviewDto ToGuildProfilePreviewDto()
-        {
-            return new GuildProfilePreviewDto(Profile)
-            {
-                Leader = Profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentInfoDto(s)),
-                Rating = GetMemberDashboard().TotalRate
-            };
         }
 
         public List<GithubUserEntity> GetGithubUserData()

@@ -13,23 +13,26 @@ using Iwentys.Features.Guilds.Models.Guilds;
 using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Students.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Services
 {
     public class GuildTestTaskService
     {
-        private readonly GuildRepositoriesScope _database;
         private readonly IGithubApiAccessor _githubApi;
         private readonly AchievementProvider _achievementProvider;
         private readonly IGuildTestTaskSolvingInfoRepository _guildTestTaskSolvingInfoRepository;
+        private readonly IGuildRepository _guildRepository;
+        private readonly IStudentRepository _studentRepository;
 
-        public GuildTestTaskService(GuildRepositoriesScope database, IGithubApiAccessor githubApi, AchievementProvider achievementProvider, IGuildTestTaskSolvingInfoRepository guildTestTaskSolvingInfoRepository)
+        public GuildTestTaskService(IGithubApiAccessor githubApi, AchievementProvider achievementProvider, IGuildTestTaskSolvingInfoRepository guildTestTaskSolvingInfoRepository, IGuildRepository guildRepository, IStudentRepository studentRepository)
         {
-            _database = database;
             _githubApi = githubApi;
             _achievementProvider = achievementProvider;
             _guildTestTaskSolvingInfoRepository = guildTestTaskSolvingInfoRepository;
+            _guildRepository = guildRepository;
+            _studentRepository = studentRepository;
         }
 
         public List<GuildTestTaskInfoResponse> Get(int guildId)
@@ -45,11 +48,11 @@ namespace Iwentys.Features.Guilds.Services
         //TODO: check if already accepted
         public async Task<GuildTestTaskInfoResponse> Accept(AuthorizedUser user, int guildId)
         {
-            GuildEntity studentGuild = _database.Guild.ReadForStudent(user.Id);
+            GuildEntity studentGuild = _guildRepository.ReadForStudent(user.Id);
             if (studentGuild == null || studentGuild.Id != guildId)
                 throw InnerLogicException.Guild.IsNotGuildMember(user.Id, guildId);
 
-            StudentEntity studentProfile = await user.GetProfile(_database.Student);
+            StudentEntity studentProfile = await user.GetProfile(_studentRepository);
             return _guildTestTaskSolvingInfoRepository
                 .Create(studentGuild, studentProfile)
                 .To(GuildTestTaskInfoResponse.Wrap);
@@ -77,8 +80,8 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task<GuildTestTaskInfoResponse> Complete(AuthorizedUser user, int guildId, int taskSolveOwnerId)
         {
-            StudentEntity review = await user.GetProfile(_database.Student);
-            await review.EnsureIsMentor(_database.Guild, guildId);
+            StudentEntity review = await user.GetProfile(_studentRepository);
+            await review.EnsureIsMentor(_guildRepository, guildId);
 
             GuildTestTaskSolvingInfoEntity testTask = _guildTestTaskSolvingInfoRepository
                 .Read()
