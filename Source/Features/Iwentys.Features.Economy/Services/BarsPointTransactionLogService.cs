@@ -4,8 +4,8 @@ using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Economy.Entities;
 using Iwentys.Features.Economy.Repositories;
-using Iwentys.Features.StudentFeature.Entities;
-using Iwentys.Features.StudentFeature.Repositories;
+using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Students.Repositories;
 
 namespace Iwentys.Features.Economy.Services
 {

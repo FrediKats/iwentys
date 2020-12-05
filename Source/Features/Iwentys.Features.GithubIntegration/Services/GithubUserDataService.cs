@@ -5,8 +5,8 @@ using Iwentys.Common.Tools;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.GithubIntegration.Repositories;
-using Iwentys.Features.StudentFeature.Entities;
-using Iwentys.Features.StudentFeature.Repositories;
+using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Students.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.GithubIntegration.Services

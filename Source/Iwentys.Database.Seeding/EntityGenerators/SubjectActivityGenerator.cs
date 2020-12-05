@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Database.Seeding.Tools;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Study.Entities;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {

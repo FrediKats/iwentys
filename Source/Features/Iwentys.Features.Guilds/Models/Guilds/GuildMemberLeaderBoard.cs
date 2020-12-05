@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Iwentys.Features.StudentFeature.Models;
+using Iwentys.Features.Students.Models;
 
 namespace Iwentys.Features.Guilds.Models.Guilds
 {

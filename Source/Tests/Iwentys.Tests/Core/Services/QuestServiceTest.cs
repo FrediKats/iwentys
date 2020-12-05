@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Features.Quests.Models;
-using Iwentys.Features.StudentFeature.Domain;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Domain;
+using Iwentys.Features.Students.Entities;
 using Iwentys.Tests.Tools;
 using NUnit.Framework;
 

@@ -5,7 +5,7 @@ using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Models.Guilds;
 using Iwentys.Features.Guilds.Services;
-using Iwentys.Features.StudentFeature.Domain;
+using Iwentys.Features.Students.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Guilds

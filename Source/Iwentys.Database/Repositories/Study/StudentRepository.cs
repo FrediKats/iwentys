@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Database.Context;
-using Iwentys.Features.StudentFeature.Entities;
-using Iwentys.Features.StudentFeature.Repositories;
+using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Students.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -26,8 +26,7 @@ namespace Iwentys.Database.Repositories.Study
 
         public IQueryable<StudentEntity> Read()
         {
-            return _dbContext.Students
-                .Include(s => s.Group);
+            return _dbContext.Students;
         }
 
         public Task<StudentEntity> ReadByIdAsync(int key)

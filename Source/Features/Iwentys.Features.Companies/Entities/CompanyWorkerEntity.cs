@@ -1,5 +1,5 @@
 ﻿using Iwentys.Features.Companies.Enums;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Companies.Entities
 {

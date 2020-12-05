@@ -5,7 +5,7 @@ using Iwentys.Database.Context;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.GithubIntegration.Repositories;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

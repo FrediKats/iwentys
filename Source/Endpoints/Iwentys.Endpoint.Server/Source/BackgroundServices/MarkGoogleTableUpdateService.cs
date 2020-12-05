@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentResults;
-using Iwentys.Features.StudentFeature;
-using Iwentys.Features.StudentFeature.Entities;
-using Iwentys.Features.StudentFeature.Repositories;
+using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Students.Repositories;
+using Iwentys.Features.Study;
+using Iwentys.Features.Study.Entities;
+using Iwentys.Features.Study.Repositories;
 using Iwentys.Integrations.GoogleTableIntegration;
 using Iwentys.Integrations.GoogleTableIntegration.Marks;
 using Microsoft.Extensions.Logging;

@@ -2,7 +2,7 @@
 using Iwentys.Common.Tools;
 using Iwentys.Features.Quests.Entities;
 using Iwentys.Features.Quests.Enums;
-using Iwentys.Features.StudentFeature.Models;
+using Iwentys.Features.Students.Models;
 
 namespace Iwentys.Features.Quests.Models
 {

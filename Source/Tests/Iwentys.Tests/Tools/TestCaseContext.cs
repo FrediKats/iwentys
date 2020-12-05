@@ -19,10 +19,10 @@ using Iwentys.Features.Guilds.Models.GuildTribute;
 using Iwentys.Features.Guilds.Services;
 using Iwentys.Features.Quests.Models;
 using Iwentys.Features.Quests.Services;
-using Iwentys.Features.StudentFeature.Domain;
-using Iwentys.Features.StudentFeature.Entities;
-using Iwentys.Features.StudentFeature.Enums;
-using Iwentys.Features.StudentFeature.Services;
+using Iwentys.Features.Students.Domain;
+using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Students.Enums;
+using Iwentys.Features.Students.Services;
 using Iwentys.Integrations.GithubIntegration;
 
 namespace Iwentys.Tests.Tools

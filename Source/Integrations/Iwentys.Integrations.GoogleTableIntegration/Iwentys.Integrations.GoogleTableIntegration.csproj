@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Features\Iwentys.Features.StudentFeature\Iwentys.Features.StudentFeature.csproj" />
+    <ProjectReference Include="..\..\Features\Iwentys.Features.Study\Iwentys.Features.Study.csproj" />
     <ProjectReference Include="..\..\Iwentys.Common\Iwentys.Common.csproj" />
   </ItemGroup>
 

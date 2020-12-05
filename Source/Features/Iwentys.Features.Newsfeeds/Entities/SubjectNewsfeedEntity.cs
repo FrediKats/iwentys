@@ -1,4 +1,4 @@
-﻿using Iwentys.Features.StudentFeature.Entities;
+﻿using Iwentys.Features.Study.Entities;
 
 namespace Iwentys.Features.Newsfeeds.Entities
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FluentResults;
-using Iwentys.Features.StudentFeature.Services;
+using Iwentys.Features.Students.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Tef.BotFramework.Abstractions;
 using Tef.BotFramework.Core;

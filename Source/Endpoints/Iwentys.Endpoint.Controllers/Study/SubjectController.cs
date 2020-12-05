@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Gamification.Services;
-using Iwentys.Features.StudentFeature.Entities;
-using Iwentys.Features.StudentFeature.Enums;
-using Iwentys.Features.StudentFeature.Models;
-using Iwentys.Features.StudentFeature.Services;
+using Iwentys.Features.Students.Enums;
+using Iwentys.Features.Study.Entities;
+using Iwentys.Features.Study.Models;
+using Iwentys.Features.Study.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Study

@@ -10,8 +10,8 @@ using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Models.Guilds;
-using Iwentys.Features.StudentFeature.Domain;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Domain;
+using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Guilds.Services
 {

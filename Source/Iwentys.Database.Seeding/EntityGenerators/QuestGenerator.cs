@@ -4,7 +4,7 @@ using System.Linq;
 using Bogus;
 using Iwentys.Features.Quests.Entities;
 using Iwentys.Features.Quests.Enums;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {

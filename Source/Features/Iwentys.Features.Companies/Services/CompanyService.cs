@@ -4,9 +4,9 @@ using Iwentys.Common.Tools;
 using Iwentys.Features.Companies.Entities;
 using Iwentys.Features.Companies.Models;
 using Iwentys.Features.Companies.Repositories;
-using Iwentys.Features.StudentFeature.Domain;
-using Iwentys.Features.StudentFeature.Entities;
-using Iwentys.Features.StudentFeature.Repositories;
+using Iwentys.Features.Students.Domain;
+using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Students.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Companies.Services

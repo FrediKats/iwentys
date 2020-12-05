@@ -5,9 +5,9 @@ using Iwentys.Common.Tools;
 using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.Assignments.Repositories;
-using Iwentys.Features.StudentFeature.Domain;
-using Iwentys.Features.StudentFeature.Entities;
-using Iwentys.Features.StudentFeature.Repositories;
+using Iwentys.Features.Students.Domain;
+using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Students.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Assignments.Services

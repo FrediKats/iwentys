@@ -3,7 +3,7 @@ using Iwentys.Common.Tools;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Models.Guilds;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Guilds.Repositories
 {

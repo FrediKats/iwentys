@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Voting.Models
 {

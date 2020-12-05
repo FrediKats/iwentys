@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using Iwentys.Features.StudentFeature.Models;
+using Iwentys.Features.Study.Models;
 
 namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
 {

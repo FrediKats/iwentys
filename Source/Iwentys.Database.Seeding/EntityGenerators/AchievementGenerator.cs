@@ -4,7 +4,7 @@ using System.Linq;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Achievements.Entities;
 using Iwentys.Features.Guilds.Entities;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {

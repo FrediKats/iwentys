@@ -10,7 +10,7 @@ using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
 using Moq;
 using NUnit.Framework;
 

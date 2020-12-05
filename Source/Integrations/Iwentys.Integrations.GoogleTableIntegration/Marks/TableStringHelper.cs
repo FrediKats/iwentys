@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Features.StudentFeature;
+using Iwentys.Features.Study;
 
 namespace Iwentys.Integrations.GoogleTableIntegration.Marks
 {

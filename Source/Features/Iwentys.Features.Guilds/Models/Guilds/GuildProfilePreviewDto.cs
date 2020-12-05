@@ -1,6 +1,6 @@
 ﻿using Iwentys.Common.Tools;
 using Iwentys.Features.Guilds.Entities;
-using Iwentys.Features.StudentFeature.Models;
+using Iwentys.Features.Students.Models;
 
 namespace Iwentys.Features.Guilds.Models.Guilds
 {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Features.Companies.Entities;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Companies.Models
 {

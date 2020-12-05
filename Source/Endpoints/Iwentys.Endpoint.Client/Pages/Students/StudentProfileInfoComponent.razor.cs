@@ -3,7 +3,7 @@ using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients.Guilds;
 using Iwentys.Endpoint.Sdk.ControllerClients.Study;
 using Iwentys.Features.Guilds.Models.Guilds;
-using Iwentys.Features.StudentFeature.Models;
+using Iwentys.Features.Study.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace Iwentys.Endpoint.Client.Pages.Students

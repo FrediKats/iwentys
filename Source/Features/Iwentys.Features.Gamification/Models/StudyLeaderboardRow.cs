@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Common.Tools;
-using Iwentys.Features.StudentFeature.Entities;
-using Iwentys.Features.StudentFeature.Models;
+using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Students.Models;
+using Iwentys.Features.Study.Entities;
 
 namespace Iwentys.Features.Gamification.Models
 {

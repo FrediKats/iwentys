@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Iwentys.Features.Achievements\Iwentys.Features.Achievements.csproj" />
-    <ProjectReference Include="..\Iwentys.Features.StudentFeature\Iwentys.Features.StudentFeature.csproj" />
+    <ProjectReference Include="..\Iwentys.Features.Students\Iwentys.Features.Students.csproj" />
   </ItemGroup>
 
 </Project>

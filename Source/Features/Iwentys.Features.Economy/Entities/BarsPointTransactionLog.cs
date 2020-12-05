@@ -1,6 +1,6 @@
 ﻿using System;
 using Iwentys.Features.Economy.Enums;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Economy.Entities
 {

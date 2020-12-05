@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Iwentys.Endpoint.Controllers.Tools;
 using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.Assignments.Services;
-using Iwentys.Features.StudentFeature.Domain;
+using Iwentys.Features.Students.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers

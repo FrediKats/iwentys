@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Tools;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Models;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.GithubIntegration.Repositories
 {

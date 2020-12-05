@@ -5,7 +5,7 @@ using Iwentys.Database.Context;
 using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.Assignments.Repositories;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

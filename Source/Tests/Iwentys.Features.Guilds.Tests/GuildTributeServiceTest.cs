@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Models.Guilds;
 using Iwentys.Features.Guilds.Models.GuildTribute;
-using Iwentys.Features.StudentFeature.Domain;
-using Iwentys.Features.StudentFeature.Enums;
+using Iwentys.Features.Students.Domain;
+using Iwentys.Features.Students.Enums;
 using Iwentys.Tests.Tools;
 using NUnit.Framework;
 

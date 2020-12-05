@@ -9,9 +9,9 @@ using Iwentys.Features.Quests.Entities;
 using Iwentys.Features.Quests.Enums;
 using Iwentys.Features.Quests.Models;
 using Iwentys.Features.Quests.Repositories;
-using Iwentys.Features.StudentFeature.Domain;
-using Iwentys.Features.StudentFeature.Entities;
-using Iwentys.Features.StudentFeature.Repositories;
+using Iwentys.Features.Students.Domain;
+using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Students.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Quests.Services

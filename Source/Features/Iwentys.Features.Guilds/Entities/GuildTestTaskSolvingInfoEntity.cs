@@ -1,7 +1,7 @@
 ﻿using System;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Enums;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Guilds.Entities
 {

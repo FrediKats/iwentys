@@ -3,7 +3,7 @@ using System.Linq;
 using Bogus;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {

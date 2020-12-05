@@ -1,5 +1,5 @@
 ﻿using System;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Quests.Entities
 {

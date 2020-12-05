@@ -1,7 +1,7 @@
 ﻿using System;
 using Iwentys.Features.Assignments.Entities;
-using Iwentys.Features.StudentFeature.Entities;
-using Iwentys.Features.StudentFeature.Models;
+using Iwentys.Features.Students.Models;
+using Iwentys.Features.Study.Entities;
 
 namespace Iwentys.Features.Assignments.Models
 {

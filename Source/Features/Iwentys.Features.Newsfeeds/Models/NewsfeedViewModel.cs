@@ -1,6 +1,6 @@
 ﻿using System;
 using Iwentys.Features.Newsfeeds.Entities;
-using Iwentys.Features.StudentFeature.Models;
+using Iwentys.Features.Students.Models;
 
 namespace Iwentys.Features.Newsfeeds.Models
 {

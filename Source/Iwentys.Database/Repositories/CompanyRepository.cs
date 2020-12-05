@@ -6,7 +6,7 @@ using Iwentys.Database.Context;
 using Iwentys.Features.Companies.Entities;
 using Iwentys.Features.Companies.Enums;
 using Iwentys.Features.Companies.Repositories;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

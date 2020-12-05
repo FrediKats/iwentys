@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Bogus;
 using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Assignments.Models;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {

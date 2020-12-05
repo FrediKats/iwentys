@@ -1,5 +1,5 @@
 ﻿using Iwentys.Features.Guilds.Repositories;
-using Iwentys.Features.StudentFeature.Repositories;
+using Iwentys.Features.Students.Repositories;
 
 namespace Iwentys.Features.Guilds
 {

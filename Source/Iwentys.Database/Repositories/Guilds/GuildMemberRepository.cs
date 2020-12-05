@@ -5,7 +5,7 @@ using Iwentys.Database.Context;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Repositories;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Repositories.Guilds

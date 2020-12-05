@@ -5,7 +5,7 @@ using Iwentys.Common.Tools;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Repositories;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Guilds.Domain
 {
