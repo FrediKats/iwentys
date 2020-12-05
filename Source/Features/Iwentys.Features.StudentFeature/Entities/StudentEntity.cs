@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Iwentys.Features.StudentFeature.Enums;
@@ -34,17 +33,15 @@ namespace Iwentys.Features.StudentFeature.Entities
         public UserType Role { get; set; }
         public StudentType Type { get; set; }
         public int? GroupId { get; set; }
-        public StudyGroupEntity Group { get; set; }
         public string GithubUsername { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime LastOnlineTime { get; set; }
         public int BarsPoints { get; set; }
         public string AvatarUrl { get; set; }
 
-        //TODO: thik about this hack. We cant store guild info in student table
+        //TODO: think about this hack. We cant store guild info in student table
         public DateTime GuildLeftTime { get; set; }
-
-        public List<SubjectActivityEntity> SubjectActivities { get; set; }
+        public StudyGroupEntity Group { get; set; }
 
         public static StudentEntity CreateFromIsu(int id, string firstName, string secondName, StudyGroupEntity group = null)
         {

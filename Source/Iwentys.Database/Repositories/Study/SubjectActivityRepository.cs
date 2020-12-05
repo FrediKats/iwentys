@@ -31,7 +31,8 @@ namespace Iwentys.Database.Repositories.Study
         {
             return _dbContext.SubjectActivities
                 .Include(s => s.Student)
-                .Include(s => s.GroupSubject);
+                .Include(s => s.GroupSubject)
+                .ThenInclude(s => s.Subject);
         }
 
         public async Task<SubjectActivityEntity> UpdateAsync(SubjectActivityEntity entity)

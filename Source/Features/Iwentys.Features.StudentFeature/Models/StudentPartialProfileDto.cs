@@ -38,6 +38,8 @@ namespace Iwentys.Features.StudentFeature.Models
         public int BarsPoints { get; set; }
         public string AvatarUrl { get; set; }
 
+        //public string SocialStatus { get; set; }
+        //public string AdditionalLink { get; set; }
 
         public string Format()
         {

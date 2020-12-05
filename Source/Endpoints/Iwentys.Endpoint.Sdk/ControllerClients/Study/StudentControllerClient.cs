@@ -30,11 +30,6 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
             return Client.GetFromJsonAsync<StudentFullProfileDto>($"api/student/profile/{id}");
         }
 
-        public Task<List<StudentFullProfileDto>> Get(string groupName)
-        {
-            return Client.GetFromJsonAsync<List<StudentFullProfileDto>>($"api/student/for-group/{groupName}");
-        }
-
         public async Task<StudentFullProfileDto> Update(StudentUpdateRequest studentUpdateRequest)
         {
             HttpResponseMessage responseMessage = await Client.PutAsJsonAsync($"api/student", studentUpdateRequest);

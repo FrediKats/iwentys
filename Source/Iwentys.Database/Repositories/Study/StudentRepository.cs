@@ -27,10 +27,7 @@ namespace Iwentys.Database.Repositories.Study
         public IQueryable<StudentEntity> Read()
         {
             return _dbContext.Students
-                .Include(s => s.Group)
-                .Include(s => s.SubjectActivities)
-                .ThenInclude(a => a.GroupSubject)
-                .ThenInclude(sg => sg.Subject);
+                .Include(s => s.Group);
         }
 
         public Task<StudentEntity> ReadByIdAsync(int key)

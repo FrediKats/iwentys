@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
-using Iwentys.Features.StudentFeature.Domain;
 using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Features.StudentFeature.Models;
 using Iwentys.Features.StudentFeature.Repositories;
@@ -34,17 +33,6 @@ namespace Iwentys.Features.StudentFeature.Services
         {
             StudentEntity student = await _studentRepository.GetAsync(id);
             return new StudentFullProfileDto(student);
-        }
-
-        public async Task<List<StudentFullProfileDto>> GetAsync(string groupName)
-        {
-            var group = new GroupName(groupName);
-            List<StudentEntity> students = await _studentRepository
-                .Read()
-                .Where(s => s.Group.GroupName == group.Name)
-                .ToListAsync();
-
-            return students.SelectToList(s => new StudentFullProfileDto(s));
         }
 
         public async Task<StudentFullProfileDto> GetOrCreateAsync(int id)

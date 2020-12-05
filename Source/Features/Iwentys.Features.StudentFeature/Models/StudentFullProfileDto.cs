@@ -14,17 +14,12 @@ namespace Iwentys.Features.StudentFeature.Models
         public StudentFullProfileDto(StudentEntity student) : base(student)
         {
             Group = student.Group.Maybe(GroupInfo.Wrap);
-            SubjectActivityInfo = student.SubjectActivities.SelectToList(sa => new SubjectActivityInfoResponse(sa));
         }
 
         public GroupInfo Group { get; set; }
 
-        //public int StudyLeaderBoardPlace { get; set; }
-        //public int CodingLeaderBoardPlace { get; set; }
-        //public string SocialStatus { get; set; }
-        //public string AdditionalLink { get; set; }
-
-        public List<SubjectActivityInfoResponse> SubjectActivityInfo { get; set; }
+        
+        
 
         public string FormatFullInfo()
         {

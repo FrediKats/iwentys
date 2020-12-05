@@ -42,13 +42,6 @@ namespace Iwentys.Endpoint.Controllers.Study
             return Ok(student);
         }
 
-        [HttpGet("for-group/{groupName}")]
-        public async Task<ActionResult<List<StudentFullProfileDto>>> Get(string groupName)
-        {
-            List<StudentFullProfileDto> students = await _studentService.GetAsync(groupName);
-            return Ok(students);
-        }
-
         [HttpPut]
         public async Task<ActionResult<StudentFullProfileDto>> Update([FromBody] StudentUpdateRequest studentUpdateRequest)
         {
