@@ -35,10 +35,9 @@ namespace Iwentys.Features.Guilds.Services
             GuildEntity userGuild = _database.Guild.ReadForStudent(creatorUser.Id);
             if (userGuild != null)
                 throw new InnerLogicException("Student already in guild");
-
-            return _database.Guild.Create(creatorUser, arguments)
-                .To(g => new GuildDomain(g, _githubIntegrationService, _database))
-                .ToGuildProfileShortInfoDto();
+            
+            GuildEntity createdGuild = _database.Guild.Create(creatorUser, arguments);
+            return new GuildProfileShortInfoDto(createdGuild);
         }
 
         public async Task<GuildProfileShortInfoDto> UpdateAsync(AuthorizedUser user, GuildUpdateRequestDto arguments)
@@ -57,7 +56,7 @@ namespace Iwentys.Features.Guilds.Services
                     guildMember.MemberType = GuildMemberType.Member;
 
             GuildEntity updatedGuid = await _database.Guild.UpdateAsync(info);
-            return new GuildDomain(updatedGuid, _githubIntegrationService, _database).ToGuildProfileShortInfoDto();
+            return new GuildProfileShortInfoDto(updatedGuid);
         }
 
         public async Task<GuildProfileShortInfoDto> ApproveGuildCreating(AuthorizedUser user, int guildId)
@@ -70,34 +69,26 @@ namespace Iwentys.Features.Guilds.Services
                 throw new InnerLogicException("Guild already approved");
 
             guild.GuildType = GuildType.Created;
-            GuildEntity updatedGuid = await _database.Guild.UpdateAsync(guild);
-            return new GuildDomain(updatedGuid, _githubIntegrationService, _database).ToGuildProfileShortInfoDto();
+            await _database.Guild.UpdateAsync(guild);
+            return new GuildProfileShortInfoDto(await _database.Guild.GetAsync(guildId));
         }
 
-        public GuildProfileDto[] Get()
-        {
-            return _database.Guild.Read().AsEnumerable().Select(g =>
-                new GuildDomain(g, _githubIntegrationService, _database)
-                    .ToGuildProfileDto().Result).ToArray();
-        }
-
-        public GuildProfilePreviewDto[] GetOverview(Int32 skippedCount, Int32 takenCount)
+        public GuildProfileShortInfoWithLeaderDto[] GetOverview(Int32 skippedCount, Int32 takenCount)
         {
             return _database.Guild.Read()
                 .ToList()
-                .Select(g => new GuildDomain(g, _githubIntegrationService, _database).ToGuildProfilePreviewDto())
-                .OrderByDescending(g => g.Rating)
+                .Select(g => new GuildProfileShortInfoWithLeaderDto(g))
                 .Skip(skippedCount)
                 .Take(takenCount)
                 .ToArray();
         }
 
-        public async Task<GuildProfileDto> GetAsync(int id, int? userId)
+        public async Task<ExtendedGuildProfileWithMemberDataDto> GetAsync(int id, int? userId)
         {
             GuildEntity guild = await _database.Guild.GetAsync(id);
 
             return await new GuildDomain(guild, _githubIntegrationService, _database)
-                .ToGuildProfileDto(userId);
+                .ToExtendedGuildProfileDto(userId);
         }
 
         public async Task<GuildProfileDto> FindStudentGuild(int userId)
@@ -105,9 +96,8 @@ namespace Iwentys.Features.Guilds.Services
             GuildEntity guild = _database.Guild.ReadForStudent(userId);
             if (guild is null)
                 return null;
-            return await guild
-                .To(g => new GuildDomain(g, _githubIntegrationService, _database))
-                .ToGuildProfileDto(userId);
+            
+            return new GuildProfileDto(guild);
         }
 
         public async Task<GithubRepositoryInfoDto> AddPinnedRepositoryAsync(AuthorizedUser user, int guildId, string owner, string projectName)

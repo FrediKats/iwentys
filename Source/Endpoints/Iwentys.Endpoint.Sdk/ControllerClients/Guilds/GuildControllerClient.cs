@@ -17,15 +17,15 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
         public HttpClient Client { get; }
 
 
-        public Task<List<GuildProfilePreviewDto>> GetOverview(int skip = 0, int take = 20)
+        public Task<List<GuildProfileShortInfoWithLeaderDto>> GetOverview(int skip = 0, int take = 20)
         {
             //TODO: rework it later
-            return Client.GetFromJsonAsync<List<GuildProfilePreviewDto>>($"/api/guild?skip={skip}&take={take}");
+            return Client.GetFromJsonAsync<List<GuildProfileShortInfoWithLeaderDto>>($"/api/guild?skip={skip}&take={take}");
         }
 
-        public Task<GuildProfileDto> Get(int id)
+        public Task<ExtendedGuildProfileWithMemberDataDto> Get(int id)
         {
-            return Client.GetFromJsonAsync<GuildProfileDto>($"/api/guild/{id}");
+            return Client.GetFromJsonAsync<ExtendedGuildProfileWithMemberDataDto>($"/api/guild/{id}");
         }
 
         public Task<GuildProfileDto> GetForMember(int memberId)

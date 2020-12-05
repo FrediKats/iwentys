@@ -24,7 +24,7 @@ namespace Iwentys.Tests.Features.Guilds
             TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out GuildProfileDto guild);
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
 
             bool isExist = guild.MemberLeaderBoardDto.Members.Any(_ => _.Id == user.Id);
             Assert.IsTrue(isExist);
@@ -36,7 +36,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out GuildProfileDto guild);
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
 
             var createdGuild = context.GuildRepository.GetAsync(guild.Id);
 
@@ -50,7 +50,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
                 .WithNewStudent(out AuthorizedUser admin, UserType.Admin)
-                .WithGuild(user, out GuildProfileDto guild);
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
 
             await context.GuildService.ApproveGuildCreating(admin, guild.Id);
             GuildEntity createdGuild = await context.GuildRepository.GetAsync(guild.Id);
@@ -65,10 +65,10 @@ namespace Iwentys.Tests.Features.Guilds
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
                 .WithNewStudent(out AuthorizedUser _, UserType.Admin)
-                .WithGuild(user, out GuildProfileDto _);
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto _);
 
             //TODO: rework to correct exception
-            Assert.Catch<AggregateException>(() => context.WithGuild(user, out GuildProfileDto _));
+            Assert.Catch<AggregateException>(() => context.WithGuild(user, out ExtendedGuildProfileWithMemberDataDto _));
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out GuildProfileDto guild);
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
 
             List<GuildMemberEntity> requests = context.GuildMemberService.GetGuildRequests(user, guild.Id).Result.ToList();
 
@@ -91,7 +91,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithNewStudent(out AuthorizedUser student);
 
             Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.GetGuildRequests(student, guild.Id));
@@ -103,7 +103,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithGuildMember(guild, out AuthorizedUser member);
 
             Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.GetGuildRequests(member, guild.Id));
@@ -115,7 +115,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithGuildRequest(guild, out AuthorizedUser student);
 
             List<GuildMemberEntity> requests = context.GuildMemberService.GetGuildRequests(user, guild.Id).Result.ToList();
@@ -132,7 +132,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithGuildBlocked(guild, out AuthorizedUser student);
 
             List<GuildMemberEntity> blocked = context.GuildMemberService.GetGuildBlocked(user, guild.Id).Result.ToList();
@@ -149,7 +149,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithGuildMember(guild, out AuthorizedUser member);
 
             await context.GuildMemberService.BlockGuildMember(user, guild.Id, member.Id);
@@ -166,7 +166,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out GuildProfileDto guild);
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
 
             Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.BlockGuildMember(user, guild.Id, user.Id));
         }
@@ -177,7 +177,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithNewStudent(out AuthorizedUser student);
 
             Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.BlockGuildMember(user, guild.Id, student.Id));
@@ -189,7 +189,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithGuildMentor(guild, out AuthorizedUser mentor)
                 .WithGuildMentor(guild, out AuthorizedUser anotherMentor);
 
@@ -202,7 +202,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithGuildMember(guild, out AuthorizedUser member);
 
             await context.GuildMemberService.KickGuildMemberAsync(user, guild.Id, member.Id);
@@ -217,7 +217,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithGuildMentor(guild, out AuthorizedUser mentor)
                 .WithGuildMentor(guild, out AuthorizedUser anotherMentor);
 
@@ -230,7 +230,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithGuildBlocked(guild, out AuthorizedUser student);
 
             await context.GuildMemberService.UnblockStudent(user, guild.Id, student.Id);
@@ -245,7 +245,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithNewStudent(out AuthorizedUser student);
 
             Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.UnblockStudent(user, guild.Id, student.Id));
@@ -257,7 +257,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithGuildRequest(guild, out AuthorizedUser student);
 
             await context.GuildMemberService.AcceptRequest(user, guild.Id, student.Id);
@@ -276,7 +276,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithNewStudent(out AuthorizedUser student);
 
             Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.AcceptRequest(user, guild.Id, student.Id));
@@ -288,7 +288,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithGuildRequest(guild, out AuthorizedUser student);
 
             await context.GuildMemberService.RejectRequest(user, guild.Id, student.Id);
@@ -306,7 +306,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithNewStudent(out AuthorizedUser student);
 
             Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.RejectRequest(user, guild.Id, student.Id));
@@ -318,7 +318,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithGuildRequest(guild, out AuthorizedUser _);
             await context.GuildService.UpdateAsync(user, GuildUpdateRequestDto.ForPolicyUpdate(guild.Id, GuildHiringPolicy.Close));
 
@@ -332,7 +332,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out GuildProfileDto guild)
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithGuildRequest(guild, out AuthorizedUser student);
             await context.GuildService.UpdateAsync(user, GuildUpdateRequestDto.ForPolicyUpdate(guild.Id, GuildHiringPolicy.Close));
             await context.GuildService.UpdateAsync(user, GuildUpdateRequestDto.ForPolicyUpdate(guild.Id, GuildHiringPolicy.Open));
@@ -351,7 +351,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGithubRepository(user, out GithubUserEntity userData)
-                .WithGuild(user, out GuildProfileDto guild);
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
 
             Assert.That(context.GuildService.GetGuildMemberLeaderBoard(guild.Id).Result.MembersImpact.Single().TotalRate,
                 Is.EqualTo(userData.ContributionFullInfo.Total));

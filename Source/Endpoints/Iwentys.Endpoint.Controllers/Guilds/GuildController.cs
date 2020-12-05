@@ -38,13 +38,13 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         }
 
         [HttpGet]
-        public ActionResult<List<GuildProfilePreviewDto>> GetOverview([FromQuery] int skip = 0, [FromQuery] int take = 20)
+        public ActionResult<List<GuildProfileShortInfoWithLeaderDto>> GetOverview([FromQuery] int skip = 0, [FromQuery] int take = 20)
         {
             return Ok(_guildService.GetOverview(skip, take));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GuildProfileDto>> Get(int id)
+        public async Task<ActionResult<ExtendedGuildProfileWithMemberDataDto>> Get(int id)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(await _guildService.GetAsync(id, user.Id));
@@ -71,10 +71,11 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         }
 
         [HttpPut("{guildId}/leave")]
-        public async Task<ActionResult<GuildProfileDto>> Leave(int guildId)
+        public async Task<ActionResult> Leave(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(await _guildMemberService.LeaveGuildAsync(user, guildId));
+            await _guildMemberService.LeaveGuildAsync(user, guildId);
+            return Ok();
         }
 
         [HttpGet("{guildId}/request")]

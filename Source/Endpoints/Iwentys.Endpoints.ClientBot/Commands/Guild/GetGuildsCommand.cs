@@ -26,7 +26,7 @@ namespace Iwentys.Endpoints.ClientBot.Commands.Guild
 
         public Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            GuildProfilePreviewDto[] guildProfilePreviews = _guildService.GetOverview(0, 20);
+            GuildProfileShortInfoWithLeaderDto[] guildProfilePreviews = _guildService.GetOverview(0, 20);
 
             return ResultFormatter.FormatAsListToTask(guildProfilePreviews);
         }

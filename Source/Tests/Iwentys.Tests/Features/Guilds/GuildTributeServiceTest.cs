@@ -19,7 +19,7 @@ namespace Iwentys.Tests.Features.Guilds
             TestCaseContext context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser student)
-                .WithGuild(student, out GuildProfileDto guild)
+                .WithGuild(student, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithNewStudent(out AuthorizedUser admin, UserType.Admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor)
                 .WithStudentProject(student, out GithubProjectEntity project)
@@ -37,7 +37,7 @@ namespace Iwentys.Tests.Features.Guilds
             TestCaseContext context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser student)
-                .WithGuild(student, out GuildProfileDto guild)
+                .WithGuild(student, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithNewStudent(out AuthorizedUser admin, UserType.Admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor)
                 .WithStudentProject(student, out GithubProjectEntity project)
@@ -58,7 +58,7 @@ namespace Iwentys.Tests.Features.Guilds
             TestCaseContext context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser student)
-                .WithGuild(student, out GuildProfileDto guild)
+                .WithGuild(student, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithNewStudent(out AuthorizedUser admin, UserType.Admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor)
                 .WithStudentProject(student, out GithubProjectEntity project)

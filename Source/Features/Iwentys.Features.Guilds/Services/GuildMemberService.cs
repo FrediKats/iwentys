@@ -57,7 +57,7 @@ namespace Iwentys.Features.Guilds.Services
             return await Get(guildId, user.Id);
         }
 
-        public Task<GuildProfileDto> LeaveGuildAsync(AuthorizedUser user, int guildId)
+        public async Task LeaveGuildAsync(AuthorizedUser user, int guildId)
         {
             GuildEntity studentGuild = _guildRepository.ReadForStudent(user.Id);
             if (studentGuild == null || studentGuild.Id != guildId)
@@ -65,11 +65,9 @@ namespace Iwentys.Features.Guilds.Services
 
             TributeEntity userTribute = _guildTributeRepository.ReadStudentActiveTribute(studentGuild.Id, user.Id);
             if (userTribute != null)
-                _guildTributeRepository.DeleteAsync(userTribute.ProjectId);
+                await _guildTributeRepository.DeleteAsync(userTribute.ProjectId);
 
             _guildMemberRepository.RemoveMemberAsync(guildId, user.Id);
-
-            return Get(guildId, user.Id);
         }
 
         public async Task<GuildMemberEntity[]> GetGuildRequests(AuthorizedUser user, int guildId)
@@ -155,15 +153,15 @@ namespace Iwentys.Features.Guilds.Services
             _guildMemberRepository.RemoveMemberAsync(guildId, studentId);
         }
 
-        public async Task<GuildProfileDto> Get(int id, int? userId)
+        public async Task<ExtendedGuildProfileWithMemberDataDto> Get(int id, int? userId)
         {
             GuildEntity guild = await _guildRepository.GetAsync(id);
-            return await CreateDomain(guild).ToGuildProfileDto(userId);
+            return await CreateDomain(guild).ToExtendedGuildProfileDto(userId);
         }
 
         private GuildDomain CreateDomain(GuildEntity guild)
         {
-            return new GuildDomain(guild, _githubIntegrationService, _studentRepository, _guildRepository, _guildMemberRepository, _guildTributeRepository);
+            return new GuildDomain(guild, _githubIntegrationService, _studentRepository, _guildRepository, _guildMemberRepository);
         }
     }
 }

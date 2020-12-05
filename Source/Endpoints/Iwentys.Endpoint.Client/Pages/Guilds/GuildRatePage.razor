@@ -11,7 +11,7 @@
     @if (_guildProfiles is not null)
     {
         <MatList class="container-fluid d-flex flex-column">
-            @foreach (GuildProfilePreviewDto guild in _guildProfiles)
+            @foreach (GuildProfileShortInfoWithLeaderDto guild in _guildProfiles)
             {
                 <NavLink href=@LinkToProfile(guild) class="guild-rating-row">
                     <MatPaper Elevation="10" Rounded="true" Class="d-flex flex-row">
@@ -23,10 +23,6 @@
                             <h4>@guild.Title</h4>
 
                             <p>Some bio @guild.Bio</p>
-                        </div>
-
-                        <div class="col-md-2">
-                            <p>@guild.Rating</p>
                         </div>
                     </MatPaper>
                 </NavLink>
