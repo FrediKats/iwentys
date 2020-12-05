@@ -2,11 +2,7 @@
 
 namespace Iwentys.Features.Assignments.Models
 {
-    public class AssignmentCreateRequestDto
+    public record AssignmentCreateRequestDto(string Title, string Description, int? SubjectId, DateTime? Deadline)
     {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public int? SubjectId { get; set; }
-        public DateTime? Deadline { get; set; }
     }
 }

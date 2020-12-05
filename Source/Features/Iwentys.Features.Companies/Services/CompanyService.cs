@@ -22,22 +22,21 @@ namespace Iwentys.Features.Companies.Services
             _studentRepository = studentRepository;
         }
 
-        public async Task<List<CompanyViewModel>> Get()
+        public async Task<List<CompanyInfoDto>> Get()
         {
-            var info = await _companyRepository.Read().ToListAsync();
-            return info.SelectToList(entity => WrapToDto(entity).Result);
+            List<CompanyEntity> info = await _companyRepository.Read().ToListAsync();
+            return info.SelectToList(entity => new CompanyInfoDto(entity));
         }
 
-        public async Task<CompanyViewModel> Get(int id)
+        public async Task<CompanyInfoDto> Get(int id)
         {
-            CompanyEntity company = await _companyRepository.ReadByIdAsync(id);
-            return await WrapToDto(company);
+            return new CompanyInfoDto(await _companyRepository.ReadByIdAsync(id));
         }
 
         public async Task<List<CompanyWorkRequestDto>> GetCompanyWorkRequest()
         {
             List<CompanyWorkerEntity> workers = await _companyRepository.ReadWorkerRequestAsync();
-            return workers.SelectToList(cw => cw.To(CompanyWorkRequestDto.Create));
+            return workers.SelectToList(CompanyWorkRequestDto.Create);
         }
 
         public async Task RequestAdding(int companyId, int userId)
@@ -49,20 +48,12 @@ namespace Iwentys.Features.Companies.Services
 
         public async Task ApproveAdding(int userId, int adminId)
         {
-            var student = await _studentRepository
+            StudentEntity student = await _studentRepository
                 .GetAsync(adminId);
-
             student.EnsureIsAdmin();
-
             StudentEntity user = await _studentRepository.GetAsync(userId);
-
+            
             await _companyRepository.ApproveRequestAsync(user);
-        }
-
-        private async Task<CompanyViewModel> WrapToDto(CompanyEntity companyEntity)
-        {
-            List<StudentEntity> workers = await _companyRepository.ReadWorkersAsync(companyEntity);
-            return CompanyViewModel.Create(companyEntity, workers);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Iwentys.Features.Assignments.Services
         {
             StudentEntity creator = await user.GetProfile(_studentRepository);
             StudentAssignmentEntity assignment = await _assignmentRepository.CreateAsync(creator, assignmentCreateRequestDto);
-            return AssignmentInfoDto.Wrap(assignment);
+            return new AssignmentInfoDto(assignment);
         }
 
         public async Task<List<AssignmentInfoDto>> ReadAsync(AuthorizedUser user)
@@ -38,7 +38,7 @@ namespace Iwentys.Features.Assignments.Services
                 .Where(a => a.StudentId == user.Id)
                 .ToListAsync();
 
-            return assignments.SelectToList(AssignmentInfoDto.Wrap);
+            return assignments.SelectToList(a => new AssignmentInfoDto(a));
         }
 
         public async Task CompleteAsync(AuthorizedUser user, int assignmentId)

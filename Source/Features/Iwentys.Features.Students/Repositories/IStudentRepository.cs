@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Students.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Students.Repositories
 {

@@ -129,15 +129,15 @@ namespace Iwentys.Tests.Tools
             return this;
         }
 
-        public TestCaseContext WithCompany(out CompanyViewModel companyInfo)
+        public TestCaseContext WithCompany(out CompanyInfoDto companyInfo)
         {
             var company = new CompanyEntity();
             company = DatabaseAccessor.Company.CreateAsync(company).Result;
-            companyInfo = CompanyViewModel.Create(company);
+            companyInfo = new(company);
             return this;
         }
 
-        public TestCaseContext WithCompanyWorker(CompanyViewModel companyInfo, out AuthorizedUser userInfo)
+        public TestCaseContext WithCompanyWorker(CompanyInfoDto companyInfo, out AuthorizedUser userInfo)
         {
             //TODO: move save changes to repository
             WithNewStudent(out userInfo);

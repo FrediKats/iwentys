@@ -1,33 +1,20 @@
 ﻿using System.Collections.Generic;
+using Iwentys.Common.Tools;
 using Iwentys.Features.Companies.Entities;
-using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Students.Models;
 
 namespace Iwentys.Features.Companies.Models
 {
-    public class CompanyViewModel
+    public record CompanyInfoDto(int Id, string Name, double Latitude, double Longitude, List<StudentInfoDto> Workers)
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
-
-        public List<StudentEntity> Workers { get; set; }
-
-        public static CompanyViewModel Create(CompanyEntity companyEntity)
+        public CompanyInfoDto(CompanyEntity companyEntity)
+            : this(
+                companyEntity.Id,
+                companyEntity.Name,
+                companyEntity.Latitude,
+                companyEntity.Longitude,
+                companyEntity.Workers?.SelectToList(w => new StudentInfoDto(w.Worker)))
         {
-            return Create(companyEntity, new List<StudentEntity>());
-        }
-
-        public static CompanyViewModel Create(CompanyEntity companyEntity, List<StudentEntity> workers)
-        {
-            return new CompanyViewModel
-            {
-                Id = companyEntity.Id,
-                Name = companyEntity.Name,
-                Latitude = companyEntity.Latitude,
-                Longitude = companyEntity.Longitude,
-                Workers = workers
-            };
         }
     }
 }

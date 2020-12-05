@@ -30,7 +30,9 @@ namespace Iwentys.Database.Repositories
 
         public IQueryable<CompanyEntity> Read()
         {
-            return _dbContext.Companies;
+            return _dbContext.Companies
+                .Include(c => c.Workers)
+                .ThenInclude(cw => cw.Worker);
         }
 
         public Task<CompanyEntity> ReadByIdAsync(int key)

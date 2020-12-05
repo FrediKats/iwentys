@@ -45,18 +45,7 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
 
         private async Task ExecuteAssignmentCreation()
         {
-            var createArguments = new AssignmentCreateRequestDto()
-            {
-                Title = _title,
-                Description = _description,
-                Deadline = _deadline
-            };
-
-            if (_selectedSubject is not null)
-            {
-                createArguments.SubjectId = _selectedSubject.Id;
-            }
-
+            var createArguments = new AssignmentCreateRequestDto(_title, _description, _selectedSubject?.Id, _deadline);
             await _assignmentControllerClient.Create(createArguments);
             NavigationManagerClient.NavigateTo("/assignment");
         }

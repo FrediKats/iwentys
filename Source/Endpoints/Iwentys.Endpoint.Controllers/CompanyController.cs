@@ -18,15 +18,15 @@ namespace Iwentys.Endpoint.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<CompanyViewModel>> Get()
+        public ActionResult<IEnumerable<CompanyInfoDto>> Get()
         {
             return Ok(_companyService.Get());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<CompanyViewModel>> Get(int id)
+        public async Task<ActionResult<CompanyInfoDto>> Get(int id)
         {
-            CompanyViewModel company = await _companyService.Get(id);
+            CompanyInfoDto company = await _companyService.Get(id);
             return Ok(company);
         }
     }
