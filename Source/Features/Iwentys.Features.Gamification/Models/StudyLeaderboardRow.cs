@@ -16,17 +16,17 @@ namespace Iwentys.Features.Gamification.Models
         public StudyLeaderboardRow(IEnumerable<SubjectActivityEntity> activity)
         {
             List<SubjectActivityEntity> subjectActivityEntities = activity.ToList();
-            Student = subjectActivityEntities[0].Student.To(s => new StudentPartialProfileDto(s));
+            Student = subjectActivityEntities[0].Student.To(s => new StudentInfoDto(s));
             Activity = subjectActivityEntities.Sum(a => a.Points);
         }
 
         public StudyLeaderboardRow(StudentEntity student, int githubActivity)
         {
-            Student = student.To(s => new StudentPartialProfileDto(s));
+            Student = student.To(s => new StudentInfoDto(s));
             Activity = githubActivity;
         }
 
-        public StudentPartialProfileDto Student { get; set; }
+        public StudentInfoDto Student { get; set; }
         public double Activity { get; set; }
 
         public string Format()

@@ -24,27 +24,24 @@ namespace Iwentys.Endpoint.Controllers.Study
         }
 
         [HttpGet("search")]
-        public async Task<ActionResult<List<SubjectProfileResponse>>> GetAllSubjects([FromQuery] int? courseId, [FromQuery] StudySemester? semester)
+        public async Task<ActionResult<List<SubjectProfileDto>>> GetAllSubjects([FromQuery] int? courseId, [FromQuery] StudySemester? semester)
         {
-            List<SubjectEntity> subjectInfo = await _studyLeaderboardService.GetSubjectsForDtoAsync(new StudySearchParameters
-            {
-                CourseId = courseId,
-                StudySemester = semester
-            });
+            var studySearchParameters = new StudySearchParametersDto(null, null, courseId, semester, 0, 20);
+            List<SubjectEntity> subjectInfo = await _studyLeaderboardService.GetSubjectsForDtoAsync(studySearchParameters);
 
-            List<SubjectProfileResponse> response = subjectInfo.SelectToList(SubjectProfileResponse.Wrap);
+            List<SubjectProfileDto> response = subjectInfo.SelectToList(entity => new SubjectProfileDto(entity));
             return Ok(response);
         }
 
         [HttpGet("profile/{subjectId}")]
-        public async Task<ActionResult<SubjectProfileResponse>> GetProfile([FromRoute] int subjectId)
+        public async Task<ActionResult<SubjectProfileDto>> GetProfile([FromRoute] int subjectId)
         {
-            SubjectProfileResponse subject = await _subjectService.Get(subjectId);
+            SubjectProfileDto subject = await _subjectService.Get(subjectId);
             return Ok(subject);
         }
 
         [HttpGet("search/for-group")]
-        public async Task<ActionResult<List<SubjectProfileResponse>>> GetGroupSubjects(int groupId)
+        public async Task<ActionResult<List<SubjectProfileDto>>> GetGroupSubjects(int groupId)
         {
             return Ok(await _subjectService.GetGroupSubjects(groupId));
         }

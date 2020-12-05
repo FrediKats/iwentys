@@ -11,7 +11,7 @@ namespace Iwentys.Endpoint.Client.Pages.Study
 {
     public partial class SubjectPage : ComponentBase
     {
-        private SubjectProfileResponse _subjectProfile;
+        private SubjectProfileDto _subjectProfile;
         private List<NewsfeedViewModel> _newsfeeds;
 
         protected override async Task OnInitializedAsync()

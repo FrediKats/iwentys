@@ -17,7 +17,7 @@ namespace Iwentys.Features.Quests.Models
         public QuestState State { get; set; }
         public bool IsOutdated { get; set; }
 
-        public StudentPartialProfileDto Author { get; set; }
+        public StudentInfoDto Author { get; set; }
 
         public static QuestInfoResponse Wrap(QuestEntity questEntity)
         {
@@ -31,7 +31,7 @@ namespace Iwentys.Features.Quests.Models
                 Deadline = questEntity.Deadline,
                 State = questEntity.State,
                 IsOutdated = questEntity.Deadline < DateTime.UtcNow,
-                Author = questEntity.Author.To(a => new StudentPartialProfileDto(a))
+                Author = questEntity.Author.To(a => new StudentInfoDto(a))
             };
         }
     }

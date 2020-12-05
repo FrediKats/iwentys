@@ -24,7 +24,7 @@
 
             <MatH6>Students</MatH6>
             <MatNavMenu>
-                @foreach (StudentPartialProfileDto student in _groupProfile.Students.Where(s => s.Role != UserType.GroupAdmin))
+                @foreach (StudentInfoDto student in _groupProfile.Students.Where(s => s.Role != UserType.GroupAdmin))
                 {
                     <MatNavItem Href=@LinkToStudentProfile(student)>
                         @student.GetFullName()

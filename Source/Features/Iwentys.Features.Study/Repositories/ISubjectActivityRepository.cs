@@ -8,6 +8,6 @@ namespace Iwentys.Features.Study.Repositories
     public interface ISubjectActivityRepository : IGenericRepository<SubjectActivityEntity>
     {
         SubjectActivityEntity Create(SubjectActivityEntity entity);
-        IReadOnlyCollection<SubjectActivityEntity> GetStudentActivities(StudySearchParameters searchParameters);
+        IReadOnlyCollection<SubjectActivityEntity> GetStudentActivities(StudySearchParametersDto searchParametersDto);
     }
 }

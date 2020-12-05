@@ -12,7 +12,7 @@ namespace Iwentys.Endpoint.Client.Pages.Study
 {
     public partial class GroupPage : ComponentBase
     {
-        private GroupProfileResponse _groupProfile;
+        private GroupProfileResponseDto _groupProfile;
 
         protected override async Task OnInitializedAsync()
         {
@@ -21,9 +21,9 @@ namespace Iwentys.Endpoint.Client.Pages.Study
             _groupProfile = await studentControllerClient.Get(GroupName);
         }
 
-        private string LinkToStudentProfile(StudentPartialProfileDto student) => $"student/profile/{student.Id}";
+        private string LinkToStudentProfile(StudentInfoDto student) => $"student/profile/{student.Id}";
         private string LinkToSubjectProfile(SubjectEntity subject) => $"subject/profile/{subject.Id}";
 
-        private StudentPartialProfileDto GroupAdmin => _groupProfile?.Students.FirstOrDefault(s => s.Role == UserType.GroupAdmin);
+        private StudentInfoDto GroupAdmin => _groupProfile?.Students.FirstOrDefault(s => s.Role == UserType.GroupAdmin);
     }
 }

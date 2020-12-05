@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
@@ -20,22 +19,22 @@ namespace Iwentys.Features.Students.Services
             _studentRepository = studentRepository;
         }
 
-        public async Task<List<StudentPartialProfileDto>> GetAsync()
+        public async Task<List<StudentInfoDto>> GetAsync()
         {
             List<StudentEntity> students = await _studentRepository
                 .Read()
                 .ToListAsync();
 
-            return students.SelectToList(s => new StudentPartialProfileDto(s));
+            return students.SelectToList(s => new StudentInfoDto(s));
         }
 
-        public async Task<StudentPartialProfileDto> GetAsync(int id)
+        public async Task<StudentInfoDto> GetAsync(int id)
         {
             StudentEntity student = await _studentRepository.GetAsync(id);
-            return new StudentPartialProfileDto(student);
+            return new StudentInfoDto(student);
         }
 
-        public async Task<StudentPartialProfileDto> GetOrCreateAsync(int id)
+        public async Task<StudentInfoDto> GetOrCreateAsync(int id)
         {
             StudentEntity student = await _studentRepository.ReadByIdAsync(id);
             if (student is null)
@@ -44,32 +43,29 @@ namespace Iwentys.Features.Students.Services
                 student = await _studentRepository.GetAsync(student.Id);
             }
 
-            return new StudentPartialProfileDto(student);
+            return new StudentInfoDto(student);
         }
 
-        public async Task<StudentPartialProfileDto> AddGithubUsernameAsync(int id, string githubUsername)
+        public async Task<StudentInfoDto> AddGithubUsernameAsync(int id, string githubUsername)
         {
-            if (_studentRepository.Read().Any(s => s.GithubUsername == githubUsername))
-                throw InnerLogicException.StudentEx.GithubAlreadyUser(githubUsername);
+            bool isUsernameUsed = await _studentRepository.Read().AnyAsync(s => s.GithubUsername == githubUsername);
+            if (isUsernameUsed)
+                throw InnerLogicException.StudentException.GithubAlreadyUser(githubUsername);
 
-            //TODO:
+            //TODO: implement
             //throw new NotImplementedException("Need to validate github credentials");
-            StudentEntity user = await _studentRepository.GetAsync(id);
-            user.GithubUsername = githubUsername;
-            await _studentRepository.UpdateAsync(user);
+            await _studentRepository.UpdateGithub(id, githubUsername);
 
-            //TODO:
+            //TODO: implement
             //_achievementProvider.Achieve(AchievementList.AddGithubAchievement, user.Id);
-            user = await _studentRepository.GetAsync(id);
-            return new StudentPartialProfileDto(user);
+            //TODO: ensure we need to return this
+            return new StudentInfoDto(await _studentRepository.GetAsync(id));
         }
 
-        public async Task<StudentPartialProfileDto> RemoveGithubUsernameAsync(int id, string githubUsername)
+        public async Task<StudentInfoDto> RemoveGithubUsernameAsync(int id, string githubUsername)
         {
-            StudentEntity user = await _studentRepository.GetAsync(id);
-            user.GithubUsername = null;
-            StudentEntity updatedUser = await _studentRepository.UpdateAsync(user);
-            return new StudentPartialProfileDto(updatedUser);
+            await _studentRepository.UpdateGithub(id, githubUsername);
+            return new StudentInfoDto(await _studentRepository.GetAsync(id));
         }
     }
 }

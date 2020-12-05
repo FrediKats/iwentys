@@ -14,7 +14,7 @@ namespace Iwentys.Features.Guilds.Models.Guilds
         {
         }
 
-        public StudentPartialProfileDto Leader { get; set; }
+        public StudentInfoDto Leader { get; set; }
         public int Rating { get; set; }
 
         public string Format()

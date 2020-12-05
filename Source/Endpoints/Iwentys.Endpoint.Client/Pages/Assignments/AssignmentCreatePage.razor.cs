@@ -22,8 +22,8 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
         private string _description;
         private DateTime? _deadline;
 
-        private List<SubjectProfileResponse> _subjects;
-        private SubjectProfileResponse _selectedSubject;
+        private List<SubjectProfileDto> _subjects;
+        private SubjectProfileDto _selectedSubject;
 
         protected override async Task OnInitializedAsync()
         {
@@ -34,12 +34,12 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
             var studyGroupControllerClient = new StudyGroupControllerClient(httpClient);
             var studentControllerClient = new StudentControllerClient(httpClient);
             
-            StudentPartialProfileDto student = await studentControllerClient.GetSelf();
-            GroupProfileResponse studentGroup = await studyGroupControllerClient.GetStudentGroup(student.Id);
+            StudentInfoDto student = await studentControllerClient.GetSelf();
+            GroupProfileResponseDto studentGroup = await studyGroupControllerClient.GetStudentGroup(student.Id);
             if (studentGroup is not null)
             {
-                List<SubjectProfileResponse> subject = await _subjectControllerClient.GetGroupSubjects(studentGroup.Id);
-                _subjects = new List<SubjectProfileResponse>().Append(null).Concat(subject).ToList();
+                List<SubjectProfileDto> subject = await _subjectControllerClient.GetGroupSubjects(studentGroup.Id);
+                _subjects = new List<SubjectProfileDto>().Append(null).Concat(subject).ToList();
             }
         }
 

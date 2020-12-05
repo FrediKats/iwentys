@@ -7,7 +7,7 @@ namespace Iwentys.Features.Study.Repositories
 {
     public interface IGroupSubjectRepository : IGenericRepository<GroupSubjectEntity, int>
     {
-        IQueryable<SubjectEntity> GetSubjectsForDto(StudySearchParameters searchParameters);
+        IQueryable<SubjectEntity> GetSubjectsForDto(StudySearchParametersDto searchParametersDto);
         IQueryable<StudyGroupEntity> GetStudyGroupsForDto(int? courseId);
         GroupSubjectEntity Create(GroupSubjectEntity entity);
     }

@@ -14,14 +14,14 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
 
         public HttpClient Client { get; }
 
-        public Task<GroupProfileResponse> Get(string groupName)
+        public Task<GroupProfileResponseDto> Get(string groupName)
         {
-            return Client.GetFromJsonAsync<GroupProfileResponse>($"api/StudyGroup/by-name/{groupName}");
+            return Client.GetFromJsonAsync<GroupProfileResponseDto>($"api/StudyGroup/by-name/{groupName}");
         }
 
-        public Task<GroupProfileResponse> GetStudentGroup(int studentId)
+        public Task<GroupProfileResponseDto> GetStudentGroup(int studentId)
         {
-            return Client.GetFromJsonAsync<GroupProfileResponse>($"api/StudyGroup/by-student/{studentId}");
+            return Client.GetFromJsonAsync<GroupProfileResponseDto>($"api/StudyGroup/by-student/{studentId}");
         }
     }
 }

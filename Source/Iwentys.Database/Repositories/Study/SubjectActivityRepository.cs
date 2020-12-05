@@ -42,7 +42,7 @@ namespace Iwentys.Database.Repositories.Study
             return createdEntity.Entity;
         }
 
-        public IReadOnlyCollection<SubjectActivityEntity> GetStudentActivities(StudySearchParameters searchParameters)
+        public IReadOnlyCollection<SubjectActivityEntity> GetStudentActivities(StudySearchParametersDto searchParametersDto)
         {
             var query =
                 from sa in Read()
@@ -51,10 +51,10 @@ namespace Iwentys.Database.Repositories.Study
                 select new { SubjectActivities = sa, StudyGroups = sg, GroupSubjects = gs };
 
             query = query
-                .WhereIf(searchParameters.GroupId, q => q.StudyGroups.Id == searchParameters.GroupId)
-                .WhereIf(searchParameters.SubjectId, q => q.GroupSubjects.SubjectId == searchParameters.SubjectId)
-                .WhereIf(searchParameters.CourseId, q => q.StudyGroups.StudyCourseId == searchParameters.CourseId)
-                .WhereIf(searchParameters.StudySemester, q => q.GroupSubjects.StudySemester == searchParameters.StudySemester);
+                .WhereIf(searchParametersDto.GroupId, q => q.StudyGroups.Id == searchParametersDto.GroupId)
+                .WhereIf(searchParametersDto.SubjectId, q => q.GroupSubjects.SubjectId == searchParametersDto.SubjectId)
+                .WhereIf(searchParametersDto.CourseId, q => q.StudyGroups.StudyCourseId == searchParametersDto.CourseId)
+                .WhereIf(searchParametersDto.StudySemester, q => q.GroupSubjects.StudySemester == searchParametersDto.StudySemester);
 
             return query
                 .Select(_ => _.SubjectActivities)

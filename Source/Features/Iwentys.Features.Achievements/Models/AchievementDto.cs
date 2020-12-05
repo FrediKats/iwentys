@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using Iwentys.Features.Achievements.Entities;
-using Newtonsoft.Json;
 
 namespace Iwentys.Features.Achievements.Models
 {

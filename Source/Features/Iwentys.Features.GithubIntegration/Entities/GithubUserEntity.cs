@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
 using Iwentys.Common.Tools;
 using Iwentys.Features.GithubIntegration.Models;
-using Newtonsoft.Json;
 
 namespace Iwentys.Features.GithubIntegration.Entities
 {
@@ -19,8 +19,8 @@ namespace Iwentys.Features.GithubIntegration.Entities
         [NotMapped]
         public ContributionFullInfo ContributionFullInfo
         {
-            get => SerializedContributionData.Maybe(JsonConvert.DeserializeObject<ContributionFullInfo>);
-            set => SerializedContributionData = JsonConvert.SerializeObject(value);
+            get => SerializedContributionData.Maybe(data => JsonSerializer.Deserialize<ContributionFullInfo>(data));
+            set => SerializedContributionData = JsonSerializer.Serialize(value);
         }
     }
 }

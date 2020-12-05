@@ -19,31 +19,32 @@ namespace Iwentys.Features.Study.Services
             _groupSubjectRepository = groupSubjectRepository;
         }
 
-        public async Task<List<SubjectProfileResponse>> Get()
+        public async Task<List<SubjectProfileDto>> Get()
         {
-            List<SubjectEntity> subjects = await _subjectRepository.Read()
+            List<SubjectEntity> subjects = await _subjectRepository
+                .Read()
                 .ToListAsync();
 
-            return subjects.SelectToList(SubjectProfileResponse.Wrap);
+            return subjects.SelectToList(entity => new SubjectProfileDto(entity));
 
         }
 
-        public async Task<SubjectProfileResponse> Get(int id)
+        public async Task<SubjectProfileDto> Get(int id)
         {
             SubjectEntity subject = await _subjectRepository
                 .Read()
                 .FirstAsync(s => s.Id == id);
 
-            return SubjectProfileResponse.Wrap(subject);
+            return new SubjectProfileDto(subject);
         }
 
-        public async Task<List<SubjectProfileResponse>> GetGroupSubjects(int groupId)
+        public async Task<List<SubjectProfileDto>> GetGroupSubjects(int groupId)
         {
             List<SubjectEntity> subjectEntities = await _groupSubjectRepository
-                .GetSubjectsForDto(new StudySearchParameters {GroupId = groupId})
+                .GetSubjectsForDto(StudySearchParametersDto.ForGroup(groupId))
                 .ToListAsync();
 
-            return subjectEntities.SelectToList(SubjectProfileResponse.Wrap);
+            return subjectEntities.SelectToList(entity => new SubjectProfileDto(entity));
         }
     }
 }

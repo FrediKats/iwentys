@@ -15,14 +15,14 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
 
         public HttpClient Client { get; }
 
-        public Task<SubjectProfileResponse> GetProfile(int subjectId)
+        public Task<SubjectProfileDto> GetProfile(int subjectId)
         {
-            return Client.GetFromJsonAsync<SubjectProfileResponse>($"api/subject/profile/{subjectId}");
+            return Client.GetFromJsonAsync<SubjectProfileDto>($"api/subject/profile/{subjectId}");
         }
 
-        public Task<List<SubjectProfileResponse>> GetGroupSubjects(int groupId)
+        public Task<List<SubjectProfileDto>> GetGroupSubjects(int groupId)
         {
-            return Client.GetFromJsonAsync<List<SubjectProfileResponse>>($"api/subject/search/for-group?groupId={groupId}");
+            return Client.GetFromJsonAsync<List<SubjectProfileDto>>($"api/subject/search/for-group?groupId={groupId}");
         }
     }
 }

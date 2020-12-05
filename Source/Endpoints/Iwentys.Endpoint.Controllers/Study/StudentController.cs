@@ -20,33 +20,33 @@ namespace Iwentys.Endpoint.Controllers.Study
         }
 
         [HttpGet("profile")]
-        public async Task<ActionResult<List<StudentPartialProfileDto>>> Get()
+        public async Task<ActionResult<List<StudentInfoDto>>> Get()
         {
-            List<StudentPartialProfileDto> students = await _studentService.GetAsync();
+            List<StudentInfoDto> students = await _studentService.GetAsync();
             return Ok(students);
         }
 
         [HttpGet("self")]
-        public async Task<ActionResult<StudentPartialProfileDto>> GetSelf()
+        public async Task<ActionResult<StudentInfoDto>> GetSelf()
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            StudentPartialProfileDto result  = await _studentService.GetAsync(user.Id);
+            StudentInfoDto result  = await _studentService.GetAsync(user.Id);
             return Ok(result);
         }
 
 
         [HttpGet("profile/{id}")]
-        public async Task<ActionResult<StudentPartialProfileDto>> Get(int id)
+        public async Task<ActionResult<StudentInfoDto>> Get(int id)
         {
-            StudentPartialProfileDto student = await _studentService.GetAsync(id);
+            StudentInfoDto student = await _studentService.GetAsync(id);
             return Ok(student);
         }
 
         [HttpPut]
-        public async Task<ActionResult<StudentPartialProfileDto>> Update([FromBody] StudentUpdateRequest studentUpdateRequest)
+        public async Task<ActionResult<StudentInfoDto>> Update([FromBody] StudentUpdateRequestDto studentUpdateRequestDto)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            StudentPartialProfileDto student = await _studentService.AddGithubUsernameAsync(user.Id, studentUpdateRequest.GithubUsername);
+            StudentInfoDto student = await _studentService.AddGithubUsernameAsync(user.Id, studentUpdateRequestDto.GithubUsername);
             return Ok(student);
         }
     }

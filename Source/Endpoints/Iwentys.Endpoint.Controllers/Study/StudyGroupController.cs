@@ -29,16 +29,16 @@ namespace Iwentys.Endpoint.Controllers.Study
         }
 
         [HttpGet("by-name/{groupName}")]
-        public async Task<ActionResult<GroupProfileResponse>> Get([FromRoute] string groupName)
+        public async Task<ActionResult<GroupProfileResponseDto>> Get([FromRoute] string groupName)
         {
-            GroupProfileResponse result = await _studyGroupService.Get(groupName);
+            GroupProfileResponseDto result = await _studyGroupService.Get(groupName);
             return Ok(result);
         }
 
         [HttpGet("by-student/{studentId}")]
-        public async Task<ActionResult<GroupProfileResponse>> GetStudentGroup(int studentId)
+        public async Task<ActionResult<GroupProfileResponseDto>> GetStudentGroup(int studentId)
         {
-            GroupProfileResponse result = await _studyGroupService.GetStudentGroup(studentId);
+            GroupProfileResponseDto result = await _studyGroupService.GetStudentGroup(studentId);
             return Ok(result);
         }
     }

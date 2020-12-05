@@ -17,18 +17,17 @@ namespace Iwentys.Features.Study.Services
             _studyGroupRepository = studyGroupRepository;
         }
 
-        public async Task<GroupProfileResponse> Get(string groupName)
+        public async Task<GroupProfileResponseDto> Get(string groupName)
         {
-            var fixedGroupName = new GroupName(groupName);
-            StudyGroupEntity group = await _studyGroupRepository.ReadByNamePattern(fixedGroupName);
-            return GroupProfileResponse.Create(group);
+            StudyGroupEntity studyGroup = await _studyGroupRepository.ReadByNamePattern(new GroupName(groupName));
+            return new GroupProfileResponseDto(studyGroup);
         }
 
         //TODO: ensure it's compile to sql
-        public async Task<GroupProfileResponse> GetStudentGroup(int studentId)
+        public async Task<GroupProfileResponseDto> GetStudentGroup(int studentId)
         {
             StudyGroupEntity studyGroupEntity = await _studyGroupRepository.Read().FirstAsync(g => g.Students.Any(s => s.Id == studentId));
-            return GroupProfileResponse.Create(studyGroupEntity);
+            return new GroupProfileResponseDto(studyGroupEntity);
         }
     }
 }

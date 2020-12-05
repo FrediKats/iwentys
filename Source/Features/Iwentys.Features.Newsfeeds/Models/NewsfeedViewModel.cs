@@ -12,7 +12,7 @@ namespace Iwentys.Features.Newsfeeds.Models
         public DateTime CreationTimeUtc { get; set; }
         public string SourceLink { get; set; }
 
-        public StudentPartialProfileDto Author { get; set; }
+        public StudentInfoDto Author { get; set; }
 
         public static NewsfeedViewModel Wrap(NewsfeedEntity entity)
         {
@@ -23,7 +23,7 @@ namespace Iwentys.Features.Newsfeeds.Models
                 Content = entity.Content,
                 CreationTimeUtc = entity.CreationTimeUtc,
                 SourceLink = entity.SourceLink,
-                Author = new StudentPartialProfileDto(entity.Author)
+                Author = new StudentInfoDto(entity.Author)
             };
         }
     }

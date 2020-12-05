@@ -34,10 +34,7 @@ namespace Iwentys.Endpoints.ClientBot.Commands.StudentLeaderboard
 
         public Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            var searchDto = new StudySearchParameters
-            {
-                CourseId = int.Parse(args.Arguments[0])
-            };
+            var searchDto = new StudySearchParametersDto(null, null, int.Parse(args.Arguments[0]), null, 0, 20);
 
             List<StudyLeaderboardRow> studyLeaderboardRows = _leaderboardService.GetStudentsRatings(searchDto);
 

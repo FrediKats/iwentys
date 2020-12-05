@@ -12,7 +12,7 @@ namespace Iwentys.Features.Assignments.Models
         public string Description { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime? Deadline { get; set; }
-        public StudentPartialProfileDto Creator { get; set; }
+        public StudentInfoDto Creator { get; set; }
         public SubjectEntity Subject { get; set; }
         public bool IsCompeted { get; set; }
 
@@ -30,7 +30,7 @@ namespace Iwentys.Features.Assignments.Models
                 Description = assignment.Description,
                 CreationTime = assignment.CreationTime,
                 Deadline = assignment.Deadline,
-                Creator = new StudentPartialProfileDto(assignment.Creator),
+                Creator = new StudentInfoDto(assignment.Creator),
                 Subject = assignment.Subject,
                 IsCompeted = assignment.IsCompleted
             };

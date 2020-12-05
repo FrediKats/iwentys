@@ -68,7 +68,7 @@ namespace Iwentys.Features.Guilds.Domain
 
             var info = new GuildProfileDto(Profile)
             {
-                Leader = Profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentPartialProfileDto(s)),
+                Leader = Profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentInfoDto(s)),
                 MemberLeaderBoard = dashboard,
                 Rating = dashboard.TotalRate,
                 PinnedRepositories = Profile.PinnedProjects.SelectToList(p => _githubUserDataService.GetCertainRepository(p.RepositoryOwner, p.RepositoryName)),
@@ -88,7 +88,7 @@ namespace Iwentys.Features.Guilds.Domain
         {
             return new GuildProfilePreviewDto(Profile)
             {
-                Leader = Profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentPartialProfileDto(s)),
+                Leader = Profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentInfoDto(s)),
                 Rating = GetMemberDashboard().TotalRate
             };
         }
@@ -113,7 +113,7 @@ namespace Iwentys.Features.Guilds.Domain
             {
                 TotalRate = members.Sum(m => m.TotalRate),
                 MembersImpact = members,
-                Members = Profile.Members.SelectToList(m => new StudentPartialProfileDto(m.Member))
+                Members = Profile.Members.SelectToList(m => new StudentInfoDto(m.Member))
             };
         }
 

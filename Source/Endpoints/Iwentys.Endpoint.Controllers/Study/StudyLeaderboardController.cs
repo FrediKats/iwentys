@@ -34,15 +34,7 @@ namespace Iwentys.Endpoint.Controllers.Study
             [FromQuery] int skip = 0,
             [FromQuery] int take = 20)
         {
-            return Ok(_studyLeaderboardService.GetStudentsRatings(new StudySearchParameters
-            {
-                SubjectId = subjectId,
-                CourseId = courseId,
-                GroupId = groupId,
-                StudySemester = semester,
-                Skip = skip,
-                Take = take
-            }));
+            return Ok(_studyLeaderboardService.GetStudentsRatings(new StudySearchParametersDto(groupId, subjectId, courseId, semester, skip, take)));
         }
 
         [HttpGet("coding-rate")]
@@ -56,7 +48,7 @@ namespace Iwentys.Endpoint.Controllers.Study
         public async Task<ActionResult<StudentActivityInfoDto>> GetStudentActivity(int studentId)
         {
             List<SubjectActivityEntity> activity = await _subjectActivityService.GetStudentActivity(studentId);
-            return StudentActivityInfoDto.Wrap(activity);
+            return new StudentActivityInfoDto(activity);
         }
     }
 }

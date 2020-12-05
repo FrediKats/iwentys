@@ -42,21 +42,21 @@ namespace Iwentys.Database.Repositories.Study
             return _dbContext.GroupSubjects.Where(gs => gs.Id == key).DeleteFromQueryAsync();
         }
 
-        public IQueryable<SubjectEntity> GetSubjectsForDto(StudySearchParameters searchParameters)
+        public IQueryable<SubjectEntity> GetSubjectsForDto(StudySearchParametersDto searchParametersDto)
         {
             IQueryable<GroupSubjectEntity> query = Read();
 
-            if (searchParameters.GroupId != null)
-                query = query.Where(s => s.StudyGroupId == searchParameters.GroupId.Value);
+            if (searchParametersDto.GroupId != null)
+                query = query.Where(s => s.StudyGroupId == searchParametersDto.GroupId.Value);
 
-            if (searchParameters.StudySemester != null)
-                query = query.Where(s => s.StudySemester == searchParameters.StudySemester.Value);
+            if (searchParametersDto.StudySemester != null)
+                query = query.Where(s => s.StudySemester == searchParametersDto.StudySemester.Value);
 
-            if (searchParameters.SubjectId != null)
-                query = query.Where(s => s.SubjectId == searchParameters.SubjectId.Value);
+            if (searchParametersDto.SubjectId != null)
+                query = query.Where(s => s.SubjectId == searchParametersDto.SubjectId.Value);
 
-            if (searchParameters.CourseId != null)
-                query = query.Where(gs => gs.StudyGroup.StudyCourseId == searchParameters.CourseId);
+            if (searchParametersDto.CourseId != null)
+                query = query.Where(gs => gs.StudyGroup.StudyCourseId == searchParametersDto.CourseId);
             
             return query
                 .Select(s => s.Subject)

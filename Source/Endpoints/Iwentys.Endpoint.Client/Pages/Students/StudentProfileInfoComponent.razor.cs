@@ -11,7 +11,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
     public partial class StudentProfileInfoComponent : ComponentBase
     {
         private GuildProfileDto _guild;
-        private GroupProfileResponse _group;
+        private GroupProfileResponseDto _group;
 
         protected override async Task OnInitializedAsync()
         {

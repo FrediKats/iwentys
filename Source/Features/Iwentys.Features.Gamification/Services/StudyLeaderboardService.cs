@@ -28,9 +28,9 @@ namespace Iwentys.Features.Gamification.Services
             _groupSubjectRepository = groupSubjectRepository;
         }
 
-        public Task<List<SubjectEntity>> GetSubjectsForDtoAsync(StudySearchParameters searchParameters)
+        public Task<List<SubjectEntity>> GetSubjectsForDtoAsync(StudySearchParametersDto searchParametersDto)
         {
-            return _groupSubjectRepository.GetSubjectsForDto(searchParameters).ToListAsync();
+            return _groupSubjectRepository.GetSubjectsForDto(searchParametersDto).ToListAsync();
         }
 
         public Task<List<StudyGroupEntity>> GetStudyGroupsForDtoAsync(int? courseId)
@@ -38,22 +38,22 @@ namespace Iwentys.Features.Gamification.Services
             return _groupSubjectRepository.GetStudyGroupsForDto(courseId).ToListAsync();
         }
 
-        public List<StudyLeaderboardRow> GetStudentsRatings(StudySearchParameters searchParameters)
+        public List<StudyLeaderboardRow> GetStudentsRatings(StudySearchParametersDto searchParametersDto)
         {
-            if (searchParameters.CourseId == null && searchParameters.GroupId == null ||
-                searchParameters.CourseId != null && searchParameters.GroupId != null)
+            if (searchParametersDto.CourseId == null && searchParametersDto.GroupId == null ||
+                searchParametersDto.CourseId != null && searchParametersDto.GroupId != null)
             {
-                throw new IwentysException("One of StudySearchParameters fields: CourseId or GroupId should be null");
+                throw new IwentysException("One of StudySearchParametersDto fields: CourseId or GroupId should be null");
             }
 
-            List<SubjectActivityEntity> result = _subjectActivityRepository.GetStudentActivities(searchParameters).ToList();
+            List<SubjectActivityEntity> result = _subjectActivityRepository.GetStudentActivities(searchParametersDto).ToList();
 
             return result
                 .GroupBy(r => r.StudentId)
                 .Select(g => new StudyLeaderboardRow(g))
                 .OrderByDescending(a => a.Activity)
-                .Skip(searchParameters.Skip)
-                .Take(searchParameters.Take)
+                .Skip(searchParametersDto.Skip)
+                .Take(searchParametersDto.Take)
                 .ToList();
         }
 
