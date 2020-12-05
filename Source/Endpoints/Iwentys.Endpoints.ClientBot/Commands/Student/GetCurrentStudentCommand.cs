@@ -34,8 +34,8 @@ namespace Iwentys.Endpoints.ClientBot.Commands.Student
         public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
             AuthorizedUser currentUser = _userIdentifier.GetUser(args.Sender.UserSenderId);
-            StudentFullProfileDto profile = await _studentService.GetAsync(currentUser.Id);
-            return Result.Ok(profile.FormatFullInfo());
+            StudentPartialProfileDto profile = await _studentService.GetAsync(currentUser.Id);
+            return Result.Ok(profile.Format());
         }
 
         public string CommandName => nameof(GetCurrentStudentCommand);

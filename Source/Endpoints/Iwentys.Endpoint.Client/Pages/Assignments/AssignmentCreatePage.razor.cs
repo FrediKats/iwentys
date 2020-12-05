@@ -29,12 +29,15 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
             HttpClient httpClient = await Http.TrySetHeader(LocalStorage);
             _assignmentControllerClient = new AssignmentControllerClient(httpClient);
             _subjectControllerClient = new SubjectControllerClient(httpClient);
+            
+            var studyGroupControllerClient = new StudyGroupControllerClient(httpClient);
             var studentControllerClient = new StudentControllerClient(httpClient);
-            StudentFullProfileDto student = await studentControllerClient.GetSelf();
-
-            if (student.Group is not null)
+            
+            StudentPartialProfileDto student = await studentControllerClient.GetSelf();
+            GroupProfileResponse studentGroup = await studyGroupControllerClient.GetStudentGroup(student.Id);
+            if (studentGroup is not null)
             {
-                List<SubjectProfileResponse> subject = await _subjectControllerClient.GetGroupSubjects(student.Group.Id);
+                List<SubjectProfileResponse> subject = await _subjectControllerClient.GetGroupSubjects(studentGroup.Id);
                 _subjects = new List<SubjectProfileResponse>().Append(null).Concat(subject).ToList();
             }
         }

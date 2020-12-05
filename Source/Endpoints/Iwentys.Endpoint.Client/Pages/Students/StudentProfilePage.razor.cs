@@ -23,7 +23,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
     public partial class StudentProfilePage : ComponentBase
     {
 
-        private StudentFullProfileDto _studentFullProfile;
+        private StudentPartialProfileDto _studentFullProfile;
         private List<AchievementDto> _achievements;
         private List<CodingActivityInfoResponse> _codingActivityInfo;
         private StudentActivityInfoDto _studentActivity;

@@ -13,8 +13,12 @@
         <div class="container-fluid d-flex flex-column">
             <MatHeadline4>@StudentProfile.GithubUsername</MatHeadline4>
             <MatBody1>@StudentProfile.GetFullName()</MatBody1>
+            
+            @if (_group is not null)
+            {
+                <NavLink href=@LinkToGroupProfile>Группа: @_group.GroupName</NavLink>
+            }
 
-            <NavLink href=@LinkToGroupProfile>Группа: @StudentProfile.Group.GroupName</NavLink>
             @if (_guild is not null)
             {
                 <NavLink href=@LinkToGuild()>Гильдия: @_guild.Title</NavLink>
@@ -25,7 +29,7 @@
 
 @code {
     [Parameter]
-    public StudentFullProfileDto StudentProfile { get; set; }
+    public StudentPartialProfileDto StudentProfile { get; set; }
 
-    public string LinkToGroupProfile => $"/group/profile/{StudentProfile.Group.GroupName}";
+    public string LinkToGroupProfile => $"/group/profile/{_group.GroupName}";
 }

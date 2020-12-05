@@ -5,6 +5,7 @@ using Iwentys.Features.StudentFeature.Enums;
 
 namespace Iwentys.Features.StudentFeature.Models
 {
+    //TODO: rename
     public class StudentPartialProfileDto : IResultFormat
     {
         public StudentPartialProfileDto()

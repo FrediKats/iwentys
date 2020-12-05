@@ -34,5 +34,12 @@ namespace Iwentys.Endpoint.Controllers.Study
             GroupProfileResponse result = await _studyGroupService.Get(groupName);
             return Ok(result);
         }
+
+        [HttpGet("by-student/{studentId}")]
+        public async Task<ActionResult<GroupProfileResponse>> GetStudentGroup(int studentId)
+        {
+            GroupProfileResponse result = await _studyGroupService.GetStudentGroup(studentId);
+            return Ok(result);
+        }
     }
 }

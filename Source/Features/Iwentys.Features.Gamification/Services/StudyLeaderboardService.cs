@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
-using Iwentys.Common.Tools;
 using Iwentys.Features.Gamification.Models;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.StudentFeature.Entities;
@@ -60,8 +59,9 @@ namespace Iwentys.Features.Gamification.Services
         {
             IQueryable<StudentEntity> query = _studentRepository.Read();
 
-            query = query
-                .WhereIf(courseId, q => q.Group.StudyCourseId == courseId);
+            //TODO: fix
+            //query = query
+            //    .WhereIf(courseId, q => q.Group.StudyCourseId == courseId);
 
             return query.AsEnumerable()
                 .Select(s => new StudyLeaderboardRow(s, _githubUserDataService.FindByUsername(s.GithubUsername).Result?.ContributionFullInfo.Total ?? 0))

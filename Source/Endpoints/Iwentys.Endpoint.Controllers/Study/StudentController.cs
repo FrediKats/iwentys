@@ -20,33 +20,33 @@ namespace Iwentys.Endpoint.Controllers.Study
         }
 
         [HttpGet("profile")]
-        public async Task<ActionResult<List<StudentFullProfileDto>>> Get()
+        public async Task<ActionResult<List<StudentPartialProfileDto>>> Get()
         {
-            List<StudentFullProfileDto> students = await _studentService.GetAsync();
+            List<StudentPartialProfileDto> students = await _studentService.GetAsync();
             return Ok(students);
         }
 
         [HttpGet("self")]
-        public async Task<ActionResult<StudentFullProfileDto>> GetSelf()
+        public async Task<ActionResult<StudentPartialProfileDto>> GetSelf()
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            StudentFullProfileDto result  = await _studentService.GetAsync(user.Id);
+            StudentPartialProfileDto result  = await _studentService.GetAsync(user.Id);
             return Ok(result);
         }
 
 
         [HttpGet("profile/{id}")]
-        public async Task<ActionResult<StudentFullProfileDto>> Get(int id)
+        public async Task<ActionResult<StudentPartialProfileDto>> Get(int id)
         {
-            StudentFullProfileDto student = await _studentService.GetAsync(id);
+            StudentPartialProfileDto student = await _studentService.GetAsync(id);
             return Ok(student);
         }
 
         [HttpPut]
-        public async Task<ActionResult<StudentFullProfileDto>> Update([FromBody] StudentUpdateRequest studentUpdateRequest)
+        public async Task<ActionResult<StudentPartialProfileDto>> Update([FromBody] StudentUpdateRequest studentUpdateRequest)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            StudentFullProfileDto student = await _studentService.AddGithubUsernameAsync(user.Id, studentUpdateRequest.GithubUsername);
+            StudentPartialProfileDto student = await _studentService.AddGithubUsernameAsync(user.Id, studentUpdateRequest.GithubUsername);
             return Ok(student);
         }
     }

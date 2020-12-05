@@ -20,22 +20,22 @@ namespace Iwentys.Features.StudentFeature.Services
             _studentRepository = studentRepository;
         }
 
-        public async Task<List<StudentFullProfileDto>> GetAsync()
+        public async Task<List<StudentPartialProfileDto>> GetAsync()
         {
             List<StudentEntity> students = await _studentRepository
                 .Read()
                 .ToListAsync();
 
-            return students.SelectToList(s => new StudentFullProfileDto(s));
+            return students.SelectToList(s => new StudentPartialProfileDto(s));
         }
 
-        public async Task<StudentFullProfileDto> GetAsync(int id)
+        public async Task<StudentPartialProfileDto> GetAsync(int id)
         {
             StudentEntity student = await _studentRepository.GetAsync(id);
-            return new StudentFullProfileDto(student);
+            return new StudentPartialProfileDto(student);
         }
 
-        public async Task<StudentFullProfileDto> GetOrCreateAsync(int id)
+        public async Task<StudentPartialProfileDto> GetOrCreateAsync(int id)
         {
             StudentEntity student = await _studentRepository.ReadByIdAsync(id);
             if (student is null)
@@ -44,10 +44,10 @@ namespace Iwentys.Features.StudentFeature.Services
                 student = await _studentRepository.GetAsync(student.Id);
             }
 
-            return new StudentFullProfileDto(student);
+            return new StudentPartialProfileDto(student);
         }
 
-        public async Task<StudentFullProfileDto> AddGithubUsernameAsync(int id, string githubUsername)
+        public async Task<StudentPartialProfileDto> AddGithubUsernameAsync(int id, string githubUsername)
         {
             if (_studentRepository.Read().Any(s => s.GithubUsername == githubUsername))
                 throw InnerLogicException.StudentEx.GithubAlreadyUser(githubUsername);
@@ -61,15 +61,15 @@ namespace Iwentys.Features.StudentFeature.Services
             //TODO:
             //_achievementProvider.Achieve(AchievementList.AddGithubAchievement, user.Id);
             user = await _studentRepository.GetAsync(id);
-            return new StudentFullProfileDto(user);
+            return new StudentPartialProfileDto(user);
         }
 
-        public async Task<StudentFullProfileDto> RemoveGithubUsernameAsync(int id, string githubUsername)
+        public async Task<StudentPartialProfileDto> RemoveGithubUsernameAsync(int id, string githubUsername)
         {
             StudentEntity user = await _studentRepository.GetAsync(id);
             user.GithubUsername = null;
             StudentEntity updatedUser = await _studentRepository.UpdateAsync(user);
-            return new StudentFullProfileDto(updatedUser);
+            return new StudentPartialProfileDto(updatedUser);
         }
     }
 }

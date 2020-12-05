@@ -27,7 +27,7 @@ namespace Iwentys.Endpoints.ClientBot.Commands.Student
 
         public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            List<StudentFullProfileDto> profileDtos = await _studentService.GetAsync();
+            List<StudentPartialProfileDto> profileDtos = await _studentService.GetAsync();
             return ResultFormatter.FormatToResult(profileDtos);
         }
 

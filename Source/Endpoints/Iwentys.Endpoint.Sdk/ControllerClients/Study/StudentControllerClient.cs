@@ -15,25 +15,25 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
 
         public HttpClient Client { get; }
 
-        public Task<List<StudentFullProfileDto>> Get()
+        public Task<List<StudentPartialProfileDto>> Get()
         {
-            return Client.GetFromJsonAsync<List<StudentFullProfileDto>>("api/student/profile");
+            return Client.GetFromJsonAsync<List<StudentPartialProfileDto>>("api/student/profile");
         }
 
-        public Task<StudentFullProfileDto> GetSelf()
+        public Task<StudentPartialProfileDto> GetSelf()
         {
-            return Client.GetFromJsonAsync<StudentFullProfileDto>("api/student/self/");
+            return Client.GetFromJsonAsync<StudentPartialProfileDto>("api/student/self/");
         }
 
-        public Task<StudentFullProfileDto> Get(int id)
+        public Task<StudentPartialProfileDto> Get(int id)
         {
-            return Client.GetFromJsonAsync<StudentFullProfileDto>($"api/student/profile/{id}");
+            return Client.GetFromJsonAsync<StudentPartialProfileDto>($"api/student/profile/{id}");
         }
 
-        public async Task<StudentFullProfileDto> Update(StudentUpdateRequest studentUpdateRequest)
+        public async Task<StudentPartialProfileDto> Update(StudentUpdateRequest studentUpdateRequest)
         {
             HttpResponseMessage responseMessage = await Client.PutAsJsonAsync($"api/student", studentUpdateRequest);
-            return await responseMessage.Content.ReadFromJsonAsync<StudentFullProfileDto>();
+            return await responseMessage.Content.ReadFromJsonAsync<StudentPartialProfileDto>();
         }
     }
 }

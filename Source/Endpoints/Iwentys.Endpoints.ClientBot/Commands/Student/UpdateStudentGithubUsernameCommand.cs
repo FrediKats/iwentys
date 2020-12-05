@@ -32,8 +32,8 @@ namespace Iwentys.Endpoints.ClientBot.Commands.Student
         public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
             AuthorizedUser user = _userIdentifier.GetUser(args.Sender.UserSenderId);
-            StudentFullProfileDto profile = await _studentService.AddGithubUsernameAsync(user.Id, args.Arguments[0]);
-            return Result.Ok(profile.FormatFullInfo());
+            StudentPartialProfileDto profile = await _studentService.AddGithubUsernameAsync(user.Id, args.Arguments[0]);
+            return Result.Ok(profile.Format());
         }
 
         public string CommandName { get; } = nameof(UpdateStudentGithubUsernameCommand);
