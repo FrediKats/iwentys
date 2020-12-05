@@ -6,10 +6,10 @@ using Iwentys.Features.Students.Domain;
 using Iwentys.Tests.Tools;
 using NUnit.Framework;
 
-namespace Iwentys.Tests.Core.Gamification
+namespace Iwentys.Tests.Features
 {
     [TestFixture]
-    public class AchievementTest
+    public class AchievementFeatureTest
     {
         //TODO:
         [Test]

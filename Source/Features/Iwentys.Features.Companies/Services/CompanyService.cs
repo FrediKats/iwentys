@@ -43,17 +43,16 @@ namespace Iwentys.Features.Companies.Services
         {
             CompanyEntity companyEntity = await _companyRepository.GetAsync(companyId);
             StudentEntity profile = await _studentRepository.GetAsync(userId);
+            
             await _companyRepository.AddCompanyWorkerRequestAsync(companyEntity, profile);
         }
 
         public async Task ApproveAdding(int userId, int adminId)
         {
-            StudentEntity student = await _studentRepository
-                .GetAsync(adminId);
+            StudentEntity student = await _studentRepository.GetAsync(adminId);
             student.EnsureIsAdmin();
-            StudentEntity user = await _studentRepository.GetAsync(userId);
             
-            await _companyRepository.ApproveRequestAsync(user);
+            await _companyRepository.ApproveRequestAsync(await _studentRepository.GetAsync(userId));
         }
     }
 }

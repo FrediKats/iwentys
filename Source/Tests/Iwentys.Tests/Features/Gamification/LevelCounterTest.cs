@@ -1,7 +1,7 @@
 ﻿using Iwentys.Features.Gamification.Domain;
 using NUnit.Framework;
 
-namespace Iwentys.Tests.Core.Gamification
+namespace Iwentys.Tests.Features.Gamification
 {
     [TestFixture]
     public class LevelCounterTest

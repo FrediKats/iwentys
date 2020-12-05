@@ -13,7 +13,7 @@ using Iwentys.Features.Students.Enums;
 using Iwentys.Tests.Tools;
 using NUnit.Framework;
 
-namespace Iwentys.Features.Guilds.Tests
+namespace Iwentys.Tests.Features.Guilds
 {
     [TestFixture]
     public class GuildServiceTest

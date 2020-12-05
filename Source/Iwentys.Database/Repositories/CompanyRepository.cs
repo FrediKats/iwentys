@@ -37,9 +37,7 @@ namespace Iwentys.Database.Repositories
 
         public Task<CompanyEntity> ReadByIdAsync(int key)
         {
-            return _dbContext
-                .Companies
-                .FirstOrDefaultAsync(v => v.Id == key);
+            return Read().FirstOrDefaultAsync(v => v.Id == key);
         }
 
         public async Task<CompanyEntity> UpdateAsync(CompanyEntity entity)

@@ -143,8 +143,11 @@ namespace Iwentys.Tests.Tools
         {
             //TODO: move save changes to repository
             WithNewStudent(out userInfo);
-            Context.CompanyWorkers.Add(new CompanyWorkerEntity {CompanyId = companyInfo.Id, WorkerId = userInfo.Id, Type = CompanyWorkerType.Accepted});
-            Context.SaveChanges();
+            WithNewStudent(out AuthorizedUser admin, UserType.Admin);
+            
+            CompanyService.RequestAdding(companyInfo.Id, userInfo.Id).Wait();
+            CompanyService.ApproveAdding(userInfo.Id, admin.Id).Wait();
+            
             return this;
         }
 

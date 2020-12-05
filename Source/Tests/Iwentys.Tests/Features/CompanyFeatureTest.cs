@@ -7,22 +7,21 @@ using Iwentys.Features.Students.Models;
 using Iwentys.Tests.Tools;
 using NUnit.Framework;
 
-namespace Iwentys.Tests.Core.Services
+namespace Iwentys.Tests.Features
 {
-    public class CompanyServiceTest
+    public class CompanyFeatureTest
     {
         [Test]
-        public void CreateCompanyWithWorker_ShouldReturnOneWorker()
+        public async Task CreateCompanyWithWorker_ShouldReturnOneWorker()
         {
             TestCaseContext testCase = TestCaseContext
                 .Case()
                 .WithCompany(out CompanyInfoDto company)
                 .WithCompanyWorker(company, out AuthorizedUser user);
 
-            List<StudentInfoDto> companyMembers = testCase.CompanyService.Get(company.Id).Result.Workers;
+            List<StudentInfoDto> companyMembers = (await testCase.CompanyService.Get(company.Id)).Workers;
 
-            Assert.IsTrue(companyMembers.Count == 1);
-            Assert.AreEqual(user.Id, companyMembers.Single().Id);
+            Assert.IsTrue(companyMembers.Any(cw => cw.Id == user.Id));
         }
 
         [Test]
@@ -34,14 +33,13 @@ namespace Iwentys.Tests.Core.Services
                 .WithNewStudent(out AuthorizedUser worker);
 
             await testCase.CompanyService.RequestAdding(company.Id, worker.Id);
-            List<CompanyWorkRequestDto> request = await testCase.CompanyService.GetCompanyWorkRequest();
+            List<CompanyWorkRequestDto> companyRequests = await testCase.CompanyService.GetCompanyWorkRequest();
             CompanyInfoDto companyInfo = await testCase.CompanyService.Get(company.Id);
 
             List<StudentInfoDto> companyMembers = companyInfo.Workers;
 
-            Assert.IsTrue(companyMembers.Count == 0);
-            Assert.IsTrue(request.Count == 1);
-            Assert.AreEqual(worker.Id, request.Single().Worker.Id);
+            Assert.IsFalse(companyMembers.Any(cw => cw.Id == worker.Id));
+            Assert.IsTrue(companyRequests.Any(cr => cr.Worker.Id == worker.Id));
         }
     }
 }

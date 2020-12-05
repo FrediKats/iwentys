@@ -7,7 +7,7 @@ using Iwentys.Features.Students.Entities;
 using Iwentys.Tests.Tools;
 using NUnit.Framework;
 
-namespace Iwentys.Tests.Core.Services
+namespace Iwentys.Tests.Features
 {
     [TestFixture]
     public class QuestServiceTest

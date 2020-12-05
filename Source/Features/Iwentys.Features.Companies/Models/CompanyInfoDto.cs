@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Companies.Entities;
+using Iwentys.Features.Companies.Enums;
 using Iwentys.Features.Students.Models;
 
 namespace Iwentys.Features.Companies.Models
@@ -13,7 +15,7 @@ namespace Iwentys.Features.Companies.Models
                 companyEntity.Name,
                 companyEntity.Latitude,
                 companyEntity.Longitude,
-                companyEntity.Workers?.SelectToList(w => new StudentInfoDto(w.Worker)))
+                companyEntity.Workers?.Where(w => w.Type == CompanyWorkerType.Accepted).SelectToList(w => new StudentInfoDto(w.Worker)))
         {
         }
     }
