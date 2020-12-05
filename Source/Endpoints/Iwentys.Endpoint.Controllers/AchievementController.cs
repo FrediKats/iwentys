@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Iwentys.Features.Achievements.Models;
 using Iwentys.Features.Achievements.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +18,7 @@ namespace Iwentys.Endpoint.Controllers
         }
 
         [HttpGet("for-student")]
-        public async Task<ActionResult<List<AchievementDto>>> GetForStudent(int studentId)
+        public ActionResult<List<AchievementDto>> GetForStudent(int studentId)
         {
             List<AchievementDto> achievements = _achievementRepository
                 .ReadStudentAchievements()

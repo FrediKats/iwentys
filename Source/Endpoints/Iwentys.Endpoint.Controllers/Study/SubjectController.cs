@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
-using Iwentys.Features.Gamification.Services;
 using Iwentys.Features.Students.Enums;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
@@ -14,12 +13,10 @@ namespace Iwentys.Endpoint.Controllers.Study
     [ApiController]
     public class SubjectController : ControllerBase
     {
-        private readonly StudyLeaderboardService _studyLeaderboardService;
         private readonly SubjectService _subjectService;
 
-        public SubjectController(StudyLeaderboardService studyLeaderboardService, SubjectService subjectService)
+        public SubjectController(SubjectService subjectService)
         {
-            _studyLeaderboardService = studyLeaderboardService;
             _subjectService = subjectService;
         }
 

@@ -58,7 +58,6 @@ namespace Iwentys.Polygon
             Console.WriteLine(JsonConvert.SerializeObject(m3101.Concat(m3102).Concat(m3103).Concat(m3104)));
         }
 
-        //TODO: do we need this?
         //private static GoogleTableData ReadFromConsole()
         //{
         //    Console.WriteLine("Id Таблицы:");

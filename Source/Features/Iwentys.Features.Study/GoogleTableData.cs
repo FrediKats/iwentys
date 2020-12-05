@@ -4,7 +4,7 @@ using Iwentys.Common.Tools;
 
 namespace Iwentys.Features.Study
 {
-    //TODO: very bad hack. It is not logic of StudyFeature
+    //FYI: very bad hack. It is not logic of StudyFeature
     public class GoogleTableData
     {
         public GoogleTableData()

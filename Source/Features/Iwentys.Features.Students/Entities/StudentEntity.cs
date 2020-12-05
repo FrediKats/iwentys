@@ -39,7 +39,6 @@ namespace Iwentys.Features.Students.Entities
         public int BarsPoints { get; set; }
         public string AvatarUrl { get; set; }
 
-        //TODO: think about this hack. We cant store guild info in student table
         public DateTime GuildLeftTime { get; set; }
 
         public static StudentEntity CreateFromIsu(int id, string firstName, string secondName)

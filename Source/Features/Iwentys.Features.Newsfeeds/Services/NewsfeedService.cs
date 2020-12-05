@@ -18,7 +18,7 @@ namespace Iwentys.Features.Newsfeeds.Services
 
         public async Task<NewsfeedViewModel> CreateSubjectNewsfeed(NewsfeedCreateViewModel createViewModel, int authorId, int subjectId)
         {
-            //TODO: add validation
+            //TODO: add permission validation
             SubjectNewsfeedEntity subjectNewsfeedEntity = await _newsfeedRepository.CreateSubjectNewsfeed(createViewModel, authorId, subjectId);
 
             return NewsfeedViewModel.Wrap(subjectNewsfeedEntity.Newsfeed);

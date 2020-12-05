@@ -51,9 +51,9 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         }
 
         [HttpGet("for-member")]
-        public async Task<ActionResult<GuildProfileDto>> GetForMember(int memberId)
+        public ActionResult<GuildProfileDto> GetForMember(int memberId)
         {
-            return Ok(await _guildService.FindStudentGuild(memberId));
+            return Ok(_guildService.FindStudentGuild(memberId));
         }
 
         [HttpPut("{guildId}/enter")]

@@ -10,7 +10,7 @@ namespace Iwentys.Integrations.GithubIntegration
     {
         public GithubRepositoryInfoDto GetRepository(string username, string repositoryName)
         {
-            //TODO: omg, rework this plz
+            //TODO: It hack. Need to implement this methods for test propose
             return new GithubRepositoryInfoDto(17, username, repositoryName, "No desc", null, 0);
         }
 

@@ -97,12 +97,12 @@ namespace Iwentys.Features.Guilds.Services
                 .ToExtendedGuildProfileDto(userId);
         }
 
-        public async Task<GuildProfileDto> FindStudentGuild(int userId)
+        public GuildProfileDto FindStudentGuild(int userId)
         {
             GuildEntity guild = _guildRepository.ReadForStudent(userId);
             if (guild is null)
                 return null;
-            
+
             return new GuildProfileDto(guild);
         }
 

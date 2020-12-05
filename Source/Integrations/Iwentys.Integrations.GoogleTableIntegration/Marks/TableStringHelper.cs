@@ -9,7 +9,7 @@ namespace Iwentys.Integrations.GoogleTableIntegration.Marks
     {
         public TableStringHelper(GoogleTableData tableData)
         {
-            //TODO: ???
+            //FYI: Seems like opportunity for read name from different column index.
             NameColumnNum = 0;
 
             NameColumns = new List<int>();

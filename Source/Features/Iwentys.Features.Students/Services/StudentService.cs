@@ -52,11 +52,11 @@ namespace Iwentys.Features.Students.Services
             if (isUsernameUsed)
                 throw InnerLogicException.StudentException.GithubAlreadyUser(githubUsername);
 
-            //TODO: implement
+            //TODO: implement gitgub access validation
             //throw new NotImplementedException("Need to validate github credentials");
             await _studentRepository.UpdateGithub(id, githubUsername);
 
-            //TODO: implement
+            //TODO: implement getting achievements for adding github
             //_achievementProvider.Achieve(AchievementList.AddGithubAchievement, user.Id);
             //TODO: ensure we need to return this
             return new StudentInfoDto(await _studentRepository.GetAsync(id));

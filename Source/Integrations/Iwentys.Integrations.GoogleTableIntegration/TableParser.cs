@@ -29,7 +29,6 @@ namespace Iwentys.Integrations.GoogleTableIntegration
             return request.Parse(data);
         }
 
-        //FYI: legacy
         //private static SheetsService GetServiceForCredential(string serviceToken)
         //{
         //    GoogleCredential credential = GoogleCredential

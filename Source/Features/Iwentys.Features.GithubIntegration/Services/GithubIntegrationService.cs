@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.GithubIntegration.Services
 {
-    //TODO: rename
     public class GithubIntegrationService
     {
         private readonly IGithubApiAccessor _githubApiAccessor;

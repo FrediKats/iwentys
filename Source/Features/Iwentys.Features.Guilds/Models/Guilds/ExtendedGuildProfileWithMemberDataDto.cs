@@ -10,10 +10,8 @@ namespace Iwentys.Features.Guilds.Models.Guilds
         public ExtendedGuildProfileWithMemberDataDto(GuildEntity guild)
             : base(guild)
         {
-
         }
 
-        //TODO: move
         public UserMembershipState UserMembershipState { get; set; }
 
         public GuildMemberLeaderBoardDto MemberLeaderBoardDto { get; set; }

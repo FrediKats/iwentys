@@ -15,7 +15,7 @@ namespace Iwentys.Features.Guilds.Entities
         {
         }
 
-        public GuildMemberEntity(int guildId, int studentId, GuildMemberType memberType)
+        public GuildMemberEntity(int guildId, int studentId, GuildMemberType memberType) : this()
         {
             GuildId = guildId;
             MemberId = studentId;

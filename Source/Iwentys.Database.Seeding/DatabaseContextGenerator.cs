@@ -2,7 +2,6 @@
 
 namespace Iwentys.Database.Seeding
 {
-    //TODO: Remove after release
     public class DatabaseContextGenerator
     {
         public DatabaseContextGenerator()

@@ -13,7 +13,7 @@ namespace Iwentys.Integrations.GithubIntegration
 {
     public class GithubApiAccessor : IGithubApiAccessor
     {
-        //TODO: rework
+        //TODO: we need somehow send token to ctor
         public static string Token;
         private const string GithubContributionsApiUrl = "https://github-contributions.now.sh/api/v1/";
 

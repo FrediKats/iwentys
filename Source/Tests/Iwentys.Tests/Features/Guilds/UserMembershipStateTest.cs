@@ -7,7 +7,6 @@ using Iwentys.Features.Achievements.Entities;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.GithubIntegration.Services;
-using Iwentys.Features.Guilds;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;

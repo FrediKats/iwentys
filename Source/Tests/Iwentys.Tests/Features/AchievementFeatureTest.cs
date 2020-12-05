@@ -11,7 +11,7 @@ namespace Iwentys.Tests.Features
     [TestFixture]
     public class AchievementFeatureTest
     {
-        //TODO:
+        //TODO: fix achievements
         [Test]
         [Ignore("Achievement disabled")]
         public async Task CreateGuild_ShouldReturnCreatorAsMember()

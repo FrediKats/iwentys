@@ -19,7 +19,6 @@ using Iwentys.Features.Gamification.Services;
 using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Repositories;
 using Iwentys.Features.GithubIntegration.Services;
-using Iwentys.Features.Guilds;
 using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Features.Guilds.Services;
 using Iwentys.Features.Newsfeeds.Repositories;
