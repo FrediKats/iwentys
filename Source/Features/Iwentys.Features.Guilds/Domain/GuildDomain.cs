@@ -64,12 +64,12 @@ namespace Iwentys.Features.Guilds.Domain
 
         public async Task<GuildProfileDto> ToGuildProfileDto(int? userId = null)
         {
-            GuildMemberLeaderBoard dashboard = GetMemberDashboard();
+            GuildMemberLeaderBoardDto dashboard = GetMemberDashboard();
 
             var info = new GuildProfileDto(Profile)
             {
                 Leader = Profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentInfoDto(s)),
-                MemberLeaderBoard = dashboard,
+                MemberLeaderBoardDto = dashboard,
                 Rating = dashboard.TotalRate,
                 PinnedRepositories = Profile.PinnedProjects.SelectToList(p => _githubIntegrationService.GetCertainRepository(p.RepositoryOwner, p.RepositoryName)),
                 Achievements = Profile.Achievements.SelectToList(AchievementDto.Wrap),
@@ -77,7 +77,7 @@ namespace Iwentys.Features.Guilds.Domain
             };
 
             if (userId != null && Profile.Members.Any(m => m.MemberId == userId))
-                info.Tribute = _guildTributeRepository.ReadStudentActiveTribute(Profile.Id, userId.Value)?.To(ActiveTributeResponseDto.Create);
+                info.Tribute = _guildTributeRepository.ReadStudentActiveTribute(Profile.Id, userId.Value)?.To(tribute => new ActiveTributeResponseDto(tribute));
             if (userId != null)
                 info.UserMembershipState = await GetUserMembershipState(userId.Value);
 
@@ -105,16 +105,14 @@ namespace Iwentys.Features.Guilds.Domain
                 .ToList();
         }
 
-        public GuildMemberLeaderBoard GetMemberDashboard()
+        public GuildMemberLeaderBoardDto GetMemberDashboard()
         {
-            List<GuildMemberImpact> members = GetGithubUserData().SelectToList(userData => new GuildMemberImpact(userData));
+            List<GuildMemberImpactDto> members = GetGithubUserData().SelectToList(userData => new GuildMemberImpactDto(userData));
 
-            return new GuildMemberLeaderBoard
-            {
-                TotalRate = members.Sum(m => m.TotalRate),
-                MembersImpact = members,
-                Members = Profile.Members.SelectToList(m => new StudentInfoDto(m.Member))
-            };
+            return new GuildMemberLeaderBoardDto(
+                members.Sum(m => m.TotalRate),
+                Profile.Members.SelectToList(m => new StudentInfoDto(m.Member)),
+                members);
         }
 
         public async Task<UserMembershipState> GetUserMembershipState(Int32 userId)

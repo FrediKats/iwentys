@@ -28,7 +28,7 @@ namespace Iwentys.Features.Guilds.Models.GuildTribute
                 State = project.State,
                 DifficultLevel = project.DifficultLevel,
                 Mark = project.Mark,
-                CreationTime = project.CreationTime,
+                CreationTime = project.CreationTimeUtc,
                 Mentor = project.Mentor is null ? null : new StudentInfoDto(project.Mentor)
             };
         }

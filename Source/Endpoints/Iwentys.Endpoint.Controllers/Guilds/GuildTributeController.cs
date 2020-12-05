@@ -35,7 +35,7 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<TributeInfoResponse>> SendTribute([FromBody] CreateProjectRequest createProject)
+        public async Task<ActionResult<TributeInfoResponse>> SendTribute([FromBody] CreateProjectRequestDto createProject)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             TributeInfoResponse tributes = await _guildService.CreateTribute(user, createProject);

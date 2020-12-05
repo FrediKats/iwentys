@@ -28,7 +28,7 @@ namespace Iwentys.Features.Guilds.Services
             _githubApiAccessor = githubApiAccessor;
         }
 
-        public async Task<GuildProfileShortInfoDto> CreateAsync(AuthorizedUser creator, GuildCreateRequest arguments)
+        public async Task<GuildProfileShortInfoDto> CreateAsync(AuthorizedUser creator, GuildCreateRequestDto arguments)
         {
             StudentEntity creatorUser = await _database.Student.GetAsync(creator.Id);
 
@@ -41,7 +41,7 @@ namespace Iwentys.Features.Guilds.Services
                 .ToGuildProfileShortInfoDto();
         }
 
-        public async Task<GuildProfileShortInfoDto> UpdateAsync(AuthorizedUser user, GuildUpdateRequest arguments)
+        public async Task<GuildProfileShortInfoDto> UpdateAsync(AuthorizedUser user, GuildUpdateRequestDto arguments)
         {
             StudentEntity student = await user.GetProfile(_database.Student);
             GuildEntity info = await _database.Guild.GetAsync(arguments.Id);
@@ -131,7 +131,7 @@ namespace Iwentys.Features.Guilds.Services
             _database.Guild.UnpinProject(pinnedProjectId);
         }
 
-        public async Task<GuildMemberLeaderBoard> GetGuildMemberLeaderBoard(int guildId)
+        public async Task<GuildMemberLeaderBoardDto> GetGuildMemberLeaderBoard(int guildId)
         {
             GuildEntity guild = await _database.Guild.GetAsync(guildId);
             return new GuildDomain(guild, _githubIntegrationService, _database).GetMemberDashboard();

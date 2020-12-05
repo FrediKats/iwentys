@@ -58,7 +58,7 @@ namespace Iwentys.Database.Repositories.Guilds
             return _dbContext.Guilds.Where(g => g.Id == key).DeleteFromQueryAsync();
         }
 
-        public GuildEntity Create(StudentEntity creator, GuildCreateRequest arguments)
+        public GuildEntity Create(StudentEntity creator, GuildCreateRequestDto arguments)
         {
             var newGuild = new GuildEntity
             {

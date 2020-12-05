@@ -32,10 +32,9 @@ namespace Iwentys.Features.Guilds.Services
             _guildTributeRepository = guildTributeRepository;
         }
 
-        public async Task<GuildProfileDto> EnterGuildAsync(AuthorizedUser user, Int32 guildId)
+        public async Task<GuildProfileDto> EnterGuildAsync(AuthorizedUser user, int guildId)
         {
-            GuildEntity guildEntity = await _guildRepository.GetAsync(guildId);
-            GuildDomain guild = CreateDomain(guildEntity);
+            GuildDomain guild = CreateDomain(await _guildRepository.GetAsync(guildId));
 
             if (await guild.GetUserMembershipState(user.Id) != UserMembershipState.CanEnter)
                 throw new InnerLogicException($"Student unable to enter this guild! UserId: {user.Id} GuildId: {guildId}");
@@ -46,10 +45,9 @@ namespace Iwentys.Features.Guilds.Services
             return await Get(guildId, user.Id);
         }
 
-        public async Task<GuildProfileDto> RequestGuildAsync(AuthorizedUser user, Int32 guildId)
+        public async Task<GuildProfileDto> RequestGuildAsync(AuthorizedUser user, int guildId)
         {
-            GuildEntity guildEntity = await _guildRepository.GetAsync(guildId);
-            GuildDomain guild = CreateDomain(guildEntity);
+            GuildDomain guild = CreateDomain(await _guildRepository.GetAsync(guildId));
 
             if (await guild.GetUserMembershipState(user.Id) != UserMembershipState.CanRequest)
                 throw new InnerLogicException($"Student unable to send request to this guild! UserId: {user.Id} GuildId: {guildId}");
@@ -74,7 +72,7 @@ namespace Iwentys.Features.Guilds.Services
             return Get(guildId, user.Id);
         }
 
-        public async Task<GuildMemberEntity[]> GetGuildRequests(AuthorizedUser user, Int32 guildId)
+        public async Task<GuildMemberEntity[]> GetGuildRequests(AuthorizedUser user, int guildId)
         {
             StudentEntity student = await user.GetProfile(_studentRepository);
             GuildEntity guild = await _guildRepository.GetAsync(guildId);
@@ -85,7 +83,7 @@ namespace Iwentys.Features.Guilds.Services
                 .ToArray();
         }
 
-        public async Task<GuildMemberEntity[]> GetGuildBlocked(AuthorizedUser user, Int32 guildId)
+        public async Task<GuildMemberEntity[]> GetGuildBlocked(AuthorizedUser user, int guildId)
         {
             StudentEntity student = await user.GetProfile(_studentRepository);
             GuildEntity guild = await _guildRepository.GetAsync(guildId);
@@ -96,17 +94,15 @@ namespace Iwentys.Features.Guilds.Services
                 .ToArray();
         }
 
-        public async Task BlockGuildMember(AuthorizedUser user, Int32 guildId, Int32 memberId)
+        public async Task BlockGuildMember(AuthorizedUser user, int guildId, int memberId)
         {
-            var guildDomain = CreateDomain(await _guildRepository.GetAsync(guildId));
+            GuildDomain guildDomain = CreateDomain(await _guildRepository.GetAsync(guildId));
             GuildMemberEntity memberToKick = await guildDomain.EnsureMemberCanRestrictPermissionForOther(user, memberId);
-
-            memberToKick.Member.GuildLeftTime = DateTime.UtcNow.ToUniversalTime();
-            memberToKick.MemberType = GuildMemberType.Blocked;
+            memberToKick.MarkBlocked();
             await _guildMemberRepository.UpdateMemberAsync(memberToKick);
         }
 
-        public async Task UnblockStudent(AuthorizedUser user, Int32 guildId, Int32 studentId)
+        public async Task UnblockStudent(AuthorizedUser user, int guildId, int studentId)
         {
             StudentEntity student = await user.GetProfile(_studentRepository);
             GuildEntity guild = await _guildRepository.GetAsync(guildId);
@@ -120,7 +116,7 @@ namespace Iwentys.Features.Guilds.Services
             _guildMemberRepository.RemoveMemberAsync(guildId, studentId);
         }
 
-        public async Task KickGuildMemberAsync(AuthorizedUser user, Int32 guildId, Int32 memberId)
+        public async Task KickGuildMemberAsync(AuthorizedUser user, int guildId, int memberId)
         {
             GuildDomain guildDomain = CreateDomain(await _guildRepository.GetAsync(guildId));
             GuildMemberEntity memberToKick = await guildDomain.EnsureMemberCanRestrictPermissionForOther(user, memberId);
@@ -129,7 +125,7 @@ namespace Iwentys.Features.Guilds.Services
             _guildMemberRepository.RemoveMemberAsync(guildId, memberId);
         }
 
-        public async Task AcceptRequest(AuthorizedUser user, Int32 guildId, Int32 studentId)
+        public async Task AcceptRequest(AuthorizedUser user, int guildId, int studentId)
         {
             StudentEntity student = await user.GetProfile(_studentRepository);
             GuildEntity guild = await _guildRepository.GetAsync(guildId);
@@ -145,11 +141,11 @@ namespace Iwentys.Features.Guilds.Services
             await _guildMemberRepository.UpdateMemberAsync(member);
         }
 
-        public async Task RejectRequest(AuthorizedUser user, Int32 guildId, Int32 studentId)
+        public async Task RejectRequest(AuthorizedUser user, int guildId, int studentId)
         {
-            StudentEntity student = await user.GetProfile(_studentRepository);
+            StudentEntity initiator = await user.GetProfile(_studentRepository);
             GuildEntity guild = await _guildRepository.GetAsync(guildId);
-            student.EnsureIsGuildEditor(guild);
+            initiator.EnsureIsGuildEditor(guild);
 
             GuildMemberEntity member = guild.Members.Find(m => m.MemberId == studentId);
 

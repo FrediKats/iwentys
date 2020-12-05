@@ -2,10 +2,10 @@
 @namespace Iwentys.Endpoint.Client.Pages.Guilds
 
 <MatPaper Elevation="10" Rounded="true" class="text-center">
-    <MatHeadline5>Рейтинг гильдии - @GuildProfile.MemberLeaderBoard.TotalRate</MatHeadline5>
+    <MatHeadline5>Рейтинг гильдии - @GuildProfile.MemberLeaderBoardDto.TotalRate</MatHeadline5>
     <MatHeadline6>Импакт:</MatHeadline6>
     <MatList>
-        @foreach (GuildMemberImpact member in GuildProfile.MemberLeaderBoard.MembersImpact)
+        @foreach (GuildMemberImpactDto member in GuildProfile.MemberLeaderBoardDto.MembersImpact)
         {
             <MatListItem>
                 @member.Username (@member.TotalRate)

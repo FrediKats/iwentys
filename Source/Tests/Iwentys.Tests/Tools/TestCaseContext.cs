@@ -85,7 +85,9 @@ namespace Iwentys.Tests.Tools
 
         public TestCaseContext WithGuild(AuthorizedUser user, out GuildProfileDto guildProfile)
         {
-            GuildProfileShortInfoDto guild = GuildService.CreateAsync(user, new GuildCreateRequest()).Result;
+            var guildCreateRequest = new GuildCreateRequestDto(null, null, null, GuildHiringPolicy.Open);
+
+            GuildProfileShortInfoDto guild = GuildService.CreateAsync(user, guildCreateRequest).Result;
             guildProfile = guild.To(g => GuildService.GetAsync(g.Id, user.Id).Result);
             return this;
         }
@@ -161,7 +163,7 @@ namespace Iwentys.Tests.Tools
             return this;
         }
 
-        public TestCaseContext WithTribute(AuthorizedUser userInfo, CreateProjectRequest project, out TributeInfoResponse tribute)
+        public TestCaseContext WithTribute(AuthorizedUser userInfo, CreateProjectRequestDto project, out TributeInfoResponse tribute)
         {
             tribute = GuildTributeServiceService.CreateTribute(userInfo, project).Result;
             return this;
@@ -169,11 +171,12 @@ namespace Iwentys.Tests.Tools
 
         public TestCaseContext WithTribute(AuthorizedUser userInfo, GithubProjectEntity projectEntity, out TributeInfoResponse tribute)
         {
-            tribute = GuildTributeServiceService.CreateTribute(userInfo, new CreateProjectRequest
-            {
-                Owner = userInfo.GetProfile(DatabaseAccessor.Student).Result.GithubUsername,
-                RepositoryName = projectEntity.Name
-            }).Result;
+            var userGithub = userInfo.GetProfile(DatabaseAccessor.Student).Result.GithubUsername;
+            
+            tribute = GuildTributeServiceService.CreateTribute(
+                userInfo,
+                new CreateProjectRequestDto(userGithub, projectEntity.Name))
+                .Result;
             return this;
         }
 

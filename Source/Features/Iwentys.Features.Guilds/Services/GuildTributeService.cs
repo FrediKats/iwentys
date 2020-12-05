@@ -50,7 +50,7 @@ namespace Iwentys.Features.Guilds.Services
                 .ToArray();
         }
 
-        public async Task<TributeInfoResponse> CreateTribute(AuthorizedUser user, CreateProjectRequest createProject)
+        public async Task<TributeInfoResponse> CreateTribute(AuthorizedUser user, CreateProjectRequestDto createProject)
         {
             StudentEntity student = await _database.Student.GetAsync(user.Id);
             if (student.GithubUsername != createProject.Owner)

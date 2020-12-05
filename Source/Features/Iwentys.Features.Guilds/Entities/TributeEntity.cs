@@ -19,7 +19,7 @@ namespace Iwentys.Features.Guilds.Entities
             ProjectEntity = projectEntity;
             ProjectId = projectEntity.Id;
             State = TributeState.Active;
-            CreationTime = DateTime.UtcNow;
+            CreationTimeUtc = DateTime.UtcNow;
         }
 
         [Key] public long ProjectId { get; set; }
@@ -32,7 +32,7 @@ namespace Iwentys.Features.Guilds.Entities
         public TributeState State { get; set; }
         public int? DifficultLevel { get; set; }
         public int? Mark { get; set; }
-        public DateTime CreationTime { get; set; }
+        public DateTime CreationTimeUtc { get; set; }
 
         public StudentEntity Mentor { get; set; }
         public int? MentorId { get; set; }

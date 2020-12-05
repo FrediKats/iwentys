@@ -16,7 +16,7 @@ namespace Iwentys.Features.Guilds.Models.Guilds
         {
         }
 
-        public GuildMemberLeaderBoard MemberLeaderBoard { get; set; }
+        public GuildMemberLeaderBoardDto MemberLeaderBoardDto { get; set; }
 
         public ActiveTributeResponseDto Tribute { get; set; }
         public List<AchievementDto> Achievements { get; set; }

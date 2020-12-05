@@ -1,4 +1,5 @@
-﻿using Iwentys.Features.Guilds.Enums;
+﻿using System;
+using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Guilds.Entities
@@ -28,5 +29,11 @@ namespace Iwentys.Features.Guilds.Entities
         public StudentEntity Member { get; set; }
 
         public GuildMemberType MemberType { get; set; }
+        
+        public void MarkBlocked()
+        {
+            Member.GuildLeftTime = DateTime.UtcNow;
+            MemberType = GuildMemberType.Blocked;
+        }
     }
 }

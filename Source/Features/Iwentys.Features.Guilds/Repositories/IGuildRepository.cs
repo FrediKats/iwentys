@@ -9,7 +9,7 @@ namespace Iwentys.Features.Guilds.Repositories
 {
     public interface IGuildRepository : IGenericRepository<GuildEntity, int>
     {
-        GuildEntity Create(StudentEntity creator, GuildCreateRequest arguments);
+        GuildEntity Create(StudentEntity creator, GuildCreateRequestDto arguments);
         GuildEntity[] ReadPending();
         GuildEntity ReadForStudent(int studentId);
         Task<GuildPinnedProjectEntity> PinProjectAsync(int guildId, GithubRepositoryInfoDto repositoryInfoDto);

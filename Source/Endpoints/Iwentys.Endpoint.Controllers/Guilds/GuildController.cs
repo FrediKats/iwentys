@@ -24,14 +24,14 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         }
 
         [HttpPost]
-        public async Task<ActionResult<GuildProfileShortInfoDto>> Create([FromBody] GuildCreateRequest arguments)
+        public async Task<ActionResult<GuildProfileShortInfoDto>> Create([FromBody] GuildCreateRequestDto arguments)
         {
             AuthorizedUser creator = this.TryAuthWithToken();
             return Ok(await _guildService.CreateAsync(creator, arguments));
         }
 
         [HttpPut]
-        public async Task<ActionResult<GuildProfileShortInfoDto>> Update([FromBody] GuildUpdateRequest arguments)
+        public async Task<ActionResult<GuildProfileShortInfoDto>> Update([FromBody] GuildUpdateRequestDto arguments)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(await _guildService.UpdateAsync(user, arguments));
@@ -132,7 +132,7 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         }
 
         [HttpPost("{guildId}/pinned")]
-        public async Task<ActionResult<GithubRepositoryInfoDto>> AddPinnedProject([FromRoute] int guildId, [FromBody] CreateProjectRequest createProject)
+        public async Task<ActionResult<GithubRepositoryInfoDto>> AddPinnedProject([FromRoute] int guildId, [FromBody] CreateProjectRequestDto createProject)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(await _guildService.AddPinnedRepositoryAsync(user, guildId, createProject.Owner, createProject.RepositoryName));

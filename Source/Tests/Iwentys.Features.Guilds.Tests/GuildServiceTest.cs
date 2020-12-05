@@ -26,7 +26,7 @@ namespace Iwentys.Features.Guilds.Tests
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out GuildProfileDto guild);
 
-            bool isExist = guild.MemberLeaderBoard.Members.Any(_ => _.Id == user.Id);
+            bool isExist = guild.MemberLeaderBoardDto.Members.Any(_ => _.Id == user.Id);
             Assert.IsTrue(isExist);
         }
 
@@ -320,7 +320,7 @@ namespace Iwentys.Features.Guilds.Tests
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out GuildProfileDto guild)
                 .WithGuildRequest(guild, out AuthorizedUser _);
-            await context.GuildService.UpdateAsync(user, new GuildUpdateRequest { Id = guild.Id, HiringPolicy = GuildHiringPolicy.Close });
+            await context.GuildService.UpdateAsync(user, GuildUpdateRequestDto.ForPolicyUpdate(guild.Id, GuildHiringPolicy.Close));
 
             GuildEntity guildEntity = await context.GuildRepository.GetAsync(guild.Id);
             Assert.That(guildEntity.HiringPolicy, Is.EqualTo(GuildHiringPolicy.Close));
@@ -334,8 +334,8 @@ namespace Iwentys.Features.Guilds.Tests
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out GuildProfileDto guild)
                 .WithGuildRequest(guild, out AuthorizedUser student);
-            await context.GuildService.UpdateAsync(user, new GuildUpdateRequest() { Id = guild.Id, HiringPolicy = GuildHiringPolicy.Close });
-            await context.GuildService.UpdateAsync(user, new GuildUpdateRequest() { Id = guild.Id, HiringPolicy = GuildHiringPolicy.Open });
+            await context.GuildService.UpdateAsync(user, GuildUpdateRequestDto.ForPolicyUpdate(guild.Id, GuildHiringPolicy.Close));
+            await context.GuildService.UpdateAsync(user, GuildUpdateRequestDto.ForPolicyUpdate(guild.Id, GuildHiringPolicy.Open));
 
             GuildEntity guildEntity = await context.GuildRepository.GetAsync(guild.Id);
             GuildMemberEntity newMember = guildEntity.Members.Find(m => m.MemberId == student.Id);
