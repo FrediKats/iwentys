@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Achievements;
+using Iwentys.Features.GithubIntegration;
+using Iwentys.Features.GithubIntegration.ViewModels;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
@@ -12,7 +14,6 @@ using Iwentys.Features.Guilds.ViewModels.Guilds;
 using Iwentys.Features.StudentFeature;
 using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Integrations.GithubIntegration;
-using Iwentys.Integrations.GithubIntegration.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Services

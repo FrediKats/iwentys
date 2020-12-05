@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Iwentys.Common.Tools;
-using Iwentys.Integrations.GithubIntegration.Models;
+using Iwentys.Features.GithubIntegration.ViewModels;
 using Newtonsoft.Json;
 
 namespace Iwentys.Features.GithubIntegration.Entities

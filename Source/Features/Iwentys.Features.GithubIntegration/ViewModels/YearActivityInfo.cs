@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Integrations.GithubIntegration.Models
+﻿namespace Iwentys.Features.GithubIntegration.ViewModels
 {
     public class YearActivityInfo
     {

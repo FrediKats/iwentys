@@ -3,7 +3,6 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Iwentys.Features.GithubIntegration.ViewModels;
-using Iwentys.Integrations.GithubIntegration.Models;
 
 namespace Iwentys.Endpoint.Sdk.ControllerClients
 {

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
+using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.GithubIntegration.ViewModels;
 using Iwentys.Integrations.GithubIntegration;
-using Iwentys.Integrations.GithubIntegration.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers

@@ -4,7 +4,8 @@ using System.Linq;
 using System.Net.Http;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
-using Iwentys.Integrations.GithubIntegration.Models;
+using Iwentys.Features.GithubIntegration;
+using Iwentys.Features.GithubIntegration.ViewModels;
 using Newtonsoft.Json;
 using Octokit;
 

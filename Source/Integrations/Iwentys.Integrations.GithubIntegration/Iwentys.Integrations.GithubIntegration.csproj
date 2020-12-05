@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Features\Iwentys.Features.GithubIntegration\Iwentys.Features.GithubIntegration.csproj" />
     <ProjectReference Include="..\..\Iwentys.Common\Iwentys.Common.csproj" />
   </ItemGroup>
 

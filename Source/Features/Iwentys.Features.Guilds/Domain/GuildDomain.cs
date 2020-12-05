@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Achievements.ViewModels;
+using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Entities;
@@ -164,19 +165,19 @@ namespace Iwentys.Features.Guilds.Domain
         }
 
         //TODO: use in daemon
-        public GuildDomain UpdateGuildFromGithub()
-        {
-            Organization organizationInfo = _apiAccessor.FindOrganizationInfo(Profile.Title);
-            if (organizationInfo != null)
-            {
-                //TODO: need to fix after https://github.com/octokit/octokit.net/pull/2239
-                //_profile.Bio = organizationInfo.Bio;
-                Profile.LogoUrl = organizationInfo.Url;
-                _guildRepository.UpdateAsync(Profile);
-            }
+        //public GuildDomain UpdateGuildFromGithub()
+        //{
+        //    Organization organizationInfo = _apiAccessor.FindOrganizationInfo(Profile.Title);
+        //    if (organizationInfo != null)
+        //    {
+        //        //TODO: need to fix after https://github.com/octokit/octokit.net/pull/2239
+        //        //_profile.Bio = organizationInfo.Bio;
+        //        Profile.LogoUrl = organizationInfo.Url;
+        //        _guildRepository.UpdateAsync(Profile);
+        //    }
 
-            return this;
-        }
+        //    return this;
+        //}
 
         public async Task<GuildMemberEntity> EnsureMemberCanRestrictPermissionForOther(AuthorizedUser editor, int memberToKickId)
         {

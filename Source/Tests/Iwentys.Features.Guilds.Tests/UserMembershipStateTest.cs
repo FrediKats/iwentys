@@ -6,11 +6,11 @@ using Iwentys.Database.Repositories.Study;
 using Iwentys.Features.Achievements.Entities;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Services;
+using Iwentys.Features.GithubIntegration.ViewModels;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.StudentFeature.Entities;
-using Iwentys.Integrations.GithubIntegration.Models;
 using Moq;
 using NUnit.Framework;
 

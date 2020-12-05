@@ -4,10 +4,9 @@ using System.Threading.Tasks;
 using Iwentys.Common.Tools;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Repositories;
+using Iwentys.Features.GithubIntegration.ViewModels;
 using Iwentys.Features.StudentFeature.Entities;
 using Iwentys.Features.StudentFeature.Repositories;
-using Iwentys.Integrations.GithubIntegration;
-using Iwentys.Integrations.GithubIntegration.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.GithubIntegration.Services

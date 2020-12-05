@@ -1,5 +1,5 @@
-﻿using Iwentys.Features.StudentFeature.Entities;
-using Iwentys.Integrations.GithubIntegration.Models;
+﻿using Iwentys.Features.GithubIntegration.ViewModels;
+using Iwentys.Features.StudentFeature.Entities;
 
 namespace Iwentys.Features.GithubIntegration.Entities
 {

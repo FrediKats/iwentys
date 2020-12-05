@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Repositories;
+using Iwentys.Features.GithubIntegration.ViewModels;
 using Iwentys.Features.StudentFeature.Entities;
-using Iwentys.Integrations.GithubIntegration.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

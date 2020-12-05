@@ -16,6 +16,7 @@ using Iwentys.Features.Companies.Services;
 using Iwentys.Features.Economy.Repositories;
 using Iwentys.Features.Economy.Services;
 using Iwentys.Features.Gamification.Services;
+using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Repositories;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds;

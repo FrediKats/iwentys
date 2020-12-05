@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Iwentys.Integrations.GithubIntegration.Models;
-using Octokit;
+using Iwentys.Features.GithubIntegration.ViewModels;
 
-namespace Iwentys.Integrations.GithubIntegration
+namespace Iwentys.Features.GithubIntegration
 {
     public interface IGithubApiAccessor
     {
@@ -14,6 +13,7 @@ namespace Iwentys.Integrations.GithubIntegration
 
         ContributionFullInfo GetUserActivity(string githubUsername);
         int GetUserActivity(string githubUsername, DateTime from, DateTime to);
-        Organization FindOrganizationInfo(string organizationName);
+        //TODO: fix
+        //Organization FindOrganizationInfo(string organizationName);
     }
 }
