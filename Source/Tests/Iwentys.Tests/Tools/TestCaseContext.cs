@@ -9,7 +9,6 @@ using Iwentys.Features.Companies.Models;
 using Iwentys.Features.Companies.Services;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Services;
-using Iwentys.Features.Guilds;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Models.Guilds;
@@ -27,8 +26,10 @@ namespace Iwentys.Tests.Tools
 {
     public class TestCaseContext
     {
+        //TODO: make it private
         public readonly IwentysDbContext Context;
 
+        public readonly AchievementRepository AchievementRepository;
         public readonly StudentRepository StudentRepository;
         public readonly GuildRepository GuildRepository;
 
@@ -47,20 +48,21 @@ namespace Iwentys.Tests.Tools
         public TestCaseContext()
         {
             Context = TestDatabaseProvider.GetDatabaseContext();
+            AchievementRepository = new AchievementRepository(Context);
             StudentRepository = new StudentRepository(Context);
             GuildRepository = new GuildRepository(Context);
 
             DatabaseAccessor = new DatabaseAccessor(Context);
-            var achievementProvider = new AchievementProvider(new AchievementRepository(Context));
-            DummyGithubApiAccessor githubApiAccessor = new DummyGithubApiAccessor();
+            var achievementProvider = new AchievementProvider(AchievementRepository);
+            var githubApiAccessor = new DummyGithubApiAccessor();
 
-            StudentService = new StudentService(DatabaseAccessor.Student);
-            GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, DatabaseAccessor.GithubUserData, DatabaseAccessor.StudentProject, DatabaseAccessor.Student);
+            StudentService = new StudentService(StudentRepository);
+            GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, DatabaseAccessor.GithubUserData, DatabaseAccessor.StudentProject, StudentRepository);
             GuildService = new GuildService(GithubIntegrationService, githubApiAccessor, StudentRepository, GuildRepository, DatabaseAccessor.GuildMember);
-            GuildMemberService = new GuildMemberService(GithubIntegrationService, DatabaseAccessor.Student, DatabaseAccessor.Guild, DatabaseAccessor.GuildMember, DatabaseAccessor.GuildTribute);
-            GuildTributeServiceService = new GuildTributeService(githubApiAccessor, DatabaseAccessor.StudentProject, DatabaseAccessor.Student, DatabaseAccessor.Guild, DatabaseAccessor.GuildTribute);
-            CompanyService = new CompanyService(DatabaseAccessor.Company, DatabaseAccessor.Student);
-            QuestService = new QuestService(DatabaseAccessor.Student, DatabaseAccessor.Quest, achievementProvider);
+            GuildMemberService = new GuildMemberService(GithubIntegrationService, StudentRepository, DatabaseAccessor.Guild, DatabaseAccessor.GuildMember, DatabaseAccessor.GuildTribute);
+            GuildTributeServiceService = new GuildTributeService(githubApiAccessor, DatabaseAccessor.StudentProject, StudentRepository, DatabaseAccessor.Guild, DatabaseAccessor.GuildTribute);
+            CompanyService = new CompanyService(DatabaseAccessor.Company, StudentRepository);
+            QuestService = new QuestService(StudentRepository, DatabaseAccessor.Quest, achievementProvider);
         }
 
         public TestCaseContext WithNewStudent(out AuthorizedUser user, UserType userType = UserType.Common)
@@ -88,16 +90,17 @@ namespace Iwentys.Tests.Tools
             return this;
         }
 
-        public TestCaseContext WithGuildMember(GuildProfileDto guild, out AuthorizedUser user)
+        public TestCaseContext WithGuildMember(GuildProfileDto guild, AuthorizedUser guildEditor, out AuthorizedUser user)
         {
             WithNewStudent(out user);
-            Context.GuildMembers.Add(new GuildMemberEntity(guild.Id, user.Id, GuildMemberType.Member));
-            Context.SaveChanges();
+            GuildMemberService.RequestGuildAsync(user, guild.Id).Wait();
+            GuildMemberService.AcceptRequest(guildEditor, guild.Id, user.Id).Wait();
             return this;
         }
 
         public TestCaseContext WithGuildMentor(GuildProfileDto guild, out AuthorizedUser user)
         {
+            //TODO: make method for promoting to guild editor/mentor
             WithNewStudent(out user);
             Context.GuildMembers.Add(new GuildMemberEntity(guild.Id, user.Id, GuildMemberType.Mentor));
             Context.SaveChanges();
@@ -107,17 +110,15 @@ namespace Iwentys.Tests.Tools
         public TestCaseContext WithGuildRequest(GuildProfileDto guild, out AuthorizedUser user)
         {
             WithNewStudent(out user);
-            Context.GuildMembers.Add(new GuildMemberEntity(guild.Id, user.Id, GuildMemberType.Requested));
-            Context.SaveChanges();
+            GuildMemberService.RequestGuildAsync(user, guild.Id).Wait();
             return this;
         }
 
-        public TestCaseContext WithGuildBlocked(GuildProfileDto guild, out AuthorizedUser user)
+        public TestCaseContext WithGuildBlocked(GuildProfileDto guild, AuthorizedUser guildEditor, out AuthorizedUser user)
         {
             WithNewStudent(out user);
-            Context.GuildMembers.Add(new GuildMemberEntity(guild.Id, user.Id, GuildMemberType.Blocked));
-            //TODO: move save changes to repository
-            Context.SaveChanges();
+            GuildMemberService.RequestGuildAsync(user, guild.Id).Wait();
+            GuildMemberService.BlockGuildMember(guildEditor, guild.Id, user.Id).Wait();
             return this;
         }
 

@@ -102,9 +102,9 @@ namespace Iwentys.Tests.Features.Guilds
         {
             var context = TestCaseContext
                 .Case()
-                .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
-                .WithGuildMember(guild, out AuthorizedUser member);
+                .WithNewStudent(out AuthorizedUser guildCreator)
+                .WithGuild(guildCreator, out ExtendedGuildProfileWithMemberDataDto guild)
+                .WithGuildMember(guild, guildCreator, out AuthorizedUser member);
 
             Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.GetGuildRequests(member, guild.Id));
         }
@@ -131,11 +131,11 @@ namespace Iwentys.Tests.Features.Guilds
         {
             var context = TestCaseContext
                 .Case()
-                .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
-                .WithGuildBlocked(guild, out AuthorizedUser student);
+                .WithNewStudent(out AuthorizedUser guildCreator)
+                .WithGuild(guildCreator, out ExtendedGuildProfileWithMemberDataDto guild)
+                .WithGuildBlocked(guild, guildCreator, out AuthorizedUser student);
 
-            List<GuildMemberEntity> blocked = context.GuildMemberService.GetGuildBlocked(user, guild.Id).Result.ToList();
+            List<GuildMemberEntity> blocked = context.GuildMemberService.GetGuildBlocked(guildCreator, guild.Id).Result.ToList();
 
             Assert.That(blocked, Is.Not.Null);
             Assert.That(blocked.Length, Is.EqualTo(1));
@@ -148,12 +148,12 @@ namespace Iwentys.Tests.Features.Guilds
         {
             var context = TestCaseContext
                 .Case()
-                .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
-                .WithGuildMember(guild, out AuthorizedUser member);
+                .WithNewStudent(out AuthorizedUser guildCreator)
+                .WithGuild(guildCreator, out ExtendedGuildProfileWithMemberDataDto guild)
+                .WithGuildMember(guild, guildCreator, out AuthorizedUser member);
 
-            await context.GuildMemberService.BlockGuildMember(user, guild.Id, member.Id);
-            GuildMemberEntity[] blocked = await context.GuildMemberService.GetGuildBlocked(user, guild.Id);
+            await context.GuildMemberService.BlockGuildMember(guildCreator, guild.Id, member.Id);
+            GuildMemberEntity[] blocked = await context.GuildMemberService.GetGuildBlocked(guildCreator, guild.Id);
             GuildEntity memberGuild = context.GuildRepository.ReadForStudent(member.Id);
 
             Assert.That(blocked.Find(m => m.MemberId == member.Id), Is.Not.Null);
@@ -201,11 +201,11 @@ namespace Iwentys.Tests.Features.Guilds
         {
             var context = TestCaseContext
                 .Case()
-                .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
-                .WithGuildMember(guild, out AuthorizedUser member);
+                .WithNewStudent(out AuthorizedUser guildCreator)
+                .WithGuild(guildCreator, out ExtendedGuildProfileWithMemberDataDto guild)
+                .WithGuildMember(guild, guildCreator, out AuthorizedUser member);
 
-            await context.GuildMemberService.KickGuildMemberAsync(user, guild.Id, member.Id);
+            await context.GuildMemberService.KickGuildMemberAsync(guildCreator, guild.Id, member.Id);
             GuildEntity memberGuild = context.GuildRepository.ReadForStudent(member.Id);
 
             Assert.That(memberGuild, Is.Null);
@@ -229,12 +229,12 @@ namespace Iwentys.Tests.Features.Guilds
         {
             var context = TestCaseContext
                 .Case()
-                .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
-                .WithGuildBlocked(guild, out AuthorizedUser student);
+                .WithNewStudent(out AuthorizedUser guildCreator)
+                .WithGuild(guildCreator, out ExtendedGuildProfileWithMemberDataDto guild)
+                .WithGuildBlocked(guild, guildCreator, out AuthorizedUser student);
 
-            await context.GuildMemberService.UnblockStudent(user, guild.Id, student.Id);
-            GuildMemberEntity[] blocked = await context.GuildMemberService.GetGuildBlocked(user, guild.Id);
+            await context.GuildMemberService.UnblockStudent(guildCreator, guild.Id, student.Id);
+            GuildMemberEntity[] blocked = await context.GuildMemberService.GetGuildBlocked(guildCreator, guild.Id);
 
             Assert.That(blocked.FirstOrDefault(m => m.MemberId == student.Id), Is.Null);
         }

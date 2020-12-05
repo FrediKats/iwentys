@@ -21,11 +21,12 @@ namespace Iwentys.Tests.Features
                 .WithNewStudent(out AuthorizedUser user);
 
             await testCase.StudentService.AddGithubUsernameAsync(user.Id, "username");
-            StudentAchievementEntity achievement = testCase.Context
-                .StudentAchievements
+            StudentAchievementEntity studentAchievementEntity = testCase.AchievementRepository
+                .ReadStudentAchievements()
                 .FirstOrDefault(a => a.StudentId == user.Id && a.AchievementId == AchievementList.AddGithubAchievement.Id);
             
-            Assert.NotNull(achievement);
+            
+            Assert.NotNull(studentAchievementEntity);
         }
     }
 }

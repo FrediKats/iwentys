@@ -123,16 +123,16 @@ namespace Iwentys.Features.Guilds.Services
             _guildMemberRepository.RemoveMemberAsync(guildId, memberId);
         }
 
-        public async Task AcceptRequest(AuthorizedUser user, int guildId, int studentId)
+        public async Task AcceptRequest(AuthorizedUser user, int guildId, int memberForAccepting)
         {
             StudentEntity student = await user.GetProfile(_studentRepository);
             GuildEntity guild = await _guildRepository.GetAsync(guildId);
             student.EnsureIsGuildEditor(guild);
 
-            GuildMemberEntity member = guild.Members.Find(m => m.MemberId == studentId);
+            GuildMemberEntity member = guild.Members.Find(m => m.MemberId == memberForAccepting);
 
             if (member is null || member.MemberType != GuildMemberType.Requested)
-                throw InnerLogicException.Guild.RequestWasNotFound(studentId, guildId);
+                throw InnerLogicException.Guild.RequestWasNotFound(memberForAccepting, guildId);
 
             member.MemberType = GuildMemberType.Member;
 
