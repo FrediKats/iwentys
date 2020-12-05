@@ -3,7 +3,7 @@ using ItmoScheduleApiWrapper;
 using ItmoScheduleApiWrapper.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Server.Source.Controllers
+namespace Iwentys.Endpoint.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

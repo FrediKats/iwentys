@@ -5,7 +5,7 @@ using Iwentys.Features.Achievements.Repositories;
 using Iwentys.Features.Achievements.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Server.Source.Controllers
+namespace Iwentys.Endpoint.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -24,7 +24,7 @@ namespace Iwentys.Endpoint.Server.Source.Controllers
             List<AchievementViewModel> achievements = _achievementRepository
                 .ReadStudentAchievements()
                 .Where(a => a.StudentId == studentId)
-                .AsEnumerable().Select(a => AchievementViewModel.Wrap(a))
+                .AsEnumerable().Select(AchievementViewModel.Wrap)
                 .ToList();
 
             return Ok(achievements);

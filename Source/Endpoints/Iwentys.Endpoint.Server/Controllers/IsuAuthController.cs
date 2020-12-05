@@ -4,15 +4,15 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Iwentys.Common.Transferable;
 using Iwentys.Database.Context;
+using Iwentys.Endpoint.Controllers.Tools;
 using Iwentys.Endpoint.Server.Source.Auth;
-using Iwentys.Endpoint.Server.Source.Tools;
 using Iwentys.Features.StudentFeature;
 using Iwentys.Features.StudentFeature.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Iwentys.Endpoint.Server.Source.Controllers
+namespace Iwentys.Endpoint.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

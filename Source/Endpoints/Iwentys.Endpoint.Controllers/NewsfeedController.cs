@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Endpoint.Server.Source.Tools;
+using Iwentys.Endpoint.Controllers.Tools;
 using Iwentys.Features.Newsfeeds.Services;
 using Iwentys.Features.Newsfeeds.ViewModels;
 using Iwentys.Features.StudentFeature;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Server.Source.Controllers
+namespace Iwentys.Endpoint.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

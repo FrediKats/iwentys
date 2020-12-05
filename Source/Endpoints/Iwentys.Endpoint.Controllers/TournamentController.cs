@@ -4,7 +4,7 @@ using Iwentys.Features.Guilds.Services;
 using Iwentys.Features.Guilds.ViewModels.Tournaments;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Server.Source.Controllers
+namespace Iwentys.Endpoint.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -5,7 +5,7 @@ using Iwentys.Features.StudentFeature.Enums;
 using Iwentys.Features.StudentFeature.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Server.Source.Controllers.Study
+namespace Iwentys.Endpoint.Controllers.Study
 {
     [Route("api/[controller]")]
     [ApiController]

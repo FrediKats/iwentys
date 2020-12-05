@@ -4,7 +4,7 @@ using Iwentys.Features.Companies.Services;
 using Iwentys.Features.Companies.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Server.Source.Controllers
+namespace Iwentys.Endpoint.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
