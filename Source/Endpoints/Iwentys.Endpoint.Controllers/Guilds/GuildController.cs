@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Controllers.Tools;
 using Iwentys.Features.GithubIntegration.Models;
+using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Models.Guilds;
 using Iwentys.Features.Guilds.Services;
@@ -146,6 +147,12 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             AuthorizedUser user = this.TryAuthWithToken();
             await _guildService.UnpinProject(user, guildId, repositoryId);
             return Ok();
+        }
+
+        [HttpGet("{guildId}/member-leaderboard")]
+        public async Task<ActionResult<GuildMemberLeaderBoardDto>> GetGuildMemberLeaderBoard(int guildId)
+        {
+            return Ok(await _guildService.GetGuildMemberLeaderBoard(guildId));
         }
     }
 }

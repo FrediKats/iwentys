@@ -42,12 +42,9 @@ namespace Iwentys.Features.Guilds.Domain
 
         public async Task<ExtendedGuildProfileWithMemberDataDto> ToExtendedGuildProfileDto(int? userId = null)
         {
-            GuildMemberLeaderBoardDto dashboard = GetMemberDashboard();
-
             var info = new ExtendedGuildProfileWithMemberDataDto(Profile)
             {
                 Leader = Profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentInfoDto(s)),
-                MemberLeaderBoardDto = dashboard,
                 PinnedRepositories = Profile.PinnedProjects.SelectToList(p => _githubIntegrationService.GetCertainRepository(p.RepositoryOwner, p.RepositoryName)),
             };
 

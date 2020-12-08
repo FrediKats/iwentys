@@ -12,7 +12,8 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
 {
     public partial class GuildProfilePage : ComponentBase
     {
-        private GuildProfileDto _guild;
+        private ExtendedGuildProfileWithMemberDataDto _guild;
+        private GuildMemberLeaderBoardDto _memberLeaderBoard;
         private List<NewsfeedViewModel> _newsfeeds;
 
         private GuildControllerClient _guildControllerClient;
@@ -24,6 +25,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
             var newsfeedControllerClient = new NewsfeedControllerClient(httpClient);
             _guild = await _guildControllerClient.Get(GuildId);
             _newsfeeds = await newsfeedControllerClient.GetForGuild(GuildId);
+            _memberLeaderBoard = await _guildControllerClient.GetGuildMemberLeaderBoard(_guild.Id);
         }
     }
 }

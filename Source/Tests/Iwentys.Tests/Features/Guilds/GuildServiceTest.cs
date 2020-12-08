@@ -19,14 +19,15 @@ namespace Iwentys.Tests.Features.Guilds
     public class GuildServiceTest
     {
         [Test]
-        public void CreateGuild_ShouldReturnCreatorAsMember()
+        public async Task CreateGuild_ShouldReturnCreatorAsMember()
         {
-            TestCaseContext
+            var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
 
-            bool isExist = guild.MemberLeaderBoardDto.Members.Any(_ => _.Id == user.Id);
+            var guildMemberLeaderBoardDto = await context.GuildService.GetGuildMemberLeaderBoard(guild.Id);
+            bool isExist = guildMemberLeaderBoardDto.Members.Any(_ => _.Id == user.Id);
             Assert.IsTrue(isExist);
         }
 

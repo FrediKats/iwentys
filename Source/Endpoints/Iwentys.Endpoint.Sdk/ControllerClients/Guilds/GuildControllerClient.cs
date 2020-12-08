@@ -45,5 +45,10 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
         {
             await Client.DeleteAsync($"/api/guild/{guildId}/pinned/{repositoryId}");
         }
+
+        public Task<GuildMemberLeaderBoardDto> GetGuildMemberLeaderBoard(int guildId)
+        {
+            return Client.GetFromJsonAsync<GuildMemberLeaderBoardDto>($"/api/guild/{guildId}/member-leaderboard");
+        }
     }
 }

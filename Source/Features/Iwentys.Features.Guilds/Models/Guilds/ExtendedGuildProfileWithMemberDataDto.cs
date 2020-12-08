@@ -14,7 +14,6 @@ namespace Iwentys.Features.Guilds.Models.Guilds
 
         public UserMembershipState UserMembershipState { get; set; }
 
-        public GuildMemberLeaderBoardDto MemberLeaderBoardDto { get; set; }
         public List<GithubRepositoryInfoDto> PinnedRepositories { get; set; }
     }
 }
