@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentResults;
 using Iwentys.Common.Tools;
@@ -26,7 +27,7 @@ namespace Iwentys.Endpoints.ClientBot.Commands.Guild
 
         public Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            GuildProfileShortInfoWithLeaderDto[] guildProfilePreviews = _guildService.GetOverview(0, 20);
+            List<GuildProfileDto> guildProfilePreviews = _guildService.GetOverview(0, 20);
 
             return ResultFormatter.FormatAsListToTask(guildProfilePreviews);
         }

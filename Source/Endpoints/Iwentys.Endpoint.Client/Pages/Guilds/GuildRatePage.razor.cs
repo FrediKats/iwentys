@@ -9,9 +9,9 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
 {
     public partial class GuildRatePage : ComponentBase
     {
-        private IReadOnlyList<GuildProfileShortInfoWithLeaderDto> _guildProfiles;
+        private IReadOnlyList<GuildProfileDto> _guildProfiles;
 
-        private string LinkToProfile(GuildProfileShortInfoWithLeaderDto guild) => $"guild/profile/{guild.Id}";
+        private string LinkToProfile(GuildProfileDto guild) => $"guild/profile/{guild.Id}";
 
         protected override async Task OnInitializedAsync()
         {

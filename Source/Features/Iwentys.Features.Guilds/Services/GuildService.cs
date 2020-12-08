@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
@@ -79,14 +80,14 @@ namespace Iwentys.Features.Guilds.Services
             return new GuildProfileShortInfoDto(await _guildRepository.GetAsync(guildId));
         }
 
-        public GuildProfileShortInfoWithLeaderDto[] GetOverview(Int32 skippedCount, Int32 takenCount)
+        public List<GuildProfileDto> GetOverview(Int32 skippedCount, Int32 takenCount)
         {
             return _guildRepository.Read()
                 .ToList()
-                .Select(g => new GuildProfileShortInfoWithLeaderDto(g))
+                .Select(g => new GuildProfileDto(g))
                 .Skip(skippedCount)
                 .Take(takenCount)
-                .ToArray();
+                .ToList();
         }
 
         public async Task<ExtendedGuildProfileWithMemberDataDto> GetAsync(int id, int? userId)
