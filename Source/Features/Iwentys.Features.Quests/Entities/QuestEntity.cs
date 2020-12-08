@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using Iwentys.Common.Exceptions;
 using Iwentys.Features.Quests.Enums;
+using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Quests.Entities
@@ -35,5 +38,19 @@ namespace Iwentys.Features.Quests.Entities
                 AuthorId = author.Id
             };
         }
+
+        public void Revoke(AuthorizedUser author)
+        {
+            if (AuthorId != author.Id)
+                throw InnerLogicException.NotEnoughPermission(author.Id);
+
+            if (State != QuestState.Active)
+                throw new InnerLogicException("Quest is not active");
+
+            State = QuestState.Revoked;
+        }
+        
+        public static Expression<Func<QuestEntity, bool>> IsActive => q => q.State == QuestState.Active && (q.Deadline == null || q.Deadline > DateTime.UtcNow);
+        public static Expression<Func<QuestEntity, bool>> IsArchived => q => q.State == QuestState.Completed || q.Deadline > DateTime.UtcNow;
     }
 }

@@ -54,6 +54,7 @@ namespace Iwentys.Database.Repositories.Economy
 
         public async Task<QuestEntity> SetCompletedAsync(QuestEntity questEntity, int studentId)
         {
+            //TODO: move to domain
             if (questEntity.State != QuestState.Active || questEntity.IsOutdated)
                 throw new InnerLogicException("Quest is not active");
 

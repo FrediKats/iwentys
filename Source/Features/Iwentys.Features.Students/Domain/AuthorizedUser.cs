@@ -10,8 +10,12 @@ namespace Iwentys.Features.Students.Domain
     {
         public int Id { get; set; }
 
-        public static AuthorizedUser DebugAuth(int id) => new AuthorizedUser {Id = id};
-        private AuthorizedUser() {}
+        public static AuthorizedUser DebugAuth(int id) => new AuthorizedUser(id);
+
+        private AuthorizedUser(int id)
+        {
+            Id = id;
+        }
 
         public Task<StudentEntity> GetProfile(IStudentRepository repository)
         {

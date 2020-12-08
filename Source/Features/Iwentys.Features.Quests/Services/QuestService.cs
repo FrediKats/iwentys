@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
@@ -52,7 +51,7 @@ namespace Iwentys.Features.Quests.Services
         public async Task<List<QuestInfoResponse>> GetActiveAsync()
         {
             List<QuestEntity> quests = await _questRepository.Read()
-                .Where(q => q.State == QuestState.Active && (q.Deadline == null || q.Deadline > DateTime.UtcNow))
+                .Where(QuestEntity.IsActive)
                 .ToListAsync();
 
             return quests.SelectToList(QuestInfoResponse.Wrap);
@@ -61,7 +60,7 @@ namespace Iwentys.Features.Quests.Services
         public async Task<List<QuestInfoResponse>> GetArchivedAsync()
         {
             List<QuestEntity> quests = await _questRepository.Read()
-                .Where(q => q.State == QuestState.Completed || q.Deadline > DateTime.UtcNow)
+                .Where(QuestEntity.IsArchived)
                 .ToListAsync();
 
             return quests.SelectToList(QuestInfoResponse.Wrap);
@@ -93,21 +92,16 @@ namespace Iwentys.Features.Quests.Services
                 throw InnerLogicException.NotEnoughPermission(author.Id);
 
             questEntity = await _questRepository.SetCompletedAsync(questEntity, userId);
-            QuestInfoResponse completedQuest = QuestInfoResponse.Wrap(questEntity);
             _achievementProvider.Achieve(AchievementList.QuestComplete, userId);
-            return completedQuest;
+            return QuestInfoResponse.Wrap(questEntity);
         }
 
         public async Task<QuestInfoResponse> RevokeAsync(AuthorizedUser author, int questId)
         {
             QuestEntity questEntity = await _questRepository.ReadByIdAsync(questId);
-            if (questEntity.AuthorId != author.Id)
-                throw InnerLogicException.NotEnoughPermission(author.Id);
-
-            if (questEntity.State != QuestState.Active)
-                throw new InnerLogicException("Quest is not active");
-
-            questEntity.State = QuestState.Revoked;
+            
+            questEntity.Revoke(author);
+            
             QuestEntity updatedQuest = await _questRepository.UpdateAsync(questEntity);
             return QuestInfoResponse.Wrap(updatedQuest);
         }

@@ -6,6 +6,14 @@ namespace Iwentys.Features.Students.Domain
 {
     public class AdminUser
     {
+        public static AdminUser EnsureIsAdmin(StudentEntity profile)
+        {
+            if (profile.Role != UserType.Admin)
+                throw InnerLogicException.NotEnoughPermission(profile.Id);
+
+            return new AdminUser(profile);
+        }
+        
         public AdminUser(StudentEntity student)
         {
             Student = student;
@@ -18,10 +26,7 @@ namespace Iwentys.Features.Students.Domain
     {
         public static AdminUser EnsureIsAdmin(this StudentEntity profile)
         {
-            if (profile.Role != UserType.Admin)
-                throw InnerLogicException.NotEnoughPermission(profile.Id);
-
-            return new AdminUser(profile);
+            return AdminUser.EnsureIsAdmin(profile);
         }
     }
 }

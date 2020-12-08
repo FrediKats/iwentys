@@ -2,11 +2,11 @@
 
 namespace Iwentys.Features.Quests.Models
 {
-    public class CreateQuestRequest
+    public record CreateQuestRequest(
+        string Title,
+        string Description,
+        int Price,
+        DateTime? Deadline)
     {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public int Price { get; set; }
-        public DateTime? Deadline { get; set; }
     }
 }

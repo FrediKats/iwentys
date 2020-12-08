@@ -193,13 +193,13 @@ namespace Iwentys.Tests.Tools
 
         public TestCaseContext WithQuest(AuthorizedUser user, int price, out QuestInfoResponse quest)
         {
-            quest = QuestService.CreateAsync(user, new CreateQuestRequest
-            {
-                Title = "Some quest",
-                Description = "Some desc",
-                Deadline = DateTime.UtcNow.AddDays(1),
-                Price = price
-            }).Result;
+            var request = new CreateQuestRequest(
+                "Some quest",
+                "Some desc",
+                price,
+                DateTime.UtcNow.AddDays(1));
+            
+            quest = QuestService.CreateAsync(user, request).Result;
 
             return this;
         }
