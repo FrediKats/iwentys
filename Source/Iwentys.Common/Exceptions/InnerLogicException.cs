@@ -4,6 +4,7 @@ using Iwentys.Common.ExceptionMessages;
 
 namespace Iwentys.Common.Exceptions
 {
+    //TODO: split inner classed to separate files and make it partial
     public class InnerLogicException : IwentysException
     {
         public InnerLogicException(string message) : base(message)
@@ -18,7 +19,7 @@ namespace Iwentys.Common.Exceptions
         {
         }
 
-        public static InnerLogicException NotEnoughPermission(int userId)
+        public static InnerLogicException NotEnoughPermissionFor(int userId)
         {
             return new InnerLogicException($"Not enough user permission for user {userId}");
         }
@@ -61,7 +62,7 @@ namespace Iwentys.Common.Exceptions
             }
         }
 
-        public static class TributeEx
+        public static partial class TributeEx
         {
             public static InnerLogicException ProjectAlreadyUsed(long projectId)
             {
@@ -89,6 +90,14 @@ namespace Iwentys.Common.Exceptions
             public static InnerLogicException GithubAlreadyUser(string githubUsername)
             {
                 return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, ExceptionMessages.StudentException.GithubAlreadyUser, githubUsername));
+            }
+        }
+
+        public static class Quest
+        {
+            public static InnerLogicException IsNotActive()
+            {
+                throw new InnerLogicException("Quest is not active");
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Quests.Entities
@@ -13,12 +14,12 @@ namespace Iwentys.Features.Quests.Entities
 
         public DateTime ResponseTime { get; set; }
 
-        public static QuestResponseEntity New(int questId, int studentId)
+        public static QuestResponseEntity New(int questId, AuthorizedUser responseCreator)
         {
             return new QuestResponseEntity
             {
                 QuestId = questId,
-                StudentId = studentId,
+                StudentId = responseCreator.Id,
                 ResponseTime = DateTime.UtcNow
             };
         }

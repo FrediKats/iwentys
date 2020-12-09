@@ -9,7 +9,7 @@ namespace Iwentys.Features.Students.Domain
         public static AdminUser EnsureIsAdmin(StudentEntity profile)
         {
             if (profile.Role != UserType.Admin)
-                throw InnerLogicException.NotEnoughPermission(profile.Id);
+                throw InnerLogicException.NotEnoughPermissionFor(profile.Id);
 
             return new AdminUser(profile);
         }

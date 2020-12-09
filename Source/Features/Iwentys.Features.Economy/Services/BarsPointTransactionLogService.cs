@@ -39,5 +39,16 @@ namespace Iwentys.Features.Economy.Services
 
             return transaction;
         }
+
+        public async Task TransferFromSystem(int toId, int pointAmountToTransfer)
+        {
+            //TODO: implement
+            StudentEntity receiver = await _studentRepository.GetAsync(toId);
+
+            receiver.BarsPoints += pointAmountToTransfer;
+
+            await _studentRepository.UpdateAsync(receiver);
+
+        }
     }
 }

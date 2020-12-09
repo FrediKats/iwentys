@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.Quests.Enums;
@@ -20,6 +21,9 @@ namespace Iwentys.Features.Quests.Entities
 
         public int AuthorId { get; set; }
         public StudentEntity Author { get; set; }
+
+        public int? ExecutorId { get; set; }
+        public StudentEntity Executor { get; set; }
 
         public List<QuestResponseEntity> Responses { get; set; }
 
@@ -42,15 +46,46 @@ namespace Iwentys.Features.Quests.Entities
         public void Revoke(AuthorizedUser author)
         {
             if (AuthorId != author.Id)
-                throw InnerLogicException.NotEnoughPermission(author.Id);
+                throw InnerLogicException.NotEnoughPermissionFor(author.Id);
 
             if (State != QuestState.Active)
                 throw new InnerLogicException("Quest is not active");
 
             State = QuestState.Revoked;
         }
+
+        public QuestResponseEntity CreateResponse(AuthorizedUser responseAuthor)
+        {
+            if (State != QuestState.Active || IsOutdated)
+                throw new InnerLogicException("Quest is not active");
+
+            return QuestResponseEntity.New(Id, responseAuthor);
+        }
+
+        public void MakeCompleted(AuthorizedUser author, StudentEntity executor)
+        {
+            if (AuthorId != author.Id)
+                throw InnerLogicException.NotEnoughPermissionFor(author.Id);
+
+            if (State != QuestState.Active || IsOutdated)
+                throw InnerLogicException.Quest.IsNotActive();
+
+            State = QuestState.Completed;
+            ExecutorId = executor.Id;
+        }
         
-        public static Expression<Func<QuestEntity, bool>> IsActive => q => q.State == QuestState.Active && (q.Deadline == null || q.Deadline > DateTime.UtcNow);
-        public static Expression<Func<QuestEntity, bool>> IsArchived => q => q.State == QuestState.Completed || q.Deadline > DateTime.UtcNow;
+        public static Expression<Func<QuestEntity, bool>> IsActive =>
+            q => q.State == QuestState.Active
+                 && (q.Deadline == null || q.Deadline > DateTime.UtcNow);
+        
+        public static Expression<Func<QuestEntity, bool>> IsArchived =>
+            q => q.State == QuestState.Completed
+                 || q.Deadline > DateTime.UtcNow;
+
+        public static Expression<Func<QuestEntity, bool>> IsCompletedBy(AuthorizedUser user) =>
+            q => q.State == QuestState.Completed 
+                 && q.Responses.Any(r => r.StudentId == user.Id);
+
+
     }
 }

@@ -28,7 +28,7 @@ namespace Iwentys.Features.Guilds.Domain
             GuildEntity guild = await guildRepository.GetAsync(guildId);
             GuildMemberEntity membership = guild.Members.First(m => m.MemberId == student.Id);
             if (!membership.MemberType.IsEditor())
-                throw InnerLogicException.NotEnoughPermission(student.Id);
+                throw InnerLogicException.NotEnoughPermissionFor(student.Id);
 
             return new GuildMentorUser(student, guild);
         }

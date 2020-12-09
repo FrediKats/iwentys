@@ -22,6 +22,8 @@ namespace Iwentys.Database.Repositories.Economy
             _dbContext = dbContext;
         }
 
+        public DbSet<QuestEntity> Quests => _dbContext.Quests;
+
         public IQueryable<QuestEntity> Read()
         {
             return _dbContext.Quests
@@ -46,9 +48,9 @@ namespace Iwentys.Database.Repositories.Economy
             return _dbContext.Quests.Where(q => q.Id == key).DeleteFromQueryAsync();
         }
 
-        public async Task SendResponseAsync(QuestEntity questEntity, int userId)
+        public async Task SendResponseAsync(QuestResponseEntity questResponse)
         {
-            await _dbContext.QuestResponses.AddAsync(QuestResponseEntity.New(questEntity.Id, userId));
+            _dbContext.QuestResponses.Add(questResponse);
             await _dbContext.SaveChangesAsync();
         }
 

@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Achievements.Domain;
+using Iwentys.Features.Economy.Services;
 using Iwentys.Features.Quests.Entities;
-using Iwentys.Features.Quests.Enums;
 using Iwentys.Features.Quests.Models;
 using Iwentys.Features.Quests.Repositories;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Students.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Z.EntityFramework.Plus;
 
 namespace Iwentys.Features.Quests.Services
 {
@@ -22,11 +22,14 @@ namespace Iwentys.Features.Quests.Services
 
         private readonly AchievementProvider _achievementProvider;
 
-        public QuestService(IStudentRepository studentRepository, IQuestRepository questRepository, AchievementProvider achievementProvider)
+        private readonly BarsPointTransactionLogService _pointTransactionLogService;
+
+        public QuestService(IStudentRepository studentRepository, IQuestRepository questRepository, AchievementProvider achievementProvider, BarsPointTransactionLogService pointTransactionLogService)
         {
             _studentRepository = studentRepository;
             _questRepository = questRepository;
             _achievementProvider = achievementProvider;
+            _pointTransactionLogService = pointTransactionLogService;
         }
 
         public async Task<List<QuestInfoResponse>> GetCreatedByUserAsync(AuthorizedUser user)
@@ -42,7 +45,7 @@ namespace Iwentys.Features.Quests.Services
         public async Task<List<QuestInfoResponse>> GetCompletedByUserAsync(AuthorizedUser user)
         {
             List<QuestEntity> quests = await _questRepository.Read()
-                .Where(q => q.State == QuestState.Completed && q.Responses.Any(r => r.StudentId == user.Id))
+                .Where(QuestEntity.IsCompletedBy(user))
                 .ToListAsync();
 
             return quests.SelectToList(QuestInfoResponse.Wrap);
@@ -77,23 +80,24 @@ namespace Iwentys.Features.Quests.Services
         public async Task<QuestInfoResponse> SendResponseAsync(AuthorizedUser user, int id)
         {
             QuestEntity questEntity = await _questRepository.ReadByIdAsync(id);
-            if (questEntity.State != QuestState.Active || questEntity.IsOutdated)
-                throw new InnerLogicException("Quest is not active");
+            var questResponseEntity = questEntity.CreateResponse(user);
+            await _questRepository.SendResponseAsync(questResponseEntity);
 
-            await _questRepository.SendResponseAsync(questEntity, user.Id);
             QuestEntity updatedQuest = await _questRepository.ReadByIdAsync(id);
             return QuestInfoResponse.Wrap(updatedQuest);
         }
 
         public async Task<QuestInfoResponse> CompleteAsync(AuthorizedUser author, int questId, int userId)
         {
-            QuestEntity questEntity = await _questRepository.ReadByIdAsync(questId);
-            if (questEntity.AuthorId != author.Id)
-                throw InnerLogicException.NotEnoughPermission(author.Id);
+            var quest = await _questRepository.GetAsync(questId);
+            var executor = await _studentRepository.GetAsync(userId);
+            
+            quest.MakeCompleted(author, executor);
+            await _questRepository.Quests.SingleUpdateAsync(quest);
+            await _pointTransactionLogService.TransferFromSystem(userId, quest.Price);
 
-            questEntity = await _questRepository.SetCompletedAsync(questEntity, userId);
             _achievementProvider.Achieve(AchievementList.QuestComplete, userId);
-            return QuestInfoResponse.Wrap(questEntity);
+            return new QuestInfoResponse(quest);
         }
 
         public async Task<QuestInfoResponse> RevokeAsync(AuthorizedUser author, int questId)
