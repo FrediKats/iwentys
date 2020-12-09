@@ -10,6 +10,7 @@ namespace Iwentys.Features.Quests.Repositories
     public interface IQuestRepository : IGenericRepository<QuestEntity, int>
     {
         DbSet<QuestEntity> Quests { get; }
+        Task SaveChangesAsync();
 
         Task SendResponseAsync(QuestResponseEntity questResponse);
         Task<QuestEntity> CreateAsync(StudentEntity student, CreateQuestRequest createQuest);

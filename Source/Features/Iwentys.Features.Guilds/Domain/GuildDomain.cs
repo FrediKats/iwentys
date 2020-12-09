@@ -138,7 +138,9 @@ namespace Iwentys.Features.Guilds.Domain
             GuildMemberEntity memberToKick = Profile.Members.Find(m => m.MemberId == memberToKickId);
             GuildMemberEntity editorMember = Profile.Members.Find(m => m.MemberId == editor.Id) ?? throw new EntityNotFoundException(nameof(GuildMemberEntity));
 
-            if (memberToKick is null || !memberToKick.MemberType.IsMember())
+            //TODO: check
+            //if (memberToKick is null || !memberToKick.MemberType.IsMember())
+            if (memberToKick is null)
                 throw InnerLogicException.Guild.IsNotGuildMember(editor.Id, Profile.Id);
 
             if (memberToKick.MemberType == GuildMemberType.Creator)

@@ -21,7 +21,7 @@ namespace Iwentys.Database.Repositories.Guilds
 
         public bool IsStudentHaveRequest(int studentId)
         {
-            return !_dbContext.GuildMembers
+            return _dbContext.GuildMembers
                 .Where(m => m.Member.Id == studentId)
                 .Any(m => m.MemberType == GuildMemberType.Requested);
         }

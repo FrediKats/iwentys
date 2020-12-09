@@ -7,6 +7,7 @@ using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Companies.Entities;
 using Iwentys.Features.Companies.Models;
 using Iwentys.Features.Companies.Services;
+using Iwentys.Features.Economy.Services;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Entities;
@@ -42,6 +43,7 @@ namespace Iwentys.Tests.Tools
         public readonly CompanyService CompanyService;
         public readonly QuestService QuestService;
         public readonly GithubIntegrationService GithubIntegrationService;
+        public readonly BarsPointTransactionLogService BarsPointTransactionLogService;
 
         public static TestCaseContext Case() => new TestCaseContext();
 
@@ -62,7 +64,9 @@ namespace Iwentys.Tests.Tools
             GuildMemberService = new GuildMemberService(GithubIntegrationService, StudentRepository, DatabaseAccessor.Guild, DatabaseAccessor.GuildMember, DatabaseAccessor.GuildTribute);
             GuildTributeServiceService = new GuildTributeService(githubApiAccessor, DatabaseAccessor.StudentProject, StudentRepository, DatabaseAccessor.Guild, DatabaseAccessor.GuildTribute);
             CompanyService = new CompanyService(DatabaseAccessor.Company, StudentRepository);
-            QuestService = new QuestService(StudentRepository, DatabaseAccessor.Quest, achievementProvider);
+            BarsPointTransactionLogService =
+                new BarsPointTransactionLogService(StudentRepository, DatabaseAccessor.BarsPointTransaction);
+            QuestService = new QuestService(StudentRepository, DatabaseAccessor.Quest, achievementProvider, BarsPointTransactionLogService);
         }
 
         public TestCaseContext WithNewStudent(out AuthorizedUser user, UserType userType = UserType.Common)
@@ -83,7 +87,7 @@ namespace Iwentys.Tests.Tools
 
         public TestCaseContext WithGuild(AuthorizedUser user, out ExtendedGuildProfileWithMemberDataDto guildProfile)
         {
-            var guildCreateRequest = new GuildCreateRequestDto(null, null, null, GuildHiringPolicy.Open);
+            var guildCreateRequest = new GuildCreateRequestDto(null, null, null, GuildHiringPolicy.Close);
 
             GuildProfileShortInfoDto guild = GuildService.CreateAsync(user, guildCreateRequest).Result;
             guildProfile = GuildService.GetAsync(guild.Id, user.Id).Result;

@@ -24,6 +24,11 @@ namespace Iwentys.Database.Repositories.Economy
 
         public DbSet<QuestEntity> Quests => _dbContext.Quests;
 
+        public async Task SaveChangesAsync()
+        {
+            await _dbContext.SaveChangesAsync();
+        }
+
         public IQueryable<QuestEntity> Read()
         {
             return _dbContext.Quests

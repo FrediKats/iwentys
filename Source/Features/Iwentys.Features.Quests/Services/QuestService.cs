@@ -93,7 +93,9 @@ namespace Iwentys.Features.Quests.Services
             var executor = await _studentRepository.GetAsync(userId);
             
             quest.MakeCompleted(author, executor);
-            await _questRepository.Quests.SingleUpdateAsync(quest);
+            //TODO: fix this
+            _questRepository.Quests.Update(quest);
+            await _questRepository.SaveChangesAsync();
             await _pointTransactionLogService.TransferFromSystem(userId, quest.Price);
 
             _achievementProvider.Achieve(AchievementList.QuestComplete, userId);
