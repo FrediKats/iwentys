@@ -35,6 +35,7 @@ namespace Iwentys.Features.Guilds.Services
             _guildTributeRepository = guildTributeRepository;
         }
 
+        //TODO: i'm not sure about this method
         public TributeInfoResponse[] GetPendingTributes(AuthorizedUser user)
         {
             GuildEntity guild = _guildRepository.ReadForStudent(user.Id) ?? throw InnerLogicException.Guild.IsNotGuildMember(user.Id, null);
@@ -52,6 +53,14 @@ namespace Iwentys.Features.Guilds.Services
 
             return _guildTributeRepository
                 .ReadStudentInGuildTributes(guild.Id, user.Id)
+                .Select(TributeInfoResponse.Wrap)
+                .ToArray();
+        }
+
+        public TributeInfoResponse[] GetGuildTributes(int guildId)
+        {
+            return _guildTributeRepository
+                .ReadForGuild(guildId)
                 .Select(TributeInfoResponse.Wrap)
                 .ToArray();
         }

@@ -34,6 +34,12 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             return Ok(_guildService.GetStudentTributeResult(user));
         }
 
+        [HttpGet("get-for-guild")]
+        public ActionResult<List<TributeInfoResponse>> GetGuildTribute(int guildId)
+        {
+            return Ok(_guildService.GetGuildTributes(guildId));
+        }
+
         [HttpPost("create")]
         public async Task<ActionResult<TributeInfoResponse>> SendTribute([FromBody] CreateProjectRequestDto createProject)
         {
