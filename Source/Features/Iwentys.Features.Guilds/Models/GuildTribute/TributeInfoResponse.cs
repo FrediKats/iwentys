@@ -14,7 +14,7 @@ namespace Iwentys.Features.Guilds.Models.GuildTribute
         public TributeState State { get; set; }
         public int? DifficultLevel { get; set; }
         public int? Mark { get; set; }
-        public DateTime CreationTime { get; set; }
+        public DateTime CreationTimeUtc { get; set; }
 
         public StudentInfoDto Mentor { get; set; }
         public int? MentorId { get; set; }
@@ -28,7 +28,7 @@ namespace Iwentys.Features.Guilds.Models.GuildTribute
                 State = project.State,
                 DifficultLevel = project.DifficultLevel,
                 Mark = project.Mark,
-                CreationTime = project.CreationTimeUtc,
+                CreationTimeUtc = project.CreationTimeUtc,
                 Mentor = project.Mentor is null ? null : new StudentInfoDto(project.Mentor)
             };
         }

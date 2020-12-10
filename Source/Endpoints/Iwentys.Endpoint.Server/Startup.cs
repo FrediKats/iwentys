@@ -41,7 +41,7 @@ namespace Iwentys.Endpoint.Server
 
             //TODO: fix
             services.AddControllersWithViews();
-            services.AddControllersWithViews().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+            services.AddControllersWithViews();/*.AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));*/
             services.AddRazorPages();
             services.AddSwaggerGen();
 

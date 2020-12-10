@@ -9,8 +9,7 @@
     <MatBody1>@SelectedGuildProfile.Bio</MatBody1>
 
     <MatButton Link="@EditProfileLink()">Редактировать</MatButton>
-    @*TODO: add tributes*@
-    <MatButton>Трибьюты</MatButton>
+    <MatButton Link=@TributeJournalLink()>Трибьюты</MatButton>
 </MatPaper>
 
 @code {
@@ -19,4 +18,5 @@
 
     private string EditProfileLink() => $"guild/profile/{SelectedGuildProfile.Id}/edit";
     private string LeaderProfileLink() => $"student/profile/{SelectedGuildProfile.Leader.Id}";
+    private string TributeJournalLink() => $"/guild/{SelectedGuildProfile.Id}/tribute";
 }
