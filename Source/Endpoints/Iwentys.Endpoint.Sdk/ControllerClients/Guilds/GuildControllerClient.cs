@@ -2,6 +2,8 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using Flurl;
+using Flurl.Http;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.Guilds.Models.Guilds;
 
@@ -16,11 +18,13 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
 
         public HttpClient Client { get; }
 
-
         public Task<List<GuildProfileDto>> GetOverview(int skip = 0, int take = 20)
         {
-            //TODO: rework it later
-            return Client.GetFromJsonAsync<List<GuildProfileDto>>($"/api/guild?skip={skip}&take={take}");
+            //TODO: rework all other method with Flurl
+            return "/api/guild"
+                .SetQueryParam("skip", skip)
+                .SetQueryParam("take", take)
+                .GetJsonAsync<List<GuildProfileDto>>();
         }
 
         public Task<ExtendedGuildProfileWithMemberDataDto> Get(int id)
