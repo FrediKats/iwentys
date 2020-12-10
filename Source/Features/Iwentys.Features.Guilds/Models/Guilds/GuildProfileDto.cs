@@ -10,6 +10,10 @@ namespace Iwentys.Features.Guilds.Models.Guilds
 {
     public class GuildProfileDto : GuildProfileShortInfoDto, IResultFormat
     {
+        public GuildProfileDto()
+        {
+            
+        }
         public GuildProfileDto(GuildEntity guild) : base(guild)
         {
             Leader = guild.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentInfoDto(s));

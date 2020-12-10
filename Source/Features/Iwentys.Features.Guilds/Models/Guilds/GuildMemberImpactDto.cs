@@ -8,5 +8,9 @@ namespace Iwentys.Features.Guilds.Models.Guilds
             : this(userEntity.Username, userEntity.ContributionFullInfo?.Total ?? 0)
         {
         }
+
+        public GuildMemberImpactDto() : this(default, default)
+        {
+        }
     }
 }

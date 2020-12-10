@@ -33,6 +33,10 @@ namespace Iwentys.Features.Students.Models
         {
         }
 
+        public StudentInfoDto() : this(default, default, default, default, default, default, default, default, default, default, default)
+        {
+        }
+
         //public string SocialStatus { get; set; }
         //public string AdditionalLink { get; set; }
 

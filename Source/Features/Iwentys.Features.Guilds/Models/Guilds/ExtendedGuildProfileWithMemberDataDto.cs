@@ -12,6 +12,10 @@ namespace Iwentys.Features.Guilds.Models.Guilds
         {
         }
 
+        public ExtendedGuildProfileWithMemberDataDto()
+        {
+        }
+
         public UserMembershipState UserMembershipState { get; set; }
 
         public List<GithubRepositoryInfoDto> PinnedRepositories { get; set; }
