@@ -41,9 +41,14 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                     .ToList();
                 GuildMembers.AddRange(members);
                 usedCount += 10;
-            }
 
-            //TODO: add guild pinned project
+                guild.PinnedProjects = new Faker<GuildPinnedProjectEntity>()
+                    .RuleFor(g => g.Id, f => f.IndexVariable++ + 1)
+                    .RuleFor(gp => gp.GuildId, guild.Id)
+                    .RuleFor(gp => gp.RepositoryOwner, f => f.Company.CompanyName())
+                    .RuleFor(gp => gp.RepositoryName, f => f.Company.CompanyName())
+                    .Generate(5);
+            }
         }
     }
 }
