@@ -32,4 +32,3 @@ namespace Iwentys.Endpoint.Server.Source.Auth
         }
     }
 }
-//TODO: fix

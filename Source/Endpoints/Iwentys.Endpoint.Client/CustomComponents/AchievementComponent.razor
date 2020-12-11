@@ -4,13 +4,11 @@
 
 <MatPaper Elevation="10" Rounded="true" Class="text-center">
     <MatHeadline5>Ачивки</MatHeadline5>
-    @*TODO: add scroll*@
     <div class="container-fluid d-flex flex-row">
         @foreach (AchievementDto achievement in Achievements)
         {
             <div class="d-flex flex-column achievement-item">
                 <img src="@achievement.ImageUrl" />
-                @*TODO: add description on hover *@
                 <MatHeadline6>@achievement.Name</MatHeadline6>
             </div>
         }

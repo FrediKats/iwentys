@@ -21,5 +21,3 @@ namespace Iwentys.Endpoint.Server.Source.Auth
         public SecurityKey GetKey() => _securityKey;
     }
 }
-
-//TODO: fix

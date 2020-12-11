@@ -20,7 +20,6 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
 
         public Task<List<GuildProfileDto>> GetOverview(int skip = 0, int take = 20)
         {
-            //TODO: rework all other method with Flurl
             return "/api/guild"
                 .SetQueryParam("skip", skip)
                 .SetQueryParam("take", take)

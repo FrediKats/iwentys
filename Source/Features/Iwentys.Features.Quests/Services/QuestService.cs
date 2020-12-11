@@ -11,7 +11,6 @@ using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Students.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Z.EntityFramework.Plus;
 
 namespace Iwentys.Features.Quests.Services
 {

@@ -59,28 +59,6 @@ namespace Iwentys.Database.Repositories.Economy
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<QuestEntity> SetCompletedAsync(QuestEntity questEntity, int studentId)
-        {
-            //TODO: move to domain
-            if (questEntity.State != QuestState.Active || questEntity.IsOutdated)
-                throw new InnerLogicException("Quest is not active");
-
-            questEntity.State = QuestState.Completed;
-            questEntity = _dbContext.Quests.Update(questEntity).Entity;
-
-            QuestResponseEntity responseEntity = _dbContext.QuestResponses.Single(qr => qr.QuestId == questEntity.Id && qr.StudentId == studentId);
-            List<QuestResponseEntity> responsesToDelete = questEntity.Responses.Where(qr => qr.StudentId != responseEntity.StudentId).ToList();
-            _dbContext.QuestResponses.RemoveRange(responsesToDelete);
-
-            StudentEntity student = await _dbContext.Students.FindAsync(studentId);
-            student.BarsPoints += questEntity.Price;
-            _dbContext.Students.Update(student);
-
-            await _dbContext.SaveChangesAsync();
-
-            return questEntity;
-        }
-
         public async Task<QuestEntity> CreateAsync(StudentEntity student, CreateQuestRequest createQuest)
         {
             //TODO: add transaction

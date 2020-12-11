@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Iwentys.Common.Exceptions;
 using Iwentys.Database.Context;
 using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Assignments.Models;
@@ -44,8 +45,7 @@ namespace Iwentys.Database.Repositories
         {
             AssignmentEntity assignmentEntity = await _dbContext.Assignments.FindAsync(assignmentId);
             if (assignmentEntity is null)
-                //TODO: meh
-                throw new Exception();
+                throw new EntityNotFoundException("Assignment was not found.");
             assignmentEntity.IsCompleted = true;
             EntityEntry<AssignmentEntity> result = _dbContext.Assignments.Update(assignmentEntity);
             await _dbContext.SaveChangesAsync();
