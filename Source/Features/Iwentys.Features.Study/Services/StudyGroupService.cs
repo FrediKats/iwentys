@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Iwentys.Common.Tools;
 using Iwentys.Features.Study.Domain;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
@@ -34,8 +35,8 @@ namespace Iwentys.Features.Study.Services
         //TODO: ensure it's compile to sql
         public async Task<GroupProfileResponseDto> GetStudentGroup(int studentId)
         {
-            StudyGroupEntity studyGroupEntity = await _studyGroupRepository.Read().FirstAsync(g => g.Students.Any(s => s.Id == studentId));
-            return new GroupProfileResponseDto(studyGroupEntity);
+            StudyGroupEntity studyGroupEntity = await _studyGroupRepository.Read().FirstOrDefaultAsync(g => g.Students.Any(s => s.Id == studentId));
+            return studyGroupEntity.Maybe(s => new GroupProfileResponseDto(s));
         }
     }
 }

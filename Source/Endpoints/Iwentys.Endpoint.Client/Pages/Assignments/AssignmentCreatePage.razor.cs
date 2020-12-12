@@ -35,7 +35,7 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
             var studentControllerClient = new StudentControllerClient(httpClient);
             
             StudentInfoDto student = await studentControllerClient.GetSelf();
-            GroupProfileResponseDto studentGroup = await studyGroupControllerClient.GetStudentGroup(student.Id);
+            GroupProfileResponseDto studentGroup = await studyGroupControllerClient.FindStudentGroup(student.Id);
             if (studentGroup is not null)
             {
                 List<SubjectProfileDto> subject = await _subjectControllerClient.GetGroupSubjects(studentGroup.Id);

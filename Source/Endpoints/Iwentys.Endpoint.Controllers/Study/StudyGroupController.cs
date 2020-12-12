@@ -36,7 +36,8 @@ namespace Iwentys.Endpoint.Controllers.Study
         public async Task<ActionResult<GroupProfileResponseDto>> GetStudentGroup(int studentId)
         {
             GroupProfileResponseDto result = await _studyGroupService.GetStudentGroup(studentId);
-            return Ok(result);
+            //TODO: hack
+            return Ok(result ?? new GroupProfileResponseDto());
         }
     }
 }

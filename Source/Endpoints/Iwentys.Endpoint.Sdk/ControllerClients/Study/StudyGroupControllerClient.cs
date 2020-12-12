@@ -19,7 +19,7 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
             return Client.GetFromJsonAsync<GroupProfileResponseDto>($"api/StudyGroup/by-name/{groupName}");
         }
 
-        public Task<GroupProfileResponseDto> GetStudentGroup(int studentId)
+        public Task<GroupProfileResponseDto> FindStudentGroup(int studentId)
         {
             return Client.GetFromJsonAsync<GroupProfileResponseDto>($"api/StudyGroup/by-student/{studentId}");
         }

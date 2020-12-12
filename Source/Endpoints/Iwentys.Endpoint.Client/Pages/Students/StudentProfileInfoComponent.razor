@@ -14,7 +14,7 @@
             <MatHeadline4>@StudentProfile.GithubUsername</MatHeadline4>
             <MatBody1>@StudentProfile.GetFullName()</MatBody1>
             
-            @if (_group is not null)
+            @if (_group?.GroupName is not null)
             {
                 <NavLink href=@LinkToGroupProfile>Группа: @_group.GroupName</NavLink>
             }
