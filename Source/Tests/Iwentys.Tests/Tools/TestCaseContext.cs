@@ -3,6 +3,7 @@ using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Achievements;
 using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Repositories.Study;
+using Iwentys.Database.Tools;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Companies.Entities;
 using Iwentys.Features.Companies.Models;
@@ -50,6 +51,8 @@ namespace Iwentys.Tests.Tools
         public TestCaseContext()
         {
             Context = TestDatabaseProvider.GetDatabaseContext();
+            var unitOfWork = new UnitOfWork<IwentysDbContext>(Context);
+            
             AchievementRepository = new AchievementRepository(Context);
             StudentRepository = new StudentRepository(Context);
             GuildRepository = new GuildRepository(Context);
@@ -66,7 +69,7 @@ namespace Iwentys.Tests.Tools
             CompanyService = new CompanyService(DatabaseAccessor.Company, StudentRepository);
             BarsPointTransactionLogService =
                 new BarsPointTransactionLogService(StudentRepository, DatabaseAccessor.BarsPointTransaction);
-            QuestService = new QuestService(StudentRepository, DatabaseAccessor.Quest, achievementProvider, BarsPointTransactionLogService);
+            QuestService = new QuestService(DatabaseAccessor.Quest, achievementProvider, BarsPointTransactionLogService, unitOfWork);
         }
 
         public TestCaseContext WithNewStudent(out AuthorizedUser user, UserType userType = UserType.Common)

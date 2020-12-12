@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Common.Tools;
+using Iwentys.Common.Databases;
 using Iwentys.Database.Context;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
