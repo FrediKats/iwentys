@@ -1,4 +1,5 @@
-﻿using Iwentys.Features.Students.Entities;
+﻿using Iwentys.Features.Assignments.Models;
+using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Assignments.Entities
 {
@@ -9,5 +10,17 @@ namespace Iwentys.Features.Assignments.Entities
 
         public int StudentId { get; set; }
         public virtual StudentEntity Student { get; set; }
+
+        public static StudentAssignmentEntity Create(StudentEntity creator, AssignmentCreateRequestDto assignmentCreateRequestDto)
+        {
+            var assignmentEntity = AssignmentEntity.Create(creator, assignmentCreateRequestDto);
+            var studentAssignmentEntity = new StudentAssignmentEntity
+            {
+                StudentId = creator.Id,
+                Assignment = assignmentEntity
+            };
+
+            return studentAssignmentEntity;
+        }
     }
 }

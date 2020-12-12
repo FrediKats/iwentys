@@ -23,7 +23,7 @@ namespace Iwentys.Endpoint.Controllers
         public async Task<ActionResult<List<AssignmentInfoDto>>> Get()
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            List<AssignmentInfoDto> assignments = await _assignmentService.ReadAsync(user);
+            List<AssignmentInfoDto> assignments = await _assignmentService.ReadByUserAsync(user);
             return Ok(assignments);
         }
 
@@ -31,7 +31,7 @@ namespace Iwentys.Endpoint.Controllers
         public async Task<ActionResult<AssignmentInfoDto>> Create([FromBody] AssignmentCreateRequestDto assignmentCreateRequestDto)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            AssignmentInfoDto assignment = await _assignmentService.CreateAsync(user, assignmentCreateRequestDto);
+            var assignment = await _assignmentService.CreateAsync(user, assignmentCreateRequestDto);
             return Ok(assignment);
         }
 

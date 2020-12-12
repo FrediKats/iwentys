@@ -32,5 +32,12 @@ namespace Iwentys.Features.Assignments.Entities
                 SubjectId = assignmentCreateRequestDto.SubjectId
             };
         }
+
+        public void MarkCompleted(StudentEntity student)
+        {
+            //TODO: ensure user is creator
+            //TODO: check state
+            IsCompleted = true;
+        }
     }
 }
