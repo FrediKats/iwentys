@@ -16,7 +16,7 @@ namespace Iwentys.Features.Study.Models
             Activity = activity;
         }
 
-        private StudentActivityInfoDto()
+        public StudentActivityInfoDto()
         {
         }
 

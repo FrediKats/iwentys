@@ -20,7 +20,8 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
 
         public Task<List<GuildProfileDto>> GetOverview(int skip = 0, int take = 20)
         {
-            return "/api/guild"
+            return new FlurlClient(Client)
+                .Request("/api/guild")
                 .SetQueryParam("skip", skip)
                 .SetQueryParam("take", take)
                 .GetJsonAsync<List<GuildProfileDto>>();

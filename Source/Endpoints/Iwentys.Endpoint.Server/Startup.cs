@@ -9,6 +9,7 @@ using Iwentys.Database.Context;
 using Iwentys.Endpoint.Server.Source.Data;
 using Iwentys.Endpoint.Server.Source.Models;
 using Iwentys.Endpoint.Server.Source.Tools;
+using Microsoft.Extensions.Hosting;
 
 namespace Iwentys.Endpoint.Server
 {
@@ -54,6 +55,8 @@ namespace Iwentys.Endpoint.Server
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IwentysDbContext db)
         {
             app.UseExceptional();
+            app.UseMigrationsEndPoint();
+            app.UseWebAssemblyDebugging();
             //FYI: https://github.com/NickCraver/StackExchange.Exceptional/blob/main/samples/Samples.AspNetCore/Startup.cs
             //if (env.IsDevelopment())
             //{

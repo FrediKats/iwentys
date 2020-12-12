@@ -13,6 +13,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 
         public List<GuildEntity> Guilds { get; }
         public List<GuildMemberEntity> GuildMembers { get; }
+        public List<GuildPinnedProjectEntity> PinnedProjects { get; }
 
         public GuildGenerator(List<StudentEntity> students)
         {
@@ -26,6 +27,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 
             Guilds = faker.Generate(GuildCount);
             GuildMembers = new List<GuildMemberEntity>();
+            PinnedProjects = new List<GuildPinnedProjectEntity>();
 
             int usedCount = 0;
             foreach (GuildEntity guild in Guilds)
@@ -42,12 +44,12 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 GuildMembers.AddRange(members);
                 usedCount += 10;
 
-                guild.PinnedProjects = new Faker<GuildPinnedProjectEntity>()
+                PinnedProjects.AddRange(new Faker<GuildPinnedProjectEntity>()
                     .RuleFor(g => g.Id, f => f.IndexVariable++ + 1)
                     .RuleFor(gp => gp.GuildId, guild.Id)
                     .RuleFor(gp => gp.RepositoryOwner, f => f.Company.CompanyName())
                     .RuleFor(gp => gp.RepositoryName, f => f.Company.CompanyName())
-                    .Generate(5);
+                    .Generate(5));
             }
         }
     }

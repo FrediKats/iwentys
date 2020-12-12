@@ -118,6 +118,7 @@ namespace Iwentys.Endpoint.Server.Source.Tools
             services.AddScoped<StudentService>();
             services.AddScoped<StudyGroupService>();
             services.AddScoped<SubjectService>();
+            services.AddScoped<SubjectActivityService>();
 
             services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();
