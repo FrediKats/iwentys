@@ -23,7 +23,8 @@ namespace Iwentys.Endpoint.Controllers
         public async Task<ActionResult<NewsfeedViewModel>> CreateSubject(NewsfeedCreateViewModel createViewModel, int subjectId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            return Ok(await _newsfeedService.CreateSubjectNewsfeed(createViewModel, authorizedUser.Id, subjectId));
+            await _newsfeedService.CreateSubjectNewsfeed(createViewModel, authorizedUser, subjectId);
+            return Ok();
         }
 
         [HttpGet("subject/{subjectId}")]
