@@ -1,11 +1,9 @@
-using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 using Iwentys.Database.Context;
 using Iwentys.Endpoint.Server.Source.Data;
@@ -40,11 +38,9 @@ namespace Iwentys.Endpoint.Server
                 .AddIdentityServerJwt();
 
             //TODO: fix
-            services.AddControllersWithViews();
             services.AddControllersWithViews();/*.AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));*/
-            services.AddRazorPages();
             services.AddSwaggerGen();
-
+            services.AddRazorPages();
             services.ConfigIwentysOptions(Configuration);
         }
 
@@ -58,11 +54,12 @@ namespace Iwentys.Endpoint.Server
                 app.UseWebAssemblyDebugging();
             }
             else
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
             {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Unstable API v0.1");
+                c.RoutePrefix = "swagger";
+            });
 
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
@@ -80,14 +77,7 @@ namespace Iwentys.Endpoint.Server
                 endpoints.MapControllers();
                 endpoints.MapFallbackToFile("index.html");
             });
-
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Unstable API v0.1");
-                c.RoutePrefix = string.Empty;
-            });
-
+            
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
         }
