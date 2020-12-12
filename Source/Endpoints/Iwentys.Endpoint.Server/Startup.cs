@@ -48,7 +48,15 @@ namespace Iwentys.Endpoint.Server
             services.AddControllersWithViews();/*.AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));*/
             services.AddSwaggerGen();
             services.AddRazorPages();
-            services.ConfigIwentysOptions(Configuration);
+            
+            services
+                .AddIwentysLogging(Configuration)
+                .AddIwentysCorsHack(Configuration)
+                .AddApplicationOptions(Configuration)
+                .AddIwentysDatabase()
+                .AddIwentysTokenFactory(Configuration)
+                .AddIwentysServices()
+                .AddUnitOfWork<IwentysDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

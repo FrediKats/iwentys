@@ -41,27 +41,14 @@ namespace Iwentys.Endpoint.Server.Source.Tools
 {
     public static class AspStartupExtensions
     {
-        public static IServiceCollection ConfigIwentysOptions(this IServiceCollection services, IConfiguration configuration)
-        {
-            services
-                .AddIwentysLogging(configuration)
-                .AddIwentysCorsHack(configuration)
-                .AddApplicationOptions(configuration)
-                .AddIwentysDatabase()
-                .AddIwentysTokenFactory(configuration)
-                .AddIwentysServices()
-                .AddUnitOfWork<IwentysDbContext>();
-            //TODO: meh (
-            //.AddIwentysFakeAuth(configuration);
-            return services;
-        }
-
-
         public static IServiceCollection AddIwentysDatabase(this IServiceCollection services)
         {
             //TODO: replace with normal db
             //services.AddDbContext<IwentysDbContext>(o => o.UseSqlite("Data Source=Iwentys.db"));
-            services.AddDbContext<IwentysDbContext>(o => o.UseInMemoryDatabase("Data Source=Iwentys.db"));
+            services
+                .AddDbContext<IwentysDbContext>(o => o
+                    .UseLazyLoadingProxies()
+                    .UseInMemoryDatabase("Data Source=Iwentys.db"));
             return services;
         }
 

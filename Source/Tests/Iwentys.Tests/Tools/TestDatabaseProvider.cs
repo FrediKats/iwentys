@@ -12,7 +12,10 @@ namespace Iwentys.Tests.Tools
 
             DbContextOptions<IwentysDbContext> options = new DbContextOptionsBuilder<IwentysDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .UseLazyLoadingProxies()
                 .Options;
+
+            
             var databaseContext = new IwentysDbContext(options);
             EntityFrameworkManager.ContextFactory = context => new IwentysDbContext(options);
             databaseContext.Database.EnsureCreated();
