@@ -12,6 +12,6 @@ namespace Iwentys.Features.Newsfeeds.Entities
         public string SourceLink { get; set; }
 
         public int AuthorId { get; set; }
-        public StudentEntity Author { get; set; }
+        public virtual StudentEntity Author { get; set; }
     }
 }

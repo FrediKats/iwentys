@@ -6,7 +6,7 @@ namespace Iwentys.Features.Guilds.Entities
 {
     public class GuildMemberEntity
     {
-        private GuildMemberEntity()
+        protected GuildMemberEntity()
         {
         }
 
@@ -23,10 +23,10 @@ namespace Iwentys.Features.Guilds.Entities
         }
 
         public int GuildId { get; set; }
-        public GuildEntity Guild { get; set; }
+        public virtual GuildEntity Guild { get; set; }
 
         public int MemberId { get; set; }
-        public StudentEntity Member { get; set; }
+        public virtual StudentEntity Member { get; set; }
 
         public GuildMemberType MemberType { get; set; }
         

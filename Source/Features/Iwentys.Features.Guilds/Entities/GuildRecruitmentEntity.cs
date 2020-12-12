@@ -7,9 +7,9 @@ namespace Iwentys.Features.Guilds.Entities
         public int Id { get; set; }
 
         public int GuildId { get; set; }
-        public GuildEntity Guild { get; set; }
+        public virtual GuildEntity Guild { get; set; }
 
         public string Description { get; set; }
-        public List<GuildRecruitmentMemberEntity> RecruitmentMembers { get; set; }
+        public virtual List<GuildRecruitmentMemberEntity> RecruitmentMembers { get; set; }
     }
 }

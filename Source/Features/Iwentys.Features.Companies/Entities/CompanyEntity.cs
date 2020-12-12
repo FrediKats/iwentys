@@ -9,6 +9,6 @@ namespace Iwentys.Features.Companies.Entities
         public double Latitude { get; set; }
         public double Longitude { get; set; }
 
-        public List<CompanyWorkerEntity> Workers { get; set; }
+        public virtual List<CompanyWorkerEntity> Workers { get; set; }
     }
 }

@@ -10,16 +10,16 @@ namespace Iwentys.Features.Study.Entities
         public int Id { get; set; }
 
         public int SubjectId { get; set; }
-        public SubjectEntity Subject { get; set; }
+        public virtual SubjectEntity Subject { get; set; }
 
         public int StudyGroupId { get; set; }
-        public StudyGroupEntity StudyGroup { get; set; }
+        public virtual StudyGroupEntity StudyGroup { get; set; }
 
         public int LectorTeacherId { get; set; }
-        public TeacherEntity LectorTeacher { get; set; }
+        public virtual TeacherEntity LectorTeacher { get; set; }
 
         public int PracticeTeacherId { get; set; }
-        public TeacherEntity PracticeTeacher { get; set; }
+        public virtual TeacherEntity PracticeTeacher { get; set; }
 
         public string SerializedGoogleTableConfig { get; set; }
         public StudySemester StudySemester { get; set; }

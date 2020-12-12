@@ -21,12 +21,12 @@ namespace Iwentys.Features.Quests.Entities
         public QuestState State { get; set; }
 
         public int AuthorId { get; set; }
-        public StudentEntity Author { get; set; }
+        public virtual StudentEntity Author { get; set; }
 
         public int? ExecutorId { get; set; }
-        public StudentEntity Executor { get; set; }
+        public virtual StudentEntity Executor { get; set; }
 
-        public List<QuestResponseEntity> Responses { get; set; }
+        public virtual List<QuestResponseEntity> Responses { get; set; }
 
         public bool IsOutdated => Deadline < DateTime.UtcNow;
 

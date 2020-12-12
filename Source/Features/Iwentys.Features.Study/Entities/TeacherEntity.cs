@@ -8,6 +8,6 @@ namespace Iwentys.Features.Study.Entities
         public string Name { get; set; }
 
         public int? StudentProfileId { get; set; }
-        public StudentEntity StudentProfile { get; set; }
+        public virtual StudentEntity StudentProfile { get; set; }
     }
 }

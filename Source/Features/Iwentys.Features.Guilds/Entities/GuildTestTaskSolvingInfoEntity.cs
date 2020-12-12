@@ -19,17 +19,19 @@ namespace Iwentys.Features.Guilds.Entities
         }
 
         public int GuildId { get; set; }
-        public GuildEntity Guild { get; set; }
+        public virtual GuildEntity Guild { get; set; }
+        
         public int StudentId { get; set; }
-        public StudentEntity Student { get; set; }
-        public DateTime StartTime { get; set; }
+        public virtual StudentEntity Student { get; set; }
 
-        public DateTime? SubmitTime { get; set; }
         public long? ProjectId { get; set; }
-        public GithubProjectEntity Project { get; set; }
+        public virtual GithubProjectEntity Project { get; set; }
 
         public int? ReviewerId { get; set; }
-        public StudentEntity Reviewer { get; set; }
+        public virtual StudentEntity Reviewer { get; set; }
+        
+        public DateTime StartTime { get; set; }
+        public DateTime? SubmitTime { get; set; }
         public DateTime? CompleteTime { get; set; }
 
         public void SendSubmit(long projectId)

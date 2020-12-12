@@ -15,10 +15,10 @@ namespace Iwentys.Features.Assignments.Entities
         public bool IsCompleted { get; set; }
 
         public int CreatorId { get; set; }
-        public StudentEntity Creator { get; set; }
+        public virtual StudentEntity Creator { get; set; }
 
         public int? SubjectId { get; set; }
-        public SubjectEntity Subject { get; set; }
+        public virtual SubjectEntity Subject { get; set; }
 
         public static AssignmentEntity Create(StudentEntity creator, AssignmentCreateRequestDto assignmentCreateRequestDto)
         {

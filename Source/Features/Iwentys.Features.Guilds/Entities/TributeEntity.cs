@@ -23,19 +23,18 @@ namespace Iwentys.Features.Guilds.Entities
         }
 
         [Key] public long ProjectId { get; set; }
+        public virtual GithubProjectEntity ProjectEntity { get; set; }
 
-        public GithubProjectEntity ProjectEntity { get; set; }
-
-        public GuildEntity Guild { get; set; }
         public int GuildId { get; set; }
+        public virtual GuildEntity Guild { get; set; }
 
+        public int? MentorId { get; set; }
+        public virtual StudentEntity Mentor { get; set; }
+        
         public TributeState State { get; set; }
         public int? DifficultLevel { get; set; }
         public int? Mark { get; set; }
         public DateTime CreationTimeUtc { get; set; }
-
-        public StudentEntity Mentor { get; set; }
-        public int? MentorId { get; set; }
 
         public void SetCanceled()
         {

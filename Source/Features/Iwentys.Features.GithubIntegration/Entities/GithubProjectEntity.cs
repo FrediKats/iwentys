@@ -21,7 +21,7 @@ namespace Iwentys.Features.GithubIntegration.Entities
         }
 
         public int StudentId { get; set; }
-        public StudentEntity Student { get; set; }
+        public virtual StudentEntity Student { get; set; }
 
         public long Id { get; set; }
         public string FullUrl { get; set; }
