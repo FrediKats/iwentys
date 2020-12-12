@@ -20,7 +20,6 @@ namespace Iwentys.Database.Context
             new StudentProjectRepository(context),
             new GuildTributeRepository(context),
             new BarsPointTransactionRepository(context),
-            new QuestRepository(context),
             new SubjectActivityRepository(context),
             new GroupSubjectRepository(context),
             new StudyGroupRepository(context),
@@ -40,7 +39,6 @@ namespace Iwentys.Database.Context
             IStudentProjectRepository studentProject,
             GuildTributeRepository guildTribute,
             BarsPointTransactionRepository barsPointTransaction,
-            QuestRepository quest,
             SubjectActivityRepository subjectActivity,
             GroupSubjectRepository groupSubject,
             StudyGroupRepository studyGroup,
@@ -58,7 +56,6 @@ namespace Iwentys.Database.Context
             StudentProject = studentProject;
             GuildTribute = guildTribute;
             BarsPointTransaction = barsPointTransaction;
-            Quest = quest;
             SubjectActivity = subjectActivity;
             GroupSubject = groupSubject;
             StudyGroup = studyGroup;
@@ -80,7 +77,6 @@ namespace Iwentys.Database.Context
         public IStudentProjectRepository StudentProject { get; }
         public GuildTributeRepository GuildTribute { get; }
         public BarsPointTransactionRepository BarsPointTransaction { get; }
-        public QuestRepository Quest { get; }
         public IGithubUserDataRepository GithubUserData { get; }
         public IGuildTestTaskSolvingInfoRepository GuildTestTaskSolvingInfo { get; }
 

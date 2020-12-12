@@ -69,7 +69,7 @@ namespace Iwentys.Tests.Tools
             CompanyService = new CompanyService(DatabaseAccessor.Company, StudentRepository);
             BarsPointTransactionLogService =
                 new BarsPointTransactionLogService(StudentRepository, DatabaseAccessor.BarsPointTransaction);
-            QuestService = new QuestService(DatabaseAccessor.Quest, achievementProvider, BarsPointTransactionLogService, unitOfWork);
+            QuestService = new QuestService(achievementProvider, BarsPointTransactionLogService, unitOfWork);
         }
 
         public TestCaseContext WithNewStudent(out AuthorizedUser user, UserType userType = UserType.Common)

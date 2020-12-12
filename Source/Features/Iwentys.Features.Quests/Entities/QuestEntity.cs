@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.Quests.Enums;
+using Iwentys.Features.Quests.Models;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 
@@ -29,17 +30,23 @@ namespace Iwentys.Features.Quests.Entities
 
         public bool IsOutdated => Deadline < DateTime.UtcNow;
 
-        public static QuestEntity New(string title, string description, int price, DateTime? deadline, StudentEntity author)
+        public static QuestEntity New(StudentEntity student, CreateQuestRequest createQuest)
         {
+            //TODO: add transaction
+            if (student.BarsPoints < createQuest.Price)
+                throw InnerLogicException.NotEnoughBarsPoints();
+
+            student.BarsPoints -= createQuest.Price;
+
             return new QuestEntity
             {
-                Title = title,
-                Description = description,
-                Price = price,
+                Title = createQuest.Title,
+                Description = createQuest.Description,
+                Price = createQuest.Price,
                 CreationTime = DateTime.UtcNow,
-                Deadline = deadline,
+                Deadline = createQuest.Deadline,
                 State = QuestState.Active,
-                AuthorId = author.Id
+                AuthorId = student.Id
             };
         }
 
