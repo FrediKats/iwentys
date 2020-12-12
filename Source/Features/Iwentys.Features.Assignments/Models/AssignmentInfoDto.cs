@@ -5,15 +5,7 @@ using Iwentys.Features.Study.Entities;
 
 namespace Iwentys.Features.Assignments.Models
 {
-    public record AssignmentInfoDto(
-        int Id,
-        string Title,
-        string Description,
-        DateTime CreationTime,
-        DateTime? Deadline,
-        StudentInfoDto Creator,
-        SubjectEntity Subject,
-        bool IsCompeted)
+    public record AssignmentInfoDto
     {
         public AssignmentInfoDto(AssignmentEntity assignment)
             : this(
@@ -28,8 +20,33 @@ namespace Iwentys.Features.Assignments.Models
         {
         }
 
+        public AssignmentInfoDto(int id, string title, string description, DateTime creationTime, DateTime? deadline, StudentInfoDto creator, SubjectEntity subject, bool isCompeted)
+        {
+            Id = id;
+            Title = title;
+            Description = description;
+            CreationTime = creationTime;
+            Deadline = deadline;
+            Creator = creator;
+            Subject = subject;
+            IsCompeted = isCompeted;
+        }
+
         public AssignmentInfoDto(StudentAssignmentEntity studentAssignment) : this(studentAssignment.Assignment)
         {
         }
+
+        public AssignmentInfoDto()
+        {
+        }
+
+        public int Id { get; init; }
+        public string Title { get; init; }
+        public string Description { get; init; }
+        public DateTime CreationTime { get; init; }
+        public DateTime? Deadline { get; init; }
+        public StudentInfoDto Creator { get; init; }
+        public SubjectEntity Subject { get; init; }
+        public bool IsCompeted { get; init; }
     }
 }

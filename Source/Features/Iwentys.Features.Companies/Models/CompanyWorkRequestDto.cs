@@ -5,7 +5,7 @@ using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Companies.Models
 {
-    public record CompanyWorkRequestDto(CompanyInfoDto Company, StudentEntity Worker)
+    public record CompanyWorkRequestDto
     {
         public static CompanyWorkRequestDto Create(CompanyWorkerEntity workerEntity)
         {
@@ -14,5 +14,18 @@ namespace Iwentys.Features.Companies.Models
 
             return new CompanyWorkRequestDto(new CompanyInfoDto(workerEntity.CompanyEntity), workerEntity.Worker);
         }
+
+        public CompanyWorkRequestDto(CompanyInfoDto company, StudentEntity worker)
+        {
+            Company = company;
+            Worker = worker;
+        }
+
+        public CompanyWorkRequestDto()
+        {
+        }
+        
+        public CompanyInfoDto Company { get; init; }
+        public StudentEntity Worker { get; init; }
     }
 }

@@ -7,7 +7,7 @@ using Iwentys.Features.Study.Entities;
 
 namespace Iwentys.Features.Gamification.Models
 {
-    public record StudyLeaderboardRowDto(StudentInfoDto Student, double Activity) : IResultFormat
+    public record StudyLeaderboardRowDto : IResultFormat
     {
         public StudyLeaderboardRowDto(StudentEntity student, int githubActivity)
             : this(new StudentInfoDto(student), githubActivity)
@@ -18,6 +18,19 @@ namespace Iwentys.Features.Gamification.Models
             : this(new StudentInfoDto(activity.First().Student), activity.Sum(a => a.Points))
         {
         }
+
+        public StudyLeaderboardRowDto(StudentInfoDto student, double activity)
+        {
+            Student = student;
+            Activity = activity;
+        }
+
+        public StudyLeaderboardRowDto()
+        {
+        }
+        
+        public StudentInfoDto Student { get; init; }
+        public double Activity { get; init; }
 
         public string Format()
         {
