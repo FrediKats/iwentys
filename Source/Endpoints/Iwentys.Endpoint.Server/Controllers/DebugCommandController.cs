@@ -1,10 +1,12 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Database.Context;
 using Iwentys.Endpoint.Server.Source;
 using Iwentys.Endpoint.Server.Source.BackgroundServices;
 using Iwentys.Features.Study.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using StackExchange.Exceptional;
 
 namespace Iwentys.Endpoint.Server.Controllers
 {
@@ -55,5 +57,8 @@ namespace Iwentys.Endpoint.Server.Controllers
         //    List<SubjectTeacherInfo> result = tableParser.Execute(subjectTeacherParser);
         //    return Ok(result);
         //}
+
+        [HttpGet("~/errors/log/{path?}/{subPath?}", Name = "ErrorLog")]
+        public async Task Exceptions() => await ExceptionalMiddleware.HandleRequestAsync(HttpContext);
     }
 }

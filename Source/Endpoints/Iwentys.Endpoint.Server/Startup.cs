@@ -21,6 +21,7 @@ namespace Iwentys.Endpoint.Server
 
         public IConfiguration Configuration { get; }
 
+        //TODO: need refactor. I'm not sure about right order
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -37,6 +38,11 @@ namespace Iwentys.Endpoint.Server
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
+            services.AddExceptional(settings =>
+            {
+                settings.Store.ApplicationName = "Samples.AspNetCore";
+            });
+            
             //TODO: fix
             services.AddControllersWithViews();/*.AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));*/
             services.AddSwaggerGen();
@@ -47,13 +53,21 @@ namespace Iwentys.Endpoint.Server
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IwentysDbContext db)
         {
-            if (env.IsDevelopment())
-            {
-                //app.UseDeveloperExceptionPage();
-                app.UseMigrationsEndPoint();
-                app.UseWebAssemblyDebugging();
-            }
-            else
+            app.UseExceptional();
+            //FYI: https://github.com/NickCraver/StackExchange.Exceptional/blob/main/samples/Samples.AspNetCore/Startup.cs
+            //if (env.IsDevelopment())
+            //{
+            //    //app.UseDeveloperExceptionPage();
+            //    app.UseMigrationsEndPoint();
+            //    app.UseWebAssemblyDebugging();
+            //}
+            //else
+            //{
+            //    //app.UseExceptionHandler("/Error");
+            //    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            //    app.UseHsts();
+            //}
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
