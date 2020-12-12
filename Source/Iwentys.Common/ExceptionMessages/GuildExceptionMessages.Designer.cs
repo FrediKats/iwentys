@@ -22,14 +22,14 @@ namespace Iwentys.Common.ExceptionMessages {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class TributeExceptions {
+    internal class GuildExceptionMessages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal TributeExceptions() {
+        internal GuildExceptionMessages() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Iwentys.Common.ExceptionMessages {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Iwentys.Common.ExceptionMessages.TributeExceptions", typeof(TributeExceptions).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Iwentys.Common.ExceptionMessages.GuildExceptionMessages", typeof(GuildExceptionMessages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,38 +61,47 @@ namespace Iwentys.Common.ExceptionMessages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Трибьют не является активным. [TributeId: {0}, State: {1}].
+        ///   Looks up a localized string similar to Нельзя покинуть гильдию будучи ее создателем. [StrudentId: {0}], [GuildId: {1}].
         /// </summary>
-        internal static string IsNotActive {
+        internal static string CreatorCannotLeave {
             get {
-                return ResourceManager.GetString("IsNotActive", resourceCulture);
+                return ResourceManager.GetString("CreatorCannotLeave", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Данный проект уже был использован. [ProjectId: {0}].
+        ///   Looks up a localized string similar to Студент не является участником гильднии. [StrudentId: {0}], [GuildId: {1}].
         /// </summary>
-        internal static string ProjectAlreadyUsed {
+        internal static string IsNotGuildMember {
             get {
-                return ResourceManager.GetString("ProjectAlreadyUsed", resourceCulture);
+                return ResourceManager.GetString("IsNotGuildMember", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to В качестве трибьюта можно использовать только репозиторий студента. [StudentId: {0}], [OwnerName: {1}].
+        ///   Looks up a localized string similar to Не удалось найти репозиторий. [PinnedRepoId: {0}].
         /// </summary>
-        internal static string TributeCanBeSendFromStudentAccount {
+        internal static string PinnedRepoWasNotFound {
             get {
-                return ResourceManager.GetString("TributeCanBeSendFromStudentAccount", resourceCulture);
+                return ResourceManager.GetString("PinnedRepoWasNotFound", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пользователь уже имеет активный трибьют. [UserId: {0}].
+        ///   Looks up a localized string similar to Не найдена заявка в гильдию. [StrudentId: {0}], [GuildId: {1}].
         /// </summary>
-        internal static string UserAlreadyHaveTribute {
+        internal static string RequestWasNotFound {
             get {
-                return ResourceManager.GetString("UserAlreadyHaveTribute", resourceCulture);
+                return ResourceManager.GetString("RequestWasNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Пользователь является создателем или ментором и не может быть заблокирован. [StrudentId: {0}], [GuildId: {1}].
+        /// </summary>
+        internal static string StudentCannotBeBlocked {
+            get {
+                return ResourceManager.GetString("StudentCannotBeBlocked", resourceCulture);
             }
         }
     }

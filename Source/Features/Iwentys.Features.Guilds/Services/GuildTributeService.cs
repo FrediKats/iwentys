@@ -69,7 +69,7 @@ namespace Iwentys.Features.Guilds.Services
         {
             StudentEntity student = await _studentRepository.GetAsync(user.Id);
             if (student.GithubUsername != createProject.Owner)
-                throw InnerLogicException.TributeEx.TributeCanBeSendFromStudentAccount(student.Id, createProject.Owner);
+                throw InnerLogicException.Tribute.TributeCanBeSendFromStudentAccount(student.Id, createProject.Owner);
 
             GithubRepositoryInfoDto githubProject = _githubApi.GetRepository(createProject.Owner, createProject.RepositoryName);
             GithubProjectEntity projectEntity = await _studentProjectRepository.GetOrCreateAsync(githubProject, student);
@@ -77,10 +77,10 @@ namespace Iwentys.Features.Guilds.Services
             TributeEntity[] allTributes = _guildTributeRepository.Read().ToArray();
 
             if (allTributes.Any(t => t.ProjectId == projectEntity.Id))
-                throw InnerLogicException.TributeEx.ProjectAlreadyUsed(projectEntity.Id);
+                throw InnerLogicException.Tribute.ProjectAlreadyUsed(projectEntity.Id);
 
             if (allTributes.Any(t => t.State == TributeState.Active && t.ProjectEntity.StudentId == student.Id))
-                throw InnerLogicException.TributeEx.UserAlreadyHaveTribute(user.Id);
+                throw InnerLogicException.Tribute.UserAlreadyHaveTribute(user.Id);
 
             return _guildTributeRepository.Create(guild, projectEntity).To(TributeInfoResponse.Wrap);
         }
@@ -91,7 +91,7 @@ namespace Iwentys.Features.Guilds.Services
             TributeEntity tribute = await _guildTributeRepository.GetAsync(tributeId);
 
             if (tribute.State != TributeState.Active)
-                throw InnerLogicException.TributeEx.IsNotActive(tribute.ProjectId);
+                throw InnerLogicException.Tribute.IsNotActive(tribute.ProjectId);
 
             if (tribute.ProjectEntity.StudentId == user.Id)
             {
@@ -114,7 +114,7 @@ namespace Iwentys.Features.Guilds.Services
             GuildMentorUser mentor = await student.EnsureIsMentor(_guildRepository, tribute.GuildId);
 
             if (tribute.State != TributeState.Active)
-                throw InnerLogicException.TributeEx.IsNotActive(tribute.ProjectId);
+                throw InnerLogicException.Tribute.IsNotActive(tribute.ProjectId);
 
             tribute.SetCompleted(mentor.Student.Id, tributeCompleteRequest.DifficultLevel, tributeCompleteRequest.Mark);
             TributeEntity updatedTribute = await _guildTributeRepository.UpdateAsync(tribute);

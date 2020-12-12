@@ -45,7 +45,7 @@ namespace Iwentys.Features.Guilds.Entities
         public void SetCompleted(int mentorId, int difficultLevel, int mark)
         {
             if (State != TributeState.Active)
-                throw InnerLogicException.TributeEx.IsNotActive(this.ProjectId);
+                throw InnerLogicException.Tribute.IsNotActive(this.ProjectId);
 
             MentorId = mentorId;
             DifficultLevel = difficultLevel;

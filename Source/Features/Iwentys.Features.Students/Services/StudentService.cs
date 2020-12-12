@@ -50,7 +50,7 @@ namespace Iwentys.Features.Students.Services
         {
             bool isUsernameUsed = await _studentRepository.Read().AnyAsync(s => s.GithubUsername == githubUsername);
             if (isUsernameUsed)
-                throw InnerLogicException.StudentException.GithubAlreadyUser(githubUsername);
+                throw InnerLogicException.Student.GithubAlreadyUser(githubUsername);
 
             //TODO: implement gitgub access validation
             //throw new NotImplementedException("Need to validate github credentials");

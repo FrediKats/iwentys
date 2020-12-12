@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Database.Context;
 using Iwentys.Features.Quests.Entities;
-using Iwentys.Features.Quests.Enums;
 using Iwentys.Features.Quests.Models;
 using Iwentys.Features.Quests.Repositories;
 using Iwentys.Features.Students.Entities;
