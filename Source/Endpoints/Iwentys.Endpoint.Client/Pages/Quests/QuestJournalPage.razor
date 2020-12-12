@@ -11,6 +11,8 @@
         <MatButton>Active</MatButton>
         <MatButton>Created</MatButton>
         <MatButton>Archive</MatButton>
+        <MatButton Link="/quest/create">Добавить квест</MatButton>
+
     </div>
 
     <div class="col-md-6 d-flex flex-column">
@@ -23,7 +25,7 @@
                     <MatCard>
                         <MatCardContent>
                             <MatHeadline6>
-                                @quest.Title
+                                @quest.Title (@quest.Price)
                             </MatHeadline6>
                             <MatBody1>
                                 @quest.Description

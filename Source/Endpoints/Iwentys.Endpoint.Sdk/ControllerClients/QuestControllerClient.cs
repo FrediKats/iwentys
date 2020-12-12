@@ -35,10 +35,9 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
             return Client.GetFromJsonAsync<List<QuestInfoResponse>>("/api/quest/archived");
         }
 
-        public async Task<QuestInfoResponse> Create(CreateQuestRequest createQuest)
+        public async Task Create(CreateQuestRequest createQuest)
         {
-            HttpResponseMessage result = await Client.PostAsJsonAsync("/api/quest/archived", createQuest);
-            return await result.Content.ReadFromJsonAsync<QuestInfoResponse>();
+            await Client.PostAsJsonAsync("/api/quest", createQuest);
         }
 
         //[HttpPut("{questId}/send-response")]
