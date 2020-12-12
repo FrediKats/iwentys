@@ -7,7 +7,7 @@ using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Guilds.Repositories
 {
-    public interface IGuildRepository : IGenericRepository<GuildEntity, int>
+    public interface IGuildRepository : IRepository<GuildEntity, int>
     {
         GuildEntity Create(StudentEntity creator, GuildCreateRequestDto arguments);
         GuildEntity[] ReadPending();

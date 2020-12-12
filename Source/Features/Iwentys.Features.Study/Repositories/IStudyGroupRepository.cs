@@ -5,7 +5,7 @@ using Iwentys.Features.Study.Entities;
 
 namespace Iwentys.Features.Study.Repositories
 {
-    public interface IStudyGroupRepository : IGenericRepository<StudyGroupEntity, int>
+    public interface IStudyGroupRepository : IRepository<StudyGroupEntity, int>
     {
         Task<StudyGroupEntity> ReadByNamePattern(GroupName group);
         Task<StudyGroupEntity> Create(StudyGroupEntity entity);

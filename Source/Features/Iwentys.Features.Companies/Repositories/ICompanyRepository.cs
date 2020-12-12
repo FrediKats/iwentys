@@ -6,7 +6,7 @@ using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Companies.Repositories
 {
-    public interface ICompanyRepository : IGenericRepository<CompanyEntity, int>
+    public interface ICompanyRepository : IRepository<CompanyEntity, int>
     {
         Task<CompanyEntity> CreateAsync(CompanyEntity entity);
         Task<List<StudentEntity>> ReadWorkersAsync(CompanyEntity companyEntity);

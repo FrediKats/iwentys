@@ -4,21 +4,21 @@ using Iwentys.Common.Exceptions;
 
 namespace Iwentys.Common.Tools
 {
-    public interface IGenericRepository<TEntity>
+    public interface IRepository<TEntity>
     {
         public IQueryable<TEntity> Read();
         public Task<TEntity> UpdateAsync(TEntity entity);
     }
 
-    public interface IGenericRepository<TEntity, TKey> : IGenericRepository<TEntity>
+    public interface IRepository<TEntity, TKey> : IRepository<TEntity>
     {
         public Task<TEntity> ReadByIdAsync(TKey key);
         public Task<int> DeleteAsync(TKey key);
     }
 
-    public static class GenericRepositoryExtensions
+    public static class RepositoryExtensions
     {
-        public static async Task<TEntity> GetAsync<TEntity, TKey>(this IGenericRepository<TEntity, TKey> repository, TKey key)
+        public static async Task<TEntity> GetAsync<TEntity, TKey>(this IRepository<TEntity, TKey> repository, TKey key)
         {
             TEntity entity = await repository.ReadByIdAsync(key);
             return entity ?? throw EntityNotFoundException.Create(repository.GetType().Name, key);

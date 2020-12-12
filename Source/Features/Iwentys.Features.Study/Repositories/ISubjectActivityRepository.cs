@@ -5,7 +5,7 @@ using Iwentys.Features.Study.Models;
 
 namespace Iwentys.Features.Study.Repositories
 {
-    public interface ISubjectActivityRepository : IGenericRepository<SubjectActivityEntity>
+    public interface ISubjectActivityRepository : IRepository<SubjectActivityEntity>
     {
         SubjectActivityEntity Create(SubjectActivityEntity entity);
         IReadOnlyCollection<SubjectActivityEntity> GetStudentActivities(StudySearchParametersDto searchParametersDto);

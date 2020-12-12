@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Quests.Repositories
 {
-    public interface IQuestRepository : IGenericRepository<QuestEntity, int>
+    public interface IQuestRepository : IRepository<QuestEntity, int>
     {
         DbSet<QuestEntity> Quests { get; }
         Task SaveChangesAsync();

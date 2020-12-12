@@ -7,7 +7,7 @@ using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.GithubIntegration.Repositories
 {
-    public interface IStudentProjectRepository : IGenericRepository<GithubProjectEntity, long>
+    public interface IStudentProjectRepository : IRepository<GithubProjectEntity, long>
     {
         GithubProjectEntity Create(GithubProjectEntity entity);
         Task<GithubProjectEntity> GetOrCreateAsync(GithubRepositoryInfoDto project, StudentEntity creator);

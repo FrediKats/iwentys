@@ -5,7 +5,7 @@ using Iwentys.Features.Study.Models;
 
 namespace Iwentys.Features.Study.Repositories
 {
-    public interface IGroupSubjectRepository : IGenericRepository<GroupSubjectEntity, int>
+    public interface IGroupSubjectRepository : IRepository<GroupSubjectEntity, int>
     {
         IQueryable<SubjectEntity> GetSubjectsForDto(StudySearchParametersDto searchParametersDto);
         IQueryable<StudyGroupEntity> GetStudyGroupsForDto(int? courseId);

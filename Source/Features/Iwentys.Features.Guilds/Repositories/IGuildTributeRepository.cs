@@ -4,7 +4,7 @@ using Iwentys.Features.Guilds.Entities;
 
 namespace Iwentys.Features.Guilds.Repositories
 {
-    public interface IGuildTributeRepository : IGenericRepository<TributeEntity, long>
+    public interface IGuildTributeRepository : IRepository<TributeEntity, long>
     {
         TributeEntity Create(GuildEntity guild, GithubProjectEntity githubProject);
         TributeEntity[] ReadForGuild(int guildId);
