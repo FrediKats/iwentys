@@ -50,7 +50,8 @@ namespace Iwentys.Endpoint.Server.Source.Tools
                 .AddApplicationOptions(configuration)
                 .AddIwentysDatabase()
                 .AddIwentysTokenFactory(configuration)
-                .AddIwentysServices();
+                .AddIwentysServices()
+                .AddUnitOfWork<IwentysDbContext>();
             //TODO: meh (
             //.AddIwentysFakeAuth(configuration);
             return services;
