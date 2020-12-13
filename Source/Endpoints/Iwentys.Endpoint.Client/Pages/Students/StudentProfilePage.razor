@@ -11,38 +11,37 @@
 
 @if (_studentFullProfile is not null)
 {
-<div class="container-fluid d-flex flex-row">
-    <div class="col-md-6 d-flex flex-column">
-        <MatPaper Elevation="10" Rounded="true" Class="profile-element">
-            <StudentProfileInfoComponent StudentProfile=@_studentFullProfile></StudentProfileInfoComponent>
-        </MatPaper>
-    </div>
+    <div class="container-fluid d-flex flex-row">
+        <div class="col-md-6 d-flex flex-column">
+            <div class="profile-element dark-elevation-01">
+                <StudentProfileInfoComponent StudentProfile=@_studentFullProfile></StudentProfileInfoComponent>
+            </div>
 
-    
-
-    <div class="col-md-6 d-flex flex-column text-center">
-        <div class="profile-element">
-            <AchievementComponent Achievements=@_achievements></AchievementComponent>
+            <div class="profile-element dark-elevation-01">
+                <AchievementComponent Achievements=@_achievements></AchievementComponent>
+            </div>
         </div>
 
-        @if (_githubChartConfig is not null)
-        {
-            <MatPaper Elevation="10" Rounded="true" Class="profile-element">
-                <MatHeadline5>Coding activity</MatHeadline5>
-                <ChartJsLineChart @ref="_githubChart" Config="_githubChartConfig"></ChartJsLineChart>
-            </MatPaper>
-        }
 
-        @if (_studyChartConfig is not null)
-        {
-            <MatPaper Elevation="10" Rounded="true" Class="profile-element">
-                <MatHeadline5>Study activity</MatHeadline5>
-                <ChartJsPieChart @ref="_studyChart" Config="@_studyChartConfig" Width="600" Height="300" />
-            </MatPaper>
 
-        }
+        <div class="col-md-6 d-flex flex-column text-center">
+            @if (_githubChartConfig is not null)
+            {
+                <div class="profile-element dark-elevation-01">
+                    <MatHeadline5>Coding activity</MatHeadline5>
+                    <ChartJsLineChart @ref="_githubChart" Config="_githubChartConfig"></ChartJsLineChart>
+                </div>
+            }
+
+            @if (_studyChartConfig is not null)
+            {
+                <div class="profile-element dark-elevation-01">
+                    <MatHeadline5>Study activity</MatHeadline5>
+                    <ChartJsPieChart @ref="_studyChart" Config="@_studyChartConfig" Width="600" Height="300" />
+                </div>
+            }
+        </div>
     </div>
-</div>
 }
 
 

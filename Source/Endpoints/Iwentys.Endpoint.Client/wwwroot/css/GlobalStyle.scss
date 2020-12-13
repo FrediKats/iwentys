@@ -1,4 +1,4 @@
-//from figma
+﻿//from figma
 $background-primary: #27273E;
 $background-secondary: #202036;
 $background-third: #33334B;
@@ -34,4 +34,28 @@ $color-on-primary: #000000;
 .sidebar-surface {
     border-radius: 0px 50px 50px 0px;
     background-color: $background-third;
+}
+
+.dark-elevation-01 {
+    background: rgba(#FFFFFF, 0.05);
+}
+
+.dark-elevation-02 {
+    background: rgba(#FFFFFF, 0.07);
+}
+
+.dark-elevation-04 {
+    background: rgba(#FFFFFF, 0.09);
+}
+
+.dark-elevation-06 {
+    background: rgba(#FFFFFF, 0.11);
+}
+
+.dark-elevation-12 {
+    background: rgba(#FFFFFF, 0.14);
+}
+
+.dark-elevation-24 {
+    background: rgba(#FFFFFF, 0.16);
 }
