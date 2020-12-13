@@ -1,6 +1,6 @@
-@inherits LayoutComponentBase
+﻿@inherits LayoutComponentBase
 
-<MatThemeProvider>
+<MatThemeProvider Theme=@globalTheme>
     <div class="page main-background">
         <div class="sidebar sidebar-surface dark-elevation-24">
             <NavMenu />
@@ -17,3 +17,19 @@
             </div>
         </div>
     </div>
+</MatThemeProvider>
+
+@code
+{
+    //FYI: this colors must be synced with global css
+    MatTheme globalTheme = new MatTheme()
+    {
+        Primary = "#80D8FE",
+        Secondary = "#00FFAA",
+        Background = "#202036",
+        Surface = "#27273E",
+        OnPrimary = "#000000",
+        OnSecondary = "#000000",
+        OnSurface = "#E0E0FF"
+    };
+}
