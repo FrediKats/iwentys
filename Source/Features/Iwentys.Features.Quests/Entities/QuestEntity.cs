@@ -92,7 +92,5 @@ namespace Iwentys.Features.Quests.Entities
         public static Expression<Func<QuestEntity, bool>> IsCompletedBy(AuthorizedUser user) =>
             q => q.State == QuestState.Completed 
                  && q.Responses.Any(r => r.StudentId == user.Id);
-
-
     }
 }

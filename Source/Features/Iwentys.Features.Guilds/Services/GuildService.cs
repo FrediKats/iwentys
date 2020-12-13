@@ -40,7 +40,7 @@ namespace Iwentys.Features.Guilds.Services
             StudentEntity creatorUser = await _studentRepository.GetAsync(creator.Id);
 
             GuildEntity userGuild = _guildRepository.ReadForStudent(creatorUser.Id);
-            if (userGuild != null)
+            if (userGuild is not null)
                 throw new InnerLogicException("Student already in guild");
             
             GuildEntity createdGuild = _guildRepository.Create(creatorUser, arguments);

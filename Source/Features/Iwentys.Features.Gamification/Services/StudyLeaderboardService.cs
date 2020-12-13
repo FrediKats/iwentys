@@ -26,8 +26,8 @@ namespace Iwentys.Features.Gamification.Services
 
         public List<StudyLeaderboardRowDto> GetStudentsRatings(StudySearchParametersDto searchParametersDto)
         {
-            if (searchParametersDto.CourseId == null && searchParametersDto.GroupId == null ||
-                searchParametersDto.CourseId != null && searchParametersDto.GroupId != null)
+            if (searchParametersDto.CourseId is null && searchParametersDto.GroupId is null ||
+                searchParametersDto.CourseId is not null && searchParametersDto.GroupId is not null)
             {
                 throw new IwentysException("One of StudySearchParametersDto fields: CourseId or GroupId should be null");
             }

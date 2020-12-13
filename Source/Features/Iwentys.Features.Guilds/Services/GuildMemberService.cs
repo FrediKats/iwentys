@@ -60,11 +60,11 @@ namespace Iwentys.Features.Guilds.Services
         public async Task LeaveGuildAsync(AuthorizedUser user, int guildId)
         {
             GuildEntity studentGuild = _guildRepository.ReadForStudent(user.Id);
-            if (studentGuild == null || studentGuild.Id != guildId)
+            if (studentGuild is null || studentGuild.Id != guildId)
                 throw InnerLogicException.Guild.IsNotGuildMember(user.Id, guildId);
 
             TributeEntity userTribute = _guildTributeRepository.ReadStudentActiveTribute(studentGuild.Id, user.Id);
-            if (userTribute != null)
+            if (userTribute is not null)
                 await _guildTributeRepository.DeleteAsync(userTribute.ProjectId);
 
             _guildMemberRepository.RemoveMemberAsync(guildId, user.Id);

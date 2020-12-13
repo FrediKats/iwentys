@@ -48,10 +48,10 @@ namespace Iwentys.Features.Guilds.Entities
 
         public GuildTestTaskState GetState()
         {
-            if (CompleteTime != null)
+            if (CompleteTime is not null)
                 return GuildTestTaskState.Completed;
 
-            if (SubmitTime != null)
+            if (SubmitTime is not null)
                 return GuildTestTaskState.Submitted;
 
             return GuildTestTaskState.Started;

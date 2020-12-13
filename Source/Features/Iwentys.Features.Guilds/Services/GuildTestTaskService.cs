@@ -49,7 +49,7 @@ namespace Iwentys.Features.Guilds.Services
         public async Task<GuildTestTaskInfoResponse> Accept(AuthorizedUser user, int guildId)
         {
             GuildEntity studentGuild = _guildRepository.ReadForStudent(user.Id);
-            if (studentGuild == null || studentGuild.Id != guildId)
+            if (studentGuild is null || studentGuild.Id != guildId)
                 throw InnerLogicException.Guild.IsNotGuildMember(user.Id, guildId);
 
             StudentEntity studentProfile = await user.GetProfile(_studentRepository);

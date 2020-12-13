@@ -85,7 +85,7 @@ namespace Iwentys.Database.Repositories
         public async Task ApproveRequestAsync(StudentEntity user)
         {
             CompanyWorkerEntity workerEntity = await _dbContext.CompanyWorkers.SingleOrDefaultAsync(cw => cw.WorkerId == user.Id);
-            if (workerEntity == null)
+            if (workerEntity is null)
                 throw EntityNotFoundException.Create(nameof(CompanyWorkerEntity), user.Id);
 
             workerEntity.Type = CompanyWorkerType.Accepted;

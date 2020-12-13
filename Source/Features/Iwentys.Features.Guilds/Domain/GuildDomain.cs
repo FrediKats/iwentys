@@ -48,7 +48,7 @@ namespace Iwentys.Features.Guilds.Domain
                 PinnedRepositories = Profile.PinnedProjects.SelectToList(p => _githubIntegrationService.GetCertainRepository(p.RepositoryOwner, p.RepositoryName)),
             };
 
-            if (userId != null)
+            if (userId is not null)
                 info.UserMembershipState = await GetUserMembershipState(userId.Value);
 
             return info;
@@ -59,10 +59,10 @@ namespace Iwentys.Features.Guilds.Domain
             return Profile
                 .Members
                 .Select(m => m.Member.GithubUsername)
-                .Where(gh => gh != null)
+                .Where(gh => gh is not null)
                 .ToList()
                 .Select(ghName => _githubIntegrationService.FindByUsername(ghName).Result)
-                .Where(userData => userData != null)
+                .Where(userData => userData is not null)
                 .ToList();
         }
 
@@ -85,11 +85,11 @@ namespace Iwentys.Features.Guilds.Domain
             if (userStatusInGuild == GuildMemberType.Blocked)
                 return UserMembershipState.Blocked;
 
-            if (userGuild != null &&
+            if (userGuild is not null &&
                 userGuild.Id != Profile.Id)
                 return UserMembershipState.Blocked;
 
-            if (userGuild != null &&
+            if (userGuild is not null &&
                 userGuild.Id == Profile.Id)
                 return UserMembershipState.Entered;
 
@@ -119,7 +119,7 @@ namespace Iwentys.Features.Guilds.Domain
         //public GuildDomain UpdateGuildFromGithub()
         //{
         //    Organization organizationInfo = _apiAccessor.FindOrganizationInfo(Profile.Title);
-        //    if (organizationInfo != null)
+        //    if (organizationInfo is not null)
         //    {
         //        //TODO: need to fix after https://github.com/octokit/octokit.net/pull/2239
         //        //_profile.Bio = organizationInfo.Bio;

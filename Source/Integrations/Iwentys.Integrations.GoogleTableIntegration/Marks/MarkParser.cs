@@ -28,7 +28,7 @@ namespace Iwentys.Integrations.GoogleTableIntegration.Marks
             {
                 object name = row[_helper.NameColumnNum];
                 object score = row[_helper.ScoreColumnNum];
-                if (name != null && score != null)
+                if (name is not null && score is not null)
                 {
                     string fullName = string.Join(" ", _helper.NameColumns.Select(c => row[c]));
 

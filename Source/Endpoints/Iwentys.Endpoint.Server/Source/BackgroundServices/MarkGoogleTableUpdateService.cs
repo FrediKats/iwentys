@@ -50,7 +50,7 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
                     _logger.LogWarning($"Cannot parse value: student:{subjectScore.Name}, subjectId:{groupSubjectData.SubjectId}, groupId:{groupSubjectData.StudyGroupId}");
                 }
 
-                if (activity == null)
+                if (activity is null)
                 {
                     _logger.LogWarning($"Subject info was not found: student:{subjectScore.Name}, subjectId:{groupSubjectData.SubjectId}, groupId:{groupSubjectData.StudyGroupId}");
 

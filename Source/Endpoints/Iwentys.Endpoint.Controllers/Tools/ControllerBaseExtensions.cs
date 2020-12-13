@@ -18,7 +18,7 @@ namespace Iwentys.Endpoint.Controllers.Tools
             ClaimsPrincipal user = controller.HttpContext.User;
 
             Claim userIdClaim = user.FindFirst(ClaimTypes.UserData);
-            if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
+            if (userIdClaim is null || !int.TryParse(userIdClaim.Value, out int userId))
                 return AuthorizedUser.DebugAuth(defaultUserId);
 
             return AuthorizedUser.DebugAuth(userId);

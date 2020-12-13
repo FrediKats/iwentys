@@ -39,7 +39,7 @@ namespace Iwentys.Endpoint.Server.Controllers
                 .Read()
                 .FirstOrDefault(s => s.SubjectId == subjectId && s.StudyGroupId == groupId);
 
-            if (groupSubjectData == null)
+            if (groupSubjectData is null)
             {
                 _logger.LogWarning($"Subject info was not found: subjectId:{subjectId}, groupId:{groupId}");
                 return Ok();

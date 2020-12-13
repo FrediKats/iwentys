@@ -46,16 +46,16 @@ namespace Iwentys.Database.Repositories.Study
         {
             IQueryable<GroupSubjectEntity> query = Read();
 
-            if (searchParametersDto.GroupId != null)
+            if (searchParametersDto.GroupId is not null)
                 query = query.Where(s => s.StudyGroupId == searchParametersDto.GroupId.Value);
 
-            if (searchParametersDto.StudySemester != null)
+            if (searchParametersDto.StudySemester is not null)
                 query = query.Where(s => s.StudySemester == searchParametersDto.StudySemester.Value);
 
-            if (searchParametersDto.SubjectId != null)
+            if (searchParametersDto.SubjectId is not null)
                 query = query.Where(s => s.SubjectId == searchParametersDto.SubjectId.Value);
 
-            if (searchParametersDto.CourseId != null)
+            if (searchParametersDto.CourseId is not null)
                 query = query.Where(gs => gs.StudyGroup.StudyCourseId == searchParametersDto.CourseId);
             
             return query
@@ -67,7 +67,7 @@ namespace Iwentys.Database.Repositories.Study
         {
             IQueryable<StudyGroupEntity> query = _dbContext.StudyGroups;
 
-            if (courseId != null)
+            if (courseId is not null)
                 query = query.Where(g => g.StudyCourseId == courseId);
 
             return query;
