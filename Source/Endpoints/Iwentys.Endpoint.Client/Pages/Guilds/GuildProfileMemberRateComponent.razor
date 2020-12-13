@@ -6,8 +6,11 @@
     <MatList>
         @foreach (var member in GuildLeaderboard.MembersImpact)
         {
-            <MatListItem Class="rate-list-item">
-                @member.Username (@member.TotalRate)
+            <MatListItem>
+                <MatBody2 Class="rate-list-item">
+                    <div class="mat-body2">@member.Username (@member.TotalRate)</div>
+                    
+                </MatBody2>
             </MatListItem>
         }
     </MatList>

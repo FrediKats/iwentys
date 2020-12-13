@@ -19,10 +19,10 @@
         <h3>Quest Journal Page</h3>
         @if (_activeQuests is not null)
         {
-            <MatPaper Elevation="10" Rounded="true" class="container-fluid d-flex flex-column">
+            <div class="container-fluid d-flex flex-column dark-elevation-01">
                 @foreach (QuestInfoResponse quest in _activeQuests)
                 {
-                    <MatCard>
+                    <MatCard Class="quest-journal-elemnt dark-elevation-02">
                         <MatCardContent>
                             <MatHeadline6>
                                 @quest.Title (@quest.Price)
@@ -36,7 +36,7 @@
                         </MatCardContent>
                     </MatCard>
                 }
-            </MatPaper>
+            </div>
             @*<MatButton OnClick=@(async () => await MakeCompleted())>[ ]</MatButton>*@
         }
     </div>

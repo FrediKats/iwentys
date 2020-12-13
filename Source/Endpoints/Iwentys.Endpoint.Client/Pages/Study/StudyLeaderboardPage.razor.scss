@@ -1,12 +1,18 @@
-﻿body {
-}
-
-.student-rating-row {
-    height: 150px;
+﻿.student-rating-row {
+    height: 100px;
+    border-radius: 5px;
+    margin: 15px;
+    padding: 5px;
 }
 
 .student-logo {
     height: 100px;
     width: 100px;
     border-radius: 50%;
+    padding: 10px;
+}
+
+a {
+    color: inherit;
+    text-decoration: inherit;
 }
