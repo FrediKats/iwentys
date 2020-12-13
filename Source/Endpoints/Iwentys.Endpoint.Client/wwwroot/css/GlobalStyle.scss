@@ -1,0 +1,26 @@
+﻿//from figma
+$background-primary: #27273E;
+$background-secondary: #202036;
+$background-third: #33334B;
+$accessible-primary: #00FFAA;
+$accessible-secondary: #00BBFF;
+$accessible-third: #4579F5;
+$text-color: #E0E0FF;
+
+// material concept
+// material recomend to use dark grey for bg: #121212
+$color-background: $background-secondary;
+$color-surface: $background-primary;
+//TODO: it can be removed with elevation transparency
+$color-surface-variant: $background-primary;
+$color-error: #CF6679;
+// $color-primary: #00BBFF;
+$color-primary: #80D8FE;
+$color-primary-variant: #4579F5;
+$color-secondary: #00FFAA;
+$color-on-background: $text-color;
+$color-on-primary: #000000;
+
+.main-background {
+    background-color: $color-background;
+}
