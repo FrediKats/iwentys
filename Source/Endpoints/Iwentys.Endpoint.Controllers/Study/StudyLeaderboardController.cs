@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Study
 {
-    //TODO: rename
     [Route("api/[controller]")]
     [ApiController]
     public class StudyLeaderboardController : ControllerBase

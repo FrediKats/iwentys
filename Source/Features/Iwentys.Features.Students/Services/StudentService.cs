@@ -52,7 +52,7 @@ namespace Iwentys.Features.Students.Services
             if (isUsernameUsed)
                 throw InnerLogicException.Student.GithubAlreadyUser(githubUsername);
 
-            //TODO: implement gitgub access validation
+            //TODO: implement github access validation
             //throw new NotImplementedException("Need to validate github credentials");
             await _studentRepository.UpdateGithub(id, githubUsername);
 

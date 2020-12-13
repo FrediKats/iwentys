@@ -44,7 +44,6 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
                     _logger.LogError(operationException, "Probably some services was not load.");
                     await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
                     continue;
-
                 }
                 catch (Exception e)
                 {

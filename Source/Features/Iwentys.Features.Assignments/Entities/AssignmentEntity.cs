@@ -1,5 +1,7 @@
 ﻿using System;
+using Iwentys.Common.Exceptions;
 using Iwentys.Features.Assignments.Models;
+using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Study.Entities;
 
@@ -35,7 +37,9 @@ namespace Iwentys.Features.Assignments.Entities
 
         public void MarkCompleted(StudentEntity student)
         {
-            //TODO: ensure user is creator
+            if (student.Id != CreatorId)
+                throw InnerLogicException.Assignment.IsNotAssignmentCreator(Id, student.Id);
+                    
             //TODO: check state
             IsCompleted = true;
         }

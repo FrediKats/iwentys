@@ -28,8 +28,7 @@ namespace Iwentys.Tests.Tools
 {
     public class TestCaseContext
     {
-        //TODO: make it private
-        public readonly IwentysDbContext Context;
+        private readonly IwentysDbContext _context;
 
         public readonly AchievementRepository AchievementRepository;
         public readonly StudentRepository StudentRepository;
@@ -50,14 +49,14 @@ namespace Iwentys.Tests.Tools
 
         public TestCaseContext()
         {
-            Context = TestDatabaseProvider.GetDatabaseContext();
-            var unitOfWork = new UnitOfWork<IwentysDbContext>(Context);
+            _context = TestDatabaseProvider.GetDatabaseContext();
+            var unitOfWork = new UnitOfWork<IwentysDbContext>(_context);
             
-            AchievementRepository = new AchievementRepository(Context);
-            StudentRepository = new StudentRepository(Context);
-            GuildRepository = new GuildRepository(Context);
+            AchievementRepository = new AchievementRepository(_context);
+            StudentRepository = new StudentRepository(_context);
+            GuildRepository = new GuildRepository(_context);
 
-            DatabaseAccessor = new DatabaseAccessor(Context);
+            DatabaseAccessor = new DatabaseAccessor(_context);
             var achievementProvider = new AchievementProvider(AchievementRepository);
             var githubApiAccessor = new DummyGithubApiAccessor();
 
@@ -109,8 +108,8 @@ namespace Iwentys.Tests.Tools
         {
             //TODO: make method for promoting to guild editor/mentor
             WithNewStudent(out user);
-            Context.GuildMembers.Add(new GuildMemberEntity(guild.Id, user.Id, GuildMemberType.Mentor));
-            Context.SaveChanges();
+            _context.GuildMembers.Add(new GuildMemberEntity(guild.Id, user.Id, GuildMemberType.Mentor));
+            _context.SaveChanges();
             return this;
         }
 

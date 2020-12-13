@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using Iwentys.Common.ExceptionMessages;
 
 namespace Iwentys.Common.Exceptions
@@ -7,6 +8,10 @@ namespace Iwentys.Common.Exceptions
     {
         public static class Guild
         {
+            public static InnerLogicException ActiveTestExisted(int userId, int guildId)
+            {
+                return new InnerLogicException($"Test task for {guildId} guild from {userId} user already existed");
+            }
             public static InnerLogicException IsNotGuildMember(int studentId, int? guildId)
             {
                 return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, GuildExceptionMessages.IsNotGuildMember, studentId, guildId));

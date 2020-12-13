@@ -2,7 +2,6 @@
 
 namespace Iwentys.Common.Exceptions
 {
-    //TODO: split inner classed to separate files and make it partial
     public partial class InnerLogicException : IwentysException
     {
         public InnerLogicException(string message) : base(message)

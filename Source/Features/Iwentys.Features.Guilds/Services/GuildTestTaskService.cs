@@ -41,18 +41,28 @@ namespace Iwentys.Features.Guilds.Services
                 .Read()
                 .Where(t => t.GuildId == guildId)
                 .AsEnumerable()
-                .Select(GuildTestTaskInfoResponse.Wrap)
-                .ToList();
+                .SelectToList(GuildTestTaskInfoResponse.Wrap);
         }
 
-        //TODO: check if already accepted
         public async Task<GuildTestTaskInfoResponse> Accept(AuthorizedUser user, int guildId)
         {
             GuildEntity studentGuild = _guildRepository.ReadForStudent(user.Id);
             if (studentGuild is null || studentGuild.Id != guildId)
                 throw InnerLogicException.Guild.IsNotGuildMember(user.Id, guildId);
+            
 
             StudentEntity studentProfile = await user.GetProfile(_studentRepository);
+
+            var existedTestTask = await _guildTestTaskSolvingInfoRepository
+                .Read()
+                .FirstOrDefaultAsync(k =>
+                    k.GuildId == studentGuild.Id &&
+                    k.StudentId == user.Id &&
+                    k.GetState() != GuildTestTaskState.Completed);
+
+            if (existedTestTask is not null)
+                InnerLogicException.Guild.ActiveTestExisted(user.Id, guildId);
+            
             return _guildTestTaskSolvingInfoRepository
                 .Create(studentGuild, studentProfile)
                 .To(GuildTestTaskInfoResponse.Wrap);
