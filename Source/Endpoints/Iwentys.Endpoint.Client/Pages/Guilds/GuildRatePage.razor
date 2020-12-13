@@ -10,23 +10,25 @@
 
     @if (_guildProfiles is not null)
     {
-        <MatList class="container-fluid d-flex flex-column">
+        <div class="container-fluid d-flex flex-column">
             @foreach (GuildProfileDto guild in _guildProfiles)
             {
-                <NavLink href=@LinkToProfile(guild) class="guild-rating-row">
-                    <MatPaper Elevation="10" Rounded="true" Class="d-flex flex-row">
-                        <div class="col-md-2">
-                            <img src=@guild.LogoUrl class="guild-logo" />
-                        </div>
+                <a href=@LinkToProfile(guild)>
+                    <div class="guild-rating-row dark-elevation-01">
+                        <div class="d-flex flex-row">
+                            <div class="col-md-2">
+                                <img src=@guild.LogoUrl class="guild-logo" />
+                            </div>
 
-                        <div class="col-md-8">
-                            <h4>@guild.Title</h4>
+                            <div class="col-md-8">
+                                <h4>@guild.Title</h4>
 
-                            <p>Some bio @guild.Bio</p>
+                                <p>Some bio @guild.Bio</p>
+                            </div>
                         </div>
-                    </MatPaper>
-                </NavLink>
+                    </div>
+                </a>
             }
-        </MatList>
+        </div>
     }
 </div>

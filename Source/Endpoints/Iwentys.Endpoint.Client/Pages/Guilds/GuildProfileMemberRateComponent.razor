@@ -1,20 +1,21 @@
 ﻿@using Iwentys.Features.Guilds.Models.Guilds
 @namespace Iwentys.Endpoint.Client.Pages.Guilds
 
-<MatPaper Elevation="10" Rounded="true" class="text-center">
+<div Elevation="10" Rounded="true" class="text-center">
     <MatHeadline5>Рейтинг гильдии - @GuildLeaderboard.TotalRate</MatHeadline5>
-    <MatHeadline6>Импакт:</MatHeadline6>
     <MatList>
-        @foreach (GuildMemberImpactDto member in GuildLeaderboard.MembersImpact)
+        @foreach (var member in GuildLeaderboard.MembersImpact)
         {
-            <MatListItem>
+            <MatListItem Class="rate-list-item">
                 @member.Username (@member.TotalRate)
             </MatListItem>
         }
     </MatList>
-</MatPaper>
+</div>
 
 @code {
+
     [Parameter]
     public GuildMemberLeaderBoardDto GuildLeaderboard { get; set; }
+
 }

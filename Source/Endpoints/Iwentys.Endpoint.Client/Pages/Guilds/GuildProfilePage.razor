@@ -8,27 +8,26 @@
 @if (_guild is not null)
 {
     <div class="container-fluid d-flex flex-row">
-        <div class="col-md-3 d-flex flex-column">
+        <div class="col-md-3 d-flex flex-column dark-elevation-01">
             <GuildProfileInfoComponent SelectedGuildProfile=@_guild></GuildProfileInfoComponent>
         </div>
 
         <div class="col-md-6 d-flex flex-column">
-            <div class="profile-block">
+            <div class="profile-block dark-elevation-01">
                 <AchievementComponent Achievements=@_guild.Achievements></AchievementComponent>
-
             </div>
-            <div class="profile-block">
-                <NewsfeedComponent Newsfeeds=@_newsfeeds></NewsfeedComponent>
 
+            <div class="profile-block dark-elevation-01">
+                <NewsfeedComponent Newsfeeds=@_newsfeeds></NewsfeedComponent>
             </div>
         </div>
 
         <div class="col-md-3 d-flex flex-column">
-            <div class="profile-block">
+            <div class="profile-block dark-elevation-01">
                 <GuildProfileMemberRateComponent GuildLeaderboard=@_memberLeaderBoard></GuildProfileMemberRateComponent>
 
             </div>
-            <div class="profile-block">
+            <div class="profile-block dark-elevation-01">
                 <GuildProfilePinnedRepositoriesComponent GuildProfile=@_guild></GuildProfilePinnedRepositoriesComponent>
 
             </div>

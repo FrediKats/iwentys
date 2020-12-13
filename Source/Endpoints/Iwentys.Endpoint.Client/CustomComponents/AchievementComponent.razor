@@ -2,7 +2,7 @@
 
 @namespace Iwentys.Endpoint.Client.CustomComponents
 
-<MatPaper Rounded="true" Class="text-center">
+<div Class="text-center">
     <MatHeadline5>Ачивки</MatHeadline5>
     <div class="container-fluid d-flex flex-row">
         @foreach (AchievementDto achievement in Achievements)
@@ -13,7 +13,7 @@
             </div>
         }
     </div>
-</MatPaper>
+</div>
 
 @code {
     [Parameter]
