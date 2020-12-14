@@ -15,7 +15,6 @@ namespace Iwentys.Database.Context
             new GuildRepository(context),
             new GuildMemberRepository(context),
             new CompanyRepository(context),
-            new TournamentRepository(context),
             new StudentProjectRepository(context),
             new GuildTributeRepository(context),
             new SubjectActivityRepository(context),
@@ -23,7 +22,6 @@ namespace Iwentys.Database.Context
             new StudyGroupRepository(context),
             new GithubUserDataRepository(context),
             new GuildTestTaskSolvingInfoRepository(context),
-            new AssignmentRepository(context),
             new GuildRecruitmentRepository(context))
         {
         }
@@ -33,7 +31,6 @@ namespace Iwentys.Database.Context
             GuildRepository guild,
             IGuildMemberRepository guildMember,
             CompanyRepository company,
-            TournamentRepository tournament,
             IStudentProjectRepository studentProject,
             GuildTributeRepository guildTribute,
             SubjectActivityRepository subjectActivity,
@@ -41,7 +38,6 @@ namespace Iwentys.Database.Context
             StudyGroupRepository studyGroup,
             IGithubUserDataRepository githubUserData,
             IGuildTestTaskSolvingInfoRepository guildTestTaskSolvingInfo,
-            AssignmentRepository assignment,
             IGuildRecruitmentRepository guildRecruitment)
         {
             Context = context;
@@ -49,7 +45,6 @@ namespace Iwentys.Database.Context
             Guild = guild;
             GuildMember = guildMember;
             Company = company;
-            Tournament = tournament;
             StudentProject = studentProject;
             GuildTribute = guildTribute;
             SubjectActivity = subjectActivity;
@@ -57,7 +52,6 @@ namespace Iwentys.Database.Context
             StudyGroup = studyGroup;
             GithubUserData = githubUserData;
             GuildTestTaskSolvingInfo = guildTestTaskSolvingInfo;
-            Assignment = assignment;
             GuildRecruitment = guildRecruitment;
         }
 
@@ -69,13 +63,10 @@ namespace Iwentys.Database.Context
         public IGuildRecruitmentRepository GuildRecruitment { get; }
 
         public CompanyRepository Company { get; }
-        public TournamentRepository Tournament { get; }
         public IStudentProjectRepository StudentProject { get; }
         public GuildTributeRepository GuildTribute { get; }
         public IGithubUserDataRepository GithubUserData { get; }
         public IGuildTestTaskSolvingInfoRepository GuildTestTaskSolvingInfo { get; }
-
-        public AssignmentRepository Assignment { get; }
 
         public SubjectActivityRepository SubjectActivity { get; }
         public GroupSubjectRepository GroupSubject { get; }

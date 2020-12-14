@@ -7,7 +7,6 @@ using Iwentys.Database.Repositories.Study;
 using Iwentys.Endpoint.Server.Source.Auth;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Achievements.Repositories;
-using Iwentys.Features.Assignments.Repositories;
 using Iwentys.Features.Assignments.Services;
 using Iwentys.Features.Companies.Repositories;
 using Iwentys.Features.Companies.Services;
@@ -60,7 +59,6 @@ namespace Iwentys.Endpoint.Server.Source.Tools
 
             services.AddScoped<IAchievementRepository, AchievementRepository>();
 
-            services.AddScoped<IAssignmentRepository, AssignmentRepository>();
             services.AddScoped<AssignmentService>();
 
             services.AddScoped<ICompanyRepository, CompanyRepository>();
@@ -78,7 +76,6 @@ namespace Iwentys.Endpoint.Server.Source.Tools
             services.AddScoped<IGuildRepository, GuildRepository>();
             services.AddScoped<IGuildTestTaskSolvingInfoRepository, GuildTestTaskSolvingInfoRepository>();
             services.AddScoped<IGuildTributeRepository, GuildTributeRepository>();
-            services.AddScoped<ITournamentRepository, TournamentRepository>();
             services.AddScoped<GuildMemberService>();
             services.AddScoped<GuildRecruitmentService>();
             services.AddScoped<GuildService>();
@@ -94,7 +91,6 @@ namespace Iwentys.Endpoint.Server.Source.Tools
             services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<IStudyGroupRepository, StudyGroupRepository>();
             services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
-            services.AddScoped<ISubjectRepository, SubjectRepository>();
             services.AddScoped<StudentService>();
             services.AddScoped<StudyGroupService>();
             services.AddScoped<SubjectService>();

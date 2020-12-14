@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Iwentys.Common.Databases;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
@@ -10,19 +11,23 @@ namespace Iwentys.Features.Study.Services
 {
     public class SubjectService
     {
-        private readonly ISubjectRepository _subjectRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        
+        private readonly IGenericRepository<SubjectEntity> _subjectRepository;
         private readonly IGroupSubjectRepository _groupSubjectRepository;
 
-        public SubjectService(ISubjectRepository subjectRepository, IGroupSubjectRepository groupSubjectRepository)
+        public SubjectService(IGroupSubjectRepository groupSubjectRepository, IUnitOfWork unitOfWork)
         {
-            _subjectRepository = subjectRepository;
+            _unitOfWork = unitOfWork;
+
             _groupSubjectRepository = groupSubjectRepository;
+            _subjectRepository = _unitOfWork.GetRepository<SubjectEntity>();
         }
 
         public async Task<List<SubjectProfileDto>> Get()
         {
             List<SubjectEntity> subjects = await _subjectRepository
-                .Read()
+                .GetAsync()
                 .ToListAsync();
 
             return subjects.SelectToList(entity => new SubjectProfileDto(entity));
@@ -32,7 +37,7 @@ namespace Iwentys.Features.Study.Services
         public async Task<SubjectProfileDto> Get(int id)
         {
             SubjectEntity subject = await _subjectRepository
-                .Read()
+                .GetAsync()
                 .FirstAsync(s => s.Id == id);
 
             return new SubjectProfileDto(subject);

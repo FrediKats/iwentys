@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Iwentys.Features.Students\Iwentys.Features.Students.csproj" />
     <ProjectReference Include="..\Iwentys.Features.Study\Iwentys.Features.Study.csproj" />
   </ItemGroup>
