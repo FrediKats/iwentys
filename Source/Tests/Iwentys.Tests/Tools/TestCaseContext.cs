@@ -67,7 +67,7 @@ namespace Iwentys.Tests.Tools
             GuildTributeServiceService = new GuildTributeService(githubApiAccessor, DatabaseAccessor.StudentProject, StudentRepository, DatabaseAccessor.Guild, DatabaseAccessor.GuildTribute);
             CompanyService = new CompanyService(DatabaseAccessor.Company, StudentRepository);
             BarsPointTransactionLogService =
-                new BarsPointTransactionLogService(StudentRepository, DatabaseAccessor.BarsPointTransaction);
+                new BarsPointTransactionLogService(StudentRepository, unitOfWork);
             QuestService = new QuestService(achievementProvider, BarsPointTransactionLogService, unitOfWork);
         }
 

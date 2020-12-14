@@ -1,5 +1,4 @@
 ﻿using Iwentys.Database.Repositories;
-using Iwentys.Database.Repositories.Economy;
 using Iwentys.Database.Repositories.GithubIntegration;
 using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Repositories.Study;
@@ -19,7 +18,6 @@ namespace Iwentys.Database.Context
             new TournamentRepository(context),
             new StudentProjectRepository(context),
             new GuildTributeRepository(context),
-            new BarsPointTransactionRepository(context),
             new SubjectActivityRepository(context),
             new GroupSubjectRepository(context),
             new StudyGroupRepository(context),
@@ -38,7 +36,6 @@ namespace Iwentys.Database.Context
             TournamentRepository tournament,
             IStudentProjectRepository studentProject,
             GuildTributeRepository guildTribute,
-            BarsPointTransactionRepository barsPointTransaction,
             SubjectActivityRepository subjectActivity,
             GroupSubjectRepository groupSubject,
             StudyGroupRepository studyGroup,
@@ -55,7 +52,6 @@ namespace Iwentys.Database.Context
             Tournament = tournament;
             StudentProject = studentProject;
             GuildTribute = guildTribute;
-            BarsPointTransaction = barsPointTransaction;
             SubjectActivity = subjectActivity;
             GroupSubject = groupSubject;
             StudyGroup = studyGroup;
@@ -76,7 +72,6 @@ namespace Iwentys.Database.Context
         public TournamentRepository Tournament { get; }
         public IStudentProjectRepository StudentProject { get; }
         public GuildTributeRepository GuildTribute { get; }
-        public BarsPointTransactionRepository BarsPointTransaction { get; }
         public IGithubUserDataRepository GithubUserData { get; }
         public IGuildTestTaskSolvingInfoRepository GuildTestTaskSolvingInfo { get; }
 

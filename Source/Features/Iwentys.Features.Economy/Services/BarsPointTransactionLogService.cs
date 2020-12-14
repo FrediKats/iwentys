@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
+using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Economy.Entities;
-using Iwentys.Features.Economy.Repositories;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Students.Repositories;
 
@@ -10,18 +10,21 @@ namespace Iwentys.Features.Economy.Services
 {
     public class BarsPointTransactionLogService
     {
-        private readonly IStudentRepository _studentRepository;
-        private readonly IBarsPointTransactionRepository _barsPointTransactionRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public BarsPointTransactionLogService(IStudentRepository studentRepository, IBarsPointTransactionRepository barsPointTransactionRepository)
+        private readonly IStudentRepository _studentRepository;
+        private readonly IGenericRepository<BarsPointTransactionEntity> _barsPointTransactionRepository;
+
+        public BarsPointTransactionLogService(IStudentRepository studentRepository, IUnitOfWork unitOfWork)
         {
+            _unitOfWork = unitOfWork;
+
             _studentRepository = studentRepository;
-            _barsPointTransactionRepository = barsPointTransactionRepository;
+            _barsPointTransactionRepository = _unitOfWork.GetRepository<BarsPointTransactionEntity>();
         }
 
         public async Task<BarsPointTransactionEntity> TransferAsync(int fromId, int toId, int pointAmountToTransfer)
         {
-            //TODO: Use transaction for whole method
             StudentEntity sender = await _studentRepository.GetAsync(fromId);
             StudentEntity receiver = await _studentRepository.GetAsync(toId);
 
@@ -34,9 +37,9 @@ namespace Iwentys.Features.Economy.Services
                     
             await _studentRepository.UpdateAsync(sender);
             await _studentRepository.UpdateAsync(receiver);
+            await _barsPointTransactionRepository.InsertAsync(transaction);
 
-            await _barsPointTransactionRepository.CreateAsync(transaction);
-
+            await _unitOfWork.CommitAsync();
             return transaction;
         }
 
