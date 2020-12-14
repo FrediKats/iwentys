@@ -1,5 +1,4 @@
 ﻿using Iwentys.Database.Context;
-using Iwentys.Database.Repositories;
 using Iwentys.Database.Repositories.GithubIntegration;
 using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Repositories.Study;
@@ -66,7 +65,6 @@ namespace Iwentys.Endpoint.Server.Source.Tools
             services.AddScoped<StudyLeaderboardService>();
 
             services.AddScoped<IGuildMemberRepository, GuildMemberRepository>();
-            services.AddScoped<IGuildRecruitmentRepository, GuildRecruitmentRepository>();
             services.AddScoped<IGuildRepository, GuildRepository>();
             services.AddScoped<IGuildTestTaskSolvingInfoRepository, GuildTestTaskSolvingInfoRepository>();
             services.AddScoped<IGuildTributeRepository, GuildTributeRepository>();
@@ -83,7 +81,6 @@ namespace Iwentys.Endpoint.Server.Source.Tools
 
             services.AddScoped<IGroupSubjectRepository, GroupSubjectRepository>();
             services.AddScoped<IStudentRepository, StudentRepository>();
-            services.AddScoped<IStudyGroupRepository, StudyGroupRepository>();
             services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
             services.AddScoped<StudentService>();
             services.AddScoped<StudyGroupService>();
