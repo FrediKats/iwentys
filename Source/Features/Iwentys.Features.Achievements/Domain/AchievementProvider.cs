@@ -1,25 +1,30 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
+using Iwentys.Common.Databases;
 using Iwentys.Features.Achievements.Entities;
-using Iwentys.Features.Achievements.Repositories;
 
 namespace Iwentys.Features.Achievements.Domain
 {
     public class AchievementProvider
     {
-        private readonly IAchievementRepository _achievementRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        
+        private readonly IGenericRepository<StudentAchievementEntity> _studentAchievementRepository;
 
-        public AchievementProvider(IAchievementRepository achievementRepository)
+        public AchievementProvider(IUnitOfWork unitOfWork)
         {
-            _achievementRepository = achievementRepository;
+            _unitOfWork = unitOfWork;
+            _studentAchievementRepository = _unitOfWork.GetRepository<StudentAchievementEntity>();
         }
 
-        public void Achieve(AchievementEntity achievement, int studentId)
+        public async Task Achieve(AchievementEntity achievement, int studentId)
         {
-            if (_achievementRepository.ReadStudentAchievements().Any(s => s.AchievementId == achievement.Id && s.StudentId == studentId))
+            if (_studentAchievementRepository.GetAsync().Any(s => s.AchievementId == achievement.Id && s.StudentId == studentId))
                 return;
-
-            _achievementRepository.CreateStudentAchievement(new StudentAchievementEntity { StudentId = studentId, AchievementId = achievement.Id, GettingTime = DateTime.UtcNow });
+            
+            await _studentAchievementRepository.InsertAsync(StudentAchievementEntity.Create(studentId, achievement.Id));
+            await _unitOfWork.CommitAsync();
         }
     }
 }

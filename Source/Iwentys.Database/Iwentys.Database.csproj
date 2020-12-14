@@ -26,8 +26,4 @@
     <ProjectReference Include="..\Iwentys.Database.Seeding\Iwentys.Database.Seeding.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositories\Achievements\" />
-  </ItemGroup>
-
 </Project>

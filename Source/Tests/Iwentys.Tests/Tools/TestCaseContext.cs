@@ -1,6 +1,5 @@
 using System;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories.Achievements;
 using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Repositories.Study;
 using Iwentys.Database.Tools;
@@ -30,7 +29,6 @@ namespace Iwentys.Tests.Tools
     {
         private readonly IwentysDbContext _context;
 
-        public readonly AchievementRepository AchievementRepository;
         public readonly StudentRepository StudentRepository;
         public readonly GuildRepository GuildRepository;
 
@@ -52,12 +50,11 @@ namespace Iwentys.Tests.Tools
             _context = TestDatabaseProvider.GetDatabaseContext();
             var unitOfWork = new UnitOfWork<IwentysDbContext>(_context);
             
-            AchievementRepository = new AchievementRepository(_context);
             StudentRepository = new StudentRepository(_context);
             GuildRepository = new GuildRepository(_context);
 
             DatabaseAccessor = new DatabaseAccessor(_context);
-            var achievementProvider = new AchievementProvider(AchievementRepository);
+            var achievementProvider = new AchievementProvider(unitOfWork);
             var githubApiAccessor = new DummyGithubApiAccessor();
 
             StudentService = new StudentService(StudentRepository);

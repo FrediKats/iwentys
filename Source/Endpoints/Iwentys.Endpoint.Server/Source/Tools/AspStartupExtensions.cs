@@ -1,12 +1,10 @@
 ﻿using Iwentys.Database.Context;
 using Iwentys.Database.Repositories;
-using Iwentys.Database.Repositories.Achievements;
 using Iwentys.Database.Repositories.GithubIntegration;
 using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Repositories.Study;
 using Iwentys.Endpoint.Server.Source.Auth;
 using Iwentys.Features.Achievements.Domain;
-using Iwentys.Features.Achievements.Repositories;
 using Iwentys.Features.Assignments.Services;
 using Iwentys.Features.Companies.Repositories;
 using Iwentys.Features.Companies.Services;
@@ -56,8 +54,6 @@ namespace Iwentys.Endpoint.Server.Source.Tools
                 GithubApiAccessor.Token = ApplicationOptions.GithubToken;
                 services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
             }
-
-            services.AddScoped<IAchievementRepository, AchievementRepository>();
 
             services.AddScoped<AssignmentService>();
 

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Iwentys.Common.Databases;
+using Iwentys.Features.Achievements.Entities;
 using Iwentys.Features.Achievements.Models;
-using Iwentys.Features.Achievements.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers
@@ -10,18 +11,21 @@ namespace Iwentys.Endpoint.Controllers
     [ApiController]
     public class AchievementController : ControllerBase
     {
-        private readonly IAchievementRepository _achievementRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public AchievementController(IAchievementRepository achievementRepository)
+        private readonly IGenericRepository<StudentAchievementEntity> _studentAchievementRepository;
+
+        public AchievementController(IUnitOfWork unitOfWork)
         {
-            _achievementRepository = achievementRepository;
+            _unitOfWork = unitOfWork;
+            _studentAchievementRepository = _unitOfWork.GetRepository<StudentAchievementEntity>();
         }
 
         [HttpGet("for-student")]
         public ActionResult<List<AchievementDto>> GetForStudent(int studentId)
         {
-            List<AchievementDto> achievements = _achievementRepository
-                .ReadStudentAchievements()
+            List<AchievementDto> achievements = _studentAchievementRepository
+                .GetAsync()
                 .Where(a => a.StudentId == studentId)
                 .AsEnumerable().Select(AchievementDto.Wrap)
                 .ToList();
