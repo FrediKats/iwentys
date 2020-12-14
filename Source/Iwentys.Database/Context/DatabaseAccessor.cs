@@ -14,7 +14,6 @@ namespace Iwentys.Database.Context
             new StudentRepository(context),
             new GuildRepository(context),
             new GuildMemberRepository(context),
-            new CompanyRepository(context),
             new StudentProjectRepository(context),
             new GuildTributeRepository(context),
             new SubjectActivityRepository(context),
@@ -30,7 +29,6 @@ namespace Iwentys.Database.Context
             StudentRepository student,
             GuildRepository guild,
             IGuildMemberRepository guildMember,
-            CompanyRepository company,
             IStudentProjectRepository studentProject,
             GuildTributeRepository guildTribute,
             SubjectActivityRepository subjectActivity,
@@ -44,7 +42,6 @@ namespace Iwentys.Database.Context
             Student = student;
             Guild = guild;
             GuildMember = guildMember;
-            Company = company;
             StudentProject = studentProject;
             GuildTribute = guildTribute;
             SubjectActivity = subjectActivity;
@@ -62,7 +59,6 @@ namespace Iwentys.Database.Context
         public IGuildMemberRepository GuildMember { get; }
         public IGuildRecruitmentRepository GuildRecruitment { get; }
 
-        public CompanyRepository Company { get; }
         public IStudentProjectRepository StudentProject { get; }
         public GuildTributeRepository GuildTribute { get; }
         public IGithubUserDataRepository GithubUserData { get; }

@@ -22,5 +22,11 @@ namespace Iwentys.Features.Companies.Entities
                 Type = CompanyWorkerType.Requested
             };
         }
+        
+        public void Approve()
+        {
+            //TODO: some... more validation?
+            Type = CompanyWorkerType.Accepted;
+        }
     }
 }

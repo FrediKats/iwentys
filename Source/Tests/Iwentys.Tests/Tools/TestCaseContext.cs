@@ -62,7 +62,7 @@ namespace Iwentys.Tests.Tools
             GuildService = new GuildService(GithubIntegrationService, githubApiAccessor, StudentRepository, GuildRepository, DatabaseAccessor.GuildMember);
             GuildMemberService = new GuildMemberService(GithubIntegrationService, StudentRepository, DatabaseAccessor.Guild, DatabaseAccessor.GuildMember, DatabaseAccessor.GuildTribute);
             GuildTributeServiceService = new GuildTributeService(githubApiAccessor, DatabaseAccessor.StudentProject, StudentRepository, DatabaseAccessor.Guild, DatabaseAccessor.GuildTribute);
-            CompanyService = new CompanyService(DatabaseAccessor.Company, StudentRepository);
+            CompanyService = new CompanyService(StudentRepository, unitOfWork);
             BarsPointTransactionLogService =
                 new BarsPointTransactionLogService(StudentRepository, unitOfWork);
             QuestService = new QuestService(achievementProvider, BarsPointTransactionLogService, unitOfWork);
@@ -134,8 +134,8 @@ namespace Iwentys.Tests.Tools
         public TestCaseContext WithCompany(out CompanyInfoDto companyInfo)
         {
             var company = new CompanyEntity();
-            company = DatabaseAccessor.Company.CreateAsync(company).Result;
-            companyInfo = new(company);
+            company = CompanyService.Create(company).Result;
+            companyInfo = new CompanyInfoDto(company);
             return this;
         }
 

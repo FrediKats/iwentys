@@ -6,7 +6,6 @@ using Iwentys.Database.Repositories.Study;
 using Iwentys.Endpoint.Server.Source.Auth;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Assignments.Services;
-using Iwentys.Features.Companies.Repositories;
 using Iwentys.Features.Companies.Services;
 using Iwentys.Features.Economy.Services;
 using Iwentys.Features.Gamification.Services;
@@ -57,7 +56,6 @@ namespace Iwentys.Endpoint.Server.Source.Tools
 
             services.AddScoped<AssignmentService>();
 
-            services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<CompanyService>();
 
             services.AddScoped<BarsPointTransactionLogService>();
