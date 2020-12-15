@@ -1,5 +1,4 @@
 ﻿using Iwentys.Database.Context;
-using Iwentys.Database.Repositories.GithubIntegration;
 using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Repositories.Study;
 using Iwentys.Endpoint.Server.Source.Auth;
@@ -9,7 +8,6 @@ using Iwentys.Features.Companies.Services;
 using Iwentys.Features.Economy.Services;
 using Iwentys.Features.Gamification.Services;
 using Iwentys.Features.GithubIntegration;
-using Iwentys.Features.GithubIntegration.Repositories;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Features.Guilds.Services;
@@ -58,8 +56,6 @@ namespace Iwentys.Endpoint.Server.Source.Tools
 
             services.AddScoped<BarsPointTransactionLogService>();
 
-            services.AddScoped<IGithubUserDataRepository, GithubUserDataRepository>();
-            services.AddScoped<IStudentProjectRepository, StudentProjectRepository>();
             services.AddScoped<GithubIntegrationService>();
             services.AddScoped<StudyLeaderboardService>();
 

@@ -6,7 +6,6 @@ using Iwentys.Common.Tools;
 using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Models;
-using Iwentys.Features.GithubIntegration.Repositories;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
@@ -23,21 +22,21 @@ namespace Iwentys.Features.Guilds.Services
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IGenericRepository<StudentEntity> _studentRepository;
-        
+        private readonly IGenericRepository<GithubProjectEntity> _studentProjectRepository;
+
         private readonly IGithubApiAccessor _githubApi;
         private readonly IGuildRepository _guildRepository;
         private readonly IGuildTributeRepository _guildTributeRepository;
-        private readonly IStudentProjectRepository _studentProjectRepository;
 
-        public GuildTributeService(IGithubApiAccessor githubApi, IStudentProjectRepository studentProjectRepository, IGuildRepository guildRepository, IGuildTributeRepository guildTributeRepository, IUnitOfWork unitOfWork)
+        public GuildTributeService(IGithubApiAccessor githubApi, IGuildRepository guildRepository, IGuildTributeRepository guildTributeRepository, IUnitOfWork unitOfWork)
         {
             _githubApi = githubApi;
-            _studentProjectRepository = studentProjectRepository;
             _guildRepository = guildRepository;
             _guildTributeRepository = guildTributeRepository;
             
             _unitOfWork = unitOfWork;
             _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
+            _studentProjectRepository = _unitOfWork.GetRepository<GithubProjectEntity>();
         }
 
         //TODO: i'm not sure about this method
@@ -77,7 +76,7 @@ namespace Iwentys.Features.Guilds.Services
                 throw InnerLogicException.Tribute.TributeCanBeSendFromStudentAccount(student.Id, createProject.Owner);
 
             GithubRepositoryInfoDto githubProject = _githubApi.GetRepository(createProject.Owner, createProject.RepositoryName);
-            GithubProjectEntity projectEntity = await _studentProjectRepository.GetOrCreateAsync(githubProject, student);
+            GithubProjectEntity projectEntity = await GetOrCreateAsync(githubProject, student);
             GuildEntity guild = _guildRepository.ReadForStudent(student.Id);
             TributeEntity[] allTributes = _guildTributeRepository.Read().ToArray();
 
@@ -89,6 +88,19 @@ namespace Iwentys.Features.Guilds.Services
 
             return _guildTributeRepository.Create(guild, projectEntity).To(TributeInfoResponse.Wrap);
         }
+
+        public async Task<GithubProjectEntity> GetOrCreateAsync(GithubRepositoryInfoDto project, StudentEntity creator)
+        {
+            GithubProjectEntity githubProjectEntity = await _studentProjectRepository.GetByIdAsync(project.Id);
+            if (githubProjectEntity is not null)
+                return githubProjectEntity;
+
+            var newProject = new GithubProjectEntity(creator, project);
+            await _studentProjectRepository.InsertAsync(newProject);
+            await _unitOfWork.CommitAsync();
+            return newProject;
+        }
+
 
         public async Task<TributeInfoResponse> CancelTribute(AuthorizedUser user, long tributeId)
         {

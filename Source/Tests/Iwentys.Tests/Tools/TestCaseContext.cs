@@ -60,10 +60,10 @@ namespace Iwentys.Tests.Tools
             var githubApiAccessor = new DummyGithubApiAccessor();
 
             StudentService = new StudentService(unitOfWork);
-            GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, DatabaseAccessor.GithubUserData, DatabaseAccessor.StudentProject, unitOfWork);
+            GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, unitOfWork);
             GuildService = new GuildService(GithubIntegrationService, githubApiAccessor, GuildRepository, DatabaseAccessor.GuildMember, unitOfWork);
             GuildMemberService = new GuildMemberService(GithubIntegrationService, DatabaseAccessor.Guild, DatabaseAccessor.GuildMember, DatabaseAccessor.GuildTribute, unitOfWork);
-            GuildTributeServiceService = new GuildTributeService(githubApiAccessor, DatabaseAccessor.StudentProject, DatabaseAccessor.Guild, DatabaseAccessor.GuildTribute, unitOfWork);
+            GuildTributeServiceService = new GuildTributeService(githubApiAccessor, DatabaseAccessor.Guild, DatabaseAccessor.GuildTribute, unitOfWork);
             CompanyService = new CompanyService(unitOfWork);
             BarsPointTransactionLogService =
                 new BarsPointTransactionLogService(unitOfWork);
@@ -164,8 +164,11 @@ namespace Iwentys.Tests.Tools
                 Owner = StudentService.GetAsync(userInfo.Id).Result.GithubUsername,
                 Name = "Test repo"
             };
-            githubProjectEntity = DatabaseAccessor.StudentProject.Create(project);
 
+            UnitOfWork.GetRepository<GithubProjectEntity>().InsertAsync(project).Wait();
+            githubProjectEntity = project;
+            UnitOfWork.CommitAsync().Wait();
+            
             return this;
         }
 
