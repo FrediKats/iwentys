@@ -58,7 +58,6 @@ namespace Iwentys.Features.Students.Services
 
             //TODO: implement github access validation
             //throw new NotImplementedException("Need to validate github credentials");
-            Task ret;
             StudentEntity user = await _studentRepository.GetByIdAsync(id);
             user.GithubUsername = githubUsername;
             await _studentRepository.UpdateAsync(user);
@@ -71,7 +70,6 @@ namespace Iwentys.Features.Students.Services
 
         public async Task<StudentInfoDto> RemoveGithubUsernameAsync(int id, string githubUsername)
         {
-            Task ret;
             StudentEntity user = await _studentRepository.GetByIdAsync(id);
             user.GithubUsername = githubUsername;
             await _studentRepository.UpdateAsync(user);

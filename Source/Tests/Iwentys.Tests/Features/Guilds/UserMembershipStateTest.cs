@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Database.Repositories.Guilds;
-using Iwentys.Database.Repositories.Study;
 using Iwentys.Features.Achievements.Entities;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Models;

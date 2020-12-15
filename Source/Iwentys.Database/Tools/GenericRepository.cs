@@ -38,6 +38,7 @@ namespace Iwentys.Database.Tools
             await DeleteAsync(entityToDelete);
         }
 
+        //TODO: make async
         public async Task DeleteAsync(TEntity entityToDelete)
         {
             if (Context.Entry(entityToDelete).State == EntityState.Detached)

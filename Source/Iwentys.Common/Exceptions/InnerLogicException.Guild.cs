@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using Iwentys.Common.ExceptionMessages;
 
 namespace Iwentys.Common.Exceptions

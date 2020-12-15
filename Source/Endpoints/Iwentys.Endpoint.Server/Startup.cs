@@ -9,7 +9,6 @@ using Iwentys.Database.Context;
 using Iwentys.Endpoint.Server.Source.Data;
 using Iwentys.Endpoint.Server.Source.Models;
 using Iwentys.Endpoint.Server.Source.Tools;
-using Microsoft.Extensions.Hosting;
 
 namespace Iwentys.Endpoint.Server
 {

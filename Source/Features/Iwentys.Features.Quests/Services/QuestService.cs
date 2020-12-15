@@ -82,7 +82,7 @@ namespace Iwentys.Features.Quests.Services
             await _studentRepository.UpdateAsync(student);
             await _unitOfWork.CommitAsync();
             
-            _achievementProvider.Achieve(AchievementList.QuestCreator, user.Id);
+            await _achievementProvider.Achieve(AchievementList.QuestCreator, user.Id);
             return QuestInfoResponse.Wrap(quest);
         }
 
@@ -108,7 +108,7 @@ namespace Iwentys.Features.Quests.Services
             
             await _pointTransactionLogService.TransferFromSystem(userId, quest.Price);
 
-            _achievementProvider.Achieve(AchievementList.QuestComplete, userId);
+            await _achievementProvider.Achieve(AchievementList.QuestComplete, userId);
             return new QuestInfoResponse(quest);
         }
 

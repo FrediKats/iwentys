@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Controllers.Tools;
 using Iwentys.Features.GithubIntegration.Models;
-using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Models.Guilds;
 using Iwentys.Features.Guilds.Services;

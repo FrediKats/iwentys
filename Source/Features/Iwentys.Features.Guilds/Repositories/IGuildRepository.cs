@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Common.Tools;
+using Iwentys.Common.Databases;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Models.Guilds;

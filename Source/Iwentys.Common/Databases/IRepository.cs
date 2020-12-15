@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 
-namespace Iwentys.Common.Tools
+namespace Iwentys.Common.Databases
 {
     public interface IRepository<TEntity>
     {

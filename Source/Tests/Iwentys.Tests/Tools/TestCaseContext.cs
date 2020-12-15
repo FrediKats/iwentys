@@ -1,9 +1,7 @@
 using System;
 using Iwentys.Common.Databases;
-using Iwentys.Common.Tools;
 using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Guilds;
-using Iwentys.Database.Repositories.Study;
 using Iwentys.Database.Tools;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Companies.Entities;

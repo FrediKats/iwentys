@@ -2,7 +2,6 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using Flurl;
 using Flurl.Http;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.Guilds.Models.Guilds;

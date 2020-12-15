@@ -1,6 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Features.Achievements.Domain;
-using Iwentys.Features.Achievements.Entities;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Tests.Tools;
 using NUnit.Framework;

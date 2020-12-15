@@ -17,7 +17,7 @@ namespace Iwentys.Tests.Tools
 
             
             var databaseContext = new IwentysDbContext(options);
-            EntityFrameworkManager.ContextFactory = context => new IwentysDbContext(options);
+            EntityFrameworkManager.ContextFactory = _ => new IwentysDbContext(options);
             databaseContext.Database.EnsureCreated();
 
             return databaseContext;
