@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.Gamification.Models;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Students.Entities;
-using Iwentys.Features.Students.Repositories;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
 using Iwentys.Features.Study.Repositories;
@@ -13,15 +13,21 @@ namespace Iwentys.Features.Gamification.Services
 {
     public class StudyLeaderboardService
     {
-        private readonly GithubIntegrationService _githubIntegrationService;
-        private readonly IStudentRepository _studentRepository;
-        private readonly ISubjectActivityRepository _subjectActivityRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public StudyLeaderboardService(GithubIntegrationService githubIntegrationService, IStudentRepository studentRepository, ISubjectActivityRepository subjectActivityRepository)
+        private readonly IGenericRepository<StudentEntity> _studentRepository;
+
+        private readonly GithubIntegrationService _githubIntegrationService;
+        private readonly ISubjectActivityRepository _subjectActivityRepository;
+        
+
+        public StudyLeaderboardService(GithubIntegrationService githubIntegrationService, ISubjectActivityRepository subjectActivityRepository, IUnitOfWork unitOfWork)
         {
             _githubIntegrationService = githubIntegrationService;
-            _studentRepository = studentRepository;
             _subjectActivityRepository = subjectActivityRepository;
+            
+            _unitOfWork = unitOfWork;
+            _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
         }
 
         public List<StudyLeaderboardRowDto> GetStudentsRatings(StudySearchParametersDto searchParametersDto)
@@ -45,7 +51,7 @@ namespace Iwentys.Features.Gamification.Services
 
         public List<StudyLeaderboardRowDto> GetCodingRating(int? courseId, int skip, int take)
         {
-            IQueryable<StudentEntity> query = _studentRepository.Read();
+            IQueryable<StudentEntity> query = _studentRepository.GetAsync();
 
             //TODO: fix
             //query = query

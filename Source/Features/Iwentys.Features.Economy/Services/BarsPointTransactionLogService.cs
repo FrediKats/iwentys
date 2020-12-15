@@ -1,10 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
-using Iwentys.Common.Tools;
 using Iwentys.Features.Economy.Entities;
 using Iwentys.Features.Students.Entities;
-using Iwentys.Features.Students.Repositories;
 
 namespace Iwentys.Features.Economy.Services
 {
@@ -12,21 +10,21 @@ namespace Iwentys.Features.Economy.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IStudentRepository _studentRepository;
+        private readonly IGenericRepository<StudentEntity> _studentRepository;
         private readonly IGenericRepository<BarsPointTransactionEntity> _barsPointTransactionRepository;
 
-        public BarsPointTransactionLogService(IStudentRepository studentRepository, IUnitOfWork unitOfWork)
+        public BarsPointTransactionLogService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
 
-            _studentRepository = studentRepository;
+            _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
             _barsPointTransactionRepository = _unitOfWork.GetRepository<BarsPointTransactionEntity>();
         }
 
         public async Task<BarsPointTransactionEntity> TransferAsync(int fromId, int toId, int pointAmountToTransfer)
         {
-            StudentEntity sender = await _studentRepository.GetAsync(fromId);
-            StudentEntity receiver = await _studentRepository.GetAsync(toId);
+            StudentEntity sender = await _studentRepository.GetByIdAsync(fromId);
+            StudentEntity receiver = await _studentRepository.GetByIdAsync(toId);
 
             if (sender.BarsPoints < pointAmountToTransfer)
                 throw InnerLogicException.NotEnoughBarsPoints();
@@ -46,7 +44,7 @@ namespace Iwentys.Features.Economy.Services
         public async Task TransferFromSystem(int toId, int pointAmountToTransfer)
         {
             //TODO: implement
-            StudentEntity receiver = await _studentRepository.GetAsync(toId);
+            StudentEntity receiver = await _studentRepository.GetByIdAsync(toId);
 
             receiver.BarsPoints += pointAmountToTransfer;
 

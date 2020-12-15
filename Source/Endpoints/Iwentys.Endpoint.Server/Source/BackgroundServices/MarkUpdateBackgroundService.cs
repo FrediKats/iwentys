@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Iwentys.Common.Databases;
 using Iwentys.Database.Context;
 using Iwentys.Features.Study.Entities;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,7 +33,8 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
                     _logger.LogInformation("Execute MarkUpdateBackgroundService update");
 
                     var accessor = scope.ServiceProvider.GetRequiredService<DatabaseAccessor>();
-                    var googleTableUpdateService = new MarkGoogleTableUpdateService(accessor.Student, accessor.SubjectActivity, _logger, ApplicationOptions.GoogleServiceToken);
+                    var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+                    var googleTableUpdateService = new MarkGoogleTableUpdateService(accessor.SubjectActivity, _logger, ApplicationOptions.GoogleServiceToken, unitOfWork);
 
                     foreach (GroupSubjectEntity g in accessor.GroupSubject.Read().ToList())
                     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Iwentys.Common.Databases;
 using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Repositories.Study;
 using Iwentys.Features.Achievements.Entities;
@@ -27,7 +28,7 @@ namespace Iwentys.Tests.Features.Guilds
         private Mock<GuildTributeRepository> _tributeRepository;
         private Mock<GuildRepository> _guildRepository;
         private Mock<GuildMemberRepository> _guildMemberRepository;
-        private Mock<StudentRepository> _studentRepository;
+        private Mock<IGenericRepository<StudentEntity>> _studentRepository;
         private Mock<GithubIntegrationService> _githubUserDataService;
 
         // User without guild
@@ -81,9 +82,9 @@ namespace Iwentys.Tests.Features.Guilds
                 .Setup(r => r.IsStudentHaveRequest(It.IsAny<Int32>()))
                 .Returns(false);
 
-            _studentRepository = new Mock<StudentRepository>();
+            _studentRepository = new Mock<IGenericRepository<StudentEntity>>();
             _studentRepository
-                .Setup(r => r.ReadByIdAsync(It.IsAny<Int32>()))
+                .Setup(r => r.GetByIdAsync(It.IsAny<Int32>()))
                 .Returns(Task.FromResult(_student));
 
             _guildDomain = new GuildDomain(_guild, _githubUserDataService.Object, _studentRepository.Object, _guildRepository.Object, _guildMemberRepository.Object);

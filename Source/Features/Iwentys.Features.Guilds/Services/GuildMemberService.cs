@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.GithubIntegration.Services;
@@ -11,25 +12,29 @@ using Iwentys.Features.Guilds.Models.Guilds;
 using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
-using Iwentys.Features.Students.Repositories;
 
 namespace Iwentys.Features.Guilds.Services
 {
     public class GuildMemberService
     {
+        private readonly IUnitOfWork _unitOfWork;
+
+        private readonly IGenericRepository<StudentEntity> _studentRepository;
+
         private readonly GithubIntegrationService _githubIntegrationService;
-        private readonly IStudentRepository _studentRepository;
         private readonly IGuildRepository _guildRepository;
         private readonly IGuildMemberRepository _guildMemberRepository;
         private readonly IGuildTributeRepository _guildTributeRepository;
 
-        public GuildMemberService(GithubIntegrationService githubIntegrationService, IStudentRepository studentRepository, IGuildRepository guildRepository, IGuildMemberRepository guildMemberRepository, IGuildTributeRepository guildTributeRepository)
+        public GuildMemberService(GithubIntegrationService githubIntegrationService, IGuildRepository guildRepository, IGuildMemberRepository guildMemberRepository, IGuildTributeRepository guildTributeRepository, IUnitOfWork unitOfWork)
         {
             _githubIntegrationService = githubIntegrationService;
-            _studentRepository = studentRepository;
             _guildRepository = guildRepository;
             _guildMemberRepository = guildMemberRepository;
             _guildTributeRepository = guildTributeRepository;
+            
+            _unitOfWork = unitOfWork;
+            _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
         }
 
         public async Task<GuildProfileDto> EnterGuildAsync(AuthorizedUser user, int guildId)
@@ -39,7 +44,7 @@ namespace Iwentys.Features.Guilds.Services
             if (await guild.GetUserMembershipState(user.Id) != UserMembershipState.CanEnter)
                 throw new InnerLogicException($"Student unable to enter this guild! UserId: {user.Id} GuildId: {guildId}");
 
-            StudentEntity profile = await user.GetProfile(_studentRepository);
+            StudentEntity profile = await _studentRepository.GetByIdAsync(user.Id);
             await _guildMemberRepository.AddMemberAsync(guild.Profile, profile, GuildMemberType.Member);
 
             return await Get(guildId, user.Id);
@@ -52,7 +57,7 @@ namespace Iwentys.Features.Guilds.Services
             if (await guild.GetUserMembershipState(user.Id) != UserMembershipState.CanRequest)
                 throw new InnerLogicException($"Student unable to send request to this guild! UserId: {user.Id} GuildId: {guildId}");
 
-            StudentEntity profile = await user.GetProfile(_studentRepository);
+            StudentEntity profile = await _studentRepository.GetByIdAsync(user.Id);
             await _guildMemberRepository.AddMemberAsync(guild.Profile, profile, GuildMemberType.Requested);
             return await Get(guildId, user.Id);
         }
@@ -72,7 +77,7 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task<GuildMemberEntity[]> GetGuildRequests(AuthorizedUser user, int guildId)
         {
-            StudentEntity student = await user.GetProfile(_studentRepository);
+            StudentEntity student = await _studentRepository.GetByIdAsync(user.Id);
             GuildEntity guild = await _guildRepository.GetAsync(guildId);
             student.EnsureIsGuildEditor(guild);
 
@@ -83,7 +88,7 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task<GuildMemberEntity[]> GetGuildBlocked(AuthorizedUser user, int guildId)
         {
-            StudentEntity student = await user.GetProfile(_studentRepository);
+            StudentEntity student = await _studentRepository.GetByIdAsync(user.Id);
             GuildEntity guild = await _guildRepository.GetAsync(guildId);
             student.EnsureIsGuildEditor(guild);
 
@@ -102,7 +107,7 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task UnblockStudent(AuthorizedUser user, int guildId, int studentId)
         {
-            StudentEntity student = await user.GetProfile(_studentRepository);
+            StudentEntity student = await _studentRepository.GetByIdAsync(user.Id);
             GuildEntity guild = await _guildRepository.GetAsync(guildId);
             student.EnsureIsGuildEditor(guild);
 
@@ -125,7 +130,7 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task AcceptRequest(AuthorizedUser user, int guildId, int memberForAccepting)
         {
-            StudentEntity student = await user.GetProfile(_studentRepository);
+            StudentEntity student = await _studentRepository.GetByIdAsync(user.Id);
             GuildEntity guild = await _guildRepository.GetAsync(guildId);
             student.EnsureIsGuildEditor(guild);
 
@@ -141,7 +146,7 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task RejectRequest(AuthorizedUser user, int guildId, int studentId)
         {
-            StudentEntity initiator = await user.GetProfile(_studentRepository);
+            StudentEntity initiator = await _studentRepository.GetByIdAsync(user.Id);
             GuildEntity guild = await _guildRepository.GetAsync(guildId);
             initiator.EnsureIsGuildEditor(guild);
 

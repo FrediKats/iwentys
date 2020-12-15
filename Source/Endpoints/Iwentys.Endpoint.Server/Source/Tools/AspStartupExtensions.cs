@@ -15,7 +15,6 @@ using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Features.Guilds.Services;
 using Iwentys.Features.Newsfeeds.Services;
 using Iwentys.Features.Quests.Services;
-using Iwentys.Features.Students.Repositories;
 using Iwentys.Features.Students.Services;
 using Iwentys.Features.Study.Repositories;
 using Iwentys.Features.Study.Services;
@@ -80,7 +79,6 @@ namespace Iwentys.Endpoint.Server.Source.Tools
             services.AddScoped<QuestService>();
 
             services.AddScoped<IGroupSubjectRepository, GroupSubjectRepository>();
-            services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
             services.AddScoped<StudentService>();
             services.AddScoped<StudyGroupService>();

@@ -1,34 +1,38 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Common.Tools;
+using Iwentys.Common.Databases;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.GithubIntegration.Repositories;
 using Iwentys.Features.Students.Entities;
-using Iwentys.Features.Students.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.GithubIntegration.Services
 {
     public class GithubIntegrationService
     {
+        private readonly IUnitOfWork _unitOfWork;
+
+        private readonly IGenericRepository<StudentEntity> _studentRepository;
+
         private readonly IGithubApiAccessor _githubApiAccessor;
         private readonly IGithubUserDataRepository _githubUserDataRepository;
         private readonly IStudentProjectRepository _studentProjectRepository;
-        private readonly IStudentRepository _studentRepository;
 
-        public GithubIntegrationService(IGithubApiAccessor githubApiAccessor, IGithubUserDataRepository githubUserDataRepository, IStudentProjectRepository studentProjectRepository, IStudentRepository studentRepository)
+        public GithubIntegrationService(IGithubApiAccessor githubApiAccessor, IGithubUserDataRepository githubUserDataRepository, IStudentProjectRepository studentProjectRepository, IUnitOfWork unitOfWork)
         {
             _githubApiAccessor = githubApiAccessor;
             _githubUserDataRepository = githubUserDataRepository;
             _studentProjectRepository = studentProjectRepository;
-            _studentRepository = studentRepository;
+            
+            _unitOfWork = unitOfWork;
+            _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
         }
 
         public async Task<GithubUserEntity> CreateOrUpdate(int studentId)
         {
-            StudentEntity student = await _studentRepository.GetAsync(studentId);
+            StudentEntity student = await _studentRepository.GetByIdAsync(studentId);
             GithubUserEntity githubUserData = _githubUserDataRepository.Read().SingleOrDefault(gh => gh.StudentId == studentId);
             bool exists = true;
 
@@ -113,7 +117,7 @@ namespace Iwentys.Features.GithubIntegration.Services
         public async Task<IReadOnlyList<GithubRepositoryInfoDto>> GetStudentRepositories(int studentId)
         {
             //TODO: throw exception?
-            StudentEntity student = await _studentRepository.GetAsync(studentId);
+            StudentEntity student = await _studentRepository.GetByIdAsync(studentId);
             if (student.GithubUsername is null)
                 return new List<GithubRepositoryInfoDto>();
 

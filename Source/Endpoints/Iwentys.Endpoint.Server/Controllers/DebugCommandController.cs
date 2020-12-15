@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Iwentys.Common.Databases;
 using Iwentys.Database.Context;
 using Iwentys.Endpoint.Server.Source;
 using Iwentys.Endpoint.Server.Source.BackgroundServices;
@@ -18,12 +19,12 @@ namespace Iwentys.Endpoint.Server.Controllers
         private readonly ILogger<DebugCommandController> _logger;
         private readonly DatabaseAccessor _databaseAccessor;
 
-        public DebugCommandController(ILogger<DebugCommandController> logger, DatabaseAccessor databaseAccessor)
+        public DebugCommandController(ILogger<DebugCommandController> logger, DatabaseAccessor databaseAccessor, IUnitOfWork unitOfWork)
         {
             _logger = logger;
             _databaseAccessor = databaseAccessor;
 
-            _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(databaseAccessor.Student, databaseAccessor.SubjectActivity, _logger, ApplicationOptions.GoogleServiceToken);
+            _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(databaseAccessor.SubjectActivity, _logger, ApplicationOptions.GoogleServiceToken, unitOfWork);
         }
 
         //[HttpPost("UpdateSubjectActivityData")]

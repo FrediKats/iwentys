@@ -18,9 +18,10 @@ namespace Iwentys.Tests.Features
             TestCaseContext test = TestCaseContext.Case()
                 .WithNewStudent(out AuthorizedUser user);
 
-            StudentEntity student = await test.StudentRepository.ReadByIdAsync(user.Id);
+            StudentEntity student = await test.UnitOfWork.GetRepository<StudentEntity>().GetByIdAsync(user.Id);
             student.BarsPoints = 100;
-            await test.StudentRepository.UpdateAsync(student);
+            await test.UnitOfWork.GetRepository<StudentEntity>().UpdateAsync(student);
+            await test.UnitOfWork.CommitAsync();
 
             test.WithQuest(user, 50, out QuestInfoResponse quest);
 
@@ -35,9 +36,10 @@ namespace Iwentys.Tests.Features
             TestCaseContext test = TestCaseContext.Case()
                 .WithNewStudent(out AuthorizedUser user);
 
-            StudentEntity student = await test.StudentRepository.ReadByIdAsync(user.Id);
+            StudentEntity student = await test.UnitOfWork.GetRepository<StudentEntity>().GetByIdAsync(user.Id);
             student.BarsPoints = 100;
-            await test.StudentRepository.UpdateAsync(student);
+            await test.UnitOfWork.GetRepository<StudentEntity>().UpdateAsync(student);
+            await test.UnitOfWork.CommitAsync();
 
             test.WithQuest(user, 50, out QuestInfoResponse quest);
 
@@ -53,19 +55,22 @@ namespace Iwentys.Tests.Features
                 .WithNewStudent(out AuthorizedUser questCreator)
                 .WithNewStudent(out AuthorizedUser questExecute);
 
-            StudentEntity questCreatorAccount = await test.StudentRepository.ReadByIdAsync(questCreator.Id);
-            StudentEntity questExecuteAccount = await test.StudentRepository.ReadByIdAsync(questExecute.Id);
+            StudentEntity questCreatorAccount = await test.UnitOfWork.GetRepository<StudentEntity>().GetByIdAsync(questCreator.Id);
+            StudentEntity questExecuteAccount = await test.UnitOfWork.GetRepository<StudentEntity>().GetByIdAsync(questExecute.Id);
 
             //TODO: remove opportunity for such updating. Need transaction from system
             questCreatorAccount.BarsPoints = 100;
-            await test.StudentRepository.UpdateAsync(questCreatorAccount);
+            
+            //TODO: fix
+            await test.UnitOfWork.GetRepository<StudentEntity>().UpdateAsync(questCreatorAccount);
+            await test.UnitOfWork.CommitAsync();
             int executorPointsCount = questExecuteAccount.BarsPoints; 
             
             test.WithQuest(questCreator, 50, out QuestInfoResponse quest);
             await test.QuestService.SendResponseAsync(questExecute, quest.Id);
             await test.QuestService.CompleteAsync(questCreator, quest.Id, questExecute.Id);
 
-            questExecuteAccount = await test.StudentRepository.ReadByIdAsync(questExecute.Id);
+            questExecuteAccount = await test.UnitOfWork.GetRepository<StudentEntity>().GetByIdAsync(questExecute.Id);
 
             Assert.AreEqual(executorPointsCount + quest.Price, questExecuteAccount.BarsPoints);
         }

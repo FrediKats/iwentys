@@ -10,7 +10,6 @@ namespace Iwentys.Database.Context
     {
         public DatabaseAccessor(IwentysDbContext context) : this(
             context,
-            new StudentRepository(context),
             new GuildRepository(context),
             new GuildMemberRepository(context),
             new StudentProjectRepository(context),
@@ -23,7 +22,6 @@ namespace Iwentys.Database.Context
         }
 
         public DatabaseAccessor(IwentysDbContext context,
-            StudentRepository student,
             GuildRepository guild,
             IGuildMemberRepository guildMember,
             IStudentProjectRepository studentProject,
@@ -34,7 +32,6 @@ namespace Iwentys.Database.Context
             IGuildTestTaskSolvingInfoRepository guildTestTaskSolvingInfo)
         {
             Context = context;
-            Student = student;
             Guild = guild;
             GuildMember = guildMember;
             StudentProject = studentProject;
@@ -46,7 +43,6 @@ namespace Iwentys.Database.Context
         }
 
         public IwentysDbContext Context { get; }
-        public StudentRepository Student { get; }
         public GuildRepository Guild { get; }
         public IGuildMemberRepository GuildMember { get; }
 

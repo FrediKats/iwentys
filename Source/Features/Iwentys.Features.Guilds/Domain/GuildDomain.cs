@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.GithubIntegration.Entities;
@@ -13,7 +14,6 @@ using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Students.Models;
-using Iwentys.Features.Students.Repositories;
 
 namespace Iwentys.Features.Guilds.Domain
 {
@@ -22,14 +22,14 @@ namespace Iwentys.Features.Guilds.Domain
         public GuildEntity Profile { get; }
 
         private readonly GithubIntegrationService _githubIntegrationService;
-        private readonly IStudentRepository _studentRepository;
+        private readonly IGenericRepository<StudentEntity> _studentRepository;
         private readonly IGuildRepository _guildRepository;
         private readonly IGuildMemberRepository _guildMemberRepository;
 
         public GuildDomain(
             GuildEntity profile,
             GithubIntegrationService githubIntegrationService,
-            IStudentRepository studentRepository,
+            IGenericRepository<StudentEntity> studentRepository,
             IGuildRepository guildRepository,
             IGuildMemberRepository guildMemberRepository)
         {
@@ -78,7 +78,7 @@ namespace Iwentys.Features.Guilds.Domain
 
         public async Task<UserMembershipState> GetUserMembershipState(Int32 userId)
         {
-            StudentEntity user = await _studentRepository.GetAsync(userId);
+            StudentEntity user = await _studentRepository.GetByIdAsync(userId);
             GuildEntity userGuild = _guildRepository.ReadForStudent(user.Id);
             GuildMemberType? userStatusInGuild = Profile.Members.Find(m => m.Member.Id == user.Id)?.MemberType;
 
@@ -132,7 +132,7 @@ namespace Iwentys.Features.Guilds.Domain
 
         public async Task<GuildMemberEntity> EnsureMemberCanRestrictPermissionForOther(AuthorizedUser editor, int memberToKickId)
         {
-            StudentEntity editorStudentAccount = await editor.GetProfile(_studentRepository);
+            StudentEntity editorStudentAccount = await _studentRepository.GetByIdAsync(editor.Id);
             editorStudentAccount.EnsureIsGuildEditor(Profile);
 
             GuildMemberEntity memberToKick = Profile.Members.Find(m => m.MemberId == memberToKickId);

@@ -26,6 +26,7 @@ namespace Iwentys.Database.Tools
             return await DbSet.FindAsync(id);
         }
 
+        //TODO: add return T
         public async Task InsertAsync(TEntity entity)
         {
             await DbSet.AddAsync(entity);

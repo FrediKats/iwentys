@@ -9,7 +9,6 @@ using Iwentys.Features.Companies.Enums;
 using Iwentys.Features.Companies.Models;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
-using Iwentys.Features.Students.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Companies.Services
@@ -20,14 +19,15 @@ namespace Iwentys.Features.Companies.Services
         
         private readonly IGenericRepository<CompanyWorkerEntity> _companyWorkerRepository;
         private readonly IGenericRepository<CompanyEntity> _companyRepository;
-        private readonly IStudentRepository _studentRepository;
+        private readonly IGenericRepository<StudentEntity> _studentRepository;
 
-        public CompanyService(IStudentRepository studentRepository, IUnitOfWork unitOfWork)
+        public CompanyService(IUnitOfWork unitOfWork)
         {
-            _studentRepository = studentRepository;
             _unitOfWork = unitOfWork;
+            
             _companyRepository = _unitOfWork.GetRepository<CompanyEntity>();
             _companyWorkerRepository = _unitOfWork.GetRepository<CompanyWorkerEntity>();
+            _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
         }
 
         public async Task<List<CompanyInfoDto>> Get()
@@ -51,7 +51,7 @@ namespace Iwentys.Features.Companies.Services
         public async Task RequestAdding(int companyId, int userId)
         {
             CompanyEntity companyEntity = await _companyRepository.GetByIdAsync(companyId);
-            StudentEntity profile = await _studentRepository.GetAsync(userId);
+            StudentEntity profile = await _studentRepository.GetByIdAsync(userId);
             
             List<CompanyWorkerEntity> workerRequests = await _companyWorkerRepository.GetAsync().Where(r => r.Type == CompanyWorkerType.Requested).ToListAsync();
             if (workerRequests.Any(r => r.WorkerId == profile.Id))
@@ -63,7 +63,7 @@ namespace Iwentys.Features.Companies.Services
 
         public async Task ApproveAdding(int userId, int adminId)
         {
-            StudentEntity student = await _studentRepository.GetAsync(adminId);
+            StudentEntity student = await _studentRepository.GetByIdAsync(adminId);
             student.EnsureIsAdmin();
 
             var companyWorkerEntity = await _companyWorkerRepository.GetAsync().SingleAsync(cw => cw.WorkerId == userId);
