@@ -19,21 +19,21 @@ namespace Iwentys.Features.Guilds.Services
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IGenericRepository<StudentEntity> _studentRepository;
+        private readonly IGenericRepository<TributeEntity> _guildTributeRepository;
 
         private readonly GithubIntegrationService _githubIntegrationService;
         private readonly IGuildRepository _guildRepository;
         private readonly IGuildMemberRepository _guildMemberRepository;
-        private readonly IGuildTributeRepository _guildTributeRepository;
 
-        public GuildMemberService(GithubIntegrationService githubIntegrationService, IGuildRepository guildRepository, IGuildMemberRepository guildMemberRepository, IGuildTributeRepository guildTributeRepository, IUnitOfWork unitOfWork)
+        public GuildMemberService(GithubIntegrationService githubIntegrationService, IGuildRepository guildRepository, IGuildMemberRepository guildMemberRepository, IUnitOfWork unitOfWork)
         {
             _githubIntegrationService = githubIntegrationService;
             _guildRepository = guildRepository;
             _guildMemberRepository = guildMemberRepository;
-            _guildTributeRepository = guildTributeRepository;
             
             _unitOfWork = unitOfWork;
             _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
+            _guildTributeRepository = _unitOfWork.GetRepository<TributeEntity>();
         }
 
         public async Task<GuildProfileDto> EnterGuildAsync(AuthorizedUser user, int guildId)
@@ -67,7 +67,11 @@ namespace Iwentys.Features.Guilds.Services
             if (studentGuild is null || studentGuild.Id != guildId)
                 throw InnerLogicException.Guild.IsNotGuildMember(user.Id, guildId);
 
-            TributeEntity userTribute = _guildTributeRepository.ReadStudentActiveTribute(studentGuild.Id, user.Id);
+            TributeEntity userTribute = _guildTributeRepository.GetAsync()
+                .Where(t => t.GuildId == guildId)
+                .Where(t => t.ProjectEntity.StudentId == user.Id)
+                .SingleOrDefault(t => t.State == TributeState.Active);
+            
             if (userTribute is not null)
                 await _guildTributeRepository.DeleteAsync(userTribute.ProjectId);
 

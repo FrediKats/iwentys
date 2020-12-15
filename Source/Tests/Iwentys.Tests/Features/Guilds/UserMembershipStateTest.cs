@@ -24,7 +24,7 @@ namespace Iwentys.Tests.Features.Guilds
 
         private StudentEntity _student;
 
-        private Mock<GuildTributeRepository> _tributeRepository;
+        private Mock<IGenericRepository<TributeEntity>> _tributeRepository;
         private Mock<GuildRepository> _guildRepository;
         private Mock<GuildMemberRepository> _guildMemberRepository;
         private Mock<IGenericRepository<StudentEntity>> _studentRepository;
@@ -58,10 +58,10 @@ namespace Iwentys.Tests.Features.Guilds
                 Achievements = new List<GuildAchievementEntity>()
             };
 
-            _tributeRepository = new Mock<GuildTributeRepository>();
-            _tributeRepository
-                .Setup(r => r.ReadStudentActiveTribute(It.IsAny<Int32>(), It.IsAny<Int32>()))
-                .Returns(default(TributeEntity));
+            //_tributeRepository = new Mock<IGenericRepository<TributeEntity>>();
+            //_tributeRepository
+            //    .Setup(r => r.ReadStudentActiveTribute(It.IsAny<Int32>(), It.IsAny<Int32>()))
+            //    .Returns(default(TributeEntity));
 
             _githubUserDataService = new Mock<GithubIntegrationService>();
             _githubUserDataService

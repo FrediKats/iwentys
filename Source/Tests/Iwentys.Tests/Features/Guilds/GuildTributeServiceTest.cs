@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Models.Guilds;
@@ -25,7 +26,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithStudentProject(student, out GithubProjectEntity project)
                 .WithTribute(student, project, out TributeInfoResponse _);
 
-            TributeInfoResponse[] tributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
+            List<TributeInfoResponse> tributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
 
             Assert.IsNotEmpty(tributes);
             Assert.True(tributes.Any(t => t.Project.Id == project.Id));
@@ -44,7 +45,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithTribute(student, project, out TributeInfoResponse tributeInfo);
 
             await context.GuildTributeServiceService.CancelTribute(student, tributeInfo.Project.Id);
-            TributeInfoResponse[] pendingTributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
+            List<TributeInfoResponse> pendingTributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
             TributeInfoResponse[] studentTributes = context.GuildTributeServiceService.GetStudentTributeResult(student);
 
             Assert.IsEmpty(pendingTributes);
@@ -65,7 +66,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithTribute(student, project, out TributeInfoResponse tributeInfo)
                 .WithCompletedTribute(mentor, tributeInfo, out TributeInfoResponse completedTribute);
 
-            TributeInfoResponse[] pendingTributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
+            List<TributeInfoResponse> pendingTributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
             TributeInfoResponse[] studentTributes = context.GuildTributeServiceService.GetStudentTributeResult(student);
 
             Assert.IsEmpty(pendingTributes);
