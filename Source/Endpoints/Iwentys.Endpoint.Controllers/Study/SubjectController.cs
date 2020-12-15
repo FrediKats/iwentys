@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Common.Tools;
 using Iwentys.Features.Students.Enums;
-using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
 using Iwentys.Features.Study.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -24,10 +22,9 @@ namespace Iwentys.Endpoint.Controllers.Study
         public async Task<ActionResult<List<SubjectProfileDto>>> GetAllSubjects([FromQuery] int? courseId, [FromQuery] StudySemester? semester)
         {
             var studySearchParameters = new StudySearchParametersDto(null, null, courseId, semester, 0, 20);
-            List<SubjectEntity> subjectInfo = await _subjectService.GetSubjectsForDtoAsync(studySearchParameters);
+            List<SubjectProfileDto> subjectInfo = await _subjectService.GetSubjectsForDtoAsync(studySearchParameters);
 
-            List<SubjectProfileDto> response = subjectInfo.SelectToList(entity => new SubjectProfileDto(entity));
-            return Ok(response);
+            return Ok(subjectInfo);
         }
 
         [HttpGet("profile/{subjectId}")]

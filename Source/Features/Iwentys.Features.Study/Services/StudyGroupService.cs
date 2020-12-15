@@ -6,7 +6,6 @@ using Iwentys.Common.Tools;
 using Iwentys.Features.Study.Domain;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
-using Iwentys.Features.Study.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Study.Services
@@ -16,14 +15,12 @@ namespace Iwentys.Features.Study.Services
         private readonly IUnitOfWork _unitOfWork;
         
         private readonly IGenericRepository<StudyGroupEntity> _studyGroupRepository;
-        private readonly IGroupSubjectRepository _groupSubjectRepository;
 
-        public StudyGroupService(IGroupSubjectRepository groupSubjectRepository, IUnitOfWork unitOfWork)
+        public StudyGroupService(IUnitOfWork unitOfWork)
         {
-            _groupSubjectRepository = groupSubjectRepository;
             _unitOfWork = unitOfWork;
+         
             _studyGroupRepository = _unitOfWork.GetRepository<StudyGroupEntity>();
-
         }
 
         public async Task<GroupProfileResponseDto> Get(string groupName)
@@ -34,9 +31,12 @@ namespace Iwentys.Features.Study.Services
             return new GroupProfileResponseDto(studyGroup);
         }
 
-        public Task<List<StudyGroupEntity>> GetStudyGroupsForDtoAsync(int? courseId)
+        public async Task<List<StudyGroupEntity>> GetStudyGroupsForDtoAsync(int? courseId)
         {
-            return _groupSubjectRepository.GetStudyGroupsForDto(courseId).ToListAsync();
+            return await _studyGroupRepository
+                .GetAsync()
+                .WhereIf(courseId, gs => gs.StudyCourseId == courseId)
+                .ToListAsync();
         }
 
         //TODO: ensure it's compile to sql

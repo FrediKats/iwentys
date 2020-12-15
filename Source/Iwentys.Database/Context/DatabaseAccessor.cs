@@ -12,7 +12,6 @@ namespace Iwentys.Database.Context
             new GuildMemberRepository(context),
             new GuildTributeRepository(context),
             new SubjectActivityRepository(context),
-            new GroupSubjectRepository(context),
             new GuildTestTaskSolvingInfoRepository(context))
         {
         }
@@ -22,7 +21,6 @@ namespace Iwentys.Database.Context
             IGuildMemberRepository guildMember,
             GuildTributeRepository guildTribute,
             SubjectActivityRepository subjectActivity,
-            GroupSubjectRepository groupSubject,
             IGuildTestTaskSolvingInfoRepository guildTestTaskSolvingInfo)
         {
             Context = context;
@@ -30,7 +28,6 @@ namespace Iwentys.Database.Context
             GuildMember = guildMember;
             GuildTribute = guildTribute;
             SubjectActivity = subjectActivity;
-            GroupSubject = groupSubject;
             GuildTestTaskSolvingInfo = guildTestTaskSolvingInfo;
         }
 
@@ -42,6 +39,5 @@ namespace Iwentys.Database.Context
         public IGuildTestTaskSolvingInfoRepository GuildTestTaskSolvingInfo { get; }
 
         public SubjectActivityRepository SubjectActivity { get; }
-        public GroupSubjectRepository GroupSubject { get; }
     }
 }

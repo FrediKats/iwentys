@@ -74,7 +74,6 @@ namespace Iwentys.Endpoint.Server.Source.Tools
 
             services.AddScoped<QuestService>();
 
-            services.AddScoped<IGroupSubjectRepository, GroupSubjectRepository>();
             services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
             services.AddScoped<StudentService>();
             services.AddScoped<StudyGroupService>();

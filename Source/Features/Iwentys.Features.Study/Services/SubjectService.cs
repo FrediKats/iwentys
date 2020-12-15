@@ -4,7 +4,6 @@ using Iwentys.Common.Databases;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
-using Iwentys.Features.Study.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Study.Services
@@ -14,14 +13,14 @@ namespace Iwentys.Features.Study.Services
         private readonly IUnitOfWork _unitOfWork;
         
         private readonly IGenericRepository<SubjectEntity> _subjectRepository;
-        private readonly IGroupSubjectRepository _groupSubjectRepository;
+        private readonly IGenericRepository<GroupSubjectEntity> _groupSubjectRepository;
 
-        public SubjectService(IGroupSubjectRepository groupSubjectRepository, IUnitOfWork unitOfWork)
+        public SubjectService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
 
-            _groupSubjectRepository = groupSubjectRepository;
             _subjectRepository = _unitOfWork.GetRepository<SubjectEntity>();
+            _groupSubjectRepository = _unitOfWork.GetRepository<GroupSubjectEntity>();
         }
 
         public async Task<List<SubjectProfileDto>> Get()
@@ -46,15 +45,20 @@ namespace Iwentys.Features.Study.Services
         public async Task<List<SubjectProfileDto>> GetGroupSubjects(int groupId)
         {
             List<SubjectEntity> subjectEntities = await _groupSubjectRepository
-                .GetSubjectsForDto(StudySearchParametersDto.ForGroup(groupId))
+                .GetAsync()
+                .SearchSubjects(StudySearchParametersDto.ForGroup(groupId))
                 .ToListAsync();
 
             return subjectEntities.SelectToList(entity => new SubjectProfileDto(entity));
         }
 
-        public Task<List<SubjectEntity>> GetSubjectsForDtoAsync(StudySearchParametersDto searchParametersDto)
+        public async Task<List<SubjectProfileDto>> GetSubjectsForDtoAsync(StudySearchParametersDto searchParametersDto)
         {
-            return _groupSubjectRepository.GetSubjectsForDto(searchParametersDto).ToListAsync();
+            List<SubjectEntity> subjectEntities = await _groupSubjectRepository
+                .GetAsync()
+                .SearchSubjects(searchParametersDto)
+                .ToListAsync();
+            return subjectEntities.SelectToList(entity => new SubjectProfileDto(entity));
         }
     }
 }
