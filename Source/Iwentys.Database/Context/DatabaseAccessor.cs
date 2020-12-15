@@ -10,29 +10,24 @@ namespace Iwentys.Database.Context
             context,
             new GuildRepository(context),
             new GuildMemberRepository(context),
-            new SubjectActivityRepository(context),
-            new GuildTestTaskSolvingInfoRepository(context))
+            new SubjectActivityRepository(context))
         {
         }
 
         public DatabaseAccessor(IwentysDbContext context,
             GuildRepository guild,
             IGuildMemberRepository guildMember,
-            SubjectActivityRepository subjectActivity,
-            IGuildTestTaskSolvingInfoRepository guildTestTaskSolvingInfo)
+            SubjectActivityRepository subjectActivity)
         {
             Context = context;
             Guild = guild;
             GuildMember = guildMember;
             SubjectActivity = subjectActivity;
-            GuildTestTaskSolvingInfo = guildTestTaskSolvingInfo;
         }
 
         public IwentysDbContext Context { get; }
         public GuildRepository Guild { get; }
         public IGuildMemberRepository GuildMember { get; }
-
-        public IGuildTestTaskSolvingInfoRepository GuildTestTaskSolvingInfo { get; }
 
         public SubjectActivityRepository SubjectActivity { get; }
     }

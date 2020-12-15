@@ -23,27 +23,29 @@ namespace Iwentys.Features.Guilds.Services
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IGenericRepository<StudentEntity> _studentRepository;
-        
+        private readonly IGenericRepository<GuildEntity> _guildRepositoryNew;
+        private readonly IGenericRepository<GuildTestTaskSolvingInfoEntity> _guildTestTaskSolvingInfoRepository;
+
         private readonly IGithubApiAccessor _githubApi;
         private readonly AchievementProvider _achievementProvider;
-        private readonly IGuildTestTaskSolvingInfoRepository _guildTestTaskSolvingInfoRepository;
         private readonly IGuildRepository _guildRepository;
 
-        public GuildTestTaskService(IGithubApiAccessor githubApi, AchievementProvider achievementProvider, IGuildTestTaskSolvingInfoRepository guildTestTaskSolvingInfoRepository, IGuildRepository guildRepository, IUnitOfWork unitOfWork)
+        public GuildTestTaskService(IGithubApiAccessor githubApi, AchievementProvider achievementProvider, IGuildRepository guildRepository, IUnitOfWork unitOfWork)
         {
             _githubApi = githubApi;
             _achievementProvider = achievementProvider;
-            _guildTestTaskSolvingInfoRepository = guildTestTaskSolvingInfoRepository;
             _guildRepository = guildRepository;
 
             _unitOfWork = unitOfWork;
             _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
+            _guildRepositoryNew = _unitOfWork.GetRepository<GuildEntity>();
+            _guildTestTaskSolvingInfoRepository = _unitOfWork.GetRepository<GuildTestTaskSolvingInfoEntity>();
         }
 
         public List<GuildTestTaskInfoResponse> Get(int guildId)
         {
             return _guildTestTaskSolvingInfoRepository
-                .Read()
+                .GetAsync()
                 .Where(t => t.GuildId == guildId)
                 .AsEnumerable()
                 .SelectToList(GuildTestTaskInfoResponse.Wrap);
@@ -59,7 +61,7 @@ namespace Iwentys.Features.Guilds.Services
             StudentEntity studentProfile = await _studentRepository.GetByIdAsync(user.Id);
 
             var existedTestTask = await _guildTestTaskSolvingInfoRepository
-                .Read()
+                .GetAsync()
                 .FirstOrDefaultAsync(k =>
                     k.GuildId == studentGuild.Id &&
                     k.StudentId == user.Id &&
@@ -67,17 +69,18 @@ namespace Iwentys.Features.Guilds.Services
 
             if (existedTestTask is not null)
                 InnerLogicException.Guild.ActiveTestExisted(user.Id, guildId);
-            
-            return _guildTestTaskSolvingInfoRepository
-                .Create(studentGuild, studentProfile)
-                .To(GuildTestTaskInfoResponse.Wrap);
+
+            var testTaskResonse = GuildTestTaskSolvingInfoEntity.Create(studentGuild, studentProfile);
+            await _guildTestTaskSolvingInfoRepository.InsertAsync(testTaskResonse);
+            await _unitOfWork.CommitAsync();
+            return GuildTestTaskInfoResponse.Wrap(testTaskResonse);
         }
 
         //TODO: ensure project belong to user
         public async Task<GuildTestTaskInfoResponse> Submit(AuthorizedUser user, int guildId, string projectOwner, string projectName)
         {
             GuildTestTaskSolvingInfoEntity testTask = await _guildTestTaskSolvingInfoRepository
-                                                          .Read()
+                                                          .GetAsync()
                                                           .SingleOrDefaultAsync(t => t.StudentId == user.Id && t.GuildId == guildId)
                                                       ?? throw new EntityNotFoundException("Test task was not started");
 
@@ -88,18 +91,18 @@ namespace Iwentys.Features.Guilds.Services
             GithubRepositoryInfoDto githubRepositoryInfoDto = _githubApi.GetRepository(projectOwner, projectName);
             testTask.SendSubmit(githubRepositoryInfoDto.Id);
 
-            return _guildTestTaskSolvingInfoRepository
-                .Update(testTask)
-                .To(GuildTestTaskInfoResponse.Wrap);
+            await _guildTestTaskSolvingInfoRepository.UpdateAsync(testTask);
+            await _unitOfWork.CommitAsync();
+            return GuildTestTaskInfoResponse.Wrap(testTask);
         }
 
         public async Task<GuildTestTaskInfoResponse> Complete(AuthorizedUser user, int guildId, int taskSolveOwnerId)
         {
             StudentEntity review = await _studentRepository.GetByIdAsync(user.Id);
-            await review.EnsureIsMentor(_guildRepository, guildId);
+            await review.EnsureIsMentor(_guildRepositoryNew, guildId);
 
             GuildTestTaskSolvingInfoEntity testTask = _guildTestTaskSolvingInfoRepository
-                .Read()
+                .GetAsync()
                 .SingleOrDefault(t => t.StudentId == taskSolveOwnerId && t.GuildId == guildId) ?? throw new EntityNotFoundException("Test task was not started");
 
             if (testTask.GetState() != GuildTestTaskState.Submitted)
@@ -108,9 +111,9 @@ namespace Iwentys.Features.Guilds.Services
             testTask.SetCompleted(review);
             await _achievementProvider.Achieve(AchievementList.TestTaskDone, taskSolveOwnerId);
 
-            return _guildTestTaskSolvingInfoRepository
-                .Update(testTask)
-                .To(GuildTestTaskInfoResponse.Wrap);
+            await _guildTestTaskSolvingInfoRepository.UpdateAsync(testTask);
+            await _unitOfWork.CommitAsync();
+            return GuildTestTaskInfoResponse.Wrap(testTask);
         }
     }
 }

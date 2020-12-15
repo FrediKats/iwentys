@@ -1,4 +1,6 @@
-﻿namespace Iwentys.Features.Guilds.Entities
+﻿using Iwentys.Features.GithubIntegration.Models;
+
+namespace Iwentys.Features.Guilds.Entities
 {
     public class GuildPinnedProjectEntity
     {
@@ -10,5 +12,17 @@
 
         public string RepositoryOwner { get; set; }
         public string RepositoryName { get; set; }
+
+
+        public static GuildPinnedProjectEntity Create(int guildId, GithubRepositoryInfoDto repositoryInfoDto)
+        {
+            return new GuildPinnedProjectEntity
+            {
+                Id = repositoryInfoDto.Id,
+                GuildId = guildId,
+                RepositoryName = repositoryInfoDto.Name,
+                RepositoryOwner = repositoryInfoDto.Owner
+            };
+        }
     }
 }

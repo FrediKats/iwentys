@@ -61,7 +61,6 @@ namespace Iwentys.Endpoint.Server.Source.Tools
 
             services.AddScoped<IGuildMemberRepository, GuildMemberRepository>();
             services.AddScoped<IGuildRepository, GuildRepository>();
-            services.AddScoped<IGuildTestTaskSolvingInfoRepository, GuildTestTaskSolvingInfoRepository>();
             services.AddScoped<GuildMemberService>();
             services.AddScoped<GuildRecruitmentService>();
             services.AddScoped<GuildService>();

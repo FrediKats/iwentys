@@ -23,6 +23,7 @@ namespace Iwentys.Features.Guilds.Services
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IGenericRepository<StudentEntity> _studentRepository;
+        private readonly IGenericRepository<GuildEntity> _guildRepositoryNew;
         private readonly IGenericRepository<GithubProjectEntity> _studentProjectRepository;
         private readonly IGenericRepository<TributeEntity> _guildTributeRepository;
 
@@ -36,6 +37,7 @@ namespace Iwentys.Features.Guilds.Services
             
             _unitOfWork = unitOfWork;
             _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
+            _guildRepositoryNew = _unitOfWork.GetRepository<GuildEntity>();
             _studentProjectRepository = _unitOfWork.GetRepository<GithubProjectEntity>();
             _guildTributeRepository = _unitOfWork.GetRepository<TributeEntity>();
         }
@@ -128,7 +130,7 @@ namespace Iwentys.Features.Guilds.Services
             }
             else
             {
-                await student.EnsureIsMentor(_guildRepository, tribute.GuildId);
+                await student.EnsureIsMentor(_guildRepositoryNew, tribute.GuildId);
                 tribute.SetCanceled();
             }
 
@@ -141,7 +143,7 @@ namespace Iwentys.Features.Guilds.Services
         {
             StudentEntity student = await _studentRepository.GetByIdAsync(user.Id);
             TributeEntity tribute = await _guildTributeRepository.GetByIdAsync(tributeCompleteRequest.TributeId);
-            GuildMentorUser mentor = await student.EnsureIsMentor(_guildRepository, tribute.GuildId);
+            GuildMentorUser mentor = await student.EnsureIsMentor(_guildRepositoryNew, tribute.GuildId);
 
             if (tribute.State != TributeState.Active)
                 throw InnerLogicException.Tribute.IsNotActive(tribute.ProjectId);

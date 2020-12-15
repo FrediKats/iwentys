@@ -5,6 +5,7 @@ using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Guilds.Entities
 {
+    //TODO: rename
     public class GuildTestTaskSolvingInfoEntity
     {
         public GuildTestTaskSolvingInfoEntity()
@@ -33,6 +34,16 @@ namespace Iwentys.Features.Guilds.Entities
         public DateTime StartTime { get; set; }
         public DateTime? SubmitTime { get; set; }
         public DateTime? CompleteTime { get; set; }
+
+        public static GuildTestTaskSolvingInfoEntity Create(GuildEntity guild, StudentEntity student)
+        {
+            return new GuildTestTaskSolvingInfoEntity
+            {
+                GuildId = guild.Id,
+                StudentId = student.Id,
+                StartTime = DateTime.UtcNow
+            };
+        }
 
         public void SendSubmit(long projectId)
         {
