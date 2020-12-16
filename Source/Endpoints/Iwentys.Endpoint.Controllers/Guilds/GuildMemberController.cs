@@ -33,6 +33,7 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             return Ok(await _guildMemberService.RequestGuildAsync(user, guildId));
         }
 
+        //TODO: leave can be without guild id
         [HttpPut("{guildId}/leave")]
         public async Task<ActionResult> Leave(int guildId)
         {

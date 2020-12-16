@@ -17,11 +17,14 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
         private List<NewsfeedViewModel> _newsfeeds;
 
         private GuildControllerClient _guildControllerClient;
+        private GuildMemberControllerClient _guildMemberControllerClient;
 
         protected override async Task OnInitializedAsync()
         {
             HttpClient httpClient = await Http.TrySetHeader(LocalStorage);
             _guildControllerClient = new GuildControllerClient(httpClient);
+            _guildMemberControllerClient = new GuildMemberControllerClient(httpClient);
+            
             var newsfeedControllerClient = new NewsfeedControllerClient(httpClient);
             _guild = await _guildControllerClient.Get(GuildId);
             _newsfeeds = await newsfeedControllerClient.GetForGuild(GuildId);
