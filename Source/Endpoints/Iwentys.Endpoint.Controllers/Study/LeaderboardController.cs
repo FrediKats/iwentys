@@ -10,39 +10,39 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Study
 {
-    [Route("api/[controller]")]
+    [Route("api/leaderboard")]
     [ApiController]
-    public class StudyLeaderboardController : ControllerBase
+    public class LeaderboardController : ControllerBase
     {
         private readonly StudyLeaderboardService _studyLeaderboardService;
         private readonly SubjectActivityService _subjectActivityService;
 
-        public StudyLeaderboardController(StudyLeaderboardService studyLeaderboardService, SubjectActivityService subjectActivityService)
+        public LeaderboardController(StudyLeaderboardService studyLeaderboardService, SubjectActivityService subjectActivityService)
         {
             _studyLeaderboardService = studyLeaderboardService;
             _subjectActivityService = subjectActivityService;
         }
 
-        [HttpGet("study-rate")]
-        [Produces("application/json")]
+        [HttpGet("study")]
         public ActionResult<List<StudyLeaderboardRowDto>> GetStudyRating(
-            [FromQuery] int? subjectId,
-            [FromQuery] int? courseId,
-            [FromQuery] int? groupId,
-            [FromQuery] StudySemester? semester,
-            [FromQuery] int skip = 0,
-            [FromQuery] int take = 20)
+            int? subjectId,
+            int? courseId,
+            int? groupId,
+            StudySemester? semester,
+            int skip = 0,
+            int take = 20)
         {
             return Ok(_studyLeaderboardService.GetStudentsRatings(new StudySearchParametersDto(groupId, subjectId, courseId, semester, skip, take)));
         }
 
-        [HttpGet("coding-rate")]
-        [Produces("application/json")]
+        [HttpGet("coding")]
         public ActionResult<List<StudyLeaderboardRowDto>> GetCodingRating([FromQuery] int? courseId, [FromQuery] int skip = 0, [FromQuery] int take = 20)
         {
-            return Ok(_studyLeaderboardService.GetCodingRating(courseId, skip, take));
+            List<StudyLeaderboardRowDto> result = _studyLeaderboardService.GetCodingRating(courseId, skip, take);
+            return Ok(result);
         }
         
+        //TODO: move?
         [HttpGet("activity/{studentId}")]
         public async Task<ActionResult<StudentActivityInfoDto>> GetStudentActivity(int studentId)
         {

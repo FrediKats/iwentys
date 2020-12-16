@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/quests")]
     [ApiController]
     public class QuestController : ControllerBase
     {

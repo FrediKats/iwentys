@@ -11,6 +11,7 @@ namespace Iwentys.Endpoint.Controllers
     [ApiController]
     public class AchievementController : ControllerBase
     {
+        //TODO: move to service
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IGenericRepository<StudentAchievementEntity> _studentAchievementRepository;

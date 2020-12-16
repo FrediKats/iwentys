@@ -19,7 +19,7 @@ namespace Iwentys.Endpoint.Controllers.Study
         }
 
         [HttpGet("search")]
-        public async Task<ActionResult<List<SubjectProfileDto>>> GetAllSubjects([FromQuery] int? courseId, [FromQuery] StudySemester? semester)
+        public async Task<ActionResult<List<SubjectProfileDto>>> GetAllSubjects(int? courseId, StudySemester? semester)
         {
             var studySearchParameters = new StudySearchParametersDto(null, null, courseId, semester, 0, 20);
             List<SubjectProfileDto> subjectInfo = await _subjectService.GetSubjectsForDtoAsync(studySearchParameters);
@@ -34,10 +34,12 @@ namespace Iwentys.Endpoint.Controllers.Study
             return Ok(subject);
         }
 
+        //TODO: rename?
         [HttpGet("search/for-group")]
         public async Task<ActionResult<List<SubjectProfileDto>>> GetGroupSubjects(int groupId)
         {
-            return Ok(await _subjectService.GetGroupSubjects(groupId));
+            List<SubjectProfileDto> result = await _subjectService.GetGroupSubjects(groupId);
+            return Ok(result);
         }
     }
 }

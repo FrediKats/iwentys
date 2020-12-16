@@ -19,7 +19,7 @@ namespace Iwentys.Tests.Features
                 .WithCompany(out CompanyInfoDto company)
                 .WithCompanyWorker(company, out AuthorizedUser user);
 
-            List<StudentInfoDto> companyMembers = (await testCase.CompanyService.Get(company.Id)).Workers;
+            List<StudentInfoDto> companyMembers = (await testCase.CompanyService.GetAsync(company.Id)).Workers;
 
             Assert.IsTrue(companyMembers.Any(cw => cw.Id == user.Id));
         }
@@ -34,7 +34,7 @@ namespace Iwentys.Tests.Features
 
             await testCase.CompanyService.RequestAdding(company.Id, worker.Id);
             List<CompanyWorkRequestDto> companyRequests = await testCase.CompanyService.GetCompanyWorkRequest();
-            CompanyInfoDto companyInfo = await testCase.CompanyService.Get(company.Id);
+            CompanyInfoDto companyInfo = await testCase.CompanyService.GetAsync(company.Id);
 
             List<StudentInfoDto> companyMembers = companyInfo.Workers;
 

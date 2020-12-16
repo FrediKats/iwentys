@@ -30,7 +30,7 @@ namespace Iwentys.Features.Guilds.Services
             _githubIntegrationService = githubIntegrationService;
         }
 
-        public async Task<List<TournamentInfoResponse>> Get()
+        public async Task<List<TournamentInfoResponse>> GetAsync()
         {
             List<TournamentEntity> tournaments = await _tournamentRepository
                 .GetAsync()
@@ -49,7 +49,7 @@ namespace Iwentys.Features.Guilds.Services
                 .ToArray();
         }
 
-        public async Task<TournamentInfoResponse> Get(int tournamentId)
+        public async Task<TournamentInfoResponse> GetAsync(int tournamentId)
         {
             TournamentEntity tournamentEntity = await _tournamentRepository.GetByIdAsync(tournamentId);
             return TournamentInfoResponse.Wrap(tournamentEntity);

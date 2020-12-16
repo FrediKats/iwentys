@@ -17,27 +17,27 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
 
         public Task<List<QuestInfoResponse>> GetCreatedByUser()
         {
-            return Client.GetFromJsonAsync<List<QuestInfoResponse>>("/api/quest/created");
+            return Client.GetFromJsonAsync<List<QuestInfoResponse>>("/api/quests/created");
         }
 
         public Task<List<QuestInfoResponse>> GetCompletedByUser()
         {
-            return Client.GetFromJsonAsync<List<QuestInfoResponse>>("/api/quest/completed");
+            return Client.GetFromJsonAsync<List<QuestInfoResponse>>("/api/quests/completed");
         }
 
         public Task<List<QuestInfoResponse>> GetActive()
         {
-            return Client.GetFromJsonAsync<List<QuestInfoResponse>>("/api/quest/active");
+            return Client.GetFromJsonAsync<List<QuestInfoResponse>>("/api/quests/active");
         }
 
         public Task<List<QuestInfoResponse>> GetArchived()
         {
-            return Client.GetFromJsonAsync<List<QuestInfoResponse>>("/api/quest/archived");
+            return Client.GetFromJsonAsync<List<QuestInfoResponse>>("/api/quests/archived");
         }
 
         public async Task Create(CreateQuestRequest createQuest)
         {
-            await Client.PostAsJsonAsync("/api/quest", createQuest);
+            await Client.PostAsJsonAsync("/api/quests", createQuest);
         }
 
         //[HttpPut("{questId}/send-response")]

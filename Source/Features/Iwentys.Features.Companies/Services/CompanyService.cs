@@ -30,13 +30,13 @@ namespace Iwentys.Features.Companies.Services
             _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
         }
 
-        public async Task<List<CompanyInfoDto>> Get()
+        public async Task<List<CompanyInfoDto>> GetAsync()
         {
             List<CompanyEntity> info = await _companyRepository.GetAsync().ToListAsync();
             return info.SelectToList(entity => new CompanyInfoDto(entity));
         }
 
-        public async Task<CompanyInfoDto> Get(int id)
+        public async Task<CompanyInfoDto> GetAsync(int id)
         {
             return new CompanyInfoDto(await _companyRepository.GetByIdAsync(id));
         }

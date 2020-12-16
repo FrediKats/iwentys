@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/companies")]
     [ApiController]
     public class CompanyController : ControllerBase
     {
@@ -18,15 +18,16 @@ namespace Iwentys.Endpoint.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<CompanyInfoDto>> Get()
+        public async Task<ActionResult<List<CompanyInfoDto>>> Get()
         {
-            return Ok(_companyService.Get());
+            List<CompanyInfoDto> companies = await _companyService.GetAsync();
+            return Ok(companies);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<CompanyInfoDto>> Get(int id)
         {
-            CompanyInfoDto company = await _companyService.Get(id);
+            CompanyInfoDto company = await _companyService.GetAsync(id);
             return Ok(company);
         }
     }
