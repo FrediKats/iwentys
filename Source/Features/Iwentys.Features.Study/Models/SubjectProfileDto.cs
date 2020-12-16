@@ -17,7 +17,7 @@ namespace Iwentys.Features.Study.Models
             Name = name;
         }
 
-        private SubjectProfileDto()
+        public SubjectProfileDto()
         {
         }
     }

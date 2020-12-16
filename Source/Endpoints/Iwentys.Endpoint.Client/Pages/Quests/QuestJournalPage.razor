@@ -7,7 +7,7 @@
 @inject ILocalStorageService LocalStorage
 
 <div class="container-fluid d-flex flex-row">
-    <div class="col-md-3 d-flex flex-column">
+    <div class="col-md-3 d-flex flex-column dark-elevation-01">
         <MatButton>Active</MatButton>
         <MatButton>Created</MatButton>
         <MatButton>Archive</MatButton>
@@ -15,26 +15,28 @@
 
     </div>
 
-    <div class="col-md-6 d-flex flex-column">
+    <div class="col-md-6 d-flex flex-column dark-elevation-01">
         <h3>Quest Journal Page</h3>
         @if (_activeQuests is not null)
         {
-            <div class="container-fluid d-flex flex-column dark-elevation-01">
+            <div class="container-fluid d-flex flex-column">
                 @foreach (QuestInfoResponse quest in _activeQuests)
                 {
-                    <MatCard Class="quest-journal-elemnt dark-elevation-02">
-                        <MatCardContent>
-                            <MatHeadline6>
-                                @quest.Title (@quest.Price)
-                            </MatHeadline6>
-                            <MatBody1>
-                                @quest.Description
-                            </MatBody1>
-                            <MatBody2>
-                                @quest.CreationTime
-                            </MatBody2>
-                        </MatCardContent>
-                    </MatCard>
+                    <div class="quest-journal-elemnt">
+                        <MatCard Class="dark-elevation-02">
+                            <MatCardContent>
+                                <MatHeadline6>
+                                    @quest.Title (@quest.Price)
+                                </MatHeadline6>
+                                <MatBody1>
+                                    @quest.Description
+                                </MatBody1>
+                                <MatBody2>
+                                    @quest.CreationTime
+                                </MatBody2>
+                            </MatCardContent>
+                        </MatCard>
+                    </div>
                 }
             </div>
             @*<MatButton OnClick=@(async () => await MakeCompleted())>[ ]</MatButton>*@
