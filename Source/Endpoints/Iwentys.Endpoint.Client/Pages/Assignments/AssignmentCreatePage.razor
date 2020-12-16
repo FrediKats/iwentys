@@ -6,25 +6,25 @@
 @inject NavigationManager NavigationManagerClient
 
 <div class="container-fluid d-flex flex-row">
-    <div class="col-md-3 d-flex flex-column">
+    <div class="col-md-3 d-flex flex-column dark-elevation-01">
         <MatButton>Все задачи</MatButton>
         <MatButton>Персональные задачи</MatButton>
         <MatButton>Календарь</MatButton>
     </div>
 
-    <div class="col-md-6 d-flex flex-column">
+    <div class="col-md-6 d-flex flex-column dark-elevation-01">
         <h5>Create assignment</h5>
 
         <p>
-            <MatTextField @bind-Value="@_title" Label="Title"></MatTextField>
+            <MatTextField @bind-Value="@_title" Label="Title" Class="input-element"></MatTextField>
         </p>
 
         <p>
-            <MatTextField @bind-Value="@_description" Label="Description"></MatTextField>
+            <MatTextField @bind-Value="@_description" Label="Description" Class="input-element"></MatTextField>
         </p>
 
         <p>
-            <MatDatePicker @bind-Value="@_deadline"></MatDatePicker>
+            <MatDatePicker @bind-Value="@_deadline" Class="input-element"></MatDatePicker>
             <MatButton OnClick="@(_ => { _deadline = null;})">
                 Clean
             </MatButton>
@@ -33,7 +33,7 @@
         @if (_subjects is not null)
         {
             <p>
-                <MatSelectItem @bind-Value="@_selectedSubject" Items="@_subjects">
+                <MatSelectItem @bind-Value="@_selectedSubject" Items="@_subjects" Class="input-element">
                     <ItemTemplate>
                         <span>@context?.Name</span>
                     </ItemTemplate>
@@ -41,11 +41,6 @@
             </p>
         }
 
-        <MatButton OnClick="@ExecuteAssignmentCreation">Create</MatButton>
+        <MatButton OnClick="@ExecuteAssignmentCreation" class="dark-elevation-04">Create</MatButton>
     </div>
 </div>
-
-
-
-@code {
-}
