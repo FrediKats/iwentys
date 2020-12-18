@@ -1,13 +1,16 @@
-﻿using System;
-using Iwentys.Features.Quests.Entities;
+﻿using Iwentys.Features.Quests.Entities;
 using Iwentys.Features.Quests.Enums;
 using Iwentys.Features.Students.Models;
 
+using System;
+using System.Collections.Generic;
+using Iwentys.Common.Tools;
+
 namespace Iwentys.Features.Quests.Models
 {
-    public record QuestInfoResponse
+    public record QuestInfoDto
     {
-        public QuestInfoResponse(QuestEntity questEntity)
+        public QuestInfoDto(QuestEntity questEntity)
             : this(
                 questEntity.Id,
                 questEntity.Title,
@@ -17,11 +20,13 @@ namespace Iwentys.Features.Quests.Models
                 questEntity.Deadline,
                 questEntity.State,
                 questEntity.IsOutdated,
-                new StudentInfoDto(questEntity.Author))
+                new StudentInfoDto(questEntity.Author),
+                questEntity.Responses.SelectToList(qr => new QuestResponseInfoDto(qr)))
         {
         }
 
-        public QuestInfoResponse(int id, string title, string description, int price, DateTime creationTime, DateTime? deadline, QuestState state, bool isOutdated, StudentInfoDto author)
+        public QuestInfoDto(int id, string title, string description, int price, DateTime creationTime, DateTime? deadline, QuestState state, bool isOutdated, StudentInfoDto author,
+            List<QuestResponseInfoDto> responseInfos)
         {
             Id = id;
             Title = title;
@@ -32,9 +37,10 @@ namespace Iwentys.Features.Quests.Models
             State = state;
             IsOutdated = isOutdated;
             Author = author;
+            ResponseInfos = responseInfos;
         }
 
-        public QuestInfoResponse()
+        public QuestInfoDto()
         {
         }
         
@@ -47,10 +53,11 @@ namespace Iwentys.Features.Quests.Models
         public QuestState State { get; init; }
         public bool IsOutdated { get; init; }
         public StudentInfoDto Author { get; init; }
+        public List<QuestResponseInfoDto> ResponseInfos { get; set; }
 
-        public static QuestInfoResponse Wrap(QuestEntity questEntity)
+        public static QuestInfoDto Wrap(QuestEntity questEntity)
         {
-            return new QuestInfoResponse(questEntity);
+            return new QuestInfoDto(questEntity);
         }
     }
 }

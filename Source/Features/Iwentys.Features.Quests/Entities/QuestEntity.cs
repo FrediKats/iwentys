@@ -26,7 +26,7 @@ namespace Iwentys.Features.Quests.Entities
         public int? ExecutorId { get; set; }
         public virtual StudentEntity Executor { get; set; }
 
-        public virtual List<QuestResponseEntity> Responses { get; set; }
+        public virtual ICollection<QuestResponseEntity> Responses { get; set; }
 
         public bool IsOutdated => Deadline < DateTime.UtcNow;
 

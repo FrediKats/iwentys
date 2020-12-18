@@ -17,8 +17,22 @@
             @_quest.Description
         </MatBody1>
 
-        //TODO: add responses
-        @*<MatButton OnClick="@SendResponse">Send response</MatButton>*@
+        <div>
+            <h5>Quest responses</h5>
+            @foreach (var questResponse in _quest.ResponseInfos)
+            {
+                <MatCard>
+                    <MatCardContent>
+                        <MatHeadline6>
+                            @questResponse.Student.GetFullName()
+                        </MatHeadline6>
+                        <MatBody2>
+                            @questResponse.ResponseTime
+                        </MatBody2>
+                    </MatCardContent>
+                </MatCard>
+            }
+        </div>
     }
 </div>
 

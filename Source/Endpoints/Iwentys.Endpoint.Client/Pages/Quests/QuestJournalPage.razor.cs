@@ -8,7 +8,7 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
 {
     public partial class QuestJournalPage
     {
-        private IReadOnlyList<QuestInfoResponse> _activeQuests;
+        private IReadOnlyList<QuestInfoDto> _activeQuests;
 
         protected override async Task OnInitializedAsync()
         {
@@ -16,7 +16,7 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
             _activeQuests = await questControllerClient.GetActive();
         }
 
-        private string LinkToQuestProfilePage(QuestInfoResponse quest) => $"/quest/profile/{quest.Id}";
-        private string LinkToQuestResponsePage(QuestInfoResponse quest) => $"/quest/response/{quest.Id}";
+        private string LinkToQuestProfilePage(QuestInfoDto quest) => $"/quest/profile/{quest.Id}";
+        private string LinkToQuestResponsePage(QuestInfoDto quest) => $"/quest/response/{quest.Id}";
     }
 }

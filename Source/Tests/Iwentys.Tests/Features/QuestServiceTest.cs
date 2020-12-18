@@ -23,9 +23,9 @@ namespace Iwentys.Tests.Features
             await test.UnitOfWork.GetRepository<StudentEntity>().UpdateAsync(student);
             await test.UnitOfWork.CommitAsync();
 
-            test.WithQuest(user, 50, out QuestInfoResponse quest);
+            test.WithQuest(user, 50, out QuestInfoDto quest);
 
-            List<QuestInfoResponse> quests = await test.QuestService.GetActiveAsync();
+            List<QuestInfoDto> quests = await test.QuestService.GetActiveAsync();
 
             Assert.IsTrue(quests.Any(q => q.Id == quest.Id));
         }
@@ -41,9 +41,9 @@ namespace Iwentys.Tests.Features
             await test.UnitOfWork.GetRepository<StudentEntity>().UpdateAsync(student);
             await test.UnitOfWork.CommitAsync();
 
-            test.WithQuest(user, 50, out QuestInfoResponse quest);
+            test.WithQuest(user, 50, out QuestInfoDto quest);
 
-            List<QuestInfoResponse> quests = await test.QuestService.GetCreatedByUserAsync(user);
+            List<QuestInfoDto> quests = await test.QuestService.GetCreatedByUserAsync(user);
             
             Assert.IsTrue(quests.Any(q => q.Id == quest.Id));
         }
@@ -66,7 +66,7 @@ namespace Iwentys.Tests.Features
             await test.UnitOfWork.CommitAsync();
             int executorPointsCount = questExecuteAccount.BarsPoints; 
             
-            test.WithQuest(questCreator, 50, out QuestInfoResponse quest);
+            test.WithQuest(questCreator, 50, out QuestInfoDto quest);
             await test.QuestService.SendResponseAsync(questExecute, quest.Id);
             await test.QuestService.CompleteAsync(questCreator, quest.Id, questExecute.Id);
 

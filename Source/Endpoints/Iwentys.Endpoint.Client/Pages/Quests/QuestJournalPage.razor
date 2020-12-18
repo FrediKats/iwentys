@@ -20,7 +20,7 @@
         @if (_activeQuests is not null)
         {
             <div class="container-fluid d-flex flex-column">
-                @foreach (QuestInfoResponse quest in _activeQuests)
+                @foreach (QuestInfoDto quest in _activeQuests)
                 {
                     <div class="quest-journal-elemnt">
                         <MatCard Class="dark-elevation-02">

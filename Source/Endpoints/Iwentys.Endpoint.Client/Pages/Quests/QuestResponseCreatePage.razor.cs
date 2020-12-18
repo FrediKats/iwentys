@@ -8,7 +8,7 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
 {
     public partial class QuestResponseCreatePage
     {
-        private QuestInfoResponse _quest;
+        private QuestInfoDto _quest;
 
         private QuestControllerClient _questControllerClient;
 

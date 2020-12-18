@@ -15,29 +15,29 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
 
         public HttpClient Client { get; }
 
-        public Task<QuestInfoResponse> Get(int questId)
+        public Task<QuestInfoDto> Get(int questId)
         {
-            return Client.GetFromJsonAsync<QuestInfoResponse>($"/api/quests/{questId}");
+            return Client.GetFromJsonAsync<QuestInfoDto>($"/api/quests/{questId}");
         }
 
-        public Task<List<QuestInfoResponse>> GetCreatedByUser()
+        public Task<List<QuestInfoDto>> GetCreatedByUser()
         {
-            return Client.GetFromJsonAsync<List<QuestInfoResponse>>("/api/quests/created");
+            return Client.GetFromJsonAsync<List<QuestInfoDto>>("/api/quests/created");
         }
 
-        public Task<List<QuestInfoResponse>> GetCompletedByUser()
+        public Task<List<QuestInfoDto>> GetCompletedByUser()
         {
-            return Client.GetFromJsonAsync<List<QuestInfoResponse>>("/api/quests/completed");
+            return Client.GetFromJsonAsync<List<QuestInfoDto>>("/api/quests/completed");
         }
 
-        public Task<List<QuestInfoResponse>> GetActive()
+        public Task<List<QuestInfoDto>> GetActive()
         {
-            return Client.GetFromJsonAsync<List<QuestInfoResponse>>("/api/quests/active");
+            return Client.GetFromJsonAsync<List<QuestInfoDto>>("/api/quests/active");
         }
 
-        public Task<List<QuestInfoResponse>> GetArchived()
+        public Task<List<QuestInfoDto>> GetArchived()
         {
-            return Client.GetFromJsonAsync<List<QuestInfoResponse>>("/api/quests/archived");
+            return Client.GetFromJsonAsync<List<QuestInfoDto>>("/api/quests/archived");
         }
 
         public async Task Create(CreateQuestRequest createQuest)
@@ -45,24 +45,24 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
             await Client.PostAsJsonAsync("/api/quests", createQuest);
         }
 
-        public async Task<QuestInfoResponse> SendResponse(int questId)
+        public async Task<QuestInfoDto> SendResponse(int questId)
         {
-            return await Client.GetFromJsonAsync<QuestInfoResponse>($"/api/quests/{questId}");
+            return await Client.GetFromJsonAsync<QuestInfoDto>($"/api/quests/{questId}/send-response");
         }
         
         //[HttpPut("{questId}/complete")]
-        //public async Task<ActionResult<QuestInfoResponse>> Complete([FromRoute] int questId, [FromQuery] int userId)
+        //public async Task<ActionResult<QuestInfoDto>> Complete([FromRoute] int questId, [FromQuery] int userId)
         //{
         //    AuthorizedUser author = this.TryAuthWithToken();
-        //    QuestInfoResponse quest = await _questService.CompleteAsync(author, questId, userId);
+        //    QuestInfoDto quest = await _questService.CompleteAsync(author, questId, userId);
         //    return Ok(quest);
         //}
 
         //[HttpPut("{questId}/revoke")]
-        //public async Task<ActionResult<QuestInfoResponse>> Revoke([FromRoute] int questId)
+        //public async Task<ActionResult<QuestInfoDto>> Revoke([FromRoute] int questId)
         //{
         //    AuthorizedUser author = this.TryAuthWithToken();
-        //    QuestInfoResponse quest = await _questService.RevokeAsync(author, questId);
+        //    QuestInfoDto quest = await _questService.RevokeAsync(author, questId);
         //    return Ok(quest);
         //}
     }

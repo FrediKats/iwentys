@@ -6,11 +6,11 @@ namespace Iwentys.Features.Quests.Entities
 {
     public class QuestResponseEntity
     {
-        public virtual QuestEntity QuestEntity { get; set; }
         public int QuestId { get; set; }
+        public virtual QuestEntity Quest { get; set; }
 
-        public virtual StudentEntity Student { get; set; }
         public int StudentId { get; set; }
+        public virtual StudentEntity Student { get; set; }
 
         public DateTime ResponseTime { get; set; }
 

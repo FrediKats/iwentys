@@ -198,7 +198,7 @@ namespace Iwentys.Tests.Tools
             return this;
         }
 
-        public TestCaseContext WithQuest(AuthorizedUser user, int price, out QuestInfoResponse quest)
+        public TestCaseContext WithQuest(AuthorizedUser user, int price, out QuestInfoDto quest)
         {
             var request = new CreateQuestRequest(
                 "Some quest",
