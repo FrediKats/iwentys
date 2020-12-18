@@ -49,14 +49,11 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
         {
             return await Client.GetFromJsonAsync<QuestInfoDto>($"/api/quests/{questId}/send-response");
         }
-        
-        //[HttpPut("{questId}/complete")]
-        //public async Task<ActionResult<QuestInfoDto>> Complete([FromRoute] int questId, [FromQuery] int userId)
-        //{
-        //    AuthorizedUser author = this.TryAuthWithToken();
-        //    QuestInfoDto quest = await _questService.CompleteAsync(author, questId, userId);
-        //    return Ok(quest);
-        //}
+
+        public async Task Complete(int questId, int userId)
+        {
+            await Client.GetAsync($"/api/quests/{questId}/complete?userId={userId}");
+        }
 
         //[HttpPut("{questId}/revoke")]
         //public async Task<ActionResult<QuestInfoDto>> Revoke([FromRoute] int questId)

@@ -16,5 +16,10 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
             _questControllerClient = new QuestControllerClient(await Http.TrySetHeader(LocalStorage));
             _quest = await _questControllerClient.Get(QuestId);
         }
+
+        private async Task AcceptQuestResponse(QuestResponseInfoDto questResponse)
+        {
+            await _questControllerClient.Complete(_quest.Id, questResponse.Student.Id);
+        }
     }
 }

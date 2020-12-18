@@ -1,6 +1,7 @@
 ﻿@page "/quest/profile/{QuestId:int}"
 
 @using Blazored.LocalStorage
+@using Iwentys.Features.Quests.Models
 
 @inject HttpClient Http
 @inject ILocalStorageService LocalStorage
@@ -19,7 +20,7 @@
 
         <div>
             <h5>Quest responses</h5>
-            @foreach (var questResponse in _quest.ResponseInfos)
+            @foreach (QuestResponseInfoDto questResponse in _quest.ResponseInfos)
             {
                 <MatCard>
                     <MatCardContent>
@@ -30,6 +31,9 @@
                             @questResponse.ResponseTime
                         </MatBody2>
                     </MatCardContent>
+                    <MatCardActions>
+                        <MatButton OnClick=@(async () => await AcceptQuestResponse(questResponse))>Accept</MatButton>
+                    </MatCardActions>
                 </MatCard>
             }
         </div>
