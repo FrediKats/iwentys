@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Controllers.Tools;
 using Iwentys.Features.Quests.Models;
@@ -66,7 +66,8 @@ namespace Iwentys.Endpoint.Controllers
             return Ok(quest);
         }
 
-        [HttpPut("{questId}/send-response")]
+        //TODO: send other info about response
+        [HttpGet("{questId}/send-response")]
         public async Task<ActionResult<QuestInfoResponse>> SendResponse(int questId)
         {
             AuthorizedUser user = this.TryAuthWithToken();

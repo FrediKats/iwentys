@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -45,14 +45,11 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
             await Client.PostAsJsonAsync("/api/quests", createQuest);
         }
 
-        //[HttpPut("{questId}/send-response")]
-        //public async Task<ActionResult<QuestInfoResponse>> SendResponse(int questId)
-        //{
-        //    AuthorizedUser user = this.TryAuthWithToken();
-        //    QuestInfoResponse quest = await _questService.SendResponseAsync(user, questId);
-        //    return Ok(quest);
-        //}
-
+        public async Task<QuestInfoResponse> SendResponse(int questId)
+        {
+            return await Client.GetFromJsonAsync<QuestInfoResponse>($"/api/quests/{questId}");
+        }
+        
         //[HttpPut("{questId}/complete")]
         //public async Task<ActionResult<QuestInfoResponse>> Complete([FromRoute] int questId, [FromQuery] int userId)
         //{

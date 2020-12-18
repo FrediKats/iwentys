@@ -15,5 +15,7 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
             var questControllerClient = new QuestControllerClient(await Http.TrySetHeader(LocalStorage));
             _activeQuests = await questControllerClient.GetActive();
         }
+
+        private string LinkToQuestResponsePage(QuestInfoResponse quest) => $"/quest/response/{quest.Id}";
     }
 }
