@@ -16,6 +16,7 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
             _activeQuests = await questControllerClient.GetActive();
         }
 
+        private string LinkToQuestProfilePage(QuestInfoResponse quest) => $"/quest/profile/{quest.Id}";
         private string LinkToQuestResponsePage(QuestInfoResponse quest) => $"/quest/response/{quest.Id}";
     }
 }
