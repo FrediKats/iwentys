@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -14,6 +14,11 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
         }
 
         public HttpClient Client { get; }
+
+        public Task<QuestInfoResponse> Get(int questId)
+        {
+            return Client.GetFromJsonAsync<QuestInfoResponse>($"/api/quests/{questId}");
+        }
 
         public Task<List<QuestInfoResponse>> GetCreatedByUser()
         {

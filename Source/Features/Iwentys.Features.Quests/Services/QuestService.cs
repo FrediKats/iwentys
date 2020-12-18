@@ -36,6 +36,13 @@ namespace Iwentys.Features.Quests.Services
             _questResponseRepository = _unitOfWork.GetRepository<QuestResponseEntity>();
         }
 
+        public async Task<QuestInfoResponse> Get(int questId)
+        {
+            QuestEntity entities = await _questRepository
+                .GetByIdAsync(questId);
+            return QuestInfoResponse.Wrap(entities);
+        }
+
         public async Task<List<QuestInfoResponse>> GetCreatedByUserAsync(AuthorizedUser user)
         {
             List<QuestEntity> entities = await _questRepository
@@ -88,6 +95,7 @@ namespace Iwentys.Features.Quests.Services
 
         public async Task<QuestInfoResponse> SendResponseAsync(AuthorizedUser user, int id)
         {
+            //TODO: ensure user is not author
             QuestEntity questEntity = await _questRepository.GetByIdAsync(id);
             var questResponseEntity = questEntity.CreateResponse(user);
             await _questResponseRepository.InsertAsync(questResponseEntity);

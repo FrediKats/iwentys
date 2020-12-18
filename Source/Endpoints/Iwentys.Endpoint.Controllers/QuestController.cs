@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Controllers.Tools;
 using Iwentys.Features.Quests.Models;
@@ -17,6 +17,14 @@ namespace Iwentys.Endpoint.Controllers
         public QuestController(QuestService questService)
         {
             _questService = questService;
+        }
+
+        [HttpGet("{questId}")]
+        public async Task<ActionResult<QuestInfoResponse>> Get(int questId)
+        {
+            AuthorizedUser user = this.TryAuthWithToken();
+            QuestInfoResponse quests = await _questService.Get(questId);
+            return Ok(quests);
         }
 
         [HttpGet("created")]
