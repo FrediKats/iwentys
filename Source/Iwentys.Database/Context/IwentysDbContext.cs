@@ -56,6 +56,7 @@ namespace Iwentys.Database.Context
             SetUniqKey(modelBuilder);
             RemoveCascadeDeleting(modelBuilder);
             Seeding(modelBuilder);
+
             base.OnModelCreating(modelBuilder);
         }
 

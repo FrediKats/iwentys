@@ -53,11 +53,6 @@ namespace Iwentys.Database.Repositories.Guilds
             return createdEntity.Entity;
         }
 
-        public Task<int> DeleteAsync(int key)
-        {
-            return _dbContext.Guilds.Where(g => g.Id == key).DeleteFromQueryAsync();
-        }
-
         public GuildEntity Create(StudentEntity creator, GuildCreateRequestDto arguments)
         {
             var newGuild = new GuildEntity

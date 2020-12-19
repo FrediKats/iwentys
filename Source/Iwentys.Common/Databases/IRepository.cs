@@ -13,7 +13,6 @@ namespace Iwentys.Common.Databases
     public interface IRepository<TEntity, TKey> : IRepository<TEntity>
     {
         public Task<TEntity> ReadByIdAsync(TKey key);
-        public Task<int> DeleteAsync(TKey key);
     }
 
     public static class RepositoryExtensions

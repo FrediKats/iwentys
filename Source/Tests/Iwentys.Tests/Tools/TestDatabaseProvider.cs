@@ -1,7 +1,6 @@
 ﻿using System;
 using Iwentys.Database.Context;
 using Microsoft.EntityFrameworkCore;
-using Z.EntityFramework.Extensions;
 
 namespace Iwentys.Tests.Tools
 {
@@ -17,7 +16,6 @@ namespace Iwentys.Tests.Tools
 
             
             var databaseContext = new IwentysDbContext(options);
-            EntityFrameworkManager.ContextFactory = _ => new IwentysDbContext(options);
             databaseContext.Database.EnsureCreated();
 
             return databaseContext;
