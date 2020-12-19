@@ -1,11 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
-using Iwentys.Common.Tools;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
-using Iwentys.Features.Guilds.Repositories;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Guilds.Domain
 {
@@ -23,12 +22,12 @@ namespace Iwentys.Features.Guilds.Domain
 
     public static class GuildMentorUserExtensions
     {
-        public static async Task<GuildMentorUser> EnsureIsMentor(this StudentEntity student, IGuildRepository guildRepository, int guildId)
+        public static async Task<GuildMentorUser> EnsureIsMentor(this StudentEntity student, IGenericRepository<GuildEntity> guildRepository, int guildId)
         {
-            GuildEntity guild = await guildRepository.GetAsync(guildId);
+            GuildEntity guild = await guildRepository.GetByIdAsync(guildId);
             GuildMemberEntity membership = guild.Members.First(m => m.MemberId == student.Id);
             if (!membership.MemberType.IsEditor())
-                throw InnerLogicException.NotEnoughPermission(student.Id);
+                throw InnerLogicException.NotEnoughPermissionFor(student.Id);
 
             return new GuildMentorUser(student, guild);
         }

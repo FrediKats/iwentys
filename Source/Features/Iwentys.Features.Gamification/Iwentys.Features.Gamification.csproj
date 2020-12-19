@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Iwentys.Features.GithubIntegration\Iwentys.Features.GithubIntegration.csproj" />
-    <ProjectReference Include="..\Iwentys.Features.StudentFeature\Iwentys.Features.StudentFeature.csproj" />
+    <ProjectReference Include="..\Iwentys.Features.Study\Iwentys.Features.Study.csproj" />
   </ItemGroup>
 
 </Project>

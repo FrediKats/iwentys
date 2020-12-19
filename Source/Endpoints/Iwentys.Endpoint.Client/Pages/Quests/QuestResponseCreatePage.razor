@@ -1,0 +1,26 @@
+﻿@page "/quest/response/{QuestId:int}"
+
+@using Blazored.LocalStorage
+
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+
+<div class="col-md-6 d-flex flex-column">
+    <h3>QuestResponseCreatePage</h3>
+
+    @if (_quest is not null)
+    {
+        <MatHeadline6>
+            @_quest.Title (@_quest.Price)
+        </MatHeadline6>
+        <MatBody1>
+            @_quest.Description
+        </MatBody1>
+        <MatButton OnClick="@SendResponse">Send response</MatButton>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int QuestId { get; set; }
+}

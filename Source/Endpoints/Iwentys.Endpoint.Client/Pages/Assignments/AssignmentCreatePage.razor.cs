@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients;
 using Iwentys.Endpoint.Sdk.ControllerClients.Study;
-using Iwentys.Features.Assignments.ViewModels;
-using Iwentys.Features.StudentFeature.ViewModels;
+using Iwentys.Features.Assignments.Models;
+using Iwentys.Features.Students.Models;
+using Iwentys.Features.Study.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace Iwentys.Endpoint.Client.Pages.Assignments
@@ -21,38 +22,30 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
         private string _description;
         private DateTime? _deadline;
 
-        private List<SubjectProfileResponse> _subjects;
-        private SubjectProfileResponse _selectedSubject;
+        private List<SubjectProfileDto> _subjects;
+        private SubjectProfileDto _selectedSubject;
 
         protected override async Task OnInitializedAsync()
         {
             HttpClient httpClient = await Http.TrySetHeader(LocalStorage);
             _assignmentControllerClient = new AssignmentControllerClient(httpClient);
             _subjectControllerClient = new SubjectControllerClient(httpClient);
+            
+            var studyGroupControllerClient = new StudyGroupControllerClient(httpClient);
             var studentControllerClient = new StudentControllerClient(httpClient);
-            StudentFullProfileDto student = await studentControllerClient.GetSelf();
-
-            if (student.Group is not null)
+            
+            StudentInfoDto student = await studentControllerClient.GetSelf();
+            GroupProfileResponseDto studentGroup = await studyGroupControllerClient.FindStudentGroup(student.Id);
+            if (studentGroup is not null)
             {
-                List<SubjectProfileResponse> subject = await _subjectControllerClient.GetGroupSubjects(student.Group.Id);
-                _subjects = new List<SubjectProfileResponse>().Append(null).Concat(subject).ToList();
+                List<SubjectProfileDto> subject = await _subjectControllerClient.GetGroupSubjects(studentGroup.Id);
+                _subjects = new List<SubjectProfileDto>().Append(null).Concat(subject).ToList();
             }
         }
 
         private async Task ExecuteAssignmentCreation()
         {
-            var createArguments = new AssignmentCreateRequest()
-            {
-                Title = _title,
-                Description = _description,
-                Deadline = _deadline
-            };
-
-            if (_selectedSubject is not null)
-            {
-                createArguments.SubjectId = _selectedSubject.Id;
-            }
-
+            var createArguments = new AssignmentCreateRequestDto(_title, _description, _selectedSubject?.Id, _deadline);
             await _assignmentControllerClient.Create(createArguments);
             NavigationManagerClient.NavigateTo("/assignment");
         }

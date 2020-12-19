@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using Bogus;
 using Iwentys.Database.Seeding.Tools;
-using Iwentys.Features.StudentFeature.Entities;
-using Iwentys.Features.StudentFeature.Enums;
+using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Students.Enums;
+using Iwentys.Features.Study.Entities;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {
     public class StudentGenerator
     {
-        private const int StudentCount = 100;
+        private const int StudentCount = 200;
 
         public StudentGenerator(List<StudyGroupEntity> studyGroups)
         {
@@ -41,6 +42,13 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 BarsPoints = short.MaxValue,
                 AvatarUrl = new Faker().Image.PicsumUrl()
             });
+
+            Students
+                .GroupBy(s => s.GroupId)
+                .Select(g => g.FirstOrDefault())
+                .Where(s => s is not null)
+                .ToList()
+                .ForEach(s => s.Role = UserType.GroupAdmin);
         }
 
         public Faker<StudentEntity> Faker { get; }

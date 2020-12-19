@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Models.Types;
+using Iwentys.Features.Study;
 
 namespace Iwentys.Integrations.GoogleTableIntegration.Marks
 {
@@ -9,7 +9,7 @@ namespace Iwentys.Integrations.GoogleTableIntegration.Marks
     {
         public TableStringHelper(GoogleTableData tableData)
         {
-            //TODO: ???
+            //FYI: Seems like opportunity for read name from different column index.
             NameColumnNum = 0;
 
             NameColumns = new List<int>();

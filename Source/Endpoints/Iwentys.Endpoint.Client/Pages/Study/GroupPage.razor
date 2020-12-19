@@ -1,7 +1,8 @@
 ﻿@page "/group/profile/{GroupName}"
 @using Blazored.LocalStorage
-@using Iwentys.Features.StudentFeature.Entities
-@using Iwentys.Features.StudentFeature.ViewModels
+@using Iwentys.Features.Students.Enums
+@using Iwentys.Features.Students.Models
+@using Iwentys.Features.Study.Entities
 
 @inject HttpClient Http
 @inject ILocalStorageService LocalStorage
@@ -12,9 +13,18 @@
 {
     <div class="container-fluid d-flex flex-row">
         <div class="col-md-6 d-flex flex-column">
+            @if (GroupAdmin is not null)
+            {
+                <NavLink class="nav-link" href=@LinkToStudentProfile(GroupAdmin)>
+                    <MatCard>
+                        Староста: @GroupAdmin.GetFullName()
+                    </MatCard>
+                </NavLink>
+            }
+
             <MatH6>Students</MatH6>
             <MatNavMenu>
-                @foreach (StudentPartialProfileDto student in _groupProfile.Students)
+                @foreach (StudentInfoDto student in _groupProfile.Students.Where(s => s.Role != UserType.GroupAdmin))
                 {
                     <MatNavItem Href=@LinkToStudentProfile(student)>
                         @student.GetFullName()

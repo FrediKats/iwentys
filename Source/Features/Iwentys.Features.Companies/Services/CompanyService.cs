@@ -1,68 +1,85 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Iwentys.Common.Databases;
+using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Companies.Entities;
-using Iwentys.Features.Companies.Repositories;
-using Iwentys.Features.Companies.ViewModels;
-using Iwentys.Features.StudentFeature;
-using Iwentys.Features.StudentFeature.Entities;
-using Iwentys.Features.StudentFeature.Repositories;
+using Iwentys.Features.Companies.Enums;
+using Iwentys.Features.Companies.Models;
+using Iwentys.Features.Students.Domain;
+using Iwentys.Features.Students.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Companies.Services
 {
     public class CompanyService
     {
-        private readonly ICompanyRepository _companyRepository;
-        private readonly IStudentRepository _studentRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        
+        private readonly IGenericRepository<CompanyWorkerEntity> _companyWorkerRepository;
+        private readonly IGenericRepository<CompanyEntity> _companyRepository;
+        private readonly IGenericRepository<StudentEntity> _studentRepository;
 
-        public CompanyService(ICompanyRepository companyRepository, IStudentRepository studentRepository)
+        public CompanyService(IUnitOfWork unitOfWork)
         {
-            _companyRepository = companyRepository;
-            _studentRepository = studentRepository;
+            _unitOfWork = unitOfWork;
+            
+            _companyRepository = _unitOfWork.GetRepository<CompanyEntity>();
+            _companyWorkerRepository = _unitOfWork.GetRepository<CompanyWorkerEntity>();
+            _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
         }
 
-        public async Task<List<CompanyViewModel>> Get()
+        public async Task<List<CompanyInfoDto>> GetAsync()
         {
-            var info = await _companyRepository.Read().ToListAsync();
-            return info.SelectToList(entity => WrapToDto(entity).Result);
+            List<CompanyEntity> info = await _companyRepository.GetAsync().ToListAsync();
+            return info.SelectToList(entity => new CompanyInfoDto(entity));
         }
 
-        public async Task<CompanyViewModel> Get(int id)
+        public async Task<CompanyInfoDto> GetAsync(int id)
         {
-            CompanyEntity company = await _companyRepository.ReadByIdAsync(id);
-            return await WrapToDto(company);
+            return new CompanyInfoDto(await _companyRepository.GetByIdAsync(id));
         }
 
-        public async Task<List<CompanyWorkRequestViewModel>> GetCompanyWorkRequest()
+        public async Task<List<CompanyWorkRequestDto>> GetCompanyWorkRequest()
         {
-            List<CompanyWorkerEntity> workers = await _companyRepository.ReadWorkerRequestAsync();
-            return workers.SelectToList(cw => cw.To(CompanyWorkRequestViewModel.Create));
+            //TODO: move where to expression
+            List<CompanyWorkerEntity> workerRequests = await _companyWorkerRepository.GetAsync().Where(r => r.Type == CompanyWorkerType.Requested).ToListAsync();
+            return workerRequests.SelectToList(CompanyWorkRequestDto.Create);
         }
 
         public async Task RequestAdding(int companyId, int userId)
         {
-            CompanyEntity companyEntity = await _companyRepository.GetAsync(companyId);
-            StudentEntity profile = await _studentRepository.GetAsync(userId);
-            await _companyRepository.AddCompanyWorkerRequestAsync(companyEntity, profile);
+            CompanyEntity companyEntity = await _companyRepository.GetByIdAsync(companyId);
+            StudentEntity profile = await _studentRepository.GetByIdAsync(userId);
+            
+            List<CompanyWorkerEntity> workerRequests = await _companyWorkerRepository.GetAsync().Where(r => r.Type == CompanyWorkerType.Requested).ToListAsync();
+            if (workerRequests.Any(r => r.WorkerId == profile.Id))
+                throw new InnerLogicException("Student already request adding to company");
+
+            await _companyWorkerRepository.InsertAsync(CompanyWorkerEntity.NewRequest(companyEntity, profile));
+            await _unitOfWork.CommitAsync();
         }
 
         public async Task ApproveAdding(int userId, int adminId)
         {
-            var student = await _studentRepository
-                .GetAsync(adminId);
-
+            StudentEntity student = await _studentRepository.GetByIdAsync(adminId);
             student.EnsureIsAdmin();
 
-            StudentEntity user = await _studentRepository.GetAsync(userId);
-
-            await _companyRepository.ApproveRequestAsync(user);
+            var companyWorkerEntity = await _companyWorkerRepository.GetAsync().SingleAsync(cw => cw.WorkerId == userId);
+            companyWorkerEntity.Approve();
+            
+            await _companyWorkerRepository.UpdateAsync(companyWorkerEntity);
+            await _unitOfWork.CommitAsync();
         }
 
-        private async Task<CompanyViewModel> WrapToDto(CompanyEntity companyEntity)
+        //TODO: rework
+        public async Task<CompanyEntity> Create(CompanyEntity company)
         {
-            List<StudentEntity> workers = await _companyRepository.ReadWorkersAsync(companyEntity);
-            return CompanyViewModel.Create(companyEntity, workers);
+            await _companyRepository.InsertAsync(company);
+            await _unitOfWork.CommitAsync();
+            
+            return company;
         }
     }
 }

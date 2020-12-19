@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Iwentys.Features.StudentFeature;
+using Iwentys.Features.Students.Domain;
 
 namespace Iwentys.Endpoints.ClientBot.Tools
 {

@@ -1,6 +1,6 @@
 ﻿@page "/leaderboard/study/{CourseId:int}"
 @using Blazored.LocalStorage
-@using Iwentys.Features.Gamification.ViewModels
+@using Iwentys.Features.Gamification.Models
 
 @inject HttpClient Http
 @inject ILocalStorageService LocalStorage
@@ -12,10 +12,11 @@
     @if (_studentProfiles is not null)
     {
         <div class="container-fluid d-flex flex-column">
-            @foreach (StudyLeaderboardRow studentProfile in _studentProfiles)
+            @foreach (StudyLeaderboardRowDto studentProfile in _studentProfiles)
             {
-                <NavLink href=@LinkToProfile(studentProfile) class="student-rating-row">
-                    <MatPaper Elevation="10" Rounded="true" class="d-flex flex-row">
+
+                <a href=@LinkToProfile(studentProfile)>
+                    <div class="d-flex flex-row dark-elevation-01 student-rating-row">
                         <div class="col-md-2">
                             <img src=@studentProfile.Student.AvatarUrl class="student-logo" />
                         </div>
@@ -27,8 +28,8 @@
                         <div class="col-md-2">
                             <p>@studentProfile.Activity.ToString("F2")</p>
                         </div>
-                    </MatPaper>
-                </NavLink>
+                    </div>
+                </a>
             }
         </div>
     }

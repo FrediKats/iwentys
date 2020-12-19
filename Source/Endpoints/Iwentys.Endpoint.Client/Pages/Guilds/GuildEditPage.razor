@@ -2,7 +2,7 @@
 @using Blazored.LocalStorage
 @using Iwentys.Endpoint.Client.Tools
 @using Iwentys.Endpoint.Sdk.ControllerClients.Guilds
-@using Iwentys.Features.Guilds.ViewModels.Guilds
+@using Iwentys.Features.Guilds.Models.Guilds
 
 @inject HttpClient Http
 @inject ILocalStorageService LocalStorage
@@ -19,7 +19,7 @@
     [Parameter]
     public int GuildId { get; set; }
 
-    private GuildProfileDto _guild;
+    private ExtendedGuildProfileWithMemberDataDto _guild;
 
     protected override async Task OnInitializedAsync()
     {

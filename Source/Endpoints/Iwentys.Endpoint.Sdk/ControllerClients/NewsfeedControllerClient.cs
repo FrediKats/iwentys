@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using Iwentys.Features.Newsfeeds.ViewModels;
+using Iwentys.Features.Newsfeeds.Models;
 
 namespace Iwentys.Endpoint.Sdk.ControllerClients
 {

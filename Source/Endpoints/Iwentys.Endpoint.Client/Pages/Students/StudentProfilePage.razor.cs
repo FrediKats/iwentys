@@ -13,9 +13,10 @@ using ChartJs.Blazor.Util;
 using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients;
 using Iwentys.Endpoint.Sdk.ControllerClients.Study;
-using Iwentys.Features.Achievements.ViewModels;
-using Iwentys.Features.GithubIntegration.ViewModels;
-using Iwentys.Features.StudentFeature.ViewModels;
+using Iwentys.Features.Achievements.Models;
+using Iwentys.Features.GithubIntegration.Models;
+using Iwentys.Features.Students.Models;
+using Iwentys.Features.Study.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace Iwentys.Endpoint.Client.Pages.Students
@@ -23,9 +24,10 @@ namespace Iwentys.Endpoint.Client.Pages.Students
     public partial class StudentProfilePage : ComponentBase
     {
 
-        private StudentFullProfileDto _studentFullProfile;
-        private List<AchievementViewModel> _achievements;
+        private StudentInfoDto _studentFullProfile;
+        private List<AchievementDto> _achievements;
         private List<CodingActivityInfoResponse> _codingActivityInfo;
+        private StudentActivityInfoDto _studentActivity;
 
         private LineConfig _githubChartConfig;
         private ChartJsLineChart _githubChart;
@@ -38,6 +40,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
             var httpClient = await Http.TrySetHeader(LocalStorage);
             var studentControllerClient = new StudentControllerClient(httpClient);
             var githubControllerClient = new GithubControllerClient(httpClient);
+            var studyLeaderboardControllerClient = new StudyLeaderboardControllerClient(httpClient);
 
             if (StudentId is null)
             {
@@ -53,7 +56,8 @@ namespace Iwentys.Endpoint.Client.Pages.Students
             if (_codingActivityInfo is not null)
                 InitGithubChart();
 
-            if (_studentFullProfile.SubjectActivityInfo is not null)
+            _studentActivity = await studyLeaderboardControllerClient.GetStudentActivity(_studentFullProfile.Id);
+            if (_studentActivity is not null)
                 InitStudyChart();
 
             _achievements = await new AchievementControllerClient(httpClient).GetForStudent(_studentFullProfile.Id);
@@ -138,10 +142,10 @@ namespace Iwentys.Endpoint.Client.Pages.Students
                 BorderColor = "#ffffff",
             };
 
-            if (_studentFullProfile?.SubjectActivityInfo is not null)
+            if (_studentActivity is not null)
             {
-                pieSet.Data.AddRange(_studentFullProfile.SubjectActivityInfo.Select(sa => sa.Points));
-                _studyChartConfig.Data.Labels.AddRange(_studentFullProfile.SubjectActivityInfo.Select(sa => sa.SubjectTitle));
+                pieSet.Data.AddRange(_studentActivity.Activity.Select(sa => sa.Points));
+                _studyChartConfig.Data.Labels.AddRange(_studentActivity.Activity.Select(sa => sa.SubjectTitle));
             }
 
             _studyChartConfig.Data.Datasets.Add(pieSet);

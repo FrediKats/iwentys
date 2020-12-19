@@ -7,8 +7,8 @@ namespace Iwentys.Features.Achievements.Entities
         public int GuildId { get; set; }
         //public GuildEntity Guild { get; set; }
         public int AchievementId { get; set; }
-        public AchievementEntity Achievement { get; set; }
+        public virtual AchievementEntity Achievement { get; set; }
 
-        public DateTime GettingTime { get; set; }
+        public virtual DateTime GettingTime { get; set; }
     }
 }

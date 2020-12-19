@@ -1,10 +1,11 @@
 ﻿using System;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Enums;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Guilds.Entities
 {
+    //TODO: rename
     public class GuildTestTaskSolvingInfoEntity
     {
         public GuildTestTaskSolvingInfoEntity()
@@ -19,18 +20,30 @@ namespace Iwentys.Features.Guilds.Entities
         }
 
         public int GuildId { get; set; }
-        public GuildEntity Guild { get; set; }
+        public virtual GuildEntity Guild { get; set; }
+        
         public int StudentId { get; set; }
-        public StudentEntity Student { get; set; }
-        public DateTime StartTime { get; set; }
+        public virtual StudentEntity Student { get; set; }
 
-        public DateTime? SubmitTime { get; set; }
         public long? ProjectId { get; set; }
-        public GithubProjectEntity Project { get; set; }
+        public virtual GithubProjectEntity Project { get; set; }
 
         public int? ReviewerId { get; set; }
-        public StudentEntity Reviewer { get; set; }
+        public virtual StudentEntity Reviewer { get; set; }
+        
+        public DateTime StartTime { get; set; }
+        public DateTime? SubmitTime { get; set; }
         public DateTime? CompleteTime { get; set; }
+
+        public static GuildTestTaskSolvingInfoEntity Create(GuildEntity guild, StudentEntity student)
+        {
+            return new GuildTestTaskSolvingInfoEntity
+            {
+                GuildId = guild.Id,
+                StudentId = student.Id,
+                StartTime = DateTime.UtcNow
+            };
+        }
 
         public void SendSubmit(long projectId)
         {
@@ -46,10 +59,10 @@ namespace Iwentys.Features.Guilds.Entities
 
         public GuildTestTaskState GetState()
         {
-            if (CompleteTime != null)
+            if (CompleteTime is not null)
                 return GuildTestTaskState.Completed;
 
-            if (SubmitTime != null)
+            if (SubmitTime is not null)
                 return GuildTestTaskState.Submitted;
 
             return GuildTestTaskState.Started;

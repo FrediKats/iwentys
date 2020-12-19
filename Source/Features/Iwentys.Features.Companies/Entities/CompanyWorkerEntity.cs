@@ -1,15 +1,15 @@
 ﻿using Iwentys.Features.Companies.Enums;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Companies.Entities
 {
     public class CompanyWorkerEntity
     {
         public int CompanyId { get; set; }
-        public CompanyEntity CompanyEntity { get; set; }
+        public virtual CompanyEntity CompanyEntity { get; set; }
 
         public int WorkerId { get; set; }
-        public StudentEntity Worker { get; set; }
+        public virtual StudentEntity Worker { get; set; }
 
         public CompanyWorkerType Type { get; set; }
 
@@ -21,6 +21,12 @@ namespace Iwentys.Features.Companies.Entities
                 Worker = worker,
                 Type = CompanyWorkerType.Requested
             };
+        }
+        
+        public void Approve()
+        {
+            //TODO: some... more validation?
+            Type = CompanyWorkerType.Accepted;
         }
     }
 }

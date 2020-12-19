@@ -12,7 +12,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="morelinq" Version="3.3.2" />
-    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="5.1.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,12 +23,7 @@
     <ProjectReference Include="..\Features\Iwentys.Features.Guilds\Iwentys.Features.Guilds.csproj" />
     <ProjectReference Include="..\Features\Iwentys.Features.Newsfeeds\Iwentys.Features.Newsfeeds.csproj" />
     <ProjectReference Include="..\Features\Iwentys.Features.Quests\Iwentys.Features.Quests.csproj" />
-    <ProjectReference Include="..\Features\Iwentys.Features.StudentFeature\Iwentys.Features.StudentFeature.csproj" />
     <ProjectReference Include="..\Iwentys.Database.Seeding\Iwentys.Database.Seeding.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Repositories\Achievements\" />
   </ItemGroup>
 
 </Project>

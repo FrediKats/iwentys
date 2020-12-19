@@ -1,49 +1,55 @@
 ﻿using System.Threading.Tasks;
-using FluentResults;
+using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
-using Iwentys.Common.Tools;
 using Iwentys.Features.Economy.Entities;
-using Iwentys.Features.Economy.Repositories;
-using Iwentys.Features.StudentFeature.Entities;
-using Iwentys.Features.StudentFeature.Repositories;
+using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Economy.Services
 {
     public class BarsPointTransactionLogService
     {
-        private readonly IStudentRepository _studentRepository;
-        private readonly IBarsPointTransactionLogRepository _barsPointTransactionLogRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public BarsPointTransactionLogService(IStudentRepository studentRepository, IBarsPointTransactionLogRepository barsPointTransactionLogRepository)
+        private readonly IGenericRepository<StudentEntity> _studentRepository;
+        private readonly IGenericRepository<BarsPointTransactionEntity> _barsPointTransactionRepository;
+
+        public BarsPointTransactionLogService(IUnitOfWork unitOfWork)
         {
-            _studentRepository = studentRepository;
-            _barsPointTransactionLogRepository = barsPointTransactionLogRepository;
+            _unitOfWork = unitOfWork;
+
+            _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
+            _barsPointTransactionRepository = _unitOfWork.GetRepository<BarsPointTransactionEntity>();
         }
 
-        public async Task<Result<BarsPointTransactionLog>> TransferAsync(int fromId, int toId, int value)
+        public async Task<BarsPointTransactionEntity> TransferAsync(int fromId, int toId, int pointAmountToTransfer)
         {
-            //TODO: Use transaction for whole method
-            StudentEntity from = await _studentRepository.GetAsync(fromId);
-            StudentEntity to = await _studentRepository.GetAsync(toId);
+            StudentEntity sender = await _studentRepository.GetByIdAsync(fromId);
+            StudentEntity receiver = await _studentRepository.GetByIdAsync(toId);
 
-            Result<BarsPointTransactionLog> transaction;
-            if (from.BarsPoints < value)
-            {
-                transaction = Result.Fail<BarsPointTransactionLog>(new Error("Transfer failed").CausedBy(InnerLogicException.NotEnoughBarsPoints()));
-            }
-            else
-            {
-                transaction = Result.Ok(BarsPointTransactionLog.CompletedFor(from, to, value));
-                from.BarsPoints -= value;
-                to.BarsPoints += value;
+            if (sender.BarsPoints < pointAmountToTransfer)
+                throw InnerLogicException.NotEnoughBarsPoints();
+
+            BarsPointTransactionEntity transaction = BarsPointTransactionEntity.CompletedFor(sender, receiver, pointAmountToTransfer);
+            sender.BarsPoints -= pointAmountToTransfer;
+            receiver.BarsPoints += pointAmountToTransfer;
                     
-                await _studentRepository.UpdateAsync(@from);
-                await _studentRepository.UpdateAsync(to);
-            }
+            await _studentRepository.UpdateAsync(sender);
+            await _studentRepository.UpdateAsync(receiver);
+            await _barsPointTransactionRepository.InsertAsync(transaction);
 
-            await _barsPointTransactionLogRepository.CreateAsync(transaction.Value);
-
+            await _unitOfWork.CommitAsync();
             return transaction;
+        }
+
+        public async Task TransferFromSystem(int toId, int pointAmountToTransfer)
+        {
+            //TODO: implement
+            StudentEntity receiver = await _studentRepository.GetByIdAsync(toId);
+
+            receiver.BarsPoints += pointAmountToTransfer;
+
+            await _studentRepository.UpdateAsync(receiver);
+
         }
     }
 }

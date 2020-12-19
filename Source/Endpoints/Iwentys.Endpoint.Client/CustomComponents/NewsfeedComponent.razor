@@ -1,8 +1,9 @@
-﻿@using Iwentys.Features.Newsfeeds.ViewModels
+﻿@using Iwentys.Features.Newsfeeds.Models
 
 @namespace Iwentys.Endpoint.Client.CustomComponents
 
-<MatPaper Elevation="10" Rounded="true" class="container-fluid d-flex flex-column">
+<div class="container-fluid d-flex flex-column">
+    <MatHeadline5>Анонсы</MatHeadline5>
     @foreach (NewsfeedViewModel newsfeed in Newsfeeds)
     {
         <MatCard>
@@ -19,7 +20,7 @@
             </MatCardContent>
         </MatCard>
     }
-</MatPaper>
+</div>
 
 @code
 {

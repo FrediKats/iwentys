@@ -1,0 +1,53 @@
+﻿@page "/quest/active"
+
+@using Blazored.LocalStorage
+@using Iwentys.Features.Quests.Models
+
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+
+<div class="container-fluid d-flex flex-row">
+    <div class="col-md-3 d-flex flex-column dark-elevation-01">
+        <MatButton>Active</MatButton>
+        <MatButton>Created</MatButton>
+        <MatButton>Archive</MatButton>
+        <MatButton Link="/quest/create">Добавить квест</MatButton>
+
+    </div>
+
+    <div class="col-md-6 d-flex flex-column dark-elevation-01">
+        <h3>Quest Journal Page</h3>
+        @if (_activeQuests is not null)
+        {
+            <div class="container-fluid d-flex flex-column">
+                @foreach (QuestInfoDto quest in _activeQuests)
+                {
+                    <div class="quest-journal-elemnt">
+                        <MatCard Class="dark-elevation-02">
+                            <MatCardContent>
+                                <MatHeadline6>
+                                    @quest.Title (@quest.Price)
+                                </MatHeadline6>
+                                <MatBody1>
+                                    @quest.Description
+                                </MatBody1>
+                                <MatBody2>
+                                    @quest.CreationTime
+                                </MatBody2>
+                            </MatCardContent>
+                            <MatCardActions>
+                                <MatButton Link=@LinkToQuestProfilePage(quest)>Profile</MatButton>
+                                <MatButton Link=@LinkToQuestResponsePage(quest)>Response</MatButton>
+                            </MatCardActions>
+                        </MatCard>
+                    </div>
+                }
+            </div>
+            @*<MatButton OnClick=@(async () => await MakeCompleted())>[ ]</MatButton>*@
+        }
+    </div>
+</div>
+
+@code {
+
+}

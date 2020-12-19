@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using Iwentys.Features.StudentFeature.ViewModels;
+using Iwentys.Features.Students.Models;
 
 namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
 {
@@ -15,30 +15,25 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
 
         public HttpClient Client { get; }
 
-        public Task<List<StudentFullProfileDto>> Get()
+        public Task<List<StudentInfoDto>> Get()
         {
-            return Client.GetFromJsonAsync<List<StudentFullProfileDto>>("api/student/profile");
+            return Client.GetFromJsonAsync<List<StudentInfoDto>>("api/student/profile");
         }
 
-        public Task<StudentFullProfileDto> GetSelf()
+        public Task<StudentInfoDto> GetSelf()
         {
-            return Client.GetFromJsonAsync<StudentFullProfileDto>("api/student/self/");
+            return Client.GetFromJsonAsync<StudentInfoDto>("api/student/self/");
         }
 
-        public Task<StudentFullProfileDto> Get(int id)
+        public Task<StudentInfoDto> Get(int id)
         {
-            return Client.GetFromJsonAsync<StudentFullProfileDto>($"api/student/profile/{id}");
+            return Client.GetFromJsonAsync<StudentInfoDto>($"api/student/profile/{id}");
         }
 
-        public Task<List<StudentFullProfileDto>> Get(string groupName)
+        public async Task<StudentInfoDto> Update(StudentUpdateRequestDto studentUpdateRequestDto)
         {
-            return Client.GetFromJsonAsync<List<StudentFullProfileDto>>($"api/student/for-group/{groupName}");
-        }
-
-        public async Task<StudentFullProfileDto> Update(StudentUpdateRequest studentUpdateRequest)
-        {
-            HttpResponseMessage responseMessage = await Client.PutAsJsonAsync($"api/student", studentUpdateRequest);
-            return await responseMessage.Content.ReadFromJsonAsync<StudentFullProfileDto>();
+            HttpResponseMessage responseMessage = await Client.PutAsJsonAsync($"api/student", studentUpdateRequestDto);
+            return await responseMessage.Content.ReadFromJsonAsync<StudentInfoDto>();
         }
     }
 }

@@ -2,7 +2,8 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using Iwentys.Features.Gamification.ViewModels;
+using Iwentys.Features.Gamification.Models;
+using Iwentys.Features.Study.Models;
 
 namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
 {
@@ -15,9 +16,14 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
 
         public HttpClient Client { get; }
 
-        public Task<List<StudyLeaderboardRow>> GetStudyRating(int courseId)
+        public Task<List<StudyLeaderboardRowDto>> GetStudyRating(int courseId)
         {
-            return Client.GetFromJsonAsync<List<StudyLeaderboardRow>>($"api/StudyLeaderboard/study-rate?courseId={courseId}");
+            return Client.GetFromJsonAsync<List<StudyLeaderboardRowDto>>($"api/leaderboard/study-rate?courseId={courseId}");
+        }
+
+        public Task<StudentActivityInfoDto> GetStudentActivity(int studentId)
+        {
+            return Client.GetFromJsonAsync<StudentActivityInfoDto>($"api/leaderboard/activity/{studentId}");
         }
     }
 }

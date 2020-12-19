@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Database.Seeding;
-using Iwentys.Features.Achievements;
+using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Achievements.Entities;
 using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Companies.Entities;
@@ -10,7 +10,8 @@ using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Newsfeeds.Entities;
 using Iwentys.Features.Quests.Entities;
-using Iwentys.Features.StudentFeature.Entities;
+using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Study.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -35,7 +36,7 @@ namespace Iwentys.Database.Context
         public DbSet<StudentEntity> Students { get; set; }
         public DbSet<GithubProjectEntity> StudentProjects { get; set; }
         public DbSet<GithubUserEntity> GithubUsersData { get; set; }
-        public DbSet<BarsPointTransactionLog> BarsPointTransactionLogs { get; set; }
+        public DbSet<BarsPointTransactionEntity> BarsPointTransactionLogs { get; set; }
         public DbSet<CompanyEntity> Companies { get; set; }
         public DbSet<CompanyWorkerEntity> CompanyWorkers { get; set; }
 
@@ -109,6 +110,8 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<SubjectNewsfeedEntity>().HasData(seedData.NewsfeedGenerator.SubjectNewsfeeds);
             modelBuilder.Entity<GuildNewsfeedEntity>().HasData(seedData.NewsfeedGenerator.GuildNewsfeeds);
 
+            modelBuilder.Entity<QuestEntity>().HasData(seedData.QuestGenerator.Quest);
+            modelBuilder.Entity<QuestResponseEntity>().HasData(seedData.QuestGenerator.QuestResponse);
         }
 
         //TODO: Hack for removing cascade. Need to rework keys

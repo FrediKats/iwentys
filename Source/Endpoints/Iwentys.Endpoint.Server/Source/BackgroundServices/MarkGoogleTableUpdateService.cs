@@ -1,28 +1,34 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentResults;
-using Iwentys.Features.StudentFeature.Entities;
-using Iwentys.Features.StudentFeature.Repositories;
+using Iwentys.Common.Databases;
+using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Study;
+using Iwentys.Features.Study.Entities;
+using Iwentys.Features.Study.Repositories;
 using Iwentys.Integrations.GoogleTableIntegration;
 using Iwentys.Integrations.GoogleTableIntegration.Marks;
-using Iwentys.Models.Types;
 using Microsoft.Extensions.Logging;
 
 namespace Iwentys.Endpoint.Server.Source.BackgroundServices
 {
     public class MarkGoogleTableUpdateService
     {
-        private readonly IStudentRepository _studentRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        
+        private readonly IGenericRepository<StudentEntity> _studentRepository;
         private readonly ISubjectActivityRepository _subjectActivityRepository;
         private readonly ILogger _logger;
         private readonly TableParser _tableParser;
 
-        public MarkGoogleTableUpdateService(IStudentRepository studentRepository, ISubjectActivityRepository subjectActivityRepository, ILogger logger, string serviceToken)
+        public MarkGoogleTableUpdateService(ISubjectActivityRepository subjectActivityRepository, ILogger logger, string serviceToken, IUnitOfWork unitOfWork)
         {
-            _studentRepository = studentRepository;
             _subjectActivityRepository = subjectActivityRepository;
             _logger = logger;
             _tableParser = TableParser.Create(_logger, serviceToken);
+            
+            _unitOfWork = unitOfWork;
+            _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
         }
 
         public void UpdateSubjectActivityForGroup(GroupSubjectEntity groupSubjectData)
@@ -48,12 +54,12 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
                     _logger.LogWarning($"Cannot parse value: student:{subjectScore.Name}, subjectId:{groupSubjectData.SubjectId}, groupId:{groupSubjectData.StudyGroupId}");
                 }
 
-                if (activity == null)
+                if (activity is null)
                 {
                     _logger.LogWarning($"Subject info was not found: student:{subjectScore.Name}, subjectId:{groupSubjectData.SubjectId}, groupId:{groupSubjectData.StudyGroupId}");
 
                     StudentEntity studentProfile = _studentRepository
-                        .Read()
+                        .GetAsync()
                         .FirstOrDefault(s => subjectScore.Name.Contains(s.FirstName)
                                     && subjectScore.Name.Contains(s.SecondName));
 

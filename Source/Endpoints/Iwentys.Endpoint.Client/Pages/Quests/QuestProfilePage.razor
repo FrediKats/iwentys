@@ -1,0 +1,46 @@
+﻿@page "/quest/profile/{QuestId:int}"
+
+@using Blazored.LocalStorage
+@using Iwentys.Features.Quests.Models
+
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+
+<div class="col-md-6 d-flex flex-column">
+    <h3>Quest profile</h3>
+
+    @if (_quest is not null)
+    {
+        <MatHeadline6>
+            @_quest.Title (@_quest.Price)
+        </MatHeadline6>
+        <MatBody1>
+            @_quest.Description
+        </MatBody1>
+
+        <div>
+            <h5>Quest responses</h5>
+            @foreach (QuestResponseInfoDto questResponse in _quest.ResponseInfos)
+            {
+                <MatCard>
+                    <MatCardContent>
+                        <MatHeadline6>
+                            @questResponse.Student.GetFullName()
+                        </MatHeadline6>
+                        <MatBody2>
+                            @questResponse.ResponseTime
+                        </MatBody2>
+                    </MatCardContent>
+                    <MatCardActions>
+                        <MatButton OnClick=@(async () => await AcceptQuestResponse(questResponse))>Accept</MatButton>
+                    </MatCardActions>
+                </MatCard>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int QuestId { get; set; }
+}

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Google.Apis.Sheets.v4.Data;
-using Iwentys.Models.Types;
+using Iwentys.Features.Study;
 using Microsoft.Extensions.Logging;
 
 namespace Iwentys.Integrations.GoogleTableIntegration.Marks
@@ -28,7 +28,7 @@ namespace Iwentys.Integrations.GoogleTableIntegration.Marks
             {
                 object name = row[_helper.NameColumnNum];
                 object score = row[_helper.ScoreColumnNum];
-                if (name != null && score != null)
+                if (name is not null && score is not null)
                 {
                     string fullName = string.Join(" ", _helper.NameColumns.Select(c => row[c]));
 

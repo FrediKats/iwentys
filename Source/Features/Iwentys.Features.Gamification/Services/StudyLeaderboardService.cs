@@ -1,70 +1,64 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
-using Iwentys.Common.Tools;
-using Iwentys.Features.Gamification.ViewModels;
+using Iwentys.Features.Gamification.Models;
 using Iwentys.Features.GithubIntegration.Services;
-using Iwentys.Features.StudentFeature.Entities;
-using Iwentys.Features.StudentFeature.Repositories;
-using Iwentys.Features.StudentFeature.ViewModels;
-using Microsoft.EntityFrameworkCore;
+using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Study.Entities;
+using Iwentys.Features.Study.Models;
+using Iwentys.Features.Study.Repositories;
 
 namespace Iwentys.Features.Gamification.Services
 {
     public class StudyLeaderboardService
     {
-        private readonly GithubUserDataService _githubUserDataService;
-        private readonly IStudentRepository _studentRepository;
+        private readonly IUnitOfWork _unitOfWork;
+
+        private readonly IGenericRepository<StudentEntity> _studentRepository;
+
+        private readonly GithubIntegrationService _githubIntegrationService;
         private readonly ISubjectActivityRepository _subjectActivityRepository;
-        private readonly IGroupSubjectRepository _groupSubjectRepository;
+        
 
-        public StudyLeaderboardService(GithubUserDataService githubUserDataService, IStudentRepository studentRepository, ISubjectActivityRepository subjectActivityRepository, IGroupSubjectRepository groupSubjectRepository)
+        public StudyLeaderboardService(GithubIntegrationService githubIntegrationService, ISubjectActivityRepository subjectActivityRepository, IUnitOfWork unitOfWork)
         {
-            _githubUserDataService = githubUserDataService;
-            _studentRepository = studentRepository;
+            _githubIntegrationService = githubIntegrationService;
             _subjectActivityRepository = subjectActivityRepository;
-            _groupSubjectRepository = groupSubjectRepository;
+            
+            _unitOfWork = unitOfWork;
+            _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
         }
 
-        public Task<List<SubjectEntity>> GetSubjectsForDtoAsync(StudySearchParameters searchParameters)
+        public List<StudyLeaderboardRowDto> GetStudentsRatings(StudySearchParametersDto searchParametersDto)
         {
-            return _groupSubjectRepository.GetSubjectsForDto(searchParameters).ToListAsync();
-        }
-
-        public Task<List<StudyGroupEntity>> GetStudyGroupsForDtoAsync(int? courseId)
-        {
-            return _groupSubjectRepository.GetStudyGroupsForDto(courseId).ToListAsync();
-        }
-
-        public List<StudyLeaderboardRow> GetStudentsRatings(StudySearchParameters searchParameters)
-        {
-            if (searchParameters.CourseId == null && searchParameters.GroupId == null ||
-                searchParameters.CourseId != null && searchParameters.GroupId != null)
+            if (searchParametersDto.CourseId is null && searchParametersDto.GroupId is null ||
+                searchParametersDto.CourseId is not null && searchParametersDto.GroupId is not null)
             {
-                throw new IwentysException("One of StudySearchParameters fields: CourseId or GroupId should be null");
+                throw new IwentysException("One of StudySearchParametersDto fields: CourseId or GroupId should be null");
             }
 
-            List<SubjectActivityEntity> result = _subjectActivityRepository.GetStudentActivities(searchParameters).ToList();
+            List<SubjectActivityEntity> result = _subjectActivityRepository.GetStudentActivities(searchParametersDto).ToList();
 
             return result
                 .GroupBy(r => r.StudentId)
-                .Select(g => new StudyLeaderboardRow(g))
+                .Select(g => new StudyLeaderboardRowDto(g.ToList()))
                 .OrderByDescending(a => a.Activity)
-                .Skip(searchParameters.Skip)
-                .Take(searchParameters.Take)
+                .Skip(searchParametersDto.Skip)
+                .Take(searchParametersDto.Take)
                 .ToList();
         }
 
-        public List<StudyLeaderboardRow> GetCodingRating(int? courseId, int skip, int take)
+        public List<StudyLeaderboardRowDto> GetCodingRating(int? courseId, int skip, int take)
         {
-            IQueryable<StudentEntity> query = _studentRepository.Read();
+            IQueryable<StudentEntity> query = _studentRepository.GetAsync();
 
-            query = query
-                .WhereIf(courseId, q => q.Group.StudyCourseId == courseId);
+            //TODO: fix
+            //query = query
+            //    .WhereIf(courseId, q => q.Group.StudyCourseId == courseId);
 
             return query.AsEnumerable()
-                .Select(s => new StudyLeaderboardRow(s, _githubUserDataService.FindByUsername(s.GithubUsername).Result?.ContributionFullInfo.Total ?? 0))
+                .Select(s => new StudyLeaderboardRowDto(s, _githubIntegrationService.FindByUsername(s.GithubUsername).Result?.ContributionFullInfo.Total ?? 0))
                 .OrderBy(a => a.Activity)
                 .Skip(skip)
                 .Take(take)

@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients.Guilds;
-using Iwentys.Features.Guilds.ViewModels.Guilds;
-using Iwentys.Integrations.GithubIntegration.Models;
+using Iwentys.Features.GithubIntegration.Models;
+using Iwentys.Features.Guilds.Models.Guilds;
 
 namespace Iwentys.Endpoint.Client.Pages.Guilds
 {
@@ -16,7 +16,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
         {
             HttpClient httpClient = await Http.TrySetHeader(LocalStorage);
             var guildControllerClient = new GuildControllerClient(httpClient);
-            GithubRepository project = await guildControllerClient.AddPinnedProject(GuildId, new CreateProjectRequest {Owner = _owner, RepositoryName = _repositoryName});
+            GithubRepositoryInfoDto project = await guildControllerClient.AddPinnedProject(GuildId, new CreateProjectRequestDto(_owner, _repositoryName));
             Navigation.NavigateTo($"/guild/profile/{GuildId}");
         }
     }

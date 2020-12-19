@@ -1,14 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
 using Iwentys.Common.Tools;
-using Iwentys.Integrations.GithubIntegration.Models;
-using Newtonsoft.Json;
+using Iwentys.Features.GithubIntegration.Models;
 
 namespace Iwentys.Features.GithubIntegration.Entities
 {
     public class GithubUserEntity
     {
-        [Key] public int StudentId { get; set; }
+        [Key]
+        public int StudentId { get; set; }
 
         public string Username { get; set; }
         public string AvatarUrl { get; set; }
@@ -19,8 +20,8 @@ namespace Iwentys.Features.GithubIntegration.Entities
         [NotMapped]
         public ContributionFullInfo ContributionFullInfo
         {
-            get => SerializedContributionData.Maybe(JsonConvert.DeserializeObject<ContributionFullInfo>);
-            set => SerializedContributionData = JsonConvert.SerializeObject(value);
+            get => SerializedContributionData.Maybe(data => JsonSerializer.Deserialize<ContributionFullInfo>(data));
+            set => SerializedContributionData = JsonSerializer.Serialize(value);
         }
     }
 }

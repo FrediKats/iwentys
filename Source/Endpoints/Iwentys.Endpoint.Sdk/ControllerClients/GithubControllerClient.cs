@@ -2,8 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using Iwentys.Features.GithubIntegration.ViewModels;
-using Iwentys.Integrations.GithubIntegration.Models;
+using Iwentys.Features.GithubIntegration.Models;
 
 namespace Iwentys.Endpoint.Sdk.ControllerClients
 {
@@ -21,9 +20,9 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
             return Client.GetFromJsonAsync<List<CodingActivityInfoResponse>>($"/api/github/student/{studnetId}");
         }
 
-        public Task<List<GithubRepository>> GetStudentRepositories(int studnetId)
+        public Task<List<GithubRepositoryInfoDto>> GetStudentRepositories(int studnetId)
         {
-            return Client.GetFromJsonAsync<List<GithubRepository>>($"/api/github/student/{studnetId}/repository");
+            return Client.GetFromJsonAsync<List<GithubRepositoryInfoDto>>($"/api/github/student/{studnetId}/repository");
         }
     }
 }

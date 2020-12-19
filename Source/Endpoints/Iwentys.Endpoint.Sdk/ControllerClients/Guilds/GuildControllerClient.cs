@@ -2,8 +2,9 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using Iwentys.Features.Guilds.ViewModels.Guilds;
-using Iwentys.Integrations.GithubIntegration.Models;
+using Flurl.Http;
+using Iwentys.Features.GithubIntegration.Models;
+using Iwentys.Features.Guilds.Models.Guilds;
 
 namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
 {
@@ -16,34 +17,41 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
 
         public HttpClient Client { get; }
 
-
-        public Task<List<GuildProfilePreviewDto>> GetOverview(int skip = 0, int take = 20)
+        public Task<List<GuildProfileDto>> GetOverview(int skip = 0, int take = 20)
         {
-            //TODO: rework it later
-            return Client.GetFromJsonAsync<List<GuildProfilePreviewDto>>($"/api/guild?skip={skip}&take={take}");
+            return new FlurlClient(Client)
+                .Request("/api/guild")
+                .SetQueryParam("skip", skip)
+                .SetQueryParam("take", take)
+                .GetJsonAsync<List<GuildProfileDto>>();
         }
 
-        public Task<GuildProfileDto> Get(int id)
+        public Task<ExtendedGuildProfileWithMemberDataDto> Get(int id)
         {
-            return Client.GetFromJsonAsync<GuildProfileDto>($"/api/guild/{id}");
+            return Client.GetFromJsonAsync<ExtendedGuildProfileWithMemberDataDto>($"/api/guild/{id}");
         }
 
         public Task<GuildProfileDto> GetForMember(int memberId)
         {
             //TODO: fix
             return Task.FromResult<GuildProfileDto>(null);
-            return Client.GetFromJsonAsync<GuildProfileDto>($"/api/guild/for-member?memberId={memberId}");
+            //return Client.GetFromJsonAsync<GuildProfileDto>($"/api/guild/for-member?memberId={memberId}");
         }
 
-        public async Task<GithubRepository> AddPinnedProject(int guildId, CreateProjectRequest createProject)
+        public async Task<GithubRepositoryInfoDto> AddPinnedProject(int guildId, CreateProjectRequestDto createProject)
         {
             HttpResponseMessage responseMessage = await Client.PostAsJsonAsync($"/api/guild/{guildId}/pinned", createProject);
-            return await responseMessage.Content.ReadFromJsonAsync<GithubRepository>();
+            return await responseMessage.Content.ReadFromJsonAsync<GithubRepositoryInfoDto>();
         }
 
         public async Task DeletePinnedProject(int guildId, long repositoryId)
         {
-            HttpResponseMessage responseMessage = await Client.DeleteAsync($"/api/guild/{guildId}/pinned/{repositoryId}");
+            await Client.DeleteAsync($"/api/guild/{guildId}/pinned/{repositoryId}");
+        }
+
+        public Task<GuildMemberLeaderBoardDto> GetGuildMemberLeaderBoard(int guildId)
+        {
+            return Client.GetFromJsonAsync<GuildMemberLeaderBoardDto>($"/api/guild/{guildId}/member-leaderboard");
         }
     }
 }

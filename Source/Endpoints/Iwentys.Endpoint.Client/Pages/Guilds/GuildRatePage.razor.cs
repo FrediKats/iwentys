@@ -2,16 +2,16 @@
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients.Guilds;
-using Iwentys.Features.Guilds.ViewModels.Guilds;
+using Iwentys.Features.Guilds.Models.Guilds;
 using Microsoft.AspNetCore.Components;
 
 namespace Iwentys.Endpoint.Client.Pages.Guilds
 {
     public partial class GuildRatePage : ComponentBase
     {
-        private IReadOnlyList<GuildProfilePreviewDto> _guildProfiles;
+        private IReadOnlyList<GuildProfileDto> _guildProfiles;
 
-        private string LinkToProfile(GuildProfilePreviewDto guild) => $"guild/profile/{guild.Id}";
+        private string LinkToProfile(GuildProfileDto guild) => $"guild/profile/{guild.Id}";
 
         protected override async Task OnInitializedAsync()
         {

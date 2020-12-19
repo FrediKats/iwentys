@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Iwentys.Features.Guilds\Iwentys.Features.Guilds.csproj" />
+    <ProjectReference Include="..\Iwentys.Features.Study\Iwentys.Features.Study.csproj" />
   </ItemGroup>
 
 </Project>

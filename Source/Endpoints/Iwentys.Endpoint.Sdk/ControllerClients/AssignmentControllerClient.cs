@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using Iwentys.Features.Assignments.ViewModels;
+using Iwentys.Features.Assignments.Models;
 
 namespace Iwentys.Endpoint.Sdk.ControllerClients
 {
@@ -15,25 +15,25 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
 
         public HttpClient Client { get; }
 
-        public Task<List<AssignmentInfoResponse>> Get()
+        public Task<List<AssignmentInfoDto>> Get()
         {
-            return Client.GetFromJsonAsync<List<AssignmentInfoResponse>>("/api/assignment");
+            return Client.GetFromJsonAsync<List<AssignmentInfoDto>>("/api/assignments");
         }
 
-        public async Task<AssignmentInfoResponse> Create(AssignmentCreateRequest assignmentCreateRequest)
+        public async Task<AssignmentInfoDto> Create(AssignmentCreateRequestDto assignmentCreateRequestDto)
         {
-            HttpResponseMessage responseMessage = await Client.PostAsJsonAsync($"api/assignment", assignmentCreateRequest);
-            return await responseMessage.Content.ReadFromJsonAsync<AssignmentInfoResponse>();
+            HttpResponseMessage responseMessage = await Client.PostAsJsonAsync($"api/assignments", assignmentCreateRequestDto);
+            return await responseMessage.Content.ReadFromJsonAsync<AssignmentInfoDto>();
         }
 
         public Task Complete(int assignmentId)
         {
-            return Client.GetAsync($"api/assignment/{assignmentId}/complete");
+            return Client.GetAsync($"api/assignments/{assignmentId}/complete");
         }
 
         public Task Delete(int assignmentId)
         {
-            return Client.GetAsync($"api/assignment/{assignmentId}/delete");
+            return Client.GetAsync($"api/assignments/{assignmentId}/delete");
         }
     }
 }

@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Database.Context;
+using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
+using Iwentys.Features.Guilds.Models.Guilds;
 using Iwentys.Features.Guilds.Repositories;
-using Iwentys.Features.Guilds.ViewModels.Guilds;
-using Iwentys.Features.StudentFeature.Entities;
-using Iwentys.Integrations.GithubIntegration.Models;
+using Iwentys.Features.Students.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -58,7 +58,7 @@ namespace Iwentys.Database.Repositories.Guilds
             return _dbContext.Guilds.Where(g => g.Id == key).DeleteFromQueryAsync();
         }
 
-        public GuildEntity Create(StudentEntity creator, GuildCreateRequest arguments)
+        public GuildEntity Create(StudentEntity creator, GuildCreateRequestDto arguments)
         {
             var newGuild = new GuildEntity
             {
@@ -99,14 +99,14 @@ namespace Iwentys.Database.Repositories.Guilds
                 .SingleOrDefault();
         }
 
-        public async Task<GuildPinnedProjectEntity> PinProjectAsync(int guildId, GithubRepository repository)
+        public async Task<GuildPinnedProjectEntity> PinProjectAsync(int guildId, GithubRepositoryInfoDto repositoryInfoDto)
         {
             EntityEntry<GuildPinnedProjectEntity> entry = await _dbContext.GuildPinnedProjects.AddAsync(new GuildPinnedProjectEntity
             {
-                Id = repository.Id,
+                Id = repositoryInfoDto.Id,
                 GuildId = guildId,
-                RepositoryName = repository.Name,
-                RepositoryOwner = repository.Owner
+                RepositoryName = repositoryInfoDto.Name,
+                RepositoryOwner = repositoryInfoDto.Owner
             });
             await _dbContext.SaveChangesAsync();
             return entry.Entity;

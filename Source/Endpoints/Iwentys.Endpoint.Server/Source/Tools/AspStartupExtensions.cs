@@ -1,32 +1,21 @@
 ﻿using Iwentys.Database.Context;
-using Iwentys.Database.Repositories;
-using Iwentys.Database.Repositories.Achievements;
-using Iwentys.Database.Repositories.Economy;
-using Iwentys.Database.Repositories.GithubIntegration;
 using Iwentys.Database.Repositories.Guilds;
-using Iwentys.Database.Repositories.Newsfeeds;
 using Iwentys.Database.Repositories.Study;
 using Iwentys.Endpoint.Server.Source.Auth;
-using Iwentys.Features.Achievements;
-using Iwentys.Features.Achievements.Repositories;
-using Iwentys.Features.Assignments.Repositories;
+using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Assignments.Services;
-using Iwentys.Features.Companies.Repositories;
 using Iwentys.Features.Companies.Services;
-using Iwentys.Features.Economy.Repositories;
 using Iwentys.Features.Economy.Services;
 using Iwentys.Features.Gamification.Services;
-using Iwentys.Features.GithubIntegration.Repositories;
+using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Services;
-using Iwentys.Features.Guilds;
 using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Features.Guilds.Services;
-using Iwentys.Features.Newsfeeds.Repositories;
 using Iwentys.Features.Newsfeeds.Services;
-using Iwentys.Features.Quests.Repositories;
 using Iwentys.Features.Quests.Services;
-using Iwentys.Features.StudentFeature.Repositories;
-using Iwentys.Features.StudentFeature.Services;
+using Iwentys.Features.Students.Services;
+using Iwentys.Features.Study.Repositories;
+using Iwentys.Features.Study.Services;
 using Iwentys.Integrations.GithubIntegration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
@@ -36,30 +25,18 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
-namespace Iwentys.Endpoint.Server.Source
+namespace Iwentys.Endpoint.Server.Source.Tools
 {
     public static class AspStartupExtensions
     {
-        public static IServiceCollection ConfigIwentysOptions(this IServiceCollection services, IConfiguration configuration)
-        {
-            services
-                .AddIwentysLogging(configuration)
-                .AddIwentysCorsHack(configuration)
-                .AddApplicationOptions(configuration)
-                .AddIwentysDatabase()
-                .AddIwentysTokenFactory(configuration)
-                .AddIwentysServices();
-            //TODO: meh (
-            //.AddIwentysFakeAuth(configuration);
-            return services;
-        }
-
-
         public static IServiceCollection AddIwentysDatabase(this IServiceCollection services)
         {
             //TODO: replace with normal db
             //services.AddDbContext<IwentysDbContext>(o => o.UseSqlite("Data Source=Iwentys.db"));
-            services.AddDbContext<IwentysDbContext>(o => o.UseInMemoryDatabase("Data Source=Iwentys.db"));
+            services
+                .AddDbContext<IwentysDbContext>(o => o
+                    .UseLazyLoadingProxies()
+                    .UseInMemoryDatabase("Data Source=Iwentys.db"));
             return services;
         }
 
@@ -73,28 +50,17 @@ namespace Iwentys.Endpoint.Server.Source
                 services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
             }
 
-            services.AddScoped<IAchievementRepository, AchievementRepository>();
-
-            services.AddScoped<IAssignmentRepository, AssignmentRepository>();
             services.AddScoped<AssignmentService>();
 
-            services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<CompanyService>();
 
-            services.AddScoped<IBarsPointTransactionLogRepository, BarsPointTransactionLogRepository>();
             services.AddScoped<BarsPointTransactionLogService>();
 
-            services.AddScoped<IGithubUserDataRepository, GithubUserDataRepository>();
-            services.AddScoped<IStudentProjectRepository, StudentProjectRepository>();
-            services.AddScoped<GithubUserDataService>();
+            services.AddScoped<GithubIntegrationService>();
             services.AddScoped<StudyLeaderboardService>();
 
             services.AddScoped<IGuildMemberRepository, GuildMemberRepository>();
-            services.AddScoped<IGuildRecruitmentRepository, GuildRecruitmentRepository>();
             services.AddScoped<IGuildRepository, GuildRepository>();
-            services.AddScoped<IGuildTestTaskSolvingInfoRepository, GuildTestTaskSolvingInfoRepository>();
-            services.AddScoped<IGuildTributeRepository, GuildTributeRepository>();
-            services.AddScoped<ITournamentRepository, TournamentRepository>();
             services.AddScoped<GuildMemberService>();
             services.AddScoped<GuildRecruitmentService>();
             services.AddScoped<GuildService>();
@@ -102,22 +68,15 @@ namespace Iwentys.Endpoint.Server.Source
             services.AddScoped<GuildTributeService>();
             services.AddScoped<TournamentService>();
 
-            services.AddScoped<INewsfeedRepository, NewsfeedRepository>();
             services.AddScoped<NewsfeedService>();
 
-            services.AddScoped<IQuestRepository, QuestRepository>();
             services.AddScoped<QuestService>();
 
-            services.AddScoped<IGroupSubjectRepository, GroupSubjectRepository>();
-            services.AddScoped<IStudentRepository, StudentRepository>();
-            services.AddScoped<IStudyGroupRepository, StudyGroupRepository>();
             services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
-            services.AddScoped<ISubjectRepository, SubjectRepository>();
             services.AddScoped<StudentService>();
             services.AddScoped<StudyGroupService>();
             services.AddScoped<SubjectService>();
-
-            services.AddScoped<GuildRepositoriesScope>();
+            services.AddScoped<SubjectActivityService>();
 
             services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();

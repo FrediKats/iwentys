@@ -1,4 +1,6 @@
-﻿namespace Iwentys.Features.Companies.Entities
+﻿using System.Collections.Generic;
+
+namespace Iwentys.Features.Companies.Entities
 {
     public class CompanyEntity
     {
@@ -6,5 +8,7 @@
         public string Name { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+
+        public virtual List<CompanyWorkerEntity> Workers { get; set; }
     }
 }

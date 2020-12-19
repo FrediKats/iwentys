@@ -2,8 +2,8 @@
 using System.Linq;
 using Iwentys.Common.Tools;
 using Iwentys.Database.Seeding.Tools;
-using Iwentys.Features.StudentFeature.Entities;
-using Iwentys.Features.StudentFeature.Enums;
+using Iwentys.Features.Students.Enums;
+using Iwentys.Features.Study.Entities;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {

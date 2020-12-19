@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using Iwentys.Features.StudentFeature.ViewModels;
+using Iwentys.Features.Study.Models;
 
 namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
 {
@@ -14,9 +14,14 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
 
         public HttpClient Client { get; }
 
-        public Task<GroupProfileResponse> Get(string groupName)
+        public Task<GroupProfileResponseDto> Get(string groupName)
         {
-            return Client.GetFromJsonAsync<GroupProfileResponse>($"api/StudyGroup/by-name/{groupName}");
+            return Client.GetFromJsonAsync<GroupProfileResponseDto>($"api/StudyGroup/by-name/{groupName}");
+        }
+
+        public Task<GroupProfileResponseDto> FindStudentGroup(int studentId)
+        {
+            return Client.GetFromJsonAsync<GroupProfileResponseDto>($"api/StudyGroup/by-student/{studentId}");
         }
     }
 }

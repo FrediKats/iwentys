@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentResults;
 using Iwentys.Common.Tools;
+using Iwentys.Features.Gamification.Models;
 using Iwentys.Features.Gamification.Services;
-using Iwentys.Features.Gamification.ViewModels;
-using Iwentys.Features.StudentFeature.ViewModels;
+using Iwentys.Features.Study.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Tef.BotFramework.Abstractions;
 using Tef.BotFramework.Core;
@@ -34,12 +34,9 @@ namespace Iwentys.Endpoints.ClientBot.Commands.StudentLeaderboard
 
         public Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            var searchDto = new StudySearchParameters
-            {
-                CourseId = int.Parse(args.Arguments[0])
-            };
+            var searchDto = new StudySearchParametersDto(null, null, int.Parse(args.Arguments[0]), null, 0, 20);
 
-            List<StudyLeaderboardRow> studyLeaderboardRows = _leaderboardService.GetStudentsRatings(searchDto);
+            List<StudyLeaderboardRowDto> studyLeaderboardRows = _leaderboardService.GetStudentsRatings(searchDto);
 
             return ResultFormatter.FormatToTask(studyLeaderboardRows.Take(20));
         }

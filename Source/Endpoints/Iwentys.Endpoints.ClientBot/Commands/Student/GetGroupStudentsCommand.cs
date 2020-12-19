@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Threading.Tasks;
 using FluentResults;
-using Iwentys.Common.Tools;
-using Iwentys.Features.StudentFeature.Services;
-using Iwentys.Features.StudentFeature.ViewModels;
+using Iwentys.Features.Students.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Tef.BotFramework.Abstractions;
 using Tef.BotFramework.Core;
@@ -30,9 +28,11 @@ namespace Iwentys.Endpoints.ClientBot.Commands.Student
 
         public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
-            List<StudentFullProfileDto> profileDtos = await _studentService.GetAsync(args.Arguments[0]);
+            //TODO:
+            throw new NotImplementedException();
+            //List<StudentFullProfileDto> profileDtos = await _studentService.GetAsync(args.Arguments[0]);
 
-            return Result.Ok($"Group list {args.Arguments[0]}\n{ResultFormatter.FormatAsList(profileDtos)}");
+            //return Result.Ok($"Group list {args.Arguments[0]}\n{ResultFormatter.FormatAsList(profileDtos)}");
         }
 
         public string CommandName => nameof(GetGroupStudentsCommand);

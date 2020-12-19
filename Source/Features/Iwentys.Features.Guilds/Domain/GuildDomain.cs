@@ -2,21 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
-using Iwentys.Features.Achievements.ViewModels;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
+using Iwentys.Features.Guilds.Models.Guilds;
 using Iwentys.Features.Guilds.Repositories;
-using Iwentys.Features.Guilds.ViewModels.Guilds;
-using Iwentys.Features.StudentFeature;
-using Iwentys.Features.StudentFeature.Entities;
-using Iwentys.Features.StudentFeature.Repositories;
-using Iwentys.Features.StudentFeature.ViewModels;
-using Iwentys.Integrations.GithubIntegration;
-using Octokit;
+using Iwentys.Features.Students.Domain;
+using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Students.Models;
 
 namespace Iwentys.Features.Guilds.Domain
 {
@@ -24,80 +21,37 @@ namespace Iwentys.Features.Guilds.Domain
     {
         public GuildEntity Profile { get; }
 
-        private readonly GithubUserDataService _githubUserDataService;
-        private readonly IGithubApiAccessor _apiAccessor;
-        private readonly IStudentRepository _studentRepository;
+        private readonly GithubIntegrationService _githubIntegrationService;
+        private readonly IGenericRepository<StudentEntity> _studentRepository;
         private readonly IGuildRepository _guildRepository;
         private readonly IGuildMemberRepository _guildMemberRepository;
-        private readonly IGuildTributeRepository _guildTributeRepository;
 
         public GuildDomain(
             GuildEntity profile,
-            GithubUserDataService githubUserDataService,
-            IGithubApiAccessor apiAccessor,
-            GuildRepositoriesScope repositoriesScope)
-        {
-            Profile = profile;
-            _githubUserDataService = githubUserDataService;
-            _apiAccessor = apiAccessor;
-            _studentRepository = repositoriesScope.Student;
-            _guildRepository = repositoriesScope.Guild;
-            _guildMemberRepository = repositoriesScope.GuildMember;
-            _guildTributeRepository = repositoriesScope.GuildTribute;
-        }
-
-        public GuildDomain(
-            GuildEntity profile,
-            GithubUserDataService githubUserDataService,
-            IGithubApiAccessor apiAccessor,
-            IStudentRepository studentRepository,
+            GithubIntegrationService githubIntegrationService,
+            IGenericRepository<StudentEntity> studentRepository,
             IGuildRepository guildRepository,
-            IGuildMemberRepository guildMemberRepository,
-            IGuildTributeRepository guildTributeRepository)
+            IGuildMemberRepository guildMemberRepository)
         {
             Profile = profile;
-            _githubUserDataService = githubUserDataService;
-            _apiAccessor = apiAccessor;
+            _githubIntegrationService = githubIntegrationService;
             _studentRepository = studentRepository;
             _guildRepository = guildRepository;
             _guildMemberRepository = guildMemberRepository;
-            _guildTributeRepository = guildTributeRepository;
         }
 
-        public GuildProfileShortInfoDto ToGuildProfileShortInfoDto()
+        public async Task<ExtendedGuildProfileWithMemberDataDto> ToExtendedGuildProfileDto(int? userId = null)
         {
-            return new GuildProfileShortInfoDto(Profile);
-        }
-
-        public async Task<GuildProfileDto> ToGuildProfileDto(int? userId = null)
-        {
-            GuildMemberLeaderBoard dashboard = GetMemberDashboard();
-
-            var info = new GuildProfileDto(Profile)
+            var info = new ExtendedGuildProfileWithMemberDataDto(Profile)
             {
-                Leader = Profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentPartialProfileDto(s)),
-                MemberLeaderBoard = dashboard,
-                Rating = dashboard.TotalRate,
-                PinnedRepositories = Profile.PinnedProjects.SelectToList(p => _githubUserDataService.GetCertainRepository(p.RepositoryOwner, p.RepositoryName)),
-                Achievements = Profile.Achievements.SelectToList(AchievementViewModel.Wrap),
-                TestTasks = Profile.TestTasks.SelectToList(GuildTestTaskInfoResponse.Wrap)
+                Leader = Profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentInfoDto(s)),
+                PinnedRepositories = Profile.PinnedProjects.SelectToList(p => _githubIntegrationService.GetCertainRepository(p.RepositoryOwner, p.RepositoryName)),
             };
 
-            if (userId != null && Profile.Members.Any(m => m.MemberId == userId))
-                info.Tribute = _guildTributeRepository.ReadStudentActiveTribute(Profile.Id, userId.Value)?.To(ActiveTributeResponse.Create);
-            if (userId != null)
+            if (userId is not null)
                 info.UserMembershipState = await GetUserMembershipState(userId.Value);
 
             return info;
-        }
-
-        public GuildProfilePreviewDto ToGuildProfilePreviewDto()
-        {
-            return new GuildProfilePreviewDto(Profile)
-            {
-                Leader = Profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentPartialProfileDto(s)),
-                Rating = GetMemberDashboard().TotalRate
-            };
         }
 
         public List<GithubUserEntity> GetGithubUserData()
@@ -105,39 +59,37 @@ namespace Iwentys.Features.Guilds.Domain
             return Profile
                 .Members
                 .Select(m => m.Member.GithubUsername)
-                .Where(gh => gh != null)
+                .Where(gh => gh is not null)
                 .ToList()
-                .Select(ghName => _githubUserDataService.FindByUsername(ghName).Result)
-                .Where(userData => userData != null)
+                .Select(ghName => _githubIntegrationService.FindByUsername(ghName).Result)
+                .Where(userData => userData is not null)
                 .ToList();
         }
 
-        public GuildMemberLeaderBoard GetMemberDashboard()
+        public GuildMemberLeaderBoardDto GetMemberDashboard()
         {
-            List<GuildMemberImpact> members = GetGithubUserData().SelectToList(userData => new GuildMemberImpact(userData));
+            List<GuildMemberImpactDto> members = GetGithubUserData().SelectToList(userData => new GuildMemberImpactDto(userData));
 
-            return new GuildMemberLeaderBoard
-            {
-                TotalRate = members.Sum(m => m.TotalRate),
-                MembersImpact = members,
-                Members = Profile.Members.SelectToList(m => new StudentPartialProfileDto(m.Member))
-            };
+            return new GuildMemberLeaderBoardDto(
+                members.Sum(m => m.TotalRate),
+                Profile.Members.SelectToList(m => new StudentInfoDto(m.Member)),
+                members);
         }
 
         public async Task<UserMembershipState> GetUserMembershipState(Int32 userId)
         {
-            StudentEntity user = await _studentRepository.GetAsync(userId);
+            StudentEntity user = await _studentRepository.GetByIdAsync(userId);
             GuildEntity userGuild = _guildRepository.ReadForStudent(user.Id);
             GuildMemberType? userStatusInGuild = Profile.Members.Find(m => m.Member.Id == user.Id)?.MemberType;
 
             if (userStatusInGuild == GuildMemberType.Blocked)
                 return UserMembershipState.Blocked;
 
-            if (userGuild != null &&
+            if (userGuild is not null &&
                 userGuild.Id != Profile.Id)
                 return UserMembershipState.Blocked;
 
-            if (userGuild != null &&
+            if (userGuild is not null &&
                 userGuild.Id == Profile.Id)
                 return UserMembershipState.Entered;
 
@@ -164,29 +116,31 @@ namespace Iwentys.Features.Guilds.Domain
         }
 
         //TODO: use in daemon
-        public GuildDomain UpdateGuildFromGithub()
-        {
-            Organization organizationInfo = _apiAccessor.FindOrganizationInfo(Profile.Title);
-            if (organizationInfo != null)
-            {
-                //TODO: need to fix after https://github.com/octokit/octokit.net/pull/2239
-                //_profile.Bio = organizationInfo.Bio;
-                Profile.LogoUrl = organizationInfo.Url;
-                _guildRepository.UpdateAsync(Profile);
-            }
+        //public GuildDomain UpdateGuildFromGithub()
+        //{
+        //    Organization organizationInfo = _apiAccessor.FindOrganizationInfo(Profile.Title);
+        //    if (organizationInfo is not null)
+        //    {
+        //        //TODO: need to fix after https://github.com/octokit/octokit.net/pull/2239
+        //        //_profile.Bio = organizationInfo.Bio;
+        //        Profile.LogoUrl = organizationInfo.Url;
+        //        _guildRepository.UpdateAsync(Profile);
+        //    }
 
-            return this;
-        }
+        //    return this;
+        //}
 
         public async Task<GuildMemberEntity> EnsureMemberCanRestrictPermissionForOther(AuthorizedUser editor, int memberToKickId)
         {
-            StudentEntity editorStudentAccount = await editor.GetProfile(_studentRepository);
+            StudentEntity editorStudentAccount = await _studentRepository.GetByIdAsync(editor.Id);
             editorStudentAccount.EnsureIsGuildEditor(Profile);
 
             GuildMemberEntity memberToKick = Profile.Members.Find(m => m.MemberId == memberToKickId);
             GuildMemberEntity editorMember = Profile.Members.Find(m => m.MemberId == editor.Id) ?? throw new EntityNotFoundException(nameof(GuildMemberEntity));
 
-            if (memberToKick is null || !memberToKick.MemberType.IsMember())
+            //TODO: check
+            //if (memberToKick is null || !memberToKick.MemberType.IsMember())
+            if (memberToKick is null)
                 throw InnerLogicException.Guild.IsNotGuildMember(editor.Id, Profile.Id);
 
             if (memberToKick.MemberType == GuildMemberType.Creator)

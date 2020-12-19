@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using FluentResults;
 using Iwentys.Endpoints.ClientBot.Tools;
-using Iwentys.Features.StudentFeature;
-using Iwentys.Features.StudentFeature.Services;
-using Iwentys.Features.StudentFeature.ViewModels;
+using Iwentys.Features.Students.Domain;
+using Iwentys.Features.Students.Models;
+using Iwentys.Features.Students.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Tef.BotFramework.Abstractions;
 using Tef.BotFramework.Core;
@@ -34,8 +34,8 @@ namespace Iwentys.Endpoints.ClientBot.Commands.Student
         public async Task<Result<string>> ExecuteAsync(CommandArgumentContainer args)
         {
             AuthorizedUser currentUser = _userIdentifier.GetUser(args.Sender.UserSenderId);
-            StudentFullProfileDto profile = await _studentService.GetAsync(currentUser.Id);
-            return Result.Ok(profile.FormatFullInfo());
+            StudentInfoDto profile = await _studentService.GetAsync(currentUser.Id);
+            return Result.Ok(profile.Format());
         }
 
         public string CommandName => nameof(GetCurrentStudentCommand);

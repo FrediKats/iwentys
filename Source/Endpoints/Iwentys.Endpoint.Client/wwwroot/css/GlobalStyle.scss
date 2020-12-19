@@ -1,0 +1,62 @@
+﻿//from figma
+$background-primary: #27273E;
+$background-secondary: #202036;
+$background-third: #33334B;
+$accessible-primary: #00FFAA;
+$accessible-secondary: #00BBFF;
+$accessible-third: #4579F5;
+$text-color: #E0E0FF;
+
+// material concept
+// material recomend to use dark grey for bg: #121212
+$color-background: $background-secondary;
+$color-surface: $background-primary;
+//TODO: it can be removed with elevation transparency
+$color-surface-variant: $background-primary;
+$color-error: #CF6679;
+// $color-primary: #00BBFF;
+$color-primary: #80D8FE;
+$color-primary-variant: #4579F5;
+$color-secondary: #00FFAA;
+$color-on-background: $text-color;
+$color-on-surface: $text-color;
+$color-on-primary: #000000;
+
+.main-background {
+    background-color: $color-background;
+    color: $color-on-background;
+}
+
+.element-primary {
+    background-color: $color-primary;
+    color: $color-on-primary;
+}
+
+.sidebar-surface {
+    border-radius: 0px 50px 50px 0px;
+    background-color: $background-third;
+}
+
+.dark-elevation-01 {
+    background: rgba(#FFFFFF, 0.05);
+}
+
+.dark-elevation-02 {
+    background: rgba(#FFFFFF, 0.07);
+}
+
+.dark-elevation-04 {
+    background: rgba(#FFFFFF, 0.09);
+}
+
+.dark-elevation-06 {
+    background: rgba(#FFFFFF, 0.11);
+}
+
+.dark-elevation-12 {
+    background: rgba(#FFFFFF, 0.14);
+}
+
+.dark-elevation-24 {
+    background: rgba(#FFFFFF, 0.16);
+}

@@ -2,16 +2,16 @@
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients.Study;
-using Iwentys.Features.Gamification.ViewModels;
+using Iwentys.Features.Gamification.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace Iwentys.Endpoint.Client.Pages.Study
 {
     public partial class StudyLeaderboardPage : ComponentBase
     {
-        private string LinkToProfile(StudyLeaderboardRow row) => $"student/profile/{row.Student.Id}";
+        private string LinkToProfile(StudyLeaderboardRowDto rowDto) => $"student/profile/{rowDto.Student.Id}";
 
-        private IReadOnlyList<StudyLeaderboardRow> _studentProfiles;
+        private IReadOnlyList<StudyLeaderboardRowDto> _studentProfiles;
 
         protected override async Task OnInitializedAsync()
         {
