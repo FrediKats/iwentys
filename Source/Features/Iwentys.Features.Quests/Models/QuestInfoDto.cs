@@ -11,7 +11,7 @@ namespace Iwentys.Features.Quests.Models
     public record QuestInfoDto
     {
         public QuestInfoDto(QuestEntity questEntity)
-            : this(
+            :  this(
                 questEntity.Id,
                 questEntity.Title,
                 questEntity.Description,
@@ -21,7 +21,8 @@ namespace Iwentys.Features.Quests.Models
                 questEntity.State,
                 questEntity.IsOutdated,
                 new StudentInfoDto(questEntity.Author),
-                questEntity.Responses.SelectToList(qr => new QuestResponseInfoDto(qr)))
+                //TODO: fix this
+                questEntity.Responses?.SelectToList(qr => new QuestResponseInfoDto(qr)))
         {
         }
 
