@@ -123,14 +123,18 @@ namespace Iwentys.Features.Quests.Services
             return new QuestInfoDto(quest);
         }
 
-        public async Task<QuestInfoDto> RevokeAsync(AuthorizedUser author, int questId)
+        public async Task<QuestInfoDto> RevokeAsync(AuthorizedUser user, int questId)
         {
-            //TODO: return point to author
-            QuestEntity questEntity = await _questRepository.GetByIdAsync(questId);
+            var author = await _studentRepository.GetByIdAsync(user.Id);
+            QuestEntity quest = await _questRepository.GetByIdAsync(questId);
             
-            questEntity.Revoke(author);
+            quest.Revoke(author);
+            author.BarsPoints += quest.Price;
             
-            _questRepository.Update(questEntity);
+            _studentRepository.Update(author);
+            _questRepository.Update(quest);
+            await _unitOfWork.CommitAsync();
+            
             return QuestInfoDto.Wrap(await _questRepository.GetByIdAsync(questId));
         }
     }

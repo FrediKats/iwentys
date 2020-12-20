@@ -49,10 +49,10 @@ namespace Iwentys.Features.Quests.Entities
             };
         }
 
-        public void Revoke(AuthorizedUser author)
+        public void Revoke(StudentEntity student)
         {
-            if (AuthorId != author.Id)
-                throw InnerLogicException.NotEnoughPermissionFor(author.Id);
+            if (AuthorId != student.Id)
+                throw InnerLogicException.NotEnoughPermissionFor(student.Id);
 
             if (State != QuestState.Active)
                 throw new InnerLogicException("Quest is not active");
