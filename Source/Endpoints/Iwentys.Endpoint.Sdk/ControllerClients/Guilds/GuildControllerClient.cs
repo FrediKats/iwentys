@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Flurl.Http;
+using Iwentys.Common.Tools;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.Guilds.Models.Guilds;
 
@@ -28,12 +29,12 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
 
         public Task<ExtendedGuildProfileWithMemberDataDto> Get(int id)
         {
-            return Client.GetFromJsonAsync<ExtendedGuildProfileWithMemberDataDto>($"/api/guild/{id}");
+            return Client.FindFromJsonAsync<ExtendedGuildProfileWithMemberDataDto>($"/api/guild/{id}");
         }
 
         public Task<GuildProfileDto> GetForMember(int memberId)
         {
-            return Client.GetFromJsonAsync<GuildProfileDto>($"/api/guild/for-member?memberId={memberId}");
+            return Client.FindFromJsonAsync<GuildProfileDto>($"/api/guild/for-member?memberId={memberId}");
         }
 
         public async Task<GithubRepositoryInfoDto> AddPinnedProject(int guildId, CreateProjectRequestDto createProject)

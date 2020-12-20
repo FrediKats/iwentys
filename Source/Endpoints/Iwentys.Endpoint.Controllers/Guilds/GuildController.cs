@@ -51,6 +51,9 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         public ActionResult<GuildProfileDto> GetForMember(int memberId)
         {
             GuildProfileDto result = _guildService.FindStudentGuild(memberId);
+            if (result is null)
+                return NotFound();
+            
             return Ok(result);
         }
 
