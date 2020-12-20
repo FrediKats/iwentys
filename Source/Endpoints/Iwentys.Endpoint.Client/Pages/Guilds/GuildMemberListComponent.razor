@@ -35,7 +35,6 @@
 
     private async Task KicMember(int memberId)
     {
-        //TODO: fix
-        //await GuildMemberService.KickGuildMemberAsync(HttpContextAccessor.GetAuthUser(), GuildProfile.Id, memberId);
+        await _guildMemberControllerClient.KickGuildMember(GuildProfile.Id, memberId);
     }
 }
