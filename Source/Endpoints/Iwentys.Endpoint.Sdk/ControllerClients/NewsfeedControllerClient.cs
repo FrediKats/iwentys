@@ -15,10 +15,9 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
 
         public HttpClient Client { get; }
 
-        public async Task<NewsfeedViewModel> CreateSubjectNewsfeed(int subjectId, NewsfeedCreateViewModel createViewModel)
+        public async Task CreateSubjectNewsfeed(int subjectId, NewsfeedCreateViewModel createViewModel)
         {
-            HttpResponseMessage responseMessage = await Client.PostAsJsonAsync($"/api/newsfeed/subject/{subjectId}/newsfeed", createViewModel);
-            return await responseMessage.Content.ReadFromJsonAsync<NewsfeedViewModel>();
+            await Client.PostAsJsonAsync($"/api/newsfeed/subject/{subjectId}/newsfeed", createViewModel);
         }
 
         public Task<List<NewsfeedViewModel>> GetForSubject(int subjectId)
