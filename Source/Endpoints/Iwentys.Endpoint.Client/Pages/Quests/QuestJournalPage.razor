@@ -38,6 +38,11 @@
                             <MatCardActions>
                                 <MatButton Link=@LinkToQuestProfilePage(quest)>Profile</MatButton>
                                 <MatButton Link=@LinkToQuestResponsePage(quest)>Response</MatButton>
+                                @if (IsQuestCanBeRevoked(quest))
+                                {
+                                    <MatButton OnClick=@(async () => await RevokeQuest(quest))>Revoke</MatButton>
+                                }
+
                             </MatCardActions>
                         </MatCard>
                     </div>
