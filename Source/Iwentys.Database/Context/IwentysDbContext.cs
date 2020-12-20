@@ -6,6 +6,7 @@ using Iwentys.Features.Achievements.Entities;
 using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Companies.Entities;
 using Iwentys.Features.Economy.Entities;
+using Iwentys.Features.Gamification.Entities;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Newsfeeds.Entities;
@@ -73,6 +74,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<GuildRecruitmentMemberEntity>().HasKey(g => new {g.GuildRecruitmentId, g.MemberId});
             modelBuilder.Entity<SubjectNewsfeedEntity>().HasKey(g => new {g.SubjectId, g.NewsfeedId});
             modelBuilder.Entity<GuildNewsfeedEntity>().HasKey(g => new {g.GuildId, g.NewsfeedId});
+            modelBuilder.Entity<UserInterestTagEntity>().HasKey(g => new {g.StudentId, g.InterestTagId});
         }
 
         private void SetUniqKey(ModelBuilder modelBuilder)
@@ -126,8 +128,12 @@ namespace Iwentys.Database.Context
                 fk.DeleteBehavior = DeleteBehavior.Restrict;
         }
 
-        #region Guilds
+        #region Gamification
+        public DbSet<InterestTagEntity> InterestTags { get; set; }
+        public DbSet<UserInterestTagEntity> UserInterestTags { get; set; }
+        #endregion
 
+        #region Guilds
         public DbSet<GuildEntity> Guilds { get; set; }
         public DbSet<GuildMemberEntity> GuildMembers { get; set; }
         public DbSet<GuildPinnedProjectEntity> GuildPinnedProjects { get; set; }
@@ -136,7 +142,6 @@ namespace Iwentys.Database.Context
         public DbSet<GuildTestTaskSolutionEntity> GuildTestTaskSolvingInfos { get; set; }
         public DbSet<GuildRecruitmentEntity> GuildRecruitment { get; set; }
         public DbSet<GuildRecruitmentMemberEntity> GuildRecruitmentMembers { get; set; }
-
         #endregion
 
         #region Study
