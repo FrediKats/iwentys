@@ -86,7 +86,7 @@ namespace Iwentys.Features.Quests.Entities
         
         public static Expression<Func<QuestEntity, bool>> IsArchived =>
             q => q.State == QuestState.Completed
-                 || q.Deadline > DateTime.UtcNow;
+                 && q.Deadline > DateTime.UtcNow;
 
         public static Expression<Func<QuestEntity, bool>> IsCompletedBy(AuthorizedUser user) =>
             q => q.State == QuestState.Completed 

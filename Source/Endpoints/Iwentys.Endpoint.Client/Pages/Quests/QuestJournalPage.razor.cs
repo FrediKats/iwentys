@@ -8,12 +8,31 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
 {
     public partial class QuestJournalPage
     {
-        private IReadOnlyList<QuestInfoDto> _activeQuests;
+        private IReadOnlyList<QuestInfoDto> _selectedQuest;
+
+        private QuestControllerClient _questControllerClient;
 
         protected override async Task OnInitializedAsync()
         {
-            var questControllerClient = new QuestControllerClient(await Http.TrySetHeader(LocalStorage));
-            _activeQuests = await questControllerClient.GetActive();
+            _questControllerClient = new QuestControllerClient(await Http.TrySetHeader(LocalStorage));
+        }
+        
+        private async Task SelectActive()
+        {
+            _selectedQuest = await _questControllerClient.GetActive();
+            StateHasChanged();
+        }
+
+        private async Task SelectCreated()
+        {
+            _selectedQuest = await _questControllerClient.GetCreatedByUser();
+            StateHasChanged();
+        }
+
+        private async Task SelectArchived()
+        {
+            _selectedQuest = await _questControllerClient.GetArchived();
+            StateHasChanged();
         }
 
         private string LinkToQuestProfilePage(QuestInfoDto quest) => $"/quest/profile/{quest.Id}";

@@ -8,19 +8,19 @@
 
 <div class="container-fluid d-flex flex-row">
     <div class="col-md-3 d-flex flex-column dark-elevation-01">
-        <MatButton>Active</MatButton>
-        <MatButton>Created</MatButton>
-        <MatButton>Archive</MatButton>
+        <MatButton OnClick=@(async () => await SelectActive())>Active</MatButton>
+        <MatButton OnClick=@(async () => await SelectCreated())>Created</MatButton>
+        <MatButton OnClick=@(async () => await SelectArchived())>Archive</MatButton>
         <MatButton Link="/quest/create">Добавить квест</MatButton>
 
     </div>
 
     <div class="col-md-6 d-flex flex-column dark-elevation-01">
         <h3>Quest Journal Page</h3>
-        @if (_activeQuests is not null)
+        @if (_selectedQuest is not null)
         {
             <div class="container-fluid d-flex flex-column">
-                @foreach (QuestInfoDto quest in _activeQuests)
+                @foreach (QuestInfoDto quest in _selectedQuest)
                 {
                     <div class="quest-journal-elemnt">
                         <MatCard Class="dark-elevation-02">
@@ -43,7 +43,7 @@
                     </div>
                 }
             </div>
-            @*<MatButton OnClick=@(async () => await MakeCompleted())>[ ]</MatButton>*@
+            @*<QuestListComponent Quests=@_selectedQuest></QuestListComponent>*@
         }
     </div>
 </div>
