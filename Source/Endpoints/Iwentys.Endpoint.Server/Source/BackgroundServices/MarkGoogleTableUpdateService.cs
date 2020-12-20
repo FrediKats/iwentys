@@ -88,7 +88,7 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
             }
         }
 
-        private bool IsMatchedWithStudent(StudentSubjectScore ss, StudentEntity student)
+        private static bool IsMatchedWithStudent(StudentSubjectScore ss, StudentEntity student)
         {
             return ss.Name.Contains(student.FirstName)
                    && ss.Name.Contains(student.SecondName);

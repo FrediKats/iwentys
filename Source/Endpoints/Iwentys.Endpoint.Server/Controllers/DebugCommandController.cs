@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Endpoint.Server.Source;
 using Iwentys.Endpoint.Server.Source.BackgroundServices;
+using Iwentys.Endpoint.Server.Source.Options;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -20,12 +20,12 @@ namespace Iwentys.Endpoint.Server.Controllers
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public DebugCommandController(ILogger<DebugCommandController> logger, ISubjectActivityRepository subjectActivityRepository, IUnitOfWork unitOfWork)
+        public DebugCommandController(ILogger<DebugCommandController> logger, ISubjectActivityRepository subjectActivityRepository, IUnitOfWork unitOfWork, TokenApplicationOptions tokenApplicationOptions)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
             
-            _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(subjectActivityRepository, _logger, ApplicationOptions.GoogleServiceToken, _unitOfWork);
+            _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(subjectActivityRepository, _logger, tokenApplicationOptions.GoogleServiceToken, _unitOfWork);
         }
 
         //[HttpPost("UpdateSubjectActivityData")]

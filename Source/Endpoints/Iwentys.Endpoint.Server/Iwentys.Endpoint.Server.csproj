@@ -17,6 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="debug.log" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ItmoScheduleApiWrapper" Version="1.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.0" />
