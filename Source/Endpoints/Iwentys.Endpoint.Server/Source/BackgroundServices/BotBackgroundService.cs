@@ -27,7 +27,9 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
             _logger.LogInformation("IwentysBackgroundService start");
             throw new NotImplementedException();
 
+#pragma warning disable CS0162 // Unreachable code detected
             try
+#pragma warning restore CS0162 // Unreachable code detected
             {
                 var serviceCollection = new ServiceCollection();
                 serviceCollection.AddIwentysServices();

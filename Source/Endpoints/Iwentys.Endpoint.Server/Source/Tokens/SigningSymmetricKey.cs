@@ -2,7 +2,7 @@
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Iwentys.Endpoint.Server.Source.Auth
+namespace Iwentys.Endpoint.Server.Source.Tokens
 {
     public class SigningSymmetricKey : IJwtSigningEncodingKey, IJwtSigningDecodingKey
     {

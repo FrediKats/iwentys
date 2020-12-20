@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Transferable;
 using Iwentys.Database.Context;
 using Iwentys.Endpoint.Controllers.Tools;
-using Iwentys.Endpoint.Server.Source.Auth;
+using Iwentys.Endpoint.Server.Source.Tokens;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Services;
 using Microsoft.AspNetCore.Authentication;

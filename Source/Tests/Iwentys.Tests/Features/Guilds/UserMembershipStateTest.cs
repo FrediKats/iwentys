@@ -24,7 +24,6 @@ namespace Iwentys.Tests.Features.Guilds
 
         private StudentEntity _student;
 
-        private Mock<IGenericRepository<TributeEntity>> _tributeRepository;
         private Mock<GuildRepository> _guildRepository;
         private Mock<GuildMemberRepository> _guildMemberRepository;
         private Mock<IGenericRepository<StudentEntity>> _studentRepository;

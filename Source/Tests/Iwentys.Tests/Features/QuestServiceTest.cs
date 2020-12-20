@@ -55,7 +55,6 @@ namespace Iwentys.Tests.Features
                 .WithNewStudent(out AuthorizedUser questCreator)
                 .WithNewStudent(out AuthorizedUser questExecute);
 
-            StudentEntity questCreatorAccount = await test.UnitOfWork.GetRepository<StudentEntity>().GetByIdAsync(questCreator.Id);
             StudentEntity questExecuteAccount = await test.UnitOfWork.GetRepository<StudentEntity>().GetByIdAsync(questExecute.Id);
 
             int executorPointsCount = questExecuteAccount.BarsPoints; 

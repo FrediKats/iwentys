@@ -6,8 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using Iwentys.Database.Context;
-using Iwentys.Endpoint.Server.Source.Data;
-using Iwentys.Endpoint.Server.Source.Models;
+using Iwentys.Endpoint.Server.Source.IdentityAuth;
 using Iwentys.Endpoint.Server.Source.Tools;
 
 namespace Iwentys.Endpoint.Server
