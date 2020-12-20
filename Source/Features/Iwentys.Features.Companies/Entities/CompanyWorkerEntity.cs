@@ -1,4 +1,6 @@
-﻿using Iwentys.Features.Companies.Enums;
+﻿using System;
+using System.Linq.Expressions;
+using Iwentys.Features.Companies.Enums;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 
@@ -31,5 +33,7 @@ namespace Iwentys.Features.Companies.Entities
             ApprovedById = adminUser.Student.Id;
             Type = CompanyWorkerType.Accepted;
         }
+        
+        public static Expression<Func<CompanyWorkerEntity, bool>> IsRequested() => worker => worker.Type == CompanyWorkerType.Requested;
     }
 }

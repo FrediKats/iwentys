@@ -2,11 +2,13 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
+using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Newsfeeds.Entities;
 using Iwentys.Features.Newsfeeds.Models;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Students.Enums;
 using Iwentys.Features.Study.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,6 +37,9 @@ namespace Iwentys.Features.Newsfeeds.Services
         {
             var author = await _studentRepository.GetByIdAsync(authorizedUser.Id);
             var subject = await _subjectRepository.GetByIdAsync(subjectId);
+
+            if (author.Role != UserType.GroupAdmin || author.Role != UserType.Admin)
+                throw InnerLogicException.NotEnoughPermissionFor(author.Id);
 
             var newsfeedEntity = SubjectNewsfeedEntity.Create(createViewModel, author, subject);
             

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
+using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Assignments.Models;
@@ -67,9 +68,10 @@ namespace Iwentys.Features.Assignments.Services
 
         public async Task DeleteAsync(AuthorizedUser user, int assignmentId)
         {
-            //TODO: ensure user is creator
             var student = await _studentRepository.GetByIdAsync(user.Id);
             var assignment = await _assignmentRepository.GetByIdAsync(assignmentId);
+            if (student.Id != assignment.CreatorId)
+                throw InnerLogicException.Assignment.IsNotAssignmentCreator(assignment.Id, student.Id);
 
             _assignmentRepository.Delete(assignment);
             await _unitOfWork.CommitAsync();

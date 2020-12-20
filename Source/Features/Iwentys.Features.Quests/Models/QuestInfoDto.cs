@@ -21,7 +21,7 @@ namespace Iwentys.Features.Quests.Models
                 questEntity.State,
                 questEntity.IsOutdated,
                 new StudentInfoDto(questEntity.Author),
-                //TODO: fix this
+                //TODO: fix this. NRE coz lazy load do not work. https://github.com/kysect/iwentys/issues/138
                 questEntity.Responses?.SelectToList(qr => new QuestResponseInfoDto(qr)))
         {
         }

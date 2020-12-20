@@ -4,6 +4,7 @@ using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Repositories.Study;
 using Iwentys.Database.Tools;
 using Iwentys.Endpoint.Server.Source.Tokens;
+using Iwentys.Features.Achievements;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Assignments;
 using Iwentys.Features.Companies;
@@ -52,6 +53,7 @@ namespace Iwentys.Endpoint.Server.Source.Tools
                 services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
             }
 
+            services.AddIwentysAchievementFeatureServices();
             services.AddIwentysAssignmentFeatureServices();
             services.AddIwentysCompanyFeatureServices();
             services.AddIwentysEconomyFeatureServices();

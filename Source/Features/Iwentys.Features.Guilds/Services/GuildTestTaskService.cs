@@ -25,7 +25,7 @@ namespace Iwentys.Features.Guilds.Services
         private readonly IGenericRepository<StudentEntity> _studentRepository;
         private readonly IGenericRepository<GuildEntity> _guildRepositoryNew;
         private readonly IGenericRepository<GuildMemberEntity> _guildMemberRepository;
-        private readonly IGenericRepository<GuildTestTaskSolvingInfoEntity> _guildTestTaskSolvingInfoRepository;
+        private readonly IGenericRepository<GuildTestTaskSolutionEntity> _guildTestTaskSolvingInfoRepository;
 
         private readonly IGithubApiAccessor _githubApi;
         private readonly AchievementProvider _achievementProvider;
@@ -39,7 +39,7 @@ namespace Iwentys.Features.Guilds.Services
             _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
             _guildRepositoryNew = _unitOfWork.GetRepository<GuildEntity>();
             _guildMemberRepository = _unitOfWork.GetRepository<GuildMemberEntity>();
-            _guildTestTaskSolvingInfoRepository = _unitOfWork.GetRepository<GuildTestTaskSolvingInfoEntity>();
+            _guildTestTaskSolvingInfoRepository = _unitOfWork.GetRepository<GuildTestTaskSolutionEntity>();
         }
 
         public List<GuildTestTaskInfoResponse> Get(int guildId)
@@ -70,7 +70,7 @@ namespace Iwentys.Features.Guilds.Services
             if (existedTestTask is not null)
                 InnerLogicException.Guild.ActiveTestExisted(user.Id, guildId);
 
-            var testTaskResonse = GuildTestTaskSolvingInfoEntity.Create(studentGuild, studentProfile);
+            var testTaskResonse = GuildTestTaskSolutionEntity.Create(studentGuild, studentProfile);
             await _guildTestTaskSolvingInfoRepository.InsertAsync(testTaskResonse);
             await _unitOfWork.CommitAsync();
             return GuildTestTaskInfoResponse.Wrap(testTaskResonse);
@@ -79,7 +79,7 @@ namespace Iwentys.Features.Guilds.Services
         //TODO: ensure project belong to user
         public async Task<GuildTestTaskInfoResponse> Submit(AuthorizedUser user, int guildId, string projectOwner, string projectName)
         {
-            GuildTestTaskSolvingInfoEntity testTask = await _guildTestTaskSolvingInfoRepository
+            GuildTestTaskSolutionEntity testTask = await _guildTestTaskSolvingInfoRepository
                                                           .GetAsync()
                                                           .SingleOrDefaultAsync(t => t.StudentId == user.Id && t.GuildId == guildId)
                                                       ?? throw new EntityNotFoundException("Test task was not started");
@@ -101,7 +101,7 @@ namespace Iwentys.Features.Guilds.Services
             StudentEntity review = await _studentRepository.GetByIdAsync(user.Id);
             await review.EnsureIsMentor(_guildRepositoryNew, guildId);
 
-            GuildTestTaskSolvingInfoEntity testTask = _guildTestTaskSolvingInfoRepository
+            GuildTestTaskSolutionEntity testTask = _guildTestTaskSolvingInfoRepository
                 .GetAsync()
                 .SingleOrDefault(t => t.StudentId == taskSolveOwnerId && t.GuildId == guildId) ?? throw new EntityNotFoundException("Test task was not started");
 

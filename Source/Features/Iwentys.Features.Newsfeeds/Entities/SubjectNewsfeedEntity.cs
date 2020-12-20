@@ -15,7 +15,6 @@ namespace Iwentys.Features.Newsfeeds.Entities
 
         public static SubjectNewsfeedEntity Create(NewsfeedCreateViewModel createViewModel, StudentEntity student, SubjectEntity subject)
         {
-            //TODO: permission validation
             var newsfeed = new NewsfeedEntity
             {
                 Title = createViewModel.Title,

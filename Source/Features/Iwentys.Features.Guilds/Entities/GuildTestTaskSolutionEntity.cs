@@ -5,14 +5,13 @@ using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Guilds.Entities
 {
-    //TODO: rename
-    public class GuildTestTaskSolvingInfoEntity
+    public class GuildTestTaskSolutionEntity
     {
-        public GuildTestTaskSolvingInfoEntity()
+        public GuildTestTaskSolutionEntity()
         {
         }
 
-        public GuildTestTaskSolvingInfoEntity(int guildId, int studentId) : this()
+        public GuildTestTaskSolutionEntity(int guildId, int studentId) : this()
         {
             GuildId = guildId;
             StudentId = studentId;
@@ -35,9 +34,9 @@ namespace Iwentys.Features.Guilds.Entities
         public DateTime? SubmitTime { get; set; }
         public DateTime? CompleteTime { get; set; }
 
-        public static GuildTestTaskSolvingInfoEntity Create(GuildEntity guild, StudentEntity student)
+        public static GuildTestTaskSolutionEntity Create(GuildEntity guild, StudentEntity student)
         {
-            return new GuildTestTaskSolvingInfoEntity
+            return new GuildTestTaskSolutionEntity
             {
                 GuildId = guild.Id,
                 StudentId = student.Id,

@@ -50,7 +50,8 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         [HttpGet("for-member")]
         public ActionResult<GuildProfileDto> GetForMember(int memberId)
         {
-            return Ok(_guildService.FindStudentGuild(memberId));
+            GuildProfileDto result = _guildService.FindStudentGuild(memberId);
+            return Ok(result);
         }
 
         [HttpPost("{guildId}/pinned")]

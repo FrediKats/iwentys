@@ -64,7 +64,6 @@ namespace Iwentys.Features.Students.Services
 
             //TODO: implement getting achievements for adding github
             //_achievementProvider.Achieve(AchievementList.AddGithubAchievement, user.Id);
-            //TODO: ensure we need to return this
             return new StudentInfoDto(await _studentRepository.GetByIdAsync(id));
         }
 

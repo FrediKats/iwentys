@@ -14,7 +14,7 @@ namespace Iwentys.Features.Guilds.Models.Guilds
 
         public GuildTestTaskState TestTaskState { get; set; }
 
-        public static GuildTestTaskInfoResponse Wrap(GuildTestTaskSolvingInfoEntity testTask)
+        public static GuildTestTaskInfoResponse Wrap(GuildTestTaskSolutionEntity testTask)
         {
             return new GuildTestTaskInfoResponse
             {

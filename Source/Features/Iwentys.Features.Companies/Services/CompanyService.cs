@@ -43,8 +43,7 @@ namespace Iwentys.Features.Companies.Services
 
         public async Task<List<CompanyWorkRequestDto>> GetCompanyWorkRequest()
         {
-            //TODO: move where to expression
-            List<CompanyWorkerEntity> workerRequests = await _companyWorkerRepository.GetAsync().Where(r => r.Type == CompanyWorkerType.Requested).ToListAsync();
+            List<CompanyWorkerEntity> workerRequests = await _companyWorkerRepository.GetAsync().Where(CompanyWorkerEntity.IsRequested()).ToListAsync();
             return workerRequests.SelectToList(CompanyWorkRequestDto.Create);
         }
 
@@ -53,7 +52,7 @@ namespace Iwentys.Features.Companies.Services
             CompanyEntity companyEntity = await _companyRepository.GetByIdAsync(companyId);
             StudentEntity profile = await _studentRepository.GetByIdAsync(userId);
             
-            List<CompanyWorkerEntity> workerRequests = await _companyWorkerRepository.GetAsync().Where(r => r.Type == CompanyWorkerType.Requested).ToListAsync();
+            List<CompanyWorkerEntity> workerRequests = await _companyWorkerRepository.GetAsync().Where(CompanyWorkerEntity.IsRequested()).ToListAsync();
             if (workerRequests.Any(r => r.WorkerId == profile.Id))
                 throw new InnerLogicException("Student already request adding to company");
 

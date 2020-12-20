@@ -37,6 +37,7 @@
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
     <PackageReference Include="StackExchange.Exceptional.AspNetCore" Version="2.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Tef.IsuIntegrator" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
