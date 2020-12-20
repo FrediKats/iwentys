@@ -7,8 +7,8 @@ namespace Iwentys.Features.Economy.Entities
     public class BarsPointTransactionEntity
     {
         public int Id { get; set; }
-        public int FromStudent { get; set; }
-        public int ToStudent { get; set; }
+        public int? FromStudent { get; set; }
+        public int? ToStudent { get; set; }
         public DateTime CreationTimeUtc { get; set; }
         public int Amount { get; set; }
 
@@ -16,6 +16,9 @@ namespace Iwentys.Features.Economy.Entities
 
         public static BarsPointTransactionEntity CompletedFor(StudentEntity fromUser, StudentEntity toUser, int value)
         {
+            fromUser.BarsPoints -= value;
+            toUser.BarsPoints += value;
+
             return new BarsPointTransactionEntity
             {
                 FromStudent = fromUser.Id,
@@ -35,6 +38,19 @@ namespace Iwentys.Features.Economy.Entities
                 Amount = value,
                 CreationTimeUtc = DateTime.UtcNow,
                 Status = BarsPointTransactionStatus.Failed
+            };
+        }
+
+        public static BarsPointTransactionEntity ReceiveFromSystem(StudentEntity toUser, int value)
+        {
+            toUser.BarsPoints += value;
+
+            return new BarsPointTransactionEntity
+            {
+                ToStudent = toUser.Id,
+                Amount = value,
+                CreationTimeUtc = DateTime.UtcNow,
+                Status = BarsPointTransactionStatus.Completed
             };
         }
     }

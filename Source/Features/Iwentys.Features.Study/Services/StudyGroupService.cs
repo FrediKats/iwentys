@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Common.Tools;
+using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Study.Domain;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
@@ -14,21 +13,21 @@ namespace Iwentys.Features.Study.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         
+        private readonly IGenericRepository<StudentEntity> _studentRepository;
         private readonly IGenericRepository<StudyGroupEntity> _studyGroupRepository;
 
         public StudyGroupService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-         
+
+            _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
             _studyGroupRepository = _unitOfWork.GetRepository<StudyGroupEntity>();
         }
 
         public async Task<GroupProfileResponseDto> Get(string groupName)
         {
-            //TODO: meh
-            groupName = new GroupName(groupName).Name;
-            StudyGroupEntity studyGroup = await _studyGroupRepository.GetAsync().FirstOrDefaultAsync(s => s.GroupName == groupName);
-            return new GroupProfileResponseDto(studyGroup);
+            var studyGroupEntity = await new GroupName(groupName).GetStudyGroup(_studyGroupRepository);
+            return new GroupProfileResponseDto(studyGroupEntity);
         }
 
         public async Task<List<StudyGroupEntity>> GetStudyGroupsForDtoAsync(int? courseId)
@@ -39,11 +38,14 @@ namespace Iwentys.Features.Study.Services
                 .ToListAsync();
         }
 
-        //TODO: ensure it's compile to sql
         public async Task<GroupProfileResponseDto> GetStudentGroup(int studentId)
         {
-            StudyGroupEntity studyGroupEntity = await _studyGroupRepository.GetAsync().FirstOrDefaultAsync(g => g.Students.Any(s => s.Id == studentId));
-            return studyGroupEntity.Maybe(s => new GroupProfileResponseDto(s));
+            var student = await _studentRepository.GetByIdAsync(studentId);
+            if (student.GroupId is null)
+                return null;
+
+            var group = await _studyGroupRepository.GetByIdAsync(student.GroupId);
+            return new GroupProfileResponseDto(group);
         }
     }
 }

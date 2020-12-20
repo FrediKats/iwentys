@@ -76,7 +76,8 @@ namespace Iwentys.Tests.Tools
             {
                 Id = id,
                 Role = userType,
-                GithubUsername = $"{Constants.GithubUsername}{id}"
+                GithubUsername = $"{Constants.GithubUsername}{id}",
+                BarsPoints = 1000
             };
 
             UnitOfWork.GetRepository<StudentEntity>().InsertAsync(userInfo).Wait();

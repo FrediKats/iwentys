@@ -32,7 +32,6 @@ namespace Iwentys.Features.Quests.Entities
 
         public static QuestEntity New(StudentEntity student, CreateQuestRequest createQuest)
         {
-            //TODO: add transaction
             if (student.BarsPoints < createQuest.Price)
                 throw InnerLogicException.NotEnoughBarsPoints();
 

@@ -25,10 +25,10 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("IwentysBackgroundService start");
+            throw new NotImplementedException();
 
             try
             {
-                //TODO: ALARM
                 var serviceCollection = new ServiceCollection();
                 serviceCollection.AddIwentysServices();
                 Bot bot = BotProvider.Init(new TelegramDebugSettings(ApplicationOptions.TelegramToken), Log.Logger, serviceCollection);

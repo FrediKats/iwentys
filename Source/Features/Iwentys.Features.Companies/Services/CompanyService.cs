@@ -64,10 +64,10 @@ namespace Iwentys.Features.Companies.Services
         public async Task ApproveAdding(int userId, int adminId)
         {
             StudentEntity student = await _studentRepository.GetByIdAsync(adminId);
-            student.EnsureIsAdmin();
+            var admin = student.EnsureIsAdmin();
 
             var companyWorkerEntity = await _companyWorkerRepository.GetAsync().SingleAsync(cw => cw.WorkerId == userId);
-            companyWorkerEntity.Approve();
+            companyWorkerEntity.Approve(admin);
             
             _companyWorkerRepository.Update(companyWorkerEntity);
             await _unitOfWork.CommitAsync();

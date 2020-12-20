@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
+using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Economy.Services;
@@ -95,8 +96,10 @@ namespace Iwentys.Features.Quests.Services
 
         public async Task<QuestInfoDto> SendResponseAsync(AuthorizedUser user, int questId)
         {
-            //TODO: ensure user is not author
             QuestEntity questEntity = await _questRepository.GetByIdAsync(questId);
+            if (questEntity.AuthorId == user.Id)
+                throw InnerLogicException.Quest.AuthorCanRespondToQuest(questId, user.Id);
+            
             var questResponseEntity = questEntity.CreateResponse(user);
             await _questResponseRepository.InsertAsync(questResponseEntity);
             await _unitOfWork.CommitAsync();
@@ -122,6 +125,7 @@ namespace Iwentys.Features.Quests.Services
 
         public async Task<QuestInfoDto> RevokeAsync(AuthorizedUser author, int questId)
         {
+            //TODO: return point to author
             QuestEntity questEntity = await _questRepository.GetByIdAsync(questId);
             
             questEntity.Revoke(author);

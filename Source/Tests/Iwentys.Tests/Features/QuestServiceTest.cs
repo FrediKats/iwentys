@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Features.Quests.Models;
@@ -58,12 +58,6 @@ namespace Iwentys.Tests.Features
             StudentEntity questCreatorAccount = await test.UnitOfWork.GetRepository<StudentEntity>().GetByIdAsync(questCreator.Id);
             StudentEntity questExecuteAccount = await test.UnitOfWork.GetRepository<StudentEntity>().GetByIdAsync(questExecute.Id);
 
-            //TODO: remove opportunity for such updating. Need transaction from system
-            questCreatorAccount.BarsPoints = 100;
-            
-            //TODO: fix
-            await test.UnitOfWork.GetRepository<StudentEntity>().UpdateAsync(questCreatorAccount);
-            await test.UnitOfWork.CommitAsync();
             int executorPointsCount = questExecuteAccount.BarsPoints; 
             
             test.WithQuest(questCreator, 50, out QuestInfoDto quest);
