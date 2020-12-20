@@ -59,9 +59,9 @@ namespace Iwentys.Tests.Tools
 
             StudentService = new StudentService(unitOfWork);
             GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, unitOfWork);
-            GuildService = new GuildService(GithubIntegrationService, githubApiAccessor, GuildRepository, DatabaseAccessor.GuildMember, unitOfWork);
-            GuildMemberService = new GuildMemberService(GithubIntegrationService, DatabaseAccessor.Guild, DatabaseAccessor.GuildMember, unitOfWork);
-            GuildTributeServiceService = new GuildTributeService(githubApiAccessor, DatabaseAccessor.Guild, unitOfWork);
+            GuildService = new GuildService(GithubIntegrationService, githubApiAccessor, unitOfWork);
+            GuildMemberService = new GuildMemberService(GithubIntegrationService, unitOfWork);
+            GuildTributeServiceService = new GuildTributeService(githubApiAccessor, unitOfWork);
             CompanyService = new CompanyService(unitOfWork);
             BarsPointTransactionLogService =
                 new BarsPointTransactionLogService(unitOfWork);

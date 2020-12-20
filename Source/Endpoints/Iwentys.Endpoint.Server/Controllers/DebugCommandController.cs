@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Database.Context;
 using Iwentys.Endpoint.Server.Source;
 using Iwentys.Endpoint.Server.Source.BackgroundServices;
 using Iwentys.Features.Study.Entities;
+using Iwentys.Features.Study.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using StackExchange.Exceptional;
@@ -20,12 +20,12 @@ namespace Iwentys.Endpoint.Server.Controllers
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public DebugCommandController(ILogger<DebugCommandController> logger, DatabaseAccessor databaseAccessor, IUnitOfWork unitOfWork)
+        public DebugCommandController(ILogger<DebugCommandController> logger, ISubjectActivityRepository subjectActivityRepository, IUnitOfWork unitOfWork)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
             
-            _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(databaseAccessor.SubjectActivity, _logger, ApplicationOptions.GoogleServiceToken, _unitOfWork);
+            _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(subjectActivityRepository, _logger, ApplicationOptions.GoogleServiceToken, _unitOfWork);
         }
 
         //[HttpPost("UpdateSubjectActivityData")]

@@ -209,7 +209,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithGuildMember(guild, guildCreator, out AuthorizedUser member);
 
             await context.GuildMemberService.KickGuildMemberAsync(guildCreator, guild.Id, member.Id);
-            GuildEntity memberGuild = context.GuildRepository.ReadForStudent(member.Id);
+            GuildProfileDto memberGuild = context.GuildService.FindStudentGuild(member.Id);
 
             Assert.That(memberGuild, Is.Null);
         }

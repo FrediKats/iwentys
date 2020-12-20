@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Iwentys.Common.Transferable;
-using Iwentys.Database.Context;
 using Iwentys.Endpoint.Controllers.Tools;
 using Iwentys.Endpoint.Server.Source.Tokens;
 using Iwentys.Features.Students.Domain;
@@ -18,13 +17,11 @@ namespace Iwentys.Endpoint.Server.Controllers
     public class IsuAuthController : ControllerBase
     {
         //private readonly IsuApiAccessor _isuApiAccessor;
-        private readonly DatabaseAccessor _databaseAccessor;
         private readonly StudentService _studentService;
         private IAuthenticationService _authenticationService;
 
-        public IsuAuthController(DatabaseAccessor databaseAccessor, StudentService studentService, IAuthenticationService authenticationService)
+        public IsuAuthController(StudentService studentService, IAuthenticationService authenticationService)
         {
-            _databaseAccessor = databaseAccessor;
             _studentService = studentService;
             _authenticationService = authenticationService;
             //_isuApiAccessor = new IsuApiAccessor(ApplicationOptions.IsuClientId, ApplicationOptions.IsuClientSecret, ApplicationOptions.IsuRedirection);

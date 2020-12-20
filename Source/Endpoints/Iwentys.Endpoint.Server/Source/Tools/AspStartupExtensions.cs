@@ -58,7 +58,6 @@ namespace Iwentys.Endpoint.Server.Source.Tools
             services.AddIwentysGamificationFeatureServices();
             services.AddIwentysGithubIntegrationFeatureServices();
 
-            services.AddScoped<IGuildMemberRepository, GuildMemberRepository>();
             services.AddScoped<IGuildRepository, GuildRepository>();
             services.AddIwentysGuildFeatureServices();
 

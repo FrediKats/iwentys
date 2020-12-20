@@ -14,7 +14,7 @@ namespace Iwentys.Features.Companies.Entities
 
         public CompanyWorkerType Type { get; set; }
         public int? ApprovedById { get; set; }
-        public StudentEntity ApprovedBy { get; set; }
+        public virtual StudentEntity ApprovedBy { get; set; }
 
         public static CompanyWorkerEntity NewRequest(CompanyEntity companyEntity, StudentEntity worker)
         {

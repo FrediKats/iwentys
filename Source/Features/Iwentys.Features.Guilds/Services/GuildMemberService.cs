@@ -24,16 +24,11 @@ namespace Iwentys.Features.Guilds.Services
         private readonly IGenericRepository<GuildMemberEntity> _guildMemberRepository;
 
         private readonly GithubIntegrationService _githubIntegrationService;
-        private readonly IGuildRepository _guildRepository;
-        //TODO: remove
-        private readonly IGuildMemberRepository _guildMemberRepositoryOld;
 
-        public GuildMemberService(GithubIntegrationService githubIntegrationService, IGuildRepository guildRepository, IGuildMemberRepository guildMemberRepositoryOld, IUnitOfWork unitOfWork)
+        public GuildMemberService(GithubIntegrationService githubIntegrationService, IUnitOfWork unitOfWork)
         {
             _githubIntegrationService = githubIntegrationService;
-            _guildRepository = guildRepository;
-            _guildMemberRepositoryOld = guildMemberRepositoryOld;
-            
+
             _unitOfWork = unitOfWork;
             _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
             _guildRepositoryNew = _unitOfWork.GetRepository<GuildEntity>();
@@ -73,7 +68,7 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task LeaveGuildAsync(AuthorizedUser user, int guildId)
         {
-            GuildEntity studentGuild = _guildRepository.ReadForStudent(user.Id);
+            GuildEntity studentGuild = _guildMemberRepository.ReadForStudent(user.Id);
             if (studentGuild is null || studentGuild.Id != guildId)
                 throw InnerLogicException.Guild.IsNotGuildMember(user.Id, guildId);
 
@@ -181,7 +176,7 @@ namespace Iwentys.Features.Guilds.Services
 
         private GuildDomain CreateDomain(GuildEntity guild)
         {
-            return new GuildDomain(guild, _githubIntegrationService, _studentRepository, _guildRepository, _guildMemberRepositoryOld);
+            return new GuildDomain(guild, _githubIntegrationService, _studentRepository, _guildMemberRepository);
         }
 
         private async Task RemoveMemberAsync(int guildId, int userId)

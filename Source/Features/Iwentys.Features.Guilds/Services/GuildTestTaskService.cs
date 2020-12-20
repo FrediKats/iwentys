@@ -24,21 +24,21 @@ namespace Iwentys.Features.Guilds.Services
 
         private readonly IGenericRepository<StudentEntity> _studentRepository;
         private readonly IGenericRepository<GuildEntity> _guildRepositoryNew;
+        private readonly IGenericRepository<GuildMemberEntity> _guildMemberRepository;
         private readonly IGenericRepository<GuildTestTaskSolvingInfoEntity> _guildTestTaskSolvingInfoRepository;
 
         private readonly IGithubApiAccessor _githubApi;
         private readonly AchievementProvider _achievementProvider;
-        private readonly IGuildRepository _guildRepository;
 
-        public GuildTestTaskService(IGithubApiAccessor githubApi, AchievementProvider achievementProvider, IGuildRepository guildRepository, IUnitOfWork unitOfWork)
+        public GuildTestTaskService(IGithubApiAccessor githubApi, AchievementProvider achievementProvider, IUnitOfWork unitOfWork)
         {
             _githubApi = githubApi;
             _achievementProvider = achievementProvider;
-            _guildRepository = guildRepository;
 
             _unitOfWork = unitOfWork;
             _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
             _guildRepositoryNew = _unitOfWork.GetRepository<GuildEntity>();
+            _guildMemberRepository = _unitOfWork.GetRepository<GuildMemberEntity>();
             _guildTestTaskSolvingInfoRepository = _unitOfWork.GetRepository<GuildTestTaskSolvingInfoEntity>();
         }
 
@@ -53,7 +53,7 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task<GuildTestTaskInfoResponse> Accept(AuthorizedUser user, int guildId)
         {
-            GuildEntity studentGuild = _guildRepository.ReadForStudent(user.Id);
+            GuildEntity studentGuild = _guildMemberRepository.ReadForStudent(user.Id);
             if (studentGuild is null || studentGuild.Id != guildId)
                 throw InnerLogicException.Guild.IsNotGuildMember(user.Id, guildId);
 

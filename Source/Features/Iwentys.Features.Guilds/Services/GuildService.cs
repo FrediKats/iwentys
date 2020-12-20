@@ -29,16 +29,12 @@ namespace Iwentys.Features.Guilds.Services
 
         private readonly GithubIntegrationService _githubIntegrationService;
         private readonly IGithubApiAccessor _githubApiAccessor;
-        private readonly IGuildRepository _guildRepository;
-        private readonly IGuildMemberRepository _guildMemberRepository;
 
-        public GuildService(GithubIntegrationService githubIntegrationService, IGithubApiAccessor githubApiAccessor, IGuildRepository guildRepository, IGuildMemberRepository guildMemberRepository, IUnitOfWork unitOfWork)
+        public GuildService(GithubIntegrationService githubIntegrationService, IGithubApiAccessor githubApiAccessor, IUnitOfWork unitOfWork)
         {
             _githubIntegrationService = githubIntegrationService;
             _githubApiAccessor = githubApiAccessor;
-            _guildRepository = guildRepository;
-            _guildMemberRepository = guildMemberRepository;
-            
+
             _unitOfWork = unitOfWork;
             _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
             _guildRepositoryNew = _unitOfWork.GetRepository<GuildEntity>();
@@ -50,7 +46,7 @@ namespace Iwentys.Features.Guilds.Services
         {
             StudentEntity creatorUser = await _studentRepository.GetByIdAsync(creator.Id);
 
-            GuildEntity userGuild = _guildRepository.ReadForStudent(creatorUser.Id);
+            GuildEntity userGuild = _guildMemberRepositoryNew.ReadForStudent(creatorUser.Id);
             if (userGuild is not null)
                 throw new InnerLogicException("Student already in guild");
 
@@ -109,13 +105,13 @@ namespace Iwentys.Features.Guilds.Services
         {
             GuildEntity guild = await _guildRepositoryNew.GetByIdAsync(id);
 
-            return await new GuildDomain(guild, _githubIntegrationService, _studentRepository, _guildRepository, _guildMemberRepository)
+            return await new GuildDomain(guild, _githubIntegrationService, _studentRepository, _guildMemberRepositoryNew)
                 .ToExtendedGuildProfileDto(userId);
         }
 
         public GuildProfileDto FindStudentGuild(int userId)
         {
-            GuildEntity guild = _guildRepository.ReadForStudent(userId);
+            GuildEntity guild = _guildMemberRepositoryNew.ReadForStudent(userId);
             if (guild is null)
                 return null;
 
@@ -151,7 +147,7 @@ namespace Iwentys.Features.Guilds.Services
         public async Task<GuildMemberLeaderBoardDto> GetGuildMemberLeaderBoard(int guildId)
         {
             GuildEntity guild = await _guildRepositoryNew.GetByIdAsync(guildId);
-            return new GuildDomain(guild, _githubIntegrationService, _studentRepository, _guildRepository, _guildMemberRepository).GetMemberDashboard();
+            return new GuildDomain(guild, _githubIntegrationService, _studentRepository, _guildMemberRepositoryNew).GetMemberDashboard();
         }
     }
 }
