@@ -69,7 +69,7 @@ namespace Iwentys.Features.Companies.Services
             var companyWorkerEntity = await _companyWorkerRepository.GetAsync().SingleAsync(cw => cw.WorkerId == userId);
             companyWorkerEntity.Approve();
             
-            await _companyWorkerRepository.UpdateAsync(companyWorkerEntity);
+            _companyWorkerRepository.Update(companyWorkerEntity);
             await _unitOfWork.CommitAsync();
         }
 

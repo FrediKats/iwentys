@@ -91,7 +91,7 @@ namespace Iwentys.Features.Guilds.Services
             GithubRepositoryInfoDto githubRepositoryInfoDto = _githubApi.GetRepository(projectOwner, projectName);
             testTask.SendSubmit(githubRepositoryInfoDto.Id);
 
-            await _guildTestTaskSolvingInfoRepository.UpdateAsync(testTask);
+            _guildTestTaskSolvingInfoRepository.Update(testTask);
             await _unitOfWork.CommitAsync();
             return GuildTestTaskInfoResponse.Wrap(testTask);
         }
@@ -111,7 +111,7 @@ namespace Iwentys.Features.Guilds.Services
             testTask.SetCompleted(review);
             await _achievementProvider.Achieve(AchievementList.TestTaskDone, taskSolveOwnerId);
 
-            await _guildTestTaskSolvingInfoRepository.UpdateAsync(testTask);
+            _guildTestTaskSolvingInfoRepository.Update(testTask);
             await _unitOfWork.CommitAsync();
             return GuildTestTaskInfoResponse.Wrap(testTask);
         }

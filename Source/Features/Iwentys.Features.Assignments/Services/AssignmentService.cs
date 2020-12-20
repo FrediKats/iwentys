@@ -61,7 +61,7 @@ namespace Iwentys.Features.Assignments.Services
             
             assignment.MarkCompleted(student);
             
-            await _assignmentRepository.UpdateAsync(assignment);
+            _assignmentRepository.Update(assignment);
             await _unitOfWork.CommitAsync();
         }
 
@@ -71,7 +71,7 @@ namespace Iwentys.Features.Assignments.Services
             var student = await _studentRepository.GetByIdAsync(user.Id);
             var assignment = await _assignmentRepository.GetByIdAsync(assignmentId);
 
-            await _assignmentRepository.DeleteAsync(assignment);
+            _assignmentRepository.Delete(assignment);
             await _unitOfWork.CommitAsync();
         }
     }

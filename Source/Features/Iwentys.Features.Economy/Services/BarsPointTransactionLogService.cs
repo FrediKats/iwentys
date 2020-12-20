@@ -33,8 +33,8 @@ namespace Iwentys.Features.Economy.Services
             sender.BarsPoints -= pointAmountToTransfer;
             receiver.BarsPoints += pointAmountToTransfer;
                     
-            await _studentRepository.UpdateAsync(sender);
-            await _studentRepository.UpdateAsync(receiver);
+            _studentRepository.Update(sender);
+            _studentRepository.Update(receiver);
             await _barsPointTransactionRepository.InsertAsync(transaction);
 
             await _unitOfWork.CommitAsync();
@@ -48,7 +48,7 @@ namespace Iwentys.Features.Economy.Services
 
             receiver.BarsPoints += pointAmountToTransfer;
 
-            await _studentRepository.UpdateAsync(receiver);
+            _studentRepository.Update(receiver);
 
         }
     }

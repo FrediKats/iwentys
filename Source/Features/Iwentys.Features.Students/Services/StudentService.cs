@@ -60,7 +60,7 @@ namespace Iwentys.Features.Students.Services
             //throw new NotImplementedException("Need to validate github credentials");
             StudentEntity user = await _studentRepository.GetByIdAsync(id);
             user.GithubUsername = githubUsername;
-            await _studentRepository.UpdateAsync(user);
+            _studentRepository.Update(user);
 
             //TODO: implement getting achievements for adding github
             //_achievementProvider.Achieve(AchievementList.AddGithubAchievement, user.Id);
@@ -72,7 +72,7 @@ namespace Iwentys.Features.Students.Services
         {
             StudentEntity user = await _studentRepository.GetByIdAsync(id);
             user.GithubUsername = githubUsername;
-            await _studentRepository.UpdateAsync(user);
+            _studentRepository.Update(user);
             return new StudentInfoDto(await _studentRepository.GetByIdAsync(id));
         }
     }

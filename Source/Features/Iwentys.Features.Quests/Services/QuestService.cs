@@ -86,7 +86,7 @@ namespace Iwentys.Features.Quests.Services
             var quest = QuestEntity.New(student, createQuest);
             
             await _questRepository.InsertAsync(quest);
-            await _studentRepository.UpdateAsync(student);
+            _studentRepository.Update(student);
             await _unitOfWork.CommitAsync();
             
             await _achievementProvider.Achieve(AchievementList.QuestCreator, user.Id);
@@ -111,7 +111,7 @@ namespace Iwentys.Features.Quests.Services
 
             quest.MakeCompleted(author, executor);
             
-            await _questRepository.UpdateAsync(quest);
+            _questRepository.Update(quest);
             await _unitOfWork.CommitAsync();
             
             await _pointTransactionLogService.TransferFromSystem(userId, quest.Price);
@@ -126,7 +126,7 @@ namespace Iwentys.Features.Quests.Services
             
             questEntity.Revoke(author);
             
-            await _questRepository.UpdateAsync(questEntity);
+            _questRepository.Update(questEntity);
             return QuestInfoDto.Wrap(await _questRepository.GetByIdAsync(questId));
         }
     }

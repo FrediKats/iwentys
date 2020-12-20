@@ -134,7 +134,7 @@ namespace Iwentys.Features.Guilds.Services
                 tribute.SetCanceled();
             }
 
-            await _guildTributeRepository.UpdateAsync(tribute);
+            _guildTributeRepository.Update(tribute);
             await _unitOfWork.CommitAsync();
             return TributeInfoResponse.Wrap(tribute);
         }
@@ -149,7 +149,7 @@ namespace Iwentys.Features.Guilds.Services
                 throw InnerLogicException.Tribute.IsNotActive(tribute.ProjectId);
 
             tribute.SetCompleted(mentor.Student.Id, tributeCompleteRequest.DifficultLevel, tributeCompleteRequest.Mark);
-            await _guildTributeRepository.UpdateAsync(tribute);
+            _guildTributeRepository.Update(tribute);
             await _unitOfWork.CommitAsync();
             return TributeInfoResponse.Wrap(tribute);
         }

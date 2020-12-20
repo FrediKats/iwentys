@@ -61,7 +61,7 @@ namespace Iwentys.Features.GithubIntegration.Services
                 foreach (GithubProjectEntity project in studentProjects)
                 {
                     if (_studentProjectRepository.GetByIdAsync(project.Id) is null)
-                        await _studentProjectRepository.UpdateAsync(project);
+                        _studentProjectRepository.Update(project);
                     else
                     {
                         await _studentProjectRepository.InsertAsync(project);
@@ -69,7 +69,7 @@ namespace Iwentys.Features.GithubIntegration.Services
                 }
 
                 githubUserData.ContributionFullInfo = _githubApiAccessor.GetUserActivity(student.GithubUsername);
-                await _githubUserDataRepository.UpdateAsync(githubUserData);
+                _githubUserDataRepository.Update(githubUserData);
             }
             else
             {

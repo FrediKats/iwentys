@@ -75,7 +75,7 @@ namespace Iwentys.Features.Guilds.Services
                 foreach (GuildMemberEntity guildMember in info.Members.Where(guildMember => guildMember.MemberType == GuildMemberType.Requested))
                     guildMember.MemberType = GuildMemberType.Member;
 
-            await _guildRepositoryNew.UpdateAsync(info);
+            _guildRepositoryNew.Update(info);
             await _unitOfWork.CommitAsync();
             return new GuildProfileShortInfoDto(info);
         }
@@ -90,7 +90,7 @@ namespace Iwentys.Features.Guilds.Services
                 throw new InnerLogicException("Guild already approved");
 
             guild.GuildType = GuildType.Created;
-            await _guildRepositoryNew.UpdateAsync(guild);
+            _guildRepositoryNew.Update(guild);
             await _unitOfWork.CommitAsync();
             return new GuildProfileShortInfoDto(await _guildRepositoryNew.GetByIdAsync(guildId));
         }
@@ -144,7 +144,7 @@ namespace Iwentys.Features.Guilds.Services
             profile.EnsureIsGuildEditor(guild);
 
             var guildPinnedProjectEntity = await _guildPinnedProjectRepository.GetByIdAsync(pinnedProjectId);
-            await _guildPinnedProjectRepository.DeleteAsync(guildPinnedProjectEntity);
+            _guildPinnedProjectRepository.Delete(guildPinnedProjectEntity);
             await _unitOfWork.CommitAsync();
         }
 

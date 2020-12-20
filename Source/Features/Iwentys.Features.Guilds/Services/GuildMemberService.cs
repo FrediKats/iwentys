@@ -115,7 +115,7 @@ namespace Iwentys.Features.Guilds.Services
             GuildDomain guildDomain = CreateDomain(await _guildRepositoryNew.GetByIdAsync(guildId));
             GuildMemberEntity memberToKick = await guildDomain.EnsureMemberCanRestrictPermissionForOther(user, memberId);
             memberToKick.MarkBlocked();
-            await _guildMemberRepository.UpdateAsync(memberToKick);
+            _guildMemberRepository.Update(memberToKick);
             await _unitOfWork.CommitAsync();
         }
 
@@ -155,7 +155,7 @@ namespace Iwentys.Features.Guilds.Services
 
             member.MemberType = GuildMemberType.Member;
 
-            await _guildMemberRepository.UpdateAsync(member);
+            _guildMemberRepository.Update(member);
             await _unitOfWork.CommitAsync();
         }
 
@@ -190,7 +190,7 @@ namespace Iwentys.Features.Guilds.Services
             if (guildMember.MemberType == GuildMemberType.Creator)
                 throw InnerLogicException.Guild.CreatorCannotLeave(userId, guildId);
 
-            await _guildMemberRepository.DeleteAsync(guildMember);
+            _guildMemberRepository.Delete(guildMember);
             await _unitOfWork.CommitAsync();
         }
     }

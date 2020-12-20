@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Features.Quests.Models;
@@ -20,7 +20,7 @@ namespace Iwentys.Tests.Features
 
             StudentEntity student = await test.UnitOfWork.GetRepository<StudentEntity>().GetByIdAsync(user.Id);
             student.BarsPoints = 100;
-            await test.UnitOfWork.GetRepository<StudentEntity>().UpdateAsync(student);
+            test.UnitOfWork.GetRepository<StudentEntity>().Update(student);
             await test.UnitOfWork.CommitAsync();
 
             test.WithQuest(user, 50, out QuestInfoDto quest);
@@ -38,7 +38,7 @@ namespace Iwentys.Tests.Features
 
             StudentEntity student = await test.UnitOfWork.GetRepository<StudentEntity>().GetByIdAsync(user.Id);
             student.BarsPoints = 100;
-            await test.UnitOfWork.GetRepository<StudentEntity>().UpdateAsync(student);
+            test.UnitOfWork.GetRepository<StudentEntity>().Update(student);
             await test.UnitOfWork.CommitAsync();
 
             test.WithQuest(user, 50, out QuestInfoDto quest);
