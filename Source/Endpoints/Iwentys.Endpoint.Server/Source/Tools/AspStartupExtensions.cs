@@ -1,21 +1,23 @@
-﻿using Iwentys.Database.Context;
+﻿using Iwentys.Common.Databases;
+using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Repositories.Study;
-using Iwentys.Endpoint.Server.Source.Auth;
+using Iwentys.Database.Tools;
+using Iwentys.Endpoint.Server.Source.Tokens;
 using Iwentys.Features.Achievements.Domain;
-using Iwentys.Features.Assignments.Services;
-using Iwentys.Features.Companies.Services;
-using Iwentys.Features.Economy.Services;
-using Iwentys.Features.Gamification.Services;
+using Iwentys.Features.Assignments;
+using Iwentys.Features.Companies;
+using Iwentys.Features.Economy;
+using Iwentys.Features.Gamification;
 using Iwentys.Features.GithubIntegration;
-using Iwentys.Features.GithubIntegration.Services;
+using Iwentys.Features.Guilds;
 using Iwentys.Features.Guilds.Repositories;
-using Iwentys.Features.Guilds.Services;
-using Iwentys.Features.Newsfeeds.Services;
-using Iwentys.Features.Quests.Services;
-using Iwentys.Features.Students.Services;
+using Iwentys.Features.Newsfeeds;
+using Iwentys.Features.Quests;
+using Iwentys.Features.Students;
+using Iwentys.Features.Study;
 using Iwentys.Features.Study.Repositories;
-using Iwentys.Features.Study.Services;
+using Iwentys.Features.Voting;
 using Iwentys.Integrations.GithubIntegration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
@@ -50,33 +52,23 @@ namespace Iwentys.Endpoint.Server.Source.Tools
                 services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
             }
 
-            services.AddScoped<AssignmentService>();
-
-            services.AddScoped<CompanyService>();
-
-            services.AddScoped<BarsPointTransactionLogService>();
-
-            services.AddScoped<GithubIntegrationService>();
-            services.AddScoped<StudyLeaderboardService>();
+            services.AddIwentysAssignmentFeatureServices();
+            services.AddIwentysCompanyFeatureServices();
+            services.AddIwentysEconomyFeatureServices();
+            services.AddIwentysGamificationFeatureServices();
+            services.AddIwentysGithubIntegrationFeatureServices();
 
             services.AddScoped<IGuildMemberRepository, GuildMemberRepository>();
             services.AddScoped<IGuildRepository, GuildRepository>();
-            services.AddScoped<GuildMemberService>();
-            services.AddScoped<GuildRecruitmentService>();
-            services.AddScoped<GuildService>();
-            services.AddScoped<GuildTestTaskService>();
-            services.AddScoped<GuildTributeService>();
-            services.AddScoped<TournamentService>();
+            services.AddIwentysGuildFeatureServices();
 
-            services.AddScoped<NewsfeedService>();
-
-            services.AddScoped<QuestService>();
-
+            services.AddIwentysNewsfeedFeatureServices();
+            services.AddIwentysQuestFeatureServices();
+            services.AddIwentysStudentsFeatureServices();
+            
             services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
-            services.AddScoped<StudentService>();
-            services.AddScoped<StudyGroupService>();
-            services.AddScoped<SubjectService>();
-            services.AddScoped<SubjectActivityService>();
+            services.AddIwentysStudyFeatureServices();
+            services.AddIwentysVotingFeatureServices();
 
             services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();
@@ -132,6 +124,12 @@ namespace Iwentys.Endpoint.Server.Source.Tools
 
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
 
+            return services;
+        }
+        public static IServiceCollection AddUnitOfWork<TContext>(this IServiceCollection services)
+            where TContext : DbContext
+        {
+            services.AddScoped<IUnitOfWork, UnitOfWork<TContext>>();
             return services;
         }
 
