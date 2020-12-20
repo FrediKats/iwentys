@@ -15,10 +15,10 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
             _guildControllerClient = new GuildControllerClient(httpClient);
         }
 
-        public Task RemovePin(long repositoryId)
+        public async Task RemovePin(long repositoryId)
         {
-            return _guildControllerClient.DeletePinnedProject(GuildProfile.Id, repositoryId);
-            //TODO: add refresh
+            await _guildControllerClient.DeletePinnedProject(GuildProfile.Id, repositoryId);
+            GuildProfile = await _guildControllerClient.Get(GuildProfile.Id);
         }
     }
 }
