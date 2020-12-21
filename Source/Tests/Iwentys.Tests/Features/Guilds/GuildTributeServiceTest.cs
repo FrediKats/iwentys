@@ -6,7 +6,7 @@ using Iwentys.Features.Guilds.Models.Guilds;
 using Iwentys.Features.Guilds.Models.GuildTribute;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Enums;
-using Iwentys.Tests.Tools;
+using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
 namespace Iwentys.Tests.Features.Guilds

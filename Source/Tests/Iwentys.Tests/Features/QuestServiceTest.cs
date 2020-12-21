@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Iwentys.Features.Quests.Models;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
-using Iwentys.Tests.Tools;
+using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
 namespace Iwentys.Tests.Features

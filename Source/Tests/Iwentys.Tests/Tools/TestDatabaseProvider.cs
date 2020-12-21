@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Tests.Tools
 {
-    public class TestDatabaseProvider
+    public static class TestDatabaseProvider
     {
         public static IwentysDbContext GetDatabaseContext()
         {
