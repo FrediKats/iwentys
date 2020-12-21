@@ -2,7 +2,7 @@
 
 namespace Iwentys.Features.Gamification.Entities
 {
-    public class UserInterestTagEntity
+    public class StudentInterestTagEntity
     {
         public int InterestTagId { get; set; }
         public virtual InterestTagEntity InterestTag { get; set; }

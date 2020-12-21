@@ -7,6 +7,6 @@ namespace Iwentys.Features.Gamification.Entities
         public int InterestTagId { get; set; }
         public string Title { get; set; }
 
-        public virtual ICollection<UserInterestTagEntity> UserInterestTags { get; set; }
+        public virtual ICollection<StudentInterestTagEntity> UserInterestTags { get; set; }
     }
 }
