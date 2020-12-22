@@ -13,7 +13,9 @@ namespace Iwentys.Features.Study.Domain
             Name = name
                 .ToUpper()
                 .Substring(0, 5)
-                .Replace("М", "M");
+                .Replace("М", "M")
+                .Replace("м", "M")
+                .Replace("m", "M");
 
             Course = int.Parse(Name.Substring(2, 1));
             Number = int.Parse(Name.Substring(3, 2));
