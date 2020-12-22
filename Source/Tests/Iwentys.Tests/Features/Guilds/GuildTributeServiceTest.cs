@@ -46,7 +46,7 @@ namespace Iwentys.Tests.Features.Guilds
 
             await context.GuildTributeServiceService.CancelTribute(student, tributeInfo.Project.Id);
             List<TributeInfoResponse> pendingTributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
-            TributeInfoResponse[] studentTributes = context.GuildTributeServiceService.GetStudentTributeResult(student);
+            List<TributeInfoResponse> studentTributes = context.GuildTributeServiceService.GetStudentTributeResult(student);
 
             Assert.IsEmpty(pendingTributes);
             Assert.IsNotEmpty(studentTributes);
@@ -67,7 +67,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithCompletedTribute(mentor, tributeInfo, out TributeInfoResponse completedTribute);
 
             List<TributeInfoResponse> pendingTributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
-            TributeInfoResponse[] studentTributes = context.GuildTributeServiceService.GetStudentTributeResult(student);
+            List<TributeInfoResponse> studentTributes = context.GuildTributeServiceService.GetStudentTributeResult(student);
 
             Assert.IsEmpty(pendingTributes);
             Assert.IsNotEmpty(studentTributes);

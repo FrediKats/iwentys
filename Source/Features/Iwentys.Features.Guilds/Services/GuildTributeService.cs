@@ -51,12 +51,11 @@ namespace Iwentys.Features.Guilds.Services
                 .GetAsync()
                 .Where(t => t.GuildId == guild.Id)
                 .Where(t => t.State == TributeState.Active)
-                .AsEnumerable()
-                .Select(TributeInfoResponse.Wrap)
+                .Select(TributeInfoResponse.FromEntity)
                 .ToList();
         }
 
-        public TributeInfoResponse[] GetStudentTributeResult(AuthorizedUser user)
+        public List<TributeInfoResponse> GetStudentTributeResult(AuthorizedUser user)
         {
             GuildEntity guild = _guildMemberRepository.ReadForStudent(user.Id) ?? throw InnerLogicException.Guild.IsNotGuildMember(user.Id, null);
 
@@ -64,20 +63,18 @@ namespace Iwentys.Features.Guilds.Services
                 .GetAsync()
                 .Where(t => t.GuildId == guild.Id)
                 .Where(t => t.ProjectEntity.StudentId == user.Id)
-                .AsEnumerable()
-                .Select(TributeInfoResponse.Wrap)
-                .ToArray();
+                .Select(TributeInfoResponse.FromEntity)
+                .ToList();
         }
 
-        public TributeInfoResponse[] GetGuildTributes(int guildId)
+        public List<TributeInfoResponse> GetGuildTributes(int guildId)
         {
             return _guildTributeRepository
                 .GetAsync()
                 .Where(t => t.GuildId == guildId)
                 .Where(t => t.State == TributeState.Active)
-                .AsEnumerable()
-                .Select(TributeInfoResponse.Wrap)
-                .ToArray();
+                .Select(TributeInfoResponse.FromEntity)
+                .ToList();
         }
 
         public async Task<TributeInfoResponse> CreateTribute(AuthorizedUser user, CreateProjectRequestDto createProject)

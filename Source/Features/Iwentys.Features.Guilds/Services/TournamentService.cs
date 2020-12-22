@@ -39,14 +39,13 @@ namespace Iwentys.Features.Guilds.Services
             return tournaments.SelectToList(TournamentInfoResponse.Wrap);
         }
 
-        public TournamentInfoResponse[] GetActive()
+        public List<TournamentInfoResponse> GetActive()
         {
             return _tournamentRepository
                 .GetAsync()
                 .Where(t => t.StartTime < DateTime.UtcNow && t.EndTime > DateTime.UtcNow)
-                .AsEnumerable()
-                .Select(TournamentInfoResponse.Wrap)
-                .ToArray();
+                .Select(TournamentInfoResponse.FromEntity)
+                .ToList();
         }
 
         public async Task<TournamentInfoResponse> GetAsync(int tournamentId)

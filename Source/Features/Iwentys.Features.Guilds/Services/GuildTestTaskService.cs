@@ -42,13 +42,13 @@ namespace Iwentys.Features.Guilds.Services
             _guildTestTaskSolvingInfoRepository = _unitOfWork.GetRepository<GuildTestTaskSolutionEntity>();
         }
 
-        public List<GuildTestTaskInfoResponse> Get(int guildId)
+        public Task<List<GuildTestTaskInfoResponse>> Get(int guildId)
         {
             return _guildTestTaskSolvingInfoRepository
                 .GetAsync()
                 .Where(t => t.GuildId == guildId)
-                .AsEnumerable()
-                .SelectToList(GuildTestTaskInfoResponse.Wrap);
+                .Select(GuildTestTaskInfoResponse.FromEntity)
+                .ToListAsync();
         }
 
         public async Task<GuildTestTaskInfoResponse> Accept(AuthorizedUser user, int guildId)

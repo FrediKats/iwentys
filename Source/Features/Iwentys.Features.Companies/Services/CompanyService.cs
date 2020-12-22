@@ -5,7 +5,6 @@ using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Companies.Entities;
-using Iwentys.Features.Companies.Enums;
 using Iwentys.Features.Companies.Models;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
