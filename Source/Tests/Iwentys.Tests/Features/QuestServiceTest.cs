@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Features.Quests.Models;
 using Iwentys.Features.Students.Domain;
-using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Students.Models;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -16,14 +16,8 @@ namespace Iwentys.Tests.Features
         public async Task CreateQuest_ReturnAsActive()
         {
             TestCaseContext test = TestCaseContext.Case()
-                .WithNewStudent(out AuthorizedUser user);
-
-            StudentEntity student = await test.UnitOfWork.GetRepository<StudentEntity>().GetByIdAsync(user.Id);
-            student.BarsPoints = 100;
-            test.UnitOfWork.GetRepository<StudentEntity>().Update(student);
-            await test.UnitOfWork.CommitAsync();
-
-            test.WithQuest(user, 50, out QuestInfoDto quest);
+                .WithNewStudent(out AuthorizedUser user)
+                .WithQuest(user, 50, out QuestInfoDto quest);
 
             List<QuestInfoDto> quests = await test.QuestService.GetActiveAsync();
 
@@ -34,14 +28,8 @@ namespace Iwentys.Tests.Features
         public async Task CreateQuest_ReturnAsCreatedByUser()
         {
             TestCaseContext test = TestCaseContext.Case()
-                .WithNewStudent(out AuthorizedUser user);
-
-            StudentEntity student = await test.UnitOfWork.GetRepository<StudentEntity>().GetByIdAsync(user.Id);
-            student.BarsPoints = 100;
-            test.UnitOfWork.GetRepository<StudentEntity>().Update(student);
-            await test.UnitOfWork.CommitAsync();
-
-            test.WithQuest(user, 50, out QuestInfoDto quest);
+                .WithNewStudent(out AuthorizedUser user)
+                .WithQuest(user, 50, out QuestInfoDto quest);
 
             List<QuestInfoDto> quests = await test.QuestService.GetCreatedByUserAsync(user);
             
@@ -53,19 +41,33 @@ namespace Iwentys.Tests.Features
         {
             TestCaseContext test = TestCaseContext.Case()
                 .WithNewStudent(out AuthorizedUser questCreator)
-                .WithNewStudent(out AuthorizedUser questExecute);
+                .WithNewStudent(out AuthorizedUser questExecutor);
 
-            StudentEntity questExecuteAccount = await test.UnitOfWork.GetRepository<StudentEntity>().GetByIdAsync(questExecute.Id);
-
+            StudentInfoDto questExecuteAccount = await test.StudentService.GetAsync(questExecutor.Id);
             int executorPointsCount = questExecuteAccount.BarsPoints; 
             
             test.WithQuest(questCreator, 50, out QuestInfoDto quest);
-            await test.QuestService.SendResponseAsync(questExecute, quest.Id);
-            await test.QuestService.CompleteAsync(questCreator, quest.Id, questExecute.Id);
+            await test.QuestService.SendResponseAsync(questExecutor, quest.Id);
+            await test.QuestService.CompleteAsync(questCreator, quest.Id, questExecutor.Id);
 
-            questExecuteAccount = await test.UnitOfWork.GetRepository<StudentEntity>().GetByIdAsync(questExecute.Id);
-
+            questExecuteAccount = await test.StudentService.GetAsync(questExecutor.Id);
             Assert.AreEqual(executorPointsCount + quest.Price, questExecuteAccount.BarsPoints);
+        }
+
+        [Test]
+        public async Task RevokeQuest_EnsureCorrectPointsCount()
+        {
+            TestCaseContext test = TestCaseContext.Case()
+                .WithNewStudent(out AuthorizedUser questCreator);
+
+            var questCreatorAccount = await test.StudentService.GetAsync(questCreator.Id);
+            int pointsCountBefore = questCreatorAccount.BarsPoints;
+
+            test.WithQuest(questCreator, 50, out QuestInfoDto quest);
+            await test.QuestService.RevokeAsync(questCreator, quest.Id);
+
+            questCreatorAccount = await test.StudentService.GetAsync(questCreator.Id);
+            Assert.AreEqual(pointsCountBefore, questCreatorAccount.BarsPoints);
         }
     }
 }
