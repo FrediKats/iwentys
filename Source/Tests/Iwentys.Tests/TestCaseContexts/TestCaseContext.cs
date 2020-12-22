@@ -12,6 +12,8 @@ using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Models.Guilds;
 using Iwentys.Features.Guilds.Services;
+using Iwentys.Features.Newsfeeds.Entities;
+using Iwentys.Features.Newsfeeds.Services;
 using Iwentys.Features.Quests.Models;
 using Iwentys.Features.Quests.Services;
 using Iwentys.Features.Students.Domain;
@@ -39,6 +41,7 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly QuestService QuestService;
         public readonly GithubIntegrationService GithubIntegrationService;
         public readonly BarsPointTransactionLogService BarsPointTransactionLogService;
+        public readonly NewsfeedService NewsfeedService;
 
         public static TestCaseContext Case() => new TestCaseContext();
 
@@ -61,6 +64,7 @@ namespace Iwentys.Tests.TestCaseContexts
             CompanyService = new CompanyService(unitOfWork);
             BarsPointTransactionLogService = new BarsPointTransactionLogService(unitOfWork);
             QuestService = new QuestService(achievementProvider, BarsPointTransactionLogService, unitOfWork);
+            NewsfeedService = new NewsfeedService(UnitOfWork);
         }
 
         public TestCaseContext WithNewStudent(out AuthorizedUser user, UserType userType = UserType.Common)

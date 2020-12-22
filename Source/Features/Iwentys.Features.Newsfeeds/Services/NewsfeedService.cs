@@ -38,7 +38,7 @@ namespace Iwentys.Features.Newsfeeds.Services
             var author = await _studentRepository.GetByIdAsync(authorizedUser.Id);
             var subject = await _subjectRepository.GetByIdAsync(subjectId);
 
-            if (author.Role != UserType.GroupAdmin || author.Role != UserType.Admin)
+            if (author.Role != UserType.GroupAdmin && author.Role != UserType.Admin)
                 throw InnerLogicException.NotEnoughPermissionFor(author.Id);
 
             var newsfeedEntity = SubjectNewsfeedEntity.Create(createViewModel, author, subject);
