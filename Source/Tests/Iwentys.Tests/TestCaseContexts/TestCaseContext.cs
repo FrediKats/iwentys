@@ -4,6 +4,7 @@ using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Tools;
 using Iwentys.Features.Achievements.Domain;
+using Iwentys.Features.Achievements.Services;
 using Iwentys.Features.Companies.Entities;
 using Iwentys.Features.Companies.Models;
 using Iwentys.Features.Companies.Services;
@@ -13,7 +14,6 @@ using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Models.Guilds;
 using Iwentys.Features.Guilds.Services;
-using Iwentys.Features.Newsfeeds.Entities;
 using Iwentys.Features.Newsfeeds.Services;
 using Iwentys.Features.Quests.Models;
 using Iwentys.Features.Quests.Services;
@@ -44,6 +44,7 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly BarsPointTransactionLogService BarsPointTransactionLogService;
         public readonly NewsfeedService NewsfeedService;
         public readonly InterestTagService InterestTagService;
+        public readonly AchievementService AchievementService;
 
         public static TestCaseContext Case() => new TestCaseContext();
 
@@ -58,7 +59,7 @@ namespace Iwentys.Tests.TestCaseContexts
             var achievementProvider = new AchievementProvider(unitOfWork);
             var githubApiAccessor = new DummyGithubApiAccessor();
 
-            StudentService = new StudentService(unitOfWork);
+            StudentService = new StudentService(unitOfWork, achievementProvider);
             GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, unitOfWork);
             GuildService = new GuildService(GithubIntegrationService, githubApiAccessor, unitOfWork);
             GuildMemberService = new GuildMemberService(GithubIntegrationService, unitOfWork);
@@ -68,6 +69,7 @@ namespace Iwentys.Tests.TestCaseContexts
             QuestService = new QuestService(achievementProvider, BarsPointTransactionLogService, unitOfWork);
             NewsfeedService = new NewsfeedService(UnitOfWork);
             InterestTagService = new InterestTagService(UnitOfWork);
+            AchievementService = new AchievementService(UnitOfWork);
         }
 
         public TestCaseContext WithNewStudent(out AuthorizedUser user, UserType userType = UserType.Common)
