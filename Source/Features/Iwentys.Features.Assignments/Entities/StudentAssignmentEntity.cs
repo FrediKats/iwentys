@@ -1,5 +1,9 @@
-﻿using Iwentys.Features.Assignments.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Iwentys.Features.Assignments.Models;
+using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Study.Entities;
 
 namespace Iwentys.Features.Assignments.Entities
 {
@@ -21,6 +25,19 @@ namespace Iwentys.Features.Assignments.Entities
             };
 
             return studentAssignmentEntity;
+        }
+
+        public static List<StudentAssignmentEntity> CreateForGroup(GroupAdminUser groupAdmin, AssignmentCreateRequestDto assignmentCreateRequestDto, StudyGroupEntity studyGroup)
+        {
+            var assignmentEntity = AssignmentEntity.Create(groupAdmin.Student, assignmentCreateRequestDto);
+            
+            List<StudentAssignmentEntity> studentAssignmentEntities = studyGroup.Students.Select(s => new StudentAssignmentEntity
+            {
+                StudentId = s.Id,
+                Assignment = assignmentEntity
+            }).ToList();
+
+            return studentAssignmentEntities;
         }
     }
 }

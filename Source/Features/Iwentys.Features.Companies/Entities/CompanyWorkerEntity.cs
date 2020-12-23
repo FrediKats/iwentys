@@ -28,9 +28,9 @@ namespace Iwentys.Features.Companies.Entities
             };
         }
         
-        public void Approve(AdminUser adminUser)
+        public void Approve(SystemAdminUser systemAdminUser)
         {
-            ApprovedById = adminUser.Student.Id;
+            ApprovedById = systemAdminUser.Student.Id;
             Type = CompanyWorkerType.Accepted;
         }
         

@@ -8,6 +8,7 @@ using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Study.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Assignments.Services
@@ -17,6 +18,7 @@ namespace Iwentys.Features.Assignments.Services
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IGenericRepository<StudentEntity> _studentRepository;
+        private readonly IGenericRepository<StudyGroupEntity> _studentGroupRepository;
         private readonly IGenericRepository<AssignmentEntity> _assignmentRepository;
         private readonly IGenericRepository<StudentAssignmentEntity> _studentAssignmentRepository;
 
@@ -37,6 +39,21 @@ namespace Iwentys.Features.Assignments.Services
             await _unitOfWork.CommitAsync();
             
             return new AssignmentInfoDto(studentAssignmentEntity);
+        }
+
+        public async Task CreateForGroupAsync(AuthorizedUser user, AssignmentCreateRequestDto assignmentCreateRequestDto)
+        {
+            var creator = await _studentRepository.GetByIdAsync(user.Id);
+            var groupAdmin = creator.EnsureIsGroupAdmin();
+            var studyGroupEntity = await _studentGroupRepository.GetByIdAsync(groupAdmin.Student.GroupId);
+
+            List<StudentAssignmentEntity> studentAssignmentEntities = StudentAssignmentEntity.CreateForGroup(groupAdmin, assignmentCreateRequestDto, studyGroupEntity);
+            foreach (var assignmentEntity in studentAssignmentEntities)
+            {
+                await _studentAssignmentRepository.InsertAsync(assignmentEntity);
+            }
+
+            await _unitOfWork.CommitAsync();
         }
 
         public async Task<List<AssignmentInfoDto>> ReadByUserAsync(AuthorizedUser user)
