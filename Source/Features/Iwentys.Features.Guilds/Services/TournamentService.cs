@@ -58,7 +58,7 @@ namespace Iwentys.Features.Guilds.Services
         {
             TournamentEntity tournamentEntity = await _tournamentRepository.GetByIdAsync(tournamentId);
             return tournamentEntity
-                .WrapToDomain(_githubApi, _githubIntegrationService)
+                .WrapToDomain(_githubIntegrationService, _unitOfWork)
                 .GetLeaderboard();
         }
     }
