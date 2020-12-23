@@ -174,6 +174,20 @@ namespace Iwentys.Features.Guilds.Services
             return await CreateDomain(guild).ToExtendedGuildProfileDto(userId);
         }
 
+        public async Task PromoteToEditor(AuthorizedUser creator, int userForPromotion)
+        {
+            StudentEntity studentCreator = await _studentRepository.GetByIdAsync(creator.Id);
+
+            var guildMemberEntity = _guildMemberRepository.GetStudentMembership(creator.Id);
+            studentCreator.EnsureIsGuildEditor(guildMemberEntity);
+            
+            //TODO: check member state
+            var studentMembership = _guildMemberRepository.GetStudentMembership(userForPromotion);
+            studentMembership.MemberType = GuildMemberType.Mentor;
+            _guildMemberRepository.Update(studentMembership);
+            await _unitOfWork.CommitAsync();
+        }
+
         private GuildDomain CreateDomain(GuildEntity guild)
         {
             return new GuildDomain(guild, _githubIntegrationService, _studentRepository, _guildMemberRepository);

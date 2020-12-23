@@ -29,5 +29,13 @@ namespace Iwentys.Features.Guilds.Domain
 
             return new GuildEditor(student);
         }
+
+        public static GuildEditor EnsureIsGuildEditor(this StudentEntity student, GuildMemberEntity member)
+        {
+            if (!member.MemberType.IsEditor())
+                throw InnerLogicException.Guild.IsNotGuildEditor(student.Id);
+
+            return new GuildEditor(student);
+        }
     }
 }
