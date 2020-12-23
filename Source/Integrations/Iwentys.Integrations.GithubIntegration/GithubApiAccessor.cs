@@ -13,17 +13,18 @@ namespace Iwentys.Integrations.GithubIntegration
 {
     public class GithubApiAccessor : IGithubApiAccessor
     {
-        //TODO: we need somehow send token to ctor
-        public static string Token;
+        private readonly GithubApiAccessorOptions _options;
+
         private const string GithubContributionsApiUrl = "https://github-contributions.now.sh/api/v1/";
 
         private readonly GitHubClient _client;
 
-        public GithubApiAccessor()
+        public GithubApiAccessor(GithubApiAccessorOptions options)
         {
+            _options = options;
             _client = new GitHubClient(new ProductHeaderValue("Iwentys"))
             {
-                Credentials = new Credentials(Token)
+                Credentials = new Credentials(_options.Token)
             };
         }
 

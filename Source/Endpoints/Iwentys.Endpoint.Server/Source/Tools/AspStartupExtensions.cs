@@ -36,10 +36,13 @@ namespace Iwentys.Endpoint.Server.Source.Tools
     {
         public static IServiceCollection AddIwentysOptions(this IServiceCollection services, IConfiguration configuration)
         {
+            var token = TokenApplicationOptions.Load(configuration);
+            
             return services
                 .AddSingleton(IsuApplicationOptions.Load(configuration))
-                .AddSingleton(TokenApplicationOptions.Load(configuration))
+                .AddSingleton(token)
                 .AddSingleton(JwtApplicationOptions.Load(configuration))
+                .AddSingleton(new GithubApiAccessorOptions {Token = token.GithubToken})
                 .AddSingleton(new ApplicationOptions());
         }
 
