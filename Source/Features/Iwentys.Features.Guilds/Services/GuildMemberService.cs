@@ -133,7 +133,7 @@ namespace Iwentys.Features.Guilds.Services
             GuildDomain guildDomain = CreateDomain(await _guildRepositoryNew.GetByIdAsync(guildId));
             GuildMemberEntity memberToKick = await guildDomain.EnsureMemberCanRestrictPermissionForOther(user, memberId);
 
-            memberToKick.Member.GuildLeftTime = DateTime.UtcNow.ToUniversalTime();
+            memberToKick.Member.GuildLeftTime = DateTime.UtcNow;
             await RemoveMemberAsync(guildId, memberId);
         }
 

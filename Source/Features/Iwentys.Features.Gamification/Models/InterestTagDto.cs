@@ -1,4 +1,6 @@
-﻿using Iwentys.Features.Gamification.Entities;
+﻿using System;
+using System.Linq.Expressions;
+using Iwentys.Features.Gamification.Entities;
 
 namespace Iwentys.Features.Gamification.Models
 {
@@ -16,5 +18,7 @@ namespace Iwentys.Features.Gamification.Models
         public InterestTagDto()
         {
         }
+
+        public static Expression<Func<InterestTagEntity, InterestTagDto>> FromEntity => entity => new InterestTagDto(entity);
     }
 }

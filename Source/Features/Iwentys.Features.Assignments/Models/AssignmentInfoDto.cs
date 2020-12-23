@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Students.Models;
 using Iwentys.Features.Study.Entities;
@@ -39,6 +40,8 @@ namespace Iwentys.Features.Assignments.Models
         public AssignmentInfoDto()
         {
         }
+
+        public static Expression<Func<StudentAssignmentEntity, AssignmentInfoDto>> FromStudentEntity => entity => new AssignmentInfoDto(entity);
 
         public int Id { get; init; }
         public string Title { get; init; }

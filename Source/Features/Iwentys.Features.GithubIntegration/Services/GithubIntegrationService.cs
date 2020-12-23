@@ -90,12 +90,13 @@ namespace Iwentys.Features.GithubIntegration.Services
             return _githubUserDataRepository.GetAsync().SingleOrDefaultAsync(g => g.Username == username);
         }
 
-        public IEnumerable<GithubRepositoryInfoDto> GetGithubRepositories(string username)
+        public Task<List<GithubRepositoryInfoDto>> GetGithubRepositories(string username)
         {
             return _studentProjectRepository
                 .GetAsync()
                 .Where(p => p.UserName == username)
-                .Select(p => new GithubRepositoryInfoDto(p));
+                .Select(GithubRepositoryInfoDto.FromEntity)
+                .ToListAsync();
         }
 
         public GithubRepositoryInfoDto GetCertainRepository(string username, string projectName)
@@ -111,9 +112,11 @@ namespace Iwentys.Features.GithubIntegration.Services
             return new GithubRepositoryInfoDto(githubRepository);
         }
 
-        public IEnumerable<GithubUserEntity> GetAll()
+        public Task<List<GithubUserEntity>> GetAll()
         {
-            return _githubUserDataRepository.GetAsync().ToList();
+            return _githubUserDataRepository
+                .GetAsync()
+                .ToListAsync();
         }
 
         public Task<GithubUserEntity> Read(int studentId)

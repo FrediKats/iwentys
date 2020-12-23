@@ -92,11 +92,12 @@ namespace Iwentys.Features.Guilds.Services
 
         public List<GuildProfileDto> GetOverview(Int32 skippedCount, Int32 takenCount)
         {
-            return _guildRepository.GetAsync()
-                .ToList()
-                .Select(g => new GuildProfileDto(g))
+            //TODO: add order
+            return _guildRepository
+                .GetAsync()
                 .Skip(skippedCount)
                 .Take(takenCount)
+                .Select(GuildProfileDto.FromEntity)
                 .ToList();
         }
 

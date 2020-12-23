@@ -58,12 +58,11 @@ namespace Iwentys.Features.Assignments.Services
 
         public async Task<List<AssignmentInfoDto>> ReadByUserAsync(AuthorizedUser user)
         {
-            List<StudentAssignmentEntity> studentAssignmentEntities = await _studentAssignmentRepository
+            return await _studentAssignmentRepository
                 .GetAsync()
                 .Where(a => a.StudentId == user.Id)
+                .Select(AssignmentInfoDto.FromStudentEntity)
                 .ToListAsync();
-
-            return studentAssignmentEntities.SelectToList(a => new AssignmentInfoDto(a));
         }
 
         public async Task<AssignmentInfoDto> ReadByIdAsync(int assignmentId)

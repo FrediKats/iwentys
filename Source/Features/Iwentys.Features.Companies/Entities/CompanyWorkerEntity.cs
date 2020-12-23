@@ -34,6 +34,6 @@ namespace Iwentys.Features.Companies.Entities
             Type = CompanyWorkerType.Accepted;
         }
         
-        public static Expression<Func<CompanyWorkerEntity, bool>> IsRequested() => worker => worker.Type == CompanyWorkerType.Requested;
+        public static Expression<Func<CompanyWorkerEntity, bool>> IsRequested => worker => worker.Type == CompanyWorkerType.Requested;
     }
 }

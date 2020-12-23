@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
-using Iwentys.Common.Tools;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Economy.Services;
 using Iwentys.Features.Quests.Entities;
@@ -41,44 +40,43 @@ namespace Iwentys.Features.Quests.Services
         {
             QuestEntity entities = await _questRepository
                 .GetByIdAsync(questId);
-            return QuestInfoDto.Wrap(entities);
+
+            return new QuestInfoDto(entities);
         }
 
         public async Task<List<QuestInfoDto>> GetCreatedByUserAsync(AuthorizedUser user)
         {
-            List<QuestEntity> entities = await _questRepository
+            return await _questRepository
                 .GetAsync()
                 .Where(q => q.AuthorId == user.Id)
+                .Select(QuestInfoDto.FromEntity)
                 .ToListAsync();
-
-            return entities.SelectToList(QuestInfoDto.Wrap);
         }
 
         public async Task<List<QuestInfoDto>> GetCompletedByUserAsync(AuthorizedUser user)
         {
-            List<QuestEntity> quests = await _questRepository.GetAsync()
+            return await _questRepository.GetAsync()
                 .Where(QuestEntity.IsCompletedBy(user))
+                .Select(QuestInfoDto.FromEntity)
                 .ToListAsync();
-
-            return quests.SelectToList(QuestInfoDto.Wrap);
         }
 
         public async Task<List<QuestInfoDto>> GetActiveAsync()
         {
-            List<QuestEntity> quests = await _questRepository.GetAsync()
+            return await _questRepository
+                .GetAsync()
                 .Where(QuestEntity.IsActive)
+                .Select(QuestInfoDto.FromEntity)
                 .ToListAsync();
-
-            return quests.SelectToList(QuestInfoDto.Wrap);
         }
 
         public async Task<List<QuestInfoDto>> GetArchivedAsync()
         {
-            List<QuestEntity> quests = await _questRepository.GetAsync()
+            return await _questRepository
+                .GetAsync()
                 .Where(QuestEntity.IsArchived)
+                .Select(QuestInfoDto.FromEntity)
                 .ToListAsync();
-
-            return quests.SelectToList(QuestInfoDto.Wrap);
         }
 
         public async Task<QuestInfoDto> CreateAsync(AuthorizedUser user, CreateQuestRequest createQuest)
@@ -91,7 +89,7 @@ namespace Iwentys.Features.Quests.Services
             await _unitOfWork.CommitAsync();
             
             await _achievementProvider.Achieve(AchievementList.QuestCreator, user.Id);
-            return QuestInfoDto.Wrap(quest);
+            return new QuestInfoDto(quest);
         }
 
         public async Task<QuestInfoDto> SendResponseAsync(AuthorizedUser user, int questId)
@@ -104,7 +102,7 @@ namespace Iwentys.Features.Quests.Services
             await _questResponseRepository.InsertAsync(questResponseEntity);
             await _unitOfWork.CommitAsync();
             QuestEntity updatedQuest = await _questRepository.GetByIdAsync(questId);
-            return QuestInfoDto.Wrap(updatedQuest);
+            return new QuestInfoDto(updatedQuest);
         }
 
         public async Task<QuestInfoDto> CompleteAsync(AuthorizedUser author, int questId, int userId)
@@ -134,8 +132,8 @@ namespace Iwentys.Features.Quests.Services
             _studentRepository.Update(author);
             _questRepository.Update(quest);
             await _unitOfWork.CommitAsync();
-            
-            return QuestInfoDto.Wrap(await _questRepository.GetByIdAsync(questId));
+
+            return new QuestInfoDto(await _questRepository.GetByIdAsync(questId));
         }
     }
 }

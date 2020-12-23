@@ -1,4 +1,6 @@
-﻿using Iwentys.Common.Exceptions;
+﻿using System;
+using System.Linq.Expressions;
+using Iwentys.Common.Exceptions;
 using Iwentys.Features.Companies.Entities;
 using Iwentys.Features.Companies.Enums;
 using Iwentys.Features.Students.Entities;
@@ -24,6 +26,8 @@ namespace Iwentys.Features.Companies.Models
         public CompanyWorkRequestDto()
         {
         }
+
+        public static Expression<Func<CompanyWorkerEntity, CompanyWorkRequestDto>> FromEntity => entity => Create(entity);
         
         public CompanyInfoDto Company { get; init; }
         public StudentEntity Worker { get; init; }

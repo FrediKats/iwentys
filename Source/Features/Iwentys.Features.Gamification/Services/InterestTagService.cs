@@ -31,13 +31,12 @@ namespace Iwentys.Features.Gamification.Services
 
         public async Task<List<InterestTagDto>> GetStudentTags(int studentId)
         {
-            List<InterestTagEntity> interestTagEntities = await _userInterestTagRepository
+            return await _userInterestTagRepository
                 .GetAsync()
                 .Where(ui => ui.StudentId == studentId)
                 .Select(ui => ui.InterestTag)
+                .Select(InterestTagDto.FromEntity)
                 .ToListAsync();
-            
-            return interestTagEntities.SelectToList(t => new InterestTagDto(t));
         }
 
         public async Task AddStudentTag(int studentId, int tagId)

@@ -1,4 +1,6 @@
-﻿using Iwentys.Features.GithubIntegration.Entities;
+﻿using System;
+using System.Linq.Expressions;
+using Iwentys.Features.GithubIntegration.Entities;
 
 namespace Iwentys.Features.GithubIntegration.Models
 {
@@ -28,6 +30,8 @@ namespace Iwentys.Features.GithubIntegration.Models
         public GithubRepositoryInfoDto()
         {
         }
+
+        public static Expression<Func<GithubProjectEntity, GithubRepositoryInfoDto>> FromEntity => entity => new GithubRepositoryInfoDto(entity);
 
         public long Id { get; init; }
         public string Owner { get; init; }
