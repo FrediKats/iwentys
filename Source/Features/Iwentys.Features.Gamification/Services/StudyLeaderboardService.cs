@@ -58,7 +58,7 @@ namespace Iwentys.Features.Gamification.Services
             //    .WhereIf(courseId, q => q.Group.StudyCourseId == courseId);
 
             return query.AsEnumerable()
-                .Select(s => new StudyLeaderboardRowDto(s, _githubIntegrationService.FindByUsername(s.GithubUsername).Result?.ContributionFullInfo.Total ?? 0))
+                .Select(s => new StudyLeaderboardRowDto(s, _githubIntegrationService.GetGithubUser(s.GithubUsername).Result?.ContributionFullInfo.Total ?? 0))
                 .OrderBy(a => a.Activity)
                 .Skip(skip)
                 .Take(take)

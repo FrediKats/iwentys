@@ -59,7 +59,7 @@ namespace Iwentys.Features.Guilds.Domain
                 .Select(m => m.Member.GithubUsername)
                 .Where(gh => gh is not null)
                 .ToList()
-                .Select(ghName => _githubIntegrationService.FindByUsername(ghName).Result)
+                .Select(ghName => _githubIntegrationService.GetGithubUser(ghName).Result)
                 .Where(userData => userData is not null)
                 .ToList();
         }

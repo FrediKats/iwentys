@@ -36,7 +36,7 @@ namespace Iwentys.Integrations.GithubIntegration
             return new GithubRepositoryInfoDto(repository.Id, repository.Owner.Login, repository.Name, repository.Description, repository.Url, repository.StargazersCount);
         }
 
-        public async Task<IReadOnlyList<GithubRepositoryInfoDto>> GetUserRepositories(string username)
+        public async Task<List<GithubRepositoryInfoDto>> GetUserRepositories(string username)
         {
             IReadOnlyList<Repository> repositories = await _client
                 .Repository

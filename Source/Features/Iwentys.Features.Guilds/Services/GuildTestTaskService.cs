@@ -5,8 +5,8 @@ using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Achievements.Domain;
-using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Models;
+using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
@@ -27,15 +27,15 @@ namespace Iwentys.Features.Guilds.Services
         private readonly IGenericRepository<GuildMemberEntity> _guildMemberRepository;
         private readonly IGenericRepository<GuildTestTaskSolutionEntity> _guildTestTaskSolvingInfoRepository;
 
-        private readonly IGithubApiAccessor _githubApi;
         private readonly AchievementProvider _achievementProvider;
+        private readonly GithubIntegrationService _githubIntegrationService;
 
-        public GuildTestTaskService(IGithubApiAccessor githubApi, AchievementProvider achievementProvider, IUnitOfWork unitOfWork)
+        public GuildTestTaskService(AchievementProvider achievementProvider, IUnitOfWork unitOfWork, GithubIntegrationService githubIntegrationService)
         {
-            _githubApi = githubApi;
             _achievementProvider = achievementProvider;
 
             _unitOfWork = unitOfWork;
+            _githubIntegrationService = githubIntegrationService;
             _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
             _guildRepositoryNew = _unitOfWork.GetRepository<GuildEntity>();
             _guildMemberRepository = _unitOfWork.GetRepository<GuildMemberEntity>();
@@ -87,8 +87,7 @@ namespace Iwentys.Features.Guilds.Services
             if (testTask.GetState() == GuildTestTaskState.Completed)
                 throw new InnerLogicException("Task already completed");
 
-            //TODO: replace with call to db cache
-            GithubRepositoryInfoDto githubRepositoryInfoDto = await _githubApi.GetRepository(projectOwner, projectName);
+            GithubRepositoryInfoDto githubRepositoryInfoDto = await _githubIntegrationService.GetRepository(projectOwner, projectName);
             testTask.SendSubmit(githubRepositoryInfoDto.Id);
 
             _guildTestTaskSolvingInfoRepository.Update(testTask);

@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
-using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Models;
+using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
@@ -28,13 +28,12 @@ namespace Iwentys.Features.Guilds.Services
         private readonly IGenericRepository<GithubProjectEntity> _studentProjectRepository;
         private readonly IGenericRepository<TributeEntity> _guildTributeRepository;
 
-        private readonly IGithubApiAccessor _githubApi;
+        private readonly GithubIntegrationService _githubIntegrationService;
 
-        public GuildTributeService(IGithubApiAccessor githubApi, IUnitOfWork unitOfWork)
+        public GuildTributeService(IUnitOfWork unitOfWork, GithubIntegrationService githubIntegrationService)
         {
-            _githubApi = githubApi;
-
             _unitOfWork = unitOfWork;
+            _githubIntegrationService = githubIntegrationService;
             _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
             _guildRepositoryNew = _unitOfWork.GetRepository<GuildEntity>();
             _guildMemberRepository = _unitOfWork.GetRepository<GuildMemberEntity>();
@@ -83,7 +82,7 @@ namespace Iwentys.Features.Guilds.Services
             if (student.GithubUsername != createProject.Owner)
                 throw InnerLogicException.Tribute.TributeCanBeSendFromStudentAccount(student.Id, createProject.Owner);
 
-            GithubRepositoryInfoDto githubProject = await _githubApi.GetRepository(createProject.Owner, createProject.RepositoryName);
+            GithubRepositoryInfoDto githubProject = await _githubIntegrationService.GetRepository(createProject.Owner, createProject.RepositoryName);
             GithubProjectEntity projectEntity = await GetOrCreateAsync(githubProject, student);
             GuildEntity guild = _guildMemberRepository.ReadForStudent(student.Id);
             List<TributeEntity> allTributes = await _guildTributeRepository.GetAsync().ToListAsync();

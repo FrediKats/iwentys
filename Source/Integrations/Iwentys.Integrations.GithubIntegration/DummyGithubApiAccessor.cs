@@ -16,9 +16,9 @@ namespace Iwentys.Integrations.GithubIntegration
             return Task.FromResult(result);
         }
 
-        public Task<IReadOnlyList<GithubRepositoryInfoDto>> GetUserRepositories(string username)
+        public Task<List<GithubRepositoryInfoDto>> GetUserRepositories(string username)
         {
-            return Task.FromResult(new List<GithubRepositoryInfoDto>() as IReadOnlyList<GithubRepositoryInfoDto>);
+            return Task.FromResult(new List<GithubRepositoryInfoDto>());
         }
 
         public Task<GithubUserInfoDto> GetGithubUser(string githubUsername)

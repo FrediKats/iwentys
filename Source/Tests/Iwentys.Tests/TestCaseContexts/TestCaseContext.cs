@@ -61,9 +61,9 @@ namespace Iwentys.Tests.TestCaseContexts
 
             StudentService = new StudentService(unitOfWork, achievementProvider);
             GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, unitOfWork);
-            GuildService = new GuildService(GithubIntegrationService, githubApiAccessor, unitOfWork);
+            GuildService = new GuildService(GithubIntegrationService, unitOfWork);
             GuildMemberService = new GuildMemberService(GithubIntegrationService, unitOfWork);
-            GuildTributeServiceService = new GuildTributeService(githubApiAccessor, unitOfWork);
+            GuildTributeServiceService = new GuildTributeService(unitOfWork, GithubIntegrationService);
             CompanyService = new CompanyService(unitOfWork);
             BarsPointTransactionLogService = new BarsPointTransactionLogService(unitOfWork);
             QuestService = new QuestService(achievementProvider, BarsPointTransactionLogService, unitOfWork);

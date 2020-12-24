@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
-using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Domain;
@@ -27,12 +26,10 @@ namespace Iwentys.Features.Guilds.Services
         private readonly IGenericRepository<GuildPinnedProjectEntity> _guildPinnedProjectRepository;
 
         private readonly GithubIntegrationService _githubIntegrationService;
-        private readonly IGithubApiAccessor _githubApiAccessor;
 
-        public GuildService(GithubIntegrationService githubIntegrationService, IGithubApiAccessor githubApiAccessor, IUnitOfWork unitOfWork)
+        public GuildService(GithubIntegrationService githubIntegrationService, IUnitOfWork unitOfWork)
         {
             _githubIntegrationService = githubIntegrationService;
-            _githubApiAccessor = githubApiAccessor;
 
             _unitOfWork = unitOfWork;
             _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
@@ -125,7 +122,7 @@ namespace Iwentys.Features.Guilds.Services
             profile.EnsureIsGuildEditor(guild);
 
             //TODO: add work with cache
-            GithubRepositoryInfoDto repositoryInfoDto = await _githubApiAccessor.GetRepository(owner, projectName);
+            GithubRepositoryInfoDto repositoryInfoDto = await _githubIntegrationService.GetRepository(owner, projectName);
             var guildPinnedProjectEntity = GuildPinnedProjectEntity.Create(guildId, repositoryInfoDto);
             await _guildPinnedProjectRepository.InsertAsync(guildPinnedProjectEntity);
             await _unitOfWork.CommitAsync();

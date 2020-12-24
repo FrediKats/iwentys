@@ -8,7 +8,7 @@ namespace Iwentys.Features.GithubIntegration
     public interface IGithubApiAccessor
     {
         Task<GithubRepositoryInfoDto> GetRepository(string username, string repositoryName);
-        Task<IReadOnlyList<GithubRepositoryInfoDto>> GetUserRepositories(string username);
+        Task<List<GithubRepositoryInfoDto>> GetUserRepositories(string username);
         Task<GithubUserInfoDto> GetGithubUser(string githubUsername);
 
         ContributionFullInfo GetUserActivity(string githubUsername);
