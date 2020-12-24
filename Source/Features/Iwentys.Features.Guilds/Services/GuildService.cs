@@ -125,7 +125,7 @@ namespace Iwentys.Features.Guilds.Services
             profile.EnsureIsGuildEditor(guild);
 
             //TODO: add work with cache
-            GithubRepositoryInfoDto repositoryInfoDto = _githubApiAccessor.GetRepository(owner, projectName);
+            GithubRepositoryInfoDto repositoryInfoDto = await _githubApiAccessor.GetRepository(owner, projectName);
             var guildPinnedProjectEntity = GuildPinnedProjectEntity.Create(guildId, repositoryInfoDto);
             await _guildPinnedProjectRepository.InsertAsync(guildPinnedProjectEntity);
             await _unitOfWork.CommitAsync();

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
@@ -38,7 +38,7 @@ namespace Iwentys.Features.GithubIntegration.Services
             if (githubUserData is null)
             {
                 exists = false;
-                GithubUserInfoDto githubUser = _githubApiAccessor.GetGithubUser(student.GithubUsername);
+                GithubUserInfoDto githubUser = await _githubApiAccessor.GetGithubUser(student.GithubUsername);
                 ContributionFullInfo contributionFullInfo = _githubApiAccessor.GetUserActivity(student.GithubUsername);
 
                 githubUserData = new GithubUserEntity
@@ -52,8 +52,8 @@ namespace Iwentys.Features.GithubIntegration.Services
                 };
             }
 
-            IEnumerable<GithubProjectEntity> studentProjects = _githubApiAccessor
-                .GetUserRepositories(student.GithubUsername)
+            IEnumerable<GithubProjectEntity> studentProjects = (await _githubApiAccessor
+                    .GetUserRepositories(student.GithubUsername))
                 .Select(r => new GithubProjectEntity(student, r));
 
             if (exists)
@@ -133,7 +133,7 @@ namespace Iwentys.Features.GithubIntegration.Services
             if (student.GithubUsername is null)
                 return new List<GithubRepositoryInfoDto>();
 
-            return _githubApiAccessor.GetUserRepositories(student.GithubUsername);
+            return await _githubApiAccessor.GetUserRepositories(student.GithubUsername);
         }
     }
 }

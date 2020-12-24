@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Iwentys.Features.GithubIntegration.Models;
 
 namespace Iwentys.Features.GithubIntegration
 {
     public interface IGithubApiAccessor
     {
-        GithubRepositoryInfoDto GetRepository(string username, string repositoryName);
-        IReadOnlyList<GithubRepositoryInfoDto> GetUserRepositories(string username);
-
-        GithubUserInfoDto GetGithubUser(string githubUsername);
+        Task<GithubRepositoryInfoDto> GetRepository(string username, string repositoryName);
+        Task<IReadOnlyList<GithubRepositoryInfoDto>> GetUserRepositories(string username);
+        Task<GithubUserInfoDto> GetGithubUser(string githubUsername);
 
         ContributionFullInfo GetUserActivity(string githubUsername);
         int GetUserActivity(string githubUsername, DateTime from, DateTime to);

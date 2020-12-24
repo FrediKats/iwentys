@@ -83,7 +83,7 @@ namespace Iwentys.Features.Guilds.Services
             if (student.GithubUsername != createProject.Owner)
                 throw InnerLogicException.Tribute.TributeCanBeSendFromStudentAccount(student.Id, createProject.Owner);
 
-            GithubRepositoryInfoDto githubProject = _githubApi.GetRepository(createProject.Owner, createProject.RepositoryName);
+            GithubRepositoryInfoDto githubProject = await _githubApi.GetRepository(createProject.Owner, createProject.RepositoryName);
             GithubProjectEntity projectEntity = await GetOrCreateAsync(githubProject, student);
             GuildEntity guild = _guildMemberRepository.ReadForStudent(student.Id);
             List<TributeEntity> allTributes = await _guildTributeRepository.GetAsync().ToListAsync();
