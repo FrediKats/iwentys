@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 
@@ -14,7 +15,20 @@ namespace Iwentys.Features.Guilds.Models.Guilds
 
         public GuildTestTaskState TestTaskState { get; set; }
 
-        public static GuildTestTaskInfoResponse Wrap(GuildTestTaskSolvingInfoEntity testTask)
+        public static Expression<Func<GuildTestTaskSolutionEntity, GuildTestTaskInfoResponse>> FromEntity =>
+            testTask =>
+                new GuildTestTaskInfoResponse
+                {
+                    StudentId = testTask.StudentId,
+                    StartTime = testTask.StartTime,
+                    SubmitTime = testTask.SubmitTime,
+                    ProjectId = testTask.ProjectId,
+                    CompleteTime = testTask.CompleteTime,
+                    TestTaskState = testTask.GetState()
+                };
+
+
+        public static GuildTestTaskInfoResponse Wrap(GuildTestTaskSolutionEntity testTask)
         {
             return new GuildTestTaskInfoResponse
             {

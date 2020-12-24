@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using Iwentys.Common.Databases;
-using Iwentys.Features.Achievements.Entities;
+using System.Threading.Tasks;
 using Iwentys.Features.Achievements.Models;
+using Iwentys.Features.Achievements.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers
@@ -11,27 +10,18 @@ namespace Iwentys.Endpoint.Controllers
     [ApiController]
     public class AchievementController : ControllerBase
     {
-        //TODO: move to service
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly AchievementService _achievementService;
 
-        private readonly IGenericRepository<StudentAchievementEntity> _studentAchievementRepository;
-
-        public AchievementController(IUnitOfWork unitOfWork)
+        public AchievementController(AchievementService achievementService)
         {
-            _unitOfWork = unitOfWork;
-            _studentAchievementRepository = _unitOfWork.GetRepository<StudentAchievementEntity>();
+            _achievementService = achievementService;
         }
 
         [HttpGet("for-student")]
-        public ActionResult<List<AchievementDto>> GetForStudent(int studentId)
+        public async Task<ActionResult<List<AchievementDto>>> GetForStudent(int studentId)
         {
-            List<AchievementDto> achievements = _studentAchievementRepository
-                .GetAsync()
-                .Where(a => a.StudentId == studentId)
-                .AsEnumerable().Select(AchievementDto.Wrap)
-                .ToList();
-
-            return Ok(achievements);
+            List<AchievementDto> achievementDtos = await _achievementService.GetForStudent(studentId);
+            return Ok(achievementDtos);
         }
     }
 }

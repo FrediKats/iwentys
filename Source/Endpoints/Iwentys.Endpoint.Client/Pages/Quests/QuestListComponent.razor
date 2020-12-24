@@ -1,0 +1,31 @@
+﻿@using Iwentys.Features.Quests.Models
+
+<div class="container-fluid d-flex flex-column">
+    @foreach (QuestInfoDto quest in Quests)
+    {
+        <div class="quest-journal-elemnt">
+            <MatCard Class="dark-elevation-02">
+                <MatCardContent>
+                    <MatHeadline6>
+                        @quest.Title (@quest.Price)
+                    </MatHeadline6>
+                    <MatBody1>
+                        @quest.Description
+                    </MatBody1>
+                    <MatBody2>
+                        @quest.CreationTime
+                    </MatBody2>
+                </MatCardContent>
+                <MatCardActions>
+                    <MatButton Link=@LinkToQuestProfilePage(quest)>Profile</MatButton>
+                    <MatButton Link=@LinkToQuestResponsePage(quest)>Response</MatButton>
+                </MatCardActions>
+            </MatCard>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public IReadOnlyList<QuestInfoDto> Quests { get; set; }
+}

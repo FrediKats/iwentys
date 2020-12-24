@@ -39,8 +39,21 @@ namespace Iwentys.Features.Assignments.Entities
             if (student.Id != CreatorId)
                 throw InnerLogicException.Assignment.IsNotAssignmentCreator(Id, student.Id);
                     
-            //TODO: check state
+            if (IsCompleted)
+                throw InnerLogicException.Assignment.IsAlreadyCompleted(Id);
+
             IsCompleted = true;
+        }
+
+        public void MarkUncompleted(StudentEntity student)
+        {
+            if (student.Id != CreatorId)
+                throw InnerLogicException.Assignment.IsNotAssignmentCreator(Id, student.Id);
+
+            if (!IsCompleted)
+                throw InnerLogicException.Assignment.IsNotCompleted(Id);
+
+            IsCompleted = false;
         }
     }
 }

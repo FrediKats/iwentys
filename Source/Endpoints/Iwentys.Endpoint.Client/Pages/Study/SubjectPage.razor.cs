@@ -23,5 +23,7 @@ namespace Iwentys.Endpoint.Client.Pages.Study
             _subjectProfile = await studentControllerClient.GetProfile(SubjectId);
             _newsfeeds = await newsfeedControllerClient.GetForSubject(SubjectId);
         }
+        
+        private string LinkToCreateNewsfeedPage() => $"/newsfeed/create-guild/{SubjectId}";
     }
 }

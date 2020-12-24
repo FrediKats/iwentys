@@ -57,7 +57,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             };
         }
 
-        private List<StudyGroupEntity> ReadGroups()
+        private static List<StudyGroupEntity> ReadGroups()
         {
             var result = new List<StudyGroupEntity>();
             result.AddRange(CourseGroup(1, 5, 3, 9));

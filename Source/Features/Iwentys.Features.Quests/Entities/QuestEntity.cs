@@ -32,7 +32,6 @@ namespace Iwentys.Features.Quests.Entities
 
         public static QuestEntity New(StudentEntity student, CreateQuestRequest createQuest)
         {
-            //TODO: add transaction
             if (student.BarsPoints < createQuest.Price)
                 throw InnerLogicException.NotEnoughBarsPoints();
 
@@ -50,10 +49,10 @@ namespace Iwentys.Features.Quests.Entities
             };
         }
 
-        public void Revoke(AuthorizedUser author)
+        public void Revoke(StudentEntity student)
         {
-            if (AuthorId != author.Id)
-                throw InnerLogicException.NotEnoughPermissionFor(author.Id);
+            if (AuthorId != student.Id)
+                throw InnerLogicException.NotEnoughPermissionFor(student.Id);
 
             if (State != QuestState.Active)
                 throw new InnerLogicException("Quest is not active");
@@ -87,7 +86,7 @@ namespace Iwentys.Features.Quests.Entities
         
         public static Expression<Func<QuestEntity, bool>> IsArchived =>
             q => q.State == QuestState.Completed
-                 || q.Deadline > DateTime.UtcNow;
+                 && q.Deadline > DateTime.UtcNow;
 
         public static Expression<Func<QuestEntity, bool>> IsCompletedBy(AuthorizedUser user) =>
             q => q.State == QuestState.Completed 

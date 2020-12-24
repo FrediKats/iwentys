@@ -17,6 +17,7 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
         private readonly IUnitOfWork _unitOfWork;
         
         private readonly IGenericRepository<StudentEntity> _studentRepository;
+        private readonly IGenericRepository<SubjectActivityEntity> _subjectActivityRepositoryNew;
         private readonly ISubjectActivityRepository _subjectActivityRepository;
         private readonly ILogger _logger;
         private readonly TableParser _tableParser;
@@ -29,6 +30,7 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
             
             _unitOfWork = unitOfWork;
             _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
+            _subjectActivityRepositoryNew = _unitOfWork.GetRepository<SubjectActivityEntity>();
         }
 
         public void UpdateSubjectActivityForGroup(GroupSubjectEntity groupSubjectData)
@@ -69,13 +71,15 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
                         continue;
                     }
 
-                    _subjectActivityRepository.Create(new SubjectActivityEntity
+                    //TODO: remove wait
+                    _subjectActivityRepositoryNew.InsertAsync(new SubjectActivityEntity
                     {
                         StudentId = studentProfile.Id,
                         GroupSubjectEntityId = groupSubjectData.Id,
                         Points = pointsCount
-                    });
-
+                    }).Wait();
+                    _unitOfWork.CommitAsync().Wait();
+                    
                     continue;
                 }
 
@@ -84,7 +88,7 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
             }
         }
 
-        private bool IsMatchedWithStudent(StudentSubjectScore ss, StudentEntity student)
+        private static bool IsMatchedWithStudent(StudentSubjectScore ss, StudentEntity student)
         {
             return ss.Name.Contains(student.FirstName)
                    && ss.Name.Contains(student.SecondName);

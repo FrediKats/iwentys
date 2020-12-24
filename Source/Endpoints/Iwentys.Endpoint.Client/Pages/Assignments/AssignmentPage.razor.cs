@@ -21,14 +21,19 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
         private async Task MakeCompleted(int assignmentId)
         {
             await _assignmentControllerClient.Complete(assignmentId);
-            //TODO: refresh
-            NavigationManagerClient.NavigateTo("/assignment");
+            _assignment = await _assignmentControllerClient.Get();
         }
+
+        private async Task MakeUncompleted(int assignmentId)
+        {
+            await _assignmentControllerClient.Undo(assignmentId);
+            _assignment = await _assignmentControllerClient.Get();
+        }
+
         private async Task Delete(int assignmentId)
         {
             await _assignmentControllerClient.Delete(assignmentId);
-            //TODO: refresh
-            NavigationManagerClient.NavigateTo("/assignment");
+            _assignment = await _assignmentControllerClient.Get();
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Database.Tools
 {
@@ -26,29 +27,27 @@ namespace Iwentys.Database.Tools
             return await DbSet.FindAsync(id);
         }
 
-        //TODO: add return T
-        public async Task InsertAsync(TEntity entity)
+        public async Task<TEntity> InsertAsync(TEntity entity)
         {
-            await DbSet.AddAsync(entity);
+            EntityEntry<TEntity> result = await DbSet.AddAsync(entity);
+            return result.Entity;
         }
 
         public async Task DeleteAsync<TKey>(TKey id)
         {
             TEntity entityToDelete = await DbSet.FindAsync(id);
-            await DeleteAsync(entityToDelete);
+            Delete(entityToDelete);
         }
 
-        //TODO: make async
-        public async Task DeleteAsync(TEntity entityToDelete)
+        public void Delete(TEntity entityToDelete)
         {
             if (Context.Entry(entityToDelete).State == EntityState.Detached)
-            {
                 DbSet.Attach(entityToDelete);
-            }
+
             DbSet.Remove(entityToDelete);
         }
 
-        public async Task UpdateAsync(TEntity entityToUpdate)
+        public void Update(TEntity entityToUpdate)
         {
             DbSet.Attach(entityToUpdate);
             Context.Entry(entityToUpdate).State = EntityState.Modified;

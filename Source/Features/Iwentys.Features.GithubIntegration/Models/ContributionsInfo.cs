@@ -15,7 +15,5 @@
         public int Id { get; set; }
         public string Date { get; set; }
         public int Count { get; set; }
-        public int ActivityInfoId { get; set; }
-        public ActivityInfo ActivityInfo { get; set; }
     }
 }

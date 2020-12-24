@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.GithubIntegration;
@@ -13,46 +14,46 @@ namespace Iwentys.Integrations.GithubIntegration
 {
     public class GithubApiAccessor : IGithubApiAccessor
     {
-        //TODO: we need somehow send token to ctor
-        public static string Token;
         private const string GithubContributionsApiUrl = "https://github-contributions.now.sh/api/v1/";
 
         private readonly GitHubClient _client;
 
-        public GithubApiAccessor()
+        public GithubApiAccessor(GithubApiAccessorOptions options)
         {
             _client = new GitHubClient(new ProductHeaderValue("Iwentys"))
             {
-                Credentials = new Credentials(Token)
+                Credentials = new Credentials(options.Token)
             };
         }
 
-        public GithubRepositoryInfoDto GetRepository(string username, string repositoryName)
+        public async Task<GithubRepositoryInfoDto> GetRepository(string username, string repositoryName)
         {
-            return _client
+            //TODO: remove exception and return null?
+            var repository = await _client
                 .Repository
-                .Get(username, repositoryName)
-                .Result
-                .Maybe(r => new GithubRepositoryInfoDto(r.Id, r.Owner.Login, r.Name, r.Description, r.Url, r.StargazersCount)) ?? throw EntityNotFoundException.Create(nameof(GithubRepositoryInfoDto), repositoryName);
+                .Get(username, repositoryName) ?? throw EntityNotFoundException.Create(nameof(GithubRepositoryInfoDto), repositoryName);
+
+            return new GithubRepositoryInfoDto(repository.Id, repository.Owner.Login, repository.Name, repository.Description, repository.Url, repository.StargazersCount);
         }
 
-        public IReadOnlyList<GithubRepositoryInfoDto> GetUserRepositories(string username)
+        public async Task<List<GithubRepositoryInfoDto>> GetUserRepositories(string username)
         {
-            return _client
+            IReadOnlyList<Repository> repositories = await _client
                 .Repository
-                .GetAllForUser(username)
-                .Result
+                .GetAllForUser(username);
+
+            return repositories
                 .Select(r => new GithubRepositoryInfoDto(r.Id, r.Owner.Login, r.Name, r.Description, r.Url, r.StargazersCount))
                 .ToList();
         }
 
-        public GithubUserInfoDto GetGithubUser(string githubUsername)
+        public async Task<GithubUserInfoDto> GetGithubUser(string githubUsername)
         {
-            return _client
+            var user = await _client
                 .User
-                .Get(githubUsername)
-                .Result
-                .Maybe(u => new GithubUserInfoDto(u.Id, u.Name, u.AvatarUrl, u.Bio, u.Company)) ?? throw EntityNotFoundException.Create(nameof(GithubUserInfoDto), githubUsername);
+                .Get(githubUsername) ?? throw EntityNotFoundException.Create(nameof(GithubUserInfoDto), githubUsername);
+
+            return new GithubUserInfoDto(user.Id, user.Name, user.AvatarUrl, user.Bio, user.Company);
         }
 
         public ContributionFullInfo GetUserActivity(string githubUsername)

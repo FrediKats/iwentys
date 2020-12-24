@@ -10,7 +10,7 @@ using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Models.Guilds;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Enums;
-using Iwentys.Tests.Tools;
+using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
 namespace Iwentys.Tests.Features.Guilds
@@ -52,7 +52,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithNewStudent(out AuthorizedUser admin, UserType.Admin)
+                .WithNewStudent(out AuthorizedUser admin, StudentRole.Admin)
                 .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
 
             await context.GuildService.ApproveGuildCreating(admin, guild.Id);
@@ -67,7 +67,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithNewStudent(out AuthorizedUser _, UserType.Admin)
+                .WithNewStudent(out AuthorizedUser _, StudentRole.Admin)
                 .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto _);
 
             //TODO: rework to correct exception
@@ -209,7 +209,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithGuildMember(guild, guildCreator, out AuthorizedUser member);
 
             await context.GuildMemberService.KickGuildMemberAsync(guildCreator, guild.Id, member.Id);
-            GuildEntity memberGuild = context.GuildRepository.ReadForStudent(member.Id);
+            GuildProfileDto memberGuild = context.GuildService.FindStudentGuild(member.Id);
 
             Assert.That(memberGuild, Is.Null);
         }

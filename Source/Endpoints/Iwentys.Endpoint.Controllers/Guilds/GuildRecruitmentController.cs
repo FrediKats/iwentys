@@ -11,7 +11,7 @@ namespace Iwentys.Endpoint.Controllers.Guilds
     [ApiController]
     public class GuildRecruitmentController : ControllerBase
     {
-        private GuildRecruitmentService _guildRecruitmentService;
+        private readonly GuildRecruitmentService _guildRecruitmentService;
 
         public GuildRecruitmentController(GuildRecruitmentService guildRecruitmentService)
         {

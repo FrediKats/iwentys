@@ -4,7 +4,7 @@ namespace Iwentys.Features.Students.Models
 {
     public record StudentCreateArgumentsDto
     {
-        public StudentCreateArgumentsDto(int id, string firstName, string middleName, string secondName, UserType role, string @group, string githubUsername, int barsPoints)
+        public StudentCreateArgumentsDto(int id, string firstName, string middleName, string secondName, StudentRole role, string @group, string githubUsername, int barsPoints)
         {
             Id = id;
             FirstName = firstName;
@@ -24,7 +24,7 @@ namespace Iwentys.Features.Students.Models
         public string FirstName { get; init; }
         public string MiddleName { get; init; }
         public string SecondName { get; init; }
-        public UserType Role { get; init; }
+        public StudentRole Role { get; init; }
         public string Group { get; init; }
         public string GithubUsername { get; init; }
         public int BarsPoints { get; init; }

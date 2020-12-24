@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Models;
 using Octokit;
@@ -8,20 +9,22 @@ namespace Iwentys.Integrations.GithubIntegration
 {
     public class DummyGithubApiAccessor : IGithubApiAccessor
     {
-        public GithubRepositoryInfoDto GetRepository(string username, string repositoryName)
+        public Task<GithubRepositoryInfoDto> GetRepository(string username, string repositoryName)
         {
+            var result = new GithubRepositoryInfoDto(17, username, repositoryName, "No desc", null, 0);
             //TODO: It hack. Need to implement this methods for test propose
-            return new GithubRepositoryInfoDto(17, username, repositoryName, "No desc", null, 0);
+            return Task.FromResult(result);
         }
 
-        public IReadOnlyList<GithubRepositoryInfoDto> GetUserRepositories(string username)
+        public Task<List<GithubRepositoryInfoDto>> GetUserRepositories(string username)
         {
-            return new List<GithubRepositoryInfoDto>();
+            return Task.FromResult(new List<GithubRepositoryInfoDto>());
         }
 
-        public GithubUserInfoDto GetGithubUser(string githubUsername)
+        public Task<GithubUserInfoDto> GetGithubUser(string githubUsername)
         {
-            return new GithubUserInfoDto(17, githubUsername, null, "No bio", null);
+            var result = new GithubUserInfoDto(17, githubUsername, null, "No bio", null);
+            return Task.FromResult(result);
         }
 
         public ContributionFullInfo GetUserActivity(string githubUsername)

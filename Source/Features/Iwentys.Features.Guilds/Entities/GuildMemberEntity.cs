@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Linq.Expressions;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Students.Entities;
 
@@ -36,17 +36,12 @@ namespace Iwentys.Features.Guilds.Entities
             Member.GuildLeftTime = DateTime.UtcNow;
             MemberType = GuildMemberType.Blocked;
         }
-    }
-    
-    public static class GuildMemberEntityExtensions
-    {
-        public static IQueryable<GuildMemberEntity> WhereIsMember(this IQueryable<GuildMemberEntity> queryable, int studentId)
+
+        public static Expression<Func<GuildMemberEntity, bool>> IsMember()
         {
-            return queryable
-                .Where(gm => gm.MemberId == studentId)
-                .Where(gm => gm.MemberType == GuildMemberType.Creator
-                             || gm.MemberType == GuildMemberType.Mentor
-                             || gm.MemberType == GuildMemberType.Member);
+            return member => member.MemberType == GuildMemberType.Creator
+                             || member.MemberType == GuildMemberType.Mentor
+                             || member.MemberType == GuildMemberType.Member;
         }
     }
 }

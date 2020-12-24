@@ -1,25 +1,27 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Iwentys.Common.Databases;
 using Iwentys.Features.Study.Entities;
-using Iwentys.Features.Study.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Study.Services
 {
     public class SubjectActivityService
     {
-        private readonly ISubjectActivityRepository _subjectActivityRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IGenericRepository<SubjectActivityEntity> _subjectActivityRepositoryNew;
 
-        public SubjectActivityService(ISubjectActivityRepository subjectActivityRepository)
+        public SubjectActivityService(IUnitOfWork unitOfWork)
         {
-            _subjectActivityRepository = subjectActivityRepository;
+            _unitOfWork = unitOfWork;
+            _subjectActivityRepositoryNew = _unitOfWork.GetRepository<SubjectActivityEntity>();
         }
 
         public Task<List<SubjectActivityEntity>> GetStudentActivity(int studentId)
         {
-            return _subjectActivityRepository
-                .Read()
+            return _subjectActivityRepositoryNew
+                .GetAsync()
                 .Where(s => s.StudentId == studentId)
                 .ToListAsync();
         }

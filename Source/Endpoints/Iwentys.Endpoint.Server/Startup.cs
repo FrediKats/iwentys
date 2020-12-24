@@ -6,8 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using Iwentys.Database.Context;
-using Iwentys.Endpoint.Server.Source.Data;
-using Iwentys.Endpoint.Server.Source.Models;
+using Iwentys.Endpoint.Server.Source.IdentityAuth;
 using Iwentys.Endpoint.Server.Source.Tools;
 
 namespace Iwentys.Endpoint.Server
@@ -21,23 +20,17 @@ namespace Iwentys.Endpoint.Server
 
         public IConfiguration Configuration { get; }
 
-        //TODO: need refactor. I'm not sure about right order
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite("IdentDb"));
 
-            services.AddDatabaseDeveloperPageExceptionFilter();
-
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+            services.AddLegacyIdentityAuth();
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
+            services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddExceptional(settings =>
             {
                 settings.Store.ApplicationName = "Samples.AspNetCore";
@@ -47,15 +40,15 @@ namespace Iwentys.Endpoint.Server
             services.AddControllersWithViews();/*.AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));*/
             services.AddSwaggerGen();
             services.AddRazorPages();
-            
+
             services
+                .AddIwentysOptions(Configuration)
                 .AddIwentysLogging(Configuration)
                 .AddIwentysCorsHack(Configuration)
-                .AddApplicationOptions(Configuration)
                 .AddIwentysDatabase()
+                .AddUnitOfWork<IwentysDbContext>()
                 .AddIwentysTokenFactory(Configuration)
-                .AddIwentysServices()
-                .AddUnitOfWork<IwentysDbContext>();
+                .AddIwentysServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

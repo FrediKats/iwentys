@@ -6,6 +6,7 @@ using Iwentys.Features.Achievements.Entities;
 using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Companies.Entities;
 using Iwentys.Features.Economy.Entities;
+using Iwentys.Features.Gamification.Entities;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Newsfeeds.Entities;
@@ -68,11 +69,12 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<StudentAchievementEntity>().HasKey(a => new {a.AchievementId, a.StudentId});
             modelBuilder.Entity<GuildAchievementEntity>().HasKey(a => new {a.AchievementId, a.GuildId});
             modelBuilder.Entity<QuestResponseEntity>().HasKey(a => new {a.QuestId, a.StudentId});
-            modelBuilder.Entity<GuildTestTaskSolvingInfoEntity>().HasKey(a => new {a.GuildId, a.StudentId});
+            modelBuilder.Entity<GuildTestTaskSolutionEntity>().HasKey(a => new {a.GuildId, a.StudentId});
             modelBuilder.Entity<StudentAssignmentEntity>().HasKey(a => new {a.AssignmentId, a.StudentId});
             modelBuilder.Entity<GuildRecruitmentMemberEntity>().HasKey(g => new {g.GuildRecruitmentId, g.MemberId});
             modelBuilder.Entity<SubjectNewsfeedEntity>().HasKey(g => new {g.SubjectId, g.NewsfeedId});
             modelBuilder.Entity<GuildNewsfeedEntity>().HasKey(g => new {g.GuildId, g.NewsfeedId});
+            modelBuilder.Entity<StudentInterestTagEntity>().HasKey(g => new {g.StudentId, g.InterestTagId});
         }
 
         private void SetUniqKey(ModelBuilder modelBuilder)
@@ -115,7 +117,6 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<QuestResponseEntity>().HasData(seedData.QuestGenerator.QuestResponse);
         }
 
-        //TODO: Hack for removing cascade. Need to rework keys
         private void RemoveCascadeDeleting(ModelBuilder modelBuilder)
         {
             IEnumerable<IMutableForeignKey> cascadeFKs = modelBuilder.Model.GetEntityTypes()
@@ -126,17 +127,20 @@ namespace Iwentys.Database.Context
                 fk.DeleteBehavior = DeleteBehavior.Restrict;
         }
 
-        #region Guilds
+        #region Gamification
+        public DbSet<InterestTagEntity> InterestTags { get; set; }
+        public DbSet<StudentInterestTagEntity> UserInterestTags { get; set; }
+        #endregion
 
+        #region Guilds
         public DbSet<GuildEntity> Guilds { get; set; }
         public DbSet<GuildMemberEntity> GuildMembers { get; set; }
         public DbSet<GuildPinnedProjectEntity> GuildPinnedProjects { get; set; }
         public DbSet<TournamentEntity> Tournaments { get; set; }
         public DbSet<TributeEntity> Tributes { get; set; }
-        public DbSet<GuildTestTaskSolvingInfoEntity> GuildTestTaskSolvingInfos { get; set; }
+        public DbSet<GuildTestTaskSolutionEntity> GuildTestTaskSolvingInfos { get; set; }
         public DbSet<GuildRecruitmentEntity> GuildRecruitment { get; set; }
         public DbSet<GuildRecruitmentMemberEntity> GuildRecruitmentMembers { get; set; }
-
         #endregion
 
         #region Study

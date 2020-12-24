@@ -6,7 +6,7 @@ using Iwentys.Features.Guilds.Models.Guilds;
 using Iwentys.Features.Guilds.Models.GuildTribute;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Enums;
-using Iwentys.Tests.Tools;
+using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
 namespace Iwentys.Tests.Features.Guilds
@@ -21,7 +21,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .Case()
                 .WithNewStudent(out AuthorizedUser student)
                 .WithGuild(student, out ExtendedGuildProfileWithMemberDataDto guild)
-                .WithNewStudent(out AuthorizedUser admin, UserType.Admin)
+                .WithNewStudent(out AuthorizedUser admin, StudentRole.Admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor)
                 .WithStudentProject(student, out GithubProjectEntity project)
                 .WithTribute(student, project, out TributeInfoResponse _);
@@ -39,14 +39,14 @@ namespace Iwentys.Tests.Features.Guilds
                 .Case()
                 .WithNewStudent(out AuthorizedUser student)
                 .WithGuild(student, out ExtendedGuildProfileWithMemberDataDto guild)
-                .WithNewStudent(out AuthorizedUser admin, UserType.Admin)
+                .WithNewStudent(out AuthorizedUser admin, StudentRole.Admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor)
                 .WithStudentProject(student, out GithubProjectEntity project)
                 .WithTribute(student, project, out TributeInfoResponse tributeInfo);
 
             await context.GuildTributeServiceService.CancelTribute(student, tributeInfo.Project.Id);
             List<TributeInfoResponse> pendingTributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
-            TributeInfoResponse[] studentTributes = context.GuildTributeServiceService.GetStudentTributeResult(student);
+            List<TributeInfoResponse> studentTributes = context.GuildTributeServiceService.GetStudentTributeResult(student);
 
             Assert.IsEmpty(pendingTributes);
             Assert.IsNotEmpty(studentTributes);
@@ -60,14 +60,14 @@ namespace Iwentys.Tests.Features.Guilds
                 .Case()
                 .WithNewStudent(out AuthorizedUser student)
                 .WithGuild(student, out ExtendedGuildProfileWithMemberDataDto guild)
-                .WithNewStudent(out AuthorizedUser admin, UserType.Admin)
+                .WithNewStudent(out AuthorizedUser admin, StudentRole.Admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor)
                 .WithStudentProject(student, out GithubProjectEntity project)
                 .WithTribute(student, project, out TributeInfoResponse tributeInfo)
                 .WithCompletedTribute(mentor, tributeInfo, out TributeInfoResponse completedTribute);
 
             List<TributeInfoResponse> pendingTributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
-            TributeInfoResponse[] studentTributes = context.GuildTributeServiceService.GetStudentTributeResult(student);
+            List<TributeInfoResponse> studentTributes = context.GuildTributeServiceService.GetStudentTributeResult(student);
 
             Assert.IsEmpty(pendingTributes);
             Assert.IsNotEmpty(studentTributes);

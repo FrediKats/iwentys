@@ -30,26 +30,24 @@ namespace Iwentys.Features.Economy.Services
                 throw InnerLogicException.NotEnoughBarsPoints();
 
             BarsPointTransactionEntity transaction = BarsPointTransactionEntity.CompletedFor(sender, receiver, pointAmountToTransfer);
-            sender.BarsPoints -= pointAmountToTransfer;
-            receiver.BarsPoints += pointAmountToTransfer;
                     
-            await _studentRepository.UpdateAsync(sender);
-            await _studentRepository.UpdateAsync(receiver);
+            _studentRepository.Update(sender);
+            _studentRepository.Update(receiver);
             await _barsPointTransactionRepository.InsertAsync(transaction);
 
             await _unitOfWork.CommitAsync();
             return transaction;
         }
 
-        public async Task TransferFromSystem(int toId, int pointAmountToTransfer)
+        public async Task<BarsPointTransactionEntity> TransferFromSystem(int toId, int pointAmountToTransfer)
         {
-            //TODO: implement
             StudentEntity receiver = await _studentRepository.GetByIdAsync(toId);
+            BarsPointTransactionEntity transaction = BarsPointTransactionEntity.ReceiveFromSystem(receiver, pointAmountToTransfer);
 
-            receiver.BarsPoints += pointAmountToTransfer;
-
-            await _studentRepository.UpdateAsync(receiver);
-
+            await _barsPointTransactionRepository.InsertAsync(transaction);
+            _studentRepository.Update(receiver);
+            await _unitOfWork.CommitAsync();
+            return transaction;
         }
     }
 }

@@ -11,11 +11,13 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
         private GuildMemberLeaderBoardDto _leaderBoard;
 
         private GuildControllerClient _guildControllerClient;
+        private GuildMemberControllerClient _guildMemberControllerClient;
 
         protected override async Task OnInitializedAsync()
         {
             HttpClient httpClient = await Http.TrySetHeader(LocalStorage);
             _guildControllerClient = new GuildControllerClient(httpClient);
+            _guildMemberControllerClient = new GuildMemberControllerClient(httpClient);
             _leaderBoard = await _guildControllerClient.GetGuildMemberLeaderBoard(GuildProfile.Id);
         }
     }

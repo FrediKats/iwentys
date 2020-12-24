@@ -19,5 +19,12 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
                 .Request($"/api/guild/{guildId}/leave")
                 .PutAsync();
         }
+
+        public async Task KickGuildMember(int guildId, int memberId)
+        {
+            await new FlurlClient(Client)
+                .Request($"/api/guild/{guildId}/member/{memberId}/kick")
+                .PutAsync();
+        }
     }
 }

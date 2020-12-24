@@ -19,7 +19,7 @@ namespace Iwentys.Features.Guilds.Entities
 
         public virtual List<GuildMemberEntity> Members { get; set; } = new List<GuildMemberEntity>();
         public virtual List<GuildPinnedProjectEntity> PinnedProjects { get; set; } = new List<GuildPinnedProjectEntity>();
-        public virtual List<GuildTestTaskSolvingInfoEntity> TestTasks { get; set; } = new List<GuildTestTaskSolvingInfoEntity>();
+        public virtual List<GuildTestTaskSolutionEntity> TestTasks { get; set; } = new List<GuildTestTaskSolutionEntity>();
         
         public virtual List<GuildAchievementEntity> Achievements { get; set; } = new List<GuildAchievementEntity>();
 

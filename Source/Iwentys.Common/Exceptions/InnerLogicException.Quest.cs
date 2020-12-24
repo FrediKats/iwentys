@@ -8,6 +8,11 @@
             {
                 throw new InnerLogicException("Quest is not active");
             }
+
+            public static InnerLogicException AuthorCanRespondToQuest(int questId, int authorId)
+            {
+                throw new InnerLogicException($"Quest author cannot respond to quest. QuestId: {questId}, AuthorId: {authorId}");
+            }
         }
     }
 }

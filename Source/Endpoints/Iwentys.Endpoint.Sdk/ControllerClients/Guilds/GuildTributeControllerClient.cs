@@ -17,7 +17,6 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
 
         public Task<List<TributeInfoResponse>> GetGuildTribute(int guildId)
         {
-            //TODO: rework it later
             return Client.GetFromJsonAsync<List<TributeInfoResponse>>($"/api/guild/tribute/get-for-guild?guildId={guildId}");
         }
     }

@@ -29,7 +29,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             }
         }
 
-        private ActivityInfo CreateActivity(Faker faker)
+        private static ActivityInfo CreateActivity(Faker faker)
         {
             List<ContributionsInfo> result = new List<ContributionsInfo>();
             for (int i = 1; i <= 11; i++)

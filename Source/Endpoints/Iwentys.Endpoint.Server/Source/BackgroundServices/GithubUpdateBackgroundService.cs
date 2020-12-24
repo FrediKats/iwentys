@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
+using Iwentys.Endpoint.Server.Source.Options;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Students.Entities;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,11 +15,13 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
     public class GithubUpdateBackgroundService : BackgroundService
     {
         private readonly IServiceProvider _sp;
+        private readonly ApplicationOptions _applicationOptions;
         private readonly ILogger _logger;
 
-        public GithubUpdateBackgroundService(ILoggerFactory loggerFactory, IServiceProvider sp)
+        public GithubUpdateBackgroundService(ILoggerFactory loggerFactory, IServiceProvider sp, ApplicationOptions applicationOptions)
         {
             _sp = sp;
+            _applicationOptions = applicationOptions;
             _logger = loggerFactory.CreateLogger("GithubUpdateBackgroundService");
         }
 
@@ -51,7 +54,7 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
                     _logger.LogError(e, "Fail to perform GithubUpdateBackgroundService update");
                 }
 
-                await Task.Delay(ApplicationOptions.DaemonUpdateInterval, stoppingToken).ConfigureAwait(false);
+                await Task.Delay(_applicationOptions.DaemonUpdateInterval, stoppingToken).ConfigureAwait(false);
             }
         }
     }

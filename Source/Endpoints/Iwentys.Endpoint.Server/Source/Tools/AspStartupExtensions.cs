@@ -1,21 +1,26 @@
-﻿using Iwentys.Database.Context;
+﻿using Iwentys.Common.Databases;
+using Iwentys.Database.Context;
 using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Repositories.Study;
-using Iwentys.Endpoint.Server.Source.Auth;
+using Iwentys.Database.Tools;
+using Iwentys.Endpoint.Server.Source.IdentityAuth;
+using Iwentys.Endpoint.Server.Source.Options;
+using Iwentys.Endpoint.Server.Source.Tokens;
+using Iwentys.Features.Achievements;
 using Iwentys.Features.Achievements.Domain;
-using Iwentys.Features.Assignments.Services;
-using Iwentys.Features.Companies.Services;
-using Iwentys.Features.Economy.Services;
-using Iwentys.Features.Gamification.Services;
+using Iwentys.Features.Assignments;
+using Iwentys.Features.Companies;
+using Iwentys.Features.Economy;
+using Iwentys.Features.Gamification;
 using Iwentys.Features.GithubIntegration;
-using Iwentys.Features.GithubIntegration.Services;
+using Iwentys.Features.Guilds;
 using Iwentys.Features.Guilds.Repositories;
-using Iwentys.Features.Guilds.Services;
-using Iwentys.Features.Newsfeeds.Services;
-using Iwentys.Features.Quests.Services;
-using Iwentys.Features.Students.Services;
+using Iwentys.Features.Newsfeeds;
+using Iwentys.Features.Quests;
+using Iwentys.Features.Students;
+using Iwentys.Features.Study;
 using Iwentys.Features.Study.Repositories;
-using Iwentys.Features.Study.Services;
+using Iwentys.Features.Voting;
 using Iwentys.Integrations.GithubIntegration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
@@ -29,6 +34,18 @@ namespace Iwentys.Endpoint.Server.Source.Tools
 {
     public static class AspStartupExtensions
     {
+        public static IServiceCollection AddIwentysOptions(this IServiceCollection services, IConfiguration configuration)
+        {
+            var token = TokenApplicationOptions.Load(configuration);
+            
+            return services
+                .AddSingleton(IsuApplicationOptions.Load(configuration))
+                .AddSingleton(token)
+                .AddSingleton(JwtApplicationOptions.Load(configuration))
+                .AddSingleton(new GithubApiAccessorOptions {Token = token.GithubToken})
+                .AddSingleton(new ApplicationOptions());
+        }
+
         public static IServiceCollection AddIwentysDatabase(this IServiceCollection services)
         {
             //TODO: replace with normal db
@@ -42,68 +59,39 @@ namespace Iwentys.Endpoint.Server.Source.Tools
 
         public static IServiceCollection AddIwentysServices(this IServiceCollection services)
         {
-            if (ApplicationOptions.GithubToken is null)
-                services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();
-            else
-            {
-                GithubApiAccessor.Token = ApplicationOptions.GithubToken;
-                services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
-            }
-
-            services.AddScoped<AssignmentService>();
-
-            services.AddScoped<CompanyService>();
-
-            services.AddScoped<BarsPointTransactionLogService>();
-
-            services.AddScoped<GithubIntegrationService>();
-            services.AddScoped<StudyLeaderboardService>();
-
-            services.AddScoped<IGuildMemberRepository, GuildMemberRepository>();
-            services.AddScoped<IGuildRepository, GuildRepository>();
-            services.AddScoped<GuildMemberService>();
-            services.AddScoped<GuildRecruitmentService>();
-            services.AddScoped<GuildService>();
-            services.AddScoped<GuildTestTaskService>();
-            services.AddScoped<GuildTributeService>();
-            services.AddScoped<TournamentService>();
-
-            services.AddScoped<NewsfeedService>();
-
-            services.AddScoped<QuestService>();
-
-            services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
-            services.AddScoped<StudentService>();
-            services.AddScoped<StudyGroupService>();
-            services.AddScoped<SubjectService>();
-            services.AddScoped<SubjectActivityService>();
-
+            //TODO: replace
+            services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();
+            //services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
             services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();
+            
+            
+            services.AddIwentysAchievementFeatureServices();
+            services.AddIwentysAssignmentFeatureServices();
+            services.AddIwentysCompanyFeatureServices();
+            services.AddIwentysEconomyFeatureServices();
+            services.AddIwentysGamificationFeatureServices();
+            services.AddIwentysGithubIntegrationFeatureServices();
 
-            return services;
-        }
+            services.AddScoped<IGuildRepository, GuildRepository>();
+            services.AddIwentysGuildFeatureServices();
 
-        public static IServiceCollection AddApplicationOptions(this IServiceCollection services, IConfiguration configuration)
-        {
-            ApplicationOptions.GoogleServiceToken = configuration["GoogleTableCredentials"];
-            ApplicationOptions.GithubToken = configuration["GithubToken"];
-            ApplicationOptions.TelegramToken = configuration["TelegramToken"];
-            ApplicationOptions.SigningSecurityKey = configuration["jwt:SigningSecurityKey"];
-            ApplicationOptions.JwtIssuer = configuration["jwt:issuer"];
+            services.AddIwentysNewsfeedFeatureServices();
+            services.AddIwentysQuestFeatureServices();
+            services.AddIwentysStudentsFeatureServices();
+            
+            services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
+            services.AddIwentysStudyFeatureServices();
+            services.AddIwentysVotingFeatureServices();
 
-            ApplicationOptions.IsuClientId = configuration["isu_auth:client_id"];
-            ApplicationOptions.IsuClientSecret = configuration["isu_auth:client_secret"];
-            ApplicationOptions.IsuRedirection = configuration["isu_auth:redirect_uri"];
-            ApplicationOptions.IsuAuthUrl = configuration["isu_auth:isu_auth_url"];
             return services;
         }
 
         public static IServiceCollection AddIwentysTokenFactory(this IServiceCollection services, IConfiguration configuration)
         {
-            var signingKey = new SigningSymmetricKey(ApplicationOptions.SigningSecurityKey);
+            var jwtOptions = JwtApplicationOptions.Load(configuration);
+            var signingKey = new SigningSymmetricKey(jwtOptions.SigningSecurityKey);
             services.AddSingleton<IJwtSigningEncodingKey>(signingKey);
-
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -113,8 +101,8 @@ namespace Iwentys.Endpoint.Server.Source.Tools
                         ValidateAudience = true,
                         ValidateLifetime = false,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = ApplicationOptions.JwtIssuer,
-                        ValidAudience = ApplicationOptions.JwtIssuer,
+                        ValidIssuer = jwtOptions.JwtIssuer,
+                        ValidAudience = jwtOptions.JwtIssuer,
                         IssuerSigningKey = signingKey.GetKey()
                     };
                 });
@@ -145,6 +133,24 @@ namespace Iwentys.Endpoint.Server.Source.Tools
                     .AllowAnyMethod()
                     .AllowAnyHeader();
             }));
+            return services;
+        }
+
+        public static IServiceCollection AddUnitOfWork<TContext>(this IServiceCollection services)
+            where TContext : DbContext
+        {
+            services.AddScoped<IUnitOfWork, UnitOfWork<TContext>>();
+            return services;
+        }
+
+        public static IServiceCollection AddLegacyIdentityAuth(this IServiceCollection services)
+        {
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddIdentityServer()
+                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+            
             return services;
         }
     }

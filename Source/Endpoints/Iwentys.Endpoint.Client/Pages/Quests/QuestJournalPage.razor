@@ -8,42 +8,49 @@
 
 <div class="container-fluid d-flex flex-row">
     <div class="col-md-3 d-flex flex-column dark-elevation-01">
-        <MatButton>Active</MatButton>
-        <MatButton>Created</MatButton>
-        <MatButton>Archive</MatButton>
+        <MatButton OnClick=@(async () => await SelectActive())>Active</MatButton>
+        <MatButton OnClick=@(async () => await SelectCreated())>Created</MatButton>
+        <MatButton OnClick=@(async () => await SelectArchived())>Archive</MatButton>
         <MatButton Link="/quest/create">Добавить квест</MatButton>
 
     </div>
 
     <div class="col-md-6 d-flex flex-column dark-elevation-01">
         <h3>Quest Journal Page</h3>
-        @if (_activeQuests is not null)
+        @if (_selectedQuest is not null)
         {
             <div class="container-fluid d-flex flex-column">
-                @foreach (QuestInfoDto quest in _activeQuests)
+                @foreach (QuestInfoDto quest in _selectedQuest)
                 {
                     <div class="quest-journal-elemnt">
                         <MatCard Class="dark-elevation-02">
                             <MatCardContent>
-                                <MatHeadline6>
-                                    @quest.Title (@quest.Price)
-                                </MatHeadline6>
-                                <MatBody1>
-                                    @quest.Description
-                                </MatBody1>
-                                <MatBody2>
-                                    @quest.CreationTime
-                                </MatBody2>
+                                <div class="quest-journal-elemnt-content">
+                                    <MatHeadline6>
+                                        @quest.Title (@quest.Price)
+                                    </MatHeadline6>
+                                    <MatBody1>
+                                        @quest.Description
+                                    </MatBody1>
+                                    <MatBody2>
+                                        @quest.CreationTime
+                                    </MatBody2>
+                                </div>
                             </MatCardContent>
                             <MatCardActions>
                                 <MatButton Link=@LinkToQuestProfilePage(quest)>Profile</MatButton>
                                 <MatButton Link=@LinkToQuestResponsePage(quest)>Response</MatButton>
+                                @if (IsQuestCanBeRevoked(quest))
+                                {
+                                    <MatButton OnClick=@(async () => await RevokeQuest(quest))>Revoke</MatButton>
+                                }
+
                             </MatCardActions>
                         </MatCard>
                     </div>
                 }
             </div>
-            @*<MatButton OnClick=@(async () => await MakeCompleted())>[ ]</MatButton>*@
+            @*<QuestListComponent Quests=@_selectedQuest></QuestListComponent>*@
         }
     </div>
 </div>

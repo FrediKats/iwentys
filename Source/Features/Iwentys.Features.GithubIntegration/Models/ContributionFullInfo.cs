@@ -12,6 +12,7 @@ namespace Iwentys.Features.GithubIntegration.Models
 
         public List<ContributionsInfo> PerMonthActivity()
         {
+            //TODO: convert date to month name
             return RawActivity
                 .Contributions
                 .GroupBy(c => c.Date.Substring(0, 7))

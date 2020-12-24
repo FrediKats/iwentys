@@ -4,6 +4,7 @@ using Iwentys.Features.Students.Models;
 
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using Iwentys.Common.Tools;
 
 namespace Iwentys.Features.Quests.Models
@@ -21,7 +22,7 @@ namespace Iwentys.Features.Quests.Models
                 questEntity.State,
                 questEntity.IsOutdated,
                 new StudentInfoDto(questEntity.Author),
-                //TODO: fix this
+                //TODO: fix this. NRE coz lazy load do not work. https://github.com/kysect/iwentys/issues/138
                 questEntity.Responses?.SelectToList(qr => new QuestResponseInfoDto(qr)))
         {
         }
@@ -56,9 +57,6 @@ namespace Iwentys.Features.Quests.Models
         public StudentInfoDto Author { get; init; }
         public List<QuestResponseInfoDto> ResponseInfos { get; set; }
 
-        public static QuestInfoDto Wrap(QuestEntity questEntity)
-        {
-            return new QuestInfoDto(questEntity);
-        }
+        public static Expression<Func<QuestEntity, QuestInfoDto>> FromEntity => entity => new QuestInfoDto(entity);
     }
 }

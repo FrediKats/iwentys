@@ -2,11 +2,13 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
+using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Study.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Assignments.Services
@@ -16,6 +18,7 @@ namespace Iwentys.Features.Assignments.Services
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IGenericRepository<StudentEntity> _studentRepository;
+        private readonly IGenericRepository<StudyGroupEntity> _studentGroupRepository;
         private readonly IGenericRepository<AssignmentEntity> _assignmentRepository;
         private readonly IGenericRepository<StudentAssignmentEntity> _studentAssignmentRepository;
 
@@ -38,14 +41,28 @@ namespace Iwentys.Features.Assignments.Services
             return new AssignmentInfoDto(studentAssignmentEntity);
         }
 
+        public async Task CreateForGroupAsync(AuthorizedUser user, AssignmentCreateRequestDto assignmentCreateRequestDto)
+        {
+            var creator = await _studentRepository.GetByIdAsync(user.Id);
+            var groupAdmin = creator.EnsureIsGroupAdmin();
+            var studyGroupEntity = await _studentGroupRepository.GetByIdAsync(groupAdmin.Student.GroupId);
+
+            List<StudentAssignmentEntity> studentAssignmentEntities = StudentAssignmentEntity.CreateForGroup(groupAdmin, assignmentCreateRequestDto, studyGroupEntity);
+            foreach (var assignmentEntity in studentAssignmentEntities)
+            {
+                await _studentAssignmentRepository.InsertAsync(assignmentEntity);
+            }
+
+            await _unitOfWork.CommitAsync();
+        }
+
         public async Task<List<AssignmentInfoDto>> ReadByUserAsync(AuthorizedUser user)
         {
-            List<StudentAssignmentEntity> studentAssignmentEntities = await _studentAssignmentRepository
+            return await _studentAssignmentRepository
                 .GetAsync()
                 .Where(a => a.StudentId == user.Id)
+                .Select(AssignmentInfoDto.FromStudentEntity)
                 .ToListAsync();
-
-            return studentAssignmentEntities.SelectToList(a => new AssignmentInfoDto(a));
         }
 
         public async Task<AssignmentInfoDto> ReadByIdAsync(int assignmentId)
@@ -61,17 +78,36 @@ namespace Iwentys.Features.Assignments.Services
             
             assignment.MarkCompleted(student);
             
-            await _assignmentRepository.UpdateAsync(assignment);
+            _assignmentRepository.Update(assignment);
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task UndoAsync(AuthorizedUser user, int assignmentId)
+        {
+            var student = await _studentRepository.GetByIdAsync(user.Id);
+            var assignment = await _assignmentRepository.GetByIdAsync(assignmentId);
+
+            assignment.MarkUncompleted(student);
+
+            _assignmentRepository.Update(assignment);
             await _unitOfWork.CommitAsync();
         }
 
         public async Task DeleteAsync(AuthorizedUser user, int assignmentId)
         {
-            //TODO: ensure user is creator
             var student = await _studentRepository.GetByIdAsync(user.Id);
             var assignment = await _assignmentRepository.GetByIdAsync(assignmentId);
+            if (student.Id != assignment.CreatorId)
+                throw InnerLogicException.Assignment.IsNotAssignmentCreator(assignment.Id, student.Id);
 
-            await _assignmentRepository.DeleteAsync(assignment);
+            //FYI: it's coz for dropped cascade
+            List<StudentAssignmentEntity> studentAssignmentEntities = await _studentAssignmentRepository
+                .GetAsync()
+                .Where(sa => sa.AssignmentId == assignmentId)
+                .ToListAsync();
+            studentAssignmentEntities.ForEach(sa => _studentAssignmentRepository.Delete(sa));
+            
+            _assignmentRepository.Delete(assignment);
             await _unitOfWork.CommitAsync();
         }
     }

@@ -7,9 +7,9 @@ namespace Iwentys.Common.Databases
     {
         IQueryable<TEntity> GetAsync();
         Task<TEntity> GetByIdAsync<TKey>(TKey id);
-        Task InsertAsync(TEntity entity);
+        Task<TEntity> InsertAsync(TEntity entity);
         Task DeleteAsync<TKey>(TKey id);
-        Task DeleteAsync(TEntity entityToDelete);
-        Task UpdateAsync(TEntity entityToUpdate);
+        void Delete(TEntity entityToDelete);
+        void Update(TEntity entityToUpdate);
     }
 }

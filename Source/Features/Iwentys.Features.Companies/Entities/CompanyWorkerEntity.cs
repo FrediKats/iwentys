@@ -1,4 +1,7 @@
-﻿using Iwentys.Features.Companies.Enums;
+﻿using System;
+using System.Linq.Expressions;
+using Iwentys.Features.Companies.Enums;
+using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Companies.Entities
@@ -12,6 +15,8 @@ namespace Iwentys.Features.Companies.Entities
         public virtual StudentEntity Worker { get; set; }
 
         public CompanyWorkerType Type { get; set; }
+        public int? ApprovedById { get; set; }
+        public virtual StudentEntity ApprovedBy { get; set; }
 
         public static CompanyWorkerEntity NewRequest(CompanyEntity companyEntity, StudentEntity worker)
         {
@@ -23,10 +28,12 @@ namespace Iwentys.Features.Companies.Entities
             };
         }
         
-        public void Approve()
+        public void Approve(SystemAdminUser systemAdminUser)
         {
-            //TODO: some... more validation?
+            ApprovedById = systemAdminUser.Student.Id;
             Type = CompanyWorkerType.Accepted;
         }
+        
+        public static Expression<Func<CompanyWorkerEntity, bool>> IsRequested => worker => worker.Type == CompanyWorkerType.Requested;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using Iwentys.Features.Newsfeeds.Entities;
 using Iwentys.Features.Students.Models;
 
@@ -14,17 +15,28 @@ namespace Iwentys.Features.Newsfeeds.Models
 
         public StudentInfoDto Author { get; set; }
 
-        public static NewsfeedViewModel Wrap(NewsfeedEntity entity)
-        {
-            return new NewsfeedViewModel
-            {
-                Id = entity.Id,
-                Title = entity.Title,
-                Content = entity.Content,
-                CreationTimeUtc = entity.CreationTimeUtc,
-                SourceLink = entity.SourceLink,
-                Author = new StudentInfoDto(entity.Author)
-            };
-        }
+        public static Expression<Func<SubjectNewsfeedEntity, NewsfeedViewModel>> FromSubjectEntity =>
+            entity =>
+                new NewsfeedViewModel
+                {
+                    Id = entity.Newsfeed.Id,
+                    Title = entity.Newsfeed.Title,
+                    Content = entity.Newsfeed.Content,
+                    CreationTimeUtc = entity.Newsfeed.CreationTimeUtc,
+                    SourceLink = entity.Newsfeed.SourceLink,
+                    Author = new StudentInfoDto(entity.Newsfeed.Author)
+                };
+
+        public static Expression<Func<GuildNewsfeedEntity, NewsfeedViewModel>> FromGuildEntity =>
+            entity =>
+                new NewsfeedViewModel
+                {
+                    Id = entity.Newsfeed.Id,
+                    Title = entity.Newsfeed.Title,
+                    Content = entity.Newsfeed.Content,
+                    CreationTimeUtc = entity.Newsfeed.CreationTimeUtc,
+                    SourceLink = entity.Newsfeed.SourceLink,
+                    Author = new StudentInfoDto(entity.Newsfeed.Author)
+                };
     }
 }

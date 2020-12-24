@@ -65,8 +65,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
 
         private void InitGithubChart()
         {
-            IEnumerable<Int32Wrapper> elements = _codingActivityInfo?.Select(a => new Int32Wrapper(a.Activity))
-                                                 ?? new List<Int32Wrapper>();
+            IEnumerable<Int32Wrapper> elements = _codingActivityInfo.Select(a => new Int32Wrapper(a.Activity));
 
             var lineDataset = new LineDataset<Int32Wrapper>(elements)
             {
@@ -112,7 +111,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
                 }
             };
 
-            //TODO: add real month
+            _githubChartConfig.Data.Labels = _codingActivityInfo.Select(a => a.Month).ToList();
             _githubChartConfig.Data.Labels = Enumerable.Repeat("", 12).ToList();
             _githubChartConfig.Data.Datasets.Add(lineDataset);
         }

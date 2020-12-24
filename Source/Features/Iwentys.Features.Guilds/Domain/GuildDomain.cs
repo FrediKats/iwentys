@@ -23,21 +23,18 @@ namespace Iwentys.Features.Guilds.Domain
 
         private readonly GithubIntegrationService _githubIntegrationService;
         private readonly IGenericRepository<StudentEntity> _studentRepository;
-        private readonly IGuildRepository _guildRepository;
-        private readonly IGuildMemberRepository _guildMemberRepository;
+        private readonly IGenericRepository<GuildMemberEntity> _guildMemberRepositoryNew;
 
         public GuildDomain(
             GuildEntity profile,
             GithubIntegrationService githubIntegrationService,
             IGenericRepository<StudentEntity> studentRepository,
-            IGuildRepository guildRepository,
-            IGuildMemberRepository guildMemberRepository)
+            IGenericRepository<GuildMemberEntity> guildMemberRepositoryNew)
         {
             Profile = profile;
             _githubIntegrationService = githubIntegrationService;
             _studentRepository = studentRepository;
-            _guildRepository = guildRepository;
-            _guildMemberRepository = guildMemberRepository;
+            _guildMemberRepositoryNew = guildMemberRepositoryNew;
         }
 
         public async Task<ExtendedGuildProfileWithMemberDataDto> ToExtendedGuildProfileDto(int? userId = null)
@@ -45,7 +42,8 @@ namespace Iwentys.Features.Guilds.Domain
             var info = new ExtendedGuildProfileWithMemberDataDto(Profile)
             {
                 Leader = Profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentInfoDto(s)),
-                PinnedRepositories = Profile.PinnedProjects.SelectToList(p => _githubIntegrationService.GetCertainRepository(p.RepositoryOwner, p.RepositoryName)),
+                //TODO; return result
+                PinnedRepositories = Profile.PinnedProjects.SelectToList(p => _githubIntegrationService.GetRepository(p.RepositoryOwner, p.RepositoryName).Result),
             };
 
             if (userId is not null)
@@ -61,7 +59,7 @@ namespace Iwentys.Features.Guilds.Domain
                 .Select(m => m.Member.GithubUsername)
                 .Where(gh => gh is not null)
                 .ToList()
-                .Select(ghName => _githubIntegrationService.FindByUsername(ghName).Result)
+                .Select(ghName => _githubIntegrationService.GetGithubUser(ghName).Result)
                 .Where(userData => userData is not null)
                 .ToList();
         }
@@ -79,7 +77,7 @@ namespace Iwentys.Features.Guilds.Domain
         public async Task<UserMembershipState> GetUserMembershipState(Int32 userId)
         {
             StudentEntity user = await _studentRepository.GetByIdAsync(userId);
-            GuildEntity userGuild = _guildRepository.ReadForStudent(user.Id);
+            GuildEntity userGuild = _guildMemberRepositoryNew.ReadForStudent(user.Id);
             GuildMemberType? userStatusInGuild = Profile.Members.Find(m => m.Member.Id == user.Id)?.MemberType;
 
             if (userStatusInGuild == GuildMemberType.Blocked)
@@ -93,11 +91,11 @@ namespace Iwentys.Features.Guilds.Domain
                 userGuild.Id == Profile.Id)
                 return UserMembershipState.Entered;
 
-            if (_guildMemberRepository.IsStudentHaveRequest(userId) &&
+            if (_guildMemberRepositoryNew.IsStudentHaveRequest(userId) &&
                 userStatusInGuild != GuildMemberType.Requested)
                 return UserMembershipState.Blocked;
 
-            if (_guildMemberRepository.IsStudentHaveRequest(userId) &&
+            if (_guildMemberRepositoryNew.IsStudentHaveRequest(userId) &&
                 userStatusInGuild == GuildMemberType.Requested)
                 return UserMembershipState.Requested;
 

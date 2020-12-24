@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Students.Models;
@@ -18,6 +19,19 @@ namespace Iwentys.Features.Guilds.Models.GuildTribute
 
         public StudentInfoDto Mentor { get; set; }
         public int? MentorId { get; set; }
+
+        public static Expression<Func<TributeEntity, TributeInfoResponse>> FromEntity =>
+            project =>
+                new TributeInfoResponse
+                {
+                    Project = StudentProjectInfoResponse.Wrap(project.ProjectEntity),
+                    GuildId = project.GuildId,
+                    State = project.State,
+                    DifficultLevel = project.DifficultLevel,
+                    Mark = project.Mark,
+                    CreationTimeUtc = project.CreationTimeUtc,
+                    Mentor = project.Mentor == null ? null : new StudentInfoDto(project.Mentor)
+                };
 
         public static TributeInfoResponse Wrap(TributeEntity project)
         {

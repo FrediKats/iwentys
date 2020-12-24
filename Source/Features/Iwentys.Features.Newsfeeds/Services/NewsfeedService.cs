@@ -2,11 +2,12 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Common.Tools;
+using Iwentys.Common.Exceptions;
 using Iwentys.Features.Newsfeeds.Entities;
 using Iwentys.Features.Newsfeeds.Models;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Students.Enums;
 using Iwentys.Features.Study.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,6 +37,9 @@ namespace Iwentys.Features.Newsfeeds.Services
             var author = await _studentRepository.GetByIdAsync(authorizedUser.Id);
             var subject = await _subjectRepository.GetByIdAsync(subjectId);
 
+            if (author.Role != StudentRole.GroupAdmin && author.Role != StudentRole.Admin)
+                throw InnerLogicException.NotEnoughPermissionFor(author.Id);
+
             var newsfeedEntity = SubjectNewsfeedEntity.Create(createViewModel, author, subject);
             
             await _subjectNewsfeedRepository.InsertAsync(newsfeedEntity);
@@ -44,20 +48,19 @@ namespace Iwentys.Features.Newsfeeds.Services
 
         public async Task<List<NewsfeedViewModel>> GetSubjectNewsfeedsAsync(int subjectId)
         {
-            List<SubjectNewsfeedEntity> subjectNewsfeedEntities = await _subjectNewsfeedRepository.GetAsync()
+            return await _subjectNewsfeedRepository
+                .GetAsync()
                 .Where(sn => sn.SubjectId == subjectId)
+                .Select(NewsfeedViewModel.FromSubjectEntity)
                 .ToListAsync();
-            
-            return subjectNewsfeedEntities.SelectToList(n => NewsfeedViewModel.Wrap(n.Newsfeed));
         }
 
         public async Task<List<NewsfeedViewModel>> GetGuildNewsfeeds(int guildId)
         {
-            List<GuildNewsfeedEntity> guildNewsfeedEntities = await _guildNewsfeedRepository.GetAsync()
+            return await _guildNewsfeedRepository.GetAsync()
                 .Where(gn => gn.GuildId == guildId)
+                .Select(NewsfeedViewModel.FromGuildEntity)
                 .ToListAsync();
-
-            return guildNewsfeedEntities.SelectToList(n => NewsfeedViewModel.Wrap(n.Newsfeed));
         }
     }
 }

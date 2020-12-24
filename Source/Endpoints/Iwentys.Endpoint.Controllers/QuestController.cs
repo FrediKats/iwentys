@@ -83,8 +83,8 @@ namespace Iwentys.Endpoint.Controllers
             return Ok(quest);
         }
 
-        [HttpPut("{questId}/revoke")]
-        public async Task<ActionResult<QuestInfoDto>> Revoke([FromRoute] int questId)
+        [HttpGet("{questId}/revoke")]
+        public async Task<ActionResult<QuestInfoDto>> Revoke(int questId)
         {
             AuthorizedUser author = this.TryAuthWithToken();
             QuestInfoDto quest = await _questService.RevokeAsync(author, questId);

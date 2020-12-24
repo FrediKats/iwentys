@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
+using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Students.Models;
 using Microsoft.EntityFrameworkCore;
@@ -14,11 +15,12 @@ namespace Iwentys.Features.Students.Services
         private readonly IUnitOfWork _unitOfWork;
         
         private readonly IGenericRepository<StudentEntity> _studentRepository;
-        //private readonly AchievementProvider _achievementProvider;
+        private readonly AchievementProvider _achievementProvider;
 
-        public StudentService(IUnitOfWork unitOfWork)
+        public StudentService(IUnitOfWork unitOfWork, AchievementProvider achievementProvider)
         {
             _unitOfWork = unitOfWork;
+            _achievementProvider = achievementProvider;
             _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
         }
 
@@ -60,11 +62,9 @@ namespace Iwentys.Features.Students.Services
             //throw new NotImplementedException("Need to validate github credentials");
             StudentEntity user = await _studentRepository.GetByIdAsync(id);
             user.GithubUsername = githubUsername;
-            await _studentRepository.UpdateAsync(user);
+            _studentRepository.Update(user);
 
-            //TODO: implement getting achievements for adding github
-            //_achievementProvider.Achieve(AchievementList.AddGithubAchievement, user.Id);
-            //TODO: ensure we need to return this
+            await _achievementProvider.Achieve(AchievementList.AddGithubAchievement, user.Id);
             return new StudentInfoDto(await _studentRepository.GetByIdAsync(id));
         }
 
@@ -72,7 +72,7 @@ namespace Iwentys.Features.Students.Services
         {
             StudentEntity user = await _studentRepository.GetByIdAsync(id);
             user.GithubUsername = githubUsername;
-            await _studentRepository.UpdateAsync(user);
+            _studentRepository.Update(user);
             return new StudentInfoDto(await _studentRepository.GetByIdAsync(id));
         }
     }
