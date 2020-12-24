@@ -18,7 +18,7 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
 
         public Task<List<StudyLeaderboardRowDto>> GetStudyRating(int courseId)
         {
-            return Client.GetFromJsonAsync<List<StudyLeaderboardRowDto>>($"api/leaderboard/study-rate?courseId={courseId}");
+            return Client.GetFromJsonAsync<List<StudyLeaderboardRowDto>>($"api/leaderboard/study?courseId={courseId}");
         }
 
         public Task<StudentActivityInfoDto> GetStudentActivity(int studentId)

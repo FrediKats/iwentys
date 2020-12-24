@@ -42,7 +42,6 @@ namespace Iwentys.Endpoint.Controllers.Study
             return Ok(result);
         }
         
-        //TODO: move?
         [HttpGet("activity/{studentId}")]
         public async Task<ActionResult<StudentActivityInfoDto>> GetStudentActivity(int studentId)
         {
