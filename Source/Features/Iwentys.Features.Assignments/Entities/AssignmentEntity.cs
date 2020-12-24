@@ -44,5 +44,16 @@ namespace Iwentys.Features.Assignments.Entities
 
             IsCompleted = true;
         }
+
+        public void MarkUncompleted(StudentEntity student)
+        {
+            if (student.Id != CreatorId)
+                throw InnerLogicException.Assignment.IsNotAssignmentCreator(Id, student.Id);
+
+            if (!IsCompleted)
+                throw InnerLogicException.Assignment.IsNotCompleted(Id);
+
+            IsCompleted = true;
+        }
     }
 }

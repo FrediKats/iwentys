@@ -82,6 +82,17 @@ namespace Iwentys.Features.Assignments.Services
             await _unitOfWork.CommitAsync();
         }
 
+        public async Task UndoAsync(AuthorizedUser user, int assignmentId)
+        {
+            var student = await _studentRepository.GetByIdAsync(user.Id);
+            var assignment = await _assignmentRepository.GetByIdAsync(assignmentId);
+
+            assignment.MarkUncompleted(student);
+
+            _assignmentRepository.Update(assignment);
+            await _unitOfWork.CommitAsync();
+        }
+
         public async Task DeleteAsync(AuthorizedUser user, int assignmentId)
         {
             var student = await _studentRepository.GetByIdAsync(user.Id);

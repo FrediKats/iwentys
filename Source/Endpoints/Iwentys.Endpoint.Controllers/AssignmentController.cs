@@ -44,7 +44,14 @@ namespace Iwentys.Endpoint.Controllers
             return Ok();
         }
 
-        //TODO: rework verbs
+        [HttpGet("{assignmentId}/undo")]
+        public async Task<ActionResult> Undo(int assignmentId)
+        {
+            AuthorizedUser user = this.TryAuthWithToken();
+            await _assignmentService.UndoAsync(user, assignmentId);
+            return Ok();
+        }
+
         //TODO: it isn't work =\
         [HttpGet("{assignmentId}/delete")]
         public async Task<ActionResult> Delete(int assignmentId)

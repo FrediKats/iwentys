@@ -31,6 +31,11 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
             return Client.GetAsync($"api/assignments/{assignmentId}/complete");
         }
 
+        public Task Undo(int assignmentId)
+        {
+            return Client.GetAsync($"api/assignments/{assignmentId}/undo");
+        }
+
         public Task Delete(int assignmentId)
         {
             return Client.GetAsync($"api/assignments/{assignmentId}/delete");

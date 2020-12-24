@@ -37,6 +37,7 @@
                                 {
                                     //TODO: add undo
                                     <MatButton OnClick=@(async () => await Delete(assignment.Id))>Delete</MatButton>
+                                    <MatButton OnClick=@(async () => await MakeUncompleted(assignment.Id))>Undo</MatButton>
                                 }
 
                                 @if (!assignment.IsCompeted)

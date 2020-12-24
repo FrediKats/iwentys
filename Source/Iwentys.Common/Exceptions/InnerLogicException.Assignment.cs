@@ -13,6 +13,11 @@
             {
                 return new InnerLogicException($"Assignment {assignmentId} is already completed");
             }
+
+            public static InnerLogicException IsNotCompleted(int assignmentId)
+            {
+                return new InnerLogicException($"Assignment {assignmentId} is not completed");
+            }
         } 
     }
 }
