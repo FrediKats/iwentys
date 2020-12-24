@@ -23,6 +23,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
             _group = await studyGroupControllerClient.FindStudentGroup(StudentProfile.Id);
         }
 
-        private string LinkToGuild() => $"guild/profile/{_guild.Id}";
+        private string LinkToGuild => $"guild/profile/{_guild.Id}";
+        private string LinkToGroupProfile => $"/group/profile/{_group.GroupName}";
     }
 }
