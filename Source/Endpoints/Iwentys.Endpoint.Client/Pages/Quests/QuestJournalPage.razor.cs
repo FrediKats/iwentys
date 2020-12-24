@@ -24,6 +24,7 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
             _questControllerClient = new QuestControllerClient(httpClient);
 
             _currentStudent = await _studentControllerClient.GetSelf();
+            await SelectActive();
         }
         
         private async Task SelectActive()

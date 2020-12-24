@@ -25,15 +25,17 @@
                     <div class="quest-journal-elemnt">
                         <MatCard Class="dark-elevation-02">
                             <MatCardContent>
-                                <MatHeadline6>
-                                    @quest.Title (@quest.Price)
-                                </MatHeadline6>
-                                <MatBody1>
-                                    @quest.Description
-                                </MatBody1>
-                                <MatBody2>
-                                    @quest.CreationTime
-                                </MatBody2>
+                                <div class="quest-journal-elemnt-content">
+                                    <MatHeadline6>
+                                        @quest.Title (@quest.Price)
+                                    </MatHeadline6>
+                                    <MatBody1>
+                                        @quest.Description
+                                    </MatBody1>
+                                    <MatBody2>
+                                        @quest.CreationTime
+                                    </MatBody2>
+                                </div>
                             </MatCardContent>
                             <MatCardActions>
                                 <MatButton Link=@LinkToQuestProfilePage(quest)>Profile</MatButton>
