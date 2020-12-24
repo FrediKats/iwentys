@@ -15,7 +15,7 @@ namespace Iwentys.Tests.Features.Gamification
         {
             var testCase = TestCaseContext
                 .Case()
-                .WithNewStudent(out var user, UserType.Admin)
+                .WithNewStudent(out var user, StudentRole.Admin)
                 .WithInterestTag(out var tag)
                 .WithUserInterestTag(tag, user);
 

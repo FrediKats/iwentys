@@ -52,7 +52,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithNewStudent(out AuthorizedUser admin, UserType.Admin)
+                .WithNewStudent(out AuthorizedUser admin, StudentRole.Admin)
                 .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
 
             await context.GuildService.ApproveGuildCreating(admin, guild.Id);
@@ -67,7 +67,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithNewStudent(out AuthorizedUser _, UserType.Admin)
+                .WithNewStudent(out AuthorizedUser _, StudentRole.Admin)
                 .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto _);
 
             //TODO: rework to correct exception

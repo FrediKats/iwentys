@@ -19,7 +19,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 .RuleFor(s => s.Id, f => f.IndexFaker++ + 1)
                 .RuleFor(s => s.FirstName, f => f.Name.FirstName())
                 .RuleFor(s => s.SecondName, f => f.Name.LastName())
-                .RuleFor(s => s.Role, UserType.Common)
+                .RuleFor(s => s.Role, StudentRole.Common)
                 .RuleFor(s => s.Type, StudentType.Budgetary)
                 .RuleFor(s => s.CreationTime, DateTime.UtcNow)
                 .RuleFor(s => s.LastOnlineTime, DateTime.UtcNow)
@@ -34,7 +34,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 FirstName = "Фреди",
                 MiddleName = "Кисикович",
                 SecondName = "Катс",
-                Role = UserType.Admin,
+                Role = StudentRole.Admin,
                 GroupId = studyGroups.First(g => g.GroupName.Contains("3505")).Id,
                 GithubUsername = "InRedikaWB",
                 CreationTime = DateTime.UtcNow,
@@ -48,7 +48,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 .Select(g => g.FirstOrDefault())
                 .Where(s => s is not null)
                 .ToList()
-                .ForEach(s => s.Role = UserType.GroupAdmin);
+                .ForEach(s => s.Role = StudentRole.GroupAdmin);
         }
 
         public Faker<StudentEntity> Faker { get; }

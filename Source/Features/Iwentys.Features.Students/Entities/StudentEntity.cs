@@ -17,7 +17,7 @@ namespace Iwentys.Features.Students.Entities
             FirstName = firstName;
             MiddleName = middleName;
             SecondName = secondName;
-            Role = UserType.Common;
+            Role = StudentRole.Common;
             CreationTime = DateTime.UtcNow;
             LastOnlineTime = DateTime.UtcNow;
             GuildLeftTime = DateTime.MinValue;
@@ -30,7 +30,7 @@ namespace Iwentys.Features.Students.Entities
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string SecondName { get; set; }
-        public UserType Role { get; set; }
+        public StudentRole Role { get; set; }
         public StudentType Type { get; set; }
         public int? GroupId { get; set; }
         public string GithubUsername { get; set; }

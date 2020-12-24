@@ -1,5 +1,4 @@
-﻿using System;
-using Iwentys.Common.Exceptions;
+﻿using Iwentys.Common.Exceptions;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Students.Enums;
 
@@ -9,12 +8,10 @@ namespace Iwentys.Features.Students.Domain
     {
         public GroupAdminUser(StudentEntity student)
         {
-            //TODO: change message
             if (student.GroupId is null)
-                throw new Exception();
+                throw new InnerLogicException("Student without group");
             
-            //TODO: change message
-            if (student.Role != UserType.GroupAdmin)
+            if (student.Role != StudentRole.GroupAdmin)
                 throw InnerLogicException.NotEnoughPermissionFor(student.Id);
 
             Student = student;

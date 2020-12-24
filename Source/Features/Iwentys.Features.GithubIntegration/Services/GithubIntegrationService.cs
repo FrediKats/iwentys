@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
+using Iwentys.Common.Exceptions;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.Students.Entities;
@@ -133,10 +134,9 @@ namespace Iwentys.Features.GithubIntegration.Services
 
         public async Task<IReadOnlyList<GithubRepositoryInfoDto>> GetStudentRepositories(int studentId)
         {
-            //TODO: throw exception?
             StudentEntity student = await _studentRepository.GetByIdAsync(studentId);
             if (student.GithubUsername is null)
-                return new List<GithubRepositoryInfoDto>();
+                throw new InnerLogicException("Student do not link github");
 
             return await _githubApiAccessor.GetUserRepositories(student.GithubUsername);
         }

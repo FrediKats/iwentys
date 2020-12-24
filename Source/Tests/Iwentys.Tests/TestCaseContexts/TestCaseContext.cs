@@ -72,14 +72,14 @@ namespace Iwentys.Tests.TestCaseContexts
             AchievementService = new AchievementService(UnitOfWork);
         }
 
-        public TestCaseContext WithNewStudent(out AuthorizedUser user, UserType userType = UserType.Common)
+        public TestCaseContext WithNewStudent(out AuthorizedUser user, StudentRole studentRole = StudentRole.Common)
         {
             int id = RandomProvider.Random.Next(999999);
 
             var userInfo = new StudentEntity
             {
                 Id = id,
-                Role = userType,
+                Role = studentRole,
                 GithubUsername = $"{Constants.GithubUsername}{id}",
                 BarsPoints = 1000
             };
@@ -108,7 +108,7 @@ namespace Iwentys.Tests.TestCaseContexts
         {
             //TODO: move save changes to repository
             WithNewStudent(out userInfo);
-            WithNewStudent(out AuthorizedUser admin, UserType.Admin);
+            WithNewStudent(out AuthorizedUser admin, StudentRole.Admin);
             
             CompanyService.RequestAdding(companyInfo.Id, userInfo.Id).Wait();
             CompanyService.ApproveAdding(userInfo.Id, admin.Id).Wait();

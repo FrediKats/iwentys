@@ -117,7 +117,6 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<QuestResponseEntity>().HasData(seedData.QuestGenerator.QuestResponse);
         }
 
-        //TODO: Hack for removing cascade. Need to rework keys
         private void RemoveCascadeDeleting(ModelBuilder modelBuilder)
         {
             IEnumerable<IMutableForeignKey> cascadeFKs = modelBuilder.Model.GetEntityTypes()

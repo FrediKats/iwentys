@@ -15,7 +15,7 @@ namespace Iwentys.Features.Gamification.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IGenericRepository<StudentEntity> _studentRepository;
+        private readonly IGenericRepository<StudyGroupEntity> _studyGroupRepository;
 
         private readonly GithubIntegrationService _githubIntegrationService;
         private readonly ISubjectActivityRepository _subjectActivityRepository;
@@ -27,7 +27,8 @@ namespace Iwentys.Features.Gamification.Services
             _subjectActivityRepository = subjectActivityRepository;
             
             _unitOfWork = unitOfWork;
-            _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
+            _unitOfWork.GetRepository<StudentEntity>();
+            _studyGroupRepository = _unitOfWork.GetRepository<StudyGroupEntity>();
         }
 
         public List<StudyLeaderboardRowDto> GetStudentsRatings(StudySearchParametersDto searchParametersDto)
@@ -51,13 +52,10 @@ namespace Iwentys.Features.Gamification.Services
 
         public List<StudyLeaderboardRowDto> GetCodingRating(int? courseId, int skip, int take)
         {
-            IQueryable<StudentEntity> query = _studentRepository.GetAsync();
-
-            //TODO: fix
-            //query = query
-            //    .WhereIf(courseId, q => q.Group.StudyCourseId == courseId);
-
-            return query.AsEnumerable()
+            return _studyGroupRepository.GetAsync()
+                .WhereIf(courseId, q => q.StudyCourseId == courseId)
+                .SelectMany(g => g.Students)
+                .AsEnumerable()
                 .Select(s => new StudyLeaderboardRowDto(s, _githubIntegrationService.GetGithubUser(s.GithubUsername).Result?.ContributionFullInfo.Total ?? 0))
                 .OrderBy(a => a.Activity)
                 .Skip(skip)

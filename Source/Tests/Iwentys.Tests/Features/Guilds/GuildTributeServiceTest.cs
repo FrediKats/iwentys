@@ -21,7 +21,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .Case()
                 .WithNewStudent(out AuthorizedUser student)
                 .WithGuild(student, out ExtendedGuildProfileWithMemberDataDto guild)
-                .WithNewStudent(out AuthorizedUser admin, UserType.Admin)
+                .WithNewStudent(out AuthorizedUser admin, StudentRole.Admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor)
                 .WithStudentProject(student, out GithubProjectEntity project)
                 .WithTribute(student, project, out TributeInfoResponse _);
@@ -39,7 +39,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .Case()
                 .WithNewStudent(out AuthorizedUser student)
                 .WithGuild(student, out ExtendedGuildProfileWithMemberDataDto guild)
-                .WithNewStudent(out AuthorizedUser admin, UserType.Admin)
+                .WithNewStudent(out AuthorizedUser admin, StudentRole.Admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor)
                 .WithStudentProject(student, out GithubProjectEntity project)
                 .WithTribute(student, project, out TributeInfoResponse tributeInfo);
@@ -60,7 +60,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .Case()
                 .WithNewStudent(out AuthorizedUser student)
                 .WithGuild(student, out ExtendedGuildProfileWithMemberDataDto guild)
-                .WithNewStudent(out AuthorizedUser admin, UserType.Admin)
+                .WithNewStudent(out AuthorizedUser admin, StudentRole.Admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor)
                 .WithStudentProject(student, out GithubProjectEntity project)
                 .WithTribute(student, project, out TributeInfoResponse tributeInfo)

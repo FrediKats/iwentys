@@ -121,7 +121,6 @@ namespace Iwentys.Features.Guilds.Services
             StudentEntity profile = await _studentRepository.GetByIdAsync(user.Id);
             profile.EnsureIsGuildEditor(guild);
 
-            //TODO: add work with cache
             GithubRepositoryInfoDto repositoryInfoDto = await _githubIntegrationService.GetRepository(owner, projectName);
             var guildPinnedProjectEntity = GuildPinnedProjectEntity.Create(guildId, repositoryInfoDto);
             await _guildPinnedProjectRepository.InsertAsync(guildPinnedProjectEntity);

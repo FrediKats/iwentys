@@ -41,7 +41,6 @@ namespace Iwentys.Features.Guilds.Services
             _guildTributeRepository = _unitOfWork.GetRepository<TributeEntity>();
         }
 
-        //TODO: i'm not sure about this method
         public List<TributeInfoResponse> GetPendingTributes(AuthorizedUser user)
         {
             GuildEntity guild = _guildMemberRepository.ReadForStudent(user.Id) ?? throw InnerLogicException.Guild.IsNotGuildMember(user.Id, null);

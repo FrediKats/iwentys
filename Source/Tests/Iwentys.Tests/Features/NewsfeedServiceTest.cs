@@ -12,7 +12,7 @@ namespace Iwentys.Tests.Features
         {
             TestCaseContext
                 .Case()
-                .WithNewStudent(out var user, UserType.Admin)
+                .WithNewStudent(out var user, StudentRole.Admin)
                 .WithSubject(out var subject)
                 .WithSubjectNews(subject, user);
         }

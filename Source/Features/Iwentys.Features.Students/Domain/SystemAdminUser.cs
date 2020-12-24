@@ -8,7 +8,7 @@ namespace Iwentys.Features.Students.Domain
     {
         public SystemAdminUser(StudentEntity student)
         {
-            if (student.Role != UserType.Admin)
+            if (student.Role != StudentRole.Admin)
                 throw InnerLogicException.NotEnoughPermissionFor(student.Id);
             
             Student = student;

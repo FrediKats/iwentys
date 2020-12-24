@@ -22,7 +22,7 @@ namespace Iwentys.Features.Students.Models
         {
         }
 
-        public StudentInfoDto(int id, string firstName, string middleName, string secondName, UserType role,
+        public StudentInfoDto(int id, string firstName, string middleName, string secondName, StudentRole role,
             StudentType type, string githubUsername, DateTime creationTime, DateTime lastOnlineTime, int barsPoints,
             string avatarUrl)
         {
@@ -47,7 +47,7 @@ namespace Iwentys.Features.Students.Models
         public string FirstName { get; init; }
         public string MiddleName { get; init; }
         public string SecondName { get; init; }
-        public UserType Role { get; init; }
+        public StudentRole Role { get; init; }
         public StudentType Type { get; init; }
         public string GithubUsername { get; init; }
         public DateTime CreationTime { get; init; }

@@ -1,7 +1,6 @@
 ﻿namespace Iwentys.Features.Students.Enums
 {
-    //TODO: rename
-    public enum UserType
+    public enum StudentRole
     {
         Common = 1,
         GroupAdmin = 2,
