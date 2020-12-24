@@ -100,6 +100,13 @@ namespace Iwentys.Features.Assignments.Services
             if (student.Id != assignment.CreatorId)
                 throw InnerLogicException.Assignment.IsNotAssignmentCreator(assignment.Id, student.Id);
 
+            //FYI: it's coz for dropped cascade
+            List<StudentAssignmentEntity> studentAssignmentEntities = await _studentAssignmentRepository
+                .GetAsync()
+                .Where(sa => sa.AssignmentId == assignmentId)
+                .ToListAsync();
+            studentAssignmentEntities.ForEach(sa => _studentAssignmentRepository.Delete(sa));
+            
             _assignmentRepository.Delete(assignment);
             await _unitOfWork.CommitAsync();
         }

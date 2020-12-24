@@ -53,7 +53,7 @@ namespace Iwentys.Features.Assignments.Entities
             if (!IsCompleted)
                 throw InnerLogicException.Assignment.IsNotCompleted(Id);
 
-            IsCompleted = true;
+            IsCompleted = false;
         }
     }
 }
