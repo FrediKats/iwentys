@@ -1,4 +1,7 @@
+# Custom
 Iwentys.db
+*.razor.css
+**/GlobalStyle.css
 
 **/wwwroot/css/generated/
 
