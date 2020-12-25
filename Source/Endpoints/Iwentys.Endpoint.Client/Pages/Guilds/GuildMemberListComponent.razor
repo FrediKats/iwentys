@@ -1,6 +1,7 @@
 ﻿@using Iwentys.Features.Guilds.Models.Guilds
 @using Iwentys.Features.Students.Models
 @using Blazored.LocalStorage
+@using Iwentys.Features.Guilds.Enums
 
 @inject HttpClient Http
 @inject ILocalStorageService LocalStorage
@@ -18,7 +19,13 @@
                     <p>
                         @member.StudentInfoDto.GithubUsername (@member.StudentInfoDto.GetFullName()) [@member.MemberType]
                     </p>
-                    <MatButton OnClick="() => KicMember(member.StudentInfoDto.Id)">
+                    @if (member.MemberType == GuildMemberType.Member)
+                    {
+                        <MatButton OnClick="() => PromoteToMentor(member.StudentInfoDto.Id)">
+                            Promote
+                        </MatButton>
+                    }
+                    <MatButton OnClick="() => KickMember(member.StudentInfoDto.Id)">
                         Kick
                     </MatButton>
                 </MatListItem>
@@ -32,9 +39,4 @@
 @code {
     [Parameter]
     public ExtendedGuildProfileWithMemberDataDto GuildProfile { get; set; }
-
-    private async Task KicMember(int memberId)
-    {
-        await _guildMemberControllerClient.KickGuildMember(GuildProfile.Id, memberId);
-    }
 }

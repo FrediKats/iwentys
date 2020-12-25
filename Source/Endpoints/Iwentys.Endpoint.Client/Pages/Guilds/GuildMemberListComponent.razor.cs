@@ -20,5 +20,15 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
             _guildMemberControllerClient = new GuildMemberControllerClient(httpClient);
             _leaderBoard = await _guildControllerClient.GetGuildMemberLeaderBoard(GuildProfile.Id);
         }
+
+        private async Task KickMember(int memberId)
+        {
+            await _guildMemberControllerClient.KickGuildMember(GuildProfile.Id, memberId);
+        }
+
+        private async Task PromoteToMentor(int memberId)
+        {
+            await _guildMemberControllerClient.PromoteToMentor(GuildProfile.Id, memberId);
+        }
     }
 }

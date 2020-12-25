@@ -174,7 +174,7 @@ namespace Iwentys.Features.Guilds.Services
             return await CreateDomain(guild).ToExtendedGuildProfileDto(userId);
         }
 
-        public async Task PromoteToEditor(AuthorizedUser creator, int userForPromotion)
+        public async Task PromoteToMentor(AuthorizedUser creator, int userForPromotion)
         {
             StudentEntity studentCreator = await _studentRepository.GetByIdAsync(creator.Id);
 
