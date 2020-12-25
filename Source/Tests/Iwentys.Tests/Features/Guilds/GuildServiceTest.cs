@@ -27,7 +27,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
 
             var guildMemberLeaderBoardDto = await context.GuildService.GetGuildMemberLeaderBoard(guild.Id);
-            bool isExist = guildMemberLeaderBoardDto.Members.Any(_ => _.Id == user.Id);
+            bool isExist = guildMemberLeaderBoardDto.MembersImpact.Any(_ => _.StudentInfoDto.Id == user.Id);
             Assert.IsTrue(isExist);
         }
 

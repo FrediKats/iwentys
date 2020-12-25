@@ -1,23 +1,21 @@
 ﻿using System.Collections.Generic;
-using Iwentys.Features.Students.Models;
+using System.Linq;
 
 namespace Iwentys.Features.Guilds.Models.Guilds
 {
     public record GuildMemberLeaderBoardDto
     {
-        public GuildMemberLeaderBoardDto(int totalRate, List<StudentInfoDto> members, List<GuildMemberImpactDto> membersImpact)
+        public GuildMemberLeaderBoardDto(List<GuildMemberImpactDto> membersImpact) : this()
         {
-            TotalRate = totalRate;
-            Members = members;
+            TotalRate = membersImpact.Sum(m => m.TotalRate);
             MembersImpact = membersImpact;
         }
 
         public GuildMemberLeaderBoardDto()
         {
         }
-        
-        public int TotalRate { get; init; }
-        public List<StudentInfoDto> Members { get; init; }
+
         public List<GuildMemberImpactDto> MembersImpact { get; init; }
+        public int TotalRate { get; init; }
     }
 }

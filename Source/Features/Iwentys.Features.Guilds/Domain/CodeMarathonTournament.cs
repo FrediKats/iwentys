@@ -42,7 +42,12 @@ namespace Iwentys.Features.Guilds.Domain
         private int CountGuildRating(GuildEntity guild)
         {
             var domain = new GuildDomain(guild, _githubIntegrationService, _unitOfWork.GetRepository<StudentEntity>(), _unitOfWork.GetRepository<GuildMemberEntity>());
-            return domain.GetGithubUserData().Select(userData => userData.ContributionFullInfo.GetActivityForPeriod(_tournament.StartTime, _tournament.EndTime)).Sum();
+            //TODO: remove result
+            List<GuildMemberImpactDto> users = domain.GetMemberImpacts().Result;
+            
+            return users
+                .Select(userData => userData.Contribution.GetActivityForPeriod(_tournament.StartTime, _tournament.EndTime))
+                .Sum();
         }
     }
 }

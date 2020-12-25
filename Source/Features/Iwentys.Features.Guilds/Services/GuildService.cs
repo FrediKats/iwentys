@@ -143,7 +143,8 @@ namespace Iwentys.Features.Guilds.Services
         public async Task<GuildMemberLeaderBoardDto> GetGuildMemberLeaderBoard(int guildId)
         {
             GuildEntity guild = await _guildRepository.GetByIdAsync(guildId);
-            return new GuildDomain(guild, _githubIntegrationService, _studentRepository, _guildMemberRepository).GetMemberDashboard();
+            var domain = new GuildDomain(guild, _githubIntegrationService, _studentRepository, _guildMemberRepository);
+            return await domain.GetMemberDashboard();
         }
     }
 }

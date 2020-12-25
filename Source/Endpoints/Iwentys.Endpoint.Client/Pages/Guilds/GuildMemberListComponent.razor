@@ -12,13 +12,13 @@
     <MatList>
         @if (_leaderBoard is not null)
         {
-            @foreach (StudentInfoDto member in _leaderBoard.Members)
+            @foreach (var member in _leaderBoard.MembersImpact)
             {
                 <MatListItem>
                     <p>
-                        @member.GithubUsername (@member.GetFullName())
+                        @member.StudentInfoDto.GithubUsername (@member.StudentInfoDto.GetFullName()) [@member.MemberType]
                     </p>
-                    <MatButton OnClick="() => KicMember(member.Id)">
+                    <MatButton OnClick="() => KicMember(member.StudentInfoDto.Id)">
                         Kick
                     </MatButton>
                 </MatListItem>

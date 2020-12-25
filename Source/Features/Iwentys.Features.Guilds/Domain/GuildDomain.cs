@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
-using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
@@ -52,26 +51,35 @@ namespace Iwentys.Features.Guilds.Domain
             return info;
         }
 
-        public List<GithubUserEntity> GetGithubUserData()
+        public async Task<List<GuildMemberImpactDto>> GetMemberImpacts()
         {
-            return Profile
-                .Members
-                .Select(m => m.Member.GithubUsername)
-                .Where(gh => gh is not null)
-                .ToList()
-                .Select(ghName => _githubIntegrationService.GetGithubUser(ghName).Result)
-                .Where(userData => userData is not null)
-                .ToList();
+            //TODO: move to SQL
+            List<GuildMemberImpactDto> result = new List<GuildMemberImpactDto>();
+            foreach (var member in Profile.Members)
+            {
+                if (member.Member.GithubUsername is null)
+                {
+                    result.Add(new GuildMemberImpactDto(new StudentInfoDto(member.Member), member.MemberType));
+                    continue;
+                }
+
+                var githubUser = await _githubIntegrationService.GetGithubUser(member.Member.GithubUsername);
+                if (githubUser is null)
+                {
+                    result.Add(new GuildMemberImpactDto(new StudentInfoDto(member.Member), member.MemberType));
+                    continue;
+                }
+
+                result.Add(new GuildMemberImpactDto(new StudentInfoDto(member.Member), member.MemberType, githubUser.ContributionFullInfo));
+            }
+
+            return result;
         }
 
-        public GuildMemberLeaderBoardDto GetMemberDashboard()
+        public async Task<GuildMemberLeaderBoardDto> GetMemberDashboard()
         {
-            List<GuildMemberImpactDto> members = GetGithubUserData().SelectToList(userData => new GuildMemberImpactDto(userData));
-
-            return new GuildMemberLeaderBoardDto(
-                members.Sum(m => m.TotalRate),
-                Profile.Members.SelectToList(m => new StudentInfoDto(m.Member)),
-                members);
+            List<GuildMemberImpactDto> members = await GetMemberImpacts();
+            return new GuildMemberLeaderBoardDto(members);
         }
 
         public async Task<UserMembershipState> GetUserMembershipState(Int32 userId)
