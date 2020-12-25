@@ -61,7 +61,7 @@ namespace Iwentys.Database.Context
             base.OnModelCreating(modelBuilder);
         }
 
-        private void SetCompositeKeys(ModelBuilder modelBuilder)
+        private static void SetCompositeKeys(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<GuildMemberEntity>().HasKey(g => new {g.GuildId, g.MemberId});
             modelBuilder.Entity<CompanyWorkerEntity>().HasKey(g => new {g.CompanyId, g.WorkerId});
@@ -77,7 +77,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<StudentInterestTagEntity>().HasKey(g => new {g.StudentId, g.InterestTagId});
         }
 
-        private void SetUniqKey(ModelBuilder modelBuilder)
+        private static void SetUniqKey(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<GuildEntity>().HasIndex(g => g.Title).IsUnique();
 
@@ -85,7 +85,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<CompanyWorkerEntity>().HasIndex(g => g.WorkerId).IsUnique();
         }
 
-        private void Seeding(ModelBuilder modelBuilder)
+        private static void Seeding(ModelBuilder modelBuilder)
         {
             var seedData = new DatabaseContextGenerator();
 
@@ -117,7 +117,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<QuestResponseEntity>().HasData(seedData.QuestGenerator.QuestResponse);
         }
 
-        private void RemoveCascadeDeleting(ModelBuilder modelBuilder)
+        private static void RemoveCascadeDeleting(ModelBuilder modelBuilder)
         {
             IEnumerable<IMutableForeignKey> cascadeFKs = modelBuilder.Model.GetEntityTypes()
                 .SelectMany(t => t.GetForeignKeys())

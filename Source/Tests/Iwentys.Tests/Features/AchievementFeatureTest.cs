@@ -19,7 +19,7 @@ namespace Iwentys.Tests.Features
                 .WithNewStudent(out AuthorizedUser user);
 
             await testCase.StudentService.AddGithubUsernameAsync(user.Id, "username");
-            AchievementDto studentAchievementEntity = (await testCase
+            AchievementDto studentAchievementEntity = (testCase
                     .AchievementService
                     .GetForStudent(user.Id))
                 .FirstOrDefault(a => a.Id == AchievementList.AddGithubAchievement.Id);
