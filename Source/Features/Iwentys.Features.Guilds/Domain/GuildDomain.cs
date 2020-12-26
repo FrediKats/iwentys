@@ -84,7 +84,7 @@ namespace Iwentys.Features.Guilds.Domain
 
         public async Task<UserMembershipState> GetUserMembershipState(Int32 userId)
         {
-            StudentEntity user = await _studentRepository.FindByIdAsync(userId);
+            StudentEntity user = await _studentRepository.GetByIdAsync(userId);
             GuildEntity userGuild = _guildMemberRepositoryNew.ReadForStudent(user.Id);
             GuildMemberType? userStatusInGuild = Profile.Members.Find(m => m.Member.Id == user.Id)?.MemberType;
 

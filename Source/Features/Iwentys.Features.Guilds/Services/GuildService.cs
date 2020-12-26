@@ -131,11 +131,11 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task UnpinProject(AuthorizedUser user, int guildId, long pinnedProjectId)
         {
-            GuildEntity guild = await _guildRepository.FindByIdAsync(guildId);
-            StudentEntity profile = await _studentRepository.FindByIdAsync(user.Id);
+            GuildEntity guild = await _guildRepository.GetByIdAsync(guildId);
+            StudentEntity profile = await _studentRepository.GetByIdAsync(user.Id);
             profile.EnsureIsGuildEditor(guild);
 
-            var guildPinnedProjectEntity = await _guildPinnedProjectRepository.FindByIdAsync(pinnedProjectId);
+            var guildPinnedProjectEntity = await _guildPinnedProjectRepository.GetByIdAsync(pinnedProjectId);
             _guildPinnedProjectRepository.Delete(guildPinnedProjectEntity);
             await _unitOfWork.CommitAsync();
         }
