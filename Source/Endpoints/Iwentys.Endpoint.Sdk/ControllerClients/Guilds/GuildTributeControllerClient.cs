@@ -25,5 +25,15 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
         {
             return Client.FindFromJsonAsync<TributeInfoResponse>($"/api/guild/tribute/get-for-student/active");
         }
+
+        public async Task CompleteTribute(TributeCompleteRequest tributeCompleteRequest)
+        {
+            await Client.PutAsJsonAsync($"/api/guild/tribute/complete", tributeCompleteRequest);
+        }
+
+        public async Task CancelTribute(long tributeId)
+        {
+            await Client.PutAsJsonAsync($"/api/guild/tribute/cancel", tributeId);
+        }
     }
 }

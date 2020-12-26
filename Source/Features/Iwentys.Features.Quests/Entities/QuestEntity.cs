@@ -49,19 +49,23 @@ namespace Iwentys.Features.Quests.Entities
             };
         }
 
-        public void Revoke(StudentEntity student)
+        public void Revoke(StudentEntity author)
         {
-            if (AuthorId != student.Id)
-                throw InnerLogicException.NotEnoughPermissionFor(student.Id);
+            if (AuthorId != author.Id)
+                throw InnerLogicException.NotEnoughPermissionFor(author.Id);
 
             if (State != QuestState.Active)
                 throw new InnerLogicException("Quest is not active");
 
             State = QuestState.Revoked;
+            author.BarsPoints += Price;
         }
 
         public QuestResponseEntity CreateResponse(AuthorizedUser responseAuthor)
         {
+            if (AuthorId == responseAuthor.Id)
+                throw InnerLogicException.Quest.AuthorCanRespondToQuest(Id, responseAuthor.Id);
+            
             if (State != QuestState.Active || IsOutdated)
                 throw new InnerLogicException("Quest is not active");
 

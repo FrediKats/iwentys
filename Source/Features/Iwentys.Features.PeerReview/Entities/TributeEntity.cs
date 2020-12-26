@@ -9,6 +9,7 @@ using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Tributes.Enums;
+using Iwentys.Features.Tributes.Models;
 
 namespace Iwentys.Features.Tributes.Entities
 {
@@ -41,6 +42,7 @@ namespace Iwentys.Features.Tributes.Entities
         public TributeState State { get; set; }
         public int? DifficultLevel { get; set; }
         public int? Mark { get; set; }
+        public string Comment { get; set; }
         public DateTime CreationTimeUtc { get; set; }
 
         public static TributeEntity Create(GuildEntity guild, StudentEntity student, GithubProjectEntity projectEntity, List<TributeEntity> allTributes)
@@ -67,14 +69,15 @@ namespace Iwentys.Features.Tributes.Entities
             State = TributeState.Canceled;
         }
 
-        public void SetCompleted(int mentorId, int difficultLevel, int mark)
+        public void SetCompleted(int mentorId, TributeCompleteRequest tributeCompleteRequest)
         {
             if (State != TributeState.Active)
                 throw InnerLogicException.Tribute.IsNotActive(this.ProjectId);
 
             MentorId = mentorId;
-            DifficultLevel = difficultLevel;
-            Mark = mark;
+            DifficultLevel = tributeCompleteRequest.DifficultLevel;
+            Mark = tributeCompleteRequest.Mark;
+            Comment = tributeCompleteRequest.Comment;
             State = TributeState.Completed;
         }
 

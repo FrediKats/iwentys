@@ -1,5 +1,7 @@
 ﻿@using Iwentys.Features.Tributes.Models
 
+@inject NavigationManager NavigationManagerClient
+
 <div class="tribute-element">
     <MatCard Class="dark-elevation-02">
         <MatCardContent>
@@ -19,6 +21,9 @@
                 @*TODO: last update time*@
             </div>
         </MatCardContent>
+        <MatCardActions>
+            <MatButton OnClick=@Complete>Complete</MatButton>
+        </MatCardActions>
     </MatCard>
 </div>
 

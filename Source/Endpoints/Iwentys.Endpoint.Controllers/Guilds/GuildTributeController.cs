@@ -50,7 +50,7 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         }
 
         [HttpPut("cancel")]
-        public async Task<ActionResult<TributeInfoResponse>> CancelTribute([FromBody] long tributeId)
+        public async Task<ActionResult<TributeInfoResponse>> CancelTribute(long tributeId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             TributeInfoResponse tributes = await _guildService.CancelTribute(user, tributeId);

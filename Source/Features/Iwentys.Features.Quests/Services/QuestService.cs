@@ -95,10 +95,9 @@ namespace Iwentys.Features.Quests.Services
         public async Task<QuestInfoDto> SendResponseAsync(AuthorizedUser user, int questId)
         {
             QuestEntity questEntity = await _questRepository.GetByIdAsync(questId);
-            if (questEntity.AuthorId == user.Id)
-                throw InnerLogicException.Quest.AuthorCanRespondToQuest(questId, user.Id);
             
             var questResponseEntity = questEntity.CreateResponse(user);
+            
             await _questResponseRepository.InsertAsync(questResponseEntity);
             await _unitOfWork.CommitAsync();
             QuestEntity updatedQuest = await _questRepository.GetByIdAsync(questId);
@@ -127,7 +126,6 @@ namespace Iwentys.Features.Quests.Services
             QuestEntity quest = await _questRepository.GetByIdAsync(questId);
             
             quest.Revoke(author);
-            author.BarsPoints += quest.Price;
             
             _studentRepository.Update(author);
             _questRepository.Update(quest);

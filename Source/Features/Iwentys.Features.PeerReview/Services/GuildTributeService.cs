@@ -143,7 +143,7 @@ namespace Iwentys.Features.Tributes.Services
             TributeEntity tribute = await _guildTributeRepository.GetByIdAsync(tributeCompleteRequest.TributeId);
             GuildMentorUser mentor = await student.EnsureIsMentor(_guildRepositoryNew, tribute.GuildId);
 
-            tribute.SetCompleted(mentor.Student.Id, tributeCompleteRequest.DifficultLevel, tributeCompleteRequest.Mark);
+            tribute.SetCompleted(mentor.Student.Id, tributeCompleteRequest);
             
             _guildTributeRepository.Update(tribute);
             await _unitOfWork.CommitAsync();
