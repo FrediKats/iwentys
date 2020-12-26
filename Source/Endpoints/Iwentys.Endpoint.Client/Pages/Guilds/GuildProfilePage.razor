@@ -10,6 +10,11 @@
     <div class="container-fluid d-flex flex-row">
         <div class="col-md-3 d-flex flex-column dark-elevation-01">
             <GuildProfileInfoComponent SelectedGuildProfile=@_guild></GuildProfileInfoComponent>
+            @*TODO: create component*@
+            @if (_activeTribute?.Project is not null)
+            {
+                <h6>Tribute: @_activeTribute.Project.Name</h6>
+            }
         </div>
 
         <div class="col-md-6 d-flex flex-column">

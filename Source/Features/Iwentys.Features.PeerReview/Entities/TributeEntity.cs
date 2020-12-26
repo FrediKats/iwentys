@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Linq.Expressions;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Entities;
@@ -76,5 +77,8 @@ namespace Iwentys.Features.Tributes.Entities
             Mark = mark;
             State = TributeState.Completed;
         }
+
+        public static Expression<Func<TributeEntity, bool>> IsActive => tribute => tribute.State == TributeState.Active;
+        public static Expression<Func<TributeEntity, bool>> BelongTo(StudentEntity student) => tribute => tribute.Project.StudentId == student.Id;
     }
 }

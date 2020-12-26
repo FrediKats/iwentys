@@ -6,6 +6,7 @@ using Iwentys.Endpoint.Sdk.ControllerClients;
 using Iwentys.Endpoint.Sdk.ControllerClients.Guilds;
 using Iwentys.Features.Guilds.Models.Guilds;
 using Iwentys.Features.Newsfeeds.Models;
+using Iwentys.Features.Tributes.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace Iwentys.Endpoint.Client.Pages.Guilds
@@ -15,20 +16,24 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
         private ExtendedGuildProfileWithMemberDataDto _guild;
         private GuildMemberLeaderBoardDto _memberLeaderBoard;
         private List<NewsfeedViewModel> _newsfeeds;
-
+        private TributeInfoResponse _activeTribute;
+        
         private GuildControllerClient _guildControllerClient;
         private GuildMemberControllerClient _guildMemberControllerClient;
+        private GuildTributeControllerClient _guildTributeControllerClient;
 
         protected override async Task OnInitializedAsync()
         {
             HttpClient httpClient = await Http.TrySetHeader(LocalStorage);
             _guildControllerClient = new GuildControllerClient(httpClient);
             _guildMemberControllerClient = new GuildMemberControllerClient(httpClient);
+            _guildTributeControllerClient = new GuildTributeControllerClient(httpClient);
             
             var newsfeedControllerClient = new NewsfeedControllerClient(httpClient);
             _guild = await _guildControllerClient.Get(GuildId);
             _newsfeeds = await newsfeedControllerClient.GetForGuild(GuildId);
             _memberLeaderBoard = await _guildControllerClient.GetGuildMemberLeaderBoard(_guild.Id);
+            _activeTribute = await _guildTributeControllerClient.FindStudentActiveTribute();
         }
     }
 }

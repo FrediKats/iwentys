@@ -149,5 +149,16 @@ namespace Iwentys.Features.Tributes.Services
             await _unitOfWork.CommitAsync();
             return TributeInfoResponse.Wrap(tribute);
         }
+
+        public async Task<TributeInfoResponse> FindStudentActiveTribute(AuthorizedUser user)
+        {
+            StudentEntity student = await _studentRepository.GetByIdAsync(user.Id);
+            return await _guildTributeRepository
+                .GetAsync()
+                .Where(TributeEntity.IsActive)
+                .Where(TributeEntity.BelongTo(student))
+                .Select(TributeInfoResponse.FromEntity)
+                .SingleOrDefaultAsync();
+        }
     }
 }

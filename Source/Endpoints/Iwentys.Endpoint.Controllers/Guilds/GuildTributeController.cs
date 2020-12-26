@@ -64,5 +64,15 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             TributeInfoResponse tributes = await _guildService.CompleteTribute(user, tributeCompleteRequest);
             return Ok(tributes);
         }
+
+        [HttpGet("get-for-student/active")]
+        public async Task<ActionResult<TributeInfoResponse>> FindStudentActiveTribute()
+        {
+            AuthorizedUser user = this.TryAuthWithToken();
+            TributeInfoResponse tributes = await _guildService.FindStudentActiveTribute(user);
+            if (tributes is null)
+                return NotFound();
+            return Ok(tributes);
+        }
     }
 }
