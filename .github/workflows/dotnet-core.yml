@@ -27,7 +27,7 @@ jobs:
       run: dotnet test --no-restore --verbosity normal
       working-directory: Source
     - name: SonarCloud Scan
-      uses: SonarSource/sonarcloud-github-action@v1.1
+      uses: SonarSource/sonarcloud-github-action@master
       with:
         projectBaseDir: Source 
       env:
