@@ -89,7 +89,7 @@ namespace Iwentys.Database.Context
         private static void Seeding(ModelBuilder modelBuilder)
         {
             var seedData = new DatabaseContextGenerator();
-
+            //TODO: split and move to generators
             modelBuilder.Entity<StudyProgramEntity>().HasData(seedData.StudyEntitiesGenerator.StudyPrograms);
             modelBuilder.Entity<StudyCourseEntity>().HasData(seedData.StudyEntitiesGenerator.StudyCourses);
             modelBuilder.Entity<StudyGroupEntity>().HasData(seedData.StudyEntitiesGenerator.StudyGroups);
@@ -101,6 +101,8 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<StudentEntity>().HasData(seedData.StudentGenerator.Students);
             modelBuilder.Entity<GuildEntity>().HasData(seedData.GuildGenerator.Guilds);
             modelBuilder.Entity<GuildMemberEntity>().HasData(seedData.GuildGenerator.GuildMembers);
+            modelBuilder.Entity<GuildPinnedProjectEntity>().HasData(seedData.GuildGenerator.PinnedProjects);
+            modelBuilder.Entity<TributeEntity>().HasData(seedData.GuildGenerator.TributeEntities);
 
             modelBuilder.Entity<AchievementEntity>().HasData(AchievementList.Achievements);
             modelBuilder.Entity<StudentAchievementEntity>().HasData(seedData.AchievementGenerator.StudentAchievementModels);
@@ -109,7 +111,9 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<AssignmentEntity>().HasData(seedData.AssignmentGenerator.Assignments);
             modelBuilder.Entity<StudentAssignmentEntity>().HasData(seedData.AssignmentGenerator.StudentAssignments);
 
-            modelBuilder.Entity<GithubUserEntity>().HasData(seedData.GithubActivityGenerator.GithubUserEntities);
+            modelBuilder.Entity<GithubUserEntity>().HasData(seedData.GithubDataGenerator.GithubUserEntities);
+            modelBuilder.Entity<GithubProjectEntity>().HasData(seedData.GithubDataGenerator.GithubProjectEntities);
+            
             modelBuilder.Entity<NewsfeedEntity>().HasData(seedData.NewsfeedGenerator.Newsfeeds);
             modelBuilder.Entity<SubjectNewsfeedEntity>().HasData(seedData.NewsfeedGenerator.SubjectNewsfeeds);
             modelBuilder.Entity<GuildNewsfeedEntity>().HasData(seedData.NewsfeedGenerator.GuildNewsfeeds);

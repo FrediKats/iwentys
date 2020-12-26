@@ -7,16 +7,18 @@ using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {
-    public class GithubActivityGenerator
+    public class GithubDataGenerator
     {
         public List<GithubUserEntity> GithubUserEntities { get; set; }
+        public List<GithubProjectEntity> GithubProjectEntities { get; set; }
 
-        public GithubActivityGenerator(List<StudentEntity> students)
+        public GithubDataGenerator(List<StudentEntity> students)
         {
             var faker = new Faker();
             faker.IndexVariable++;
 
             GithubUserEntities = new List<GithubUserEntity>();
+            GithubProjectEntities = new List<GithubProjectEntity>();
             foreach (StudentEntity student in students)
             {
                 ActivityInfo activity = CreateActivity(faker);
@@ -26,6 +28,16 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                     Username = student.GithubUsername,
                     ContributionFullInfo = new ContributionFullInfo { RawActivity = activity}
                 });
+                
+                var repositoryInfo = new GithubRepositoryInfoDto(
+                    faker.IndexVariable++,
+                    student.GithubUsername,
+                    faker.Company.CompanyName(),
+                    faker.Lorem.Paragraph(),
+                    faker.Internet.Url(),
+                    faker.Random.Int(0, 100));
+                
+                GithubProjectEntities.Add(new GithubProjectEntity(student, repositoryInfo));
             }
         }
 
@@ -36,16 +48,12 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             {
                 result.Add(new ContributionsInfo(
                     $"2020-{RandomExtensions.Instance.Next(12) + 1:D2}-20",
-                    RandomExtensions.Instance.Next(100))
-                    {
-                        Id = faker.IndexVariable++,
-                    });
+                    RandomExtensions.Instance.Next(100)));
             }
 
             return new ActivityInfo
             {
                 Contributions = result,
-                Id = faker.IndexVariable++,
             };
         }
     }
