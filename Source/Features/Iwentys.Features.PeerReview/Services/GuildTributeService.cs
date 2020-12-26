@@ -117,9 +117,6 @@ namespace Iwentys.Features.Tributes.Services
             StudentEntity student = await _studentRepository.GetByIdAsync(user.Id);
             TributeEntity tribute = await _guildTributeRepository.GetByIdAsync(tributeId);
 
-            if (tribute.State != TributeState.Active)
-                throw InnerLogicException.Tribute.IsNotActive(tribute.ProjectId);
-
             if (tribute.ProjectEntity.StudentId == user.Id)
             {
                 tribute.SetCanceled();

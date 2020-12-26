@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
 using Iwentys.Common.Tools;
 using Iwentys.Features.GithubIntegration.Models;
+using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.GithubIntegration.Entities
 {
@@ -22,6 +23,27 @@ namespace Iwentys.Features.GithubIntegration.Entities
         {
             get => SerializedContributionData.Maybe(data => JsonSerializer.Deserialize<ContributionFullInfo>(data));
             set => SerializedContributionData = JsonSerializer.Serialize(value);
+        }
+
+        public static GithubUserEntity Create(StudentEntity student, GithubUserInfoDto githubUser, ContributionFullInfo contributionFullInfo)
+        {
+            return new GithubUserEntity()
+            {
+                StudentId = student.Id,
+                Username = student.GithubUsername,
+                AvatarUrl = githubUser.AvatarUrl,
+                Bio = githubUser.Bio,
+                Company = githubUser.Bio,
+                ContributionFullInfo = contributionFullInfo
+            };
+        }
+
+        public void Update(GithubUserInfoDto githubUser, ContributionFullInfo contributionFullInfo)
+        {
+            AvatarUrl = githubUser.AvatarUrl;
+            Bio = githubUser.Bio;
+            Company = githubUser.Company;
+            ContributionFullInfo = contributionFullInfo;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Iwentys.Common.Databases
@@ -8,6 +9,7 @@ namespace Iwentys.Common.Databases
         IQueryable<TEntity> GetAsync();
         Task<TEntity> GetByIdAsync<TKey>(TKey id);
         Task<TEntity> InsertAsync(TEntity entity);
+        Task InsertAsync(IEnumerable<TEntity> entities);
         Task DeleteAsync<TKey>(TKey id);
         void Delete(TEntity entityToDelete);
         void Update(TEntity entityToUpdate);

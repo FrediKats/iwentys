@@ -27,14 +27,15 @@ namespace Iwentys.Integrations.GithubIntegration
             return Task.FromResult(result);
         }
 
-        public ContributionFullInfo GetUserActivity(string githubUsername)
+        public Task<ContributionFullInfo> GetUserActivity(string githubUsername)
         {
-            return new ContributionFullInfo { RawActivity = new ActivityInfo() { Contributions = new List<ContributionsInfo>(), Years = new List<YearActivityInfo>() } };
+            var result = new ContributionFullInfo { RawActivity = new ActivityInfo() { Contributions = new List<ContributionsInfo>(), Years = new List<YearActivityInfo>() } };
+            return Task.FromResult(result);
         }
 
-        public int GetUserActivity(string githubUsername, DateTime from, DateTime to)
+        public Task<int> GetUserActivity(string githubUsername, DateTime from, DateTime to)
         {
-            return default;
+            return Task.FromResult(0);
         }
 
         public Organization FindOrganizationInfo(string organizationName)
