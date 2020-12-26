@@ -21,6 +21,7 @@ using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Students.Enums;
 using Iwentys.Features.Students.Services;
+using Iwentys.Features.Tributes.Services;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Tests.Tools;
 

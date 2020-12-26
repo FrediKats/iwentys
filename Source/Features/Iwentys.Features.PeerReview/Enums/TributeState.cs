@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Features.Guilds.Enums
+﻿namespace Iwentys.Features.Tributes.Enums
 {
     public enum TributeState
     {

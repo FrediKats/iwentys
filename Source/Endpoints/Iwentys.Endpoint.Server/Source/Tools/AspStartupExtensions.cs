@@ -20,6 +20,7 @@ using Iwentys.Features.Quests;
 using Iwentys.Features.Students;
 using Iwentys.Features.Study;
 using Iwentys.Features.Study.Repositories;
+using Iwentys.Features.Tributes;
 using Iwentys.Features.Voting;
 using Iwentys.Integrations.GithubIntegration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -76,6 +77,7 @@ namespace Iwentys.Endpoint.Server.Source.Tools
             services.AddScoped<IGuildRepository, GuildRepository>();
             services.AddIwentysGuildFeatureServices();
 
+            services.AddIwentysTributesFeatureServices();
             services.AddIwentysNewsfeedFeatureServices();
             services.AddIwentysQuestFeatureServices();
             services.AddIwentysStudentsFeatureServices();

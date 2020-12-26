@@ -2,8 +2,8 @@
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Models.Guilds;
-using Iwentys.Features.Guilds.Models.GuildTribute;
 using Iwentys.Features.Students.Domain;
+using Iwentys.Features.Tributes.Models;
 
 namespace Iwentys.Tests.TestCaseContexts
 {

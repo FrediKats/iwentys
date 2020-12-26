@@ -19,7 +19,6 @@ namespace Iwentys.Features.Guilds.Services
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IGenericRepository<StudentEntity> _studentRepository;
-        private readonly IGenericRepository<TributeEntity> _guildTributeRepository;
         private readonly IGenericRepository<GuildEntity> _guildRepositoryNew;
         private readonly IGenericRepository<GuildMemberEntity> _guildMemberRepository;
 
@@ -32,7 +31,6 @@ namespace Iwentys.Features.Guilds.Services
             _unitOfWork = unitOfWork;
             _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
             _guildRepositoryNew = _unitOfWork.GetRepository<GuildEntity>();
-            _guildTributeRepository = _unitOfWork.GetRepository<TributeEntity>();
             _guildMemberRepository = _unitOfWork.GetRepository<GuildMemberEntity>();
         }
 
@@ -72,13 +70,14 @@ namespace Iwentys.Features.Guilds.Services
             if (studentGuild is null || studentGuild.Id != guildId)
                 throw InnerLogicException.Guild.IsNotGuildMember(user.Id, guildId);
 
-            TributeEntity userTribute = _guildTributeRepository.GetAsync()
-                .Where(t => t.GuildId == guildId)
-                .Where(t => t.ProjectEntity.StudentId == user.Id)
-                .SingleOrDefault(t => t.State == TributeState.Active);
+            //TODO: do smth?
+            //TributeEntity userTribute = _guildTributeRepository.GetAsync()
+            //    .Where(t => t.GuildId == guildId)
+            //    .Where(t => t.ProjectEntity.StudentId == user.Id)
+            //    .SingleOrDefault(t => t.State == TributeState.Active);
             
-            if (userTribute is not null)
-                await _guildTributeRepository.DeleteAsync(userTribute.ProjectId);
+            //if (userTribute is not null)
+            //    await _guildTributeRepository.DeleteAsync(userTribute.ProjectId);
 
             await RemoveMemberAsync(guildId, user.Id);
         }

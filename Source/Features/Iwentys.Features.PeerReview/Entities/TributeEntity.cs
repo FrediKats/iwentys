@@ -2,10 +2,11 @@
 using System.ComponentModel.DataAnnotations;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.GithubIntegration.Entities;
-using Iwentys.Features.Guilds.Enums;
+using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Tributes.Enums;
 
-namespace Iwentys.Features.Guilds.Entities
+namespace Iwentys.Features.Tributes.Entities
 {
     public class TributeEntity
     {

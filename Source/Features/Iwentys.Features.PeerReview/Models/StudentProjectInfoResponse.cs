@@ -1,6 +1,6 @@
 ﻿using Iwentys.Features.GithubIntegration.Entities;
 
-namespace Iwentys.Features.Guilds.Models.GuildTribute
+namespace Iwentys.Features.Tributes.Models
 {
     public class StudentProjectInfoResponse
     {

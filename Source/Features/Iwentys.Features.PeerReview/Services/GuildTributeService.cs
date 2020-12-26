@@ -8,15 +8,16 @@ using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
-using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Models.Guilds;
-using Iwentys.Features.Guilds.Models.GuildTribute;
 using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Tributes.Entities;
+using Iwentys.Features.Tributes.Enums;
+using Iwentys.Features.Tributes.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Guilds.Services
+namespace Iwentys.Features.Tributes.Services
 {
     public class GuildTributeService
     {

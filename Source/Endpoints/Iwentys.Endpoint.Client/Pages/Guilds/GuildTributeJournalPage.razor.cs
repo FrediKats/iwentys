@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients.Guilds;
 using Iwentys.Features.Guilds.Models.Guilds;
-using Iwentys.Features.Guilds.Models.GuildTribute;
+using Iwentys.Features.Tributes.Models;
 
 namespace Iwentys.Endpoint.Client.Pages.Guilds
 {
