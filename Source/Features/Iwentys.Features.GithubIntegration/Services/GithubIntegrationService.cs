@@ -165,13 +165,6 @@ namespace Iwentys.Features.GithubIntegration.Services
             return githubUserData;
         }
 
-        public Task<GithubUserEntity> GetGithubUser(string username)
-        {
-            return _githubUserRepository
-                .GetAsync()
-                .SingleOrDefaultAsync(g => g.Username == username);
-        }
-        
         public Task<List<GithubUserEntity>> GetAllGithubUser()
         {
             return _githubUserRepository
@@ -179,11 +172,36 @@ namespace Iwentys.Features.GithubIntegration.Services
                 .ToListAsync();
         }
 
-        public Task<GithubUserEntity> FindGithubUser(int studentId)
+        public async Task<GithubUserEntity> GetGithubUser(string username, bool useCache = true)
         {
-            return _githubUserRepository
+            var result = await _githubUserRepository
+                .GetAsync()
+                .SingleOrDefaultAsync(g => g.Username == username);
+
+            if (!useCache)
+            {
+                var student = await EnsureStudentWithGithub(username);
+                result = await ForceRescanUser(student, result);
+            }
+
+            return result;
+        }
+
+        //TODO: why this is Find? Do we need this?
+        public async Task<GithubUserEntity> FindGithubUser(int studentId, bool useCache = true)
+        {
+            var result = await _githubUserRepository
                 .GetAsync()
                 .SingleOrDefaultAsync(g => g.StudentId == studentId);
+
+            //TODO: if null we... can try get from api?
+            if (!useCache && result is not null)
+            {
+                var student = await EnsureStudentWithGithub(studentId);
+                result = await ForceRescanUser(student, result);
+            }
+
+            return result;
         }
 
         //TODO: wrap with domain entity?
