@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Microsoft.EntityFrameworkCore;
@@ -17,12 +18,12 @@ namespace Iwentys.Database.Tools
             DbSet = context.Set<TEntity>();
         }
 
-        public IQueryable<TEntity> GetAsync()
+        public IQueryable<TEntity> Get()
         {
             return DbSet;
         }
 
-        public async Task<TEntity> GetByIdAsync<TKey>(TKey id)
+        public async Task<TEntity> FindByIdAsync<TKey>(TKey id)
         {
             return await DbSet.FindAsync(id);
         }
@@ -31,6 +32,11 @@ namespace Iwentys.Database.Tools
         {
             EntityEntry<TEntity> result = await DbSet.AddAsync(entity);
             return result.Entity;
+        }
+
+        public async Task InsertAsync(IEnumerable<TEntity> entities)
+        {
+            await DbSet.AddRangeAsync(entities);
         }
 
         public async Task DeleteAsync<TKey>(TKey id)

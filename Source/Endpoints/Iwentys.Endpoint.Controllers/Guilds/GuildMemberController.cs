@@ -80,6 +80,14 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             return Ok();
         }
 
+        [HttpPut("{guildId}/member/{memberId}/promote")]
+        public async Task<IActionResult> PromoteToMentor(int guildId, int memberId)
+        {
+            AuthorizedUser user = this.TryAuthWithToken();
+            await _guildMemberService.PromoteToMentor(user, memberId);
+            return Ok();
+        }
+
         [HttpPut("{guildId}/request/{studentId}/accept")]
         public async Task<IActionResult> AcceptRequest(int guildId, int studentId)
         {

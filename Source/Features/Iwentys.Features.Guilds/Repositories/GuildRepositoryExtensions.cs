@@ -11,7 +11,7 @@ namespace Iwentys.Features.Guilds.Repositories
         public static GuildEntity ReadForStudent(this IGenericRepository<GuildMemberEntity> repository, int studentId)
         {
             return repository
-                .GetAsync()
+                .Get()
                 .Where(gm => gm.MemberId == studentId)
                 .Where(GuildMemberEntity.IsMember())
                 .Include(gm => gm.Guild.Members)
@@ -23,7 +23,7 @@ namespace Iwentys.Features.Guilds.Repositories
         public static bool IsStudentHaveRequest(this IGenericRepository<GuildMemberEntity> repository, int studentId)
         {
             return repository
-                .GetAsync()
+                .Get()
                 .Where(m => m.Member.Id == studentId)
                 .Any(m => m.MemberType == GuildMemberType.Requested);
         }

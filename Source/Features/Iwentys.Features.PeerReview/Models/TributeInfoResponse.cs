@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Iwentys.Features.Guilds.Entities;
-using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Students.Models;
+using Iwentys.Features.Tributes.Entities;
+using Iwentys.Features.Tributes.Enums;
 
-namespace Iwentys.Features.Guilds.Models.GuildTribute
+namespace Iwentys.Features.Tributes.Models
 {
     public class TributeInfoResponse
     {
@@ -24,7 +24,14 @@ namespace Iwentys.Features.Guilds.Models.GuildTribute
             project =>
                 new TributeInfoResponse
                 {
-                    Project = StudentProjectInfoResponse.Wrap(project.ProjectEntity),
+                    Project = new StudentProjectInfoResponse
+                    {
+                        Id = project.Project.Id,
+                        Url = project.Project.FullUrl,
+                        Name = project.Project.FullUrl,
+                        Description = project.Project.Description
+                    },
+
                     GuildId = project.GuildId,
                     State = project.State,
                     DifficultLevel = project.DifficultLevel,
@@ -37,7 +44,7 @@ namespace Iwentys.Features.Guilds.Models.GuildTribute
         {
             return new TributeInfoResponse
             {
-                Project = StudentProjectInfoResponse.Wrap(project.ProjectEntity),
+                Project = StudentProjectInfoResponse.Wrap(project.Project),
                 GuildId = project.GuildId,
                 State = project.State,
                 DifficultLevel = project.DifficultLevel,

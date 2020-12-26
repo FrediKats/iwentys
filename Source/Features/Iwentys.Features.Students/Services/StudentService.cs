@@ -27,7 +27,7 @@ namespace Iwentys.Features.Students.Services
         public async Task<List<StudentInfoDto>> GetAsync()
         {
             List<StudentEntity> students = await _studentRepository
-                .GetAsync()
+                .Get()
                 .ToListAsync();
 
             return students.SelectToList(s => new StudentInfoDto(s));
@@ -35,18 +35,18 @@ namespace Iwentys.Features.Students.Services
 
         public async Task<StudentInfoDto> GetAsync(int id)
         {
-            StudentEntity student = await _studentRepository.GetByIdAsync(id);
+            StudentEntity student = await _studentRepository.FindByIdAsync(id);
             return new StudentInfoDto(student);
         }
 
         public async Task<StudentInfoDto> GetOrCreateAsync(int id)
         {
-            StudentEntity student = await _studentRepository.GetByIdAsync(id);
+            StudentEntity student = await _studentRepository.FindByIdAsync(id);
             if (student is null)
             {
                 var newStudent = StudentEntity.CreateFromIsu(id, "userInfo.FirstName", "userInfo.MiddleName", "userInfo.SecondName");
                 await _studentRepository.InsertAsync(newStudent);
-                student = await _studentRepository.GetByIdAsync(newStudent.Id);
+                student = await _studentRepository.FindByIdAsync(newStudent.Id);
             }
 
             return new StudentInfoDto(student);
@@ -54,26 +54,26 @@ namespace Iwentys.Features.Students.Services
 
         public async Task<StudentInfoDto> AddGithubUsernameAsync(int id, string githubUsername)
         {
-            bool isUsernameUsed = await _studentRepository.GetAsync().AnyAsync(s => s.GithubUsername == githubUsername);
+            bool isUsernameUsed = await _studentRepository.Get().AnyAsync(s => s.GithubUsername == githubUsername);
             if (isUsernameUsed)
                 throw InnerLogicException.Student.GithubAlreadyUser(githubUsername);
 
             //TODO: implement github access validation
             //throw new NotImplementedException("Need to validate github credentials");
-            StudentEntity user = await _studentRepository.GetByIdAsync(id);
+            StudentEntity user = await _studentRepository.FindByIdAsync(id);
             user.GithubUsername = githubUsername;
             _studentRepository.Update(user);
 
             await _achievementProvider.Achieve(AchievementList.AddGithubAchievement, user.Id);
-            return new StudentInfoDto(await _studentRepository.GetByIdAsync(id));
+            return new StudentInfoDto(await _studentRepository.FindByIdAsync(id));
         }
 
         public async Task<StudentInfoDto> RemoveGithubUsernameAsync(int id, string githubUsername)
         {
-            StudentEntity user = await _studentRepository.GetByIdAsync(id);
+            StudentEntity user = await _studentRepository.FindByIdAsync(id);
             user.GithubUsername = githubUsername;
             _studentRepository.Update(user);
-            return new StudentInfoDto(await _studentRepository.GetByIdAsync(id));
+            return new StudentInfoDto(await _studentRepository.FindByIdAsync(id));
         }
     }
 }

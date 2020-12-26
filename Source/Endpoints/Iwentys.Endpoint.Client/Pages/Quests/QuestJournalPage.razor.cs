@@ -53,7 +53,7 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
         private async Task RevokeQuest(QuestInfoDto quest)
         {
             //TODO: refresh elements
-            await _questControllerClient.Revoke(quest.Id, _currentStudent.Id);
+            await _questControllerClient.Revoke(quest.Id);
         }
 
         private string LinkToQuestProfilePage(QuestInfoDto quest) => $"/quest/profile/{quest.Id}";

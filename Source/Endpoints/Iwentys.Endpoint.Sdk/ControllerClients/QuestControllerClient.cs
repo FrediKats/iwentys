@@ -55,7 +55,7 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
             await Client.GetAsync($"/api/quests/{questId}/complete?userId={userId}");
         }
 
-        public async Task Revoke(int questId, int userId)
+        public async Task Revoke(int questId)
         {
             await Client.GetAsync($"/api/quests/{questId}/revoke");
         }

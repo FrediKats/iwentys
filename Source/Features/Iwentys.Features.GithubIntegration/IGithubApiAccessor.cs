@@ -11,8 +11,8 @@ namespace Iwentys.Features.GithubIntegration
         Task<List<GithubRepositoryInfoDto>> GetUserRepositories(string username);
         Task<GithubUserInfoDto> GetGithubUser(string githubUsername);
 
-        ContributionFullInfo GetUserActivity(string githubUsername);
-        int GetUserActivity(string githubUsername, DateTime from, DateTime to);
+        Task<ContributionFullInfo> GetUserActivity(string githubUsername);
+        Task<int> GetUserActivity(string githubUsername, DateTime from, DateTime to);
         //TODO: fix
         //Organization FindOrganizationInfo(string organizationName);
     }

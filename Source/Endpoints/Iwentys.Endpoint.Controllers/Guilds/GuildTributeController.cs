@@ -2,9 +2,10 @@
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Controllers.Tools;
 using Iwentys.Features.Guilds.Models.Guilds;
-using Iwentys.Features.Guilds.Models.GuildTribute;
 using Iwentys.Features.Guilds.Services;
 using Iwentys.Features.Students.Domain;
+using Iwentys.Features.Tributes.Models;
+using Iwentys.Features.Tributes.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Guilds
@@ -49,7 +50,7 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         }
 
         [HttpPut("cancel")]
-        public async Task<ActionResult<TributeInfoResponse>> CancelTribute([FromBody] long tributeId)
+        public async Task<ActionResult<TributeInfoResponse>> CancelTribute(long tributeId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             TributeInfoResponse tributes = await _guildService.CancelTribute(user, tributeId);
@@ -61,6 +62,16 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         {
             AuthorizedUser user = this.TryAuthWithToken();
             TributeInfoResponse tributes = await _guildService.CompleteTribute(user, tributeCompleteRequest);
+            return Ok(tributes);
+        }
+
+        [HttpGet("get-for-student/active")]
+        public async Task<ActionResult<TributeInfoResponse>> FindStudentActiveTribute()
+        {
+            AuthorizedUser user = this.TryAuthWithToken();
+            TributeInfoResponse tributes = await _guildService.FindStudentActiveTribute(user);
+            if (tributes is null)
+                return NotFound();
             return Ok(tributes);
         }
     }

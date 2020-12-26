@@ -8,15 +8,16 @@ using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
-using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Models.Guilds;
-using Iwentys.Features.Guilds.Models.GuildTribute;
 using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Tributes.Entities;
+using Iwentys.Features.Tributes.Enums;
+using Iwentys.Features.Tributes.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Guilds.Services
+namespace Iwentys.Features.Tributes.Services
 {
     public class GuildTributeService
     {
@@ -46,9 +47,10 @@ namespace Iwentys.Features.Guilds.Services
             GuildEntity guild = _guildMemberRepository.ReadForStudent(user.Id) ?? throw InnerLogicException.Guild.IsNotGuildMember(user.Id, null);
 
             return _guildTributeRepository
-                .GetAsync()
+                .Get()
                 .Where(t => t.GuildId == guild.Id)
                 .Where(t => t.State == TributeState.Active)
+                .Where(t => t.Project != null)
                 .Select(TributeInfoResponse.FromEntity)
                 .ToList();
         }
@@ -58,9 +60,9 @@ namespace Iwentys.Features.Guilds.Services
             GuildEntity guild = _guildMemberRepository.ReadForStudent(user.Id) ?? throw InnerLogicException.Guild.IsNotGuildMember(user.Id, null);
 
             return _guildTributeRepository
-                .GetAsync()
+                .Get()
                 .Where(t => t.GuildId == guild.Id)
-                .Where(t => t.ProjectEntity.StudentId == user.Id)
+                .Where(t => t.Project.StudentId == user.Id)
                 .Select(TributeInfoResponse.FromEntity)
                 .ToList();
         }
@@ -68,7 +70,7 @@ namespace Iwentys.Features.Guilds.Services
         public List<TributeInfoResponse> GetGuildTributes(int guildId)
         {
             return _guildTributeRepository
-                .GetAsync()
+                .Get()
                 .Where(t => t.GuildId == guildId)
                 .Where(t => t.State == TributeState.Active)
                 .Select(TributeInfoResponse.FromEntity)
@@ -77,34 +79,38 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task<TributeInfoResponse> CreateTribute(AuthorizedUser user, CreateProjectRequestDto createProject)
         {
-            StudentEntity student = await _studentRepository.GetByIdAsync(user.Id);
-            if (student.GithubUsername != createProject.Owner)
-                throw InnerLogicException.Tribute.TributeCanBeSendFromStudentAccount(student.Id, createProject.Owner);
-
+            StudentEntity student = await _studentRepository.FindByIdAsync(user.Id);
             GithubRepositoryInfoDto githubProject = await _githubIntegrationService.GetRepository(createProject.Owner, createProject.RepositoryName);
             GithubProjectEntity projectEntity = await GetOrCreateAsync(githubProject, student);
             GuildEntity guild = _guildMemberRepository.ReadForStudent(student.Id);
-            List<TributeEntity> allTributes = await _guildTributeRepository.GetAsync().ToListAsync();
+            List<TributeEntity> allTributes = await _guildTributeRepository.Get().ToListAsync();
 
-            if (allTributes.Any(t => t.ProjectId == projectEntity.Id))
-                throw InnerLogicException.Tribute.ProjectAlreadyUsed(projectEntity.Id);
+            var tribute = TributeEntity.Create(guild, student, projectEntity, allTributes);
 
-            if (allTributes.Any(t => t.State == TributeState.Active && t.ProjectEntity.StudentId == student.Id))
-                throw InnerLogicException.Tribute.UserAlreadyHaveTribute(user.Id);
-
-            var tribute = new TributeEntity(guild, projectEntity);
             await _guildTributeRepository.InsertAsync(tribute);
             await _unitOfWork.CommitAsync();
+
+            //TODO: remove this hack, check issue https://github.com/kysect/iwentys/issues/138
+            //return await _guildTributeRepository
+            //    .Get()
+            //    .Where(t => t.ProjectId == tribute.ProjectId)
+            //    .Select(TributeInfoResponse.FromEntity)
+            //    .SingleAsync();
+
+            tribute.Project = projectEntity;
             return TributeInfoResponse.Wrap(tribute);
+            
         }
 
         public async Task<GithubProjectEntity> GetOrCreateAsync(GithubRepositoryInfoDto project, StudentEntity creator)
         {
-            GithubProjectEntity githubProjectEntity = await _studentProjectRepository.GetByIdAsync(project.Id);
+            GithubProjectEntity githubProjectEntity = await _studentProjectRepository.FindByIdAsync(project.Id);
             if (githubProjectEntity is not null)
                 return githubProjectEntity;
 
+            //TODO: need to get this from GithubService
             var newProject = new GithubProjectEntity(creator, project);
+            
             await _studentProjectRepository.InsertAsync(newProject);
             await _unitOfWork.CommitAsync();
             return newProject;
@@ -113,13 +119,10 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task<TributeInfoResponse> CancelTribute(AuthorizedUser user, long tributeId)
         {
-            StudentEntity student = await _studentRepository.GetByIdAsync(user.Id);
-            TributeEntity tribute = await _guildTributeRepository.GetByIdAsync(tributeId);
+            StudentEntity student = await _studentRepository.FindByIdAsync(user.Id);
+            TributeEntity tribute = await _guildTributeRepository.FindByIdAsync(tributeId);
 
-            if (tribute.State != TributeState.Active)
-                throw InnerLogicException.Tribute.IsNotActive(tribute.ProjectId);
-
-            if (tribute.ProjectEntity.StudentId == user.Id)
+            if (tribute.Project.StudentId == user.Id)
             {
                 tribute.SetCanceled();
             }
@@ -136,17 +139,26 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task<TributeInfoResponse> CompleteTribute(AuthorizedUser user, TributeCompleteRequest tributeCompleteRequest)
         {
-            StudentEntity student = await _studentRepository.GetByIdAsync(user.Id);
-            TributeEntity tribute = await _guildTributeRepository.GetByIdAsync(tributeCompleteRequest.TributeId);
+            StudentEntity student = await _studentRepository.FindByIdAsync(user.Id);
+            TributeEntity tribute = await _guildTributeRepository.FindByIdAsync(tributeCompleteRequest.TributeId);
             GuildMentorUser mentor = await student.EnsureIsMentor(_guildRepositoryNew, tribute.GuildId);
 
-            if (tribute.State != TributeState.Active)
-                throw InnerLogicException.Tribute.IsNotActive(tribute.ProjectId);
-
-            tribute.SetCompleted(mentor.Student.Id, tributeCompleteRequest.DifficultLevel, tributeCompleteRequest.Mark);
+            tribute.SetCompleted(mentor.Student.Id, tributeCompleteRequest);
+            
             _guildTributeRepository.Update(tribute);
             await _unitOfWork.CommitAsync();
             return TributeInfoResponse.Wrap(tribute);
+        }
+
+        public async Task<TributeInfoResponse> FindStudentActiveTribute(AuthorizedUser user)
+        {
+            StudentEntity student = await _studentRepository.FindByIdAsync(user.Id);
+            return await _guildTributeRepository
+                .Get()
+                .Where(TributeEntity.IsActive)
+                .Where(TributeEntity.BelongTo(student))
+                .Select(TributeInfoResponse.FromEntity)
+                .SingleOrDefaultAsync();
         }
     }
 }

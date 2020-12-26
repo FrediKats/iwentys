@@ -25,14 +25,14 @@ namespace Iwentys.Features.Gamification.Services
 
         public async Task<List<InterestTagDto>> GetAllTags()
         {
-            List<InterestTagEntity> interestTagEntities = await _interestTagRepository.GetAsync().ToListAsync();
+            List<InterestTagEntity> interestTagEntities = await _interestTagRepository.Get().ToListAsync();
             return interestTagEntities.SelectToList(t => new InterestTagDto(t));
         }
 
         public async Task<List<InterestTagDto>> GetStudentTags(int studentId)
         {
             return await _userInterestTagRepository
-                .GetAsync()
+                .Get()
                 .Where(ui => ui.StudentId == studentId)
                 .Select(ui => ui.InterestTag)
                 .Select(InterestTagDto.FromEntity)

@@ -34,8 +34,8 @@ namespace Iwentys.Features.Newsfeeds.Services
 
         public async Task CreateSubjectNewsfeed(NewsfeedCreateViewModel createViewModel, AuthorizedUser authorizedUser, int subjectId)
         {
-            var author = await _studentRepository.GetByIdAsync(authorizedUser.Id);
-            var subject = await _subjectRepository.GetByIdAsync(subjectId);
+            var author = await _studentRepository.FindByIdAsync(authorizedUser.Id);
+            var subject = await _subjectRepository.FindByIdAsync(subjectId);
 
             if (author.Role != StudentRole.GroupAdmin && author.Role != StudentRole.Admin)
                 throw InnerLogicException.NotEnoughPermissionFor(author.Id);
@@ -49,7 +49,7 @@ namespace Iwentys.Features.Newsfeeds.Services
         public async Task<List<NewsfeedViewModel>> GetSubjectNewsfeedsAsync(int subjectId)
         {
             return await _subjectNewsfeedRepository
-                .GetAsync()
+                .Get()
                 .Where(sn => sn.SubjectId == subjectId)
                 .Select(NewsfeedViewModel.FromSubjectEntity)
                 .ToListAsync();
@@ -57,7 +57,7 @@ namespace Iwentys.Features.Newsfeeds.Services
 
         public async Task<List<NewsfeedViewModel>> GetGuildNewsfeeds(int guildId)
         {
-            return await _guildNewsfeedRepository.GetAsync()
+            return await _guildNewsfeedRepository.Get()
                 .Where(gn => gn.GuildId == guildId)
                 .Select(NewsfeedViewModel.FromGuildEntity)
                 .ToListAsync();

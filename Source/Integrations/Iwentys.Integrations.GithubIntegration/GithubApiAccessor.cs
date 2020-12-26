@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
-using Iwentys.Common.Tools;
 using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Models;
 using Octokit;
@@ -56,11 +55,12 @@ namespace Iwentys.Integrations.GithubIntegration
             return new GithubUserInfoDto(user.Id, user.Name, user.AvatarUrl, user.Bio, user.Company);
         }
 
-        public ContributionFullInfo GetUserActivity(string githubUsername)
+        public async Task<ContributionFullInfo> GetUserActivity(string githubUsername)
         {
+            //TODO: http client factory?
             using var http = new HttpClient();
 
-            string info = http.GetStringAsync(GithubContributionsApiUrl + githubUsername).Result;
+            string info = await http.GetStringAsync(GithubContributionsApiUrl + githubUsername);
             var result = JsonSerializer.Deserialize<ActivityInfo>(info);
 
             return new ContributionFullInfo
@@ -69,9 +69,10 @@ namespace Iwentys.Integrations.GithubIntegration
             };
         }
 
-        public int GetUserActivity(string githubUsername, DateTime from, DateTime to)
+        public async Task<int> GetUserActivity(string githubUsername, DateTime from, DateTime to)
         {
-            return GetUserActivity(githubUsername).GetActivityForPeriod(from, to);
+            var activity = await GetUserActivity(githubUsername);
+            return activity.GetActivityForPeriod(from, to);
         }
 
         public Organization FindOrganizationInfo(string organizationName)

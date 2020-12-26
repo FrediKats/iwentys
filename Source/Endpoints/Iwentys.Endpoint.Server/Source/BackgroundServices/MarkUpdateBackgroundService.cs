@@ -43,7 +43,7 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
                     
                     var googleTableUpdateService = new MarkGoogleTableUpdateService(subjectActivityRepository, _logger, _tokenApplicationOptions.GoogleServiceToken, unitOfWork);
 
-                    foreach (GroupSubjectEntity g in groupSubjectRepository.GetAsync().ToList())
+                    foreach (GroupSubjectEntity g in groupSubjectRepository.Get().ToList())
                     {
                         try
                         {

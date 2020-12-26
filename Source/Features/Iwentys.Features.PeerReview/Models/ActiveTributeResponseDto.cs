@@ -1,13 +1,13 @@
 ﻿using System;
-using Iwentys.Features.Guilds.Entities;
-using Iwentys.Features.Guilds.Enums;
+using Iwentys.Features.Tributes.Entities;
+using Iwentys.Features.Tributes.Enums;
 
-namespace Iwentys.Features.Guilds.Models.Guilds
+namespace Iwentys.Features.Tributes.Models
 {
     public record ActiveTributeResponseDto
     {
         public ActiveTributeResponseDto(TributeEntity tribute)
-            : this(tribute.ProjectId, tribute.State, tribute.ProjectEntity.Name, tribute.CreationTimeUtc)
+            : this(tribute.ProjectId, tribute.State, tribute.Project.Name, tribute.CreationTimeUtc)
         {
         }
 

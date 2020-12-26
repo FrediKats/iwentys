@@ -33,18 +33,18 @@ namespace Iwentys.Features.Study.Services
         public async Task<List<StudyGroupEntity>> GetStudyGroupsForDtoAsync(int? courseId)
         {
             return await _studyGroupRepository
-                .GetAsync()
+                .Get()
                 .WhereIf(courseId, gs => gs.StudyCourseId == courseId)
                 .ToListAsync();
         }
 
         public async Task<GroupProfileResponseDto> GetStudentGroup(int studentId)
         {
-            var student = await _studentRepository.GetByIdAsync(studentId);
+            var student = await _studentRepository.FindByIdAsync(studentId);
             if (student.GroupId is null)
                 return null;
 
-            var group = await _studyGroupRepository.GetByIdAsync(student.GroupId);
+            var group = await _studyGroupRepository.FindByIdAsync(student.GroupId);
             return new GroupProfileResponseDto(group);
         }
     }

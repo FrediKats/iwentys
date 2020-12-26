@@ -21,7 +21,7 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task<GuildRecruitmentEntity> Create(int guildId, int memberId, string description)
         {
-            GuildEntity guild = await _guildRepository.GetByIdAsync(guildId);
+            GuildEntity guild = await _guildRepository.FindByIdAsync(guildId);
             var creator = guild.Members.Find(m => m.MemberId == memberId) ?? throw EntityNotFoundException.Create(typeof(GuildMemberEntity), memberId);
 
             GuildRecruitmentEntity recruitment = new GuildRecruitmentEntity

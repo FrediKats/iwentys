@@ -11,7 +11,6 @@ namespace Iwentys.Features.Guilds
             services.AddScoped<GuildRecruitmentService>();
             services.AddScoped<GuildService>();
             services.AddScoped<GuildTestTaskService>();
-            services.AddScoped<GuildTributeService>();
             services.AddScoped<TournamentService>();
 
             return services;

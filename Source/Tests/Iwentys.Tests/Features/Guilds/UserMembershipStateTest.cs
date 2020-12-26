@@ -65,7 +65,7 @@ namespace Iwentys.Tests.Features.Guilds
             //    .Setup(a => a.GetRepository(It.IsAny<String>(), It.IsAny<String>()))
             //    .Returns(default(GithubRepositoryInfoDto));
             _githubUserDataService
-                .Setup(a => a.GetGithubUser(It.IsAny<String>()))
+                .Setup(a => a.GetGithubUser(It.IsAny<String>(), It.IsAny<bool>()))
                 .Returns(Task.FromResult(new GithubUserEntity { ContributionFullInfo = new ContributionFullInfo { RawActivity = new ActivityInfo() { Contributions = new List<ContributionsInfo>(), Years = new List<YearActivityInfo>() } } }));
 
             //_guildRepository = new Mock<GuildRepository>();
@@ -80,7 +80,7 @@ namespace Iwentys.Tests.Features.Guilds
 
             _studentRepository = new Mock<IGenericRepository<StudentEntity>>();
             _studentRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<Int32>()))
+                .Setup(r => r.FindByIdAsync(It.IsAny<Int32>()))
                 .Returns(Task.FromResult(_student));
 
             _guildDomain = new GuildDomain(_guild, _githubUserDataService.Object, _studentRepository.Object, null);

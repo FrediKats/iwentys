@@ -21,6 +21,7 @@ using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Students.Enums;
 using Iwentys.Features.Students.Services;
+using Iwentys.Features.Tributes.Services;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Tests.Tools;
 
@@ -121,7 +122,7 @@ namespace Iwentys.Tests.TestCaseContexts
             var project = new GithubProjectEntity
             {
                 //TODO: hack for work with dummy github
-                Id = 17,
+                Id = 171717,
                 StudentId = userInfo.Id,
                 Owner = StudentService.GetAsync(userInfo.Id).Result.GithubUsername,
                 Name = "Test repo"

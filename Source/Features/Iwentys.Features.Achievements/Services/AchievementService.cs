@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Features.Achievements.Entities;
 using Iwentys.Features.Achievements.Models;
@@ -19,15 +18,13 @@ namespace Iwentys.Features.Achievements.Services
             _studentAchievementRepository = _unitOfWork.GetRepository<StudentAchievementEntity>();
         }
 
-        public async Task<List<AchievementDto>> GetForStudent(int studentId)
+        public List<AchievementDto> GetForStudent(int studentId)
         {
-            List<AchievementDto> achievements = _studentAchievementRepository
-                .GetAsync()
+            return _studentAchievementRepository
+                .Get()
                 .Where(a => a.StudentId == studentId)
                 .Select(AchievementDto.FromEntity)
                 .ToList();
-
-            return achievements;
         }
     }
 }

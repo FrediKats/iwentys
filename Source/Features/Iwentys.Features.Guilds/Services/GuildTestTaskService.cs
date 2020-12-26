@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
-using Iwentys.Common.Tools;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.GithubIntegration.Services;
@@ -45,7 +44,7 @@ namespace Iwentys.Features.Guilds.Services
         public Task<List<GuildTestTaskInfoResponse>> Get(int guildId)
         {
             return _guildTestTaskSolvingInfoRepository
-                .GetAsync()
+                .Get()
                 .Where(t => t.GuildId == guildId)
                 .Select(GuildTestTaskInfoResponse.FromEntity)
                 .ToListAsync();
@@ -58,10 +57,10 @@ namespace Iwentys.Features.Guilds.Services
                 throw InnerLogicException.Guild.IsNotGuildMember(user.Id, guildId);
 
 
-            StudentEntity studentProfile = await _studentRepository.GetByIdAsync(user.Id);
+            StudentEntity studentProfile = await _studentRepository.FindByIdAsync(user.Id);
 
             var existedTestTask = await _guildTestTaskSolvingInfoRepository
-                .GetAsync()
+                .Get()
                 .FirstOrDefaultAsync(k =>
                     k.GuildId == studentGuild.Id &&
                     k.StudentId == user.Id &&
@@ -80,7 +79,7 @@ namespace Iwentys.Features.Guilds.Services
         public async Task<GuildTestTaskInfoResponse> Submit(AuthorizedUser user, int guildId, string projectOwner, string projectName)
         {
             GuildTestTaskSolutionEntity testTask = await _guildTestTaskSolvingInfoRepository
-                                                          .GetAsync()
+                                                          .Get()
                                                           .SingleOrDefaultAsync(t => t.StudentId == user.Id && t.GuildId == guildId)
                                                       ?? throw new EntityNotFoundException("Test task was not started");
 
@@ -97,11 +96,11 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task<GuildTestTaskInfoResponse> Complete(AuthorizedUser user, int guildId, int taskSolveOwnerId)
         {
-            StudentEntity review = await _studentRepository.GetByIdAsync(user.Id);
+            StudentEntity review = await _studentRepository.FindByIdAsync(user.Id);
             await review.EnsureIsMentor(_guildRepositoryNew, guildId);
 
             GuildTestTaskSolutionEntity testTask = _guildTestTaskSolvingInfoRepository
-                .GetAsync()
+                .Get()
                 .SingleOrDefault(t => t.StudentId == taskSolveOwnerId && t.GuildId == guildId) ?? throw new EntityNotFoundException("Test task was not started");
 
             if (testTask.GetState() != GuildTestTaskState.Submitted)

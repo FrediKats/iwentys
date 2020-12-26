@@ -21,7 +21,7 @@ namespace Iwentys.Features.Study.Services
         public Task<List<SubjectActivityEntity>> GetStudentActivity(int studentId)
         {
             return _subjectActivityRepositoryNew
-                .GetAsync()
+                .Get()
                 .Where(s => s.StudentId == studentId)
                 .ToListAsync();
         }

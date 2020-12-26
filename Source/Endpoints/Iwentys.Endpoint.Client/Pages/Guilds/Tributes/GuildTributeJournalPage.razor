@@ -1,0 +1,28 @@
+﻿@page "/guild/{GuildId:int}/tribute"
+
+@using Blazored.LocalStorage
+
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+
+<div class="container-fluid d-flex flex-row">
+    <div class="col-md-6 d-flex flex-column">
+        <h3>Guild tributes</h3>
+        @if (_guild is not null)
+        {
+            <MatPaper Elevation="10" Rounded="true" class="container-fluid d-flex flex-column">
+                @foreach (var tribute in _tributes)
+                {
+                    <TributeCardComponent Tribute=@tribute></TributeCardComponent>
+                }
+            </MatPaper>
+        }
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public int GuildId { get; set; }
+
+}
