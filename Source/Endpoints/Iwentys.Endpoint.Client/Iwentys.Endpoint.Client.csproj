@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\css\CommonElementStyle.scss" />
     <None Include="wwwroot\css\GlobalStyle.css" />
     <None Include="wwwroot\css\GlobalStyle.scss" />
   </ItemGroup>
