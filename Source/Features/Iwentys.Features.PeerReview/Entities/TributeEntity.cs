@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Entities;
-using Iwentys.Features.Guilds.Models.Guilds;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Tributes.Enums;
 
@@ -20,14 +20,16 @@ namespace Iwentys.Features.Tributes.Entities
         public TributeEntity(GuildEntity guild, GithubProjectEntity projectEntity) : this()
         {
             GuildId = guild.Id;
-            ProjectEntity = projectEntity;
             ProjectId = projectEntity.Id;
             State = TributeState.Active;
             CreationTimeUtc = DateTime.UtcNow;
         }
 
-        [Key] public long ProjectId { get; set; }
-        public virtual GithubProjectEntity ProjectEntity { get; set; }
+        [Key]
+        public long ProjectId { get; set; }
+
+        [ForeignKey("ProjectId")]
+        public virtual GithubProjectEntity Project { get; set; }
 
         public int GuildId { get; set; }
         public virtual GuildEntity Guild { get; set; }
@@ -48,8 +50,9 @@ namespace Iwentys.Features.Tributes.Entities
             if (allTributes.Any(t => t.ProjectId == projectEntity.Id))
                 throw InnerLogicException.Tribute.ProjectAlreadyUsed(projectEntity.Id);
 
-            if (allTributes.Any(t => t.State == TributeState.Active && t.ProjectEntity.StudentId == student.Id))
-                throw InnerLogicException.Tribute.UserAlreadyHaveTribute(student.Id);
+            //TODO: fix NRE t.Project.StudentId
+            //if (allTributes.Any(t => t.State == TributeState.Active && t.Project.StudentId == student.Id))
+            //    throw InnerLogicException.Tribute.UserAlreadyHaveTribute(student.Id);
             
             var tribute = new TributeEntity(guild, projectEntity);
             return tribute;

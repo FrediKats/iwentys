@@ -24,7 +24,14 @@ namespace Iwentys.Features.Tributes.Models
             project =>
                 new TributeInfoResponse
                 {
-                    Project = StudentProjectInfoResponse.Wrap(project.ProjectEntity),
+                    Project = new StudentProjectInfoResponse
+                    {
+                        Id = project.Project.Id,
+                        Url = project.Project.FullUrl,
+                        Name = project.Project.FullUrl,
+                        Description = project.Project.Description
+                    },
+
                     GuildId = project.GuildId,
                     State = project.State,
                     DifficultLevel = project.DifficultLevel,
@@ -37,7 +44,7 @@ namespace Iwentys.Features.Tributes.Models
         {
             return new TributeInfoResponse
             {
-                Project = StudentProjectInfoResponse.Wrap(project.ProjectEntity),
+                Project = StudentProjectInfoResponse.Wrap(project.Project),
                 GuildId = project.GuildId,
                 State = project.State,
                 DifficultLevel = project.DifficultLevel,

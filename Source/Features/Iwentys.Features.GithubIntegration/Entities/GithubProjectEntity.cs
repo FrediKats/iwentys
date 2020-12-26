@@ -16,12 +16,8 @@ namespace Iwentys.Features.GithubIntegration.Entities
             Description = githubRepositoryInfoDto.Description;
             FullUrl = githubRepositoryInfoDto.Url;
             Name = githubRepositoryInfoDto.Name;
-            Student = owner;
             StudentId = owner.Id;
         }
-
-        public int StudentId { get; set; }
-        public virtual StudentEntity Student { get; set; }
 
         public long Id { get; set; }
         public string FullUrl { get; set; }
@@ -30,6 +26,8 @@ namespace Iwentys.Features.GithubIntegration.Entities
         public string Description { get; set; }
         public int StarCount { get; set; }
         public long GithubRepositoryId { get; set; }
-        public string UserName { get; set; }
+
+        public int StudentId { get; set; }
+        public virtual StudentEntity Student { get; set; }
     }
 }

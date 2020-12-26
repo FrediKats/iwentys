@@ -40,7 +40,7 @@ namespace Iwentys.Features.GithubIntegration.Services
 
             GithubProjectEntity githubRepository = await _studentProjectRepository
                 .GetAsync()
-                .SingleOrDefaultAsync(p => p.UserName == username && p.Name == projectName);
+                .SingleOrDefaultAsync(p => p.Owner == username && p.Name == projectName);
             
             if (githubRepository is null)
                 return await _githubApiAccessor.GetRepository(username, projectName);
@@ -65,7 +65,7 @@ namespace Iwentys.Features.GithubIntegration.Services
 
             return await _studentProjectRepository
                 .GetAsync()
-                .Where(p => p.UserName == username)
+                .Where(p => p.Owner == username)
                 .Select(GithubRepositoryInfoDto.FromEntity)
                 .ToListAsync();
         }

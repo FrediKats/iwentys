@@ -7,7 +7,7 @@ namespace Iwentys.Features.Tributes.Models
     public record ActiveTributeResponseDto
     {
         public ActiveTributeResponseDto(TributeEntity tribute)
-            : this(tribute.ProjectId, tribute.State, tribute.ProjectEntity.Name, tribute.CreationTimeUtc)
+            : this(tribute.ProjectId, tribute.State, tribute.Project.Name, tribute.CreationTimeUtc)
         {
         }
 

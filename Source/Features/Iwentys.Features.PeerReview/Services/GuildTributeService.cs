@@ -50,6 +50,7 @@ namespace Iwentys.Features.Tributes.Services
                 .GetAsync()
                 .Where(t => t.GuildId == guild.Id)
                 .Where(t => t.State == TributeState.Active)
+                .Where(t => t.Project != null)
                 .Select(TributeInfoResponse.FromEntity)
                 .ToList();
         }
@@ -61,7 +62,7 @@ namespace Iwentys.Features.Tributes.Services
             return _guildTributeRepository
                 .GetAsync()
                 .Where(t => t.GuildId == guild.Id)
-                .Where(t => t.ProjectEntity.StudentId == user.Id)
+                .Where(t => t.Project.StudentId == user.Id)
                 .Select(TributeInfoResponse.FromEntity)
                 .ToList();
         }
@@ -88,7 +89,17 @@ namespace Iwentys.Features.Tributes.Services
 
             await _guildTributeRepository.InsertAsync(tribute);
             await _unitOfWork.CommitAsync();
+
+            //TODO: remove this hack, check issue https://github.com/kysect/iwentys/issues/138
+            //return await _guildTributeRepository
+            //    .GetAsync()
+            //    .Where(t => t.ProjectId == tribute.ProjectId)
+            //    .Select(TributeInfoResponse.FromEntity)
+            //    .SingleAsync();
+
+            tribute.Project = projectEntity;
             return TributeInfoResponse.Wrap(tribute);
+            
         }
 
         public async Task<GithubProjectEntity> GetOrCreateAsync(GithubRepositoryInfoDto project, StudentEntity creator)
@@ -111,7 +122,7 @@ namespace Iwentys.Features.Tributes.Services
             StudentEntity student = await _studentRepository.GetByIdAsync(user.Id);
             TributeEntity tribute = await _guildTributeRepository.GetByIdAsync(tributeId);
 
-            if (tribute.ProjectEntity.StudentId == user.Id)
+            if (tribute.Project.StudentId == user.Id)
             {
                 tribute.SetCanceled();
             }
