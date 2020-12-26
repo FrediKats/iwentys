@@ -28,6 +28,8 @@ jobs:
       working-directory: Source
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@v1.1
+      with:
+        projectBaseDir: Source 
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
