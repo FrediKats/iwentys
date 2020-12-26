@@ -1,6 +1,7 @@
 ﻿@page "/guild/profile/{GuildId:int}"
 @using Blazored.LocalStorage
 @using Iwentys.Endpoint.Client.CustomComponents
+@using Iwentys.Endpoint.Client.Pages.Guilds.Tributes
 
 @inject HttpClient Http
 @inject ILocalStorageService LocalStorage
@@ -10,38 +11,37 @@
     <div class="container-fluid d-flex flex-row">
         <div class="col-md-3 d-flex flex-column dark-elevation-01">
             <GuildProfileInfoComponent SelectedGuildProfile=@_guild></GuildProfileInfoComponent>
-            @*TODO: create component*@
             @if (_activeTribute?.Project is not null)
             {
-                <h6>Tribute: @_activeTribute.Project.Name</h6>
+                <TributeCardComponent Tribute=@_activeTribute></TributeCardComponent>
             }
+            </div>
+
+            <div class="col-md-6 d-flex flex-column">
+                <div class="profile-block dark-elevation-01">
+                    <AchievementComponent Achievements=@_guild.Achievements></AchievementComponent>
+                </div>
+
+                <div class="profile-block dark-elevation-01">
+                    <NewsfeedComponent Newsfeeds=@_newsfeeds></NewsfeedComponent>
+                </div>
+            </div>
+
+            <div class="col-md-3 d-flex flex-column">
+                <div class="profile-block dark-elevation-01">
+                    <GuildProfileMemberRateComponent GuildLeaderboard=@_memberLeaderBoard></GuildProfileMemberRateComponent>
+
+                </div>
+                <div class="profile-block dark-elevation-01">
+                    <GuildProfilePinnedRepositoriesComponent GuildProfile=@_guild></GuildProfilePinnedRepositoriesComponent>
+
+                </div>
+            </div>
         </div>
-
-        <div class="col-md-6 d-flex flex-column">
-            <div class="profile-block dark-elevation-01">
-                <AchievementComponent Achievements=@_guild.Achievements></AchievementComponent>
-            </div>
-
-            <div class="profile-block dark-elevation-01">
-                <NewsfeedComponent Newsfeeds=@_newsfeeds></NewsfeedComponent>
-            </div>
-        </div>
-
-        <div class="col-md-3 d-flex flex-column">
-            <div class="profile-block dark-elevation-01">
-                <GuildProfileMemberRateComponent GuildLeaderboard=@_memberLeaderBoard></GuildProfileMemberRateComponent>
-
-            </div>
-            <div class="profile-block dark-elevation-01">
-                <GuildProfilePinnedRepositoriesComponent GuildProfile=@_guild></GuildProfilePinnedRepositoriesComponent>
-
-            </div>
-        </div>
-    </div>
-}
+    }
 
 
-@code {
-    [Parameter]
-    public int GuildId { get; set; }
-}
+            @code {
+                [Parameter]
+                public int GuildId { get; set; }
+            }
