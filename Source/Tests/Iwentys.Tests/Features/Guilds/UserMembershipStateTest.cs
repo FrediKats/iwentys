@@ -80,7 +80,7 @@ namespace Iwentys.Tests.Features.Guilds
 
             _studentRepository = new Mock<IGenericRepository<StudentEntity>>();
             _studentRepository
-                .Setup(r => r.GetByIdAsync(It.IsAny<Int32>()))
+                .Setup(r => r.FindByIdAsync(It.IsAny<Int32>()))
                 .Returns(Task.FromResult(_student));
 
             _guildDomain = new GuildDomain(_guild, _githubUserDataService.Object, _studentRepository.Object, null);

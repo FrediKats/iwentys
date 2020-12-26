@@ -84,7 +84,7 @@ namespace Iwentys.Features.Guilds.Domain
 
         public async Task<UserMembershipState> GetUserMembershipState(Int32 userId)
         {
-            StudentEntity user = await _studentRepository.GetByIdAsync(userId);
+            StudentEntity user = await _studentRepository.FindByIdAsync(userId);
             GuildEntity userGuild = _guildMemberRepositoryNew.ReadForStudent(user.Id);
             GuildMemberType? userStatusInGuild = Profile.Members.Find(m => m.Member.Id == user.Id)?.MemberType;
 
@@ -138,7 +138,7 @@ namespace Iwentys.Features.Guilds.Domain
 
         public async Task<GuildMemberEntity> EnsureMemberCanRestrictPermissionForOther(AuthorizedUser editor, int memberToKickId)
         {
-            StudentEntity editorStudentAccount = await _studentRepository.GetByIdAsync(editor.Id);
+            StudentEntity editorStudentAccount = await _studentRepository.FindByIdAsync(editor.Id);
             editorStudentAccount.EnsureIsGuildEditor(Profile);
 
             GuildMemberEntity memberToKick = Profile.Members.Find(m => m.MemberId == memberToKickId);

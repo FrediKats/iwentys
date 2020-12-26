@@ -26,7 +26,7 @@ namespace Iwentys.Features.Study.Services
         public async Task<List<SubjectProfileDto>> Get()
         {
             List<SubjectEntity> subjects = await _subjectRepository
-                .GetAsync()
+                .Get()
                 .ToListAsync();
 
             return subjects.SelectToList(entity => new SubjectProfileDto(entity));
@@ -36,7 +36,7 @@ namespace Iwentys.Features.Study.Services
         public async Task<SubjectProfileDto> Get(int id)
         {
             SubjectEntity subject = await _subjectRepository
-                .GetAsync()
+                .Get()
                 .FirstAsync(s => s.Id == id);
 
             return new SubjectProfileDto(subject);
@@ -45,7 +45,7 @@ namespace Iwentys.Features.Study.Services
         public async Task<List<SubjectProfileDto>> GetGroupSubjects(int groupId)
         {
             List<SubjectEntity> subjectEntities = await _groupSubjectRepository
-                .GetAsync()
+                .Get()
                 .SearchSubjects(StudySearchParametersDto.ForGroup(groupId))
                 .ToListAsync();
 
@@ -55,7 +55,7 @@ namespace Iwentys.Features.Study.Services
         public async Task<List<SubjectProfileDto>> GetSubjectsForDtoAsync(StudySearchParametersDto searchParametersDto)
         {
             List<SubjectEntity> subjectEntities = await _groupSubjectRepository
-                .GetAsync()
+                .Get()
                 .SearchSubjects(searchParametersDto)
                 .ToListAsync();
             return subjectEntities.SelectToList(entity => new SubjectProfileDto(entity));

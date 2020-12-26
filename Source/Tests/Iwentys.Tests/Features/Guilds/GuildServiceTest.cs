@@ -40,7 +40,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
 
-            //var createdGuild = context.GuildRepository.GetAsync(guild.Id);
+            //var createdGuild = context.GuildRepository.Get(guild.Id);
 
             //Assert.AreEqual(GuildType.Pending, createdGuild.Result.GuildType);
         }
@@ -56,7 +56,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
 
             await context.GuildService.ApproveGuildCreating(admin, guild.Id);
-            //GuildEntity createdGuild = await context.GuildRepository.GetAsync(guild.Id);
+            //GuildEntity createdGuild = await context.GuildRepository.Get(guild.Id);
 
             //Assert.AreEqual(GuildType.Created, createdGuild.GuildType);
         }

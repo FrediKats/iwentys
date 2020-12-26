@@ -18,12 +18,12 @@ namespace Iwentys.Database.Tools
             DbSet = context.Set<TEntity>();
         }
 
-        public IQueryable<TEntity> GetAsync()
+        public IQueryable<TEntity> Get()
         {
             return DbSet;
         }
 
-        public async Task<TEntity> GetByIdAsync<TKey>(TKey id)
+        public async Task<TEntity> FindByIdAsync<TKey>(TKey id)
         {
             return await DbSet.FindAsync(id);
         }

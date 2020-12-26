@@ -39,7 +39,7 @@ namespace Iwentys.Features.GithubIntegration.Services
             }
 
             GithubProjectEntity githubRepository = await _studentProjectRepository
-                .GetAsync()
+                .Get()
                 .SingleOrDefaultAsync(p => p.Owner == username && p.Name == projectName);
             
             if (githubRepository is null)
@@ -64,7 +64,7 @@ namespace Iwentys.Features.GithubIntegration.Services
             }
 
             return await _studentProjectRepository
-                .GetAsync()
+                .Get()
                 .Where(p => p.Owner == username)
                 .Select(GithubRepositoryInfoDto.FromEntity)
                 .ToListAsync();
@@ -98,7 +98,7 @@ namespace Iwentys.Features.GithubIntegration.Services
             IEnumerable<GithubProjectEntity> studentProjects = githubRepositories.Select(r => new GithubProjectEntity(student, r));
             foreach (GithubProjectEntity project in studentProjects)
             {
-                if (_studentProjectRepository.GetByIdAsync(project.Id) is null)
+                if (_studentProjectRepository.FindByIdAsync(project.Id) is null)
                     _studentProjectRepository.Update(project);
                 else
                 {
@@ -111,8 +111,8 @@ namespace Iwentys.Features.GithubIntegration.Services
 
         public async Task<GithubUserEntity> CreateOrUpdate(int studentId)
         {
-            StudentEntity student = await _studentRepository.GetByIdAsync(studentId);
-            GithubUserEntity githubUserData = _githubUserRepository.GetAsync().SingleOrDefault(gh => gh.StudentId == studentId);
+            StudentEntity student = await _studentRepository.FindByIdAsync(studentId);
+            GithubUserEntity githubUserData = _githubUserRepository.Get().SingleOrDefault(gh => gh.StudentId == studentId);
             bool exists = true;
 
             if (githubUserData is null)
@@ -140,7 +140,7 @@ namespace Iwentys.Features.GithubIntegration.Services
             {
                 foreach (GithubProjectEntity project in studentProjects)
                 {
-                    if (_studentProjectRepository.GetByIdAsync(project.Id) is null)
+                    if (_studentProjectRepository.FindByIdAsync(project.Id) is null)
                         _studentProjectRepository.Update(project);
                     else
                     {
@@ -168,14 +168,14 @@ namespace Iwentys.Features.GithubIntegration.Services
         public Task<List<GithubUserEntity>> GetAllGithubUser()
         {
             return _githubUserRepository
-                .GetAsync()
+                .Get()
                 .ToListAsync();
         }
 
         public async Task<GithubUserEntity> GetGithubUser(string username, bool useCache = true)
         {
             var result = await _githubUserRepository
-                .GetAsync()
+                .Get()
                 .SingleOrDefaultAsync(g => g.Username == username);
 
             if (!useCache)
@@ -191,7 +191,7 @@ namespace Iwentys.Features.GithubIntegration.Services
         public async Task<GithubUserEntity> FindGithubUser(int studentId, bool useCache = true)
         {
             var result = await _githubUserRepository
-                .GetAsync()
+                .Get()
                 .SingleOrDefaultAsync(g => g.StudentId == studentId);
 
             //TODO: if null we... can try get from api?
@@ -207,7 +207,7 @@ namespace Iwentys.Features.GithubIntegration.Services
         //TODO: wrap with domain entity?
         private async Task<StudentEntity> EnsureStudentWithGithub(int studentId)
         {
-            StudentEntity student = await _studentRepository.GetByIdAsync(studentId);
+            StudentEntity student = await _studentRepository.FindByIdAsync(studentId);
             if (student.GithubUsername is null)
                 throw new InnerLogicException("Student do not link github");
             return student;
@@ -215,7 +215,7 @@ namespace Iwentys.Features.GithubIntegration.Services
 
         private async Task<StudentEntity> EnsureStudentWithGithub(string githubUsername)
         {
-            StudentEntity student = await _studentRepository.GetAsync().SingleAsync(s => s.GithubUsername == githubUsername);
+            StudentEntity student = await _studentRepository.Get().SingleAsync(s => s.GithubUsername == githubUsername);
             if (student.GithubUsername is null)
                 throw new InnerLogicException("Student do not link github");
             return student;

@@ -19,7 +19,7 @@ namespace Iwentys.Features.Achievements.Domain
 
         public async Task Achieve(AchievementEntity achievement, int studentId)
         {
-            if (_studentAchievementRepository.GetAsync().Any(s => s.AchievementId == achievement.Id && s.StudentId == studentId))
+            if (_studentAchievementRepository.Get().Any(s => s.AchievementId == achievement.Id && s.StudentId == studentId))
                 return;
             
             await _studentAchievementRepository.InsertAsync(StudentAchievementEntity.Create(studentId, achievement.Id));

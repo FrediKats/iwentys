@@ -40,7 +40,7 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task<GuildProfileShortInfoDto> CreateAsync(AuthorizedUser creator, GuildCreateRequestDto arguments)
         {
-            StudentEntity creatorUser = await _studentRepository.GetByIdAsync(creator.Id);
+            StudentEntity creatorUser = await _studentRepository.FindByIdAsync(creator.Id);
 
             GuildEntity userGuild = _guildMemberRepository.ReadForStudent(creatorUser.Id);
             if (userGuild is not null)
@@ -54,8 +54,8 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task<GuildProfileShortInfoDto> UpdateAsync(AuthorizedUser user, GuildUpdateRequestDto arguments)
         {
-            StudentEntity student = await _studentRepository.GetByIdAsync(user.Id);
-            GuildEntity info = await _guildRepository.GetByIdAsync(arguments.Id);
+            StudentEntity student = await _studentRepository.FindByIdAsync(user.Id);
+            GuildEntity info = await _guildRepository.FindByIdAsync(arguments.Id);
             student.EnsureIsGuildEditor(info);
 
             info.Bio = arguments.Bio ?? info.Bio;
@@ -74,24 +74,24 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task<GuildProfileShortInfoDto> ApproveGuildCreating(AuthorizedUser user, int guildId)
         {
-            StudentEntity student = await _studentRepository.GetByIdAsync(user.Id);
+            StudentEntity student = await _studentRepository.FindByIdAsync(user.Id);
             student.EnsureIsAdmin();
 
-            GuildEntity guild = await _guildRepository.GetByIdAsync(guildId);
+            GuildEntity guild = await _guildRepository.FindByIdAsync(guildId);
             if (guild.GuildType == GuildType.Created)
                 throw new InnerLogicException("Guild already approved");
 
             guild.GuildType = GuildType.Created;
             _guildRepository.Update(guild);
             await _unitOfWork.CommitAsync();
-            return new GuildProfileShortInfoDto(await _guildRepository.GetByIdAsync(guildId));
+            return new GuildProfileShortInfoDto(await _guildRepository.FindByIdAsync(guildId));
         }
 
         public List<GuildProfileDto> GetOverview(Int32 skippedCount, Int32 takenCount)
         {
             //TODO: add order
             return _guildRepository
-                .GetAsync()
+                .Get()
                 .Skip(skippedCount)
                 .Take(takenCount)
                 .Select(GuildProfileDto.FromEntity)
@@ -100,7 +100,7 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task<ExtendedGuildProfileWithMemberDataDto> GetAsync(int id, int? userId)
         {
-            GuildEntity guild = await _guildRepository.GetByIdAsync(id);
+            GuildEntity guild = await _guildRepository.FindByIdAsync(id);
 
             return await new GuildDomain(guild, _githubIntegrationService, _studentRepository, _guildMemberRepository)
                 .ToExtendedGuildProfileDto(userId);
@@ -117,8 +117,8 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task<GithubRepositoryInfoDto> AddPinnedRepositoryAsync(AuthorizedUser user, int guildId, string owner, string projectName)
         {
-            GuildEntity guild = await _guildRepository.GetByIdAsync(guildId);
-            StudentEntity profile = await _studentRepository.GetByIdAsync(user.Id);
+            GuildEntity guild = await _guildRepository.FindByIdAsync(guildId);
+            StudentEntity profile = await _studentRepository.FindByIdAsync(user.Id);
             profile.EnsureIsGuildEditor(guild);
 
             GithubRepositoryInfoDto repositoryInfoDto = await _githubIntegrationService.GetRepository(owner, projectName);
@@ -131,18 +131,18 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task UnpinProject(AuthorizedUser user, int guildId, long pinnedProjectId)
         {
-            GuildEntity guild = await _guildRepository.GetByIdAsync(guildId);
-            StudentEntity profile = await _studentRepository.GetByIdAsync(user.Id);
+            GuildEntity guild = await _guildRepository.FindByIdAsync(guildId);
+            StudentEntity profile = await _studentRepository.FindByIdAsync(user.Id);
             profile.EnsureIsGuildEditor(guild);
 
-            var guildPinnedProjectEntity = await _guildPinnedProjectRepository.GetByIdAsync(pinnedProjectId);
+            var guildPinnedProjectEntity = await _guildPinnedProjectRepository.FindByIdAsync(pinnedProjectId);
             _guildPinnedProjectRepository.Delete(guildPinnedProjectEntity);
             await _unitOfWork.CommitAsync();
         }
 
         public async Task<GuildMemberLeaderBoardDto> GetGuildMemberLeaderBoard(int guildId)
         {
-            GuildEntity guild = await _guildRepository.GetByIdAsync(guildId);
+            GuildEntity guild = await _guildRepository.FindByIdAsync(guildId);
             var domain = new GuildDomain(guild, _githubIntegrationService, _studentRepository, _guildMemberRepository);
             return await domain.GetMemberDashboard();
         }

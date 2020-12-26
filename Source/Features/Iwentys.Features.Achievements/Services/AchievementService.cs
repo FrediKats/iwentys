@@ -21,7 +21,7 @@ namespace Iwentys.Features.Achievements.Services
         public List<AchievementDto> GetForStudent(int studentId)
         {
             return _studentAchievementRepository
-                .GetAsync()
+                .Get()
                 .Where(a => a.StudentId == studentId)
                 .Select(AchievementDto.FromEntity)
                 .ToList();

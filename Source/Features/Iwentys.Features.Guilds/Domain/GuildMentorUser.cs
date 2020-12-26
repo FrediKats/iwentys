@@ -24,7 +24,7 @@ namespace Iwentys.Features.Guilds.Domain
     {
         public static async Task<GuildMentorUser> EnsureIsMentor(this StudentEntity student, IGenericRepository<GuildEntity> guildRepository, int guildId)
         {
-            GuildEntity guild = await guildRepository.GetByIdAsync(guildId);
+            GuildEntity guild = await guildRepository.FindByIdAsync(guildId);
             GuildMemberEntity membership = guild.Members.First(m => m.MemberId == student.Id);
             if (!membership.MemberType.IsEditor())
                 throw InnerLogicException.NotEnoughPermissionFor(student.Id);

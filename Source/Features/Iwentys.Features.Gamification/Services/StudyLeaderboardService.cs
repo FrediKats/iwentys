@@ -52,7 +52,7 @@ namespace Iwentys.Features.Gamification.Services
 
         public List<StudyLeaderboardRowDto> GetCodingRating(int? courseId, int skip, int take)
         {
-            return _studyGroupRepository.GetAsync()
+            return _studyGroupRepository.Get()
                 .WhereIf(courseId, q => q.StudyCourseId == courseId)
                 .SelectMany(g => g.Students)
                 .AsEnumerable()

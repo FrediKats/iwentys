@@ -30,7 +30,7 @@ namespace Iwentys.Features.Guilds.Services
         public async Task<List<TournamentInfoResponse>> GetAsync()
         {
             List<TournamentEntity> tournaments = await _tournamentRepository
-                .GetAsync()
+                .Get()
                 .ToListAsync();
 
             return tournaments.SelectToList(TournamentInfoResponse.Wrap);
@@ -39,7 +39,7 @@ namespace Iwentys.Features.Guilds.Services
         public List<TournamentInfoResponse> GetActive()
         {
             return _tournamentRepository
-                .GetAsync()
+                .Get()
                 .Where(t => t.StartTime < DateTime.UtcNow && t.EndTime > DateTime.UtcNow)
                 .Select(TournamentInfoResponse.FromEntity)
                 .ToList();
@@ -47,13 +47,13 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task<TournamentInfoResponse> GetAsync(int tournamentId)
         {
-            TournamentEntity tournamentEntity = await _tournamentRepository.GetByIdAsync(tournamentId);
+            TournamentEntity tournamentEntity = await _tournamentRepository.FindByIdAsync(tournamentId);
             return TournamentInfoResponse.Wrap(tournamentEntity);
         }
 
         public async Task<TournamentLeaderboardDto> GetLeaderboard(int tournamentId)
         {
-            TournamentEntity tournamentEntity = await _tournamentRepository.GetByIdAsync(tournamentId);
+            TournamentEntity tournamentEntity = await _tournamentRepository.FindByIdAsync(tournamentId);
             return tournamentEntity
                 .WrapToDomain(_githubIntegrationService, _unitOfWork)
                 .GetLeaderboard();

@@ -9,7 +9,7 @@ namespace Iwentys.Features.Guilds.Repositories
         public static GuildMemberEntity GetStudentMembership(this IGenericRepository<GuildMemberEntity> repository, int studentId)
         {
             return repository
-                .GetAsync()
+                .Get()
                 .Where(GuildMemberEntity.IsMember())
                 .SingleOrDefault(gm => gm.MemberId == studentId);
         }

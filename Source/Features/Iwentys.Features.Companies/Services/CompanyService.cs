@@ -31,19 +31,19 @@ namespace Iwentys.Features.Companies.Services
 
         public async Task<List<CompanyInfoDto>> GetAsync()
         {
-            List<CompanyEntity> info = await _companyRepository.GetAsync().ToListAsync();
+            List<CompanyEntity> info = await _companyRepository.Get().ToListAsync();
             return info.SelectToList(entity => new CompanyInfoDto(entity));
         }
 
         public async Task<CompanyInfoDto> GetAsync(int id)
         {
-            return new CompanyInfoDto(await _companyRepository.GetByIdAsync(id));
+            return new CompanyInfoDto(await _companyRepository.FindByIdAsync(id));
         }
 
         public async Task<List<CompanyWorkRequestDto>> GetCompanyWorkRequest()
         {
             return await _companyWorkerRepository
-                .GetAsync()
+                .Get()
                 .Where(CompanyWorkerEntity.IsRequested)
                 .Select(CompanyWorkRequestDto.FromEntity)
                 .ToListAsync();
@@ -51,10 +51,10 @@ namespace Iwentys.Features.Companies.Services
 
         public async Task RequestAdding(int companyId, int userId)
         {
-            CompanyEntity companyEntity = await _companyRepository.GetByIdAsync(companyId);
-            StudentEntity profile = await _studentRepository.GetByIdAsync(userId);
+            CompanyEntity companyEntity = await _companyRepository.FindByIdAsync(companyId);
+            StudentEntity profile = await _studentRepository.FindByIdAsync(userId);
             
-            List<CompanyWorkerEntity> workerRequests = await _companyWorkerRepository.GetAsync().Where(CompanyWorkerEntity.IsRequested).ToListAsync();
+            List<CompanyWorkerEntity> workerRequests = await _companyWorkerRepository.Get().Where(CompanyWorkerEntity.IsRequested).ToListAsync();
             if (workerRequests.Any(r => r.WorkerId == profile.Id))
                 throw new InnerLogicException("Student already request adding to company");
 
@@ -64,10 +64,10 @@ namespace Iwentys.Features.Companies.Services
 
         public async Task ApproveAdding(int userId, int adminId)
         {
-            StudentEntity student = await _studentRepository.GetByIdAsync(adminId);
+            StudentEntity student = await _studentRepository.FindByIdAsync(adminId);
             var admin = student.EnsureIsAdmin();
 
-            var companyWorkerEntity = await _companyWorkerRepository.GetAsync().SingleAsync(cw => cw.WorkerId == userId);
+            var companyWorkerEntity = await _companyWorkerRepository.Get().SingleAsync(cw => cw.WorkerId == userId);
             companyWorkerEntity.Approve(admin);
             
             _companyWorkerRepository.Update(companyWorkerEntity);

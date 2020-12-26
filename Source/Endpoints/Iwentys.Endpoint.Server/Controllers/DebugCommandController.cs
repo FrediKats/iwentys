@@ -38,7 +38,7 @@ namespace Iwentys.Endpoint.Server.Controllers
         public ActionResult UpdateSubjectActivityForGroup(int subjectId, int groupId)
         {
             GroupSubjectEntity groupSubjectData = _unitOfWork.GetRepository<GroupSubjectEntity>()
-                .GetAsync()
+                .Get()
                 .FirstOrDefault(s => s.SubjectId == subjectId && s.StudyGroupId == groupId);
 
             if (groupSubjectData is null)

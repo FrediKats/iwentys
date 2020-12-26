@@ -26,7 +26,7 @@ namespace Iwentys.Features.Guilds.Domain
         {
             List<GuildEntity> guilds = _unitOfWork
                 .GetRepository<GuildEntity>()
-                .GetAsync()
+                .Get()
                 .ToList();
 
             Dictionary<GuildProfileShortInfoDto, int> result = guilds

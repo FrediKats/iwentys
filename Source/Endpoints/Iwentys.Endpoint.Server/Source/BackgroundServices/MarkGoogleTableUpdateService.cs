@@ -61,7 +61,7 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
                     _logger.LogWarning($"Subject info was not found: student:{subjectScore.Name}, subjectId:{groupSubjectData.SubjectId}, groupId:{groupSubjectData.StudyGroupId}");
 
                     StudentEntity studentProfile = _studentRepository
-                        .GetAsync()
+                        .Get()
                         .FirstOrDefault(s => subjectScore.Name.Contains(s.FirstName)
                                     && subjectScore.Name.Contains(s.SecondName));
 
