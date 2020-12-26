@@ -79,21 +79,13 @@ namespace Iwentys.Features.Tributes.Services
         public async Task<TributeInfoResponse> CreateTribute(AuthorizedUser user, CreateProjectRequestDto createProject)
         {
             StudentEntity student = await _studentRepository.GetByIdAsync(user.Id);
-            if (student.GithubUsername != createProject.Owner)
-                throw InnerLogicException.Tribute.TributeCanBeSendFromStudentAccount(student.Id, createProject.Owner);
-
             GithubRepositoryInfoDto githubProject = await _githubIntegrationService.GetRepository(createProject.Owner, createProject.RepositoryName);
             GithubProjectEntity projectEntity = await GetOrCreateAsync(githubProject, student);
             GuildEntity guild = _guildMemberRepository.ReadForStudent(student.Id);
             List<TributeEntity> allTributes = await _guildTributeRepository.GetAsync().ToListAsync();
 
-            if (allTributes.Any(t => t.ProjectId == projectEntity.Id))
-                throw InnerLogicException.Tribute.ProjectAlreadyUsed(projectEntity.Id);
+            var tribute = TributeEntity.Create(guild, student, projectEntity, allTributes);
 
-            if (allTributes.Any(t => t.State == TributeState.Active && t.ProjectEntity.StudentId == student.Id))
-                throw InnerLogicException.Tribute.UserAlreadyHaveTribute(user.Id);
-
-            var tribute = new TributeEntity(guild, projectEntity);
             await _guildTributeRepository.InsertAsync(tribute);
             await _unitOfWork.CommitAsync();
             return TributeInfoResponse.Wrap(tribute);
@@ -105,7 +97,9 @@ namespace Iwentys.Features.Tributes.Services
             if (githubProjectEntity is not null)
                 return githubProjectEntity;
 
+            //TODO: need to get this from GithubService
             var newProject = new GithubProjectEntity(creator, project);
+            
             await _studentProjectRepository.InsertAsync(newProject);
             await _unitOfWork.CommitAsync();
             return newProject;
@@ -138,10 +132,8 @@ namespace Iwentys.Features.Tributes.Services
             TributeEntity tribute = await _guildTributeRepository.GetByIdAsync(tributeCompleteRequest.TributeId);
             GuildMentorUser mentor = await student.EnsureIsMentor(_guildRepositoryNew, tribute.GuildId);
 
-            if (tribute.State != TributeState.Active)
-                throw InnerLogicException.Tribute.IsNotActive(tribute.ProjectId);
-
             tribute.SetCompleted(mentor.Student.Id, tributeCompleteRequest.DifficultLevel, tributeCompleteRequest.Mark);
+            
             _guildTributeRepository.Update(tribute);
             await _unitOfWork.CommitAsync();
             return TributeInfoResponse.Wrap(tribute);

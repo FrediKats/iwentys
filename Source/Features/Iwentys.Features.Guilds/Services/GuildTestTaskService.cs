@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
-using Iwentys.Common.Tools;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.GithubIntegration.Services;

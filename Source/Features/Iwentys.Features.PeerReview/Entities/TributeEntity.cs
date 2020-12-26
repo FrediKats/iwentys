@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Entities;
+using Iwentys.Features.Guilds.Models.Guilds;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Tributes.Enums;
 
@@ -37,8 +40,26 @@ namespace Iwentys.Features.Tributes.Entities
         public int? Mark { get; set; }
         public DateTime CreationTimeUtc { get; set; }
 
+        public static TributeEntity Create(GuildEntity guild, StudentEntity student, GithubProjectEntity projectEntity, List<TributeEntity> allTributes)
+        {
+            if (student.GithubUsername != projectEntity.Owner)
+                throw InnerLogicException.Tribute.TributeCanBeSendFromStudentAccount(student.Id, projectEntity.Owner);
+
+            if (allTributes.Any(t => t.ProjectId == projectEntity.Id))
+                throw InnerLogicException.Tribute.ProjectAlreadyUsed(projectEntity.Id);
+
+            if (allTributes.Any(t => t.State == TributeState.Active && t.ProjectEntity.StudentId == student.Id))
+                throw InnerLogicException.Tribute.UserAlreadyHaveTribute(student.Id);
+            
+            var tribute = new TributeEntity(guild, projectEntity);
+            return tribute;
+        }
+
         public void SetCanceled()
         {
+            if (State != TributeState.Active)
+                throw InnerLogicException.Tribute.IsNotActive(ProjectId);
+
             State = TributeState.Canceled;
         }
 
