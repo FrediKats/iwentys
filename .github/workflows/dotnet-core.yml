@@ -1,14 +1,11 @@
 name: .NET Core
 
 on:
-  push:
-    branches: [ master, dev ]
   pull_request:
     branches: [ master, dev ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -29,3 +26,8 @@ jobs:
     - name: Test
       run: dotnet test --no-restore --verbosity normal
       working-directory: Source
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@v1.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
