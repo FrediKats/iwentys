@@ -90,8 +90,12 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
             var studentEntity = await _studentRepository.GetByIdAsync(user.Id);
             var guildMentorUser = await studentEntity.EnsureIsMentor(_guildRepository, guildId);
             var tournamentEntity = await _tournamentRepository.GetByIdAsync(tournamentId);
-
-            var tournamentParticipantTeamEntity = tournamentEntity.RegisterTeam(guildMentorUser.Guild);
+            List<GuildMemberEntity> members = await _guildRepository
+                .Get()
+                .SelectMany(g => g.Members)
+                .ToListAsync();
+            
+            var tournamentParticipantTeamEntity = tournamentEntity.RegisterTeam(guildMentorUser.Guild, members);
 
             await _tournamentTeamRepository.InsertAsync(tournamentParticipantTeamEntity);
             await _unitOfWork.CommitAsync();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Tournaments.Enums;
 using Iwentys.Features.Guilds.Tournaments.Models;
@@ -34,13 +35,14 @@ namespace Iwentys.Features.Guilds.Tournaments.Entities
             };
         }
 
-        public TournamentParticipantTeamEntity RegisterTeam(GuildEntity guild)
+        public TournamentParticipantTeamEntity RegisterTeam(GuildEntity guild, List<GuildMemberEntity> members)
         {
             return new TournamentParticipantTeamEntity
             {
                 TournamentId = Id,
                 GuildId = guild.Id,
-                RegistrationTime = DateTime.UtcNow
+                RegistrationTime = DateTime.UtcNow,
+                Members = members.Select(m => new TournamentTeamMemberEntity {MemberId = m.MemberId}).ToList()
             };
         }
     }

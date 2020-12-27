@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Tournaments.Enums;
 using Iwentys.Features.Guilds.Tournaments.Models;
@@ -24,7 +25,7 @@ namespace Iwentys.Tests.Features.Guilds
         }
 
         [Test]
-        public async Task RegisterTournamentTeam_ShouldBeInMembers()
+        public async Task RegisterTournamentTeam_TeamCreated()
         {
             var testCase = TestCaseContext
                 .Case()
@@ -35,7 +36,23 @@ namespace Iwentys.Tests.Features.Guilds
             await testCase.TournamentService.RegisterToTournament(user, guild.Id, tournament.Id);
             tournament = await testCase.TournamentService.GetAsync(tournament.Id);
             
-            Assert.That(tournament.TeamIds.Contains(guild.Id));
+            Assert.That(tournament.Teams.Any(t => t.TeamName == guild.Title));
+        }
+
+        [Test]
+        public async Task RegisterTournamentTeam_ShouldBeInMembers()
+        {
+            var testCase = TestCaseContext
+                .Case()
+                .WithNewStudent(out AuthorizedUser user, StudentRole.Admin)
+                .WithCodeMarathon(user, out TournamentInfoResponse tournament)
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
+
+            await testCase.TournamentService.RegisterToTournament(user, guild.Id, tournament.Id);
+            tournament = await testCase.TournamentService.GetAsync(tournament.Id);
+
+            var team = tournament.Teams.First(t => t.TeamName == guild.Title);
+            Assert.That(team.MemberIds.Contains(user.Id));
         }
     }
 }

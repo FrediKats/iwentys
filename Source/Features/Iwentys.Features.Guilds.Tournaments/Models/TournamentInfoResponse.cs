@@ -16,8 +16,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Models
         public DateTime EndTime { get; set; }
         public TournamentType Type { get; set; }
 
-        //TODO: rework
-        public List<int> TeamIds { get; set; }
+        public IEnumerable<TournamentTeamInfoDto> Teams { get; set; }
 
         public static Expression<Func<TournamentEntity, TournamentInfoResponse>> FromEntity =>
             tournamentEntity =>
@@ -29,21 +28,8 @@ namespace Iwentys.Features.Guilds.Tournaments.Models
                     StartTime = tournamentEntity.StartTime,
                     EndTime = tournamentEntity.EndTime,
                     Type = tournamentEntity.Type,
-                    TeamIds = tournamentEntity.Teams.Select(t => t.GuildId).ToList()
+                    //FYI: do not replace, it wouldn't compile to SQL
+                    Teams = tournamentEntity.Teams.Select(t => TournamentTeamInfoDto.Create(t))
                 };
-
-        public static TournamentInfoResponse Wrap(TournamentEntity tournamentEntity)
-        {
-            return new TournamentInfoResponse
-            {
-                Id = tournamentEntity.Id,
-                Name = tournamentEntity.Name,
-                Description = tournamentEntity.Description,
-                StartTime = tournamentEntity.StartTime,
-                EndTime = tournamentEntity.EndTime,
-                Type = tournamentEntity.Type,
-                TeamIds = tournamentEntity.Teams.Select(t => t.GuildId).ToList()
-            };
-        }
     }
 }

@@ -76,7 +76,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<SubjectNewsfeedEntity>().HasKey(g => new {g.SubjectId, g.NewsfeedId});
             modelBuilder.Entity<GuildNewsfeedEntity>().HasKey(g => new {g.GuildId, g.NewsfeedId});
             modelBuilder.Entity<StudentInterestTagEntity>().HasKey(g => new {g.StudentId, g.InterestTagId});
-            modelBuilder.Entity<TournamentParticipantTeamEntity>().HasKey(g => new {g.TournamentId, g.GuildId});
+            modelBuilder.Entity<TournamentTeamMemberEntity>().HasKey(g => new {g.TeamId, g.MemberId});
         }
 
         private static void SetUniqKey(ModelBuilder modelBuilder)
@@ -114,6 +114,7 @@ namespace Iwentys.Database.Context
         public DbSet<GuildPinnedProjectEntity> GuildPinnedProjects { get; set; }
         public DbSet<TournamentEntity> Tournaments { get; set; }
         public DbSet<TournamentParticipantTeamEntity> TournamentParticipantTeams { get; set; }
+        public DbSet<TournamentTeamMemberEntity> TournamentTeamMembers { get; set; }
         public DbSet<CodeMarathonTournamentEntity> CodeMarathonTournaments { get; set; }
         public DbSet<TributeEntity> Tributes { get; set; }
         public DbSet<GuildTestTaskSolutionEntity> GuildTestTaskSolvingInfos { get; set; }
