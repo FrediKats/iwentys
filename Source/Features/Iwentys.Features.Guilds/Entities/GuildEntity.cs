@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Features.Achievements.Entities;
 using Iwentys.Features.Guilds.Enums;
-using Iwentys.Features.Guilds.Models.Guilds;
+using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Guilds.Entities

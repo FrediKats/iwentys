@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
-using Iwentys.Features.Tributes.Models;
+using Iwentys.Features.Guilds.Tributes.Models;
 
 namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
 {

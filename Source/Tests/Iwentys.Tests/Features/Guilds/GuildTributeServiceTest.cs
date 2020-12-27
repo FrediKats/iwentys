@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Features.GithubIntegration.Entities;
-using Iwentys.Features.Guilds.Models.Guilds;
+using Iwentys.Features.Guilds.Models;
+using Iwentys.Features.Guilds.Tributes.Models;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Enums;
-using Iwentys.Features.Tributes.Models;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 

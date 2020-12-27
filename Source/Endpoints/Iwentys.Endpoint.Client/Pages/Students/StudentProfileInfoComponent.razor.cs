@@ -2,7 +2,7 @@
 using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients.Guilds;
 using Iwentys.Endpoint.Sdk.ControllerClients.Study;
-using Iwentys.Features.Guilds.Models.Guilds;
+using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Study.Models;
 using Microsoft.AspNetCore.Components;
 

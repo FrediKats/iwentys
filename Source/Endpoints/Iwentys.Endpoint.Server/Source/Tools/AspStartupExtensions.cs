@@ -15,12 +15,13 @@ using Iwentys.Features.Gamification;
 using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.Guilds;
 using Iwentys.Features.Guilds.Repositories;
+using Iwentys.Features.Guilds.Tournaments;
+using Iwentys.Features.Guilds.Tributes;
 using Iwentys.Features.Newsfeeds;
 using Iwentys.Features.Quests;
 using Iwentys.Features.Students;
 using Iwentys.Features.Study;
 using Iwentys.Features.Study.Repositories;
-using Iwentys.Features.Tributes;
 using Iwentys.Features.Voting;
 using Iwentys.Integrations.GithubIntegration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -76,6 +77,7 @@ namespace Iwentys.Endpoint.Server.Source.Tools
 
             services.AddScoped<IGuildRepository, GuildRepository>();
             services.AddIwentysGuildFeatureServices();
+            services.AddIwentysGuildTournamentFeatureServices();
 
             services.AddIwentysTributesFeatureServices();
             services.AddIwentysNewsfeedFeatureServices();

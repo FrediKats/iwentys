@@ -7,7 +7,7 @@ using Iwentys.Common.Exceptions;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
-using Iwentys.Features.Guilds.Models.Guilds;
+using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Enums;
 using Iwentys.Tests.TestCaseContexts;

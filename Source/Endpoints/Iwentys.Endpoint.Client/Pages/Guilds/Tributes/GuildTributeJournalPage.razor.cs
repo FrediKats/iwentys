@@ -3,8 +3,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients.Guilds;
-using Iwentys.Features.Guilds.Models.Guilds;
-using Iwentys.Features.Tributes.Models;
+using Iwentys.Features.Guilds.Models;
+using Iwentys.Features.Guilds.Tributes.Models;
 
 namespace Iwentys.Endpoint.Client.Pages.Guilds.Tributes
 {

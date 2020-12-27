@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients;
 using Iwentys.Endpoint.Sdk.ControllerClients.Guilds;
-using Iwentys.Features.Guilds.Models.Guilds;
+using Iwentys.Features.Guilds.Models;
+using Iwentys.Features.Guilds.Tributes.Models;
 using Iwentys.Features.Newsfeeds.Models;
-using Iwentys.Features.Tributes.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace Iwentys.Endpoint.Client.Pages.Guilds

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Database.Seeding;
-using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Achievements.Entities;
 using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Companies.Entities;
@@ -9,11 +8,12 @@ using Iwentys.Features.Economy.Entities;
 using Iwentys.Features.Gamification.Entities;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Entities;
+using Iwentys.Features.Guilds.Tournaments.Entities;
+using Iwentys.Features.Guilds.Tributes.Entities;
 using Iwentys.Features.Newsfeeds.Entities;
 using Iwentys.Features.Quests.Entities;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Study.Entities;
-using Iwentys.Features.Tributes.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -89,37 +89,7 @@ namespace Iwentys.Database.Context
         private static void Seeding(ModelBuilder modelBuilder)
         {
             var seedData = new DatabaseContextGenerator();
-            //TODO: split and move to generators
-            modelBuilder.Entity<StudyProgramEntity>().HasData(seedData.StudyEntitiesGenerator.StudyPrograms);
-            modelBuilder.Entity<StudyCourseEntity>().HasData(seedData.StudyEntitiesGenerator.StudyCourses);
-            modelBuilder.Entity<StudyGroupEntity>().HasData(seedData.StudyEntitiesGenerator.StudyGroups);
-            modelBuilder.Entity<TeacherEntity>().HasData(seedData.StudyEntitiesGenerator.Teachers);
-            modelBuilder.Entity<SubjectEntity>().HasData(seedData.StudyEntitiesGenerator.Subjects);
-            modelBuilder.Entity<GroupSubjectEntity>().HasData(seedData.StudyEntitiesGenerator.GroupSubjects);
-            modelBuilder.Entity<SubjectActivityEntity>().HasData(seedData.SubjectActivityGenerator.SubjectActivityEntities);
-
-            modelBuilder.Entity<StudentEntity>().HasData(seedData.StudentGenerator.Students);
-            modelBuilder.Entity<GuildEntity>().HasData(seedData.GuildGenerator.Guilds);
-            modelBuilder.Entity<GuildMemberEntity>().HasData(seedData.GuildGenerator.GuildMembers);
-            modelBuilder.Entity<GuildPinnedProjectEntity>().HasData(seedData.GuildGenerator.PinnedProjects);
-            modelBuilder.Entity<TributeEntity>().HasData(seedData.GuildGenerator.TributeEntities);
-
-            modelBuilder.Entity<AchievementEntity>().HasData(AchievementList.Achievements);
-            modelBuilder.Entity<StudentAchievementEntity>().HasData(seedData.AchievementGenerator.StudentAchievementModels);
-            modelBuilder.Entity<GuildAchievementEntity>().HasData(seedData.AchievementGenerator.GuildAchievementModels);
-
-            modelBuilder.Entity<AssignmentEntity>().HasData(seedData.AssignmentGenerator.Assignments);
-            modelBuilder.Entity<StudentAssignmentEntity>().HasData(seedData.AssignmentGenerator.StudentAssignments);
-
-            modelBuilder.Entity<GithubUserEntity>().HasData(seedData.GithubDataGenerator.GithubUserEntities);
-            modelBuilder.Entity<GithubProjectEntity>().HasData(seedData.GithubDataGenerator.GithubProjectEntities);
-            
-            modelBuilder.Entity<NewsfeedEntity>().HasData(seedData.NewsfeedGenerator.Newsfeeds);
-            modelBuilder.Entity<SubjectNewsfeedEntity>().HasData(seedData.NewsfeedGenerator.SubjectNewsfeeds);
-            modelBuilder.Entity<GuildNewsfeedEntity>().HasData(seedData.NewsfeedGenerator.GuildNewsfeeds);
-
-            modelBuilder.Entity<QuestEntity>().HasData(seedData.QuestGenerator.Quest);
-            modelBuilder.Entity<QuestResponseEntity>().HasData(seedData.QuestGenerator.QuestResponse);
+            seedData.Seed(modelBuilder);
         }
 
         private static void RemoveCascadeDeleting(ModelBuilder modelBuilder)

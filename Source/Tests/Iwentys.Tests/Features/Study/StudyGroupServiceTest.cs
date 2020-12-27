@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Iwentys.Features.Study.Domain;
+﻿using Iwentys.Features.Study.Domain;
 using NUnit.Framework;
 
 namespace Iwentys.Tests.Features.Study
@@ -8,7 +7,7 @@ namespace Iwentys.Tests.Features.Study
     public class StudyGroupServiceTest
     {
         [Test]
-        public async Task ParseGroupName_EnsureCorrectValue()
+        public void ParseGroupName_EnsureCorrectValue()
         {
             var groupAsString = "M3111";
             var groupName = new GroupName(groupAsString);
