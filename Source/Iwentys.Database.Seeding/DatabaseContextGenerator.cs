@@ -4,6 +4,7 @@ using Iwentys.Features.Achievements.Entities;
 using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Entities;
+using Iwentys.Features.Guilds.Tournaments.Entities;
 using Iwentys.Features.Guilds.Tributes.Entities;
 using Iwentys.Features.Newsfeeds.Entities;
 using Iwentys.Features.Quests.Entities;
@@ -26,6 +27,8 @@ namespace Iwentys.Database.Seeding
             AssignmentGenerator = new AssignmentGenerator(StudentGenerator.Students);
             NewsfeedGenerator = new NewsfeedGenerator(StudentGenerator.Students, GuildGenerator.Guilds, StudyEntitiesGenerator.Subjects);
             QuestGenerator = new QuestGenerator(StudentGenerator.Students);
+            TournamentGenerator = new TournamentGenerator(StudentGenerator.Students);
+
         }
 
         public StudyEntitiesGenerator StudyEntitiesGenerator { get; set; }
@@ -37,6 +40,7 @@ namespace Iwentys.Database.Seeding
         public GithubDataGenerator GithubDataGenerator { get; set; }
         public NewsfeedGenerator NewsfeedGenerator { get; set; }
         public QuestGenerator QuestGenerator { get; set; }
+        public TournamentGenerator TournamentGenerator { get; set; }
 
         public void Seed(ModelBuilder modelBuilder)
         {
@@ -70,6 +74,11 @@ namespace Iwentys.Database.Seeding
 
             modelBuilder.Entity<QuestEntity>().HasData(QuestGenerator.Quest);
             modelBuilder.Entity<QuestResponseEntity>().HasData(QuestGenerator.QuestResponse);
+
+            modelBuilder.Entity<TournamentEntity>().HasData(TournamentGenerator.Tournaments);
+            modelBuilder.Entity<CodeMarathonTournamentEntity>().HasData(TournamentGenerator.CodeMarathonTournaments);
+            modelBuilder.Entity<TournamentParticipantTeamEntity>().HasData(TournamentGenerator.TournamentParticipantTeams);
+            modelBuilder.Entity<TournamentTeamMemberEntity>().HasData(TournamentGenerator.TournamentTeamMember);
         }
     }
 }
