@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Tournaments.Enums;
 using Iwentys.Features.Guilds.Tournaments.Models;
 using Iwentys.Features.Students.Domain;
@@ -14,8 +16,10 @@ namespace Iwentys.Features.Guilds.Tournaments.Entities
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public TournamentType Type { get; set; }
+        
         public int AuthorId { get; set; }
         public virtual StudentEntity Author { get; set; }
+        public virtual ICollection<TournamentParticipantTeamEntity> Teams { get; set; }
 
         public static TournamentEntity Create(SystemAdminUser author, CreateTournamentArguments arguments, TournamentType type)
         {
@@ -27,6 +31,16 @@ namespace Iwentys.Features.Guilds.Tournaments.Entities
                 EndTime = arguments.EndTime,
                 Type = type,
                 AuthorId = author.Student.Id
+            };
+        }
+
+        public TournamentParticipantTeamEntity RegisterTeam(GuildEntity guild)
+        {
+            return new TournamentParticipantTeamEntity
+            {
+                TournamentId = Id,
+                GuildId = guild.Id,
+                RegistrationTime = DateTime.UtcNow
             };
         }
     }

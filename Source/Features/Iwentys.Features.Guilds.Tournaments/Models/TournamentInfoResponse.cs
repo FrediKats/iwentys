@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Features.Guilds.Tournaments.Entities;
 using Iwentys.Features.Guilds.Tournaments.Enums;
@@ -14,6 +16,9 @@ namespace Iwentys.Features.Guilds.Tournaments.Models
         public DateTime EndTime { get; set; }
         public TournamentType Type { get; set; }
 
+        //TODO: rework
+        public List<int> TeamIds { get; set; }
+
         public static Expression<Func<TournamentEntity, TournamentInfoResponse>> FromEntity =>
             tournamentEntity =>
                 new TournamentInfoResponse
@@ -23,7 +28,8 @@ namespace Iwentys.Features.Guilds.Tournaments.Models
                     Description = tournamentEntity.Description,
                     StartTime = tournamentEntity.StartTime,
                     EndTime = tournamentEntity.EndTime,
-                    Type = tournamentEntity.Type
+                    Type = tournamentEntity.Type,
+                    TeamIds = tournamentEntity.Teams.Select(t => t.GuildId).ToList()
                 };
 
         public static TournamentInfoResponse Wrap(TournamentEntity tournamentEntity)
@@ -35,7 +41,8 @@ namespace Iwentys.Features.Guilds.Tournaments.Models
                 Description = tournamentEntity.Description,
                 StartTime = tournamentEntity.StartTime,
                 EndTime = tournamentEntity.EndTime,
-                Type = tournamentEntity.Type
+                Type = tournamentEntity.Type,
+                TeamIds = tournamentEntity.Teams.Select(t => t.GuildId).ToList()
             };
         }
     }

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Tools;
 using Iwentys.Features.GithubIntegration.Services;
+using Iwentys.Features.Guilds.Domain;
+using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Tournaments.Domain;
 using Iwentys.Features.Guilds.Tournaments.Entities;
 using Iwentys.Features.Guilds.Tournaments.Models;
@@ -19,7 +21,9 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
         private readonly IUnitOfWork _unitOfWork;
         
         private readonly IGenericRepository<StudentEntity> _studentRepository;
+        private readonly IGenericRepository<GuildEntity> _guildRepository;
         private readonly IGenericRepository<TournamentEntity> _tournamentRepository;
+        private readonly IGenericRepository<TournamentParticipantTeamEntity> _tournamentTeamRepository;
         private readonly IGenericRepository<CodeMarathonTournamentEntity> _codeMarathonTournamentRepository;
         private readonly GithubIntegrationService _githubIntegrationService;
 
@@ -28,18 +32,19 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
             _unitOfWork = unitOfWork;
 
             _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
+            _guildRepository = _unitOfWork.GetRepository<GuildEntity>();
             _tournamentRepository = _unitOfWork.GetRepository<TournamentEntity>();
+            _tournamentTeamRepository = _unitOfWork.GetRepository<TournamentParticipantTeamEntity>();
             _codeMarathonTournamentRepository = _unitOfWork.GetRepository<CodeMarathonTournamentEntity>();
             _githubIntegrationService = githubIntegrationService;
         }
 
         public async Task<List<TournamentInfoResponse>> GetAsync()
         {
-            List<TournamentEntity> tournaments = await _tournamentRepository
+            return await _tournamentRepository
                 .Get()
+                .Select(TournamentInfoResponse.FromEntity)
                 .ToListAsync();
-
-            return tournaments.SelectToList(TournamentInfoResponse.Wrap);
         }
 
         public List<TournamentInfoResponse> GetActive()
@@ -53,8 +58,10 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
 
         public async Task<TournamentInfoResponse> GetAsync(int tournamentId)
         {
-            TournamentEntity tournamentEntity = await _tournamentRepository.FindByIdAsync(tournamentId);
-            return TournamentInfoResponse.Wrap(tournamentEntity);
+            return await _tournamentRepository
+                .Get()
+                .Select(TournamentInfoResponse.FromEntity)
+                .SingleAsync(t => t.Id == tournamentId);
         }
 
         public async Task<TournamentLeaderboardDto> GetLeaderboard(int tournamentId)
@@ -74,8 +81,20 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
             await _tournamentRepository.InsertAsync(codeMarathonTournamentEntity.Tournament);
             await _codeMarathonTournamentRepository.InsertAsync(codeMarathonTournamentEntity);
             await _unitOfWork.CommitAsync();
-            
-            return TournamentInfoResponse.Wrap(codeMarathonTournamentEntity.Tournament);
+
+            return await GetAsync(codeMarathonTournamentEntity.Id);
+        }
+
+        public async Task RegisterToTournament(AuthorizedUser user, int guildId, int tournamentId)
+        {
+            var studentEntity = await _studentRepository.GetByIdAsync(user.Id);
+            var guildMentorUser = await studentEntity.EnsureIsMentor(_guildRepository, guildId);
+            var tournamentEntity = await _tournamentRepository.GetByIdAsync(tournamentId);
+
+            var tournamentParticipantTeamEntity = tournamentEntity.RegisterTeam(guildMentorUser.Guild);
+
+            await _tournamentTeamRepository.InsertAsync(tournamentParticipantTeamEntity);
+            await _unitOfWork.CommitAsync();
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Tournaments.Enums;
+using Iwentys.Features.Guilds.Tournaments.Models;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Enums;
 using Iwentys.Tests.TestCaseContexts;
@@ -11,7 +13,7 @@ namespace Iwentys.Tests.Features.Guilds
     public class TournamentServiceTest
     {
         [Test]
-        public async Task CreateGuild_ShouldReturnCreatorAsMember()
+        public async Task CreateCodeMarathonTournament_ShouldHaveCorrectType()
         {
             TestCaseContext
                 .Case()
@@ -19,6 +21,21 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithCodeMarathon(user, out var tournament);
 
             Assert.AreEqual(TournamentType.CodeMarathon, tournament.Type);
+        }
+
+        [Test]
+        public async Task RegisterTournamentTeam_ShouldBeInMembers()
+        {
+            var testCase = TestCaseContext
+                .Case()
+                .WithNewStudent(out AuthorizedUser user, StudentRole.Admin)
+                .WithCodeMarathon(user, out TournamentInfoResponse tournament)
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
+
+            await testCase.TournamentService.RegisterToTournament(user, guild.Id, tournament.Id);
+            tournament = await testCase.TournamentService.GetAsync(tournament.Id);
+            
+            Assert.That(tournament.TeamIds.Contains(guild.Id));
         }
     }
 }
