@@ -13,6 +13,7 @@ namespace Iwentys.Common.Databases
         Task InsertAsync(IEnumerable<TEntity> entities);
         Task DeleteAsync<TKey>(TKey id);
         void Delete(TEntity entityToDelete);
+        void Update(List<TEntity> entitiesToUpdate);
         void Update(TEntity entityToUpdate);
     }
     

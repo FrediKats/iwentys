@@ -9,5 +9,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Entities
 
         public int MemberId { get; set; }
         public virtual StudentEntity Member { get; set; }
+
+        public int Points { get; set; }
     }
 }

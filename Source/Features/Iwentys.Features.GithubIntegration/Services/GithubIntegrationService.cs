@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
+using Iwentys.Common.Tools;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.Students.Entities;
@@ -171,6 +173,19 @@ namespace Iwentys.Features.GithubIntegration.Services
                 .Get()
                 .ToListAsync();
         }
+
+        public async Task<ContributionFullInfo> FindUserContributionOrEmpty(StudentEntity student, bool useCache = true)
+        {
+            if (student.GithubUsername is null)
+            {
+                return ContributionFullInfo.Empty;
+            }
+
+            var user = await FindGithubUser(student.Id, useCache);
+
+            return user?.ContributionFullInfo ?? ContributionFullInfo.Empty;
+        }
+
 
         public async Task<GithubUserEntity> GetGithubUser(string username, bool useCache = true)
         {

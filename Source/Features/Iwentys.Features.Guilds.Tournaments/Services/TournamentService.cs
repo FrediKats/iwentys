@@ -66,7 +66,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
 
         public async Task<TournamentLeaderboardDto> GetLeaderboard(int tournamentId)
         {
-            TournamentEntity tournamentEntity = await _tournamentRepository.FindByIdAsync(tournamentId);
+            TournamentEntity tournamentEntity = await _tournamentRepository.GetByIdAsync(tournamentId);
             return tournamentEntity
                 .WrapToDomain(_githubIntegrationService, _unitOfWork)
                 .GetLeaderboard();

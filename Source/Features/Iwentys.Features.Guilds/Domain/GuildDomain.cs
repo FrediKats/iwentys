@@ -57,20 +57,8 @@ namespace Iwentys.Features.Guilds.Domain
             List<GuildMemberImpactDto> result = new List<GuildMemberImpactDto>();
             foreach (var member in Profile.Members)
             {
-                if (member.Member.GithubUsername is null)
-                {
-                    result.Add(new GuildMemberImpactDto(new StudentInfoDto(member.Member), member.MemberType));
-                    continue;
-                }
-
-                var githubUser = await _githubIntegrationService.GetGithubUser(member.Member.GithubUsername);
-                if (githubUser is null)
-                {
-                    result.Add(new GuildMemberImpactDto(new StudentInfoDto(member.Member), member.MemberType));
-                    continue;
-                }
-
-                result.Add(new GuildMemberImpactDto(new StudentInfoDto(member.Member), member.MemberType, githubUser.ContributionFullInfo));
+                var contributionFullInfo = await _githubIntegrationService.FindUserContributionOrEmpty(member.Member);
+                result.Add(new GuildMemberImpactDto(new StudentInfoDto(member.Member), member.MemberType, contributionFullInfo));
             }
 
             return result;

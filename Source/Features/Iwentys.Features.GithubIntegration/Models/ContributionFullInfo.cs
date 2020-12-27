@@ -10,6 +10,15 @@ namespace Iwentys.Features.GithubIntegration.Models
         public ActivityInfo RawActivity { get; set; }
         public int Total => PerMonthActivity().Sum(a => a.Count);
 
+        public static ContributionFullInfo Empty => new ContributionFullInfo
+        {
+            RawActivity = new ActivityInfo
+            {
+                Contributions = new List<ContributionsInfo>(),
+                Years = new List<YearActivityInfo>()
+            }
+        };
+
         public List<ContributionsInfo> PerMonthActivity()
         {
             //TODO: convert date to month name
