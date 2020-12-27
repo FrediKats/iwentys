@@ -8,6 +8,8 @@ using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Tournaments.Domain;
 using Iwentys.Features.Guilds.Tournaments.Entities;
 using Iwentys.Features.Guilds.Tournaments.Models;
+using Iwentys.Features.Students.Domain;
+using Iwentys.Features.Students.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Tournaments.Services
@@ -16,14 +18,18 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         
+        private readonly IGenericRepository<StudentEntity> _studentRepository;
         private readonly IGenericRepository<TournamentEntity> _tournamentRepository;
+        private readonly IGenericRepository<CodeMarathonTournamentEntity> _codeMarathonTournamentRepository;
         private readonly GithubIntegrationService _githubIntegrationService;
 
         public TournamentService(GithubIntegrationService githubIntegrationService, IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
 
+            _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
             _tournamentRepository = _unitOfWork.GetRepository<TournamentEntity>();
+            _codeMarathonTournamentRepository = _unitOfWork.GetRepository<CodeMarathonTournamentEntity>();
             _githubIntegrationService = githubIntegrationService;
         }
 
@@ -57,6 +63,19 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
             return tournamentEntity
                 .WrapToDomain(_githubIntegrationService, _unitOfWork)
                 .GetLeaderboard();
+        }
+
+        public async Task<TournamentInfoResponse> CreateCodeMarathon(AuthorizedUser user, CreateCodeMarathonTournamentArguments arguments)
+        {
+            var systemAdminUser = (await _studentRepository.GetByIdAsync(user.Id)).EnsureIsAdmin();
+            
+            var codeMarathonTournamentEntity = CodeMarathonTournamentEntity.Create(systemAdminUser, arguments);
+
+            await _tournamentRepository.InsertAsync(codeMarathonTournamentEntity.Tournament);
+            await _codeMarathonTournamentRepository.InsertAsync(codeMarathonTournamentEntity);
+            await _unitOfWork.CommitAsync();
+            
+            return TournamentInfoResponse.Wrap(codeMarathonTournamentEntity.Tournament);
         }
     }
 }

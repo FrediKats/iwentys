@@ -14,6 +14,7 @@ using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Services;
+using Iwentys.Features.Guilds.Tournaments.Services;
 using Iwentys.Features.Guilds.Tributes.Services;
 using Iwentys.Features.Newsfeeds.Services;
 using Iwentys.Features.Quests.Models;
@@ -39,6 +40,7 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly GuildService GuildService;
         public readonly GuildMemberService GuildMemberService;
         public readonly GuildTributeService GuildTributeServiceService;
+        public readonly TournamentService TournamentService;
         public readonly CompanyService CompanyService;
         public readonly QuestService QuestService;
         public readonly GithubIntegrationService GithubIntegrationService;
@@ -65,6 +67,7 @@ namespace Iwentys.Tests.TestCaseContexts
             GuildService = new GuildService(GithubIntegrationService, unitOfWork);
             GuildMemberService = new GuildMemberService(GithubIntegrationService, unitOfWork);
             GuildTributeServiceService = new GuildTributeService(unitOfWork, GithubIntegrationService);
+            TournamentService = new TournamentService(GithubIntegrationService, UnitOfWork);
             CompanyService = new CompanyService(unitOfWork);
             BarsPointTransactionLogService = new BarsPointTransactionLogService(unitOfWork);
             QuestService = new QuestService(achievementProvider, BarsPointTransactionLogService, unitOfWork);

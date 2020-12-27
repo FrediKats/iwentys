@@ -112,6 +112,7 @@ namespace Iwentys.Database.Context
         public DbSet<GuildMemberEntity> GuildMembers { get; set; }
         public DbSet<GuildPinnedProjectEntity> GuildPinnedProjects { get; set; }
         public DbSet<TournamentEntity> Tournaments { get; set; }
+        public DbSet<CodeMarathonTournamentEntity> CodeMarathonTournaments { get; set; }
         public DbSet<TributeEntity> Tributes { get; set; }
         public DbSet<GuildTestTaskSolutionEntity> GuildTestTaskSolvingInfos { get; set; }
         public DbSet<GuildRecruitmentEntity> GuildRecruitment { get; set; }
