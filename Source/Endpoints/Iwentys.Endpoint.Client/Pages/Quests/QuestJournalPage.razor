@@ -7,15 +7,14 @@
 @inject ILocalStorageService LocalStorage
 
 <div class="container-fluid d-flex flex-row">
-    <div class="col-md-3 d-flex flex-column dark-elevation-01">
+    <div class="col-md-3 d-flex flex-column">
         <MatButton OnClick=@(async () => await SelectActive())>Active</MatButton>
         <MatButton OnClick=@(async () => await SelectCreated())>Created</MatButton>
         <MatButton OnClick=@(async () => await SelectArchived())>Archive</MatButton>
         <MatButton Link="/quest/create">Добавить квест</MatButton>
-
     </div>
 
-    <div class="col-md-6 d-flex flex-column dark-elevation-01">
+    <div class="col-md-6 d-flex flex-column">
         <h3>Quest Journal Page</h3>
         @if (_selectedQuest is not null)
         {
@@ -23,7 +22,7 @@
                 @foreach (QuestInfoDto quest in _selectedQuest)
                 {
                     <div class="card-list-element">
-                        <MatCard Class="dark-elevation-02">
+                        <MatCard Class="dark-elevation-01">
                             <MatCardContent>
                                 <div class="card-list-element-content">
                                     <MatHeadline6>
