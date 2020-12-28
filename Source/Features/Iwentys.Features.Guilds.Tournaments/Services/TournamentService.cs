@@ -7,6 +7,7 @@ using Iwentys.Common.Tools;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
+using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Features.Guilds.Tournaments.Domain;
 using Iwentys.Features.Guilds.Tournaments.Entities;
 using Iwentys.Features.Guilds.Tournaments.Models;
@@ -22,6 +23,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
         
         private readonly IGenericRepository<StudentEntity> _studentRepository;
         private readonly IGenericRepository<GuildEntity> _guildRepository;
+        private readonly IGenericRepository<GuildMemberEntity> _guildMemberRepository;
         private readonly IGenericRepository<TournamentEntity> _tournamentRepository;
         private readonly IGenericRepository<TournamentParticipantTeamEntity> _tournamentTeamRepository;
         private readonly IGenericRepository<CodeMarathonTournamentEntity> _codeMarathonTournamentRepository;
@@ -33,6 +35,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
 
             _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
             _guildRepository = _unitOfWork.GetRepository<GuildEntity>();
+            _guildMemberRepository = _unitOfWork.GetRepository<GuildMemberEntity>();
             _tournamentRepository = _unitOfWork.GetRepository<TournamentEntity>();
             _tournamentTeamRepository = _unitOfWork.GetRepository<TournamentParticipantTeamEntity>();
             _codeMarathonTournamentRepository = _unitOfWork.GetRepository<CodeMarathonTournamentEntity>();
@@ -85,10 +88,11 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
             return await GetAsync(codeMarathonTournamentEntity.Id);
         }
 
-        public async Task RegisterToTournament(AuthorizedUser user, int guildId, int tournamentId)
+        public async Task RegisterToTournament(AuthorizedUser user, int tournamentId)
         {
             var studentEntity = await _studentRepository.GetByIdAsync(user.Id);
-            var guildMentorUser = await studentEntity.EnsureIsMentor(_guildRepository, guildId);
+            var guild = _guildMemberRepository.ReadForStudent(user.Id);
+            var guildMentorUser = await studentEntity.EnsureIsMentor(_guildRepository, guild.Id);
             var tournamentEntity = await _tournamentRepository.GetByIdAsync(tournamentId);
             List<GuildMemberEntity> members = await _guildRepository
                 .Get()

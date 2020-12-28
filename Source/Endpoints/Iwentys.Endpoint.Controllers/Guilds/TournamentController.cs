@@ -40,5 +40,13 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             TournamentInfoResponse tournamentInfoResponse = await _tournamentService.CreateCodeMarathon(user, arguments);
             return Ok(tournamentInfoResponse);
         }
+
+        [HttpPut("{tournamentId}/register")]
+        public async Task<ActionResult> RegisterToTournament(int tournamentId)
+        {
+            AuthorizedUser user = this.TryAuthWithToken();
+            await _tournamentService.RegisterToTournament(user, tournamentId);
+            return Ok();
+        }
     }
 }

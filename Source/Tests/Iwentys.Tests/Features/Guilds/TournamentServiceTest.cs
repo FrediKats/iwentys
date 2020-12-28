@@ -33,7 +33,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithCodeMarathon(user, out TournamentInfoResponse tournament)
                 .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
 
-            await testCase.TournamentService.RegisterToTournament(user, guild.Id, tournament.Id);
+            await testCase.TournamentService.RegisterToTournament(user, tournament.Id);
             tournament = await testCase.TournamentService.GetAsync(tournament.Id);
             
             Assert.That(tournament.Teams.Any(t => t.TeamName == guild.Title));
@@ -48,7 +48,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithCodeMarathon(user, out TournamentInfoResponse tournament)
                 .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
 
-            await testCase.TournamentService.RegisterToTournament(user, guild.Id, tournament.Id);
+            await testCase.TournamentService.RegisterToTournament(user, tournament.Id);
             tournament = await testCase.TournamentService.GetAsync(tournament.Id);
 
             var team = tournament.Teams.First(t => t.TeamName == guild.Title);

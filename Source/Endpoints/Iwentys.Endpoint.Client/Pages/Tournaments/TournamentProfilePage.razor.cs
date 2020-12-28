@@ -19,5 +19,11 @@ namespace Iwentys.Endpoint.Client.Pages.Tournaments
 
             _tournament = await _tournamentControllerClient.Get(TournamentId);
         }
+
+        private async Task RegisterToTournament()
+        {
+            await _tournamentControllerClient.RegisterToTournament(_tournament.Id);
+            _tournament = await _tournamentControllerClient.Get(TournamentId);
+        }
     }
 }
