@@ -1,0 +1,44 @@
+﻿@page "/tournaments/profile/{TournamentId:int}"
+@using Blazored.LocalStorage
+@using Iwentys.Features.Guilds.Tournaments.Models
+@using Iwentys.Features.Students.Enums
+@using Iwentys.Features.Students.Models
+@using Iwentys.Features.Study.Entities
+
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+
+<h3>TournamentProfilePage</h3>
+
+@if (_tournament is not null)
+{
+    <div class="container-fluid d-flex flex-row">
+        <div class="col-md-6 d-flex flex-column">
+            <MatH6>Teams</MatH6>
+            <MatList>
+                @foreach (TournamentTeamInfoDto team in _tournament.Teams)
+                {
+                    <MatListItem>
+                        @team.TeamName
+                    </MatListItem>
+                }
+            </MatList>
+        </div>
+
+        <div class="col-md-6 d-flex flex-column">
+            <MatH6>Info</MatH6>
+            <span>
+                <p>@_tournament.Name</p>
+                <p>@_tournament.Description</p>
+                <p>Start time: @_tournament.StartTime</p>
+                <p>End time: @_tournament.EndTime</p>
+            </span>
+        </div>
+    </div>
+}
+
+
+@code {
+    [Parameter]
+    public int TournamentId { get; set; }
+}
