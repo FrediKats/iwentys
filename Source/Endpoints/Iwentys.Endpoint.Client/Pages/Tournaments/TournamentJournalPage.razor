@@ -6,8 +6,9 @@
 @inject ILocalStorageService LocalStorage
 
 <h3>Tournaments</h3>
-<div class="container-fluid d-flex flex-row">
-    <div class="col-md-6 d-flex flex-column">
+<MatButton Link="/tournaments/create/code-marathon">Create code marathon</MatButton>
+<div class="container-fluid d-flex">
+    <div class="d-flex flex-column">
         @if (_tournaments is not null)
         {
             <div class="container-fluid d-flex flex-column">

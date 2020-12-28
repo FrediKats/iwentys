@@ -5,7 +5,7 @@ using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients.Guilds;
 using Iwentys.Features.Guilds.Tournaments.Models;
 
-namespace Iwentys.Endpoint.Client.Pages.Guilds.Tournaments
+namespace Iwentys.Endpoint.Client.Pages.Tournaments
 {
     public partial class TournamentJournalPage
     {

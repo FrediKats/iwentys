@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Iwentys.Endpoint.Controllers.Tools;
 using Iwentys.Features.Guilds.Tournaments.Models;
 using Iwentys.Features.Guilds.Tournaments.Services;
+using Iwentys.Features.Students.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Guilds
@@ -29,6 +31,14 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         {
             TournamentInfoResponse tournament = await _tournamentService.GetAsync(id);
             return Ok(tournament);
+        }
+
+        [HttpPost("code-marathon")]
+        public async Task<ActionResult<TournamentInfoResponse>> CreateCodeMarathon([FromBody] CreateCodeMarathonTournamentArguments arguments)
+        {
+            AuthorizedUser user = this.TryAuthWithToken();
+            TournamentInfoResponse tournamentInfoResponse = await _tournamentService.CreateCodeMarathon(user, arguments);
+            return Ok(tournamentInfoResponse);
         }
     }
 }
