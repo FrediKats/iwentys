@@ -33,6 +33,16 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             return Ok(tournament);
         }
 
+        [HttpGet("for-guild")]
+        public async Task<ActionResult<TournamentInfoResponse>> FindGuildActiveTournament(int guildId)
+        {
+            TournamentInfoResponse tournament = await _tournamentService.FindGuildActiveTournament(guildId);
+            if (tournament is null)
+                return NotFound();
+
+            return Ok(tournament);
+        }
+
         [HttpPost("code-marathon")]
         public async Task<ActionResult<TournamentInfoResponse>> CreateCodeMarathon([FromBody] CreateCodeMarathonTournamentArguments arguments)
         {

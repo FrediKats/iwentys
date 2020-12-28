@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Flurl.Http;
+using Iwentys.Common.Tools;
 using Iwentys.Features.Guilds.Tournaments.Models;
 
 namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
@@ -24,6 +25,11 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
         public Task<TournamentInfoResponse> Get(int tournamentId)
         {
             return Client.GetFromJsonAsync<TournamentInfoResponse>($"/api/tournaments/{tournamentId}");
+        }
+
+        public Task<TournamentInfoResponse> FindGuildActiveTournament(int guildId)
+        {
+            return Client.FindFromJsonAsync<TournamentInfoResponse>($"/api/tournaments/for-guild?guildId={guildId}");
         }
 
         public async Task<TournamentInfoResponse> CreateCodeMarathon(CreateCodeMarathonTournamentArguments arguments)

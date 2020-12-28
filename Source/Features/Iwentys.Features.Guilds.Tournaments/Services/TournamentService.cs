@@ -67,6 +67,16 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
                 .SingleAsync(t => t.Id == tournamentId);
         }
 
+        public Task<TournamentInfoResponse> FindGuildActiveTournament(int guildId)
+        {
+            return _tournamentTeamRepository
+                .Get()
+                .Where(tt => tt.GuildId == guildId)
+                .Select(tt => tt.Tournament)
+                .Select(TournamentInfoResponse.FromEntity)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<TournamentLeaderboardDto> GetLeaderboard(int tournamentId)
         {
             TournamentEntity tournamentEntity = await _tournamentRepository.GetByIdAsync(tournamentId);
