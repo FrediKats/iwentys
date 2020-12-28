@@ -16,7 +16,8 @@ namespace Iwentys.Endpoint.Client.Pages.Study
         protected override async Task OnInitializedAsync()
         {
             var studyLeaderboardControllerClient = new StudyLeaderboardControllerClient(await Http.TrySetHeader(LocalStorage));
-            _studentProfiles = await studyLeaderboardControllerClient.GetStudyRating(CourseId);
+            //TODO: hack
+            _studentProfiles = await studyLeaderboardControllerClient.GetStudyRating(CourseId ?? 4);
         }
     }
 }
