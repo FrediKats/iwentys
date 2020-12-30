@@ -8,15 +8,15 @@ namespace Iwentys.Features.Companies.Entities
 {
     public class CompanyWorker
     {
-        public int CompanyId { get; set; }
-        public virtual Company Company { get; set; }
+        public int CompanyId { get; init; }
+        public virtual Company Company { get; init; }
 
-        public int WorkerId { get; set; }
-        public virtual Student Worker { get; set; }
+        public int WorkerId { get; init; }
+        public virtual Student Worker { get; init; }
 
-        public CompanyWorkerType Type { get; set; }
-        public int? ApprovedById { get; set; }
-        public virtual Student ApprovedBy { get; set; }
+        public CompanyWorkerType Type { get; private set; }
+        public int? ApprovedById { get; private set; }
+        public virtual Student ApprovedBy { get; private set; }
 
         public static CompanyWorker NewRequest(Company company, Student worker)
         {

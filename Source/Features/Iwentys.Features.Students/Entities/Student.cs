@@ -27,14 +27,14 @@ namespace Iwentys.Features.Students.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; init; }
 
-        public string FirstName { get; set; }
-        public string MiddleName { get; set; }
-        public string SecondName { get; set; }
+        public string FirstName { get; init; }
+        public string MiddleName { get; init; }
+        public string SecondName { get; init; }
         public StudentRole Role { get; set; }
-        public StudentType Type { get; set; }
+        public StudentType Type { get; init; }
         public int? GroupId { get; set; }
         public string GithubUsername { get; set; }
-        public DateTime CreationTime { get; set; }
+        public DateTime CreationTime { get; init; }
         public DateTime LastOnlineTime { get; set; }
         public int BarsPoints { get; set; }
         public string AvatarUrl { get; set; }

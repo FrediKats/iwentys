@@ -4,12 +4,12 @@ namespace Iwentys.Features.Achievements.Entities
 {
     public class GuildAchievement
     {
-        public int GuildId { get; set; }
-        //public GuildEntity Guild { get; set; }
-        public int AchievementId { get; set; }
-        public virtual Achievement Achievement { get; set; }
+        public DateTime GettingTime { get; init; }
 
-        public virtual DateTime GettingTime { get; set; }
+        public int GuildId { get; init; }
+        //public GuildEntity Guild { get; set; }
+        public int AchievementId { get; init; }
+        public virtual Achievement Achievement { get; init; }
 
         public static GuildAchievement Create(int guildId, int achievementId)
         {

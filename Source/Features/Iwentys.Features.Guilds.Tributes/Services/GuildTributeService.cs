@@ -141,7 +141,7 @@ namespace Iwentys.Features.Guilds.Tributes.Services
         {
             Student student = await _studentRepository.FindByIdAsync(user.Id);
             Tribute tribute = await _guildTributeRepository.FindByIdAsync(tributeCompleteRequest.TributeId);
-            GuildMentorUser mentor = await student.EnsureIsMentor(_guildRepositoryNew, tribute.GuildId);
+            GuildMentor mentor = await student.EnsureIsMentor(_guildRepositoryNew, tribute.GuildId);
 
             tribute.SetCompleted(mentor.Student.Id, tributeCompleteRequest);
             

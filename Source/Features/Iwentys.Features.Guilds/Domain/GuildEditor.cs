@@ -5,6 +5,7 @@ using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Guilds.Domain
 {
+    //TODO: delete, replace with guild mentor
     public class GuildEditor
     {
         public Student Student { get; }

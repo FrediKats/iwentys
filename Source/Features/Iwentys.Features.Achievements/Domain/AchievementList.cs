@@ -12,12 +12,10 @@ namespace Iwentys.Features.Achievements.Domain
 
             static Tournaments()
             {
-                TournamentWinner = Register(new Achievement
-                {
-                    Title = "Tournament winner",
-                    Description = "Lorem",
-                    Url = "https://img.icons8.com/windows/96/000000/open-pokeball.png"
-                });
+                TournamentWinner = Register(
+                    "Tournament winner",
+                    "Lorem",
+                    "https://img.icons8.com/windows/96/000000/open-pokeball.png");
             }
         }
 
@@ -32,47 +30,44 @@ namespace Iwentys.Features.Achievements.Domain
         static AchievementList()
         {
             Achievements = new List<Achievement>();
-            AddGithubAchievement = Register(new Achievement
-            {
-                Title = "Add github",
-                Description = "Lorem",
-                Url = "https://img.icons8.com/windows/96/000000/open-pokeball.png"
-            });
+            AddGithubAchievement = Register(
+                "Add github",
+                "Lorem",
+                "https://img.icons8.com/windows/96/000000/open-pokeball.png");
 
-            BetaTester = Register(new Achievement
-            {
-                Title = "TP tester",
-                Description = "Lorem",
-                Url = "https://img.icons8.com/windows/96/000000/open-pokeball.png"
-            });
+            BetaTester = Register(
+                "TP tester",
+                "Lorem",
+                "https://img.icons8.com/windows/96/000000/open-pokeball.png");
 
-            QuestCreator = Register(new Achievement
-            {
-                Title = "Quest creator",
-                Description = "For creating quest",
-                Url = "https://img.icons8.com/windows/96/000000/open-pokeball.png"
-            });
+            QuestCreator = Register(
+                "Quest creator",
+                "For creating quest",
+                "https://img.icons8.com/windows/96/000000/open-pokeball.png");
 
-            QuestComplete = Register(new Achievement
-            {
-                Title = "Quest done",
-                Description = "Quest done",
-                Url = "https://img.icons8.com/windows/96/000000/open-pokeball.png"
-            });
+            QuestComplete = Register(
+                "Quest done",
+                "Quest done",
+                "https://img.icons8.com/windows/96/000000/open-pokeball.png");
 
-            TestTaskDone = Register(new Achievement
-            {
-                Title = "Test task done",
-                Description = "Test task done",
-                Url = "https://img.icons8.com/windows/96/000000/open-pokeball.png"
-            });
+            TestTaskDone = Register(
+                "Test task done",
+                "Test task done",
+                "https://img.icons8.com/windows/96/000000/open-pokeball.png");
         }
 
         public static List<Achievement> Achievements { get; }
 
-        private static Achievement Register(Achievement achievement)
+        private static Achievement Register(string title, string description, string url)
         {
-            achievement.Id = IdentifierGenerator.Next();
+            var achievement = new Achievement
+            {
+                Id = IdentifierGenerator.Next(),
+                Title = title,
+                Description = description,
+                Url = url
+            };
+
             Achievements.Add(achievement);
             return achievement;
         }

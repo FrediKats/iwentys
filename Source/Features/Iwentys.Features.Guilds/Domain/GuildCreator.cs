@@ -8,28 +8,31 @@ using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Guilds.Domain
 {
-    public class GuildMentorUser
+    public class GuildCreator
     {
-        public GuildMentorUser(Student student, Guild guild)
+        public GuildCreator(Student student, Guild guild, GuildMemberType memberType)
         {
+            if (memberType != GuildMemberType.Creator)
+                throw InnerLogicException.NotEnoughPermissionFor(student.Id);
+
             Student = student;
             Guild = guild;
+            MemberType = memberType;
         }
 
         public Student Student { get; }
         public Guild Guild { get; }
+        public GuildMemberType MemberType { get; }
     }
 
-    public static class GuildMentorUserExtensions
+    public static class GuildCreatorExtensions
     {
-        public static async Task<GuildMentorUser> EnsureIsMentor(this Student student, IGenericRepository<Guild> guildRepository, int guildId)
+        public static async Task<GuildCreator> EnsureIsCreator(this Student student, IGenericRepository<Guild> guildRepository, int guildId)
         {
             Guild guild = await guildRepository.FindByIdAsync(guildId);
             GuildMember membership = guild.Members.First(m => m.MemberId == student.Id);
-            if (!membership.MemberType.IsEditor())
-                throw InnerLogicException.NotEnoughPermissionFor(student.Id);
 
-            return new GuildMentorUser(student, guild);
+            return new GuildCreator(student, guild, membership.MemberType);
         }
     }
 }

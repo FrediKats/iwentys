@@ -4,12 +4,13 @@ namespace Iwentys.Features.Achievements.Entities
 {
     public class StudentAchievement
     {
-        public int StudentId { get; set; }
-        //public StudentEntity Student { get; set; }
-        public int AchievementId { get; set; }
-        public virtual Achievement Achievement { get; set; }
+        public virtual DateTime GettingTime { get; init; }
 
-        public virtual DateTime GettingTime { get; set; }
+        public int StudentId { get; init; }
+        //public StudentEntity Student { get; set; }
+        public int AchievementId { get; init; }
+        public virtual Achievement Achievement { get; init; }
+
 
         public static StudentAchievement Create(int studentId, int achievementId)
         {

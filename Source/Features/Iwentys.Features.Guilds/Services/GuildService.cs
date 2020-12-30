@@ -55,18 +55,18 @@ namespace Iwentys.Features.Guilds.Services
         public async Task<GuildProfileShortInfoDto> UpdateAsync(AuthorizedUser user, GuildUpdateRequestDto arguments)
         {
             Student student = await _studentRepository.FindByIdAsync(user.Id);
-            Guild info = await _guildRepository.FindByIdAsync(arguments.Id);
-            student.EnsureIsGuildEditor(info);
+            Guild guild = await _guildRepository.FindByIdAsync(arguments.Id);
+            var guildMentor = student.EnsureIsGuildEditor(guild);
 
-            info.Update(arguments);
+            guild.Update(arguments);
 
             if (arguments.HiringPolicy == GuildHiringPolicy.Open)
-                foreach (GuildMember guildMember in info.Members.Where(guildMember => guildMember.MemberType == GuildMemberType.Requested))
-                    guildMember.MemberType = GuildMemberType.Member;
+                foreach (GuildMember guildMember in guild.Members.Where(guildMember => guildMember.MemberType == GuildMemberType.Requested))
+                    guildMember.Approve(guildMentor);
 
-            _guildRepository.Update(info);
+            _guildRepository.Update(guild);
             await _unitOfWork.CommitAsync();
-            return new GuildProfileShortInfoDto(info);
+            return new GuildProfileShortInfoDto(guild);
         }
 
         public async Task<GuildProfileShortInfoDto> ApproveGuildCreating(AuthorizedUser user, int guildId)

@@ -281,7 +281,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithNewStudent(out AuthorizedUser student);
 
-            Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.AcceptRequest(user, guild.Id, student.Id));
+            Assert.ThrowsAsync<EntityNotFoundException>(() => context.GuildMemberService.AcceptRequest(user, guild.Id, student.Id));
         }
 
         [Test]
