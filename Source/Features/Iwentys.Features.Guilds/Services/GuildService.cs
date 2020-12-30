@@ -58,10 +58,7 @@ namespace Iwentys.Features.Guilds.Services
             Guild info = await _guildRepository.FindByIdAsync(arguments.Id);
             student.EnsureIsGuildEditor(info);
 
-            info.Bio = arguments.Bio ?? info.Bio;
-            info.LogoUrl = arguments.LogoUrl ?? info.LogoUrl;
-            info.TestTaskLink = arguments.TestTaskLink ?? info.TestTaskLink;
-            info.HiringPolicy = arguments.HiringPolicy ?? info.HiringPolicy;
+            info.Update(arguments);
 
             if (arguments.HiringPolicy == GuildHiringPolicy.Open)
                 foreach (GuildMember guildMember in info.Members.Where(guildMember => guildMember.MemberType == GuildMemberType.Requested))
@@ -75,13 +72,11 @@ namespace Iwentys.Features.Guilds.Services
         public async Task<GuildProfileShortInfoDto> ApproveGuildCreating(AuthorizedUser user, int guildId)
         {
             Student student = await _studentRepository.FindByIdAsync(user.Id);
-            student.EnsureIsAdmin();
-
             Guild guild = await _guildRepository.FindByIdAsync(guildId);
-            if (guild.GuildType == GuildType.Created)
-                throw new InnerLogicException("Guild already approved");
+            
+            var admin = student.EnsureIsAdmin();
+            guild.Approve(admin);
 
-            guild.GuildType = GuildType.Created;
             _guildRepository.Update(guild);
             await _unitOfWork.CommitAsync();
             return new GuildProfileShortInfoDto(await _guildRepository.FindByIdAsync(guildId));

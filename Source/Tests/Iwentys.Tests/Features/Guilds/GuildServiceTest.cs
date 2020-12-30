@@ -32,21 +32,19 @@ namespace Iwentys.Tests.Features.Guilds
         }
 
         [Test]
-        [Ignore("Meh (")]
-        public void CreateGuild_GuildStateIsPending()
+        public async Task CreateGuild_GuildStateIsPending()
         {
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
 
-            //var createdGuild = context.GuildRepository.Get(guild.Id);
+            var createdGuild = await context.GuildService.GetAsync(guild.Id, null);
 
-            //Assert.AreEqual(GuildType.Pending, createdGuild.Result.GuildType);
+            Assert.AreEqual(GuildType.Pending, createdGuild.GuildType);
         }
 
         [Test]
-        [Ignore("Meh (")]
         public async Task ApproveCreatedRepo_GuildStateIsCreated()
         {
             var context = TestCaseContext
@@ -56,9 +54,9 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
 
             await context.GuildService.ApproveGuildCreating(admin, guild.Id);
-            //Guild createdGuild = await context.GuildRepository.Get(guild.Id);
+            var createdGuild = await context.GuildService.GetAsync(guild.Id, null);
 
-            //Assert.AreEqual(GuildType.Created, createdGuild.GuildType);
+            Assert.AreEqual(GuildType.Created, createdGuild.GuildType);
         }
 
         [Test]

@@ -1,27 +1,29 @@
 ﻿using System.Collections.Generic;
+using Iwentys.Common.Exceptions;
 using Iwentys.Features.Achievements.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Models;
+using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Guilds.Entities
 {
     public class Guild
     {
-        public int Id { get; set; }
-        public string Title { get;  set; }
-        public string Bio { get; set; }
-        public string LogoUrl { get; set; }
-        public string TestTaskLink { get; set; }
+        public int Id { get; init; }
+        public string Title { get; init; }
+        public string Bio { get; private set; }
+        public string LogoUrl { get; private set; }
+        public string TestTaskLink { get; private set; }
 
         public GuildHiringPolicy HiringPolicy { get; set; }
-        public GuildType GuildType { get; set; }
+        public GuildType GuildType { get; private set; }
 
-        public virtual List<GuildMember> Members { get; set; } = new List<GuildMember>();
-        public virtual List<GuildPinnedProject> PinnedProjects { get; set; } = new List<GuildPinnedProject>();
-        public virtual List<GuildTestTaskSolution> TestTasks { get; set; } = new List<GuildTestTaskSolution>();
+        public virtual List<GuildMember> Members { get; init; } = new List<GuildMember>();
+        public virtual List<GuildPinnedProject> PinnedProjects { get; init; } = new List<GuildPinnedProject>();
+        public virtual List<GuildTestTaskSolution> TestTasks { get; init; } = new List<GuildTestTaskSolution>();
         
-        public virtual List<GuildAchievement> Achievements { get; set; } = new List<GuildAchievement>();
+        public virtual List<GuildAchievement> Achievements { get; init; } = new List<GuildAchievement>();
 
         public static Guild Create(Student creator, GuildCreateRequestDto arguments)
         {
@@ -34,12 +36,25 @@ namespace Iwentys.Features.Guilds.Entities
                 GuildType = GuildType.Pending
             };
 
-            newGuild.Members = new List<GuildMember>
-            {
-                new GuildMember(newGuild, creator, GuildMemberType.Creator)
-            };
+            newGuild.Members.Add(new GuildMember(newGuild, creator, GuildMemberType.Creator));
 
             return newGuild;
+        }
+
+        public void Update(GuildUpdateRequestDto arguments)
+        {
+            Bio = arguments.Bio ?? Bio;
+            LogoUrl = arguments.LogoUrl ?? LogoUrl;
+            TestTaskLink = arguments.TestTaskLink ?? TestTaskLink;
+            HiringPolicy = arguments.HiringPolicy ?? HiringPolicy;
+        }
+
+        public void Approve(SystemAdminUser admin)
+        {
+            if (GuildType == GuildType.Created)
+                throw new InnerLogicException("Guild already approved");
+
+            GuildType = GuildType.Created;
         }
     }
 }

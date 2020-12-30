@@ -17,6 +17,7 @@ namespace Iwentys.Features.Guilds.Models
             LogoUrl = guild.LogoUrl;
             TestTaskLink = guild.TestTaskLink;
             HiringPolicy = guild.HiringPolicy;
+            GuildType = guild.GuildType;
         }
 
         public int Id { get; set; }
@@ -26,5 +27,6 @@ namespace Iwentys.Features.Guilds.Models
         public string TestTaskLink { get; set; }
 
         public GuildHiringPolicy HiringPolicy { get; set; }
+        public GuildType GuildType { get; set; }
     }
 }
