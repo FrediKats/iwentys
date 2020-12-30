@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Common.Tools;
+using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
@@ -19,6 +19,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
 {
     public class TournamentService
     {
+        private readonly AchievementProvider _achievementProvider;
         private readonly IUnitOfWork _unitOfWork;
         
         private readonly IGenericRepository<StudentEntity> _studentRepository;
@@ -29,9 +30,10 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
         private readonly IGenericRepository<CodeMarathonTournamentEntity> _codeMarathonTournamentRepository;
         private readonly GithubIntegrationService _githubIntegrationService;
 
-        public TournamentService(GithubIntegrationService githubIntegrationService, IUnitOfWork unitOfWork)
+        public TournamentService(GithubIntegrationService githubIntegrationService, IUnitOfWork unitOfWork, AchievementProvider achievementProvider)
         {
             _unitOfWork = unitOfWork;
+            _achievementProvider = achievementProvider;
 
             _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
             _guildRepository = _unitOfWork.GetRepository<GuildEntity>();
@@ -81,7 +83,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
         {
             TournamentEntity tournamentEntity = await _tournamentRepository.GetByIdAsync(tournamentId);
             return tournamentEntity
-                .WrapToDomain(_githubIntegrationService, _unitOfWork)
+                .WrapToDomain(_githubIntegrationService, _unitOfWork, _achievementProvider)
                 .GetLeaderboard();
         }
 

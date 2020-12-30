@@ -1,5 +1,7 @@
-﻿using Iwentys.Common.Databases;
+﻿using System.Threading.Tasks;
+using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
+using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Tournaments.Entities;
 using Iwentys.Features.Guilds.Tournaments.Enums;
@@ -10,15 +12,20 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
     public interface ITournamentDomain
     {
         TournamentLeaderboardDto GetLeaderboard();
+        Task RewardWinners();
     }
 
     public static class TournamentDomainHelper
     {
-        public static ITournamentDomain WrapToDomain(this TournamentEntity tournament, GithubIntegrationService githubIntegrationService, IUnitOfWork unitOfWork)
+        public static ITournamentDomain WrapToDomain(
+            this TournamentEntity tournament,
+            GithubIntegrationService githubIntegrationService,
+            IUnitOfWork unitOfWork,
+            AchievementProvider achievementProvider)
         {
             return tournament.Type switch
             {
-                TournamentType.CodeMarathon => new CodeMarathonTournament(tournament, githubIntegrationService, unitOfWork),
+                TournamentType.CodeMarathon => new CodeMarathonTournament(tournament, githubIntegrationService, unitOfWork, achievementProvider),
                 _ => throw InnerLogicException.NotSupportedEnumValue(tournament.Type)
             };
         }

@@ -6,6 +6,21 @@ namespace Iwentys.Features.Achievements.Domain
 {
     public static class AchievementList
     {
+        public static class Tournaments
+        {
+            public static readonly AchievementEntity TournamentWinner;
+
+            static Tournaments()
+            {
+                TournamentWinner = Register(new AchievementEntity
+                {
+                    Title = "Tournament winner",
+                    Description = "Lorem",
+                    Url = "https://img.icons8.com/windows/96/000000/open-pokeball.png"
+                });
+            }
+        }
+
         public static readonly AchievementEntity AddGithubAchievement;
         public static readonly AchievementEntity BetaTester;
         public static readonly AchievementEntity QuestCreator;
