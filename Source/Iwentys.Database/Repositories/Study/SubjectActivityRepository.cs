@@ -18,7 +18,7 @@ namespace Iwentys.Database.Repositories.Study
             _dbContext = dbContext;
         }
 
-        public IReadOnlyCollection<SubjectActivityEntity> GetStudentActivities(StudySearchParametersDto searchParametersDto)
+        public IReadOnlyCollection<SubjectActivity> GetStudentActivities(StudySearchParametersDto searchParametersDto)
         {
             var query =
                 from sa in _dbContext.SubjectActivities

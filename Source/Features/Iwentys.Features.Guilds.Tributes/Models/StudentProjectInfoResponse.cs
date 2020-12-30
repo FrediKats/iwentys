@@ -10,15 +10,15 @@ namespace Iwentys.Features.Guilds.Tributes.Models
         public string Description { get; set; }
         public string AuthorUsername { get; set; }
         
-        public static StudentProjectInfoResponse Wrap(GithubProjectEntity projectEntity)
+        public static StudentProjectInfoResponse Wrap(GithubProject project)
         {
             return new StudentProjectInfoResponse
             {
-                Id = projectEntity.Id,
-                Url = projectEntity.FullUrl,
-                Name = projectEntity.Name,
-                Description = projectEntity.Description,
-                AuthorUsername = projectEntity.Owner
+                Id = project.Id,
+                Url = project.FullUrl,
+                Name = project.Name,
+                Description = project.Description,
+                AuthorUsername = project.Owner
             };
         }
     }

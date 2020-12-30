@@ -10,11 +10,11 @@ namespace Iwentys.Tests.TestCaseContexts
     {
         public TestCaseContext WithSubject(out SubjectProfileDto subjectProfile)
         {
-            var subject = new SubjectEntity
+            var subject = new Subject
             {
                 Name = RandomProvider.Faker.Name.JobArea()
             };
-            UnitOfWork.GetRepository<SubjectEntity>().InsertAsync(subject).Wait();
+            UnitOfWork.GetRepository<Subject>().InsertAsync(subject).Wait();
             UnitOfWork.CommitAsync().Wait();
 
             subjectProfile = new SubjectProfileDto(subject);

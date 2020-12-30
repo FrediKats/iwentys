@@ -6,7 +6,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Models
 {
     public class TournamentLeaderboardDto
     {
-        public TournamentEntity Tournament { get; set; }
+        public Tournament Tournament { get; set; }
         public Dictionary<GuildProfileShortInfoDto, int> Result { get; set; }
     }
 }

@@ -7,11 +7,11 @@ namespace Iwentys.Database.Seeding.EntityGenerators
     {
         private int _teacherLastId = 1;
 
-        public Faker<TeacherEntity> Faker { get; }
+        public Faker<Teacher> Faker { get; }
 
         public TeacherGenerator()
         {
-            Faker = new Faker<TeacherEntity>()
+            Faker = new Faker<Teacher>()
                 .RuleFor(t => t.Id, _ => _teacherLastId++)
                 .RuleFor(t => t.Name, f => f.Name.FullName());
         }

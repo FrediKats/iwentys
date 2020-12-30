@@ -13,7 +13,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Models
 
         public List<int> MemberIds { get; set; }
 
-        public static TournamentTeamInfoDto Create(TournamentParticipantTeamEntity team)
+        public static TournamentTeamInfoDto Create(TournamentParticipantTeam team)
         {
             return new TournamentTeamInfoDto()
             {

@@ -11,19 +11,19 @@ namespace Iwentys.Features.Quests.Models
 {
     public record QuestInfoDto
     {
-        public QuestInfoDto(QuestEntity questEntity)
+        public QuestInfoDto(Quest quest)
             :  this(
-                questEntity.Id,
-                questEntity.Title,
-                questEntity.Description,
-                questEntity.Price,
-                questEntity.CreationTime,
-                questEntity.Deadline,
-                questEntity.State,
-                questEntity.IsOutdated,
-                new StudentInfoDto(questEntity.Author),
+                quest.Id,
+                quest.Title,
+                quest.Description,
+                quest.Price,
+                quest.CreationTime,
+                quest.Deadline,
+                quest.State,
+                quest.IsOutdated,
+                new StudentInfoDto(quest.Author),
                 //TODO: fix this. NRE coz lazy load do not work. https://github.com/kysect/iwentys/issues/138
-                questEntity.Responses?.SelectToList(qr => new QuestResponseInfoDto(qr)))
+                quest.Responses?.SelectToList(qr => new QuestResponseInfoDto(qr)))
         {
         }
 
@@ -57,6 +57,6 @@ namespace Iwentys.Features.Quests.Models
         public StudentInfoDto Author { get; init; }
         public List<QuestResponseInfoDto> ResponseInfos { get; set; }
 
-        public static Expression<Func<QuestEntity, QuestInfoDto>> FromEntity => entity => new QuestInfoDto(entity);
+        public static Expression<Func<Quest, QuestInfoDto>> FromEntity => entity => new QuestInfoDto(entity);
     }
 }

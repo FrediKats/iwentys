@@ -6,7 +6,7 @@ namespace Iwentys.Features.Study.Models
 {
     public record StudentActivityInfoDto
     {
-        public StudentActivityInfoDto(List<SubjectActivityEntity> activity)
+        public StudentActivityInfoDto(List<SubjectActivity> activity)
             : this(activity.SelectToList(s => new SubjectActivityInfoResponseDto(s)))
         {
         }

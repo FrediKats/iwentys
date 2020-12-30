@@ -28,7 +28,7 @@ namespace Iwentys.Tests.TestCaseContexts
         {
             //TODO: make method for promoting to guild editor/mentor
             WithNewStudent(out user);
-            _context.GuildMembers.Add(new GuildMemberEntity(guild.Id, user.Id, GuildMemberType.Mentor));
+            _context.GuildMembers.Add(new GuildMember(guild.Id, user.Id, GuildMemberType.Mentor));
             _context.SaveChanges();
             return this;
         }

@@ -28,7 +28,7 @@ namespace Iwentys.Endpoint.Server.Controllers
         }
 
         //[HttpPost("UpdateSubjectActivityData")]
-        //public void UpdateSubjectActivityData(SubjectActivityEntity activity)
+        //public void UpdateSubjectActivityData(SubjectActivity activity)
         //{
         //    _databaseAccessor.SubjectActivity.UpdateAsync(activity);
         //}
@@ -36,7 +36,7 @@ namespace Iwentys.Endpoint.Server.Controllers
         [HttpPost("UpdateSubjectActivityForGroup")]
         public ActionResult UpdateSubjectActivityForGroup(int subjectId, int groupId)
         {
-            GroupSubjectEntity groupSubjectData = _unitOfWork.GetRepository<GroupSubjectEntity>()
+            GroupSubject groupSubjectData = _unitOfWork.GetRepository<GroupSubject>()
                 .Get()
                 .FirstOrDefault(s => s.SubjectId == subjectId && s.StudyGroupId == groupId);
 

@@ -13,15 +13,15 @@ namespace Iwentys.Features.Study.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         
-        private readonly IGenericRepository<StudentEntity> _studentRepository;
-        private readonly IGenericRepository<StudyGroupEntity> _studyGroupRepository;
+        private readonly IGenericRepository<Student> _studentRepository;
+        private readonly IGenericRepository<StudyGroup> _studyGroupRepository;
 
         public StudyGroupService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
 
-            _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
-            _studyGroupRepository = _unitOfWork.GetRepository<StudyGroupEntity>();
+            _studentRepository = _unitOfWork.GetRepository<Student>();
+            _studyGroupRepository = _unitOfWork.GetRepository<StudyGroup>();
         }
 
         public async Task<GroupProfileResponseDto> Get(string groupName)
@@ -30,7 +30,7 @@ namespace Iwentys.Features.Study.Services
             return new GroupProfileResponseDto(studyGroupEntity);
         }
 
-        public async Task<List<StudyGroupEntity>> GetStudyGroupsForDtoAsync(int? courseId)
+        public async Task<List<StudyGroup>> GetStudyGroupsForDtoAsync(int? courseId)
         {
             return await _studyGroupRepository
                 .Get()

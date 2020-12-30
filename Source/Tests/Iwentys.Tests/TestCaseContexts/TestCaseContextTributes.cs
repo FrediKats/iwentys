@@ -13,13 +13,13 @@ namespace Iwentys.Tests.TestCaseContexts
             return this;
         }
 
-        public TestCaseContext WithTribute(AuthorizedUser userInfo, GithubProjectEntity projectEntity, out TributeInfoResponse tribute)
+        public TestCaseContext WithTribute(AuthorizedUser userInfo, GithubProject project, out TributeInfoResponse tribute)
         {
             var userGithub = StudentService.GetAsync(userInfo.Id).Result.GithubUsername;
 
             tribute = GuildTributeServiceService.CreateTribute(
                     userInfo,
-                    new CreateProjectRequestDto(userGithub, projectEntity.Name))
+                    new CreateProjectRequestDto(userGithub, project.Name))
                 .Result;
             return this;
         }

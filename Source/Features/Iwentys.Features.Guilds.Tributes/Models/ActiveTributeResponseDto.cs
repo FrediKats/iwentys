@@ -6,7 +6,7 @@ namespace Iwentys.Features.Guilds.Tributes.Models
 {
     public record ActiveTributeResponseDto
     {
-        public ActiveTributeResponseDto(TributeEntity tribute)
+        public ActiveTributeResponseDto(Tribute tribute)
             : this(tribute.ProjectId, tribute.State, tribute.Project.Name, tribute.CreationTimeUtc)
         {
         }

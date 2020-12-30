@@ -20,7 +20,7 @@ namespace Iwentys.Features.Guilds.Tributes.Models
         public StudentInfoDto Mentor { get; set; }
         public int? MentorId { get; set; }
 
-        public static Expression<Func<TributeEntity, TributeInfoResponse>> FromEntity =>
+        public static Expression<Func<Tribute, TributeInfoResponse>> FromEntity =>
             project =>
                 new TributeInfoResponse
                 {
@@ -40,7 +40,7 @@ namespace Iwentys.Features.Guilds.Tributes.Models
                     Mentor = project.Mentor == null ? null : new StudentInfoDto(project.Mentor)
                 };
 
-        public static TributeInfoResponse Wrap(TributeEntity project)
+        public static TributeInfoResponse Wrap(Tribute project)
         {
             return new TributeInfoResponse
             {

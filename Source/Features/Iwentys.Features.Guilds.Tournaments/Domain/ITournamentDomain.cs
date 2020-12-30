@@ -18,7 +18,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
     public static class TournamentDomainHelper
     {
         public static ITournamentDomain WrapToDomain(
-            this TournamentEntity tournament,
+            this Tournament tournament,
             GithubIntegrationService githubIntegrationService,
             IUnitOfWork unitOfWork,
             AchievementProvider achievementProvider)

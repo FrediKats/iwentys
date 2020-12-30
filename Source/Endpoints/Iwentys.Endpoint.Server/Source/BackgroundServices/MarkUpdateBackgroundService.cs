@@ -37,11 +37,11 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
                     _logger.LogInformation("Execute MarkUpdateBackgroundService update");
 
                     IUnitOfWork unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
-                    IGenericRepository<GroupSubjectEntity> groupSubjectRepository = unitOfWork.GetRepository<GroupSubjectEntity>();
+                    IGenericRepository<GroupSubject> groupSubjectRepository = unitOfWork.GetRepository<GroupSubject>();
                     
                     var googleTableUpdateService = new MarkGoogleTableUpdateService(_logger, _tokenApplicationOptions.GoogleServiceToken, unitOfWork);
 
-                    foreach (GroupSubjectEntity g in groupSubjectRepository.Get().ToList())
+                    foreach (GroupSubject g in groupSubjectRepository.Get().ToList())
                     {
                         try
                         {

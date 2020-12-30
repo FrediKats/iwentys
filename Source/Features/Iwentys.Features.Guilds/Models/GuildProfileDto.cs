@@ -16,14 +16,14 @@ namespace Iwentys.Features.Guilds.Models
         {
             
         }
-        public GuildProfileDto(GuildEntity guild) : base(guild)
+        public GuildProfileDto(Guild guild) : base(guild)
         {
             Leader = guild.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentInfoDto(s));
             Achievements = guild.Achievements.SelectToList(AchievementDto.Wrap);
             TestTasks = guild.TestTasks.SelectToList(GuildTestTaskInfoResponse.Wrap);
         }
 
-        public static Expression<Func<GuildEntity, GuildProfileDto>> FromEntity => entity => new GuildProfileDto(entity);
+        public static Expression<Func<Guild, GuildProfileDto>> FromEntity => entity => new GuildProfileDto(entity);
 
         public StudentInfoDto Leader { get; set; }
         public List<AchievementDto> Achievements { get; set; }

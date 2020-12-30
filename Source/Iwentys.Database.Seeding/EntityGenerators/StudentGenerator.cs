@@ -13,9 +13,9 @@ namespace Iwentys.Database.Seeding.EntityGenerators
     {
         private const int StudentCount = 200;
 
-        public StudentGenerator(List<StudyGroupEntity> studyGroups)
+        public StudentGenerator(List<StudyGroup> studyGroups)
         {
-            Faker = new Faker<StudentEntity>()
+            Faker = new Faker<Student>()
                 .RuleFor(s => s.Id, f => f.IndexFaker++ + 1)
                 .RuleFor(s => s.FirstName, f => f.Name.FirstName())
                 .RuleFor(s => s.SecondName, f => f.Name.LastName())
@@ -28,7 +28,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 .RuleFor(s => s.GithubUsername, f => f.Person.UserName);
 
             Students = Faker.Generate(StudentCount);
-            Students.Add(new StudentEntity
+            Students.Add(new Student
             {
                 Id = 228617,
                 FirstName = "Фреди",
@@ -51,7 +51,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 .ForEach(s => s.Role = StudentRole.GroupAdmin);
         }
 
-        public Faker<StudentEntity> Faker { get; }
-        public List<StudentEntity> Students { get; set; }
+        public Faker<Student> Faker { get; }
+        public List<Student> Students { get; set; }
     }
 }

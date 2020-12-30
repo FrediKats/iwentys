@@ -10,13 +10,13 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 {
     public class AchievementGenerator
     {
-        public List<GuildAchievementEntity> GuildAchievementModels { get; set; }
-        public List<StudentAchievementEntity> StudentAchievementModels { get; set; }
+        public List<GuildAchievement> GuildAchievementModels { get; set; }
+        public List<StudentAchievement> StudentAchievementModels { get; set; }
 
-        public AchievementGenerator(List<StudentEntity> students, List<GuildEntity> guilds)
+        public AchievementGenerator(List<Student> students, List<Guild> guilds)
         {
             StudentAchievementModels = students
-                .Select(s => new StudentAchievementEntity
+                .Select(s => new StudentAchievement
                 {
                     AchievementId = AchievementList.BetaTester.Id,
                     StudentId = s.Id,
@@ -24,7 +24,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 }).ToList();
 
             GuildAchievementModels = guilds
-                .Select(g => new GuildAchievementEntity
+                .Select(g => new GuildAchievement
                 {
                     AchievementId = AchievementList.BetaTester.Id,
                     GuildId = g.Id,

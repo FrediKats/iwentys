@@ -22,7 +22,7 @@ namespace Iwentys.Endpoint.Controllers
         [HttpGet("student/{studentId}")]
         public async Task<ActionResult<List<CodingActivityInfoResponse>>> GetForStudent(int studentId)
         {
-            GithubUserEntity result = await _githubIntegrationService.FindGithubUser(studentId);
+            GithubUser result = await _githubIntegrationService.FindGithubUser(studentId);
 
             if (result?.ContributionFullInfo is null)
                 return Ok(new List<CodingActivityInfoResponse>());

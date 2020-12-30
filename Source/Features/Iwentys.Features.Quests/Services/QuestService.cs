@@ -17,9 +17,9 @@ namespace Iwentys.Features.Quests.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         
-        private readonly IGenericRepository<StudentEntity> _studentRepository;
-        private readonly IGenericRepository<QuestEntity> _questRepository;
-        private readonly IGenericRepository<QuestResponseEntity> _questResponseRepository;
+        private readonly IGenericRepository<Student> _studentRepository;
+        private readonly IGenericRepository<Quest> _questRepository;
+        private readonly IGenericRepository<QuestResponse> _questResponseRepository;
 
         private readonly AchievementProvider _achievementProvider;
 
@@ -31,14 +31,14 @@ namespace Iwentys.Features.Quests.Services
             _pointTransactionLogService = pointTransactionLogService;
             _unitOfWork = unitOfWork;
 
-            _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
-            _questRepository = _unitOfWork.GetRepository<QuestEntity>();
-            _questResponseRepository = _unitOfWork.GetRepository<QuestResponseEntity>();
+            _studentRepository = _unitOfWork.GetRepository<Student>();
+            _questRepository = _unitOfWork.GetRepository<Quest>();
+            _questResponseRepository = _unitOfWork.GetRepository<QuestResponse>();
         }
 
         public async Task<QuestInfoDto> Get(int questId)
         {
-            QuestEntity entities = await _questRepository
+            Quest entities = await _questRepository
                 .FindByIdAsync(questId);
 
             return new QuestInfoDto(entities);
@@ -56,7 +56,7 @@ namespace Iwentys.Features.Quests.Services
         public async Task<List<QuestInfoDto>> GetCompletedByUserAsync(AuthorizedUser user)
         {
             return await _questRepository.Get()
-                .Where(QuestEntity.IsCompletedBy(user))
+                .Where(Quest.IsCompletedBy(user))
                 .Select(QuestInfoDto.FromEntity)
                 .ToListAsync();
         }
@@ -65,7 +65,7 @@ namespace Iwentys.Features.Quests.Services
         {
             return await _questRepository
                 .Get()
-                .Where(QuestEntity.IsActive)
+                .Where(Quest.IsActive)
                 .Select(QuestInfoDto.FromEntity)
                 .ToListAsync();
         }
@@ -74,15 +74,15 @@ namespace Iwentys.Features.Quests.Services
         {
             return await _questRepository
                 .Get()
-                .Where(QuestEntity.IsArchived)
+                .Where(Quest.IsArchived)
                 .Select(QuestInfoDto.FromEntity)
                 .ToListAsync();
         }
 
         public async Task<QuestInfoDto> CreateAsync(AuthorizedUser user, CreateQuestRequest createQuest)
         {
-            StudentEntity student = await _studentRepository.FindByIdAsync(user.Id);
-            var quest = QuestEntity.New(student, createQuest);
+            Student student = await _studentRepository.FindByIdAsync(user.Id);
+            var quest = Quest.New(student, createQuest);
             
             await _questRepository.InsertAsync(quest);
             _studentRepository.Update(student);
@@ -94,13 +94,13 @@ namespace Iwentys.Features.Quests.Services
 
         public async Task<QuestInfoDto> SendResponseAsync(AuthorizedUser user, int questId)
         {
-            QuestEntity questEntity = await _questRepository.FindByIdAsync(questId);
+            Quest quest = await _questRepository.FindByIdAsync(questId);
             
-            var questResponseEntity = questEntity.CreateResponse(user);
+            var questResponseEntity = quest.CreateResponse(user);
             
             await _questResponseRepository.InsertAsync(questResponseEntity);
             await _unitOfWork.CommitAsync();
-            QuestEntity updatedQuest = await _questRepository.FindByIdAsync(questId);
+            Quest updatedQuest = await _questRepository.FindByIdAsync(questId);
             return new QuestInfoDto(updatedQuest);
         }
 
@@ -123,7 +123,7 @@ namespace Iwentys.Features.Quests.Services
         public async Task<QuestInfoDto> RevokeAsync(AuthorizedUser user, int questId)
         {
             var author = await _studentRepository.FindByIdAsync(user.Id);
-            QuestEntity quest = await _questRepository.FindByIdAsync(questId);
+            Quest quest = await _questRepository.FindByIdAsync(questId);
             
             quest.Revoke(author);
             

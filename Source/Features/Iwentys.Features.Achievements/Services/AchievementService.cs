@@ -10,12 +10,12 @@ namespace Iwentys.Features.Achievements.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IGenericRepository<StudentAchievementEntity> _studentAchievementRepository;
+        private readonly IGenericRepository<StudentAchievement> _studentAchievementRepository;
 
         public AchievementService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _studentAchievementRepository = _unitOfWork.GetRepository<StudentAchievementEntity>();
+            _studentAchievementRepository = _unitOfWork.GetRepository<StudentAchievement>();
         }
 
         public List<AchievementDto> GetForStudent(int studentId)

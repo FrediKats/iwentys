@@ -15,7 +15,7 @@ namespace Iwentys.Features.Guilds.Models
 
         public GuildTestTaskState TestTaskState { get; set; }
 
-        public static Expression<Func<GuildTestTaskSolutionEntity, GuildTestTaskInfoResponse>> FromEntity =>
+        public static Expression<Func<GuildTestTaskSolution, GuildTestTaskInfoResponse>> FromEntity =>
             testTask =>
                 new GuildTestTaskInfoResponse
                 {
@@ -28,7 +28,7 @@ namespace Iwentys.Features.Guilds.Models
                 };
 
 
-        public static GuildTestTaskInfoResponse Wrap(GuildTestTaskSolutionEntity testTask)
+        public static GuildTestTaskInfoResponse Wrap(GuildTestTaskSolution testTask)
         {
             return new GuildTestTaskInfoResponse
             {

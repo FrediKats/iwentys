@@ -17,19 +17,19 @@ namespace Iwentys.Features.Newsfeeds.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IGenericRepository<StudentEntity> _studentRepository;
-        private readonly IGenericRepository<SubjectEntity> _subjectRepository;
-        private readonly IGenericRepository<SubjectNewsfeedEntity> _subjectNewsfeedRepository;
-        private readonly IGenericRepository<GuildNewsfeedEntity> _guildNewsfeedRepository;
+        private readonly IGenericRepository<Student> _studentRepository;
+        private readonly IGenericRepository<Subject> _subjectRepository;
+        private readonly IGenericRepository<SubjectNewsfeed> _subjectNewsfeedRepository;
+        private readonly IGenericRepository<GuildNewsfeed> _guildNewsfeedRepository;
 
         public NewsfeedService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
 
-            _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
-            _subjectRepository = _unitOfWork.GetRepository<SubjectEntity>();
-            _subjectNewsfeedRepository = _unitOfWork.GetRepository<SubjectNewsfeedEntity>();
-            _guildNewsfeedRepository = _unitOfWork.GetRepository<GuildNewsfeedEntity>();
+            _studentRepository = _unitOfWork.GetRepository<Student>();
+            _subjectRepository = _unitOfWork.GetRepository<Subject>();
+            _subjectNewsfeedRepository = _unitOfWork.GetRepository<SubjectNewsfeed>();
+            _guildNewsfeedRepository = _unitOfWork.GetRepository<GuildNewsfeed>();
         }
 
         public async Task CreateSubjectNewsfeed(NewsfeedCreateViewModel createViewModel, AuthorizedUser authorizedUser, int subjectId)
@@ -40,7 +40,7 @@ namespace Iwentys.Features.Newsfeeds.Services
             if (author.Role != StudentRole.GroupAdmin && author.Role != StudentRole.Admin)
                 throw InnerLogicException.NotEnoughPermissionFor(author.Id);
 
-            var newsfeedEntity = SubjectNewsfeedEntity.Create(createViewModel, author, subject);
+            var newsfeedEntity = SubjectNewsfeed.Create(createViewModel, author, subject);
             
             await _subjectNewsfeedRepository.InsertAsync(newsfeedEntity);
             await _unitOfWork.CommitAsync();

@@ -18,7 +18,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Models
 
         public IEnumerable<TournamentTeamInfoDto> Teams { get; set; }
 
-        public static Expression<Func<TournamentEntity, TournamentInfoResponse>> FromEntity =>
+        public static Expression<Func<Tournament, TournamentInfoResponse>> FromEntity =>
             tournamentEntity =>
                 new TournamentInfoResponse
                 {

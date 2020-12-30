@@ -24,7 +24,7 @@ namespace Iwentys.Features.Achievements.Models
 
         public DateTime GettingTime { get; set; }
 
-        public static Expression<Func<StudentAchievementEntity, AchievementDto>> FromEntity =>
+        public static Expression<Func<StudentAchievement, AchievementDto>> FromEntity =>
             achievement =>
                 new AchievementDto(
                     achievement.AchievementId,
@@ -34,7 +34,7 @@ namespace Iwentys.Features.Achievements.Models
                     achievement.GettingTime);
 
 
-        public static AchievementDto Wrap(StudentAchievementEntity achievement)
+        public static AchievementDto Wrap(StudentAchievement achievement)
         {
             return new AchievementDto(
                 achievement.AchievementId,
@@ -44,7 +44,7 @@ namespace Iwentys.Features.Achievements.Models
                 achievement.GettingTime);
         }
 
-        public static AchievementDto Wrap(GuildAchievementEntity achievement)
+        public static AchievementDto Wrap(GuildAchievement achievement)
         {
             return new AchievementDto(
                 achievement.AchievementId,

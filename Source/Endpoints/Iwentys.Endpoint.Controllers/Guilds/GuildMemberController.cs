@@ -43,14 +43,14 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         }
 
         [HttpGet("{guildId}/request")]
-        public async Task<ActionResult<GuildMemberEntity[]>> GetGuildRequests(int guildId)
+        public async Task<ActionResult<GuildMember[]>> GetGuildRequests(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(await _guildMemberService.GetGuildRequests(user, guildId));
         }
 
         [HttpGet("{guildId}/blocked")]
-        public async Task<ActionResult<GuildMemberEntity[]>> GetGuildBlocked(int guildId)
+        public async Task<ActionResult<GuildMember[]>> GetGuildBlocked(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(await _guildMemberService.GetGuildBlocked(user, guildId));

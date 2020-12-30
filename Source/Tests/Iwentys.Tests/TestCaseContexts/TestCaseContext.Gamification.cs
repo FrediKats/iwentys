@@ -9,11 +9,11 @@ namespace Iwentys.Tests.TestCaseContexts
     {
         public TestCaseContext WithInterestTag(out InterestTagDto tag)
         {
-            var tagEntity = new InterestTagEntity
+            var tagEntity = new InterestTag
             {
                 Title = RandomProvider.Faker.Lorem.Word(),
             };
-            tagEntity = UnitOfWork.GetRepository<InterestTagEntity>().InsertAsync(tagEntity).Result;
+            tagEntity = UnitOfWork.GetRepository<InterestTag>().InsertAsync(tagEntity).Result;
             UnitOfWork.CommitAsync().Wait();
 
             tag = new InterestTagDto(tagEntity);

@@ -7,7 +7,7 @@ namespace Iwentys.Features.Guilds.Models
 {
     public class ExtendedGuildProfileWithMemberDataDto : GuildProfileDto
     {
-        public ExtendedGuildProfileWithMemberDataDto(GuildEntity guild)
+        public ExtendedGuildProfileWithMemberDataDto(Guild guild)
             : base(guild)
         {
         }

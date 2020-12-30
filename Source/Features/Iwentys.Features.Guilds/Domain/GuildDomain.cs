@@ -18,17 +18,17 @@ namespace Iwentys.Features.Guilds.Domain
 {
     public class GuildDomain
     {
-        public GuildEntity Profile { get; }
+        public Guild Profile { get; }
 
         private readonly GithubIntegrationService _githubIntegrationService;
-        private readonly IGenericRepository<StudentEntity> _studentRepository;
-        private readonly IGenericRepository<GuildMemberEntity> _guildMemberRepositoryNew;
+        private readonly IGenericRepository<Student> _studentRepository;
+        private readonly IGenericRepository<GuildMember> _guildMemberRepositoryNew;
 
         public GuildDomain(
-            GuildEntity profile,
+            Guild profile,
             GithubIntegrationService githubIntegrationService,
-            IGenericRepository<StudentEntity> studentRepository,
-            IGenericRepository<GuildMemberEntity> guildMemberRepositoryNew)
+            IGenericRepository<Student> studentRepository,
+            IGenericRepository<GuildMember> guildMemberRepositoryNew)
         {
             Profile = profile;
             _githubIntegrationService = githubIntegrationService;
@@ -72,8 +72,8 @@ namespace Iwentys.Features.Guilds.Domain
 
         public async Task<UserMembershipState> GetUserMembershipState(Int32 userId)
         {
-            StudentEntity user = await _studentRepository.GetByIdAsync(userId);
-            GuildEntity userGuild = _guildMemberRepositoryNew.ReadForStudent(user.Id);
+            Student user = await _studentRepository.GetByIdAsync(userId);
+            Guild userGuild = _guildMemberRepositoryNew.ReadForStudent(user.Id);
             GuildMemberType? userStatusInGuild = Profile.Members.Find(m => m.Member.Id == user.Id)?.MemberType;
 
             if (userStatusInGuild == GuildMemberType.Blocked)
@@ -124,24 +124,24 @@ namespace Iwentys.Features.Guilds.Domain
         //    return this;
         //}
 
-        public async Task<GuildMemberEntity> EnsureMemberCanRestrictPermissionForOther(AuthorizedUser editor, int memberToKickId)
+        public async Task<GuildMember> EnsureMemberCanRestrictPermissionForOther(AuthorizedUser editor, int memberToKickId)
         {
-            StudentEntity editorStudentAccount = await _studentRepository.FindByIdAsync(editor.Id);
+            Student editorStudentAccount = await _studentRepository.FindByIdAsync(editor.Id);
             editorStudentAccount.EnsureIsGuildEditor(Profile);
 
-            GuildMemberEntity memberToKick = Profile.Members.Find(m => m.MemberId == memberToKickId);
-            GuildMemberEntity editorMember = Profile.Members.Find(m => m.MemberId == editor.Id) ?? throw new EntityNotFoundException(nameof(GuildMemberEntity));
+            GuildMember memberToKick = Profile.Members.Find(m => m.MemberId == memberToKickId);
+            GuildMember editorMember = Profile.Members.Find(m => m.MemberId == editor.Id) ?? throw new EntityNotFoundException(nameof(GuildMember));
 
             //TODO: check
             //if (memberToKick is null || !memberToKick.MemberType.IsMember())
             if (memberToKick is null)
-                throw InnerLogicException.Guild.IsNotGuildMember(editor.Id, Profile.Id);
+                throw InnerLogicException.GuildExceptions.IsNotGuildMember(editor.Id, Profile.Id);
 
             if (memberToKick.MemberType == GuildMemberType.Creator)
-                throw InnerLogicException.Guild.StudentCannotBeBlocked(memberToKickId, Profile.Id);
+                throw InnerLogicException.GuildExceptions.StudentCannotBeBlocked(memberToKickId, Profile.Id);
 
             if (memberToKick.MemberType == GuildMemberType.Mentor && editorMember.MemberType == GuildMemberType.Mentor)
-                throw InnerLogicException.Guild.StudentCannotBeBlocked(memberToKickId, Profile.Id);
+                throw InnerLogicException.GuildExceptions.StudentCannotBeBlocked(memberToKickId, Profile.Id);
 
             return memberToKick;
         }

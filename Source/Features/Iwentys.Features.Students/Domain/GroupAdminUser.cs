@@ -6,7 +6,7 @@ namespace Iwentys.Features.Students.Domain
 {
     public class GroupAdminUser
     {
-        public GroupAdminUser(StudentEntity student)
+        public GroupAdminUser(Student student)
         {
             if (student.GroupId is null)
                 throw new InnerLogicException("Student without group");
@@ -17,12 +17,12 @@ namespace Iwentys.Features.Students.Domain
             Student = student;
         }
 
-        public StudentEntity Student { get; }
+        public Student Student { get; }
     }
 
     public static class GroupAdminUserExtensions
     {
-        public static GroupAdminUser EnsureIsGroupAdmin(this StudentEntity profile)
+        public static GroupAdminUser EnsureIsGroupAdmin(this Student profile)
         {
             return new GroupAdminUser(profile);
         }

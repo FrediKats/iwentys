@@ -10,26 +10,26 @@ namespace Iwentys.Features.Economy.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IGenericRepository<StudentEntity> _studentRepository;
-        private readonly IGenericRepository<BarsPointTransactionEntity> _barsPointTransactionRepository;
+        private readonly IGenericRepository<Student> _studentRepository;
+        private readonly IGenericRepository<BarsPointTransaction> _barsPointTransactionRepository;
 
         public BarsPointTransactionLogService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
 
-            _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
-            _barsPointTransactionRepository = _unitOfWork.GetRepository<BarsPointTransactionEntity>();
+            _studentRepository = _unitOfWork.GetRepository<Student>();
+            _barsPointTransactionRepository = _unitOfWork.GetRepository<BarsPointTransaction>();
         }
 
-        public async Task<BarsPointTransactionEntity> TransferAsync(int fromId, int toId, int pointAmountToTransfer)
+        public async Task<BarsPointTransaction> TransferAsync(int fromId, int toId, int pointAmountToTransfer)
         {
-            StudentEntity sender = await _studentRepository.FindByIdAsync(fromId);
-            StudentEntity receiver = await _studentRepository.FindByIdAsync(toId);
+            Student sender = await _studentRepository.FindByIdAsync(fromId);
+            Student receiver = await _studentRepository.FindByIdAsync(toId);
 
             if (sender.BarsPoints < pointAmountToTransfer)
                 throw InnerLogicException.NotEnoughBarsPoints();
 
-            BarsPointTransactionEntity transaction = BarsPointTransactionEntity.CompletedFor(sender, receiver, pointAmountToTransfer);
+            BarsPointTransaction transaction = BarsPointTransaction.CompletedFor(sender, receiver, pointAmountToTransfer);
                     
             _studentRepository.Update(sender);
             _studentRepository.Update(receiver);
@@ -39,10 +39,10 @@ namespace Iwentys.Features.Economy.Services
             return transaction;
         }
 
-        public async Task<BarsPointTransactionEntity> TransferFromSystem(int toId, int pointAmountToTransfer)
+        public async Task<BarsPointTransaction> TransferFromSystem(int toId, int pointAmountToTransfer)
         {
-            StudentEntity receiver = await _studentRepository.FindByIdAsync(toId);
-            BarsPointTransactionEntity transaction = BarsPointTransactionEntity.ReceiveFromSystem(receiver, pointAmountToTransfer);
+            Student receiver = await _studentRepository.FindByIdAsync(toId);
+            BarsPointTransaction transaction = BarsPointTransaction.ReceiveFromSystem(receiver, pointAmountToTransfer);
 
             await _barsPointTransactionRepository.InsertAsync(transaction);
             _studentRepository.Update(receiver);

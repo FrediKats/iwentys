@@ -7,7 +7,7 @@ namespace Iwentys.Features.Study.Models
 {
     public record GroupProfileResponseDto
     {
-        public GroupProfileResponseDto(StudyGroupEntity group)
+        public GroupProfileResponseDto(StudyGroup group)
             : this(
                 group.Id,
                 group.GroupName,
@@ -16,7 +16,7 @@ namespace Iwentys.Features.Study.Models
         {
         }
 
-        public GroupProfileResponseDto(int id, string groupName, List<StudentInfoDto> students, List<SubjectEntity> subjects) :this()
+        public GroupProfileResponseDto(int id, string groupName, List<StudentInfoDto> students, List<Subject> subjects) :this()
         {
             Id = id;
             GroupName = groupName;
@@ -31,6 +31,6 @@ namespace Iwentys.Features.Study.Models
         public int Id { get; init; }
         public string GroupName { get; init; }
         public List<StudentInfoDto> Students { get; init; }
-        public List<SubjectEntity> Subjects { get; init; }
+        public List<Subject> Subjects { get; init; }
     }
 }

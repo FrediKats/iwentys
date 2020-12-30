@@ -9,7 +9,7 @@ namespace Iwentys.Features.Guilds.Models
         {
         }
 
-        public GuildProfileShortInfoDto(GuildEntity guild) : this()
+        public GuildProfileShortInfoDto(Guild guild) : this()
         {
             Id = guild.Id;
             Title = guild.Title;

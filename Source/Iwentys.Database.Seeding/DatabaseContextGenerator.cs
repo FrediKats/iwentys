@@ -43,41 +43,41 @@ namespace Iwentys.Database.Seeding
 
         public void Seed(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<StudyProgramEntity>().HasData(StudyEntitiesGenerator.StudyPrograms);
-            modelBuilder.Entity<StudyCourseEntity>().HasData(StudyEntitiesGenerator.StudyCourses);
-            modelBuilder.Entity<StudyGroupEntity>().HasData(StudyEntitiesGenerator.StudyGroups);
-            modelBuilder.Entity<TeacherEntity>().HasData(StudyEntitiesGenerator.Teachers);
-            modelBuilder.Entity<SubjectEntity>().HasData(StudyEntitiesGenerator.Subjects);
-            modelBuilder.Entity<GroupSubjectEntity>().HasData(StudyEntitiesGenerator.GroupSubjects);
-            modelBuilder.Entity<SubjectActivityEntity>().HasData(SubjectActivityGenerator.SubjectActivityEntities);
+            modelBuilder.Entity<StudyProgram>().HasData(StudyEntitiesGenerator.StudyPrograms);
+            modelBuilder.Entity<StudyCourse>().HasData(StudyEntitiesGenerator.StudyCourses);
+            modelBuilder.Entity<StudyGroup>().HasData(StudyEntitiesGenerator.StudyGroups);
+            modelBuilder.Entity<Teacher>().HasData(StudyEntitiesGenerator.Teachers);
+            modelBuilder.Entity<Subject>().HasData(StudyEntitiesGenerator.Subjects);
+            modelBuilder.Entity<GroupSubject>().HasData(StudyEntitiesGenerator.GroupSubjects);
+            modelBuilder.Entity<SubjectActivity>().HasData(SubjectActivityGenerator.SubjectActivityEntities);
 
-            modelBuilder.Entity<StudentEntity>().HasData(StudentGenerator.Students);
-            modelBuilder.Entity<GuildEntity>().HasData(GuildGenerator.Guilds);
-            modelBuilder.Entity<GuildMemberEntity>().HasData(GuildGenerator.GuildMembers);
-            modelBuilder.Entity<GuildPinnedProjectEntity>().HasData(GuildGenerator.PinnedProjects);
-            modelBuilder.Entity<TributeEntity>().HasData(GuildGenerator.TributeEntities);
+            modelBuilder.Entity<Student>().HasData(StudentGenerator.Students);
+            modelBuilder.Entity<Guild>().HasData(GuildGenerator.Guilds);
+            modelBuilder.Entity<GuildMember>().HasData(GuildGenerator.GuildMembers);
+            modelBuilder.Entity<GuildPinnedProject>().HasData(GuildGenerator.PinnedProjects);
+            modelBuilder.Entity<Tribute>().HasData(GuildGenerator.TributeEntities);
 
-            modelBuilder.Entity<AchievementEntity>().HasData(AchievementList.Achievements);
-            modelBuilder.Entity<StudentAchievementEntity>().HasData(AchievementGenerator.StudentAchievementModels);
-            modelBuilder.Entity<GuildAchievementEntity>().HasData(AchievementGenerator.GuildAchievementModels);
+            modelBuilder.Entity<Achievement>().HasData(AchievementList.Achievements);
+            modelBuilder.Entity<StudentAchievement>().HasData(AchievementGenerator.StudentAchievementModels);
+            modelBuilder.Entity<GuildAchievement>().HasData(AchievementGenerator.GuildAchievementModels);
 
-            modelBuilder.Entity<AssignmentEntity>().HasData(AssignmentGenerator.Assignments);
-            modelBuilder.Entity<StudentAssignmentEntity>().HasData(AssignmentGenerator.StudentAssignments);
+            modelBuilder.Entity<Assignment>().HasData(AssignmentGenerator.Assignments);
+            modelBuilder.Entity<StudentAssignment>().HasData(AssignmentGenerator.StudentAssignments);
 
-            modelBuilder.Entity<GithubUserEntity>().HasData(GithubDataGenerator.GithubUserEntities);
-            modelBuilder.Entity<GithubProjectEntity>().HasData(GithubDataGenerator.GithubProjectEntities);
+            modelBuilder.Entity<GithubUser>().HasData(GithubDataGenerator.GithubUserEntities);
+            modelBuilder.Entity<GithubProject>().HasData(GithubDataGenerator.GithubProjectEntities);
 
-            modelBuilder.Entity<NewsfeedEntity>().HasData(NewsfeedGenerator.Newsfeeds);
-            modelBuilder.Entity<SubjectNewsfeedEntity>().HasData(NewsfeedGenerator.SubjectNewsfeeds);
-            modelBuilder.Entity<GuildNewsfeedEntity>().HasData(NewsfeedGenerator.GuildNewsfeeds);
+            modelBuilder.Entity<Newsfeed>().HasData(NewsfeedGenerator.Newsfeeds);
+            modelBuilder.Entity<SubjectNewsfeed>().HasData(NewsfeedGenerator.SubjectNewsfeeds);
+            modelBuilder.Entity<GuildNewsfeed>().HasData(NewsfeedGenerator.GuildNewsfeeds);
 
-            modelBuilder.Entity<QuestEntity>().HasData(QuestGenerator.Quest);
-            modelBuilder.Entity<QuestResponseEntity>().HasData(QuestGenerator.QuestResponse);
+            modelBuilder.Entity<Quest>().HasData(QuestGenerator.Quest);
+            modelBuilder.Entity<QuestResponse>().HasData(QuestGenerator.QuestResponse);
 
-            modelBuilder.Entity<TournamentEntity>().HasData(TournamentGenerator.Tournaments);
-            modelBuilder.Entity<CodeMarathonTournamentEntity>().HasData(TournamentGenerator.CodeMarathonTournaments);
-            modelBuilder.Entity<TournamentParticipantTeamEntity>().HasData(TournamentGenerator.TournamentParticipantTeams);
-            modelBuilder.Entity<TournamentTeamMemberEntity>().HasData(TournamentGenerator.TournamentTeamMember);
+            modelBuilder.Entity<Tournament>().HasData(TournamentGenerator.Tournaments);
+            modelBuilder.Entity<CodeMarathonTournament>().HasData(TournamentGenerator.CodeMarathonTournaments);
+            modelBuilder.Entity<TournamentParticipantTeam>().HasData(TournamentGenerator.TournamentParticipantTeams);
+            modelBuilder.Entity<TournamentTeamMember>().HasData(TournamentGenerator.TournamentTeamMember);
         }
     }
 }

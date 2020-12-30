@@ -6,7 +6,7 @@ namespace Iwentys.Features.GithubIntegration.Models
 {
     public record GithubRepositoryInfoDto
     {
-        public GithubRepositoryInfoDto(GithubProjectEntity entity)
+        public GithubRepositoryInfoDto(GithubProject entity)
         : this(
             entity.Id,
             entity.Owner,
@@ -31,7 +31,7 @@ namespace Iwentys.Features.GithubIntegration.Models
         {
         }
 
-        public static Expression<Func<GithubProjectEntity, GithubRepositoryInfoDto>> FromEntity => entity => new GithubRepositoryInfoDto(entity);
+        public static Expression<Func<GithubProject, GithubRepositoryInfoDto>> FromEntity => entity => new GithubRepositoryInfoDto(entity);
 
         public long Id { get; init; }
         public string Owner { get; init; }

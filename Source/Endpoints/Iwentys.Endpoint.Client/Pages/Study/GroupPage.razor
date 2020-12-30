@@ -36,7 +36,7 @@
         <div class="col-md-6 d-flex flex-column">
             <MatH6>Subjects</MatH6>
             <MatNavMenu>
-                @foreach (SubjectEntity subject in _groupProfile.Subjects)
+                @foreach (Subject subject in _groupProfile.Subjects)
                 {
                     <MatNavItem Href=@LinkToSubjectProfile(subject)>
                         @subject.Name

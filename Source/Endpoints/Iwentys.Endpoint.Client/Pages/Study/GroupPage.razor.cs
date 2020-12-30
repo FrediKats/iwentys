@@ -22,7 +22,7 @@ namespace Iwentys.Endpoint.Client.Pages.Study
         }
 
         private string LinkToStudentProfile(StudentInfoDto student) => $"student/profile/{student.Id}";
-        private string LinkToSubjectProfile(SubjectEntity subject) => $"subject/profile/{subject.Id}";
+        private string LinkToSubjectProfile(Subject subject) => $"subject/profile/{subject.Id}";
 
         private StudentInfoDto GroupAdmin => _groupProfile?.Students.FirstOrDefault(s => s.Role == StudentRole.GroupAdmin);
     }

@@ -19,15 +19,15 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
     {
         private AchievementProvider _achievementProvider;
 
-        private readonly TournamentEntity _tournament;
+        private readonly Tournament _tournament;
         private readonly GithubIntegrationService _githubIntegrationService;
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IGenericRepository<TournamentTeamMemberEntity> _tournamentTeamMemberRepository;
+        private readonly IGenericRepository<TournamentTeamMember> _tournamentTeamMemberRepository;
 
 
         public CodeMarathonTournament(
-            TournamentEntity tournament,
+            Tournament tournament,
             GithubIntegrationService githubIntegrationService,
             IUnitOfWork unitOfWork,
             AchievementProvider achievementProvider)
@@ -37,13 +37,13 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
             _unitOfWork = unitOfWork;
             _achievementProvider = achievementProvider;
 
-            _tournamentTeamMemberRepository = _unitOfWork.GetRepository<TournamentTeamMemberEntity>();
+            _tournamentTeamMemberRepository = _unitOfWork.GetRepository<TournamentTeamMember>();
         }
 
         public TournamentLeaderboardDto GetLeaderboard()
         {
-            List<GuildEntity> guilds = _unitOfWork
-                .GetRepository<GuildEntity>()
+            List<Guild> guilds = _unitOfWork
+                .GetRepository<Guild>()
                 .Get()
                 .ToList();
 
@@ -62,7 +62,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
             if (_tournament.IsActive)
                 throw new InnerLogicException("Tournament not finished");
 
-            var winner = await _unitOfWork.GetRepository<TournamentParticipantTeamEntity>()
+            var winner = await _unitOfWork.GetRepository<TournamentParticipantTeam>()
                 .Get()
                 .Where(team => team.TournamentId == _tournament.Id)
                 .OrderByDescending(t => t.Members.Sum(m => m.Points))
@@ -75,9 +75,9 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
             await _achievementProvider.AchieveForGuild(AchievementList.Tournaments.TournamentWinner, winner.GuildId);
         }
 
-        private int CountGuildRating(GuildEntity guild)
+        private int CountGuildRating(Guild guild)
         {
-            var domain = new GuildDomain(guild, _githubIntegrationService, _unitOfWork.GetRepository<StudentEntity>(), _unitOfWork.GetRepository<GuildMemberEntity>());
+            var domain = new GuildDomain(guild, _githubIntegrationService, _unitOfWork.GetRepository<Student>(), _unitOfWork.GetRepository<GuildMember>());
             //TODO: remove result
             List<GuildMemberImpactDto> users = domain.GetMemberImpacts().Result;
             
@@ -91,7 +91,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
             //TODO: skip with warning instead of exception?
             if (!_tournament.IsActive)
                 throw new InnerLogicException("Tournament end already");
-            List<TournamentTeamMemberEntity> members = await _unitOfWork.GetRepository<TournamentParticipantTeamEntity>()
+            List<TournamentTeamMember> members = await _unitOfWork.GetRepository<TournamentParticipantTeam>()
                 .Get()
                 .Where(team => team.TournamentId == _tournament.Id)
                 .SelectMany(team => team.Members)
@@ -99,7 +99,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
                 .ToListAsync();
 
             List<int> list = new List<int>();
-            foreach (TournamentTeamMemberEntity member in members)
+            foreach (TournamentTeamMember member in members)
             {
                 var contributionFullInfo = await _githubIntegrationService.FindUserContributionOrEmpty(member.Member);
                 member.Points = contributionFullInfo.GetActivityForPeriod(_tournament.StartTime, _tournament.EndTime);

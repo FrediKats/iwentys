@@ -8,7 +8,7 @@ namespace Iwentys.Features.Assignments.Models
 {
     public record AssignmentInfoDto
     {
-        public AssignmentInfoDto(AssignmentEntity assignment)
+        public AssignmentInfoDto(Assignment assignment)
             : this(
                 assignment.Id,
                 assignment.Title,
@@ -21,7 +21,7 @@ namespace Iwentys.Features.Assignments.Models
         {
         }
 
-        public AssignmentInfoDto(int id, string title, string description, DateTime creationTime, DateTime? deadline, StudentInfoDto creator, SubjectEntity subject, bool isCompeted)
+        public AssignmentInfoDto(int id, string title, string description, DateTime creationTime, DateTime? deadline, StudentInfoDto creator, Subject subject, bool isCompeted)
         {
             Id = id;
             Title = title;
@@ -33,7 +33,7 @@ namespace Iwentys.Features.Assignments.Models
             IsCompeted = isCompeted;
         }
 
-        public AssignmentInfoDto(StudentAssignmentEntity studentAssignment) : this(studentAssignment.Assignment)
+        public AssignmentInfoDto(StudentAssignment studentAssignment) : this(studentAssignment.Assignment)
         {
         }
 
@@ -41,7 +41,7 @@ namespace Iwentys.Features.Assignments.Models
         {
         }
 
-        public static Expression<Func<StudentAssignmentEntity, AssignmentInfoDto>> FromStudentEntity => entity => new AssignmentInfoDto(entity);
+        public static Expression<Func<StudentAssignment, AssignmentInfoDto>> FromStudentEntity => entity => new AssignmentInfoDto(entity);
 
         public int Id { get; init; }
         public string Title { get; init; }
@@ -49,7 +49,7 @@ namespace Iwentys.Features.Assignments.Models
         public DateTime CreationTime { get; init; }
         public DateTime? Deadline { get; init; }
         public StudentInfoDto Creator { get; init; }
-        public SubjectEntity Subject { get; init; }
+        public Subject Subject { get; init; }
         public bool IsCompeted { get; init; }
     }
 }

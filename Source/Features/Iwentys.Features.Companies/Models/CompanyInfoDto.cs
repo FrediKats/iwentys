@@ -9,13 +9,13 @@ namespace Iwentys.Features.Companies.Models
 {
     public record CompanyInfoDto
     {
-        public CompanyInfoDto(CompanyEntity companyEntity)
+        public CompanyInfoDto(Company company)
             : this(
-                companyEntity.Id,
-                companyEntity.Name,
-                companyEntity.Latitude,
-                companyEntity.Longitude,
-                companyEntity.Workers?.Where(w => w.Type == CompanyWorkerType.Accepted).SelectToList(w => new StudentInfoDto(w.Worker)))
+                company.Id,
+                company.Name,
+                company.Latitude,
+                company.Longitude,
+                company.Workers?.Where(w => w.Type == CompanyWorkerType.Accepted).SelectToList(w => new StudentInfoDto(w.Worker)))
         {
         }
 

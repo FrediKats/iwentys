@@ -6,6 +6,6 @@ namespace Iwentys.Features.Study.Repositories
 {
     public interface ISubjectActivityRepository
     {
-        IReadOnlyCollection<SubjectActivityEntity> GetStudentActivities(StudySearchParametersDto searchParametersDto);
+        IReadOnlyCollection<SubjectActivity> GetStudentActivities(StudySearchParametersDto searchParametersDto);
     }
 }

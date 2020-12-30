@@ -12,13 +12,13 @@ namespace Iwentys.Database.Seeding.EntityGenerators
     {
         private const int QuestCount = 10;
         
-        public List<QuestEntity> Quest { get; }
-        public List<QuestResponseEntity> QuestResponse { get; } = new List<QuestResponseEntity>();
+        public List<Quest> Quest { get; }
+        public List<QuestResponse> QuestResponse { get; } = new List<QuestResponse>();
 
-        public QuestGenerator(List<StudentEntity> students)
+        public QuestGenerator(List<Student> students)
         {
-            var faker = new Faker<QuestEntity>();
-            StudentEntity author = students.First();
+            var faker = new Faker<Quest>();
+            Student author = students.First();
 
             faker
                 .RuleFor(q => q.Id, f => ++f.IndexVariable)
@@ -32,11 +32,11 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 
             Quest = faker.Generate(QuestCount);
 
-            foreach (QuestEntity quest in Quest)
+            foreach (Quest quest in Quest)
             {
-                foreach (StudentEntity student in students.Take(5))
+                foreach (Student student in students.Take(5))
                 {
-                    QuestResponse.Add(new QuestResponseEntity()
+                    QuestResponse.Add(new QuestResponse()
                     {
                         QuestId = quest.Id,
                         StudentId = student.Id,

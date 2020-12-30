@@ -74,7 +74,7 @@ namespace Iwentys.Tests.TestCaseContexts
         {
             int id = RandomProvider.Random.Next(999999);
 
-            var userInfo = new StudentEntity
+            var userInfo = new Student
             {
                 Id = id,
                 Role = studentRole,
@@ -82,7 +82,7 @@ namespace Iwentys.Tests.TestCaseContexts
                 BarsPoints = 1000
             };
 
-            UnitOfWork.GetRepository<StudentEntity>().InsertAsync(userInfo).Wait();
+            UnitOfWork.GetRepository<Student>().InsertAsync(userInfo).Wait();
             UnitOfWork.CommitAsync().Wait();
             user = AuthorizedUser.DebugAuth(userInfo.Id);
             return this;
@@ -96,7 +96,7 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public TestCaseContext WithCompany(out CompanyInfoDto companyInfo)
         {
-            var company = new CompanyEntity();
+            var company = new Company();
             company = CompanyService.Create(company).Result;
             companyInfo = new CompanyInfoDto(company);
             return this;
@@ -114,9 +114,9 @@ namespace Iwentys.Tests.TestCaseContexts
             return this;
         }
 
-        public TestCaseContext WithStudentProject(AuthorizedUser userInfo, out GithubProjectEntity githubProjectEntity)
+        public TestCaseContext WithStudentProject(AuthorizedUser userInfo, out GithubProject githubProject)
         {
-            var project = new GithubProjectEntity
+            var project = new GithubProject
             {
                 //TODO: hack for work with dummy github
                 Id = 171717,
@@ -125,8 +125,8 @@ namespace Iwentys.Tests.TestCaseContexts
                 Name = "Test repo"
             };
 
-            UnitOfWork.GetRepository<GithubProjectEntity>().InsertAsync(project).Wait();
-            githubProjectEntity = project;
+            UnitOfWork.GetRepository<GithubProject>().InsertAsync(project).Wait();
+            githubProject = project;
             UnitOfWork.CommitAsync().Wait();
             
             return this;
@@ -150,9 +150,9 @@ namespace Iwentys.Tests.TestCaseContexts
             public const string GithubUsername = "GhUser";
         }
 
-        public TestCaseContext WithGithubRepository(AuthorizedUser userInfo, out GithubUserEntity userEntity)
+        public TestCaseContext WithGithubRepository(AuthorizedUser userInfo, out GithubUser user)
         {
-            userEntity = GithubIntegrationService.CreateOrUpdate(userInfo.Id).Result;
+            user = GithubIntegrationService.CreateOrUpdate(userInfo.Id).Result;
             return this;
         }
     }

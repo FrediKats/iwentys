@@ -35,22 +35,22 @@ namespace Iwentys.Database.Context
 
         //#endregion
 
-        public DbSet<StudentEntity> Students { get; set; }
-        public DbSet<GithubProjectEntity> StudentProjects { get; set; }
-        public DbSet<GithubUserEntity> GithubUsersData { get; set; }
-        public DbSet<BarsPointTransactionEntity> BarsPointTransactionLogs { get; set; }
-        public DbSet<CompanyEntity> Companies { get; set; }
-        public DbSet<CompanyWorkerEntity> CompanyWorkers { get; set; }
+        public DbSet<Student> Students { get; set; }
+        public DbSet<GithubProject> StudentProjects { get; set; }
+        public DbSet<GithubUser> GithubUsersData { get; set; }
+        public DbSet<BarsPointTransaction> BarsPointTransactionLogs { get; set; }
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<CompanyWorker> CompanyWorkers { get; set; }
 
-        public DbSet<QuestEntity> Quests { get; set; }
-        public DbSet<QuestResponseEntity> QuestResponses { get; set; }
+        public DbSet<Quest> Quests { get; set; }
+        public DbSet<QuestResponse> QuestResponses { get; set; }
 
-        public DbSet<AssignmentEntity> Assignments { get; set; }
-        public DbSet<StudentAssignmentEntity> StudentAssignments { get; set; }
+        public DbSet<Assignment> Assignments { get; set; }
+        public DbSet<StudentAssignment> StudentAssignments { get; set; }
 
-        public DbSet<NewsfeedEntity> Newsfeeds { get; set; }
-        public DbSet<SubjectNewsfeedEntity> SubjectNewsfeeds { get; set; }
-        public DbSet<GuildNewsfeedEntity> GuildNewsfeeds { get; set; }
+        public DbSet<Newsfeed> Newsfeeds { get; set; }
+        public DbSet<SubjectNewsfeed> SubjectNewsfeeds { get; set; }
+        public DbSet<GuildNewsfeed> GuildNewsfeeds { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -64,27 +64,27 @@ namespace Iwentys.Database.Context
 
         private static void SetCompositeKeys(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<GuildMemberEntity>().HasKey(g => new {g.GuildId, g.MemberId});
-            modelBuilder.Entity<CompanyWorkerEntity>().HasKey(g => new {g.CompanyId, g.WorkerId});
-            modelBuilder.Entity<SubjectActivityEntity>().HasKey(s => new {SubjectForGroupId = s.GroupSubjectEntityId, s.StudentId});
-            modelBuilder.Entity<StudentAchievementEntity>().HasKey(a => new {a.AchievementId, a.StudentId});
-            modelBuilder.Entity<GuildAchievementEntity>().HasKey(a => new {a.AchievementId, a.GuildId});
-            modelBuilder.Entity<QuestResponseEntity>().HasKey(a => new {a.QuestId, a.StudentId});
-            modelBuilder.Entity<GuildTestTaskSolutionEntity>().HasKey(a => new {a.GuildId, a.StudentId});
-            modelBuilder.Entity<StudentAssignmentEntity>().HasKey(a => new {a.AssignmentId, a.StudentId});
-            modelBuilder.Entity<GuildRecruitmentMemberEntity>().HasKey(g => new {g.GuildRecruitmentId, g.MemberId});
-            modelBuilder.Entity<SubjectNewsfeedEntity>().HasKey(g => new {g.SubjectId, g.NewsfeedId});
-            modelBuilder.Entity<GuildNewsfeedEntity>().HasKey(g => new {g.GuildId, g.NewsfeedId});
-            modelBuilder.Entity<StudentInterestTagEntity>().HasKey(g => new {g.StudentId, g.InterestTagId});
-            modelBuilder.Entity<TournamentTeamMemberEntity>().HasKey(g => new {g.TeamId, g.MemberId});
+            modelBuilder.Entity<GuildMember>().HasKey(g => new {g.GuildId, g.MemberId});
+            modelBuilder.Entity<CompanyWorker>().HasKey(g => new {g.CompanyId, g.WorkerId});
+            modelBuilder.Entity<SubjectActivity>().HasKey(s => new {SubjectForGroupId = s.GroupSubjectEntityId, s.StudentId});
+            modelBuilder.Entity<StudentAchievement>().HasKey(a => new {a.AchievementId, a.StudentId});
+            modelBuilder.Entity<GuildAchievement>().HasKey(a => new {a.AchievementId, a.GuildId});
+            modelBuilder.Entity<QuestResponse>().HasKey(a => new {a.QuestId, a.StudentId});
+            modelBuilder.Entity<GuildTestTaskSolution>().HasKey(a => new {a.GuildId, a.StudentId});
+            modelBuilder.Entity<StudentAssignment>().HasKey(a => new {a.AssignmentId, a.StudentId});
+            modelBuilder.Entity<GuildRecruitmentMember>().HasKey(g => new {g.GuildRecruitmentId, g.MemberId});
+            modelBuilder.Entity<SubjectNewsfeed>().HasKey(g => new {g.SubjectId, g.NewsfeedId});
+            modelBuilder.Entity<GuildNewsfeed>().HasKey(g => new {g.GuildId, g.NewsfeedId});
+            modelBuilder.Entity<StudentInterestTag>().HasKey(g => new {g.StudentId, g.InterestTagId});
+            modelBuilder.Entity<TournamentTeamMember>().HasKey(g => new {g.TeamId, g.MemberId});
         }
 
         private static void SetUniqKey(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<GuildEntity>().HasIndex(g => g.Title).IsUnique();
+            modelBuilder.Entity<Guild>().HasIndex(g => g.Title).IsUnique();
 
-            modelBuilder.Entity<GuildMemberEntity>().HasIndex(g => g.MemberId).IsUnique();
-            modelBuilder.Entity<CompanyWorkerEntity>().HasIndex(g => g.WorkerId).IsUnique();
+            modelBuilder.Entity<GuildMember>().HasIndex(g => g.MemberId).IsUnique();
+            modelBuilder.Entity<CompanyWorker>().HasIndex(g => g.WorkerId).IsUnique();
         }
 
         private static void Seeding(ModelBuilder modelBuilder)
@@ -104,41 +104,41 @@ namespace Iwentys.Database.Context
         }
 
         #region Gamification
-        public DbSet<InterestTagEntity> InterestTags { get; set; }
-        public DbSet<StudentInterestTagEntity> UserInterestTags { get; set; }
+        public DbSet<InterestTag> InterestTags { get; set; }
+        public DbSet<StudentInterestTag> UserInterestTags { get; set; }
         #endregion
 
         #region Guilds
-        public DbSet<GuildEntity> Guilds { get; set; }
-        public DbSet<GuildMemberEntity> GuildMembers { get; set; }
-        public DbSet<GuildPinnedProjectEntity> GuildPinnedProjects { get; set; }
-        public DbSet<TournamentEntity> Tournaments { get; set; }
-        public DbSet<TournamentParticipantTeamEntity> TournamentParticipantTeams { get; set; }
-        public DbSet<TournamentTeamMemberEntity> TournamentTeamMembers { get; set; }
-        public DbSet<CodeMarathonTournamentEntity> CodeMarathonTournaments { get; set; }
-        public DbSet<TributeEntity> Tributes { get; set; }
-        public DbSet<GuildTestTaskSolutionEntity> GuildTestTaskSolvingInfos { get; set; }
-        public DbSet<GuildRecruitmentEntity> GuildRecruitment { get; set; }
-        public DbSet<GuildRecruitmentMemberEntity> GuildRecruitmentMembers { get; set; }
+        public DbSet<Guild> Guilds { get; set; }
+        public DbSet<GuildMember> GuildMembers { get; set; }
+        public DbSet<GuildPinnedProject> GuildPinnedProjects { get; set; }
+        public DbSet<Tournament> Tournaments { get; set; }
+        public DbSet<TournamentParticipantTeam> TournamentParticipantTeams { get; set; }
+        public DbSet<TournamentTeamMember> TournamentTeamMembers { get; set; }
+        public DbSet<CodeMarathonTournament> CodeMarathonTournaments { get; set; }
+        public DbSet<Tribute> Tributes { get; set; }
+        public DbSet<GuildTestTaskSolution> GuildTestTaskSolvingInfos { get; set; }
+        public DbSet<GuildRecruitment> GuildRecruitment { get; set; }
+        public DbSet<GuildRecruitmentMember> GuildRecruitmentMembers { get; set; }
         #endregion
 
         #region Study
 
-        public DbSet<StudyGroupEntity> StudyGroups { get; set; }
-        public DbSet<StudyProgramEntity> StudyPrograms { get; set; }
-        public DbSet<SubjectEntity> Subjects { get; set; }
-        public DbSet<SubjectActivityEntity> SubjectActivities { get; set; }
-        public DbSet<GroupSubjectEntity> GroupSubjects { get; set; }
-        public DbSet<TeacherEntity> Teachers { get; set; }
-        public DbSet<StudyCourseEntity> StudyCourses { get; set; }
+        public DbSet<StudyGroup> StudyGroups { get; set; }
+        public DbSet<StudyProgram> StudyPrograms { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
+        public DbSet<SubjectActivity> SubjectActivities { get; set; }
+        public DbSet<GroupSubject> GroupSubjects { get; set; }
+        public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<StudyCourse> StudyCourses { get; set; }
 
         #endregion
 
         #region Achievement
 
-        public DbSet<AchievementEntity> Achievements { get; set; }
-        public DbSet<StudentAchievementEntity> StudentAchievements { get; set; }
-        public DbSet<GuildAchievementEntity> GuildAchievements { get; set; }
+        public DbSet<Achievement> Achievements { get; set; }
+        public DbSet<StudentAchievement> StudentAchievements { get; set; }
+        public DbSet<GuildAchievement> GuildAchievements { get; set; }
 
         #endregion
     }

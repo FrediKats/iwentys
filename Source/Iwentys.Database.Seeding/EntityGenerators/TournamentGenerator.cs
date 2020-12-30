@@ -14,12 +14,12 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 {
     public class TournamentGenerator
     {
-        public List<TournamentEntity> Tournaments { get; set; }
-        public List<CodeMarathonTournamentEntity> CodeMarathonTournaments { get; set; }
-        public List<TournamentParticipantTeamEntity> TournamentParticipantTeams { get; set; }
-        public List<TournamentTeamMemberEntity> TournamentTeamMember { get; set; }
+        public List<Tournament> Tournaments { get; set; }
+        public List<CodeMarathonTournament> CodeMarathonTournaments { get; set; }
+        public List<TournamentParticipantTeam> TournamentParticipantTeams { get; set; }
+        public List<TournamentTeamMember> TournamentTeamMember { get; set; }
 
-        public TournamentGenerator(List<StudentEntity> students, List<GuildEntity> guilds, List<GuildMemberEntity> members)
+        public TournamentGenerator(List<Student> students, List<Guild> guilds, List<GuildMember> members)
         {
             var faker = new Faker();
             var admin = students.First(s => s.Role == StudentRole.Admin).EnsureIsAdmin();
@@ -31,7 +31,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 EndTime = DateTime.UtcNow.AddHours(1),
                 Name = "Test tournament"
             };
-            var tournamentEntity = new TournamentEntity()
+            var tournamentEntity = new Tournament()
             {
                 AuthorId = admin.Student.Id,
                 Id = 1,
@@ -41,22 +41,22 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 Description = faker.Lorem.Paragraph(),
                 Type = TournamentType.CodeMarathon
             };
-            var marathonTournamentEntity = new CodeMarathonTournamentEntity()
+            var marathonTournamentEntity = new CodeMarathonTournament()
             {
                 Id = 1,
                 ActivityType = CodeMarathonAllowedActivityType.All,
                 MembersType = CodeMarathonAllowedMembersType.All,
             };
 
-            var codeMarathonTournamentEntity = CodeMarathonTournamentEntity.Create(admin, createCodeMarathonTournamentArguments);
-            CodeMarathonTournaments = new List<CodeMarathonTournamentEntity> {marathonTournamentEntity};
-            Tournaments = new List<TournamentEntity> {tournamentEntity};
-            TournamentParticipantTeams = new List<TournamentParticipantTeamEntity>();
-            TournamentTeamMember = new List<TournamentTeamMemberEntity>();
+            var codeMarathonTournamentEntity = CodeMarathonTournament.Create(admin, createCodeMarathonTournamentArguments);
+            CodeMarathonTournaments = new List<CodeMarathonTournament> {marathonTournamentEntity};
+            Tournaments = new List<Tournament> {tournamentEntity};
+            TournamentParticipantTeams = new List<TournamentParticipantTeam>();
+            TournamentTeamMember = new List<TournamentTeamMember>();
 
             foreach (var guild in guilds)
             {
-                var team = new TournamentParticipantTeamEntity
+                var team = new TournamentParticipantTeam
                 {
                     Id = faker.IndexVariable++ + 1,
                     GuildId = guild.Id,
@@ -68,7 +68,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 
                 TournamentTeamMember.AddRange(members
                     .Where(m => m.GuildId == guild.Id)
-                    .Select(m => new TournamentTeamMemberEntity { MemberId = m.MemberId, TeamId = team.Id }));
+                    .Select(m => new TournamentTeamMember { MemberId = m.MemberId, TeamId = team.Id }));
             }
         }
     }

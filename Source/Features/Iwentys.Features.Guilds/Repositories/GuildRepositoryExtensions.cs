@@ -8,19 +8,19 @@ namespace Iwentys.Features.Guilds.Repositories
 {
     public static class GuildRepositoryExtensions
     {
-        public static GuildEntity ReadForStudent(this IGenericRepository<GuildMemberEntity> repository, int studentId)
+        public static Guild ReadForStudent(this IGenericRepository<GuildMember> repository, int studentId)
         {
             return repository
                 .Get()
                 .Where(gm => gm.MemberId == studentId)
-                .Where(GuildMemberEntity.IsMember())
+                .Where(GuildMember.IsMember())
                 .Include(gm => gm.Guild.Members)
                 .Include(gm => gm.Guild.PinnedProjects)
                 .Select(gm => gm.Guild)
                 .SingleOrDefault();
         }
 
-        public static bool IsStudentHaveRequest(this IGenericRepository<GuildMemberEntity> repository, int studentId)
+        public static bool IsStudentHaveRequest(this IGenericRepository<GuildMember> repository, int studentId)
         {
             return repository
                 .Get()

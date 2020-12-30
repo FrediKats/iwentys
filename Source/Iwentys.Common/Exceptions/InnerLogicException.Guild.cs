@@ -5,7 +5,7 @@ namespace Iwentys.Common.Exceptions
 {
     public partial class InnerLogicException
     {
-        public static class Guild
+        public static class GuildExceptions
         {
             public static InnerLogicException ActiveTestExisted(int userId, int guildId)
             {

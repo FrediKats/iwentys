@@ -45,7 +45,7 @@ namespace Iwentys.Endpoint.Controllers.Study
         [HttpGet("activity/{studentId}")]
         public async Task<ActionResult<StudentActivityInfoDto>> GetStudentActivity(int studentId)
         {
-            List<SubjectActivityEntity> activity = await _subjectActivityService.GetStudentActivity(studentId);
+            List<SubjectActivity> activity = await _subjectActivityService.GetStudentActivity(studentId);
             return new StudentActivityInfoDto(activity);
         }
     }

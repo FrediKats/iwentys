@@ -7,7 +7,7 @@ namespace Iwentys.Features.Students.Models
 {
     public record StudentInfoDto : IResultFormat
     {
-        public StudentInfoDto(StudentEntity student) : this(
+        public StudentInfoDto(Student student) : this(
             student.Id,
             student.FirstName,
             student.MiddleName,

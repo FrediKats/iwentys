@@ -6,11 +6,11 @@ namespace Iwentys.Features.Guilds.Repositories
 {
     public static class GuildMemberRepositoryExtensions
     {
-        public static GuildMemberEntity GetStudentMembership(this IGenericRepository<GuildMemberEntity> repository, int studentId)
+        public static GuildMember GetStudentMembership(this IGenericRepository<GuildMember> repository, int studentId)
         {
             return repository
                 .Get()
-                .Where(GuildMemberEntity.IsMember())
+                .Where(GuildMember.IsMember())
                 .SingleOrDefault(gm => gm.MemberId == studentId);
         }
     }
