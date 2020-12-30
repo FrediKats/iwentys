@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.Students.Domain;
@@ -9,6 +10,9 @@ namespace Iwentys.Features.Assignments.Entities
 {
     public class StudentAssignment
     {
+        public bool IsCompleted { get; private set; }
+        public DateTime LastUpdateTime { get; private set; }
+
         public int AssignmentId { get; init; }
         public virtual Assignment Assignment { get; init; }
 
@@ -21,7 +25,8 @@ namespace Iwentys.Features.Assignments.Entities
             var studentAssignmentEntity = new StudentAssignment
             {
                 StudentId = creator.Id,
-                Assignment = assignmentEntity
+                Assignment = assignmentEntity,
+                LastUpdateTime = DateTime.UtcNow
             };
 
             return studentAssignmentEntity;
@@ -34,10 +39,17 @@ namespace Iwentys.Features.Assignments.Entities
             List<StudentAssignment> studentAssignmentEntities = studyGroup.Students.Select(s => new StudentAssignment
             {
                 StudentId = s.Id,
-                Assignment = assignmentEntity
+                Assignment = assignmentEntity,
+                LastUpdateTime = DateTime.UtcNow
             }).ToList();
 
             return studentAssignmentEntities;
+        }
+
+        public void UpdateCompleteState(bool isCompleted)
+        {
+            IsCompleted = isCompleted;
+            LastUpdateTime = DateTime.UtcNow;
         }
     }
 }

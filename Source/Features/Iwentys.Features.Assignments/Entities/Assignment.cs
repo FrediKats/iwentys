@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.Students.Entities;
@@ -12,9 +14,8 @@ namespace Iwentys.Features.Assignments.Entities
         public int Id { get; set; }
         public string Title { get; init; }
         public string Description { get; init; }
-        public DateTime CreationTime { get; init; }
+        public DateTime CreationTimeUtc { get; init; }
         public DateTime? Deadline { get; init; }
-        public bool IsCompleted { get; private set; }
 
         public int CreatorId { get; init; }
         public virtual Student Creator { get; init; }
@@ -22,39 +23,43 @@ namespace Iwentys.Features.Assignments.Entities
         public int? SubjectId { get; init; }
         public virtual Subject Subject { get; init; }
 
+        public virtual ICollection<StudentAssignment> StudentAssignments { get; init; }
+
         public static Assignment Create(Student creator, AssignmentCreateRequestDto assignmentCreateRequestDto)
         {
             return new Assignment
             {
                 Title = assignmentCreateRequestDto.Title,
                 Description = assignmentCreateRequestDto.Description,
-                CreationTime = DateTime.UtcNow,
+                CreationTimeUtc = DateTime.UtcNow,
                 Deadline = assignmentCreateRequestDto.Deadline,
                 CreatorId = creator.Id,
                 SubjectId = assignmentCreateRequestDto.SubjectId
             };
         }
 
-        public void MarkCompleted(Student student)
+        public StudentAssignment MarkCompleted(Student student)
         {
-            if (student.Id != CreatorId)
-                throw InnerLogicException.AssignmentExceptions.IsNotAssignmentCreator(Id, student.Id);
-                    
-            if (IsCompleted)
+            StudentAssignment studentAssignment = StudentAssignments.First(sa => sa.StudentId == student.Id);
+
+            if (studentAssignment.IsCompleted)
                 throw InnerLogicException.AssignmentExceptions.IsAlreadyCompleted(Id);
 
-            IsCompleted = true;
+            studentAssignment.UpdateCompleteState(true);
+            
+            return studentAssignment;
         }
 
-        public void MarkUncompleted(Student student)
+        public StudentAssignment MarkUncompleted(Student student)
         {
-            if (student.Id != CreatorId)
-                throw InnerLogicException.AssignmentExceptions.IsNotAssignmentCreator(Id, student.Id);
+            StudentAssignment studentAssignment = StudentAssignments.First(sa => sa.StudentId == student.Id);
 
-            if (!IsCompleted)
-                throw InnerLogicException.AssignmentExceptions.IsNotCompleted(Id);
+            if (!studentAssignment.IsCompleted)
+                throw InnerLogicException.AssignmentExceptions.IsAlreadyCompleted(Id);
 
-            IsCompleted = false;
+            studentAssignment.UpdateCompleteState(false);
+
+            return studentAssignment;
         }
     }
 }

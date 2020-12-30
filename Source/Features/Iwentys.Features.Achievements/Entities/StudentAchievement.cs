@@ -4,7 +4,7 @@ namespace Iwentys.Features.Achievements.Entities
 {
     public class StudentAchievement
     {
-        public virtual DateTime GettingTime { get; init; }
+        public DateTime CreationTimeUtc { get; init; }
 
         public int StudentId { get; init; }
         //public StudentEntity Student { get; set; }
@@ -14,7 +14,7 @@ namespace Iwentys.Features.Achievements.Entities
 
         public static StudentAchievement Create(int studentId, int achievementId)
         {
-            return new StudentAchievement {StudentId = studentId, AchievementId = achievementId, GettingTime = DateTime.UtcNow};
+            return new StudentAchievement {StudentId = studentId, AchievementId = achievementId, CreationTimeUtc = DateTime.UtcNow};
         }
     }
 }

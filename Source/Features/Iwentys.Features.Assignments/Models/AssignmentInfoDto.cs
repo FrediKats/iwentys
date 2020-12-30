@@ -8,19 +8,6 @@ namespace Iwentys.Features.Assignments.Models
 {
     public record AssignmentInfoDto
     {
-        public AssignmentInfoDto(Assignment assignment)
-            : this(
-                assignment.Id,
-                assignment.Title,
-                assignment.Description,
-                assignment.CreationTime,
-                assignment.Deadline,
-                new StudentInfoDto(assignment.Creator),
-                assignment.Subject,
-                assignment.IsCompleted)
-        {
-        }
-
         public AssignmentInfoDto(int id, string title, string description, DateTime creationTime, DateTime? deadline, StudentInfoDto creator, Subject subject, bool isCompeted)
         {
             Id = id;
@@ -33,7 +20,16 @@ namespace Iwentys.Features.Assignments.Models
             IsCompeted = isCompeted;
         }
 
-        public AssignmentInfoDto(StudentAssignment studentAssignment) : this(studentAssignment.Assignment)
+        public AssignmentInfoDto(StudentAssignment studentAssignment)
+            : this(
+                studentAssignment.Assignment.Id,
+                studentAssignment.Assignment.Title,
+                studentAssignment.Assignment.Description,
+                studentAssignment.Assignment.CreationTimeUtc,
+                studentAssignment.Assignment.Deadline,
+                new StudentInfoDto(studentAssignment.Assignment.Creator),
+                studentAssignment.Assignment.Subject,
+                studentAssignment.IsCompleted)
         {
         }
 

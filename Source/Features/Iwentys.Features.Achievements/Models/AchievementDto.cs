@@ -31,7 +31,7 @@ namespace Iwentys.Features.Achievements.Models
                     achievement.Achievement.Url,
                     achievement.Achievement.Title,
                     achievement.Achievement.Description,
-                    achievement.GettingTime);
+                    achievement.CreationTimeUtc);
 
 
         public static AchievementDto Wrap(StudentAchievement achievement)
@@ -41,7 +41,7 @@ namespace Iwentys.Features.Achievements.Models
                 achievement.Achievement.Url,
                 achievement.Achievement.Title,
                 achievement.Achievement.Description,
-                achievement.GettingTime);
+                achievement.CreationTimeUtc);
         }
 
         public static AchievementDto Wrap(GuildAchievement achievement)
@@ -51,7 +51,7 @@ namespace Iwentys.Features.Achievements.Models
                 achievement.Achievement.Url,
                 achievement.Achievement.Title,
                 achievement.Achievement.Description,
-                achievement.GettingTime);
+                achievement.CreationTimeUtc);
         }
     }
 }

@@ -75,10 +75,10 @@ namespace Iwentys.Features.Assignments.Services
         {
             var student = await _studentRepository.FindByIdAsync(user.Id);
             var assignment = await _assignmentRepository.FindByIdAsync(assignmentId);
-            
-            assignment.MarkCompleted(student);
-            
-            _assignmentRepository.Update(assignment);
+
+            var studentAssignment = assignment.MarkCompleted(student);
+
+            _studentAssignmentRepository.Update(studentAssignment);
             await _unitOfWork.CommitAsync();
         }
 
@@ -87,9 +87,9 @@ namespace Iwentys.Features.Assignments.Services
             var student = await _studentRepository.FindByIdAsync(user.Id);
             var assignment = await _assignmentRepository.FindByIdAsync(assignmentId);
 
-            assignment.MarkUncompleted(student);
+            var studentAssignment = assignment.MarkUncompleted(student);
 
-            _assignmentRepository.Update(assignment);
+            _studentAssignmentRepository.Update(studentAssignment);
             await _unitOfWork.CommitAsync();
         }
 
