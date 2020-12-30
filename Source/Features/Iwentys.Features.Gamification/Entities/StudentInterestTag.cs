@@ -4,10 +4,10 @@ namespace Iwentys.Features.Gamification.Entities
 {
     public class StudentInterestTag
     {
-        public int InterestTagId { get; set; }
-        public virtual InterestTag InterestTag { get; set; }
+        public int InterestTagId { get; init; }
+        public virtual InterestTag InterestTag { get; init; }
 
-        public int StudentId { get; set; }
-        public virtual Student Student { get; set; }
+        public int StudentId { get; init; }
+        public virtual Student Student { get; init; }
     }
 }

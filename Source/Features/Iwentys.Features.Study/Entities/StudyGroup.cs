@@ -6,12 +6,12 @@ namespace Iwentys.Features.Study.Entities
     public class StudyGroup
     {
         public int Id { get; set; }
-        public string GroupName { get; set; }
+        public string GroupName { get; init; }
 
-        public int StudyCourseId { get; set; }
-        public virtual StudyCourse StudyCourse { get; set; }
+        public int StudyCourseId { get; init; }
+        public virtual StudyCourse StudyCourse { get; init; }
 
-        public virtual List<Student> Students { get; set; }
-        public virtual List<GroupSubject> GroupSubjects { get; set; }
+        public virtual List<Student> Students { get; init; }
+        public virtual List<GroupSubject> GroupSubjects { get; init; }
     }
 }

@@ -90,16 +90,11 @@ namespace Iwentys.Features.Guilds.Tributes.Services
             await _guildTributeRepository.InsertAsync(tribute);
             await _unitOfWork.CommitAsync();
 
-            //TODO: remove this hack, check issue https://github.com/kysect/iwentys/issues/138
-            //return await _guildTributeRepository
-            //    .Get()
-            //    .Where(t => t.ProjectId == tribute.ProjectId)
-            //    .Select(TributeInfoResponse.FromEntity)
-            //    .SingleAsync();
-
-            tribute.Project = project;
-            return TributeInfoResponse.Wrap(tribute);
-            
+            return await _guildTributeRepository
+                .Get()
+                .Where(t => t.ProjectId == tribute.ProjectId)
+                .Select(TributeInfoResponse.FromEntity)
+                .SingleAsync();
         }
 
         public async Task<GithubProject> GetOrCreateAsync(GithubRepositoryInfoDto project, Student creator)

@@ -6,13 +6,13 @@ namespace Iwentys.Features.Economy.Entities
 {
     public class BarsPointTransaction
     {
-        public int Id { get; set; }
-        public int? FromStudent { get; set; }
-        public int? ToStudent { get; set; }
-        public DateTime CreationTimeUtc { get; set; }
-        public int Amount { get; set; }
+        public int Id { get; init; }
+        public int? FromStudent { get; init; }
+        public int? ToStudent { get; init; }
+        public DateTime CreationTimeUtc { get; init; }
+        public int Amount { get; init; }
 
-        public BarsPointTransactionStatus Status { get; set; }
+        public BarsPointTransactionStatus Status { get; init; }
 
         public static BarsPointTransaction CompletedFor(Student fromUser, Student toUser, int value)
         {

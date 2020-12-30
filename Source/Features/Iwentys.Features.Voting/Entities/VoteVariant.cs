@@ -2,10 +2,10 @@
 {
     public class VoteVariant
     {
-        public Voting Voting { get; set; }
-        public int VotingId { get; set; }
+        public int VotingId { get; init; }
+        public virtual Voting Voting { get; init; }
 
-        public int VariantId { get; set; }
-        public string VariantText { get; set; }
+        public int VariantId { get; init; }
+        public string VariantText { get; init; }
     }
 }

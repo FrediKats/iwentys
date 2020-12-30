@@ -10,23 +10,23 @@ namespace Iwentys.Features.Study.Entities
 {
     public class GroupSubject
     {
-        public int Id { get; set; }
+        public int Id { get; init; }
 
-        public int SubjectId { get; set; }
-        public virtual Subject Subject { get; set; }
+        public int SubjectId { get; init; }
+        public virtual Subject Subject { get; init; }
+        public StudySemester StudySemester { get; init; }
 
-        public int StudyGroupId { get; set; }
-        public virtual StudyGroup StudyGroup { get; set; }
+        public int StudyGroupId { get; init; }
+        public virtual StudyGroup StudyGroup { get; init; }
 
-        public int LectorTeacherId { get; set; }
-        public virtual Teacher LectorTeacher { get; set; }
+        public int LectorTeacherId { get; init; }
+        public virtual Teacher LectorTeacher { get; init; }
 
-        public int PracticeTeacherId { get; set; }
-        public virtual Teacher PracticeTeacher { get; set; }
+        public int PracticeTeacherId { get; init; }
+        public virtual Teacher PracticeTeacher { get; init; }
+
 
         public string SerializedGoogleTableConfig { get; set; }
-        public StudySemester StudySemester { get; set; }
-
         public Result<GoogleTableData> TryGetGoogleTableDataConfig()
         {
             if (SerializedGoogleTableConfig is null)

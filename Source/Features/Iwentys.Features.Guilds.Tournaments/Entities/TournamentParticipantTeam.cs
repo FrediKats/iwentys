@@ -6,15 +6,15 @@ namespace Iwentys.Features.Guilds.Tournaments.Entities
 {
     public class TournamentParticipantTeam
     {
-        public int Id { get; set; }
+        public int Id { get; init; }
         
-        public int TournamentId { get; set; }
-        public virtual Tournament Tournament { get; set; }
+        public int TournamentId { get; init; }
+        public virtual Tournament Tournament { get; init; }
 
-        public int GuildId { get; set; }
-        public virtual Guild Guild { get; set; }
+        public int GuildId { get; init; }
+        public virtual Guild Guild { get; init; }
 
-        public DateTime RegistrationTime { get; set; }
-        public virtual ICollection<TournamentTeamMember> Members { get; set; }
+        public DateTime RegistrationTime { get; init; }
+        public virtual ICollection<TournamentTeamMember> Members { get; init; }
     }
 }

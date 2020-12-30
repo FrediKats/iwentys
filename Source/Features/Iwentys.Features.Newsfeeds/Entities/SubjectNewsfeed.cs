@@ -7,11 +7,11 @@ namespace Iwentys.Features.Newsfeeds.Entities
 {
     public class SubjectNewsfeed
     {
-        public int SubjectId { get; set; }
-        public virtual Subject Subject { get; set; }
+        public int SubjectId { get; init; }
+        public virtual Subject Subject { get; init; }
 
-        public int NewsfeedId { get; set; }
-        public virtual Newsfeed Newsfeed { get; set; }
+        public int NewsfeedId { get; init; }
+        public virtual Newsfeed Newsfeed { get; init; }
 
         public static SubjectNewsfeed Create(NewsfeedCreateViewModel createViewModel, Student student, Subject subject)
         {

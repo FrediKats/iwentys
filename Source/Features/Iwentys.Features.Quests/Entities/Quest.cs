@@ -12,21 +12,21 @@ namespace Iwentys.Features.Quests.Entities
 {
     public class Quest
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public int Price { get; set; }
-        public DateTime CreationTime { get; set; }
-        public DateTime? Deadline { get; set; }
-        public QuestState State { get; set; }
+        public int Id { get; init; }
+        public string Title { get; init; }
+        public string Description { get; init; }
+        public int Price { get; init; }
+        public DateTime CreationTime { get; init; }
+        public DateTime? Deadline { get; init; }
+        public QuestState State { get; private set; }
 
-        public int AuthorId { get; set; }
-        public virtual Student Author { get; set; }
+        public int AuthorId { get; init; }
+        public virtual Student Author { get; init; }
 
-        public int? ExecutorId { get; set; }
-        public virtual Student Executor { get; set; }
+        public int? ExecutorId { get; private set; }
+        public virtual Student Executor { get; private set; }
 
-        public virtual ICollection<QuestResponse> Responses { get; set; }
+        public virtual ICollection<QuestResponse> Responses { get; init; }
 
         public bool IsOutdated => Deadline < DateTime.UtcNow;
 

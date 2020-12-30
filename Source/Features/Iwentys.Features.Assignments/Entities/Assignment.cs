@@ -8,18 +8,19 @@ namespace Iwentys.Features.Assignments.Entities
 {
     public class Assignment
     {
+        //TODO: replace with init
         public int Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public DateTime CreationTime { get; set; }
-        public DateTime? Deadline { get; set; }
-        public bool IsCompleted { get; set; }
+        public string Title { get; init; }
+        public string Description { get; init; }
+        public DateTime CreationTime { get; init; }
+        public DateTime? Deadline { get; init; }
+        public bool IsCompleted { get; private set; }
 
-        public int CreatorId { get; set; }
-        public virtual Student Creator { get; set; }
+        public int CreatorId { get; init; }
+        public virtual Student Creator { get; init; }
 
-        public int? SubjectId { get; set; }
-        public virtual Subject Subject { get; set; }
+        public int? SubjectId { get; init; }
+        public virtual Subject Subject { get; init; }
 
         public static Assignment Create(Student creator, AssignmentCreateRequestDto assignmentCreateRequestDto)
         {

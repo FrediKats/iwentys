@@ -6,13 +6,13 @@ namespace Iwentys.Features.Quests.Entities
 {
     public class QuestResponse
     {
-        public int QuestId { get; set; }
-        public virtual Quest Quest { get; set; }
+        public int QuestId { get; init; }
+        public virtual Quest Quest { get; init; }
 
-        public int StudentId { get; set; }
-        public virtual Student Student { get; set; }
+        public int StudentId { get; init; }
+        public virtual Student Student { get; init; }
 
-        public DateTime ResponseTime { get; set; }
+        public DateTime ResponseTime { get; init; }
 
         public static QuestResponse New(int questId, AuthorizedUser responseCreator)
         {

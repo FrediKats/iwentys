@@ -18,11 +18,11 @@ namespace Iwentys.Features.Guilds.Entities
             StartTime = DateTime.UtcNow;
         }
 
-        public int GuildId { get; set; }
-        public virtual Guild Guild { get; set; }
+        public int GuildId { get; init; }
+        public virtual Guild Guild { get; init; }
         
-        public int StudentId { get; set; }
-        public virtual Student Student { get; set; }
+        public int StudentId { get; init; }
+        public virtual Student Student { get; init; }
 
         public long? ProjectId { get; set; }
         public virtual GithubProject Project { get; set; }
@@ -30,7 +30,7 @@ namespace Iwentys.Features.Guilds.Entities
         public int? ReviewerId { get; set; }
         public virtual Student Reviewer { get; set; }
         
-        public DateTime StartTime { get; set; }
+        public DateTime StartTime { get; init; }
         public DateTime? SubmitTime { get; set; }
         public DateTime? CompleteTime { get; set; }
 

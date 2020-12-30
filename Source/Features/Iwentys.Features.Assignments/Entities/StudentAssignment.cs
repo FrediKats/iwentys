@@ -9,11 +9,11 @@ namespace Iwentys.Features.Assignments.Entities
 {
     public class StudentAssignment
     {
-        public int AssignmentId { get; set; }
-        public virtual Assignment Assignment { get; set; }
+        public int AssignmentId { get; init; }
+        public virtual Assignment Assignment { get; init; }
 
-        public int StudentId { get; set; }
-        public virtual Student Student { get; set; }
+        public int StudentId { get; init; }
+        public virtual Student Student { get; init; }
 
         public static StudentAssignment Create(Student creator, AssignmentCreateRequestDto assignmentCreateRequestDto)
         {

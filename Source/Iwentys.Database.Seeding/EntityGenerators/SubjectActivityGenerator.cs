@@ -19,7 +19,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 {
                     SubjectActivityEntities.Add(new SubjectActivity
                     {
-                        GroupSubjectEntityId = groupSubjectEntity.Id,
+                        GroupSubjectId = groupSubjectEntity.Id,
                         StudentId = student.Id,
                         Points = RandomExtensions.Instance.NextDouble() * 100
                     });

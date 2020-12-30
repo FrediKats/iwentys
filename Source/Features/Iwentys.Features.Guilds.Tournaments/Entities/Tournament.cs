@@ -11,17 +11,17 @@ namespace Iwentys.Features.Guilds.Tournaments.Entities
 {
     public class Tournament
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
-        public TournamentType Type { get; set; }
-        public bool FinishedManually { get; set; }
+        public int Id { get; init; }
+        public string Name { get; init; }
+        public string Description { get; init; }
+        public DateTime StartTime { get; init; }
+        public DateTime EndTime { get; init; }
+        public TournamentType Type { get; init; }
+        public bool FinishedManually { get; private set; }
         
-        public int AuthorId { get; set; }
-        public virtual Student Author { get; set; }
-        public virtual ICollection<TournamentParticipantTeam> Teams { get; set; }
+        public int AuthorId { get; init; }
+        public virtual Student Author { get; init; }
+        public virtual ICollection<TournamentParticipantTeam> Teams { get; init; }
 
         public bool IsActive => DateTime.UtcNow < EndTime && !FinishedManually;
 

@@ -66,7 +66,7 @@ namespace Iwentys.Database.Context
         {
             modelBuilder.Entity<GuildMember>().HasKey(g => new {g.GuildId, g.MemberId});
             modelBuilder.Entity<CompanyWorker>().HasKey(g => new {g.CompanyId, g.WorkerId});
-            modelBuilder.Entity<SubjectActivity>().HasKey(s => new {SubjectForGroupId = s.GroupSubjectEntityId, s.StudentId});
+            modelBuilder.Entity<SubjectActivity>().HasKey(s => new {SubjectForGroupId = s.GroupSubjectId, s.StudentId});
             modelBuilder.Entity<StudentAchievement>().HasKey(a => new {a.AchievementId, a.StudentId});
             modelBuilder.Entity<GuildAchievement>().HasKey(a => new {a.AchievementId, a.GuildId});
             modelBuilder.Entity<QuestResponse>().HasKey(a => new {a.QuestId, a.StudentId});

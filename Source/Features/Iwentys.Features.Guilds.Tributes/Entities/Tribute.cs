@@ -28,22 +28,22 @@ namespace Iwentys.Features.Guilds.Tributes.Entities
         }
 
         [Key]
-        public long ProjectId { get; set; }
+        public long ProjectId { get; init; }
 
         [ForeignKey("ProjectId")]
-        public virtual GithubProject Project { get; set; }
+        public virtual GithubProject Project { get; init; }
 
-        public int GuildId { get; set; }
-        public virtual Guild Guild { get; set; }
+        public int GuildId { get; init; }
+        public virtual Guild Guild { get; init; }
 
-        public int? MentorId { get; set; }
-        public virtual Student Mentor { get; set; }
+        public int? MentorId { get; private set; }
+        public virtual Student Mentor { get; private set; }
         
-        public TributeState State { get; set; }
-        public int? DifficultLevel { get; set; }
-        public int? Mark { get; set; }
-        public string Comment { get; set; }
-        public DateTime CreationTimeUtc { get; set; }
+        public TributeState State { get; private set; }
+        public int? DifficultLevel { get; private set; }
+        public int? Mark { get; private set; }
+        public string Comment { get; private set; }
+        public DateTime CreationTimeUtc { get; init; }
 
         public static Tribute Create(Guild guild, Student student, GithubProject project, List<Tribute> allTributes)
         {

@@ -72,7 +72,7 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
                     _subjectActivityRepository.InsertAsync(new SubjectActivity
                     {
                         StudentId = studentProfile.Id,
-                        GroupSubjectEntityId = groupSubjectData.Id,
+                        GroupSubjectId = groupSubjectData.Id,
                         Points = pointsCount
                     }).Wait();
                     _unitOfWork.CommitAsync().Wait();

@@ -4,11 +4,11 @@ namespace Iwentys.Features.Companies.Entities
 {
     public class Company
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
+        public int Id { get; init; }
+        public string Name { get; init; }
+        public double Latitude { get; init; }
+        public double Longitude { get; init; }
 
-        public virtual List<CompanyWorker> Workers { get; set; }
+        public virtual List<CompanyWorker> Workers { get; init; }
     }
 }
