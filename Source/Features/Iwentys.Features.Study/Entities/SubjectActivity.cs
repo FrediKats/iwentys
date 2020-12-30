@@ -10,6 +10,6 @@ namespace Iwentys.Features.Study.Entities
         public int StudentId { get; init; }
         public virtual Student Student { get; init; }
 
-        public double Points { get; init; }
+        public double Points { get; set; }
     }
 }

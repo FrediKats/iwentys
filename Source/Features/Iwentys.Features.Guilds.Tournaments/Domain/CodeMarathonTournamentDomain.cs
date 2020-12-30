@@ -15,7 +15,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Tournaments.Domain
 {
-    public class CodeMarathonTournament : ITournamentDomain
+    public class CodeMarathonTournamentDomain : ITournamentDomain
     {
         private readonly AchievementProvider _achievementProvider;
 
@@ -26,7 +26,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
         private readonly IGenericRepository<TournamentTeamMember> _tournamentTeamMemberRepository;
 
 
-        public CodeMarathonTournament(
+        public CodeMarathonTournamentDomain(
             Tournament tournament,
             GithubIntegrationService githubIntegrationService,
             IUnitOfWork unitOfWork,

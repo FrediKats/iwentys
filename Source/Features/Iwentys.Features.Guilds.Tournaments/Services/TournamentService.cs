@@ -14,7 +14,6 @@ using Iwentys.Features.Guilds.Tournaments.Models;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 using Microsoft.EntityFrameworkCore;
-using CodeMarathonTournament = Iwentys.Features.Guilds.Tournaments.Entities.CodeMarathonTournament;
 
 namespace Iwentys.Features.Guilds.Tournaments.Services
 {

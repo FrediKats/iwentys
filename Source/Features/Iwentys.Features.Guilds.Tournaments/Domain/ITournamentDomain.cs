@@ -25,7 +25,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
         {
             return tournament.Type switch
             {
-                TournamentType.CodeMarathon => new CodeMarathonTournament(tournament, githubIntegrationService, unitOfWork, achievementProvider),
+                TournamentType.CodeMarathon => new CodeMarathonTournamentDomain(tournament, githubIntegrationService, unitOfWork, achievementProvider),
                 _ => throw InnerLogicException.NotSupportedEnumValue(tournament.Type)
             };
         }
