@@ -17,10 +17,13 @@ namespace Iwentys.Features.Guilds.Tournaments.Entities
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public TournamentType Type { get; set; }
+        public bool FinishedManually { get; set; }
         
         public int AuthorId { get; set; }
         public virtual StudentEntity Author { get; set; }
         public virtual ICollection<TournamentParticipantTeamEntity> Teams { get; set; }
+
+        public bool IsActive => DateTime.UtcNow < EndTime && !FinishedManually;
 
         public static TournamentEntity Create(SystemAdminUser author, CreateTournamentArguments arguments, TournamentType type)
         {
@@ -31,7 +34,8 @@ namespace Iwentys.Features.Guilds.Tournaments.Entities
                 StartTime = arguments.StartTime,
                 EndTime = arguments.EndTime,
                 Type = type,
-                AuthorId = author.Student.Id
+                AuthorId = author.Student.Id,
+                FinishedManually = false
             };
         }
 
@@ -44,6 +48,14 @@ namespace Iwentys.Features.Guilds.Tournaments.Entities
                 RegistrationTime = DateTime.UtcNow,
                 Members = members.Select(m => new TournamentTeamMemberEntity {MemberId = m.MemberId}).ToList()
             };
+        }
+
+        public void FinishManually(StudentEntity user)
+        {
+            if (user.Id != AuthorId)
+                user.EnsureIsAdmin();
+
+            FinishedManually = true;
         }
     }
 }

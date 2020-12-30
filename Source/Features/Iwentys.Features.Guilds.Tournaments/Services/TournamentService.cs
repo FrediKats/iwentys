@@ -114,5 +114,15 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
             await _tournamentTeamRepository.InsertAsync(tournamentParticipantTeamEntity);
             await _unitOfWork.CommitAsync();
         }
+
+        public async Task FinishTournamentManually(AuthorizedUser user, int tournamentId)
+        {
+            var studentEntity = await _studentRepository.GetByIdAsync(user.Id);
+            var tournamentEntity = await _tournamentRepository.GetByIdAsync(tournamentId);
+
+            tournamentEntity.FinishManually(studentEntity);
+            _tournamentRepository.Update(tournamentEntity);
+            await _unitOfWork.CommitAsync();
+        }
     }
 }

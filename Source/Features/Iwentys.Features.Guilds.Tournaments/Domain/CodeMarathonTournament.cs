@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
+using Iwentys.Common.Exceptions;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
@@ -61,7 +62,9 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
         
         public async Task UpdateResult()
         {
-            //TODO: ensure tournament do not end
+            //TODO: skip with warning instead of exception?
+            if (!_tournament.IsActive)
+                throw new InnerLogicException("Tournament end already");
             List<TournamentTeamMemberEntity> members = await _unitOfWork.GetRepository<TournamentParticipantTeamEntity>()
                 .Get()
                 .Where(team => team.TournamentId == _tournament.Id)
