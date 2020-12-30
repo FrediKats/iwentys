@@ -27,8 +27,7 @@ namespace Iwentys.Database.Seeding
             AssignmentGenerator = new AssignmentGenerator(StudentGenerator.Students);
             NewsfeedGenerator = new NewsfeedGenerator(StudentGenerator.Students, GuildGenerator.Guilds, StudyEntitiesGenerator.Subjects);
             QuestGenerator = new QuestGenerator(StudentGenerator.Students);
-            TournamentGenerator = new TournamentGenerator(StudentGenerator.Students);
-
+            TournamentGenerator = new TournamentGenerator(StudentGenerator.Students, GuildGenerator.Guilds, GuildGenerator.GuildMembers);
         }
 
         public StudyEntitiesGenerator StudyEntitiesGenerator { get; set; }
