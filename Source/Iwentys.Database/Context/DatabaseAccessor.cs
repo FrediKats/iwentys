@@ -1,5 +1,4 @@
-﻿using Iwentys.Database.Repositories.Guilds;
-using Iwentys.Database.Repositories.Study;
+﻿using Iwentys.Database.Repositories.Study;
 
 namespace Iwentys.Database.Context
 {
@@ -7,22 +6,18 @@ namespace Iwentys.Database.Context
     {
         public DatabaseAccessor(IwentysDbContext context) : this(
             context,
-            new GuildRepository(context),
             new SubjectActivityRepository(context))
         {
         }
 
         public DatabaseAccessor(IwentysDbContext context,
-            GuildRepository guild,
             SubjectActivityRepository subjectActivity)
         {
             Context = context;
-            Guild = guild;
             SubjectActivity = subjectActivity;
         }
 
         public IwentysDbContext Context { get; }
-        public GuildRepository Guild { get; }
 
         public SubjectActivityRepository SubjectActivity { get; }
     }

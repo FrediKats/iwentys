@@ -1,6 +1,5 @@
 ﻿using Iwentys.Common.Databases;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Repositories.Study;
 using Iwentys.Database.Tools;
 using Iwentys.Endpoint.Server.Source.IdentityAuth;
@@ -14,7 +13,6 @@ using Iwentys.Features.Economy;
 using Iwentys.Features.Gamification;
 using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.Guilds;
-using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Features.Guilds.Tournaments;
 using Iwentys.Features.Guilds.Tributes;
 using Iwentys.Features.Newsfeeds;
@@ -75,7 +73,6 @@ namespace Iwentys.Endpoint.Server.Source.Tools
             services.AddIwentysGamificationFeatureServices();
             services.AddIwentysGithubIntegrationFeatureServices();
 
-            services.AddScoped<IGuildRepository, GuildRepository>();
             services.AddIwentysGuildFeatureServices();
             services.AddIwentysGuildTournamentFeatureServices();
 

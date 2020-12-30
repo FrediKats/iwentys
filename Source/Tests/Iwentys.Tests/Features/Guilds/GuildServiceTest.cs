@@ -56,7 +56,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
 
             await context.GuildService.ApproveGuildCreating(admin, guild.Id);
-            //GuildEntity createdGuild = await context.GuildRepository.Get(guild.Id);
+            //Guild createdGuild = await context.GuildRepository.Get(guild.Id);
 
             //Assert.AreEqual(GuildType.Created, createdGuild.GuildType);
         }
@@ -157,7 +157,8 @@ namespace Iwentys.Tests.Features.Guilds
 
             await context.GuildMemberService.BlockGuildMember(guildCreator, guild.Id, member.Id);
             GuildMemberEntity[] blocked = await context.GuildMemberService.GetGuildBlocked(guildCreator, guild.Id);
-            GuildEntity memberGuild = context.GuildRepository.ReadForStudent(member.Id);
+            
+            var memberGuild = context.GuildService.FindStudentGuild(member.Id);
 
             Assert.That(blocked.Find(m => m.MemberId == member.Id), Is.Not.Null);
             Assert.That(memberGuild, Is.Null);
@@ -260,13 +261,13 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
-                .WithGuildRequest(guild, out AuthorizedUser student);
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guildDto)
+                .WithGuildRequest(guildDto, out AuthorizedUser student);
 
-            await context.GuildMemberService.AcceptRequest(user, guild.Id, student.Id);
-            GuildEntity guildEntity = await context.GuildRepository.GetAsync(guild.Id);
-            GuildMemberEntity member = guildEntity.Members.Find(m => m.MemberId == student.Id);
-            GuildMemberEntity[] requests = await context.GuildMemberService.GetGuildRequests(user, guild.Id);
+            await context.GuildMemberService.AcceptRequest(user, guildDto.Id, student.Id);
+            var guildMemberLeaderBoardDto = await context.GuildService.GetGuildMemberLeaderBoard(guildDto.Id);
+            var member = guildMemberLeaderBoardDto.MembersImpact.Find(m => m.StudentInfoDto.Id == student.Id);
+            GuildMemberEntity[] requests = await context.GuildMemberService.GetGuildRequests(user, guildDto.Id);
 
             Assert.IsNotNull(member);
             Assert.That(member.MemberType, Is.EqualTo(GuildMemberType.Member));
@@ -291,13 +292,13 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
-                .WithGuildRequest(guild, out AuthorizedUser student);
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guildDto)
+                .WithGuildRequest(guildDto, out AuthorizedUser student);
 
-            await context.GuildMemberService.RejectRequest(user, guild.Id, student.Id);
-            GuildEntity guildEntity = await context.GuildRepository.GetAsync(guild.Id);
-            GuildMemberEntity member = guildEntity.Members.Find(m => m.MemberId == student.Id);
-            GuildMemberEntity[] requests = await context.GuildMemberService.GetGuildRequests(user, guild.Id);
+            await context.GuildMemberService.RejectRequest(user, guildDto.Id, student.Id);
+            var guildMemberLeaderBoardDto = await context.GuildService.GetGuildMemberLeaderBoard(guildDto.Id);
+            var member = guildMemberLeaderBoardDto.MembersImpact.Find(m => m.StudentInfoDto.Id == student.Id);
+            GuildMemberEntity[] requests = await context.GuildMemberService.GetGuildRequests(user, guildDto.Id);
 
             Assert.That(member, Is.Null);
             Assert.That(requests.FirstOrDefault(m => m.MemberId == student.Id), Is.Null);
@@ -335,13 +336,13 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
-                .WithGuildRequest(guild, out AuthorizedUser student);
-            await context.GuildService.UpdateAsync(user, GuildUpdateRequestDto.ForPolicyUpdate(guild.Id, GuildHiringPolicy.Close));
-            await context.GuildService.UpdateAsync(user, GuildUpdateRequestDto.ForPolicyUpdate(guild.Id, GuildHiringPolicy.Open));
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guildDto)
+                .WithGuildRequest(guildDto, out AuthorizedUser student);
+            await context.GuildService.UpdateAsync(user, GuildUpdateRequestDto.ForPolicyUpdate(guildDto.Id, GuildHiringPolicy.Close));
+            await context.GuildService.UpdateAsync(user, GuildUpdateRequestDto.ForPolicyUpdate(guildDto.Id, GuildHiringPolicy.Open));
 
-            GuildEntity guildEntity = await context.GuildRepository.GetAsync(guild.Id);
-            GuildMemberEntity newMember = guildEntity.Members.Find(m => m.MemberId == student.Id);
+            var guildMemberLeaderBoardDto = await context.GuildService.GetGuildMemberLeaderBoard(guildDto.Id);
+            var newMember = guildMemberLeaderBoardDto.MembersImpact.Find(m => m.StudentInfoDto.Id == student.Id);
             Assert.IsNotNull(newMember);
             Assert.That(newMember.MemberType, Is.EqualTo(GuildMemberType.Member));
         }

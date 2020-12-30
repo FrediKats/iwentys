@@ -1,7 +1,6 @@
 using System;
 using Iwentys.Common.Databases;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Tools;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Achievements.Services;
@@ -33,9 +32,6 @@ namespace Iwentys.Tests.TestCaseContexts
         private readonly IwentysDbContext _context;
         public readonly IUnitOfWork UnitOfWork;
 
-        //TODO: remove?
-        public readonly GuildRepository GuildRepository;
-
         public readonly StudentService StudentService;
         public readonly GuildService GuildService;
         public readonly GuildMemberService GuildMemberService;
@@ -57,8 +53,6 @@ namespace Iwentys.Tests.TestCaseContexts
             IUnitOfWork unitOfWork = new UnitOfWork<IwentysDbContext>(_context);
             UnitOfWork = unitOfWork;
             
-            GuildRepository = new GuildRepository(_context);
-
             var achievementProvider = new AchievementProvider(unitOfWork);
             var githubApiAccessor = new DummyGithubApiAccessor();
 
