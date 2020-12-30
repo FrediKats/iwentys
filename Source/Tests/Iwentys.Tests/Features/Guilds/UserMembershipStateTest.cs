@@ -24,7 +24,6 @@ namespace Iwentys.Tests.Features.Guilds
         private Student _student;
 
         private Mock<IGenericRepository<Student>> _studentRepository;
-        private Mock<IGenericRepository<GuildMember>> _guildMemberRepositoryNew;
         private Mock<GithubIntegrationService> _githubUserDataService;
 
         // User without guild

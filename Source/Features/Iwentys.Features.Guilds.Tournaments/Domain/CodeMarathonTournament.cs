@@ -17,7 +17,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
 {
     public class CodeMarathonTournament : ITournamentDomain
     {
-        private AchievementProvider _achievementProvider;
+        private readonly AchievementProvider _achievementProvider;
 
         private readonly Tournament _tournament;
         private readonly GithubIntegrationService _githubIntegrationService;
@@ -98,7 +98,6 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
                 .Include(m => m.Member)
                 .ToListAsync();
 
-            List<int> list = new List<int>();
             foreach (TournamentTeamMember member in members)
             {
                 var contributionFullInfo = await _githubIntegrationService.FindUserContributionOrEmpty(member.Member);

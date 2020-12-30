@@ -1,5 +1,4 @@
-﻿using System;
-using Iwentys.Features.Guilds.Tournaments.Enums;
+﻿using Iwentys.Features.Guilds.Tournaments.Enums;
 
 namespace Iwentys.Features.Guilds.Tournaments.Models
 {

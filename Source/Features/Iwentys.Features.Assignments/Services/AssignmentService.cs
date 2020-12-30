@@ -25,6 +25,7 @@ namespace Iwentys.Features.Assignments.Services
         {
             _unitOfWork = unitOfWork;
             _studentRepository = _unitOfWork.GetRepository<Student>();
+            _studentGroupRepository = _unitOfWork.GetRepository<StudyGroup>();
             _assignmentRepository = _unitOfWork.GetRepository<Assignment>();
             _studentAssignmentRepository = _unitOfWork.GetRepository<StudentAssignment>();
         }

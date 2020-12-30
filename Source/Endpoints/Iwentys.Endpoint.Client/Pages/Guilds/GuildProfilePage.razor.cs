@@ -21,7 +21,6 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
         private TournamentInfoResponse _activeTournament;
         
         private GuildControllerClient _guildControllerClient;
-        private GuildMemberControllerClient _guildMemberControllerClient;
         private GuildTributeControllerClient _guildTributeControllerClient;
         private TournamentControllerClient _tournamentControllerClient;
 
@@ -29,7 +28,6 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
         {
             HttpClient httpClient = await Http.TrySetHeader(LocalStorage);
             _guildControllerClient = new GuildControllerClient(httpClient);
-            _guildMemberControllerClient = new GuildMemberControllerClient(httpClient);
             _guildTributeControllerClient = new GuildTributeControllerClient(httpClient);
             _tournamentControllerClient = new TournamentControllerClient(httpClient);
 

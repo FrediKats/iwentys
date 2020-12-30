@@ -1,8 +1,6 @@
 ﻿using System;
-using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Tournaments.Enums;
 using Iwentys.Features.Guilds.Tournaments.Models;
-using Iwentys.Features.Guilds.Tributes.Models;
 using Iwentys.Features.Students.Domain;
 
 namespace Iwentys.Tests.TestCaseContexts

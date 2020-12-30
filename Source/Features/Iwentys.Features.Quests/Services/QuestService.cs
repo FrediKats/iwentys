@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Common.Exceptions;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Economy.Services;
 using Iwentys.Features.Quests.Entities;

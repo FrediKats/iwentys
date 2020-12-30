@@ -112,7 +112,7 @@ namespace Iwentys.Endpoint.Server.Source.Tools
             return services;
         }
 
-        public static IServiceCollection AddIwentysLogging(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddIwentysLogging(this IServiceCollection services)
         {
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
@@ -125,7 +125,7 @@ namespace Iwentys.Endpoint.Server.Source.Tools
         }
 
         //TODO: Temp fix for CORS
-        public static IServiceCollection AddIwentysCorsHack(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddIwentysCorsHack(this IServiceCollection services)
         {
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
             {

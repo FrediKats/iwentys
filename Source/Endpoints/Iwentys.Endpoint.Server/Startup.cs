@@ -42,8 +42,8 @@ namespace Iwentys.Endpoint.Server
 
             services
                 .AddIwentysOptions(Configuration)
-                .AddIwentysLogging(Configuration)
-                .AddIwentysCorsHack(Configuration)
+                .AddIwentysLogging()
+                .AddIwentysCorsHack()
                 .AddIwentysDatabase()
                 .AddUnitOfWork<IwentysDbContext>()
                 .AddIwentysTokenFactory(Configuration)

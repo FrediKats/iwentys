@@ -14,7 +14,7 @@ namespace Iwentys.Tests.Features.Guilds
     public class TournamentServiceTest
     {
         [Test]
-        public async Task CreateCodeMarathonTournament_ShouldHaveCorrectType()
+        public void CreateCodeMarathonTournament_ShouldHaveCorrectType()
         {
             TestCaseContext
                 .Case()
