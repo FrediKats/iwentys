@@ -20,15 +20,15 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
     public class TournamentService
     {
         private readonly AchievementProvider _achievementProvider;
+        private readonly GithubIntegrationService _githubIntegrationService;
         private readonly IUnitOfWork _unitOfWork;
-        
+
         private readonly IGenericRepository<Student> _studentRepository;
         private readonly IGenericRepository<Guild> _guildRepository;
         private readonly IGenericRepository<GuildMember> _guildMemberRepository;
         private readonly IGenericRepository<Tournament> _tournamentRepository;
         private readonly IGenericRepository<TournamentParticipantTeam> _tournamentTeamRepository;
         private readonly IGenericRepository<CodeMarathonTournament> _codeMarathonTournamentRepository;
-        private readonly GithubIntegrationService _githubIntegrationService;
 
         public TournamentService(GithubIntegrationService githubIntegrationService, IUnitOfWork unitOfWork, AchievementProvider achievementProvider)
         {
@@ -135,6 +135,14 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
             tournamentEntity.FinishManually(studentEntity);
             _tournamentRepository.Update(tournamentEntity);
             await _unitOfWork.CommitAsync();
+        }
+
+        public async Task UpdateResult(int tournamentId)
+        {
+            var tournamentEntity = await _tournamentRepository.GetByIdAsync(tournamentId);
+            var tournamentDomain = tournamentEntity.WrapToDomain(_githubIntegrationService, _unitOfWork, _achievementProvider);
+
+            await tournamentDomain.UpdateResult();
         }
     }
 }

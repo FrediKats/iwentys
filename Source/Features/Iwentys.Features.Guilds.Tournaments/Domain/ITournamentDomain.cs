@@ -13,6 +13,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
     {
         TournamentLeaderboardDto GetLeaderboard();
         Task RewardWinners();
+        Task UpdateResult();
     }
 
     public static class TournamentDomainHelper

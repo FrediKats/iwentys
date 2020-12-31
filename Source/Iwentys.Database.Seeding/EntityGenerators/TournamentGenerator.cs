@@ -24,20 +24,13 @@ namespace Iwentys.Database.Seeding.EntityGenerators
         {
             var faker = new Faker();
             var admin = students.First(s => s.Role == StudentRole.Admin).EnsureIsAdmin();
-            var createCodeMarathonTournamentArguments = new CreateCodeMarathonTournamentArguments()
-            {
-                ActivityType = CodeMarathonAllowedActivityType.All,
-                MembersType = CodeMarathonAllowedMembersType.All,
-                StartTime = DateTime.UtcNow.AddHours(-1),
-                EndTime = DateTime.UtcNow.AddHours(1),
-                Name = "Test tournament"
-            };
+            
             var tournamentEntity = new Tournament()
             {
                 AuthorId = admin.Student.Id,
                 Id = 1,
                 Name = "Test tournament",
-                StartTime = DateTime.UtcNow.AddHours(-1),
+                StartTime = DateTime.UtcNow.AddMonths(-6),
                 EndTime = DateTime.UtcNow.AddHours(1),
                 Description = faker.Lorem.Paragraph(),
                 Type = TournamentType.CodeMarathon

@@ -58,5 +58,11 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             await _tournamentService.RegisterToTournament(user, tournamentId);
             return Ok();
         }
+
+        [HttpGet("{tournamentId}/force-update")]
+        public async Task ForceUpdate(int tournamentId)
+        {
+            await _tournamentService.UpdateResult(tournamentId);
+        }
     }
 }

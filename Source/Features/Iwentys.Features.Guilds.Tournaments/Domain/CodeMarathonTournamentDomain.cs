@@ -91,6 +91,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
             //TODO: skip with warning instead of exception?
             if (!_tournament.IsActive)
                 throw new InnerLogicException("Tournament end already");
+
             List<TournamentTeamMember> members = await _unitOfWork.GetRepository<TournamentParticipantTeam>()
                 .Get()
                 .Where(team => team.TournamentId == _tournament.Id)
