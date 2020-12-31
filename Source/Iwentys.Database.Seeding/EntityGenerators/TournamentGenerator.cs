@@ -48,7 +48,6 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 MembersType = CodeMarathonAllowedMembersType.All,
             };
 
-            var codeMarathonTournamentEntity = CodeMarathonTournament.Create(admin, createCodeMarathonTournamentArguments);
             CodeMarathonTournaments = new List<CodeMarathonTournament> {marathonTournamentEntity};
             Tournaments = new List<Tournament> {tournamentEntity};
             TournamentParticipantTeams = new List<TournamentParticipantTeam>();
@@ -60,7 +59,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 {
                     Id = faker.IndexVariable++ + 1,
                     GuildId = guild.Id,
-                    TournamentId = codeMarathonTournamentEntity.Id,
+                    TournamentId = marathonTournamentEntity.Id,
                     RegistrationTime = DateTime.UtcNow
                 };
 
