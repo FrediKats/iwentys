@@ -2,7 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
+using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Students.Enums;
 using Iwentys.Features.Study.Domain;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
@@ -62,6 +64,30 @@ namespace Iwentys.Features.Study.Services
                 .WithStudents(_studentRepository);
 
             return result.Single();
+        }
+
+        public async Task MakeGroupAdmin(AuthorizedUser initiator, int newGroupAdminId)
+        {
+            Student initiatorProfile = await _studentRepository.GetByIdAsync(initiator.Id);
+            SystemAdminUser admin = initiatorProfile.EnsureIsAdmin();
+            Student newGroupAdminProfile = await _studentRepository.GetByIdAsync(newGroupAdminId);
+
+            List<Student> groupStudents = await _studentRepository
+                .Get()
+                .Where(s => s.GroupId == newGroupAdminProfile.GroupId)
+                .ToListAsync();
+
+            var currentGroupAdmin = groupStudents.SingleOrDefault(s => s.Role == StudentRole.GroupAdmin);
+            if (currentGroupAdmin is not null)
+            {
+                currentGroupAdmin.MakeCommonMember(admin);
+                _studentRepository.Update(currentGroupAdmin);
+            }
+
+            newGroupAdminProfile.MakeGroupAdmin(admin);
+            _studentRepository.Update(newGroupAdminProfile);
+
+            await _unitOfWork.CommitAsync();
         }
     }
 }

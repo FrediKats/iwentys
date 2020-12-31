@@ -1,28 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Enums;
 
 namespace Iwentys.Features.Students.Entities
 {
     public class Student
     {
-        public Student()
-        {
-        }
-
-        public Student(int id, string firstName, string middleName, string secondName) : this()
-        {
-            Id = id;
-            FirstName = firstName;
-            MiddleName = middleName;
-            SecondName = secondName;
-            Role = StudentRole.Common;
-            CreationTime = DateTime.UtcNow;
-            LastOnlineTime = DateTime.UtcNow;
-            GuildLeftTime = DateTime.MinValue;
-        }
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; init; }
@@ -41,6 +26,22 @@ namespace Iwentys.Features.Students.Entities
 
         public DateTime GuildLeftTime { get; set; }
 
+        public Student()
+        {
+        }
+
+        public Student(int id, string firstName, string middleName, string secondName) : this()
+        {
+            Id = id;
+            FirstName = firstName;
+            MiddleName = middleName;
+            SecondName = secondName;
+            Role = StudentRole.Common;
+            CreationTime = DateTime.UtcNow;
+            LastOnlineTime = DateTime.UtcNow;
+            GuildLeftTime = DateTime.MinValue;
+        }
+
         public static Student CreateFromIsu(int id, string firstName, string secondName)
         {
             return CreateFromIsu(id, firstName, null, secondName);
@@ -53,5 +54,9 @@ namespace Iwentys.Features.Students.Entities
                 GroupId = groupId
             };
         }
+
+        public void MakeGroupAdmin(SystemAdminUser initiator) => Role = StudentRole.GroupAdmin;
+        //TODO: do not allow admin to kick other admin
+        public void MakeCommonMember(SystemAdminUser initiator) => Role = StudentRole.Common;
     }
 }

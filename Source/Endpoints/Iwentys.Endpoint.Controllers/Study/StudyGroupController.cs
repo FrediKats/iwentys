@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Iwentys.Endpoint.Controllers.Tools;
+using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Study.Models;
 using Iwentys.Features.Study.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +41,14 @@ namespace Iwentys.Endpoint.Controllers.Study
                 return NotFound();
             
             return Ok(result);
+        }
+
+        [HttpGet("promote-admin/{newGroupAdminId}")]
+        public async Task<ActionResult> MakeGroupAdmin(int newGroupAdminId)
+        {
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            await _studyGroupService.MakeGroupAdmin(authorizedUser, newGroupAdminId);
+            return Ok();
         }
     }
 }
