@@ -49,7 +49,12 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
         {
             return quest.State == QuestState.Active && quest.Author.Id == _currentStudent?.Id;
         }
-        
+
+        private bool IsCanResponseToQuest(QuestInfoDto quest)
+        {
+            return quest.State == QuestState.Active && quest.Author.Id != _currentStudent?.Id;
+        }
+
         private async Task RevokeQuest(QuestInfoDto quest)
         {
             //TODO: refresh elements
