@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Bogus;
+using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Features.Quests.Entities;
-using Iwentys.Features.Quests.Enums;
 using Iwentys.Features.Students.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,20 +17,9 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 
         public QuestGenerator(List<Student> students)
         {
-            var faker = new Faker<Quest>();
             Student author = students.First();
 
-            faker
-                .RuleFor(q => q.Id, f => ++f.IndexVariable)
-                .RuleFor(q => q.Title, f => f.Lorem.Slug())
-                .RuleFor(q => q.Description, f => f.Lorem.Paragraph())
-                .RuleFor(q => q.Price, 100)
-                .RuleFor(q => q.CreationTime, DateTime.UtcNow)
-                .RuleFor(q => q.Deadline, DateTime.UtcNow.AddDays(100))
-                .RuleFor(q => q.State, QuestState.Active)
-                .RuleFor(q => q.AuthorId, author.Id);
-
-            Quest = faker.Generate(QuestCount);
+            Quest = new QuestFaker(author.Id).Generate(QuestCount);
 
             foreach (Quest quest in Quest)
             {

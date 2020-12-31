@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Bogus;
+using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Newsfeeds.Entities;
 using Iwentys.Features.Students.Entities;
@@ -18,8 +17,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 
         public NewsfeedGenerator(List<Student> students, List<Guild> guilds, List<Subject> subjects)
         {
-            var faker = new Faker();
-            faker.IndexVariable++;
+            var faker = new NewsfeedFaker(students.First().Id);
 
             Newsfeeds = new List<Newsfeed>();
 
@@ -28,15 +26,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    var newsfeedEntity = new Newsfeed
-                    {
-                        Id = faker.IndexVariable++,
-                        AuthorId = students.First().Id,
-                        Content = faker.Lorem.Paragraph(),
-                        CreationTimeUtc = DateTime.UtcNow,
-                        Title = faker.Lorem.Slug(),
-                    };
-
+                    var newsfeedEntity = faker.Generate();
                     Newsfeeds.Add(newsfeedEntity);
                     SubjectNewsfeeds.Add(new SubjectNewsfeed { SubjectId = subject.Id, NewsfeedId = newsfeedEntity.Id });
                 }
@@ -45,15 +35,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             GuildNewsfeeds = new List<GuildNewsfeed>();
             foreach (Guild guild in guilds)
             {
-                var newsfeedEntity = new Newsfeed
-                {
-                    Id = faker.IndexVariable++,
-                    AuthorId = students.First().Id,
-                    Content = faker.Lorem.Paragraph(),
-                    CreationTimeUtc = DateTime.UtcNow,
-                    Title = faker.Lorem.Slug(),
-                };
-
+                var newsfeedEntity = faker.Generate();
                 Newsfeeds.Add(newsfeedEntity);
                 GuildNewsfeeds.Add(new GuildNewsfeed { GuildId = guild.Id, NewsfeedId = newsfeedEntity.Id });
             }

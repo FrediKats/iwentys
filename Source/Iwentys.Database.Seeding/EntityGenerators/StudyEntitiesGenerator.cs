@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Bogus;
 using Iwentys.Common.Tools;
+using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Database.Seeding.Tools;
 using Iwentys.Features.Students.Enums;
 using Iwentys.Features.Study.Entities;
@@ -24,16 +24,8 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 
         public StudyEntitiesGenerator()
         {
-            Faker<Teacher> teacherFaker = new Faker<Teacher>()
-                .RuleFor(t => t.Id, f => f.IndexFaker + 1)
-                .RuleFor(t => t.Name, f => f.Name.FullName());
-
-            Faker<Subject> subjectFaker = new Faker<Subject>()
-                .RuleFor(t => t.Id, f => f.IndexFaker + 1)
-                .RuleFor(t => t.Name, f => f.Company.CompanyName());
-
-            Teachers = teacherFaker.Generate(TeacherCount);
-            Subjects = subjectFaker.Generate(SubjectCount);
+            Teachers = TeacherFaker.Instance.Generate(TeacherCount);
+            Subjects = SubjectFaker.Instance.Generate(SubjectCount);
             StudyPrograms = new List<StudyProgram> { new StudyProgram { Id = 1, Name = "ИС" } };
             StudyCourses = new List<StudyCourse>
             {
@@ -53,14 +45,14 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 
         }
 
-        private GroupSubject CreateGroupSubjectEntity(StudyGroup @group, Subject subject)
+        private GroupSubject CreateGroupSubjectEntity(StudyGroup group, Subject subject)
         {
             //FYI: we do not init SerializedGoogleTableConfig here
             return new GroupSubject
             {
                 Id = Create.GroupSubjectIdentifierGenerator.Next(),
                 SubjectId = subject.Id,
-                StudyGroupId = @group.Id,
+                StudyGroupId = group.Id,
                 LectorTeacherId = Teachers.GetRandom().Id,
                 PracticeTeacherId = Teachers.GetRandom().Id,
                 StudySemester = CurrentSemester

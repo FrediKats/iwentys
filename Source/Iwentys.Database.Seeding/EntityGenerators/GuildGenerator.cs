@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Bogus;
+using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
@@ -21,21 +21,10 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 
         public GuildGenerator(List<Student> students, List<GithubProject> githubProjects)
         {
-            var faker = new Faker<Guild>()
-                .RuleFor(g => g.Id, f => f.IndexVariable++ + 1)
-                .RuleFor(g => g.Title, f => f.Company.CompanyName())
-                .RuleFor(g => g.Bio, f => f.Lorem.Paragraph())
-                .RuleFor(g => g.LogoUrl, f => f.Image.PicsumUrl())
-                .RuleFor(g => g.HiringPolicy, GuildHiringPolicy.Open)
-                .RuleFor(g => g.GuildType, GuildType.Created);
+            var guildFaker = new GuildFaker();
+            var pinnedFaker = new GuildPinnedProjectFaker();
 
-            var pinnedFaker = new Faker<GuildPinnedProject>()
-                .RuleFor(g => g.Id, f => f.IndexFaker + 1)
-                .RuleFor(gp => gp.RepositoryOwner, f => f.Company.CompanyName())
-                .RuleFor(gp => gp.RepositoryName, f => f.Company.CompanyName());
-
-
-            Guilds = faker.Generate(GuildCount);
+            Guilds = guildFaker.Generate(GuildCount);
             GuildMembers = new List<GuildMember>();
             PinnedProjects = new List<GuildPinnedProject>();
             TributeEntities = new List<Tribute>();
