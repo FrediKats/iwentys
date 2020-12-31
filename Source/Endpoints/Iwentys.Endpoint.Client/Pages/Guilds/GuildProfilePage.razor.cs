@@ -38,5 +38,10 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
             _activeTribute = await _guildTributeControllerClient.FindStudentActiveTribute();
             _activeTournament = await _tournamentControllerClient.FindGuildActiveTournament(_guild.Id);
         }
+
+        private string LinkToCreateNewsfeedPage()
+        {
+            return $"/newsfeed/create-guild/{GuildId}";
+        }
     }
 }
