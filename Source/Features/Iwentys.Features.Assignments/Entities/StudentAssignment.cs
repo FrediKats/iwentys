@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Iwentys.Common.Exceptions;
 using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
@@ -46,9 +47,21 @@ namespace Iwentys.Features.Assignments.Entities
             return studentAssignmentEntities;
         }
 
-        public void UpdateCompleteState(bool isCompleted)
+        public void MarkCompleted()
         {
-            IsCompleted = isCompleted;
+            if (IsCompleted)
+                throw InnerLogicException.AssignmentExceptions.IsAlreadyCompleted(AssignmentId);
+
+            IsCompleted = true;
+            LastUpdateTime = DateTime.UtcNow;
+        }
+
+        public void MarkUncompleted()
+        {
+            if (!IsCompleted)
+                throw InnerLogicException.AssignmentExceptions.IsNotCompleted(AssignmentId);
+            
+            IsCompleted = false;
             LastUpdateTime = DateTime.UtcNow;
         }
     }

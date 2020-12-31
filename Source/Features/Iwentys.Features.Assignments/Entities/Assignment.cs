@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Common.Exceptions;
 using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Study.Entities;
@@ -42,10 +41,7 @@ namespace Iwentys.Features.Assignments.Entities
         {
             StudentAssignment studentAssignment = StudentAssignments.First(sa => sa.StudentId == student.Id);
 
-            if (studentAssignment.IsCompleted)
-                throw InnerLogicException.AssignmentExceptions.IsAlreadyCompleted(Id);
-
-            studentAssignment.UpdateCompleteState(true);
+            studentAssignment.MarkCompleted();
             
             return studentAssignment;
         }
@@ -54,10 +50,7 @@ namespace Iwentys.Features.Assignments.Entities
         {
             StudentAssignment studentAssignment = StudentAssignments.First(sa => sa.StudentId == student.Id);
 
-            if (!studentAssignment.IsCompleted)
-                throw InnerLogicException.AssignmentExceptions.IsAlreadyCompleted(Id);
-
-            studentAssignment.UpdateCompleteState(false);
+            studentAssignment.MarkUncompleted();
 
             return studentAssignment;
         }
