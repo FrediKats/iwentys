@@ -31,9 +31,9 @@ namespace Iwentys.Common.Exceptions
                 return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, GuildExceptionMessages.StudentCannotBeBlocked, studentId, guildId));
             }
 
-            public static InnerLogicException IsNotGuildEditor(int studentId)
+            public static InnerLogicException IsNotGuildMentor(int studentId)
             {
-                return new InnerLogicException($"Student is not guild editor. Id: [{studentId}]");
+                return new InnerLogicException($"Student is not guild mentor. Id: [{studentId}]");
             }
 
             public static EntityNotFoundException PinnedRepoWasNotFound(int pinnedRepoId)

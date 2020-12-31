@@ -28,13 +28,13 @@ namespace Iwentys.Features.Guilds.Enums
                                          gm.MemberType == GuildMemberType.Member);
         }
 
-        public static IQueryable<GuildMember> WhereIsEditor(this IQueryable<GuildMember> queryable)
+        public static IQueryable<GuildMember> WhereIsMentor(this IQueryable<GuildMember> queryable)
         {
             return queryable.Where(gm => gm.MemberType == GuildMemberType.Creator ||
                                          gm.MemberType == GuildMemberType.Mentor);
         }
 
-        public static bool IsEditor(this GuildMemberType guildMemberType)
+        public static bool IsMentor(this GuildMemberType guildMemberType)
         {
             return guildMemberType == GuildMemberType.Creator ||
                    guildMemberType == GuildMemberType.Mentor;

@@ -23,7 +23,8 @@ namespace Iwentys.Features.Quests.Models
                 quest.IsOutdated,
                 new StudentInfoDto(quest.Author),
                 quest.Executor == null ? null : new StudentInfoDto(quest.Executor),
-                quest.Responses.SelectToList(qr => new QuestResponseInfoDto(qr)))
+                //TODO: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                quest.Responses?.SelectToList(qr => new QuestResponseInfoDto(qr)))
         {
         }
 

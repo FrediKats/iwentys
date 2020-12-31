@@ -124,18 +124,18 @@ namespace Iwentys.Features.Guilds.Domain
         //    return this;
         //}
 
-        public async Task<GuildMember> EnsureMemberCanRestrictPermissionForOther(AuthorizedUser editor, int memberToKickId)
+        public async Task<GuildMember> EnsureMemberCanRestrictPermissionForOther(AuthorizedUser user, int memberToKickId)
         {
-            Student editorStudentAccount = await _studentRepository.FindByIdAsync(editor.Id);
-            editorStudentAccount.EnsureIsGuildEditor(Profile);
+            Student editorStudentAccount = await _studentRepository.GetByIdAsync(user.Id);
+            editorStudentAccount.EnsureIsGuildMentor(Profile);
 
             GuildMember memberToKick = Profile.Members.Find(m => m.MemberId == memberToKickId);
-            GuildMember editorMember = Profile.Members.Find(m => m.MemberId == editor.Id) ?? throw new EntityNotFoundException(nameof(GuildMember));
+            GuildMember editorMember = Profile.Members.Find(m => m.MemberId == user.Id) ?? throw new EntityNotFoundException(nameof(GuildMember));
 
             //TODO: check
             //if (memberToKick is null || !memberToKick.MemberType.IsMember())
             if (memberToKick is null)
-                throw InnerLogicException.GuildExceptions.IsNotGuildMember(editor.Id, Profile.Id);
+                throw InnerLogicException.GuildExceptions.IsNotGuildMember(user.Id, Profile.Id);
 
             if (memberToKick.MemberType == GuildMemberType.Creator)
                 throw InnerLogicException.GuildExceptions.StudentCannotBeBlocked(memberToKickId, Profile.Id);

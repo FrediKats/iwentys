@@ -97,7 +97,7 @@ namespace Iwentys.Features.Guilds.Services
         public async Task<GuildTestTaskInfoResponse> Complete(AuthorizedUser user, int guildId, int taskSolveOwnerId)
         {
             Student review = await _studentRepository.FindByIdAsync(user.Id);
-            await review.EnsureIsMentor(_guildRepositoryNew, guildId);
+            await review.EnsureIsGuildMentor(_guildRepositoryNew, guildId);
 
             GuildTestTaskSolution testTask = _guildTestTaskSolvingInfoRepository
                 .Get()

@@ -114,7 +114,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
         {
             var studentEntity = await _studentRepository.GetByIdAsync(user.Id);
             var guild = _guildMemberRepository.ReadForStudent(user.Id);
-            var guildMentorUser = await studentEntity.EnsureIsMentor(_guildRepository, guild.Id);
+            var guildMentorUser = studentEntity.EnsureIsGuildMentor(guild);
             var tournamentEntity = await _tournamentRepository.GetByIdAsync(tournamentId);
             List<GuildMember> members = await _guildRepository
                 .Get()

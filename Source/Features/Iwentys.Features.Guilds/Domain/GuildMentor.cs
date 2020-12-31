@@ -12,8 +12,8 @@ namespace Iwentys.Features.Guilds.Domain
     {
         public GuildMentor(Student student, Guild guild, GuildMemberType memberType)
         {
-            if (!memberType.IsEditor())
-                throw InnerLogicException.NotEnoughPermissionFor(student.Id);
+            if (!memberType.IsMentor())
+                throw InnerLogicException.GuildExceptions.IsNotGuildMentor(student.Id);
 
             Student = student;
             Guild = guild;
@@ -27,10 +27,18 @@ namespace Iwentys.Features.Guilds.Domain
 
     public static class GuildMentorUserExtensions
     {
-        public static async Task<GuildMentor> EnsureIsMentor(this Student student, IGenericRepository<Guild> guildRepository, int guildId)
+        public static async Task<GuildMentor> EnsureIsGuildMentor(this Student student, IGenericRepository<Guild> guildRepository, int guildId)
         {
-            Guild guild = await guildRepository.FindByIdAsync(guildId);
-            GuildMember membership = guild.Members.First(m => m.MemberId == student.Id);
+            Guild guild = await guildRepository.GetByIdAsync(guildId);
+            return EnsureIsGuildMentor(student, guild);
+        }
+
+        public static GuildMentor EnsureIsGuildMentor(this Student student, Guild guild)
+        {
+            GuildMember membership = guild.Members.FirstOrDefault(m => m.MemberId == student.Id);
+
+            if (membership is null)
+                throw InnerLogicException.GuildExceptions.IsNotGuildMember(student.Id, guild.Id);
 
             return new GuildMentor(student, guild, membership.MemberType);
         }

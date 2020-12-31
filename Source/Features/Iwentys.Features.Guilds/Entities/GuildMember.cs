@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Enums;
@@ -39,7 +40,7 @@ namespace Iwentys.Features.Guilds.Entities
             MemberType = GuildMemberType.Blocked;
         }
 
-        public void Approve(GuildEditor guildEditor)
+        public void Approve(GuildMentor guildMentor)
         {
             if (MemberType != GuildMemberType.Requested)
                 throw InnerLogicException.GuildExceptions.RequestWasNotFound(MemberId, GuildId);
@@ -50,6 +51,14 @@ namespace Iwentys.Features.Guilds.Entities
         public void MakeMentor(GuildCreator creator)
         {
             MemberType = GuildMemberType.Mentor;
+        }
+
+        public void Remove(GuildMentor guildMentor, IGenericRepository<GuildMember> guildMemberRepository)
+        {
+            if (MemberType == GuildMemberType.Creator)
+                throw InnerLogicException.GuildExceptions.CreatorCannotLeave(MemberId, GuildId);
+
+            guildMemberRepository.Delete(this);
         }
 
         public static Expression<Func<GuildMember, bool>> IsMember()
