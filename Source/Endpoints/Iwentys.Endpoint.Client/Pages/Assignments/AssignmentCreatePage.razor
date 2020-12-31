@@ -29,6 +29,13 @@
                 Clean
             </MatButton>
         </p>
+        
+        @if (IsUserAdmin())
+        {
+            <div>
+                <MatCheckbox @bind-Value="@_forGroup" Label="For group"></MatCheckbox>
+            </div>
+        }
 
         @if (_subjects is not null)
         {

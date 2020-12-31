@@ -1,8 +1,6 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients.Study;
-using Iwentys.Features.Students.Enums;
 using Iwentys.Features.Students.Models;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
@@ -24,6 +22,6 @@ namespace Iwentys.Endpoint.Client.Pages.Study
         private string LinkToStudentProfile(StudentInfoDto student) => $"student/profile/{student.Id}";
         private string LinkToSubjectProfile(Subject subject) => $"subject/profile/{subject.Id}";
 
-        private StudentInfoDto GroupAdmin => _groupProfile?.Students.FirstOrDefault(s => s.Role == StudentRole.GroupAdmin);
+        private StudentInfoDto GroupAdmin => _groupProfile?.GroupAdmin;
     }
 }
