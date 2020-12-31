@@ -35,12 +35,13 @@ namespace Iwentys.Features.Quests.Services
             _questResponseRepository = _unitOfWork.GetRepository<QuestResponse>();
         }
 
-        public async Task<QuestInfoDto> Get(int questId)
+        public Task<QuestInfoDto> Get(int questId)
         {
-            Quest entities = await _questRepository
-                .FindByIdAsync(questId);
-
-            return new QuestInfoDto(entities);
+            return _questRepository
+                .Get()
+                .Where(q => q.Id == questId)
+                .Select(QuestInfoDto.FromEntity)
+                .FirstAsync();
         }
 
         public async Task<List<QuestInfoDto>> GetCreatedByUserAsync(AuthorizedUser user)
@@ -88,7 +89,7 @@ namespace Iwentys.Features.Quests.Services
             await _unitOfWork.CommitAsync();
             
             await _achievementProvider.Achieve(AchievementList.QuestCreator, user.Id);
-            return new QuestInfoDto(quest);
+            return await Get(quest.Id);
         }
 
         public async Task<QuestInfoDto> SendResponseAsync(AuthorizedUser user, int questId)
@@ -99,8 +100,7 @@ namespace Iwentys.Features.Quests.Services
             
             await _questResponseRepository.InsertAsync(questResponseEntity);
             await _unitOfWork.CommitAsync();
-            Quest updatedQuest = await _questRepository.FindByIdAsync(questId);
-            return new QuestInfoDto(updatedQuest);
+            return await Get(questId);
         }
 
         public async Task<QuestInfoDto> CompleteAsync(AuthorizedUser author, int questId, int userId)
@@ -115,7 +115,7 @@ namespace Iwentys.Features.Quests.Services
             await _achievementProvider.Achieve(AchievementList.QuestComplete, userId);
             await _unitOfWork.CommitAsync();
 
-            return new QuestInfoDto(quest);
+            return await Get(questId);
         }
 
         public async Task<QuestInfoDto> RevokeAsync(AuthorizedUser user, int questId)
@@ -129,7 +129,7 @@ namespace Iwentys.Features.Quests.Services
             _questRepository.Update(quest);
             await _unitOfWork.CommitAsync();
 
-            return new QuestInfoDto(await _questRepository.FindByIdAsync(questId));
+            return await Get(questId);
         }
     }
 }

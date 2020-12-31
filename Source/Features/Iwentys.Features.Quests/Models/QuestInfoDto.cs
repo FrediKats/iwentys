@@ -22,12 +22,12 @@ namespace Iwentys.Features.Quests.Models
                 quest.State,
                 quest.IsOutdated,
                 new StudentInfoDto(quest.Author),
-                //TODO: fix this. NRE coz lazy load do not work. https://github.com/kysect/iwentys/issues/138
-                quest.Responses?.SelectToList(qr => new QuestResponseInfoDto(qr)))
+                quest.Executor == null ? null : new StudentInfoDto(quest.Executor),
+                quest.Responses.SelectToList(qr => new QuestResponseInfoDto(qr)))
         {
         }
 
-        public QuestInfoDto(int id, string title, string description, int price, DateTime creationTime, DateTime? deadline, QuestState state, bool isOutdated, StudentInfoDto author,
+        public QuestInfoDto(int id, string title, string description, int price, DateTime creationTime, DateTime? deadline, QuestState state, bool isOutdated, StudentInfoDto author, StudentInfoDto executor,
             List<QuestResponseInfoDto> responseInfos)
         {
             Id = id;
@@ -39,6 +39,7 @@ namespace Iwentys.Features.Quests.Models
             State = state;
             IsOutdated = isOutdated;
             Author = author;
+            Executor = executor;
             ResponseInfos = responseInfos;
         }
 
@@ -55,6 +56,7 @@ namespace Iwentys.Features.Quests.Models
         public QuestState State { get; init; }
         public bool IsOutdated { get; init; }
         public StudentInfoDto Author { get; init; }
+        public StudentInfoDto Executor { get; init; }
         public List<QuestResponseInfoDto> ResponseInfos { get; set; }
 
         public static Expression<Func<Quest, QuestInfoDto>> FromEntity => entity => new QuestInfoDto(entity);
