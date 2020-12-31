@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Study.Domain;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
+using Iwentys.Features.Study.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Study.Services
@@ -26,8 +28,14 @@ namespace Iwentys.Features.Study.Services
 
         public async Task<GroupProfileResponseDto> Get(string groupName)
         {
-            var studyGroupEntity = await new GroupName(groupName).GetStudyGroup(_studyGroupRepository);
-            return new GroupProfileResponseDto(studyGroupEntity);
+            var name = new GroupName(groupName);
+            List<GroupProfileResponseDto> result = await _studyGroupRepository
+                .Get()
+                .Where(StudyGroup.IsMatch(name))
+                .Select(GroupProfileResponseDto.FromEntity)
+                .WithStudents(_studentRepository);
+
+            return result.Single();
         }
 
         public async Task<List<StudyGroup>> GetStudyGroupsForDtoAsync(int? courseId)
@@ -40,12 +48,17 @@ namespace Iwentys.Features.Study.Services
 
         public async Task<GroupProfileResponseDto> GetStudentGroup(int studentId)
         {
-            var student = await _studentRepository.FindByIdAsync(studentId);
+            Student student = await _studentRepository.GetByIdAsync(studentId);
             if (student.GroupId is null)
                 return null;
 
-            var group = await _studyGroupRepository.FindByIdAsync(student.GroupId);
-            return new GroupProfileResponseDto(group);
+            List<GroupProfileResponseDto> result = await _studyGroupRepository
+                .Get()
+                .Where(sg => sg.Id == student.GroupId)
+                .Select(GroupProfileResponseDto.FromEntity)
+                .WithStudents(_studentRepository);
+
+            return result.Single();
         }
     }
 }
