@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Gamification
 {
-    [Route("api/leaderboard")]
+    [Route("api/karma")]
     [ApiController]
     public class KarmaController : ControllerBase
     {
@@ -41,6 +41,5 @@ namespace Iwentys.Endpoint.Controllers.Gamification
             await _karmaService.RemoveUpVote(authorizedUser, studentId);
             return Ok();
         }
-
     }
 }

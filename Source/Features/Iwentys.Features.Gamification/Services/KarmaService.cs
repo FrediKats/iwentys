@@ -50,7 +50,7 @@ namespace Iwentys.Features.Gamification.Services
             Student target = await _studentRepository.GetByIdAsync(targetId);
             KarmaUpVote upVote = await _karmaRepository.Get().FirstAsync(k => k.AuthorId == author.Id && k.TargetId == target.Id);
 
-            await _karmaRepository.DeleteAsync(upVote);
+            _karmaRepository.Delete(upVote);
             await _unitOfWork.CommitAsync();
         }
     }

@@ -21,4 +21,8 @@
     <ProjectReference Include="..\..\Features\Iwentys.Features.Quests\Iwentys.Features.Quests.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ControllerClients\Gamification\" />
+  </ItemGroup>
+
 </Project>

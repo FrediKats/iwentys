@@ -11,7 +11,7 @@ namespace Iwentys.Common.Databases
         Task<TEntity> FindByIdAsync<TKey>(TKey id);
         Task<TEntity> InsertAsync(TEntity entity);
         Task InsertAsync(IEnumerable<TEntity> entities);
-        Task DeleteAsync<TKey>(TKey id);
+        //Task DeleteAsync<TKey>(TKey id);
         void Delete(TEntity entityToDelete);
         void Update(List<TEntity> entitiesToUpdate);
         void Update(TEntity entityToUpdate);
