@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Features.Gamification.Entities;
 using Iwentys.Features.Gamification.Models;
+using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +22,7 @@ namespace Iwentys.Features.Gamification.Services
             _unitOfWork = unitOfWork;
 
             _studentRepository = _unitOfWork.GetRepository<Student>();
+            _karmaRepository = _unitOfWork.GetRepository<KarmaUpVote>();
         }
 
         public async Task<KarmaStatistic> GetStatistic(int studentId)
@@ -31,6 +33,25 @@ namespace Iwentys.Features.Gamification.Services
                 .ToListAsync();
 
             return KarmaStatistic.Create(studentId, karmaUpVotes);
+        }
+
+        public async Task UpVote(AuthorizedUser author, int targetId)
+        {
+            Student target = await _studentRepository.GetByIdAsync(targetId);
+
+            var karmaUpVote = KarmaUpVote.Create(author, target);
+
+            await _karmaRepository.InsertAsync(karmaUpVote);
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task RemoveUpVote(AuthorizedUser author, int targetId)
+        {
+            Student target = await _studentRepository.GetByIdAsync(targetId);
+            KarmaUpVote upVote = await _karmaRepository.Get().FirstAsync(k => k.AuthorId == author.Id && k.TargetId == target.Id);
+
+            await _karmaRepository.DeleteAsync(upVote);
+            await _unitOfWork.CommitAsync();
         }
     }
 }
