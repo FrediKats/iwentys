@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -21,6 +21,7 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
         private string _title;
         private string _description;
         private DateTime? _deadline;
+        private bool _forGroup;
 
         private List<SubjectProfileDto> _subjects;
         private SubjectProfileDto _selectedSubject;
@@ -45,7 +46,7 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
 
         private async Task ExecuteAssignmentCreation()
         {
-            var createArguments = new AssignmentCreateRequestDto(_title, _description, _selectedSubject?.Id, _deadline);
+            var createArguments = new AssignmentCreateRequestDto(_title, _description, _selectedSubject?.Id, _deadline, _forGroup);
             await _assignmentControllerClient.Create(createArguments);
             NavigationManagerClient.NavigateTo("/assignment");
         }

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Bogus;
+using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Features.Assignments.Entities;
-using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.Students.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,16 +15,13 @@ namespace Iwentys.Database.Seeding.EntityGenerators
         public AssignmentGenerator(List<Student> students)
         {
             var faker = new Faker();
+            var assignmentCreateRequestFaker = new AssignmentCreateRequestFaker();
 
             Assignments = new List<Assignment>();
             StudentAssignments = new List<StudentAssignment>();
             foreach (Student student in students)
             {
-                var assignmentEntity = Assignment.Create(student, new AssignmentCreateRequestDto(
-                    faker.Hacker.IngVerb(),
-                    faker.Lorem.Paragraph(1),
-                    null,
-                    DateTime.UtcNow.AddDays(1)));
+                var assignmentEntity = Assignment.Create(student, assignmentCreateRequestFaker.Generate());
                 
                 assignmentEntity.Id = 1 + faker.IndexVariable++;
                 Assignments.Add(assignmentEntity);
