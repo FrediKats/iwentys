@@ -111,11 +111,10 @@ namespace Iwentys.Features.Quests.Services
             quest.MakeCompleted(author, executor);
             
             _questRepository.Update(quest);
-            await _unitOfWork.CommitAsync();
-            
             await _pointTransactionLogService.TransferFromSystem(userId, quest.Price);
-
             await _achievementProvider.Achieve(AchievementList.QuestComplete, userId);
+            await _unitOfWork.CommitAsync();
+
             return new QuestInfoDto(quest);
         }
 
