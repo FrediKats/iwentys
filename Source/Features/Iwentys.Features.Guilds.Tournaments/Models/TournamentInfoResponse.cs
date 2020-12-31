@@ -31,5 +31,12 @@ namespace Iwentys.Features.Guilds.Tournaments.Models
                     //FYI: do not replace, it wouldn't compile to SQL
                     Teams = tournamentEntity.Teams.Select(t => TournamentTeamInfoDto.Create(t))
                 };
+
+        //TODO: HACK
+        public TournamentInfoResponse OrderByRate()
+        {
+            Teams = Teams.OrderByDescending(t => t.Points).ToList();
+            return this;
+        }
     }
 }

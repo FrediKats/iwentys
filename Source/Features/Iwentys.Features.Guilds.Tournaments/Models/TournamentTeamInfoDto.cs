@@ -10,6 +10,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Models
         public int Id { get; set; }
         public string TeamName { get; set; }
         public DateTime RegistrationTime { get; set; }
+        public int Points { get; init; }
 
         public List<int> MemberIds { get; set; }
 
@@ -20,7 +21,8 @@ namespace Iwentys.Features.Guilds.Tournaments.Models
                 Id = team.Id,
                 TeamName = team.Guild.Title,
                 RegistrationTime = team.RegistrationTime,
-                MemberIds = team.Members.Select(m => m.MemberId).ToList()
+                MemberIds = team.Members.Select(m => m.MemberId).ToList(),
+                Points = team.Members.Sum(m => m.Points)
             };
         }
     }

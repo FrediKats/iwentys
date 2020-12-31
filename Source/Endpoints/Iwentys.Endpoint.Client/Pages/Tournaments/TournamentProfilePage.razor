@@ -1,9 +1,6 @@
 ﻿@page "/tournaments/profile/{TournamentId:int}"
 @using Blazored.LocalStorage
 @using Iwentys.Features.Guilds.Tournaments.Models
-@using Iwentys.Features.Students.Enums
-@using Iwentys.Features.Students.Models
-@using Iwentys.Features.Study.Entities
 
 @inject HttpClient Http
 @inject ILocalStorageService LocalStorage
@@ -19,7 +16,7 @@
                 @foreach (TournamentTeamInfoDto team in _tournament.Teams)
                 {
                     <MatListItem>
-                        @team.TeamName
+                        @team.TeamName (@team.Points)
                     </MatListItem>
                 }
             </MatList>

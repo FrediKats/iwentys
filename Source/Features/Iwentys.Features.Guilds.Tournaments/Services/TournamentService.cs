@@ -46,37 +46,47 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
 
         public async Task<List<TournamentInfoResponse>> GetAsync()
         {
-            return await _tournamentRepository
+            List<TournamentInfoResponse> result = await _tournamentRepository
                 .Get()
                 .Select(TournamentInfoResponse.FromEntity)
                 .ToListAsync();
+
+            result.ForEach(r => r.OrderByRate());
+            return result;
         }
 
-        public List<TournamentInfoResponse> GetActive()
+        public async Task<List<TournamentInfoResponse>> GetActive()
         {
-            return _tournamentRepository
+            var result = await _tournamentRepository
                 .Get()
                 .Where(t => t.StartTime < DateTime.UtcNow && t.EndTime > DateTime.UtcNow)
                 .Select(TournamentInfoResponse.FromEntity)
-                .ToList();
+                .ToListAsync();
+
+            result.ForEach(r => r.OrderByRate());
+            return result;
         }
 
         public async Task<TournamentInfoResponse> GetAsync(int tournamentId)
         {
-            return await _tournamentRepository
+            var result = await _tournamentRepository
                 .Get()
                 .Select(TournamentInfoResponse.FromEntity)
                 .SingleAsync(t => t.Id == tournamentId);
+
+            return result.OrderByRate();
         }
 
-        public Task<TournamentInfoResponse> FindGuildActiveTournament(int guildId)
+        public async Task<TournamentInfoResponse> FindGuildActiveTournament(int guildId)
         {
-            return _tournamentTeamRepository
+            var result = await _tournamentTeamRepository
                 .Get()
                 .Where(tt => tt.GuildId == guildId)
                 .Select(tt => tt.Tournament)
                 .Select(TournamentInfoResponse.FromEntity)
                 .FirstOrDefaultAsync();
+
+            return result.OrderByRate();
         }
 
         public async Task<TournamentLeaderboardDto> GetLeaderboard(int tournamentId)
