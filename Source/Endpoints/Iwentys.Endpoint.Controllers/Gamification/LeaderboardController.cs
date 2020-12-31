@@ -8,7 +8,7 @@ using Iwentys.Features.Study.Models;
 using Iwentys.Features.Study.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Controllers.Study
+namespace Iwentys.Endpoint.Controllers.Gamification
 {
     [Route("api/leaderboard")]
     [ApiController]

@@ -4,7 +4,7 @@ using Iwentys.Features.Gamification.Models;
 using Iwentys.Features.Gamification.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Controllers
+namespace Iwentys.Endpoint.Controllers.Gamification
 {
     [Route("api/tags")]
     [ApiController]

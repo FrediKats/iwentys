@@ -77,6 +77,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<GuildNewsfeed>().HasKey(g => new {g.GuildId, g.NewsfeedId});
             modelBuilder.Entity<StudentInterestTag>().HasKey(g => new {g.StudentId, g.InterestTagId});
             modelBuilder.Entity<TournamentTeamMember>().HasKey(g => new {g.TeamId, g.MemberId});
+            modelBuilder.Entity<KarmaUpVote>().HasKey(g => new {g.AuthorId, g.TargetId});
         }
 
         private static void SetUniqKey(ModelBuilder modelBuilder)
@@ -106,6 +107,7 @@ namespace Iwentys.Database.Context
         #region Gamification
         public DbSet<InterestTag> InterestTags { get; set; }
         public DbSet<StudentInterestTag> UserInterestTags { get; set; }
+        public DbSet<KarmaUpVote> KarmaUpVotes { get; set; }
         #endregion
 
         #region Guilds
