@@ -31,10 +31,10 @@
                 <p>Start time: @_tournament.StartTime</p>
                 <p>End time: @_tournament.EndTime</p>
             </span>
+            <MatButton OnClick=@(async () => await ForceUpdate())>Update results</MatButton>
         </div>
     </div>
 }
-
 
 @code {
     [Parameter]

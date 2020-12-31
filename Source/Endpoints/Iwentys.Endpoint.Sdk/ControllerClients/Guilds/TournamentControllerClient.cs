@@ -46,5 +46,12 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
                 .Request($"/api/tournaments/{tournamentId}/register")
                 .PutAsync();
         }
+
+        public async Task ForceUpdate(int tournamentId)
+        {
+            await new FlurlClient(Client)
+                .Request($"/api/tournaments/{tournamentId}/force-update")
+                .GetAsync();
+        }
     }
 }
