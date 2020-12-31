@@ -6,10 +6,11 @@ using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Newsfeeds.Entities;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Study.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {
-    public class NewsfeedGenerator
+    public class NewsfeedGenerator : IEntityGenerator
     {
         public List<Newsfeed> Newsfeeds { get; set; }
         public List<SubjectNewsfeed> SubjectNewsfeeds { get; set; }
@@ -56,6 +57,13 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 Newsfeeds.Add(newsfeedEntity);
                 GuildNewsfeeds.Add(new GuildNewsfeed { GuildId = guild.Id, NewsfeedId = newsfeedEntity.Id });
             }
+        }
+
+        public void Seed(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Newsfeed>().HasData(Newsfeeds);
+            modelBuilder.Entity<SubjectNewsfeed>().HasData(SubjectNewsfeeds);
+            modelBuilder.Entity<GuildNewsfeed>().HasData(GuildNewsfeeds);
         }
     }
 }

@@ -6,10 +6,11 @@ using Iwentys.Database.Seeding.Tools;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Students.Enums;
 using Iwentys.Features.Study.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {
-    public class StudentGenerator
+    public class StudentGenerator : IEntityGenerator
     {
         private const int StudentCount = 200;
 
@@ -53,5 +54,10 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 
         public Faker<Student> Faker { get; }
         public List<Student> Students { get; set; }
+
+        public void Seed(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Student>().HasData(Students);
+        }
     }
 }

@@ -4,10 +4,11 @@ using Iwentys.Database.Seeding.Tools;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.Students.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {
-    public class GithubDataGenerator
+    public class GithubDataGenerator : IEntityGenerator
     {
         public List<GithubUser> GithubUserEntities { get; set; }
         public List<GithubProject> GithubProjectEntities { get; set; }
@@ -55,6 +56,12 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             {
                 Contributions = result,
             };
+        }
+
+        public void Seed(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<GithubUser>().HasData(GithubUserEntities);
+            modelBuilder.Entity<GithubProject>().HasData(GithubProjectEntities);
         }
     }
 }

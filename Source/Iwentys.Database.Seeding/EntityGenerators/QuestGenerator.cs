@@ -5,10 +5,11 @@ using Bogus;
 using Iwentys.Features.Quests.Entities;
 using Iwentys.Features.Quests.Enums;
 using Iwentys.Features.Students.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {
-    public class QuestGenerator
+    public class QuestGenerator : IEntityGenerator
     {
         private const int QuestCount = 10;
         
@@ -44,6 +45,12 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                     });
                 }
             }
+        }
+
+        public void Seed(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Quest>().HasData(Quest);
+            modelBuilder.Entity<QuestResponse>().HasData(QuestResponse);
         }
     }
 }

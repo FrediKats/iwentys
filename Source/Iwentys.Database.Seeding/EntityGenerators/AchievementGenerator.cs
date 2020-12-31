@@ -5,10 +5,11 @@ using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Achievements.Entities;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Students.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {
-    public class AchievementGenerator
+    public class AchievementGenerator : IEntityGenerator
     {
         public List<GuildAchievement> GuildAchievementModels { get; set; }
         public List<StudentAchievement> StudentAchievementModels { get; set; }
@@ -30,6 +31,14 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                     GuildId = g.Id,
                     CreationTimeUtc = DateTime.UtcNow
                 }).ToList();
+        }
+
+        public void Seed(ModelBuilder modelBuilder)
+        {
+            //FYI: is this okay? We seed data not from this generator
+            modelBuilder.Entity<Achievement>().HasData(AchievementList.Achievements);
+            modelBuilder.Entity<StudentAchievement>().HasData(StudentAchievementModels);
+            modelBuilder.Entity<GuildAchievement>().HasData(GuildAchievementModels);
         }
     }
 }

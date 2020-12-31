@@ -9,10 +9,11 @@ using Iwentys.Features.Guilds.Tournaments.Models;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Students.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {
-    public class TournamentGenerator
+    public class TournamentGenerator : IEntityGenerator
     {
         public List<Tournament> Tournaments { get; set; }
         public List<CodeMarathonTournament> CodeMarathonTournaments { get; set; }
@@ -69,6 +70,14 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                     .Where(m => m.GuildId == guild.Id)
                     .Select(m => new TournamentTeamMember { MemberId = m.MemberId, TeamId = team.Id }));
             }
+        }
+
+        public void Seed(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Tournament>().HasData(Tournaments);
+            modelBuilder.Entity<CodeMarathonTournament>().HasData(CodeMarathonTournaments);
+            modelBuilder.Entity<TournamentParticipantTeam>().HasData(TournamentParticipantTeams);
+            modelBuilder.Entity<TournamentTeamMember>().HasData(TournamentTeamMember);
         }
     }
 }

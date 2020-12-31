@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Bogus;
 using Iwentys.Common.Tools;
 using Iwentys.Database.Seeding.Tools;
 using Iwentys.Features.Students.Enums;
 using Iwentys.Features.Study.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {
-    public class StudyEntitiesGenerator
+    public class StudyEntitiesGenerator : IEntityGenerator
     {
         private const int TeacherCount = 20;
         private const int SubjectCount = 8;
@@ -22,8 +24,16 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 
         public StudyEntitiesGenerator()
         {
-            Teachers = new TeacherGenerator().Faker.Generate(TeacherCount);
-            Subjects = new SubjectGenerator().Faker.Generate(SubjectCount);
+            Faker<Teacher> teacherFaker = new Faker<Teacher>()
+                .RuleFor(t => t.Id, f => f.IndexFaker + 1)
+                .RuleFor(t => t.Name, f => f.Name.FullName());
+
+            Faker<Subject> subjectFaker = new Faker<Subject>()
+                .RuleFor(t => t.Id, f => f.IndexFaker + 1)
+                .RuleFor(t => t.Name, f => f.Company.CompanyName());
+
+            Teachers = teacherFaker.Generate(TeacherCount);
+            Subjects = subjectFaker.Generate(SubjectCount);
             StudyPrograms = new List<StudyProgram> { new StudyProgram { Id = 1, Name = "ИС" } };
             StudyCourses = new List<StudyCourse>
             {
@@ -98,6 +108,16 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                     StudyProgramId = 1
                 };
             }
+        }
+
+        public void Seed(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<StudyProgram>().HasData(StudyPrograms);
+            modelBuilder.Entity<StudyCourse>().HasData(StudyCourses);
+            modelBuilder.Entity<StudyGroup>().HasData(StudyGroups);
+            modelBuilder.Entity<Teacher>().HasData(Teachers);
+            modelBuilder.Entity<Subject>().HasData(Subjects);
+            modelBuilder.Entity<GroupSubject>().HasData(GroupSubjects);
         }
     }
 }

@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using Iwentys.Database.Seeding.Tools;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Study.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {
-    public class SubjectActivityGenerator
+    public class SubjectActivityGenerator : IEntityGenerator
     {
         public List<SubjectActivity> SubjectActivityEntities { get; set; }
 
@@ -25,6 +27,11 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                     });
                 }
             }
+        }
+
+        public void Seed(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<SubjectActivity>().HasData(SubjectActivityEntities);
         }
     }
 }

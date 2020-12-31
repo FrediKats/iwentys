@@ -4,10 +4,11 @@ using Bogus;
 using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.Students.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {
-    public class AssignmentGenerator
+    public class AssignmentGenerator : IEntityGenerator
     {
         public List<Assignment> Assignments { get; set; }
         public List<StudentAssignment> StudentAssignments { get; set; }
@@ -34,6 +35,12 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                     StudentId = student.Id,
                 });
             }
+        }
+
+        public void Seed(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Assignment>().HasData(Assignments);
+            modelBuilder.Entity<StudentAssignment>().HasData(StudentAssignments);
         }
     }
 }

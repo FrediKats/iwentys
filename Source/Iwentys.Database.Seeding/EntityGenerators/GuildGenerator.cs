@@ -6,10 +6,11 @@ using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Tributes.Entities;
 using Iwentys.Features.Students.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {
-    public class GuildGenerator
+    public class GuildGenerator : IEntityGenerator
     {
         private const int GuildCount = 5;
 
@@ -66,6 +67,14 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                     TributeEntities.Add(tributeEntity);
                 }
             }
+        }
+
+        public void Seed(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Guild>().HasData(Guilds);
+            modelBuilder.Entity<GuildMember>().HasData(GuildMembers);
+            modelBuilder.Entity<GuildPinnedProject>().HasData(PinnedProjects);
+            modelBuilder.Entity<Tribute>().HasData(TributeEntities);
         }
     }
 }
