@@ -16,8 +16,6 @@ namespace Iwentys.Endpoint.Client.Pages.Tournaments
         protected override async Task OnInitializedAsync()
         {
             HttpClient httpClient = await Http.TrySetHeader(LocalStorage);
-            _guildControllerClient = new GuildControllerClient(httpClient);
-            _guildTributeControllerControllerClient = new GuildTributeControllerClient(httpClient);
             _tournamentControllerClient = new TournamentControllerClient(httpClient);
 
             _tournaments = await _tournamentControllerClient.Get();
