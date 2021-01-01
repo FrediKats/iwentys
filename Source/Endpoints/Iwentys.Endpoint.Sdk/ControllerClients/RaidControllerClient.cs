@@ -28,5 +28,12 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
                 .Request($"/api/raids/profile/{raidId}")
                 .GetJsonAsync<RaidProfileDto>();
         }
+
+        public Task RegisterOnRaid(int raidId)
+        {
+            return new FlurlClient(Client)
+                .Request($"/api/raids/profile/{raidId}/register")
+                .PutAsync();
+        }
     }
 }

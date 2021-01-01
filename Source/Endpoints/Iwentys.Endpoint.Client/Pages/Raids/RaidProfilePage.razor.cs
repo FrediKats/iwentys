@@ -13,5 +13,11 @@ namespace Iwentys.Endpoint.Client.Pages.Raids
 
             _raid = await ClientHolder.Raid.Get(RaidId);
         }
+
+        private async Task RegisterOnRaid()
+        {
+            await ClientHolder.Raid.RegisterOnRaid(_raid.Id);
+            _raid = await ClientHolder.Raid.Get(RaidId);
+        }
     }
 }

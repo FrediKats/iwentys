@@ -34,5 +34,13 @@ namespace Iwentys.Endpoint.Controllers
             RaidProfileDto result = await _raidService.Get(raidId);
             return Ok(result);
         }
+
+        [HttpPut("profile/{raidId}/register")]
+        public async Task<ActionResult> RegisterOnRaid(int raidId)
+        {
+            AuthorizedUser user = this.TryAuthWithToken();
+            await _raidService.RegisterOnRaid(user, raidId);
+            return Ok();
+        }
     }
 }
