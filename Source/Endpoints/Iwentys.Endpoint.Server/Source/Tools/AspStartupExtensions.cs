@@ -17,6 +17,7 @@ using Iwentys.Features.Guilds.Tournaments;
 using Iwentys.Features.Guilds.Tributes;
 using Iwentys.Features.Newsfeeds;
 using Iwentys.Features.Quests;
+using Iwentys.Features.Raids;
 using Iwentys.Features.Students;
 using Iwentys.Features.Study;
 using Iwentys.Features.Study.Repositories;
@@ -83,7 +84,9 @@ namespace Iwentys.Endpoint.Server.Source.Tools
             
             services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
             services.AddIwentysStudyFeatureServices();
+
             services.AddIwentysVotingFeatureServices();
+            services.AddIwentysRaidFeatureServices();
 
             return services;
         }

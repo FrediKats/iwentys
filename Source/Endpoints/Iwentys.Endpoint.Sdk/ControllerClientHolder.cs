@@ -4,7 +4,7 @@ using Iwentys.Endpoint.Sdk.ControllerClients.Gamification;
 using Iwentys.Endpoint.Sdk.ControllerClients.Guilds;
 using Iwentys.Endpoint.Sdk.ControllerClients.Study;
 
-namespace Iwentys.Endpoint.Client.Tools
+namespace Iwentys.Endpoint.Sdk
 {
     public class ControllerClientHolder
     {
@@ -31,6 +31,9 @@ namespace Iwentys.Endpoint.Client.Tools
 
         public QuestControllerClient Quest { get; }
 
+        public RaidControllerClient Raid { get; }
+
+
         public ControllerClientHolder(HttpClient httpClient)
         {
             Assignment = new AssignmentControllerClient(httpClient);
@@ -55,6 +58,8 @@ namespace Iwentys.Endpoint.Client.Tools
             Karma = new KarmaControllerClient(httpClient);
 
             Quest = new QuestControllerClient(httpClient);
+
+            Raid = new RaidControllerClient(httpClient);
         }
     }
 }

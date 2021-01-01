@@ -21,6 +21,7 @@ namespace Iwentys.Database.Seeding
             NewsfeedGenerator = new NewsfeedGenerator(StudentGenerator.Students, GuildGenerator.Guilds, StudyEntitiesGenerator.Subjects).To(Register);
             QuestGenerator = new QuestGenerator(StudentGenerator.Students).To(Register);
             TournamentGenerator = new TournamentGenerator(StudentGenerator.Students, GuildGenerator.Guilds, GuildGenerator.GuildMembers).To(Register);
+            RaidGenerator = new RaidGenerator(StudentGenerator.Students).To(Register);
         }
 
         public StudyEntitiesGenerator StudyEntitiesGenerator { get; set; }
@@ -33,6 +34,7 @@ namespace Iwentys.Database.Seeding
         public NewsfeedGenerator NewsfeedGenerator { get; set; }
         public QuestGenerator QuestGenerator { get; set; }
         public TournamentGenerator TournamentGenerator { get; set; }
+        public RaidGenerator RaidGenerator { get; set; }
 
 
         public void Seed(ModelBuilder modelBuilder)
