@@ -42,5 +42,13 @@ namespace Iwentys.Endpoint.Controllers
             await _raidService.RegisterOnRaid(user, raidId);
             return Ok();
         }
+
+        [HttpPut("profile/{raidId}/unregister")]
+        public async Task<ActionResult> UnRegisterOnRaid(int raidId)
+        {
+            AuthorizedUser user = this.TryAuthWithToken();
+            await _raidService.UnRegisterOnRaid(user, raidId);
+            return Ok();
+        }
     }
 }

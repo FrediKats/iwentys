@@ -54,5 +54,16 @@ namespace Iwentys.Features.Raids.Services
             await _raidVisitorRepository.InsertAsync(visitor);
             await _unitOfWork.CommitAsync();
         }
+
+        public async Task UnRegisterOnRaid(AuthorizedUser user, int raidId)
+        {
+            Raid raid = await _raidRepository.GetByIdAsync(raidId);
+            RaidVisitor raidVisitor = await _raidVisitorRepository
+                .Get()
+                .FirstAsync(rv => rv.Raid == raid && rv.VisitorId == user.Id);
+
+            _raidVisitorRepository.Delete(raidVisitor);
+            await _unitOfWork.CommitAsync();
+        }
     }
 }

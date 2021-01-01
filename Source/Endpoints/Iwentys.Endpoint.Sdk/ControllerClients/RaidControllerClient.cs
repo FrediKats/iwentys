@@ -35,5 +35,12 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
                 .Request($"/api/raids/profile/{raidId}/register")
                 .PutAsync();
         }
+
+        public Task UnRegisterOnRaid(int raidId)
+        {
+            return new FlurlClient(Client)
+                .Request($"/api/raids/profile/{raidId}/unregister")
+                .PutAsync();
+        }
     }
 }
