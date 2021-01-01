@@ -22,7 +22,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             GithubProjectEntities = new List<GithubProject>();
             foreach (Student student in students)
             {
-                ActivityInfo activity = CreateActivity(faker);
+                ActivityInfo activity = CreateActivity();
                 GithubUserEntities.Add(new GithubUser
                 {
                     StudentId = student.Id,
@@ -42,7 +42,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             }
         }
 
-        private static ActivityInfo CreateActivity(Faker faker)
+        private static ActivityInfo CreateActivity()
         {
             List<ContributionsInfo> result = new List<ContributionsInfo>();
             for (int i = 1; i <= 11; i++)

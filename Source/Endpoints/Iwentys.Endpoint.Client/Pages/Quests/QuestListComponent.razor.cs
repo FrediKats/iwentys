@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Iwentys.Features.Quests.Models;
+﻿using Iwentys.Features.Quests.Models;
 
 namespace Iwentys.Endpoint.Client.Pages.Quests
 {

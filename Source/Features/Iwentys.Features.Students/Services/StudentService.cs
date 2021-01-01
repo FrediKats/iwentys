@@ -65,6 +65,8 @@ namespace Iwentys.Features.Students.Services
             _studentRepository.Update(user);
 
             await _achievementProvider.Achieve(AchievementList.AddGithubAchievement, user.Id);
+            await _unitOfWork.CommitAsync();
+
             return new StudentInfoDto(await _studentRepository.FindByIdAsync(id));
         }
 

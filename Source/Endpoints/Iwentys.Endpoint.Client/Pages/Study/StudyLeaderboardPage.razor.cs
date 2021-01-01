@@ -9,15 +9,18 @@ namespace Iwentys.Endpoint.Client.Pages.Study
 {
     public partial class StudyLeaderboardPage : ComponentBase
     {
-        private string LinkToProfile(StudyLeaderboardRowDto rowDto) => $"student/profile/{rowDto.Student.Id}";
+        //TODO: hack need to implement selection
+        private int _courseId = 4;
 
         private IReadOnlyList<StudyLeaderboardRowDto> _studentProfiles;
+
+        private string LinkToProfile(StudyLeaderboardRowDto rowDto) => $"student/profile/{rowDto.Student.Id}";
+
 
         protected override async Task OnInitializedAsync()
         {
             var studyLeaderboardControllerClient = new StudyLeaderboardControllerClient(await Http.TrySetHeader(LocalStorage));
-            //TODO: hack
-            _studentProfiles = await studyLeaderboardControllerClient.GetStudyRating(CourseId ?? 4);
+            _studentProfiles = await studyLeaderboardControllerClient.GetStudyRating(_courseId);
         }
     }
 }

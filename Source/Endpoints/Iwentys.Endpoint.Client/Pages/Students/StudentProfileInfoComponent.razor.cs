@@ -45,8 +45,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
 
         private bool IsCanSendKarma()
         {
-            return _self is not null
-                   && _self.Id != StudentProfile.Id
+            return _self?.Id == StudentProfile.Id
                    && _userKarmaStatistic is not null
                    && !_userKarmaStatistic.UpVotes.Contains(_self.Id);
         }
@@ -59,8 +58,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
 
         private bool IsCanRemoveKarma()
         {
-            return _self is not null
-                   && _self.Id != StudentProfile.Id
+            return _self?.Id == StudentProfile.Id
                    && _userKarmaStatistic is not null
                    && _userKarmaStatistic.UpVotes.Contains(_self.Id);
         }

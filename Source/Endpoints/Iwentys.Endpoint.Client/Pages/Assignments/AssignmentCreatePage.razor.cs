@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Client.Tools;
@@ -42,7 +41,9 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
             if (_studyGroup is not null)
             {
                 List<SubjectProfileDto> subject = await _subjectControllerClient.GetGroupSubjects(_studyGroup.Id);
-                _subjects = new List<SubjectProfileDto>().Append(null).Concat(subject).ToList();
+
+                //FYI: this value is used in selector
+                subject.Insert(0, null);
             }
         }
 
@@ -55,9 +56,7 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
 
         private bool IsUserAdmin()
         {
-            return _currentStudent is not null
-                   && _studyGroup is not null
-                   && _currentStudent.Id == _studyGroup.GroupAdmin?.Id;
+            return _currentStudent?.Id == _studyGroup?.GroupAdmin?.Id;
         }
     }
 }
