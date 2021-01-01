@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Iwentys.Features.Gamification.Models;
 using Iwentys.Features.Raids.Entities;
 using Iwentys.Features.Raids.Enums;
 using Iwentys.Features.Students.Models;
@@ -21,6 +22,7 @@ namespace Iwentys.Features.Raids.Models
         public StudentInfoDto Author { get; set; }
 
         public ICollection<StudentInfoDto> Visitors { get; set; }
+        public ICollection<InterestTagDto> InterestTags { get; set; }
 
         public static Expression<Func<Raid, RaidProfileDto>> FromEntity =>
             entity => new RaidProfileDto()
@@ -33,7 +35,8 @@ namespace Iwentys.Features.Raids.Models
                 EndTime = entity.EndTime,
                 RaidType = entity.RaidType,
                 Author = new StudentInfoDto(entity.Author),
-                Visitors = entity.Visitors.Select(s => new StudentInfoDto(s.Visitor)).ToList()
+                Visitors = entity.Visitors.Select(s => new StudentInfoDto(s.Visitor)).ToList(),
+                InterestTags = entity.InterestTags.Select(t => new InterestTagDto(t.InterestTag)).ToList()
             };
     }
 }

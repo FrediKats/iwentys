@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Iwentys.Features.Gamification\Iwentys.Features.Gamification.csproj" />
     <ProjectReference Include="..\Iwentys.Features.Students\Iwentys.Features.Students.csproj" />
   </ItemGroup>
 

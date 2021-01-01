@@ -23,6 +23,7 @@ namespace Iwentys.Features.Raids.Entities
         public virtual Student Author { get; set; }
 
         public virtual ICollection<RaidVisitor> Visitors { get; set; }
+        public virtual ICollection<RaidInterestTag> InterestTags { get; set; }
 
         public static Raid CreateCommon(SystemAdminUser admin, RaidCreateArguments arguments)
         {
