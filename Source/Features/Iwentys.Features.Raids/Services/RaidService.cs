@@ -17,6 +17,7 @@ namespace Iwentys.Features.Raids.Services
         private readonly IGenericRepository<Student> _studentRepository;
         private readonly IGenericRepository<Raid> _raidRepository;
         private readonly IGenericRepository<RaidVisitor> _raidVisitorRepository;
+        private readonly IGenericRepository<RaidPartySearchRequest> _raidPartySearchRequestRepository;
 
         public RaidService(IUnitOfWork unitOfWork)
         {
@@ -25,6 +26,7 @@ namespace Iwentys.Features.Raids.Services
             _studentRepository = _unitOfWork.GetRepository<Student>();
             _raidRepository = _unitOfWork.GetRepository<Raid>();
             _raidVisitorRepository = _unitOfWork.GetRepository<RaidVisitor>();
+            _raidPartySearchRequestRepository = _unitOfWork.GetRepository<RaidPartySearchRequest>();
         }
 
         public async Task<List<RaidProfileDto>> Get()
@@ -78,6 +80,21 @@ namespace Iwentys.Features.Raids.Services
             visitor.Approve();
 
             _raidVisitorRepository.Update(visitor);
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task CreatePartySearchRequest(AuthorizedUser user, int raidId, RaidPartySearchRequestArguments arguments)
+        {
+            Student student = await _studentRepository.GetByIdAsync(user.Id);
+            Raid raid = await _raidRepository.GetByIdAsync(raidId);
+            RaidVisitor visitor = await _raidVisitorRepository
+                .Get()
+                .Where(rv => rv.RaidId == raidId && rv.VisitorId == user.Id)
+                .SingleAsync();
+
+            var raidPartySearchRequest = RaidPartySearchRequest.Create(raid, visitor, arguments);
+
+            await _raidPartySearchRequestRepository.InsertAsync(raidPartySearchRequest);
             await _unitOfWork.CommitAsync();
         }
     }

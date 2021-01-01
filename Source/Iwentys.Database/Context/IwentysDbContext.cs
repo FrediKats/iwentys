@@ -81,6 +81,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<KarmaUpVote>().HasKey(g => new {g.AuthorId, g.TargetId});
             modelBuilder.Entity<RaidVisitor>().HasKey(rv => new {rv.RaidId, rv.VisitorId});
             modelBuilder.Entity<RaidInterestTag>().HasKey(rv => new {rv.RaidId, rv.InterestTagId});
+            modelBuilder.Entity<RaidPartySearchRequest>().HasKey(rv => new {rv.RaidId, rv.AuthorId});
         }
 
         private static void SetUniqKey(ModelBuilder modelBuilder)
@@ -149,6 +150,7 @@ namespace Iwentys.Database.Context
         public DbSet<Raid> Raids { get; set; }
         public DbSet<RaidVisitor> RaidVisitors { get; set; }
         public DbSet<RaidInterestTag> RaidInterestTags { get; set; }
+        public DbSet<RaidPartySearchRequest> PartySearchRequests { get; set; }
         #endregion
     }
 }

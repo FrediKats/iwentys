@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Iwentys.Common.Exceptions;
 using Iwentys.Features.Raids.Enums;
 using Iwentys.Features.Raids.Models;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
-using Iwentys.Features.Students.Enums;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace Iwentys.Features.Raids.Entities
 {
@@ -25,6 +22,7 @@ namespace Iwentys.Features.Raids.Entities
 
         public virtual ICollection<RaidVisitor> Visitors { get; set; }
         public virtual ICollection<RaidInterestTag> InterestTags { get; set; }
+        public virtual ICollection<RaidPartySearchRequest> PartySearchRequests { get; set; }
 
         public static Raid CreateCommon(SystemAdminUser admin, RaidCreateArguments arguments)
         {
