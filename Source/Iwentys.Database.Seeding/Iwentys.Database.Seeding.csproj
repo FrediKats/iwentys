@@ -18,5 +18,9 @@
     <ProjectReference Include="..\Features\Iwentys.Features.Quests\Iwentys.Features.Quests.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="FakerEntities\Guilds\" />
+  </ItemGroup>
+
 
 </Project>

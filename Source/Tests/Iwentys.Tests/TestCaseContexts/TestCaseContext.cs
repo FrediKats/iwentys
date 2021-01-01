@@ -49,6 +49,8 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly GuildTestTaskService GuildTestTaskService;
         public readonly KarmaService KarmaService;
 
+        public readonly TributeTestCaseContext TributeTestCaseContext;
+
         public static TestCaseContext Case() => new TestCaseContext();
 
         public TestCaseContext()
@@ -74,6 +76,8 @@ namespace Iwentys.Tests.TestCaseContexts
             StudyGroupService = new StudyGroupService(UnitOfWork);
             GuildTestTaskService = new GuildTestTaskService(achievementProvider, UnitOfWork, GithubIntegrationService);
             KarmaService = new KarmaService(UnitOfWork);
+
+            TributeTestCaseContext = new TributeTestCaseContext(this);
         }
 
         public TestCaseContext WithNewStudent(out AuthorizedUser user, StudentRole studentRole = StudentRole.Common)

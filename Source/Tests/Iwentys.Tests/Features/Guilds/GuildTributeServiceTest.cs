@@ -23,9 +23,9 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithGuild(student, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithNewStudent(out AuthorizedUser admin, StudentRole.Admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor)
-                .WithStudentProject(student, out GithubProject project)
-                .WithTribute(student, project, out TributeInfoResponse _);
+                .WithStudentProject(student, out GithubProject project);
 
+            context.TributeTestCaseContext.WithTribute(student, project);
             List<TributeInfoResponse> tributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
 
             Assert.IsNotEmpty(tributes);
@@ -41,9 +41,9 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithGuild(student, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithNewStudent(out AuthorizedUser admin, StudentRole.Admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor)
-                .WithStudentProject(student, out GithubProject project)
-                .WithTribute(student, project, out TributeInfoResponse tributeInfo);
+                .WithStudentProject(student, out GithubProject project);
 
+            TributeInfoResponse tributeInfo = context.TributeTestCaseContext.WithTribute(student, project);
             await context.GuildTributeServiceService.CancelTribute(student, tributeInfo.Project.Id);
             List<TributeInfoResponse> pendingTributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
             List<TributeInfoResponse> studentTributes = context.GuildTributeServiceService.GetStudentTributeResult(student);
@@ -62,20 +62,17 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithGuild(student, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithNewStudent(out AuthorizedUser admin, StudentRole.Admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor)
-                .WithStudentProject(student, out GithubProject project)
-                .WithTribute(student, project, out TributeInfoResponse tributeInfo)
-                .WithCompletedTribute(mentor, tributeInfo, out TributeInfoResponse completedTribute);
+                .WithStudentProject(student, out GithubProject project);
 
+            TributeInfoResponse tributeInfo = context.TributeTestCaseContext.WithTribute(student, project);
+            tributeInfo = context.TributeTestCaseContext.CompleteTribute(mentor,tributeInfo);
             List<TributeInfoResponse> pendingTributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
-            List<TributeInfoResponse> studentTributes = context.GuildTributeServiceService.GetStudentTributeResult(student);
+            TributeInfoResponse studentTribute = context.GuildTributeServiceService.GetStudentTributeResult(student).FirstOrDefault(t => t.Project.Id == project.Id);
 
             Assert.IsEmpty(pendingTributes);
-            Assert.IsNotEmpty(studentTributes);
-
-            TributeInfoResponse studentTribute = studentTributes.FirstOrDefault(t => t.Project.Id == project.Id);
             Assert.NotNull(studentTribute);
-            Assert.IsTrue(studentTribute.Mark == completedTribute.Mark);
-            Assert.IsTrue(studentTribute.DifficultLevel == completedTribute.DifficultLevel);
+            Assert.IsTrue(studentTribute.Mark == tributeInfo.Mark);
+            Assert.IsTrue(studentTribute.DifficultLevel == tributeInfo.DifficultLevel);
         }
     }
 }
