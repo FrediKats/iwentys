@@ -1,4 +1,4 @@
-﻿@page "/leaderboard/study/{CourseId:int}"
+﻿@page "/leaderboard/study/"
 @using Blazored.LocalStorage
 @using Iwentys.Features.Gamification.Models
 
@@ -34,8 +34,3 @@
         </div>
     }
 </div>
-
-@code {
-    [Parameter]
-    public int CourseId { get; set; }
-}

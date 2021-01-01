@@ -9,7 +9,7 @@ namespace Iwentys.Features.Gamification.Models
         public int Id { get; set; }
         public string Title { get; set; }
 
-        public InterestTagDto(InterestTagEntity interestTag) : this()
+        public InterestTagDto(InterestTag interestTag) : this()
         {
             Id = interestTag.Id;
             Title = interestTag.Title;
@@ -19,6 +19,6 @@ namespace Iwentys.Features.Gamification.Models
         {
         }
 
-        public static Expression<Func<InterestTagEntity, InterestTagDto>> FromEntity => entity => new InterestTagDto(entity);
+        public static Expression<Func<InterestTag, InterestTagDto>> FromEntity => entity => new InterestTagDto(entity);
     }
 }

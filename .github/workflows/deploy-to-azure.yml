@@ -1,0 +1,36 @@
+name: Deploy app to Azure Web App
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+    env:
+      working-directory: ./Source
+
+    steps:
+    - uses: actions/checkout@main
+
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.0.100'
+
+    - name: Build with dotnet
+      run: dotnet build --configuration Release
+      working-directory: ${{env.working-directory}}
+
+    - name: dotnet publish
+      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      working-directory: ${{env.working-directory}}
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v1
+      with:
+        app-name: 'iwentys'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A2AAD1EA5CC8491993076769528BBB5E  }}
+        package: ${{env.DOTNET_ROOT}}/myapp 

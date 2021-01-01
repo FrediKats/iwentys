@@ -1,31 +1,33 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Common.Tools;
+using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Database.Seeding.Tools;
 using Iwentys.Features.Students.Enums;
 using Iwentys.Features.Study.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {
-    public class StudyEntitiesGenerator
+    public class StudyEntitiesGenerator : IEntityGenerator
     {
         private const int TeacherCount = 20;
         private const int SubjectCount = 8;
         private const StudySemester CurrentSemester = StudySemester.Y20H1;
 
-        public List<StudyCourseEntity> StudyCourses { get; set; }
-        public List<StudyProgramEntity> StudyPrograms { get; set; }
-        public List<SubjectEntity> Subjects { get; set; }
-        public List<GroupSubjectEntity> GroupSubjects { get; set; }
-        public List<StudyGroupEntity> StudyGroups { get; set; }
-        public List<TeacherEntity> Teachers { get; set; }
+        public List<StudyCourse> StudyCourses { get; set; }
+        public List<StudyProgram> StudyPrograms { get; set; }
+        public List<Subject> Subjects { get; set; }
+        public List<GroupSubject> GroupSubjects { get; set; }
+        public List<StudyGroup> StudyGroups { get; set; }
+        public List<Teacher> Teachers { get; set; }
 
         public StudyEntitiesGenerator()
         {
-            Teachers = new TeacherGenerator().Faker.Generate(TeacherCount);
-            Subjects = new SubjectGenerator().Faker.Generate(SubjectCount);
-            StudyPrograms = new List<StudyProgramEntity> { new StudyProgramEntity { Id = 1, Name = "ИС" } };
-            StudyCourses = new List<StudyCourseEntity>
+            Teachers = TeacherFaker.Instance.Generate(TeacherCount);
+            Subjects = SubjectFaker.Instance.Generate(SubjectCount);
+            StudyPrograms = new List<StudyProgram> { new StudyProgram { Id = 1, Name = "ИС" } };
+            StudyCourses = new List<StudyCourse>
             {
                 Create.IsCourse(StudentGraduationYear.Y20),
                 Create.IsCourse(StudentGraduationYear.Y21),
@@ -35,31 +37,31 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             };
 
             StudyGroups = ReadGroups();
-            GroupSubjects = new List<GroupSubjectEntity>();
+            GroupSubjects = new List<GroupSubject>();
 
-            foreach (SubjectEntity subject in Subjects)
-            foreach (StudyGroupEntity studyGroup in StudyGroups)
-                GroupSubjects.Add(CreateGroupSubjectEntity(studyGroup, subject));
+            foreach (Subject subject in Subjects)
+                foreach (StudyGroup studyGroup in StudyGroups)
+                    GroupSubjects.Add(CreateGroupSubjectEntity(studyGroup, subject));
 
         }
 
-        private GroupSubjectEntity CreateGroupSubjectEntity(StudyGroupEntity groupEntity, SubjectEntity subject)
+        private GroupSubject CreateGroupSubjectEntity(StudyGroup group, Subject subject)
         {
             //FYI: we do not init SerializedGoogleTableConfig here
-            return new GroupSubjectEntity
+            return new GroupSubject
             {
                 Id = Create.GroupSubjectIdentifierGenerator.Next(),
                 SubjectId = subject.Id,
-                StudyGroupId = groupEntity.Id,
+                StudyGroupId = group.Id,
                 LectorTeacherId = Teachers.GetRandom().Id,
                 PracticeTeacherId = Teachers.GetRandom().Id,
                 StudySemester = CurrentSemester
             };
         }
 
-        private static List<StudyGroupEntity> ReadGroups()
+        private static List<StudyGroup> ReadGroups()
         {
-            var result = new List<StudyGroupEntity>();
+            var result = new List<StudyGroup>();
             result.AddRange(CourseGroup(1, 5, 3, 9));
             result.AddRange(CourseGroup(2, 4, 2, 10));
             result.AddRange(CourseGroup(3, 3, 1, 9));
@@ -72,11 +74,11 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             return result;
         }
 
-        public static List<StudyGroupEntity> CourseGroup(int courseId, int course, int firstGroup, int lastGroup)
+        public static List<StudyGroup> CourseGroup(int courseId, int course, int firstGroup, int lastGroup)
         {
             return Enumerable
                 .Range(firstGroup, lastGroup - firstGroup + 1)
-                .Select(g => new StudyGroupEntity
+                .Select(g => new StudyGroup
                 {
                     StudyCourseId = courseId,
                     GroupName = $"M3{course}{g:00}"
@@ -89,15 +91,25 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             private static readonly IdentifierGenerator CourseIdentifierGenerator = new IdentifierGenerator();
             public static readonly IdentifierGenerator GroupSubjectIdentifierGenerator = new IdentifierGenerator();
 
-            public static StudyCourseEntity IsCourse(StudentGraduationYear year)
+            public static StudyCourse IsCourse(StudentGraduationYear year)
             {
-                return new StudyCourseEntity
+                return new StudyCourse
                 {
                     Id = CourseIdentifierGenerator.Next(),
                     GraduationYear = year,
                     StudyProgramId = 1
                 };
             }
+        }
+
+        public void Seed(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<StudyProgram>().HasData(StudyPrograms);
+            modelBuilder.Entity<StudyCourse>().HasData(StudyCourses);
+            modelBuilder.Entity<StudyGroup>().HasData(StudyGroups);
+            modelBuilder.Entity<Teacher>().HasData(Teachers);
+            modelBuilder.Entity<Subject>().HasData(Subjects);
+            modelBuilder.Entity<GroupSubject>().HasData(GroupSubjects);
         }
     }
 }

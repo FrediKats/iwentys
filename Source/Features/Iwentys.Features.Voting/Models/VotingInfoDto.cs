@@ -13,6 +13,6 @@ namespace Iwentys.Features.Voting.Models
         public DateTime DueTo { get; set; }
 
         public List<VotingAnswerStatisticDto> Answers { get; set; }
-        public List<StudentEntity> WithoutVote { get; set; }
+        public List<Student> WithoutVote { get; set; }
     }
 }

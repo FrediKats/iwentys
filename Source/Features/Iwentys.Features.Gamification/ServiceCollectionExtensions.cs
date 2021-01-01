@@ -9,6 +9,7 @@ namespace Iwentys.Features.Gamification
         {
             services.AddScoped<StudyLeaderboardService>();
             services.AddScoped<InterestTagService>();
+            services.AddScoped<KarmaService>();
 
             return services;
         }

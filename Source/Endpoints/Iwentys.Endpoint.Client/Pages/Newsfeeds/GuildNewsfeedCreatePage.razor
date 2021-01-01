@@ -1,0 +1,25 @@
+﻿@page "/newsfeed/create-guild/{GuildId:int}"
+@using Blazored.LocalStorage
+
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject ILocalStorageService LocalStorage
+
+<div class="col-md-6 d-flex flex-column dark-elevation-01">
+    <h5>Create assignment</h5>
+
+    <p>
+        <MatTextField @bind-Value="@_title" Label="Title" Class="input-element"></MatTextField>
+    </p>
+
+    <p>
+        <MatTextField @bind-Value="@_description" Label="Description" Class="input-element"></MatTextField>
+    </p>
+
+    <MatButton OnClick="@ExecuteCreateNewsfeed" class="dark-elevation-04">Create</MatButton>
+</div>
+
+@code {
+    [Parameter]
+    public int GuildId { get; set; }
+}

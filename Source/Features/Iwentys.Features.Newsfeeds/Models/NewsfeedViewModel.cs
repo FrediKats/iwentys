@@ -15,7 +15,7 @@ namespace Iwentys.Features.Newsfeeds.Models
 
         public StudentInfoDto Author { get; set; }
 
-        public static Expression<Func<SubjectNewsfeedEntity, NewsfeedViewModel>> FromSubjectEntity =>
+        public static Expression<Func<SubjectNewsfeed, NewsfeedViewModel>> FromSubjectEntity =>
             entity =>
                 new NewsfeedViewModel
                 {
@@ -27,7 +27,7 @@ namespace Iwentys.Features.Newsfeeds.Models
                     Author = new StudentInfoDto(entity.Newsfeed.Author)
                 };
 
-        public static Expression<Func<GuildNewsfeedEntity, NewsfeedViewModel>> FromGuildEntity =>
+        public static Expression<Func<GuildNewsfeed, NewsfeedViewModel>> FromGuildEntity =>
             entity =>
                 new NewsfeedViewModel
                 {

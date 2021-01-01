@@ -19,11 +19,11 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         }
 
         [HttpPost("{guildId}/")]
-        public async Task<ActionResult<GuildRecruitmentEntity>> Create([FromRoute] int guildId, [FromQuery] string description)
+        public async Task<ActionResult<GuildRecruitment>> Create([FromRoute] int guildId, [FromQuery] string description)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            GuildRecruitmentEntity recruitmentEntity = await _guildRecruitmentService.Create(guildId, user.Id, description);
-            return Ok(recruitmentEntity);
+            GuildRecruitment recruitment = await _guildRecruitmentService.Create(guildId, user.Id, description);
+            return Ok(recruitment);
         }
     }
 }

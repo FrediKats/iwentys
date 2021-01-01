@@ -16,22 +16,22 @@ namespace Iwentys.Features.Companies.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         
-        private readonly IGenericRepository<CompanyWorkerEntity> _companyWorkerRepository;
-        private readonly IGenericRepository<CompanyEntity> _companyRepository;
-        private readonly IGenericRepository<StudentEntity> _studentRepository;
+        private readonly IGenericRepository<CompanyWorker> _companyWorkerRepository;
+        private readonly IGenericRepository<Company> _companyRepository;
+        private readonly IGenericRepository<Student> _studentRepository;
 
         public CompanyService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             
-            _companyRepository = _unitOfWork.GetRepository<CompanyEntity>();
-            _companyWorkerRepository = _unitOfWork.GetRepository<CompanyWorkerEntity>();
-            _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
+            _companyRepository = _unitOfWork.GetRepository<Company>();
+            _companyWorkerRepository = _unitOfWork.GetRepository<CompanyWorker>();
+            _studentRepository = _unitOfWork.GetRepository<Student>();
         }
 
         public async Task<List<CompanyInfoDto>> GetAsync()
         {
-            List<CompanyEntity> info = await _companyRepository.Get().ToListAsync();
+            List<Company> info = await _companyRepository.Get().ToListAsync();
             return info.SelectToList(entity => new CompanyInfoDto(entity));
         }
 
@@ -44,27 +44,27 @@ namespace Iwentys.Features.Companies.Services
         {
             return await _companyWorkerRepository
                 .Get()
-                .Where(CompanyWorkerEntity.IsRequested)
+                .Where(CompanyWorker.IsRequested)
                 .Select(CompanyWorkRequestDto.FromEntity)
                 .ToListAsync();
         }
 
         public async Task RequestAdding(int companyId, int userId)
         {
-            CompanyEntity companyEntity = await _companyRepository.FindByIdAsync(companyId);
-            StudentEntity profile = await _studentRepository.FindByIdAsync(userId);
+            Company company = await _companyRepository.FindByIdAsync(companyId);
+            Student profile = await _studentRepository.FindByIdAsync(userId);
             
-            List<CompanyWorkerEntity> workerRequests = await _companyWorkerRepository.Get().Where(CompanyWorkerEntity.IsRequested).ToListAsync();
+            List<CompanyWorker> workerRequests = await _companyWorkerRepository.Get().Where(CompanyWorker.IsRequested).ToListAsync();
             if (workerRequests.Any(r => r.WorkerId == profile.Id))
                 throw new InnerLogicException("Student already request adding to company");
 
-            await _companyWorkerRepository.InsertAsync(CompanyWorkerEntity.NewRequest(companyEntity, profile));
+            await _companyWorkerRepository.InsertAsync(CompanyWorker.NewRequest(company, profile));
             await _unitOfWork.CommitAsync();
         }
 
         public async Task ApproveAdding(int userId, int adminId)
         {
-            StudentEntity student = await _studentRepository.FindByIdAsync(adminId);
+            Student student = await _studentRepository.FindByIdAsync(adminId);
             var admin = student.EnsureIsAdmin();
 
             var companyWorkerEntity = await _companyWorkerRepository.Get().SingleAsync(cw => cw.WorkerId == userId);
@@ -75,7 +75,7 @@ namespace Iwentys.Features.Companies.Services
         }
 
         //TODO: rework
-        public async Task<CompanyEntity> Create(CompanyEntity company)
+        public async Task<Company> Create(Company company)
         {
             await _companyRepository.InsertAsync(company);
             await _unitOfWork.CommitAsync();

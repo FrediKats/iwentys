@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Flurl.Http;
 using Iwentys.Common.Tools;
 using Iwentys.Features.GithubIntegration.Models;
-using Iwentys.Features.Guilds.Models.Guilds;
+using Iwentys.Features.Guilds.Models;
 
 namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
 {

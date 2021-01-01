@@ -15,7 +15,7 @@ namespace Iwentys.Features.Gamification.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IGenericRepository<StudyGroupEntity> _studyGroupRepository;
+        private readonly IGenericRepository<StudyGroup> _studyGroupRepository;
 
         private readonly GithubIntegrationService _githubIntegrationService;
         private readonly ISubjectActivityRepository _subjectActivityRepository;
@@ -27,8 +27,8 @@ namespace Iwentys.Features.Gamification.Services
             _subjectActivityRepository = subjectActivityRepository;
             
             _unitOfWork = unitOfWork;
-            _unitOfWork.GetRepository<StudentEntity>();
-            _studyGroupRepository = _unitOfWork.GetRepository<StudyGroupEntity>();
+            _unitOfWork.GetRepository<Student>();
+            _studyGroupRepository = _unitOfWork.GetRepository<StudyGroup>();
         }
 
         public List<StudyLeaderboardRowDto> GetStudentsRatings(StudySearchParametersDto searchParametersDto)
@@ -39,7 +39,7 @@ namespace Iwentys.Features.Gamification.Services
                 throw new IwentysException("One of StudySearchParametersDto fields: CourseId or GroupId should be null");
             }
 
-            List<SubjectActivityEntity> result = _subjectActivityRepository.GetStudentActivities(searchParametersDto).ToList();
+            List<SubjectActivity> result = _subjectActivityRepository.GetStudentActivities(searchParametersDto).ToList();
 
             return result
                 .GroupBy(r => r.StudentId)

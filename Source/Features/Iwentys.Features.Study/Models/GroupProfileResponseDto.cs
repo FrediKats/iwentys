@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
-using Iwentys.Common.Tools;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using Iwentys.Features.Students.Enums;
 using Iwentys.Features.Students.Models;
 using Iwentys.Features.Study.Entities;
 
@@ -7,16 +10,21 @@ namespace Iwentys.Features.Study.Models
 {
     public record GroupProfileResponseDto
     {
-        public GroupProfileResponseDto(StudyGroupEntity group)
+        public int Id { get; init; }
+        public string GroupName { get; init; }
+        public List<StudentInfoDto> Students { get; set; }
+        public List<Subject> Subjects { get; init; }
+
+        public GroupProfileResponseDto(StudyGroup group)
             : this(
                 group.Id,
                 group.GroupName,
-                group.Students.SelectToList(s => new StudentInfoDto(s)),
-                group.GroupSubjects.SelectToList(gs => gs.Subject))
+                group.Students.Select(s => new StudentInfoDto(s)).ToList(),
+                group.GroupSubjects.Select(gs => gs.Subject).ToList())
         {
         }
 
-        public GroupProfileResponseDto(int id, string groupName, List<StudentInfoDto> students, List<SubjectEntity> subjects) :this()
+        public GroupProfileResponseDto(int id, string groupName, List<StudentInfoDto> students, List<Subject> subjects) :this()
         {
             Id = id;
             GroupName = groupName;
@@ -28,9 +36,9 @@ namespace Iwentys.Features.Study.Models
         {
         }
 
-        public int Id { get; init; }
-        public string GroupName { get; init; }
-        public List<StudentInfoDto> Students { get; init; }
-        public List<SubjectEntity> Subjects { get; init; }
+        public static Expression<Func<StudyGroup, GroupProfileResponseDto>> FromEntity =>
+            entity => new GroupProfileResponseDto(entity);
+
+        public StudentInfoDto GroupAdmin => Students.FirstOrDefault(s => s.Role == StudentRole.GroupAdmin);
     }
 }

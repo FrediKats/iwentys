@@ -4,7 +4,6 @@ using Iwentys.Common.Databases;
 using Iwentys.Endpoint.Server.Source.BackgroundServices;
 using Iwentys.Endpoint.Server.Source.Options;
 using Iwentys.Features.Study.Entities;
-using Iwentys.Features.Study.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using StackExchange.Exceptional;
@@ -20,16 +19,16 @@ namespace Iwentys.Endpoint.Server.Controllers
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public DebugCommandController(ILogger<DebugCommandController> logger, ISubjectActivityRepository subjectActivityRepository, IUnitOfWork unitOfWork, TokenApplicationOptions tokenApplicationOptions)
+        public DebugCommandController(ILogger<DebugCommandController> logger, IUnitOfWork unitOfWork, TokenApplicationOptions tokenApplicationOptions)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
             
-            _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(subjectActivityRepository, _logger, tokenApplicationOptions.GoogleServiceToken, _unitOfWork);
+            _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(_logger, tokenApplicationOptions.GoogleServiceToken, _unitOfWork);
         }
 
         //[HttpPost("UpdateSubjectActivityData")]
-        //public void UpdateSubjectActivityData(SubjectActivityEntity activity)
+        //public void UpdateSubjectActivityData(SubjectActivity activity)
         //{
         //    _databaseAccessor.SubjectActivity.UpdateAsync(activity);
         //}
@@ -37,7 +36,7 @@ namespace Iwentys.Endpoint.Server.Controllers
         [HttpPost("UpdateSubjectActivityForGroup")]
         public ActionResult UpdateSubjectActivityForGroup(int subjectId, int groupId)
         {
-            GroupSubjectEntity groupSubjectData = _unitOfWork.GetRepository<GroupSubjectEntity>()
+            GroupSubject groupSubjectData = _unitOfWork.GetRepository<GroupSubject>()
                 .Get()
                 .FirstOrDefault(s => s.SubjectId == subjectId && s.StudyGroupId == groupId);
 

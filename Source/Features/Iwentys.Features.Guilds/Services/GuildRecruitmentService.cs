@@ -9,28 +9,28 @@ namespace Iwentys.Features.Guilds.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         
-        private readonly IGenericRepository<GuildEntity> _guildRepository;
-        private readonly IGenericRepository<GuildRecruitmentMemberEntity> _guildRecruitmentMemberRepository;
+        private readonly IGenericRepository<Guild> _guildRepository;
+        private readonly IGenericRepository<GuildRecruitmentMember> _guildRecruitmentMemberRepository;
 
         public GuildRecruitmentService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _guildRepository = _unitOfWork.GetRepository<GuildEntity>();
-            _guildRecruitmentMemberRepository = _unitOfWork.GetRepository<GuildRecruitmentMemberEntity>();
+            _guildRepository = _unitOfWork.GetRepository<Guild>();
+            _guildRecruitmentMemberRepository = _unitOfWork.GetRepository<GuildRecruitmentMember>();
         }
 
-        public async Task<GuildRecruitmentEntity> Create(int guildId, int memberId, string description)
+        public async Task<GuildRecruitment> Create(int guildId, int memberId, string description)
         {
-            GuildEntity guild = await _guildRepository.FindByIdAsync(guildId);
-            var creator = guild.Members.Find(m => m.MemberId == memberId) ?? throw EntityNotFoundException.Create(typeof(GuildMemberEntity), memberId);
+            Guild guild = await _guildRepository.FindByIdAsync(guildId);
+            var creator = guild.Members.Find(m => m.MemberId == memberId) ?? throw EntityNotFoundException.Create(typeof(GuildMember), memberId);
 
-            GuildRecruitmentEntity recruitment = new GuildRecruitmentEntity
+            GuildRecruitment recruitment = new GuildRecruitment
             {
                 Description = description,
                 GuildId = guild.Id
             };
 
-            var guildRecruitmentMemberEntity = new GuildRecruitmentMemberEntity
+            var guildRecruitmentMemberEntity = new GuildRecruitmentMember
             {
                 GuildRecruitment = recruitment,
                 MemberId = creator.MemberId

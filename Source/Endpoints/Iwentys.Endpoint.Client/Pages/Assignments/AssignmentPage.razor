@@ -15,7 +15,7 @@
         <MatButton Link="/assignment/create">Добавить задачу</MatButton>
     </div>
 
-    <div class="col-md-6 d-flex flex-column dark-elevation-01">
+    <div class="col-md-6 d-flex flex-column">
         <h5>Assignment list</h5>
         @if (_assignment is not null)
         {
@@ -23,10 +23,10 @@
                 @foreach (AssignmentInfoDto assignment in _assignment)
                 {
                     //TODO: make generic style for card-like elements
-                    <div class="assignment-element">
-                        <MatCard Class="dark-elevation-02">
+                    <div class="card-list-element">
+                        <MatCard Class="dark-elevation-01">
                             <MatCardContent>
-                                <div class="assignment-element-content">
+                                <div class="card-list-element-content">
                                     <MatHeadline6>
                                         @assignment.Title @(assignment.Deadline is not null ? assignment.Deadline : "")
                                     </MatHeadline6>

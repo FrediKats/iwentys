@@ -14,19 +14,19 @@ namespace Iwentys.Features.Students.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         
-        private readonly IGenericRepository<StudentEntity> _studentRepository;
+        private readonly IGenericRepository<Student> _studentRepository;
         private readonly AchievementProvider _achievementProvider;
 
         public StudentService(IUnitOfWork unitOfWork, AchievementProvider achievementProvider)
         {
             _unitOfWork = unitOfWork;
             _achievementProvider = achievementProvider;
-            _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
+            _studentRepository = _unitOfWork.GetRepository<Student>();
         }
 
         public async Task<List<StudentInfoDto>> GetAsync()
         {
-            List<StudentEntity> students = await _studentRepository
+            List<Student> students = await _studentRepository
                 .Get()
                 .ToListAsync();
 
@@ -35,16 +35,16 @@ namespace Iwentys.Features.Students.Services
 
         public async Task<StudentInfoDto> GetAsync(int id)
         {
-            StudentEntity student = await _studentRepository.FindByIdAsync(id);
+            Student student = await _studentRepository.FindByIdAsync(id);
             return new StudentInfoDto(student);
         }
 
         public async Task<StudentInfoDto> GetOrCreateAsync(int id)
         {
-            StudentEntity student = await _studentRepository.FindByIdAsync(id);
+            Student student = await _studentRepository.FindByIdAsync(id);
             if (student is null)
             {
-                var newStudent = StudentEntity.CreateFromIsu(id, "userInfo.FirstName", "userInfo.MiddleName", "userInfo.SecondName");
+                var newStudent = Student.CreateFromIsu(id, "userInfo.FirstName", "userInfo.MiddleName", "userInfo.SecondName");
                 await _studentRepository.InsertAsync(newStudent);
                 student = await _studentRepository.FindByIdAsync(newStudent.Id);
             }
@@ -56,21 +56,23 @@ namespace Iwentys.Features.Students.Services
         {
             bool isUsernameUsed = await _studentRepository.Get().AnyAsync(s => s.GithubUsername == githubUsername);
             if (isUsernameUsed)
-                throw InnerLogicException.Student.GithubAlreadyUser(githubUsername);
+                throw InnerLogicException.StudentExceptions.GithubAlreadyUser(githubUsername);
 
             //TODO: implement github access validation
             //throw new NotImplementedException("Need to validate github credentials");
-            StudentEntity user = await _studentRepository.FindByIdAsync(id);
+            Student user = await _studentRepository.FindByIdAsync(id);
             user.GithubUsername = githubUsername;
             _studentRepository.Update(user);
 
             await _achievementProvider.Achieve(AchievementList.AddGithubAchievement, user.Id);
+            await _unitOfWork.CommitAsync();
+
             return new StudentInfoDto(await _studentRepository.FindByIdAsync(id));
         }
 
         public async Task<StudentInfoDto> RemoveGithubUsernameAsync(int id, string githubUsername)
         {
-            StudentEntity user = await _studentRepository.FindByIdAsync(id);
+            Student user = await _studentRepository.FindByIdAsync(id);
             user.GithubUsername = githubUsername;
             _studentRepository.Update(user);
             return new StudentInfoDto(await _studentRepository.FindByIdAsync(id));

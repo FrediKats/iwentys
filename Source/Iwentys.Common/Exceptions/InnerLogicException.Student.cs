@@ -4,7 +4,7 @@ namespace Iwentys.Common.Exceptions
 {
     public partial class InnerLogicException
     {
-        public static class Student
+        public static class StudentExceptions
         {
             public static InnerLogicException GithubAlreadyUser(string githubUsername)
             {

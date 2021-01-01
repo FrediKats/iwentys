@@ -2,7 +2,7 @@
 {
     public partial class InnerLogicException
     {
-        public static class Quest
+        public static class QuestExceptions
         {
             public static InnerLogicException IsNotActive()
             {

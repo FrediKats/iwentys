@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Endpoint.Controllers.Tools;
 using Iwentys.Features.Guilds.Entities;
-using Iwentys.Features.Guilds.Models.Guilds;
+using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Services;
 using Iwentys.Features.Students.Domain;
 using Microsoft.AspNetCore.Mvc;
@@ -43,14 +43,14 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         }
 
         [HttpGet("{guildId}/request")]
-        public async Task<ActionResult<GuildMemberEntity[]>> GetGuildRequests(int guildId)
+        public async Task<ActionResult<GuildMember[]>> GetGuildRequests(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(await _guildMemberService.GetGuildRequests(user, guildId));
         }
 
         [HttpGet("{guildId}/blocked")]
-        public async Task<ActionResult<GuildMemberEntity[]>> GetGuildBlocked(int guildId)
+        public async Task<ActionResult<GuildMember[]>> GetGuildBlocked(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(await _guildMemberService.GetGuildBlocked(user, guildId));

@@ -6,7 +6,7 @@ namespace Iwentys.Features.Students.Domain
 {
     public class SystemAdminUser
     {
-        public SystemAdminUser(StudentEntity student)
+        public SystemAdminUser(Student student)
         {
             if (student.Role != StudentRole.Admin)
                 throw InnerLogicException.NotEnoughPermissionFor(student.Id);
@@ -14,12 +14,12 @@ namespace Iwentys.Features.Students.Domain
             Student = student;
         }
 
-        public StudentEntity Student { get; }
+        public Student Student { get; }
     }
 
     public static class SystemAdminUserExtensions
     {
-        public static SystemAdminUser EnsureIsAdmin(this StudentEntity profile)
+        public static SystemAdminUser EnsureIsAdmin(this Student profile)
         {
             return new SystemAdminUser(profile);
         }

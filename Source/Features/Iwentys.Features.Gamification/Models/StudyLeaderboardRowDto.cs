@@ -9,12 +9,12 @@ namespace Iwentys.Features.Gamification.Models
 {
     public record StudyLeaderboardRowDto : IResultFormat
     {
-        public StudyLeaderboardRowDto(StudentEntity student, int githubActivity)
+        public StudyLeaderboardRowDto(Student student, int githubActivity)
             : this(new StudentInfoDto(student), githubActivity)
         {
         }
 
-        public StudyLeaderboardRowDto(List<SubjectActivityEntity> activity)
+        public StudyLeaderboardRowDto(List<SubjectActivity> activity)
             : this(new StudentInfoDto(activity.First().Student), activity.Sum(a => a.Points))
         {
         }

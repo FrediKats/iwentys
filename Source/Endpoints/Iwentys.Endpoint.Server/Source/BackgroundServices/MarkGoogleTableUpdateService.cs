@@ -5,7 +5,6 @@ using Iwentys.Common.Databases;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Study;
 using Iwentys.Features.Study.Entities;
-using Iwentys.Features.Study.Repositories;
 using Iwentys.Integrations.GoogleTableIntegration;
 using Iwentys.Integrations.GoogleTableIntegration.Marks;
 using Microsoft.Extensions.Logging;
@@ -16,24 +15,22 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
     {
         private readonly IUnitOfWork _unitOfWork;
         
-        private readonly IGenericRepository<StudentEntity> _studentRepository;
-        private readonly IGenericRepository<SubjectActivityEntity> _subjectActivityRepositoryNew;
-        private readonly ISubjectActivityRepository _subjectActivityRepository;
+        private readonly IGenericRepository<Student> _studentRepository;
+        private readonly IGenericRepository<SubjectActivity> _subjectActivityRepository;
         private readonly ILogger _logger;
         private readonly TableParser _tableParser;
 
-        public MarkGoogleTableUpdateService(ISubjectActivityRepository subjectActivityRepository, ILogger logger, string serviceToken, IUnitOfWork unitOfWork)
+        public MarkGoogleTableUpdateService(ILogger logger, string serviceToken, IUnitOfWork unitOfWork)
         {
-            _subjectActivityRepository = subjectActivityRepository;
             _logger = logger;
             _tableParser = TableParser.Create(_logger, serviceToken);
             
             _unitOfWork = unitOfWork;
-            _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
-            _subjectActivityRepositoryNew = _unitOfWork.GetRepository<SubjectActivityEntity>();
+            _studentRepository = _unitOfWork.GetRepository<Student>();
+            _subjectActivityRepository = _unitOfWork.GetRepository<SubjectActivity>();
         }
 
-        public void UpdateSubjectActivityForGroup(GroupSubjectEntity groupSubjectData)
+        public void UpdateSubjectActivityForGroup(GroupSubject groupSubjectData)
         {
             Result<GoogleTableData> googleTableData = groupSubjectData.TryGetGoogleTableDataConfig();
             if (googleTableData.IsFailed)
@@ -42,11 +39,11 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
                 return;
             }
 
-            List<SubjectActivityEntity> activities = _subjectActivityRepository.Read().ToList();
+            List<SubjectActivity> activities = _subjectActivityRepository.Get().ToList();
 
             foreach (StudentSubjectScore subjectScore in _tableParser.Execute(new MarkParser(googleTableData.Value, _logger)))
             {
-                SubjectActivityEntity activity = activities
+                SubjectActivity activity = activities
                     .SingleOrDefault(s => IsMatchedWithStudent(subjectScore, s.Student)
                                           && s.GroupSubject.SubjectId == groupSubjectData.SubjectId);
 
@@ -60,7 +57,7 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
                 {
                     _logger.LogWarning($"Subject info was not found: student:{subjectScore.Name}, subjectId:{groupSubjectData.SubjectId}, groupId:{groupSubjectData.StudyGroupId}");
 
-                    StudentEntity studentProfile = _studentRepository
+                    Student studentProfile = _studentRepository
                         .Get()
                         .FirstOrDefault(s => subjectScore.Name.Contains(s.FirstName)
                                     && subjectScore.Name.Contains(s.SecondName));
@@ -72,10 +69,10 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
                     }
 
                     //TODO: remove wait
-                    _subjectActivityRepositoryNew.InsertAsync(new SubjectActivityEntity
+                    _subjectActivityRepository.InsertAsync(new SubjectActivity
                     {
                         StudentId = studentProfile.Id,
-                        GroupSubjectEntityId = groupSubjectData.Id,
+                        GroupSubjectId = groupSubjectData.Id,
                         Points = pointsCount
                     }).Wait();
                     _unitOfWork.CommitAsync().Wait();
@@ -84,11 +81,12 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
                 }
 
                 activity.Points = pointsCount;
-                _subjectActivityRepository.UpdateAsync(activity);
+                _subjectActivityRepository.Update(activity);
+                _unitOfWork.CommitAsync().Wait();
             }
         }
 
-        private static bool IsMatchedWithStudent(StudentSubjectScore ss, StudentEntity student)
+        private static bool IsMatchedWithStudent(StudentSubjectScore ss, Student student)
         {
             return ss.Name.Contains(student.FirstName)
                    && ss.Name.Contains(student.SecondName);

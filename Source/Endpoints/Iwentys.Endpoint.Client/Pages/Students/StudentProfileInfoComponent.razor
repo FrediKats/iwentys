@@ -1,4 +1,5 @@
 ﻿@using Blazored.LocalStorage
+@using Iwentys.Features.Students.Enums
 @using Iwentys.Features.Students.Models
 
 @namespace Iwentys.Endpoint.Client.Pages.Students
@@ -16,12 +17,38 @@
 
             @if (_group?.GroupName is not null)
             {
-                <MatBody1>Группа: <NavLink href=@LinkToGroupProfile>@_group.GroupName</NavLink></MatBody1>
+                @if (StudentProfile.Role == StudentRole.GroupAdmin)
+                {
+                    <MatBody1>Группа: <NavLink href=@LinkToGroupProfile>@_group.GroupName</NavLink>(Админ)</MatBody1>
+                }
+
+                @if (StudentProfile.Role != StudentRole.GroupAdmin)
+                {
+                    <MatBody1>Группа: <NavLink href=@LinkToGroupProfile>@_group.GroupName</NavLink></MatBody1>
+                    @if (_self?.Role == StudentRole.Admin)
+                    {
+                        <MatButton OnClick=@(async () => await MakeGroupAdmin())>Make admin</MatButton>
+                    }
+                }
             }
 
             @if (_guild is not null)
             {
                 <MatBody1>Гильдия: <NavLink href=@LinkToGuild>@_guild.Title</NavLink></MatBody1>
+            }
+
+            @if (_userKarmaStatistic is not null)
+            {
+                <MatBody1>Карма: @_userKarmaStatistic.Karma</MatBody1>
+                @if (IsCanSendKarma())
+                {
+                    <MatButton OnClick=@(async () => await SendKarma())>+Karma</MatButton>
+                }
+
+                @if (IsCanRemoveKarma())
+                {
+                    <MatButton OnClick=@(async () => await RemoveKarma())>-Karma</MatButton>
+                }
             }
         </div>
     </div>

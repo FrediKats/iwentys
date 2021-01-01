@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using Flurl.Http;
 using Iwentys.Features.Quests.Models;
 
 namespace Iwentys.Endpoint.Sdk.ControllerClients
@@ -52,7 +53,10 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
 
         public async Task Complete(int questId, int userId)
         {
-            await Client.GetAsync($"/api/quests/{questId}/complete?userId={userId}");
+            await new FlurlClient(Client)
+                .Request($"/api/quests/{questId}/complete")
+                .SetQueryParam("userId", userId)
+                .PutAsync();
         }
 
         public async Task Revoke(int questId)

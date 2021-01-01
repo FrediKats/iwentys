@@ -1,6 +1,7 @@
 ﻿@page "/quest/profile/{QuestId:int}"
 
 @using Blazored.LocalStorage
+@using Iwentys.Features.Quests.Enums
 @using Iwentys.Features.Quests.Models
 
 @inject HttpClient Http
@@ -18,25 +19,45 @@
             @_quest.Description
         </MatBody1>
 
-        <div>
-            <h5>Quest responses</h5>
-            @foreach (QuestResponseInfoDto questResponse in _quest.ResponseInfos)
-            {
-                <MatCard>
-                    <MatCardContent>
-                        <MatHeadline6>
-                            @questResponse.Student.GetFullName()
-                        </MatHeadline6>
-                        <MatBody2>
-                            @questResponse.ResponseTime
-                        </MatBody2>
-                    </MatCardContent>
-                    <MatCardActions>
-                        <MatButton OnClick=@(async () => await AcceptQuestResponse(questResponse))>Accept</MatButton>
-                    </MatCardActions>
-                </MatCard>
-            }
-        </div>
+        @switch (_quest.State)
+        {
+            case QuestState.Active:
+                <div>
+                    <h5>Quest responses</h5>
+                    @foreach (QuestResponseInfoDto questResponse in _quest.ResponseInfos)
+                    {
+                        <MatCard>
+                            <MatCardContent>
+                                <MatHeadline6>
+                                    @questResponse.Student.GetFullName()
+                                </MatHeadline6>
+                                <MatBody2>
+                                    @questResponse.ResponseTime
+                                </MatBody2>
+                            </MatCardContent>
+                            <MatCardActions>
+                                <MatButton OnClick=@(async () => await AcceptQuestResponse(questResponse))>Accept</MatButton>
+                            </MatCardActions>
+                        </MatCard>
+                    }
+                </div>
+                break;
+
+            case QuestState.Completed:
+                <div>
+                    Completed by @_quest.Executor.GetFullName()
+                </div>
+                break;
+
+            case QuestState.Revoked:
+                <div>
+                    Revoked.
+                </div>
+                break;
+
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 </div>
 

@@ -25,7 +25,7 @@ namespace Iwentys.Features.Study.Domain
         public int Number { get; }
         public string Name { get; }
 
-        public async Task<StudyGroupEntity> GetStudyGroup(IGenericRepository<StudyGroupEntity> studyGroupRepository)
+        public async Task<StudyGroup> GetStudyGroup(IGenericRepository<StudyGroup> studyGroupRepository)
         {
             return await studyGroupRepository.Get().FirstOrDefaultAsync(s => s.GroupName == Name);
         }

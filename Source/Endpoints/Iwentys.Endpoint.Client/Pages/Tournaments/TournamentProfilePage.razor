@@ -1,0 +1,42 @@
+﻿@page "/tournaments/profile/{TournamentId:int}"
+@using Blazored.LocalStorage
+@using Iwentys.Features.Guilds.Tournaments.Models
+
+@inject HttpClient Http
+@inject ILocalStorageService LocalStorage
+
+<h3>TournamentProfilePage</h3>
+
+@if (_tournament is not null)
+{
+    <div class="container-fluid d-flex flex-row">
+        <div class="col-md-6 d-flex flex-column">
+            <MatH6>Teams</MatH6>
+            <MatList>
+                @foreach (TournamentTeamInfoDto team in _tournament.Teams)
+                {
+                    <MatListItem>
+                        @team.TeamName (@team.Points)
+                    </MatListItem>
+                }
+            </MatList>
+            <MatButton OnClick=@(async () => await RegisterToTournament())>Register guild</MatButton>
+        </div>
+
+        <div class="col-md-6 d-flex flex-column">
+            <MatH6>Info</MatH6>
+            <span>
+                <p>@_tournament.Name</p>
+                <p>@_tournament.Description</p>
+                <p>Start time: @_tournament.StartTime</p>
+                <p>End time: @_tournament.EndTime</p>
+            </span>
+            <MatButton OnClick=@(async () => await ForceUpdate())>Update results</MatButton>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int TournamentId { get; set; }
+}

@@ -1,55 +1,45 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Bogus;
+using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
+using Iwentys.Features.Guilds.Tributes.Entities;
 using Iwentys.Features.Students.Entities;
-using Iwentys.Features.Tributes.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {
-    public class GuildGenerator
+    public class GuildGenerator : IEntityGenerator
     {
         private const int GuildCount = 5;
 
-        public List<GuildEntity> Guilds { get; }
-        public List<GuildMemberEntity> GuildMembers { get; }
-        public List<GuildPinnedProjectEntity> PinnedProjects { get; }
-        public List<TributeEntity> TributeEntities { get; }
+        public List<Guild> Guilds { get; }
+        public List<GuildMember> GuildMembers { get; }
+        public List<GuildPinnedProject> PinnedProjects { get; }
+        public List<Tribute> TributeEntities { get; }
 
-        public GuildGenerator(List<StudentEntity> students, List<GithubProjectEntity> githubProjects)
+        public GuildGenerator(List<Student> students, List<GithubProject> githubProjects)
         {
-            var faker = new Faker<GuildEntity>()
-                .RuleFor(g => g.Id, f => f.IndexVariable++ + 1)
-                .RuleFor(g => g.Title, f => f.Company.CompanyName())
-                .RuleFor(g => g.Bio, f => f.Lorem.Paragraph())
-                .RuleFor(g => g.LogoUrl, f => f.Image.PicsumUrl())
-                .RuleFor(g => g.HiringPolicy, GuildHiringPolicy.Open)
-                .RuleFor(g => g.GuildType, GuildType.Created);
+            var guildFaker = new GuildFaker();
+            var pinnedFaker = new GuildPinnedProjectFaker();
 
-            var pinnedFaker = new Faker<GuildPinnedProjectEntity>()
-                .RuleFor(g => g.Id, f => f.IndexFaker + 1)
-                .RuleFor(gp => gp.RepositoryOwner, f => f.Company.CompanyName())
-                .RuleFor(gp => gp.RepositoryName, f => f.Company.CompanyName());
-
-
-            Guilds = faker.Generate(GuildCount);
-            GuildMembers = new List<GuildMemberEntity>();
-            PinnedProjects = new List<GuildPinnedProjectEntity>();
-            TributeEntities = new List<TributeEntity>();
+            Guilds = guildFaker.Generate(GuildCount);
+            GuildMembers = new List<GuildMember>();
+            PinnedProjects = new List<GuildPinnedProject>();
+            TributeEntities = new List<Tribute>();
             
             int usedCount = 0;
-            foreach (GuildEntity guild in Guilds)
+            foreach (Guild guild in Guilds)
             {
-                var creator = new GuildMemberEntity(guild, students[usedCount], GuildMemberType.Creator);
+                var creator = new GuildMember(guild, students[usedCount], GuildMemberType.Creator);
                 GuildMembers.Add(creator);
                 usedCount++;
                 
-                List<GuildMemberEntity> members = students
+                List<GuildMember> members = students
                     .Skip(usedCount)
                     .Take(10)
-                    .Select(s => new GuildMemberEntity(guild, s, GuildMemberType.Member))
+                    .Select(s => new GuildMember(guild, s, GuildMemberType.Member))
                     .ToList();
                 GuildMembers.AddRange(members);
                 usedCount += 10;
@@ -62,10 +52,18 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 {
                     var student = students.First(s => s.Id == member.MemberId);
                     var githubProjectEntity = githubProjects.First(p => p.Owner == student.GithubUsername);
-                    var tributeEntity = TributeEntity.Create(guild, student, githubProjectEntity, new List<TributeEntity>());
+                    var tributeEntity = Tribute.Create(guild, student, githubProjectEntity, new List<Tribute>());
                     TributeEntities.Add(tributeEntity);
                 }
             }
+        }
+
+        public void Seed(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Guild>().HasData(Guilds);
+            modelBuilder.Entity<GuildMember>().HasData(GuildMembers);
+            modelBuilder.Entity<GuildPinnedProject>().HasData(PinnedProjects);
+            modelBuilder.Entity<Tribute>().HasData(TributeEntities);
         }
     }
 }

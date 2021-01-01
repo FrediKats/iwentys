@@ -2,7 +2,7 @@
 {
     public partial class InnerLogicException
     {
-        public static class Assignment
+        public static class AssignmentExceptions
         {
             public static InnerLogicException IsNotAssignmentCreator(int assignmentId, int userId)
             {

@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Features.GithubIntegration.Entities;
-using Iwentys.Features.Guilds.Models.Guilds;
+using Iwentys.Features.Guilds.Models;
+using Iwentys.Features.Guilds.Tributes.Models;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Enums;
-using Iwentys.Features.Tributes.Models;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -23,7 +23,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithGuild(student, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithNewStudent(out AuthorizedUser admin, StudentRole.Admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor)
-                .WithStudentProject(student, out GithubProjectEntity project)
+                .WithStudentProject(student, out GithubProject project)
                 .WithTribute(student, project, out TributeInfoResponse _);
 
             List<TributeInfoResponse> tributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
@@ -41,7 +41,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithGuild(student, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithNewStudent(out AuthorizedUser admin, StudentRole.Admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor)
-                .WithStudentProject(student, out GithubProjectEntity project)
+                .WithStudentProject(student, out GithubProject project)
                 .WithTribute(student, project, out TributeInfoResponse tributeInfo);
 
             await context.GuildTributeServiceService.CancelTribute(student, tributeInfo.Project.Id);
@@ -62,7 +62,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithGuild(student, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithNewStudent(out AuthorizedUser admin, StudentRole.Admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor)
-                .WithStudentProject(student, out GithubProjectEntity project)
+                .WithStudentProject(student, out GithubProject project)
                 .WithTribute(student, project, out TributeInfoResponse tributeInfo)
                 .WithCompletedTribute(mentor, tributeInfo, out TributeInfoResponse completedTribute);
 

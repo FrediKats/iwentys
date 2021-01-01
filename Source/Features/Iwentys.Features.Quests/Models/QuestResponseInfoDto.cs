@@ -9,7 +9,7 @@ namespace Iwentys.Features.Quests.Models
         public StudentInfoDto Student { get; set; }
         public DateTime ResponseTime { get; set; }
 
-        public QuestResponseInfoDto(QuestResponseEntity questResponse) : this()
+        public QuestResponseInfoDto(QuestResponse questResponse) : this()
         {
             Student = new StudentInfoDto(questResponse.Student);
             ResponseTime = questResponse.ResponseTime;

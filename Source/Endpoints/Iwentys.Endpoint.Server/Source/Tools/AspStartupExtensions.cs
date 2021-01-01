@@ -1,6 +1,5 @@
 ﻿using Iwentys.Common.Databases;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Repositories.Study;
 using Iwentys.Database.Tools;
 using Iwentys.Endpoint.Server.Source.IdentityAuth;
@@ -14,13 +13,13 @@ using Iwentys.Features.Economy;
 using Iwentys.Features.Gamification;
 using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.Guilds;
-using Iwentys.Features.Guilds.Repositories;
+using Iwentys.Features.Guilds.Tournaments;
+using Iwentys.Features.Guilds.Tributes;
 using Iwentys.Features.Newsfeeds;
 using Iwentys.Features.Quests;
 using Iwentys.Features.Students;
 using Iwentys.Features.Study;
 using Iwentys.Features.Study.Repositories;
-using Iwentys.Features.Tributes;
 using Iwentys.Features.Voting;
 using Iwentys.Integrations.GithubIntegration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -74,8 +73,8 @@ namespace Iwentys.Endpoint.Server.Source.Tools
             services.AddIwentysGamificationFeatureServices();
             services.AddIwentysGithubIntegrationFeatureServices();
 
-            services.AddScoped<IGuildRepository, GuildRepository>();
             services.AddIwentysGuildFeatureServices();
+            services.AddIwentysGuildTournamentFeatureServices();
 
             services.AddIwentysTributesFeatureServices();
             services.AddIwentysNewsfeedFeatureServices();
@@ -113,7 +112,7 @@ namespace Iwentys.Endpoint.Server.Source.Tools
             return services;
         }
 
-        public static IServiceCollection AddIwentysLogging(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddIwentysLogging(this IServiceCollection services)
         {
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
@@ -126,7 +125,7 @@ namespace Iwentys.Endpoint.Server.Source.Tools
         }
 
         //TODO: Temp fix for CORS
-        public static IServiceCollection AddIwentysCorsHack(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddIwentysCorsHack(this IServiceCollection services)
         {
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
             {

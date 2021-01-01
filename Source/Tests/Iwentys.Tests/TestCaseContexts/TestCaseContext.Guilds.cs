@@ -1,6 +1,6 @@
 ﻿using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
-using Iwentys.Features.Guilds.Models.Guilds;
+using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Students.Domain;
 
 namespace Iwentys.Tests.TestCaseContexts
@@ -28,7 +28,7 @@ namespace Iwentys.Tests.TestCaseContexts
         {
             //TODO: make method for promoting to guild editor/mentor
             WithNewStudent(out user);
-            _context.GuildMembers.Add(new GuildMemberEntity(guild.Id, user.Id, GuildMemberType.Mentor));
+            _context.GuildMembers.Add(new GuildMember(guild.Id, user.Id, GuildMemberType.Mentor));
             _context.SaveChanges();
             return this;
         }

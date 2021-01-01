@@ -5,7 +5,7 @@ namespace Iwentys.Common.Exceptions
 {
     public partial class InnerLogicException
     {
-        public static class Tribute
+        public static class TributeExceptions
         {
             public static InnerLogicException ProjectAlreadyUsed(long projectId)
             {

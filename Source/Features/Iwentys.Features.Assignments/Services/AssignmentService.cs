@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
-using Iwentys.Common.Tools;
 using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.Students.Domain;
@@ -17,42 +16,49 @@ namespace Iwentys.Features.Assignments.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IGenericRepository<StudentEntity> _studentRepository;
-        private readonly IGenericRepository<StudyGroupEntity> _studentGroupRepository;
-        private readonly IGenericRepository<AssignmentEntity> _assignmentRepository;
-        private readonly IGenericRepository<StudentAssignmentEntity> _studentAssignmentRepository;
+        private readonly IGenericRepository<Student> _studentRepository;
+        private readonly IGenericRepository<StudyGroup> _studentGroupRepository;
+        private readonly IGenericRepository<Assignment> _assignmentRepository;
+        private readonly IGenericRepository<StudentAssignment> _studentAssignmentRepository;
 
         public AssignmentService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _studentRepository = _unitOfWork.GetRepository<StudentEntity>();
-            _assignmentRepository = _unitOfWork.GetRepository<AssignmentEntity>();
-            _studentAssignmentRepository = _unitOfWork.GetRepository<StudentAssignmentEntity>();
+            _studentRepository = _unitOfWork.GetRepository<Student>();
+            _studentGroupRepository = _unitOfWork.GetRepository<StudyGroup>();
+            _assignmentRepository = _unitOfWork.GetRepository<Assignment>();
+            _studentAssignmentRepository = _unitOfWork.GetRepository<StudentAssignment>();
         }
 
         public async Task<AssignmentInfoDto> CreateAsync(AuthorizedUser user, AssignmentCreateRequestDto assignmentCreateRequestDto)
         {
-            var creator = await _studentRepository.FindByIdAsync(user.Id);
-            var studentAssignmentEntity = StudentAssignmentEntity.Create(creator, assignmentCreateRequestDto);
+            Student creator = await _studentRepository.FindByIdAsync(user.Id);
+            StudentAssignment assignment;
 
-            await _studentAssignmentRepository.InsertAsync(studentAssignmentEntity);
+            if (assignmentCreateRequestDto.ForStudyGroup)
+            {
+                assignment = StudentAssignment.Create(creator, assignmentCreateRequestDto);
+                await _studentAssignmentRepository.InsertAsync(assignment);
+            }
+            else
+            {
+                GroupAdminUser groupAdmin = creator.EnsureIsGroupAdmin();
+                StudyGroup studyGroupEntity = await _studentGroupRepository.FindByIdAsync(groupAdmin.Student.GroupId);
+                List<StudentAssignment> studentAssignmentEntities = StudentAssignment.CreateForGroup(groupAdmin, assignmentCreateRequestDto, studyGroupEntity);
+                await _studentAssignmentRepository.InsertAsync(studentAssignmentEntities);
+                assignment = studentAssignmentEntities.First(sa => sa.StudentId == user.Id);
+            }
+
             await _unitOfWork.CommitAsync();
-            
-            return new AssignmentInfoDto(studentAssignmentEntity);
+            return new AssignmentInfoDto(assignment);
         }
 
         public async Task CreateForGroupAsync(AuthorizedUser user, AssignmentCreateRequestDto assignmentCreateRequestDto)
         {
-            var creator = await _studentRepository.FindByIdAsync(user.Id);
-            var groupAdmin = creator.EnsureIsGroupAdmin();
-            var studyGroupEntity = await _studentGroupRepository.FindByIdAsync(groupAdmin.Student.GroupId);
+            Student creator = await _studentRepository.FindByIdAsync(user.Id);
+            GroupAdminUser groupAdmin = creator.EnsureIsGroupAdmin();
 
-            List<StudentAssignmentEntity> studentAssignmentEntities = StudentAssignmentEntity.CreateForGroup(groupAdmin, assignmentCreateRequestDto, studyGroupEntity);
-            foreach (var assignmentEntity in studentAssignmentEntities)
-            {
-                await _studentAssignmentRepository.InsertAsync(assignmentEntity);
-            }
-
+            
             await _unitOfWork.CommitAsync();
         }
 
@@ -67,41 +73,41 @@ namespace Iwentys.Features.Assignments.Services
 
         public async Task<AssignmentInfoDto> ReadByIdAsync(int assignmentId)
         {
-            var studentAssignmentEntity = await _studentAssignmentRepository.FindByIdAsync(assignmentId);
+            StudentAssignment studentAssignmentEntity = await _studentAssignmentRepository.FindByIdAsync(assignmentId);
             return new AssignmentInfoDto(studentAssignmentEntity);
         }
 
         public async Task CompleteAsync(AuthorizedUser user, int assignmentId)
         {
-            var student = await _studentRepository.FindByIdAsync(user.Id);
-            var assignment = await _assignmentRepository.FindByIdAsync(assignmentId);
-            
-            assignment.MarkCompleted(student);
-            
-            _assignmentRepository.Update(assignment);
+            Student student = await _studentRepository.FindByIdAsync(user.Id);
+            Assignment assignment = await _assignmentRepository.FindByIdAsync(assignmentId);
+
+            StudentAssignment studentAssignment = assignment.MarkCompleted(student);
+
+            _studentAssignmentRepository.Update(studentAssignment);
             await _unitOfWork.CommitAsync();
         }
 
         public async Task UndoAsync(AuthorizedUser user, int assignmentId)
         {
-            var student = await _studentRepository.FindByIdAsync(user.Id);
-            var assignment = await _assignmentRepository.FindByIdAsync(assignmentId);
+            Student student = await _studentRepository.FindByIdAsync(user.Id);
+            Assignment assignment = await _assignmentRepository.FindByIdAsync(assignmentId);
 
-            assignment.MarkUncompleted(student);
+            StudentAssignment studentAssignment = assignment.MarkUncompleted(student);
 
-            _assignmentRepository.Update(assignment);
+            _studentAssignmentRepository.Update(studentAssignment);
             await _unitOfWork.CommitAsync();
         }
 
         public async Task DeleteAsync(AuthorizedUser user, int assignmentId)
         {
-            var student = await _studentRepository.FindByIdAsync(user.Id);
-            var assignment = await _assignmentRepository.FindByIdAsync(assignmentId);
+            Student student = await _studentRepository.FindByIdAsync(user.Id);
+            Assignment assignment = await _assignmentRepository.FindByIdAsync(assignmentId);
             if (student.Id != assignment.CreatorId)
-                throw InnerLogicException.Assignment.IsNotAssignmentCreator(assignment.Id, student.Id);
+                throw InnerLogicException.AssignmentExceptions.IsNotAssignmentCreator(assignment.Id, student.Id);
 
             //FYI: it's coz for dropped cascade
-            List<StudentAssignmentEntity> studentAssignmentEntities = await _studentAssignmentRepository
+            List<StudentAssignment> studentAssignmentEntities = await _studentAssignmentRepository
                 .Get()
                 .Where(sa => sa.AssignmentId == assignmentId)
                 .ToListAsync();

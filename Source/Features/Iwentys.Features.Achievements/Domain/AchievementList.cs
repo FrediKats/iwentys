@@ -6,58 +6,68 @@ namespace Iwentys.Features.Achievements.Domain
 {
     public static class AchievementList
     {
-        public static readonly AchievementEntity AddGithubAchievement;
-        public static readonly AchievementEntity BetaTester;
-        public static readonly AchievementEntity QuestCreator;
-        public static readonly AchievementEntity QuestComplete;
-        public static readonly AchievementEntity TestTaskDone;
+        public static class Tournaments
+        {
+            public static readonly Achievement TournamentWinner;
+
+            static Tournaments()
+            {
+                TournamentWinner = Register(
+                    "Tournament winner",
+                    "Lorem",
+                    "https://img.icons8.com/windows/96/000000/open-pokeball.png");
+            }
+        }
+
+        public static readonly Achievement AddGithubAchievement;
+        public static readonly Achievement BetaTester;
+        public static readonly Achievement QuestCreator;
+        public static readonly Achievement QuestComplete;
+        public static readonly Achievement TestTaskDone;
 
         private static readonly IdentifierGenerator IdentifierGenerator = new IdentifierGenerator();
 
         static AchievementList()
         {
-            Achievements = new List<AchievementEntity>();
-            AddGithubAchievement = Register(new AchievementEntity
-            {
-                Title = "Add github",
-                Description = "Lorem",
-                Url = "https://img.icons8.com/windows/96/000000/open-pokeball.png"
-            });
+            Achievements = new List<Achievement>();
+            AddGithubAchievement = Register(
+                "Add github",
+                "Lorem",
+                "https://img.icons8.com/windows/96/000000/open-pokeball.png");
 
-            BetaTester = Register(new AchievementEntity
-            {
-                Title = "TP tester",
-                Description = "Lorem",
-                Url = "https://img.icons8.com/windows/96/000000/open-pokeball.png"
-            });
+            BetaTester = Register(
+                "TP tester",
+                "Lorem",
+                "https://img.icons8.com/windows/96/000000/open-pokeball.png");
 
-            QuestCreator = Register(new AchievementEntity
-            {
-                Title = "Quest creator",
-                Description = "For creating quest",
-                Url = "https://img.icons8.com/windows/96/000000/open-pokeball.png"
-            });
+            QuestCreator = Register(
+                "Quest creator",
+                "For creating quest",
+                "https://img.icons8.com/windows/96/000000/open-pokeball.png");
 
-            QuestComplete = Register(new AchievementEntity
-            {
-                Title = "Quest done",
-                Description = "Quest done",
-                Url = "https://img.icons8.com/windows/96/000000/open-pokeball.png"
-            });
+            QuestComplete = Register(
+                "Quest done",
+                "Quest done",
+                "https://img.icons8.com/windows/96/000000/open-pokeball.png");
 
-            TestTaskDone = Register(new AchievementEntity
-            {
-                Title = "Test task done",
-                Description = "Test task done",
-                Url = "https://img.icons8.com/windows/96/000000/open-pokeball.png"
-            });
+            TestTaskDone = Register(
+                "Test task done",
+                "Test task done",
+                "https://img.icons8.com/windows/96/000000/open-pokeball.png");
         }
 
-        public static List<AchievementEntity> Achievements { get; }
+        public static List<Achievement> Achievements { get; }
 
-        private static AchievementEntity Register(AchievementEntity achievement)
+        private static Achievement Register(string title, string description, string url)
         {
-            achievement.Id = IdentifierGenerator.Next();
+            var achievement = new Achievement
+            {
+                Id = IdentifierGenerator.Next(),
+                Title = title,
+                Description = description,
+                Url = url
+            };
+
             Achievements.Add(achievement);
             return achievement;
         }

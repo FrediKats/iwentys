@@ -1,7 +1,7 @@
 ﻿using Iwentys.Features.GithubIntegration.Entities;
-using Iwentys.Features.Guilds.Models.Guilds;
+using Iwentys.Features.Guilds.Models;
+using Iwentys.Features.Guilds.Tributes.Models;
 using Iwentys.Features.Students.Domain;
-using Iwentys.Features.Tributes.Models;
 
 namespace Iwentys.Tests.TestCaseContexts
 {
@@ -13,13 +13,13 @@ namespace Iwentys.Tests.TestCaseContexts
             return this;
         }
 
-        public TestCaseContext WithTribute(AuthorizedUser userInfo, GithubProjectEntity projectEntity, out TributeInfoResponse tribute)
+        public TestCaseContext WithTribute(AuthorizedUser userInfo, GithubProject project, out TributeInfoResponse tribute)
         {
             var userGithub = StudentService.GetAsync(userInfo.Id).Result.GithubUsername;
 
             tribute = GuildTributeServiceService.CreateTribute(
                     userInfo,
-                    new CreateProjectRequestDto(userGithub, projectEntity.Name))
+                    new CreateProjectRequestDto(userGithub, project.Name))
                 .Result;
             return this;
         }

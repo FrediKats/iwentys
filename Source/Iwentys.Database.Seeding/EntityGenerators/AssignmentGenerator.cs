@@ -1,39 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Bogus;
+using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Features.Assignments.Entities;
-using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.Students.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {
-    public class AssignmentGenerator
+    public class AssignmentGenerator : IEntityGenerator
     {
-        public List<AssignmentEntity> Assignments { get; set; }
-        public List<StudentAssignmentEntity> StudentAssignments { get; set; }
+        public List<Assignment> Assignments { get; set; }
+        public List<StudentAssignment> StudentAssignments { get; set; }
 
-        public AssignmentGenerator(List<StudentEntity> students)
+        public AssignmentGenerator(List<Student> students)
         {
             var faker = new Faker();
+            var assignmentCreateRequestFaker = new AssignmentCreateRequestFaker();
 
-            Assignments = new List<AssignmentEntity>();
-            StudentAssignments = new List<StudentAssignmentEntity>();
-            foreach (StudentEntity student in students)
+            Assignments = new List<Assignment>();
+            StudentAssignments = new List<StudentAssignment>();
+            foreach (Student student in students)
             {
-                var assignmentEntity = AssignmentEntity.Create(student, new AssignmentCreateRequestDto(
-                    faker.Hacker.IngVerb(),
-                    faker.Lorem.Paragraph(1),
-                    null,
-                    DateTime.UtcNow.AddDays(1)));
+                var assignmentEntity = Assignment.Create(student, assignmentCreateRequestFaker.Generate());
                 
                 assignmentEntity.Id = 1 + faker.IndexVariable++;
                 Assignments.Add(assignmentEntity);
-                StudentAssignments.Add(new StudentAssignmentEntity
+                StudentAssignments.Add(new StudentAssignment
                 {
                     AssignmentId = assignmentEntity.Id,
                     StudentId = student.Id,
                 });
             }
+        }
+
+        public void Seed(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Assignment>().HasData(Assignments);
+            modelBuilder.Entity<StudentAssignment>().HasData(StudentAssignments);
         }
     }
 }

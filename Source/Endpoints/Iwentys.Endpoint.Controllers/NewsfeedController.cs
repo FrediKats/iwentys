@@ -20,10 +20,18 @@ namespace Iwentys.Endpoint.Controllers
         }
 
         [HttpPost("subject/{subjectId}")]
-        public async Task<ActionResult> CreateSubject(NewsfeedCreateViewModel createViewModel, int subjectId)
+        public async Task<ActionResult> CreateSubjectNewsfeed(NewsfeedCreateViewModel createViewModel, int subjectId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             await _newsfeedService.CreateSubjectNewsfeed(createViewModel, authorizedUser, subjectId);
+            return Ok();
+        }
+
+        [HttpPost("guild/{subjectId}")]
+        public async Task<ActionResult> CreateGuildNewsfeed(NewsfeedCreateViewModel createViewModel, int subjectId)
+        {
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            await _newsfeedService.CreateGuildNewsfeed(createViewModel, authorizedUser, subjectId);
             return Ok();
         }
 

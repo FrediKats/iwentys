@@ -5,7 +5,7 @@ namespace Iwentys.Common.Exceptions
 {
     public partial class InnerLogicException
     {
-        public static class Guild
+        public static class GuildExceptions
         {
             public static InnerLogicException ActiveTestExisted(int userId, int guildId)
             {
@@ -31,9 +31,9 @@ namespace Iwentys.Common.Exceptions
                 return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, GuildExceptionMessages.StudentCannotBeBlocked, studentId, guildId));
             }
 
-            public static InnerLogicException IsNotGuildEditor(int studentId)
+            public static InnerLogicException IsNotGuildMentor(int studentId)
             {
-                return new InnerLogicException($"Student is not guild editor. Id: [{studentId}]");
+                return new InnerLogicException($"Student is not guild mentor. Id: [{studentId}]");
             }
 
             public static EntityNotFoundException PinnedRepoWasNotFound(int pinnedRepoId)

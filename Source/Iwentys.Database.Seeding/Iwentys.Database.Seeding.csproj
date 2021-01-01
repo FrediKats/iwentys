@@ -12,8 +12,9 @@
     <ProjectReference Include="..\Features\Iwentys.Features.Achievements\Iwentys.Features.Achievements.csproj" />
     <ProjectReference Include="..\Features\Iwentys.Features.Assignments\Iwentys.Features.Assignments.csproj" />
     <ProjectReference Include="..\Features\Iwentys.Features.GithubIntegration\Iwentys.Features.GithubIntegration.csproj" />
+    <ProjectReference Include="..\Features\Iwentys.Features.Guilds.Tournaments\Iwentys.Features.Guilds.Tournaments.csproj" />
+    <ProjectReference Include="..\Features\Iwentys.Features.Guilds.Tributes\Iwentys.Features.Guilds.Tributes.csproj" />
     <ProjectReference Include="..\Features\Iwentys.Features.Newsfeeds\Iwentys.Features.Newsfeeds.csproj" />
-    <ProjectReference Include="..\Features\Iwentys.Features.PeerReview\Iwentys.Features.Tributes.csproj" />
     <ProjectReference Include="..\Features\Iwentys.Features.Quests\Iwentys.Features.Quests.csproj" />
   </ItemGroup>
 

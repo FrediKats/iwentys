@@ -9,15 +9,15 @@ namespace Iwentys.Features.Companies.Models
 {
     public record CompanyWorkRequestDto
     {
-        public static CompanyWorkRequestDto Create(CompanyWorkerEntity workerEntity)
+        public static CompanyWorkRequestDto Create(CompanyWorker worker)
         {
-            if (workerEntity.Type != CompanyWorkerType.Requested)
-                throw new InnerLogicException($"Invalid operation, cannot convert non-request type of {nameof(CompanyWorkerEntity)} to {nameof(CompanyWorkRequestDto)}");
+            if (worker.Type != CompanyWorkerType.Requested)
+                throw new InnerLogicException($"Invalid operation, cannot convert non-request type of {nameof(CompanyWorker)} to {nameof(CompanyWorkRequestDto)}");
 
-            return new CompanyWorkRequestDto(new CompanyInfoDto(workerEntity.CompanyEntity), workerEntity.Worker);
+            return new CompanyWorkRequestDto(new CompanyInfoDto(worker.Company), worker.Worker);
         }
 
-        public CompanyWorkRequestDto(CompanyInfoDto company, StudentEntity worker)
+        public CompanyWorkRequestDto(CompanyInfoDto company, Student worker)
         {
             Company = company;
             Worker = worker;
@@ -27,9 +27,9 @@ namespace Iwentys.Features.Companies.Models
         {
         }
 
-        public static Expression<Func<CompanyWorkerEntity, CompanyWorkRequestDto>> FromEntity => entity => Create(entity);
+        public static Expression<Func<CompanyWorker, CompanyWorkRequestDto>> FromEntity => entity => Create(entity);
         
         public CompanyInfoDto Company { get; init; }
-        public StudentEntity Worker { get; init; }
+        public Student Worker { get; init; }
     }
 }

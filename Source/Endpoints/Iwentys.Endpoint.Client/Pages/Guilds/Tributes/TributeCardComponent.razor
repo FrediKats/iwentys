@@ -1,17 +1,27 @@
-﻿@using Iwentys.Features.Tributes.Models
-
+﻿@using Iwentys.Features.Guilds.Tributes.Models
+@using Iwentys.Features.Guilds.Tributes.Enums
 @inject NavigationManager NavigationManagerClient
 
-<div class="tribute-element">
+<div class="card-list-element">
     <MatCard Class="dark-elevation-02">
         <MatCardContent>
-            <div class="tribute-element-content">
-                <MatHeadline6>
-                    @Tribute.Project.Name (by @Tribute.Project.AuthorUsername)
-                </MatHeadline6>
-                <MatHeadline6>
-                    @Tribute.CreationTimeUtc
-                </MatHeadline6>
+            <div class="card-list-element-content">
+                @if (Tribute.State == TributeState.Completed)
+                {
+                    <MatHeadline6>
+                        @Tribute.Project.Name (by @Tribute.Project.AuthorUsername)
+                    </MatHeadline6>
+                }
+                @if (Tribute.State != TributeState.Completed)
+                {
+                    <MatHeadline6>
+                        @Tribute.Project.Name
+                    </MatHeadline6>
+                }
+
+                <MatBody2>
+                    Creation time: @Tribute.CreationTimeUtc
+                </MatBody2>
                 @if (Tribute.Mark is not null)
                 {
                     <MatHeadline6>

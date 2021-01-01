@@ -4,13 +4,13 @@ namespace Iwentys.Features.Voting.Entities
 {
     public class GuildLeaderVotingAnswer
     {
-        public Voting Voting { get; set; }
-        public int VotingId { get; set; }
+        public int VotingId { get; init; }
+        public virtual Voting Voting { get; init; }
 
-        public StudentEntity Candidate { get; set; }
-        public int CandidateId { get; set; }
+        public int CandidateId { get; init; }
+        public virtual Student Candidate { get; init; }
 
-        public StudentEntity Student { get; set; }
-        public int StudentId { get; set; }
+        public int StudentId { get; init; }
+        public virtual Student Student { get; init; }
     }
 }

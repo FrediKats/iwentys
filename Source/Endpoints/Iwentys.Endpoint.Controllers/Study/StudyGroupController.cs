@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Features.Study.Entities;
+using Iwentys.Endpoint.Controllers.Tools;
+using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Study.Models;
 using Iwentys.Features.Study.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +20,9 @@ namespace Iwentys.Endpoint.Controllers.Study
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<StudyGroupEntity>>> GetAllGroups([FromQuery] int? courseId)
+        public async Task<ActionResult<List<GroupProfileResponseDto>>> GetAllGroups([FromQuery] int? courseId)
         {
-            List<StudyGroupEntity> result = await _studyGroupService.GetStudyGroupsForDtoAsync(courseId);
+            List<GroupProfileResponseDto> result = await _studyGroupService.GetStudyGroupsForDtoAsync(courseId);
             return Ok(result);
         }
 
@@ -40,6 +41,14 @@ namespace Iwentys.Endpoint.Controllers.Study
                 return NotFound();
             
             return Ok(result);
+        }
+
+        [HttpGet("promote-admin/{newGroupAdminId}")]
+        public async Task<ActionResult> MakeGroupAdmin(int newGroupAdminId)
+        {
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            await _studyGroupService.MakeGroupAdmin(authorizedUser, newGroupAdminId);
+            return Ok();
         }
     }
 }

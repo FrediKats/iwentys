@@ -10,15 +10,15 @@ namespace Iwentys.Features.Study.Services
     public class SubjectActivityService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IGenericRepository<SubjectActivityEntity> _subjectActivityRepositoryNew;
+        private readonly IGenericRepository<SubjectActivity> _subjectActivityRepositoryNew;
 
         public SubjectActivityService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _subjectActivityRepositoryNew = _unitOfWork.GetRepository<SubjectActivityEntity>();
+            _subjectActivityRepositoryNew = _unitOfWork.GetRepository<SubjectActivity>();
         }
 
-        public Task<List<SubjectActivityEntity>> GetStudentActivity(int studentId)
+        public Task<List<SubjectActivity>> GetStudentActivity(int studentId)
         {
             return _subjectActivityRepositoryNew
                 .Get()

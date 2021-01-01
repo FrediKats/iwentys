@@ -4,25 +4,26 @@ using Iwentys.Database.Seeding.Tools;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.Students.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {
-    public class GithubDataGenerator
+    public class GithubDataGenerator : IEntityGenerator
     {
-        public List<GithubUserEntity> GithubUserEntities { get; set; }
-        public List<GithubProjectEntity> GithubProjectEntities { get; set; }
+        public List<GithubUser> GithubUserEntities { get; set; }
+        public List<GithubProject> GithubProjectEntities { get; set; }
 
-        public GithubDataGenerator(List<StudentEntity> students)
+        public GithubDataGenerator(List<Student> students)
         {
             var faker = new Faker();
             faker.IndexVariable++;
 
-            GithubUserEntities = new List<GithubUserEntity>();
-            GithubProjectEntities = new List<GithubProjectEntity>();
-            foreach (StudentEntity student in students)
+            GithubUserEntities = new List<GithubUser>();
+            GithubProjectEntities = new List<GithubProject>();
+            foreach (Student student in students)
             {
-                ActivityInfo activity = CreateActivity(faker);
-                GithubUserEntities.Add(new GithubUserEntity
+                ActivityInfo activity = CreateActivity();
+                GithubUserEntities.Add(new GithubUser
                 {
                     StudentId = student.Id,
                     Username = student.GithubUsername,
@@ -37,11 +38,11 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                     faker.Internet.Url(),
                     faker.Random.Int(0, 100));
                 
-                GithubProjectEntities.Add(new GithubProjectEntity(student, repositoryInfo));
+                GithubProjectEntities.Add(new GithubProject(student, repositoryInfo));
             }
         }
 
-        private static ActivityInfo CreateActivity(Faker faker)
+        private static ActivityInfo CreateActivity()
         {
             List<ContributionsInfo> result = new List<ContributionsInfo>();
             for (int i = 1; i <= 11; i++)
@@ -55,6 +56,12 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             {
                 Contributions = result,
             };
+        }
+
+        public void Seed(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<GithubUser>().HasData(GithubUserEntities);
+            modelBuilder.Entity<GithubProject>().HasData(GithubProjectEntities);
         }
     }
 }

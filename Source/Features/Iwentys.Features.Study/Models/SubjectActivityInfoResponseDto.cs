@@ -4,7 +4,7 @@ namespace Iwentys.Features.Study.Models
 {
     public record SubjectActivityInfoResponseDto
     {
-        public SubjectActivityInfoResponseDto(SubjectActivityEntity subjectActivity)
+        public SubjectActivityInfoResponseDto(SubjectActivity subjectActivity)
             : this(subjectActivity.GroupSubject.Subject.Name, subjectActivity.Points)
         {
         }

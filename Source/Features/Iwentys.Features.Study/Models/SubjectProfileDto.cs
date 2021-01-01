@@ -7,7 +7,7 @@ namespace Iwentys.Features.Study.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public SubjectProfileDto(SubjectEntity entity) : this(entity.Id, entity.Name)
+        public SubjectProfileDto(Subject entity) : this(entity.Id, entity.Name)
         {
         }
 

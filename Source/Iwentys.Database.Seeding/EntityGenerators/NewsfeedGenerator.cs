@@ -1,61 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Bogus;
+using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Newsfeeds.Entities;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Study.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
 {
-    public class NewsfeedGenerator
+    public class NewsfeedGenerator : IEntityGenerator
     {
-        public List<NewsfeedEntity> Newsfeeds { get; set; }
-        public List<SubjectNewsfeedEntity> SubjectNewsfeeds { get; set; }
-        public List<GuildNewsfeedEntity> GuildNewsfeeds { get; set; }
+        public List<Newsfeed> Newsfeeds { get; set; }
+        public List<SubjectNewsfeed> SubjectNewsfeeds { get; set; }
+        public List<GuildNewsfeed> GuildNewsfeeds { get; set; }
 
-        public NewsfeedGenerator(List<StudentEntity> students, List<GuildEntity> guilds, List<SubjectEntity> subjects)
+        public NewsfeedGenerator(List<Student> students, List<Guild> guilds, List<Subject> subjects)
         {
-            var faker = new Faker();
-            faker.IndexVariable++;
+            var faker = new NewsfeedFaker(students.First().Id);
 
-            Newsfeeds = new List<NewsfeedEntity>();
+            Newsfeeds = new List<Newsfeed>();
 
-            SubjectNewsfeeds = new List<SubjectNewsfeedEntity>();
-            foreach (SubjectEntity subject in subjects)
+            SubjectNewsfeeds = new List<SubjectNewsfeed>();
+            foreach (Subject subject in subjects)
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    var newsfeedEntity = new NewsfeedEntity
-                    {
-                        Id = faker.IndexVariable++,
-                        AuthorId = students.First().Id,
-                        Content = faker.Lorem.Paragraph(),
-                        CreationTimeUtc = DateTime.UtcNow,
-                        Title = faker.Lorem.Slug(),
-                    };
-
+                    var newsfeedEntity = faker.Generate();
                     Newsfeeds.Add(newsfeedEntity);
-                    SubjectNewsfeeds.Add(new SubjectNewsfeedEntity { SubjectId = subject.Id, NewsfeedId = newsfeedEntity.Id });
+                    SubjectNewsfeeds.Add(new SubjectNewsfeed { SubjectId = subject.Id, NewsfeedId = newsfeedEntity.Id });
                 }
             }
 
-            GuildNewsfeeds = new List<GuildNewsfeedEntity>();
-            foreach (GuildEntity guild in guilds)
+            GuildNewsfeeds = new List<GuildNewsfeed>();
+            foreach (Guild guild in guilds)
             {
-                var newsfeedEntity = new NewsfeedEntity
-                {
-                    Id = faker.IndexVariable++,
-                    AuthorId = students.First().Id,
-                    Content = faker.Lorem.Paragraph(),
-                    CreationTimeUtc = DateTime.UtcNow,
-                    Title = faker.Lorem.Slug(),
-                };
-
+                var newsfeedEntity = faker.Generate();
                 Newsfeeds.Add(newsfeedEntity);
-                GuildNewsfeeds.Add(new GuildNewsfeedEntity { GuildId = guild.Id, NewsfeedId = newsfeedEntity.Id });
+                GuildNewsfeeds.Add(new GuildNewsfeed { GuildId = guild.Id, NewsfeedId = newsfeedEntity.Id });
             }
+        }
+
+        public void Seed(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Newsfeed>().HasData(Newsfeeds);
+            modelBuilder.Entity<SubjectNewsfeed>().HasData(SubjectNewsfeeds);
+            modelBuilder.Entity<GuildNewsfeed>().HasData(GuildNewsfeeds);
         }
     }
 }

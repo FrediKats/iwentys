@@ -1,7 +1,6 @@
 using System;
 using Iwentys.Common.Databases;
 using Iwentys.Database.Context;
-using Iwentys.Database.Repositories.Guilds;
 using Iwentys.Database.Tools;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Achievements.Services;
@@ -12,8 +11,10 @@ using Iwentys.Features.Economy.Services;
 using Iwentys.Features.Gamification.Services;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Services;
-using Iwentys.Features.Guilds.Models.Guilds;
+using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Services;
+using Iwentys.Features.Guilds.Tournaments.Services;
+using Iwentys.Features.Guilds.Tributes.Services;
 using Iwentys.Features.Newsfeeds.Services;
 using Iwentys.Features.Quests.Models;
 using Iwentys.Features.Quests.Services;
@@ -21,7 +22,6 @@ using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Students.Enums;
 using Iwentys.Features.Students.Services;
-using Iwentys.Features.Tributes.Services;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Tests.Tools;
 
@@ -32,13 +32,11 @@ namespace Iwentys.Tests.TestCaseContexts
         private readonly IwentysDbContext _context;
         public readonly IUnitOfWork UnitOfWork;
 
-        //TODO: remove?
-        public readonly GuildRepository GuildRepository;
-
         public readonly StudentService StudentService;
         public readonly GuildService GuildService;
         public readonly GuildMemberService GuildMemberService;
         public readonly GuildTributeService GuildTributeServiceService;
+        public readonly TournamentService TournamentService;
         public readonly CompanyService CompanyService;
         public readonly QuestService QuestService;
         public readonly GithubIntegrationService GithubIntegrationService;
@@ -55,8 +53,6 @@ namespace Iwentys.Tests.TestCaseContexts
             IUnitOfWork unitOfWork = new UnitOfWork<IwentysDbContext>(_context);
             UnitOfWork = unitOfWork;
             
-            GuildRepository = new GuildRepository(_context);
-
             var achievementProvider = new AchievementProvider(unitOfWork);
             var githubApiAccessor = new DummyGithubApiAccessor();
 
@@ -65,6 +61,7 @@ namespace Iwentys.Tests.TestCaseContexts
             GuildService = new GuildService(GithubIntegrationService, unitOfWork);
             GuildMemberService = new GuildMemberService(GithubIntegrationService, unitOfWork);
             GuildTributeServiceService = new GuildTributeService(unitOfWork, GithubIntegrationService);
+            TournamentService = new TournamentService(GithubIntegrationService, UnitOfWork, achievementProvider);
             CompanyService = new CompanyService(unitOfWork);
             BarsPointTransactionLogService = new BarsPointTransactionLogService(unitOfWork);
             QuestService = new QuestService(achievementProvider, BarsPointTransactionLogService, unitOfWork);
@@ -77,7 +74,7 @@ namespace Iwentys.Tests.TestCaseContexts
         {
             int id = RandomProvider.Random.Next(999999);
 
-            var userInfo = new StudentEntity
+            var userInfo = new Student
             {
                 Id = id,
                 Role = studentRole,
@@ -85,7 +82,7 @@ namespace Iwentys.Tests.TestCaseContexts
                 BarsPoints = 1000
             };
 
-            UnitOfWork.GetRepository<StudentEntity>().InsertAsync(userInfo).Wait();
+            UnitOfWork.GetRepository<Student>().InsertAsync(userInfo).Wait();
             UnitOfWork.CommitAsync().Wait();
             user = AuthorizedUser.DebugAuth(userInfo.Id);
             return this;
@@ -99,7 +96,7 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public TestCaseContext WithCompany(out CompanyInfoDto companyInfo)
         {
-            var company = new CompanyEntity();
+            var company = new Company();
             company = CompanyService.Create(company).Result;
             companyInfo = new CompanyInfoDto(company);
             return this;
@@ -117,9 +114,9 @@ namespace Iwentys.Tests.TestCaseContexts
             return this;
         }
 
-        public TestCaseContext WithStudentProject(AuthorizedUser userInfo, out GithubProjectEntity githubProjectEntity)
+        public TestCaseContext WithStudentProject(AuthorizedUser userInfo, out GithubProject githubProject)
         {
-            var project = new GithubProjectEntity
+            var project = new GithubProject
             {
                 //TODO: hack for work with dummy github
                 Id = 171717,
@@ -128,8 +125,8 @@ namespace Iwentys.Tests.TestCaseContexts
                 Name = "Test repo"
             };
 
-            UnitOfWork.GetRepository<GithubProjectEntity>().InsertAsync(project).Wait();
-            githubProjectEntity = project;
+            UnitOfWork.GetRepository<GithubProject>().InsertAsync(project).Wait();
+            githubProject = project;
             UnitOfWork.CommitAsync().Wait();
             
             return this;
@@ -153,9 +150,9 @@ namespace Iwentys.Tests.TestCaseContexts
             public const string GithubUsername = "GhUser";
         }
 
-        public TestCaseContext WithGithubRepository(AuthorizedUser userInfo, out GithubUserEntity userEntity)
+        public TestCaseContext WithGithubRepository(AuthorizedUser userInfo, out GithubUser user)
         {
-            userEntity = GithubIntegrationService.CreateOrUpdate(userInfo.Id).Result;
+            user = GithubIntegrationService.CreateOrUpdate(userInfo.Id).Result;
             return this;
         }
     }

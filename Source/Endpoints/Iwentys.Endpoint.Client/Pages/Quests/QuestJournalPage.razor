@@ -7,25 +7,24 @@
 @inject ILocalStorageService LocalStorage
 
 <div class="container-fluid d-flex flex-row">
-    <div class="col-md-3 d-flex flex-column dark-elevation-01">
+    <div class="col-md-3 d-flex flex-column">
         <MatButton OnClick=@(async () => await SelectActive())>Active</MatButton>
         <MatButton OnClick=@(async () => await SelectCreated())>Created</MatButton>
         <MatButton OnClick=@(async () => await SelectArchived())>Archive</MatButton>
         <MatButton Link="/quest/create">Добавить квест</MatButton>
-
     </div>
 
-    <div class="col-md-6 d-flex flex-column dark-elevation-01">
+    <div class="col-md-6 d-flex flex-column">
         <h3>Quest Journal Page</h3>
         @if (_selectedQuest is not null)
         {
             <div class="container-fluid d-flex flex-column">
                 @foreach (QuestInfoDto quest in _selectedQuest)
                 {
-                    <div class="quest-journal-elemnt">
-                        <MatCard Class="dark-elevation-02">
+                    <div class="card-list-element">
+                        <MatCard Class="dark-elevation-01">
                             <MatCardContent>
-                                <div class="quest-journal-elemnt-content">
+                                <div class="card-list-element-content">
                                     <MatHeadline6>
                                         @quest.Title (@quest.Price)
                                     </MatHeadline6>
@@ -39,7 +38,10 @@
                             </MatCardContent>
                             <MatCardActions>
                                 <MatButton Link=@LinkToQuestProfilePage(quest)>Profile</MatButton>
-                                <MatButton Link=@LinkToQuestResponsePage(quest)>Response</MatButton>
+                                @if (IsCanResponseToQuest(quest))
+                                {
+                                    <MatButton Link=@LinkToQuestResponsePage(quest)>Response</MatButton>
+                                }
                                 @if (IsQuestCanBeRevoked(quest))
                                 {
                                     <MatButton OnClick=@(async () => await RevokeQuest(quest))>Revoke</MatButton>
