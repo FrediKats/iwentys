@@ -1,0 +1,27 @@
+﻿@page "/raids/profile/{RaidId:int}"
+
+@inherits DependencyInjectionPage
+
+<h3>RaidProfilePage</h3>
+@if (_raid is not null)
+{
+    <div class="container-fluid d-flex flex-row">
+        <div class="col-md-6 d-flex flex-column">
+            <MatH6>Visitors (@_raid.Visitors.Count)</MatH6>
+            <MatList>
+                @foreach (var visitor in _raid.Visitors)
+                {
+                    <MatListItem>
+                        @visitor.GetFullName()
+                    </MatListItem>
+                }
+            </MatList>
+            @*<MatButton OnClick=@(async () => await RegisterToTournament())>Check in</MatButton>*@
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int RaidId { get; set; }
+}

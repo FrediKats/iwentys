@@ -1,5 +1,6 @@
 ﻿@page "/raids"
 
+@using Iwentys.Features.Raids.Models
 @inherits DependencyInjectionPage
 
 <h3>RaidJournalPage</h3>
@@ -9,20 +10,23 @@
         @if (_raids is not null)
         {
             <div class="container-fluid d-flex flex-column">
-                @foreach (var tournament in _raids)
+                @foreach (RaidProfileDto raid in _raids)
                 {
                     <div class="card-list-element">
                         <MatCard Class="dark-elevation-02">
                             <MatCardContent>
                                 <div class="card-list-element-content">
                                     <MatHeadline6>
-                                        @tournament.Title
+                                        @raid.Title
                                     </MatHeadline6>
                                     <MatBody2>
-                                        @tournament.Description
+                                        @raid.Description
                                     </MatBody2>
                                 </div>
                             </MatCardContent>
+                            <MatCardActions>
+                                <MatButton Link=@LinkToRaidProfile(raid)>Open</MatButton>
+                            </MatCardActions>
                         </MatCard>
                     </div>
                 }
@@ -30,7 +34,3 @@
         }
     </div>
 </div>
-
-@code {
-
-}

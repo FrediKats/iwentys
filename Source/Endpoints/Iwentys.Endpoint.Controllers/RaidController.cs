@@ -19,11 +19,19 @@ namespace Iwentys.Endpoint.Controllers
             _raidService = raidService;
         }
 
-        [HttpGet]
+        [HttpGet("profile")]
         public async Task<ActionResult<List<RaidProfileDto>>> Get()
         {
             AuthorizedUser user = this.TryAuthWithToken();
             List<RaidProfileDto> result = await _raidService.Get(); 
+            return Ok(result);
+        }
+
+        [HttpGet("profile/{raidId}")]
+        public async Task<ActionResult<RaidProfileDto>> Get(int raidId)
+        {
+            AuthorizedUser user = this.TryAuthWithToken();
+            RaidProfileDto result = await _raidService.Get(raidId);
             return Ok(result);
         }
     }

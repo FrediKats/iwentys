@@ -11,6 +11,7 @@ namespace Iwentys.Features.Raids.Services
     public class RaidService
     {
         private IUnitOfWork _unitOfWork;
+
         private readonly IGenericRepository<Raid> _raidRepository;
 
         public RaidService(IUnitOfWork unitOfWork)
@@ -25,6 +26,15 @@ namespace Iwentys.Features.Raids.Services
                 .Get()
                 .Select(RaidProfileDto.FromEntity)
                 .ToListAsync();
+        }
+
+        public async Task<RaidProfileDto> Get(int raidId)
+        {
+            return await _raidRepository
+                .Get()
+                .Where(r => r.Id == raidId)
+                .Select(RaidProfileDto.FromEntity)
+                .SingleAsync();
         }
     }
 }

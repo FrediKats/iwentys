@@ -13,5 +13,8 @@ namespace Iwentys.Endpoint.Client.Pages.Raids
             await base.OnInitializedAsync();
             _raids = await ClientHolder.Raid.Get();
         }
+
+        private string LinkToRaidProfile(RaidProfileDto raid) => $"/raids/profile/{raid.Id}";
+
     }
 }

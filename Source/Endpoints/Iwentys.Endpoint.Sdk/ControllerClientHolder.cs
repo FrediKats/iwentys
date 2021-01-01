@@ -4,7 +4,7 @@ using Iwentys.Endpoint.Sdk.ControllerClients.Gamification;
 using Iwentys.Endpoint.Sdk.ControllerClients.Guilds;
 using Iwentys.Endpoint.Sdk.ControllerClients.Study;
 
-namespace Iwentys.Endpoint.Sdk
+namespace Iwentys.Endpoint.Client.Tools
 {
     public class ControllerClientHolder
     {
