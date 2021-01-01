@@ -1,7 +1,4 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy ASP.Net Core app to Azure Web App - iwentys-dev
+name: Deploy app to Azure Web App
 
 on:
   push:
@@ -13,7 +10,6 @@ jobs:
     runs-on: windows-latest
     env:
       working-directory: ./Source
-      NODE_VERSION: "10.x"
 
     steps:
     - uses: actions/checkout@main
