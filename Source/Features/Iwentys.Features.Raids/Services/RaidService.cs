@@ -12,7 +12,7 @@ namespace Iwentys.Features.Raids.Services
 {
     public class RaidService
     {
-        private IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
         private readonly IGenericRepository<Student> _studentRepository;
         private readonly IGenericRepository<Raid> _raidRepository;
@@ -49,7 +49,7 @@ namespace Iwentys.Features.Raids.Services
             Student student = await _studentRepository.GetByIdAsync(user.Id);
             Raid raid = await _raidRepository.GetByIdAsync(raidId);
 
-            RaidVisitor visitor = raid.RegisterVisitor(student, student);
+            RaidVisitor visitor = raid.RegisterVisitor(student);
 
             await _raidVisitorRepository.InsertAsync(visitor);
             await _unitOfWork.CommitAsync();
@@ -63,6 +63,21 @@ namespace Iwentys.Features.Raids.Services
                 .FirstAsync(rv => rv.Raid == raid && rv.VisitorId == user.Id);
 
             _raidVisitorRepository.Delete(raidVisitor);
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task ApproveRegistration(AuthorizedUser user, int raidId, int visitorId)
+        {
+            Student student = await _studentRepository.GetByIdAsync(user.Id);
+            SystemAdminUser admin = student.EnsureIsAdmin();
+            RaidVisitor visitor = await _raidVisitorRepository
+                .Get()
+                .Where(rv => rv.RaidId == raidId && rv.VisitorId == visitorId)
+                .SingleAsync();
+
+            visitor.Approve();
+
+            _raidVisitorRepository.Update(visitor);
             await _unitOfWork.CommitAsync();
         }
     }

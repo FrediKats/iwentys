@@ -12,7 +12,7 @@ namespace Iwentys.Endpoint.Controllers
     [ApiController]
     public class RaidController : ControllerBase
     {
-        private RaidService _raidService;
+        private readonly RaidService _raidService;
 
         public RaidController(RaidService raidService)
         {
@@ -48,6 +48,14 @@ namespace Iwentys.Endpoint.Controllers
         {
             AuthorizedUser user = this.TryAuthWithToken();
             await _raidService.UnRegisterOnRaid(user, raidId);
+            return Ok();
+        }
+
+        [HttpPut("profile/{raidId}/registration/{visitorId}/approve")]
+        public async Task<ActionResult> ApproveRegistration(int raidId, int visitorId)
+        {
+            AuthorizedUser user = this.TryAuthWithToken();
+            await _raidService.ApproveRegistration(user, raidId, visitorId);
             return Ok();
         }
     }

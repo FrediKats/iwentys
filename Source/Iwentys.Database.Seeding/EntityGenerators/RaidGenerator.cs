@@ -24,7 +24,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             Raids.Add(raid);
 
             foreach (Student student in students.Take(10))
-                RaidVisitors.Add(raid.RegisterVisitor(admin.Student, student));
+                RaidVisitors.Add(raid.RegisterVisitor(student));
         }
 
         public List<Raid> Raids { get; set; }

@@ -6,6 +6,7 @@ using Iwentys.Features.Raids.Models;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Students.Enums;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace Iwentys.Features.Raids.Entities
 {
@@ -39,26 +40,14 @@ namespace Iwentys.Features.Raids.Entities
             };
         }
 
-        public RaidVisitor RegisterVisitor(Student initiator, Student visitor)
+        public RaidVisitor RegisterVisitor(Student visitor)
         {
             if (RaidType == RaidType.PublicLecture)
             {
-                return new RaidVisitor
-                {
-                    RaidId = Id,
-                    VisitorId = visitor.Id
-                };
+                return RaidVisitor.CreateForLecture(Id, visitor.Id);
             }
 
-            //TODO: allow raid manager to invite
-            if (initiator.Role != StudentRole.Admin)
-                throw InnerLogicException.NotEnoughPermissionFor(initiator.Id);
-
-            return new RaidVisitor
-            {
-                RaidId = Id,
-                VisitorId = visitor.Id
-            };
+            return RaidVisitor.CreateRequest(Id, visitor.Id);
         }
     }
 }

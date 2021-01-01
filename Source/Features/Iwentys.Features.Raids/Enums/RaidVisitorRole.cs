@@ -2,7 +2,8 @@
 {
     public enum RaidVisitorRole
     {
-        Common = 1,
+        Pending = 1,
+        Approved,
         Manager,
     }
 }
