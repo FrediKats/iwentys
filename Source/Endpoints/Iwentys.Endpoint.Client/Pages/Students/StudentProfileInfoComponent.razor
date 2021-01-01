@@ -1,11 +1,9 @@
-﻿@using Blazored.LocalStorage
-@using Iwentys.Features.Students.Enums
+﻿@using Iwentys.Features.Students.Enums
 @using Iwentys.Features.Students.Models
 
 @namespace Iwentys.Endpoint.Client.Pages.Students
 
-@inject HttpClient Http
-@inject ILocalStorageService LocalStorage
+@inherits DependencyInjectionPage
 
 @if (StudentProfile is not null)
 {

@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Endpoint.Client.Tools;
-using Iwentys.Endpoint.Sdk.ControllerClients.Guilds;
 using Iwentys.Features.Guilds.Models;
 
 namespace Iwentys.Endpoint.Client.Pages.Guilds
@@ -14,8 +12,8 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
 
         protected override async Task OnInitializedAsync()
         {
-            var guildControllerClient = new GuildControllerClient(await Http.TrySetHeader(LocalStorage));
-            _guildProfiles = await guildControllerClient.GetOverview();
+            await base.OnInitializedAsync();
+            _guildProfiles = await ClientHolder.Guild.GetOverview();
         }
     }
 }

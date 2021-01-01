@@ -1,7 +1,5 @@
 ﻿@page "/guild/profile/{GuildId:int}/edit"
 
-@using Iwentys.Endpoint.Client.Tools
-@using Iwentys.Endpoint.Sdk.ControllerClients.Guilds
 @using Iwentys.Features.Guilds.Models
 
 @inherits DependencyInjectionPage
@@ -19,10 +17,4 @@
     public int GuildId { get; set; }
 
     private ExtendedGuildProfileWithMemberDataDto _guild;
-
-    protected override async Task OnInitializedAsync()
-    {
-        var guildControllerClient = new GuildControllerClient(await Http.TrySetHeader(LocalStorage));
-        _guild = await guildControllerClient.Get(GuildId);
-    }
 }

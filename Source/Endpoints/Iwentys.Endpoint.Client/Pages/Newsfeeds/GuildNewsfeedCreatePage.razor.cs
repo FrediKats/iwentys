@@ -1,7 +1,4 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using Iwentys.Endpoint.Client.Tools;
-using Iwentys.Endpoint.Sdk.ControllerClients;
+﻿using System.Threading.Tasks;
 using Iwentys.Features.Newsfeeds.Models;
 
 namespace Iwentys.Endpoint.Client.Pages.Newsfeeds
@@ -11,17 +8,9 @@ namespace Iwentys.Endpoint.Client.Pages.Newsfeeds
         private string _title;
         private string _description;
 
-        private NewsfeedControllerClient _newsfeedControllerClient;
-
-        protected override async Task OnInitializedAsync()
-        {
-            HttpClient httpClient = await Http.TrySetHeader(LocalStorage);
-            _newsfeedControllerClient = new NewsfeedControllerClient(httpClient);
-        }
-
         private async Task ExecuteCreateNewsfeed()
         {
-            await _newsfeedControllerClient.CreateGuildNewsfeed(GuildId, new NewsfeedCreateViewModel
+            await ClientHolder.Newsfeed.CreateGuildNewsfeed(GuildId, new NewsfeedCreateViewModel
             {
                 Title = _title,
                 Content = _description

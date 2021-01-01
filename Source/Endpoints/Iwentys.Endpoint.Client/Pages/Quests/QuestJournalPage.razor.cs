@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Endpoint.Client.Tools;
-using Iwentys.Endpoint.Sdk.ControllerClients;
-using Iwentys.Endpoint.Sdk.ControllerClients.Study;
 using Iwentys.Features.Quests.Enums;
 using Iwentys.Features.Quests.Models;
 using Iwentys.Features.Students.Models;
@@ -14,34 +11,29 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
         private IReadOnlyList<QuestInfoDto> _selectedQuest;
         private StudentInfoDto _currentStudent;
 
-        private StudentControllerClient _studentControllerClient;
-        private QuestControllerClient _questControllerClient;
-
         protected override async Task OnInitializedAsync()
         {
-            var httpClient = await Http.TrySetHeader(LocalStorage);
-            _studentControllerClient = new StudentControllerClient(httpClient);
-            _questControllerClient = new QuestControllerClient(httpClient);
+            await base.OnInitializedAsync();
 
-            _currentStudent = await _studentControllerClient.GetSelf();
+            _currentStudent = await ClientHolder.Student.GetSelf();
             await SelectActive();
         }
         
         private async Task SelectActive()
         {
-            _selectedQuest = await _questControllerClient.GetActive();
+            _selectedQuest = await ClientHolder.Quest.GetActive();
             StateHasChanged();
         }
 
         private async Task SelectCreated()
         {
-            _selectedQuest = await _questControllerClient.GetCreatedByUser();
+            _selectedQuest = await ClientHolder.Quest.GetCreatedByUser();
             StateHasChanged();
         }
 
         private async Task SelectArchived()
         {
-            _selectedQuest = await _questControllerClient.GetArchived();
+            _selectedQuest = await ClientHolder.Quest.GetArchived();
             StateHasChanged();
         }
 
@@ -58,7 +50,7 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
         private async Task RevokeQuest(QuestInfoDto quest)
         {
             //TODO: refresh elements
-            await _questControllerClient.Revoke(quest.Id);
+            await ClientHolder.Quest.Revoke(quest.Id);
         }
 
         private string LinkToQuestProfilePage(QuestInfoDto quest) => $"/quest/profile/{quest.Id}";

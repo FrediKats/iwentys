@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
-using Iwentys.Endpoint.Client.Tools;
-using Iwentys.Endpoint.Sdk.ControllerClients;
-using Iwentys.Endpoint.Sdk.ControllerClients.Study;
 using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.Students.Models;
 using Iwentys.Features.Study.Models;
@@ -13,9 +9,6 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
 {
     public partial class AssignmentCreatePage
     {
-        private AssignmentControllerClient _assignmentControllerClient;
-        private SubjectControllerClient _subjectControllerClient;
-
         private string _title;
         private string _description;
         private DateTime? _deadline;
@@ -28,18 +21,13 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
 
         protected override async Task OnInitializedAsync()
         {
-            HttpClient httpClient = await Http.TrySetHeader(LocalStorage);
-            _assignmentControllerClient = new AssignmentControllerClient(httpClient);
-            _subjectControllerClient = new SubjectControllerClient(httpClient);
-            
-            var studyGroupControllerClient = new StudyGroupControllerClient(httpClient);
-            var studentControllerClient = new StudentControllerClient(httpClient);
+            await base.OnInitializedAsync();
 
-            _currentStudent = await studentControllerClient.GetSelf();
-            _studyGroup = await studyGroupControllerClient.FindStudentGroup(_currentStudent.Id);
+            _currentStudent = await ClientHolder.Student.GetSelf();
+            _studyGroup = await ClientHolder.StudyGroup.FindStudentGroup(_currentStudent.Id);
             if (_studyGroup is not null)
             {
-                List<SubjectProfileDto> subject = await _subjectControllerClient.GetGroupSubjects(_studyGroup.Id);
+                List<SubjectProfileDto> subject = await ClientHolder.Subject.GetGroupSubjects(_studyGroup.Id);
 
                 //FYI: this value is used in selector
                 subject.Insert(0, null);
@@ -49,7 +37,7 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
         private async Task ExecuteAssignmentCreation()
         {
             var createArguments = new AssignmentCreateRequestDto(_title, _description, _selectedSubject?.Id, _deadline, _forGroup);
-            await _assignmentControllerClient.Create(createArguments);
+            await ClientHolder.Assignment.Create(createArguments);
             NavigationManager.NavigateTo("/assignment");
         }
 

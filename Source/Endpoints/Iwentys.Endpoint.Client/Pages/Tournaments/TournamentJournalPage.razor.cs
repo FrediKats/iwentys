@@ -1,24 +1,18 @@
 ﻿using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
-using Iwentys.Endpoint.Client.Tools;
-using Iwentys.Endpoint.Sdk.ControllerClients.Guilds;
 using Iwentys.Features.Guilds.Tournaments.Models;
 
 namespace Iwentys.Endpoint.Client.Pages.Tournaments
 {
     public partial class TournamentJournalPage
     {
-        private TournamentControllerClient _tournamentControllerClient;
-
         private List<TournamentInfoResponse> _tournaments;
 
         protected override async Task OnInitializedAsync()
         {
-            HttpClient httpClient = await Http.TrySetHeader(LocalStorage);
-            _tournamentControllerClient = new TournamentControllerClient(httpClient);
+            await base.OnInitializedAsync();
 
-            _tournaments = await _tournamentControllerClient.Get();
+            _tournaments = await ClientHolder.Tournament.Get();
         }
 
         private string LinkToTournamentProfile(TournamentInfoResponse tournamentInfo) => $"/tournaments/profile/{tournamentInfo.Id}";

@@ -4,9 +4,7 @@
 
 @namespace Iwentys.Endpoint.Client.Pages.Guilds
 
-@inject HttpClient Http
-@inject ILocalStorageService LocalStorage
-@inject NavigationManager NavigationManagerClient
+@inherits DependencyInjectionPage
 
 <div class="container-fluid d-flex flex-column align-items-center">
     <img src=@SelectedGuildProfile.LogoUrl class="guild-logo" />

@@ -1,17 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
-using Iwentys.Endpoint.Client.Tools;
-using Iwentys.Endpoint.Sdk.ControllerClients.Guilds;
 using Iwentys.Features.Guilds.Tributes.Models;
 
 namespace Iwentys.Endpoint.Client.Pages.Guilds.Tributes
 {
     public partial class CreateTributeResponsePage
     {
-        private GuildTributeControllerClient _guildTributeControllerControllerClient;
-
         private List<TributeInfoResponse> _tributes;
 
         private TributeInfoResponse _tribute;
@@ -21,11 +16,10 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds.Tributes
         
         protected override async Task OnInitializedAsync()
         {
-            HttpClient httpClient = await Http.TrySetHeader(LocalStorage);
-            _guildTributeControllerControllerClient = new GuildTributeControllerClient(httpClient);
-            
+            await base.OnInitializedAsync();
+
             //TODO: male metho for getting by id
-            _tributes = await _guildTributeControllerControllerClient.GetGuildTribute(GuildId);
+            _tributes = await ClientHolder.GuildTribute.GetGuildTribute(GuildId);
             _tribute = _tributes.First(t => t.Project.Id == TributeId);
         }
         
@@ -39,7 +33,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds.Tributes
                 TributeId = TributeId
             };
             
-            await _guildTributeControllerControllerClient.CompleteTribute(tributeCompleteRequest);
+            await ClientHolder.GuildTribute.CompleteTribute(tributeCompleteRequest);
             NavigationManager.NavigateTo($"/guild/{GuildId}/tribute");
         }
     }
