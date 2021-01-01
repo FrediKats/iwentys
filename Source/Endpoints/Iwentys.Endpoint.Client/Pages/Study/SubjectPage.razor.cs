@@ -5,11 +5,10 @@ using Iwentys.Endpoint.Sdk.ControllerClients;
 using Iwentys.Endpoint.Sdk.ControllerClients.Study;
 using Iwentys.Features.Newsfeeds.Models;
 using Iwentys.Features.Study.Models;
-using Microsoft.AspNetCore.Components;
 
 namespace Iwentys.Endpoint.Client.Pages.Study
 {
-    public partial class SubjectPage : ComponentBase
+    public partial class SubjectPage
     {
         private SubjectProfileDto _subjectProfile;
         private List<NewsfeedViewModel> _newsfeeds;

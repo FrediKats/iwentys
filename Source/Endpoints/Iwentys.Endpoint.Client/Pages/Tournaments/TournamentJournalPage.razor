@@ -1,9 +1,6 @@
 ﻿@page "/tournaments"
 
-@using Blazored.LocalStorage
-
-@inject HttpClient Http
-@inject ILocalStorageService LocalStorage
+@inherits DependencyInjectionPage
 
 <h3>Tournaments</h3>
 <MatButton Link="/tournaments/create/code-marathon">Create code marathon</MatButton>

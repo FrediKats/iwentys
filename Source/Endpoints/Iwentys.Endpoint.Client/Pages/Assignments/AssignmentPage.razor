@@ -1,11 +1,8 @@
 ﻿@page "/assignment"
 
-@using Blazored.LocalStorage
 @using Iwentys.Features.Assignments.Models
 
-@inject HttpClient Http
-@inject ILocalStorageService LocalStorage
-@inject NavigationManager NavigationManagerClient
+@inherits DependencyInjectionPage
 
 <div class="container-fluid d-flex flex-row">
     <div class="col-md-3 d-flex flex-column">

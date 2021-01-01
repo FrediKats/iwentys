@@ -8,11 +8,10 @@ using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Tournaments.Models;
 using Iwentys.Features.Guilds.Tributes.Models;
 using Iwentys.Features.Newsfeeds.Models;
-using Microsoft.AspNetCore.Components;
 
 namespace Iwentys.Endpoint.Client.Pages.Guilds
 {
-    public partial class GuildProfilePage : ComponentBase
+    public partial class GuildProfilePage
     {
         private ExtendedGuildProfileWithMemberDataDto _guild;
         private GuildMemberLeaderBoardDto _memberLeaderBoard;

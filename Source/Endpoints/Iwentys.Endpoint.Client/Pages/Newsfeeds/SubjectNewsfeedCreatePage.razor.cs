@@ -27,7 +27,7 @@ namespace Iwentys.Endpoint.Client.Pages.Newsfeeds
                 Content = _description
             });
             
-            Navigation.NavigateTo($"/subject/profile/{SubjectId}");
+            NavigationManager.NavigateTo($"/subject/profile/{SubjectId}");
         }
     }
 }

@@ -1,9 +1,6 @@
 ﻿@page "/quest/response/{QuestId:int}"
 
-@using Blazored.LocalStorage
-
-@inject HttpClient Http
-@inject ILocalStorageService LocalStorage
+@inherits DependencyInjectionPage
 
 <div class="col-md-6 d-flex flex-column">
     <h3>QuestResponseCreatePage</h3>

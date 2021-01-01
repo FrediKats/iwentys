@@ -3,11 +3,10 @@ using System.Threading.Tasks;
 using Iwentys.Endpoint.Client.Tools;
 using Iwentys.Endpoint.Sdk.ControllerClients.Guilds;
 using Iwentys.Features.Guilds.Models;
-using Microsoft.AspNetCore.Components;
 
 namespace Iwentys.Endpoint.Client.Pages.Guilds
 {
-    public partial class GuildRatePage : ComponentBase
+    public partial class GuildRatePage
     {
         private IReadOnlyList<GuildProfileDto> _guildProfiles;
 

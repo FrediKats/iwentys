@@ -1,11 +1,6 @@
 ﻿@page "/guild/{GuildId:int}/create-pinned"
 
-@using Blazored.LocalStorage
-
-
-@inject HttpClient Http
-@inject NavigationManager Navigation
-@inject ILocalStorageService LocalStorage
+@inherits DependencyInjectionPage
 
 <h3>PinnedrepositoryCreatePage</h3>
 

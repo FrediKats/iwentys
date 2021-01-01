@@ -4,11 +4,10 @@ using Iwentys.Endpoint.Sdk.ControllerClients.Study;
 using Iwentys.Features.Students.Models;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
-using Microsoft.AspNetCore.Components;
 
 namespace Iwentys.Endpoint.Client.Pages.Study
 {
-    public partial class GroupPage : ComponentBase
+    public partial class GroupPage
     {
         private GroupProfileResponseDto _groupProfile;
 

@@ -17,7 +17,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
             HttpClient httpClient = await Http.TrySetHeader(LocalStorage);
             var guildControllerClient = new GuildControllerClient(httpClient);
             GithubRepositoryInfoDto project = await guildControllerClient.AddPinnedProject(GuildId, new CreateProjectRequestDto(_owner, _repositoryName));
-            Navigation.NavigateTo($"/guild/profile/{GuildId}");
+            NavigationManager.NavigateTo($"/guild/profile/{GuildId}");
         }
     }
 }

@@ -1,11 +1,10 @@
 ﻿@page "/group/profile/{GroupName}"
-@using Blazored.LocalStorage
+
 @using Iwentys.Features.Students.Enums
 @using Iwentys.Features.Students.Models
 @using Iwentys.Features.Study.Entities
 
-@inject HttpClient Http
-@inject ILocalStorageService LocalStorage
+@inherits DependencyInjectionPage
 
 <h2>Group page: @GroupName</h2>
 

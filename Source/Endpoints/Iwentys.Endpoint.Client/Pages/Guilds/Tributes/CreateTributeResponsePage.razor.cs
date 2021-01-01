@@ -40,7 +40,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds.Tributes
             };
             
             await _guildTributeControllerControllerClient.CompleteTribute(tributeCompleteRequest);
-            NavigationManagerClient.NavigateTo($"/guild/{GuildId}/tribute");
+            NavigationManager.NavigateTo($"/guild/{GuildId}/tribute");
         }
     }
 }

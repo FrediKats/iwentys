@@ -1,11 +1,10 @@
 ﻿@page "/guild/profile/{GuildId:int}/edit"
-@using Blazored.LocalStorage
+
 @using Iwentys.Endpoint.Client.Tools
 @using Iwentys.Endpoint.Sdk.ControllerClients.Guilds
 @using Iwentys.Features.Guilds.Models
 
-@inject HttpClient Http
-@inject ILocalStorageService LocalStorage
+@inherits DependencyInjectionPage
 
 <h3>GuildEditPage</h3>
 

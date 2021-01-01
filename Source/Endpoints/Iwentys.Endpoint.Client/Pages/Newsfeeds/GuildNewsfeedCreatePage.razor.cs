@@ -27,7 +27,7 @@ namespace Iwentys.Endpoint.Client.Pages.Newsfeeds
                 Content = _description
             });
 
-            Navigation.NavigateTo($"/guild/profile/{GuildId}");
+            NavigationManager.NavigateTo($"/guild/profile/{GuildId}");
         }
     }
 }

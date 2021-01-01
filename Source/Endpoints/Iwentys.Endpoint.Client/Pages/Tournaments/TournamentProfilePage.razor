@@ -1,9 +1,7 @@
 ﻿@page "/tournaments/profile/{TournamentId:int}"
-@using Blazored.LocalStorage
 @using Iwentys.Features.Guilds.Tournaments.Models
 
-@inject HttpClient Http
-@inject ILocalStorageService LocalStorage
+@inherits DependencyInjectionPage
 
 <h3>TournamentProfilePage</h3>
 

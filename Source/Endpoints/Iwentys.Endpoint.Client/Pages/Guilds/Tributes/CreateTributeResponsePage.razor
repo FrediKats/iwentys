@@ -1,9 +1,6 @@
 ﻿@page "/guild/{GuildId:int}/tribute/{TributeId:int}/response"
-@using Blazored.LocalStorage
 
-@inject HttpClient Http
-@inject ILocalStorageService LocalStorage
-@inject NavigationManager NavigationManagerClient
+@inherits DependencyInjectionPage
 
 <h3>CreateTributeResponsePage</h3>
 

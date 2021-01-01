@@ -8,11 +8,10 @@ using Iwentys.Endpoint.Sdk.ControllerClients.Study;
 using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.Students.Models;
 using Iwentys.Features.Study.Models;
-using Microsoft.AspNetCore.Components;
 
 namespace Iwentys.Endpoint.Client.Pages.Assignments
 {
-    public partial class AssignmentCreatePage : ComponentBase
+    public partial class AssignmentCreatePage
     {
         private AssignmentControllerClient _assignmentControllerClient;
         private SubjectControllerClient _subjectControllerClient;
@@ -51,7 +50,7 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
         {
             var createArguments = new AssignmentCreateRequestDto(_title, _description, _selectedSubject?.Id, _deadline, _forGroup);
             await _assignmentControllerClient.Create(createArguments);
-            NavigationManagerClient.NavigateTo("/assignment");
+            NavigationManager.NavigateTo("/assignment");
         }
 
         private bool IsUserAdmin()

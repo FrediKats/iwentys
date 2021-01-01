@@ -1,9 +1,6 @@
 ﻿@page "/guild/{GuildId:int}/tribute"
 
-@using Blazored.LocalStorage
-
-@inject HttpClient Http
-@inject ILocalStorageService LocalStorage
+@inherits DependencyInjectionPage
 
 <div class="container-fluid d-flex flex-row">
     <div class="col-md-6 d-flex flex-column">

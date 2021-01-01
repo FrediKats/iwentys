@@ -1,10 +1,9 @@
 ﻿@page "/guild/profile/{GuildId:int}"
-@using Blazored.LocalStorage
+
 @using Iwentys.Endpoint.Client.CustomComponents
 @using Iwentys.Endpoint.Client.Pages.Guilds.Tributes
 
-@inject HttpClient Http
-@inject ILocalStorageService LocalStorage
+@inherits DependencyInjectionPage
 
 @if (_guild is not null)
 {
