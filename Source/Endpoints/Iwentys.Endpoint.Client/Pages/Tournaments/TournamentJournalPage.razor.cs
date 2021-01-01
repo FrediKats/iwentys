@@ -9,8 +9,6 @@ namespace Iwentys.Endpoint.Client.Pages.Tournaments
 {
     public partial class TournamentJournalPage
     {
-        private GuildControllerClient _guildControllerClient;
-        private GuildTributeControllerClient _guildTributeControllerControllerClient;
         private TournamentControllerClient _tournamentControllerClient;
 
         private List<TournamentInfoResponse> _tournaments;

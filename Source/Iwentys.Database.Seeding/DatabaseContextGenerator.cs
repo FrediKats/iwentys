@@ -7,7 +7,7 @@ namespace Iwentys.Database.Seeding
 {
     public class DatabaseContextGenerator
     {
-        private List<IEntityGenerator> _generators = new List<IEntityGenerator>();
+        private readonly List<IEntityGenerator> _generators = new List<IEntityGenerator>();
 
         public DatabaseContextGenerator()
         {

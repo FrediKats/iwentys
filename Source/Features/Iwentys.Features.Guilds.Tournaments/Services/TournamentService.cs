@@ -44,10 +44,11 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
             _githubIntegrationService = githubIntegrationService;
         }
 
-        public async Task<List<TournamentInfoResponse>> GetAsync()
+        public async Task<List<TournamentInfoResponse>> GetActive()
         {
-            List<TournamentInfoResponse> result = await _tournamentRepository
+            var result = await _tournamentRepository
                 .Get()
+                .Where(t => t.StartTime < DateTime.UtcNow && t.EndTime > DateTime.UtcNow)
                 .Select(TournamentInfoResponse.FromEntity)
                 .ToListAsync();
 
@@ -55,11 +56,10 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
             return result;
         }
 
-        public async Task<List<TournamentInfoResponse>> GetActive()
+        public async Task<List<TournamentInfoResponse>> GetAsync()
         {
-            var result = await _tournamentRepository
+            List<TournamentInfoResponse> result = await _tournamentRepository
                 .Get()
-                .Where(t => t.StartTime < DateTime.UtcNow && t.EndTime > DateTime.UtcNow)
                 .Select(TournamentInfoResponse.FromEntity)
                 .ToListAsync();
 

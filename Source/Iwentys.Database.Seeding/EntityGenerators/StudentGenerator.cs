@@ -37,7 +37,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 
             Students
                 .GroupBy(s => s.GroupId)
-                .Select(g => g.Where(s => s.Role == StudentRole.Common).FirstOrDefault())
+                .Select(g => g.FirstOrDefault(s => s.Role == StudentRole.Common))
                 .Where(s => s is not null)
                 .ToList()
                 .ForEach(s => s.Role = StudentRole.GroupAdmin);

@@ -5,7 +5,7 @@ namespace Iwentys.Database.Seeding.FakerEntities
 {
     public class SubjectFaker : Faker<Subject>
     {
-        public static SubjectFaker Instance = new SubjectFaker();
+        public static readonly SubjectFaker Instance = new SubjectFaker();
 
         private SubjectFaker()
         {

@@ -40,8 +40,8 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             GroupSubjects = new List<GroupSubject>();
 
             foreach (Subject subject in Subjects)
-            foreach (StudyGroup studyGroup in StudyGroups)
-                GroupSubjects.Add(CreateGroupSubjectEntity(studyGroup, subject));
+                foreach (StudyGroup studyGroup in StudyGroups)
+                    GroupSubjects.Add(CreateGroupSubjectEntity(studyGroup, subject));
 
         }
 

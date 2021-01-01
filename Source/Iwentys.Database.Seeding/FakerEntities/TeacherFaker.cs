@@ -5,7 +5,7 @@ namespace Iwentys.Database.Seeding.FakerEntities
 {
     public class TeacherFaker : Faker<Teacher>
     {
-        public static TeacherFaker Instance = new TeacherFaker();
+        public static readonly TeacherFaker Instance = new TeacherFaker();
 
         private TeacherFaker()
         {
