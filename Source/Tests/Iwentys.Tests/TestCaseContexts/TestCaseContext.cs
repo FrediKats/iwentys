@@ -22,6 +22,7 @@ using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Students.Enums;
 using Iwentys.Features.Students.Services;
+using Iwentys.Features.Study.Services;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Tests.Tools;
 
@@ -44,30 +45,35 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly NewsfeedService NewsfeedService;
         public readonly InterestTagService InterestTagService;
         public readonly AchievementService AchievementService;
+        public readonly StudyGroupService StudyGroupService;
+        public readonly GuildTestTaskService GuildTestTaskService;
+        public readonly KarmaService KarmaService;
 
         public static TestCaseContext Case() => new TestCaseContext();
 
         public TestCaseContext()
         {
             _context = TestDatabaseProvider.GetDatabaseContext();
-            IUnitOfWork unitOfWork = new UnitOfWork<IwentysDbContext>(_context);
-            UnitOfWork = unitOfWork;
+            UnitOfWork = new UnitOfWork<IwentysDbContext>(_context);
             
-            var achievementProvider = new AchievementProvider(unitOfWork);
+            var achievementProvider = new AchievementProvider(UnitOfWork);
             var githubApiAccessor = new DummyGithubApiAccessor();
 
-            StudentService = new StudentService(unitOfWork, achievementProvider);
-            GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, unitOfWork);
-            GuildService = new GuildService(GithubIntegrationService, unitOfWork);
-            GuildMemberService = new GuildMemberService(GithubIntegrationService, unitOfWork);
-            GuildTributeServiceService = new GuildTributeService(unitOfWork, GithubIntegrationService);
+            StudentService = new StudentService(UnitOfWork, achievementProvider);
+            GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, UnitOfWork);
+            GuildService = new GuildService(GithubIntegrationService, UnitOfWork);
+            GuildMemberService = new GuildMemberService(GithubIntegrationService, UnitOfWork);
+            GuildTributeServiceService = new GuildTributeService(UnitOfWork, GithubIntegrationService);
             TournamentService = new TournamentService(GithubIntegrationService, UnitOfWork, achievementProvider);
-            CompanyService = new CompanyService(unitOfWork);
-            BarsPointTransactionLogService = new BarsPointTransactionLogService(unitOfWork);
-            QuestService = new QuestService(achievementProvider, BarsPointTransactionLogService, unitOfWork);
+            CompanyService = new CompanyService(UnitOfWork);
+            BarsPointTransactionLogService = new BarsPointTransactionLogService(UnitOfWork);
+            QuestService = new QuestService(achievementProvider, BarsPointTransactionLogService, UnitOfWork);
             NewsfeedService = new NewsfeedService(UnitOfWork);
             InterestTagService = new InterestTagService(UnitOfWork);
             AchievementService = new AchievementService(UnitOfWork);
+            StudyGroupService = new StudyGroupService(UnitOfWork);
+            GuildTestTaskService = new GuildTestTaskService(achievementProvider, UnitOfWork, GithubIntegrationService);
+            KarmaService = new KarmaService(UnitOfWork);
         }
 
         public TestCaseContext WithNewStudent(out AuthorizedUser user, StudentRole studentRole = StudentRole.Common)
@@ -113,25 +119,7 @@ namespace Iwentys.Tests.TestCaseContexts
             
             return this;
         }
-
-        public TestCaseContext WithStudentProject(AuthorizedUser userInfo, out GithubProject githubProject)
-        {
-            var project = new GithubProject
-            {
-                //TODO: hack for work with dummy github
-                Id = 171717,
-                StudentId = userInfo.Id,
-                Owner = StudentService.GetAsync(userInfo.Id).Result.GithubUsername,
-                Name = "Test repo"
-            };
-
-            UnitOfWork.GetRepository<GithubProject>().InsertAsync(project).Wait();
-            githubProject = project;
-            UnitOfWork.CommitAsync().Wait();
-            
-            return this;
-        }
-
+        
         public TestCaseContext WithQuest(AuthorizedUser user, int price, out QuestInfoDto quest)
         {
             var request = new CreateQuestRequest(

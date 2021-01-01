@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Students.Entities;
@@ -43,6 +44,8 @@ namespace Iwentys.Features.Guilds.Entities
                 StartTime = DateTime.UtcNow
             };
         }
+
+        public static Expression<Func<GuildTestTaskSolution, bool>> IsNotCompleted => entity => entity.CompleteTime != null;
 
         public void SendSubmit(long projectId)
         {

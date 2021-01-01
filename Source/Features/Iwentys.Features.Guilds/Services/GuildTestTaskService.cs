@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Services
 {
+    //TODO: rename entities and verbs
     public class GuildTestTaskService
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -61,10 +62,10 @@ namespace Iwentys.Features.Guilds.Services
 
             var existedTestTask = await _guildTestTaskSolvingInfoRepository
                 .Get()
+                .Where(GuildTestTaskSolution.IsNotCompleted)
                 .FirstOrDefaultAsync(k =>
                     k.GuildId == studentGuild.Id &&
-                    k.StudentId == user.Id &&
-                    k.GetState() != GuildTestTaskState.Completed);
+                    k.StudentId == user.Id);
 
             if (existedTestTask is not null)
                 InnerLogicException.GuildExceptions.ActiveTestExisted(user.Id, guildId);

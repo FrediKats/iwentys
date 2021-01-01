@@ -1,4 +1,12 @@
-﻿using Iwentys.Features.Study.Domain;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Iwentys.Common.Exceptions;
+using Iwentys.Features.Students.Enums;
+using Iwentys.Features.Students.Models;
+using Iwentys.Features.Study.Domain;
+using Iwentys.Tests.TestCaseContexts;
+using LanguageExt;
 using NUnit.Framework;
 
 namespace Iwentys.Tests.Features.Study
@@ -9,11 +17,44 @@ namespace Iwentys.Tests.Features.Study
         [Test]
         public void ParseGroupName_EnsureCorrectValue()
         {
-            var groupAsString = "M3111";
+            const string groupAsString = "M3111";
             var groupName = new GroupName(groupAsString);
 
             Assert.AreEqual(1, groupName.Course);
             Assert.AreEqual(11, groupName.Number);
+        }
+
+        [Test]
+        public async Task MakeGroupAdmin_EnsureUserIsAdmin()
+        {
+            TestCaseContext testCase = TestCaseContext
+                .Case()
+                .WithNewStudent(out var admin, StudentRole.Admin);
+
+            List<StudentInfoDto> studentInfoDtos = await testCase
+                .StudentService
+                .GetAsync();
+            StudentInfoDto newGroupAdmin = studentInfoDtos.First(s => s.Role == StudentRole.Common);
+
+            await testCase.StudyGroupService.MakeGroupAdmin(admin, newGroupAdmin.Id);
+
+            newGroupAdmin = await testCase.StudentService.GetAsync(newGroupAdmin.Id);
+            Assert.AreEqual(StudentRole.GroupAdmin, newGroupAdmin.Role);
+        }
+
+        [Test]
+        public async Task MakeGroupAdminWithoutPermission_NotEnoughPermissionException()
+        {
+            TestCaseContext testCase = TestCaseContext
+                .Case()
+                .WithNewStudent(out var commonUser);
+
+            List<StudentInfoDto> studentInfoDtos = await testCase
+                .StudentService
+                .GetAsync();
+            StudentInfoDto newGroupAdmin = studentInfoDtos.First(s => s.Role == StudentRole.Common);
+
+            Assert.ThrowsAsync<InnerLogicException>(() => testCase.StudyGroupService.MakeGroupAdmin(commonUser, newGroupAdmin.Id));
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System.Threading.Tasks;
-using Iwentys.Common.Databases;
-using Iwentys.Features.Study.Entities;
-using Microsoft.EntityFrameworkCore;
-
-namespace Iwentys.Features.Study.Domain
+﻿namespace Iwentys.Features.Study.Domain
 {
     public class GroupName
     {
@@ -24,10 +19,5 @@ namespace Iwentys.Features.Study.Domain
         public int Course { get; }
         public int Number { get; }
         public string Name { get; }
-
-        public async Task<StudyGroup> GetStudyGroup(IGenericRepository<StudyGroup> studyGroupRepository)
-        {
-            return await studyGroupRepository.Get().FirstOrDefaultAsync(s => s.GroupName == Name);
-        }
     }
 }
