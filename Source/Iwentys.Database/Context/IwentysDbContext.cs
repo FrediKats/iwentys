@@ -12,6 +12,7 @@ using Iwentys.Features.Guilds.Tournaments.Entities;
 using Iwentys.Features.Guilds.Tributes.Entities;
 using Iwentys.Features.Newsfeeds.Entities;
 using Iwentys.Features.Quests.Entities;
+using Iwentys.Features.Raids.Entities;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Study.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -78,6 +79,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<StudentInterestTag>().HasKey(g => new {g.StudentId, g.InterestTagId});
             modelBuilder.Entity<TournamentTeamMember>().HasKey(g => new {g.TeamId, g.MemberId});
             modelBuilder.Entity<KarmaUpVote>().HasKey(g => new {g.AuthorId, g.TargetId});
+            modelBuilder.Entity<RaidVisitor>().HasKey(rv => new {rv.RaidId, rv.VisitorId});
         }
 
         private static void SetUniqKey(ModelBuilder modelBuilder)
@@ -137,11 +139,14 @@ namespace Iwentys.Database.Context
         #endregion
 
         #region Achievement
-
         public DbSet<Achievement> Achievements { get; set; }
         public DbSet<StudentAchievement> StudentAchievements { get; set; }
         public DbSet<GuildAchievement> GuildAchievements { get; set; }
+        #endregion
 
+        #region Raids
+        public DbSet<Raid> Raids { get; set; }
+        public DbSet<RaidVisitor> RaidVisitors { get; set; }
         #endregion
     }
 }

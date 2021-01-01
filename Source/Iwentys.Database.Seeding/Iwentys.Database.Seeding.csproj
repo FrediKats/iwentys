@@ -16,10 +16,12 @@
     <ProjectReference Include="..\Features\Iwentys.Features.Guilds.Tributes\Iwentys.Features.Guilds.Tributes.csproj" />
     <ProjectReference Include="..\Features\Iwentys.Features.Newsfeeds\Iwentys.Features.Newsfeeds.csproj" />
     <ProjectReference Include="..\Features\Iwentys.Features.Quests\Iwentys.Features.Quests.csproj" />
+    <ProjectReference Include="..\Features\Iwentys.Features.Raids\Iwentys.Features.Raids.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="FakerEntities\Guilds\" />
+    <Folder Include="FakerEntities\Raids\" />
   </ItemGroup>
 
 
