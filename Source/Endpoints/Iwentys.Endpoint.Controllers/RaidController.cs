@@ -19,6 +19,14 @@ namespace Iwentys.Endpoint.Controllers
             _raidService = raidService;
         }
 
+        [HttpPost("profile")]
+        public async Task<ActionResult> Create([FromBody]RaidCreateArguments arguments)
+        {
+            AuthorizedUser user = this.TryAuthWithToken();
+            await _raidService.Create(user, arguments);
+            return Ok();
+        }
+
         [HttpGet("profile")]
         public async Task<ActionResult<List<RaidProfileDto>>> Get()
         {

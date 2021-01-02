@@ -68,7 +68,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.Guilds.Tou
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.Guilds.Tributes", "Features\Iwentys.Features.Guilds.Tributes\Iwentys.Features.Guilds.Tributes.csproj", "{C04D2C0A-7BA3-4BF4-897D-3237DB02EA28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Features.Raids", "Features\Iwentys.Features.Raids\Iwentys.Features.Raids.csproj", "{075177D8-9015-4717-B2E3-D570ED5B3698}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.Raids", "Features\Iwentys.Features.Raids\Iwentys.Features.Raids.csproj", "{075177D8-9015-4717-B2E3-D570ED5B3698}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

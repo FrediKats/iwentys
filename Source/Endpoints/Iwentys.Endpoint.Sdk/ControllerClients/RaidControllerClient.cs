@@ -15,6 +15,13 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
 
         public HttpClient Client { get; }
 
+        public Task Create(RaidCreateArguments arguments)
+        {
+            return new FlurlClient(Client)
+                .Request("/api/raids/profile")
+                .PostJsonAsync(arguments);
+        }
+
         public Task<List<RaidProfileDto>> Get()
         {
             return new FlurlClient(Client)

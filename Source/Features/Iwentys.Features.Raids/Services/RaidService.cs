@@ -29,6 +29,17 @@ namespace Iwentys.Features.Raids.Services
             _raidPartySearchRequestRepository = _unitOfWork.GetRepository<RaidPartySearchRequest>();
         }
 
+        public async Task Create(AuthorizedUser user, RaidCreateArguments arguments)
+        {
+            Student student = await _studentRepository.GetByIdAsync(user.Id);
+            SystemAdminUser systemAdminUser = student.EnsureIsAdmin();
+
+            var raid = Raid.CreateCommon(systemAdminUser, arguments);
+
+            await _raidRepository.InsertAsync(raid);
+            await _unitOfWork.CommitAsync();
+        }
+
         public async Task<List<RaidProfileDto>> Get()
         {
             return await _raidRepository
