@@ -62,5 +62,13 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
             await _subjectAssignmentSubmitRepository.InsertAsync(subjectAssignmentSubmit);
             await _unitOfWork.CommitAsync();
         }
+
+        public async Task SendFeedback(AuthorizedUser user, int subjectAssignmentSubmitId, SubjectAssignmentSubmitFeedbackArguments assignment)
+        {
+            SubjectAssignmentSubmit subjectAssignmentSubmit = await _subjectAssignmentSubmitRepository.GetByIdAsync(subjectAssignmentSubmitId);
+            IwentysUser iwentysUser = await _iwentysUserRepository.GetByIdAsync(user.Id);
+
+            subjectAssignmentSubmit.ApplyFeedback(iwentysUser, assignment);
+        }
     }
 }

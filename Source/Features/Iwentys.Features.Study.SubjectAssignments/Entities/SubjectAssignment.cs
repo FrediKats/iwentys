@@ -45,7 +45,8 @@ namespace Iwentys.Features.Study.SubjectAssignments.Entities
             {
                 StudentId = user.Id,
                 SubjectAssignmentId = Id,
-                SubmitTimeUtc = DateTime.UtcNow
+                SubmitTimeUtc = DateTime.UtcNow,
+                StudentDescription = arguments.StudentDescription
             };
         }
     }
