@@ -23,6 +23,7 @@ namespace Iwentys.Features.Raids.Models
 
         public ICollection<StudentInfoDto> Visitors { get; set; }
         public ICollection<InterestTagDto> InterestTags { get; set; }
+        public ICollection<RaidPartySearchRequestDto> PartySearchRequests { get; set; }
 
         public static Expression<Func<Raid, RaidProfileDto>> FromEntity =>
             entity => new RaidProfileDto()
@@ -36,7 +37,8 @@ namespace Iwentys.Features.Raids.Models
                 RaidType = entity.RaidType,
                 Author = new StudentInfoDto(entity.Author),
                 Visitors = entity.Visitors.Select(s => new StudentInfoDto(s.Visitor)).ToList(),
-                InterestTags = entity.InterestTags.Select(t => new InterestTagDto(t.InterestTag)).ToList()
+                InterestTags = entity.InterestTags.Select(t => new InterestTagDto(t.InterestTag)).ToList(),
+                PartySearchRequests = entity.PartySearchRequests.Select(t => new RaidPartySearchRequestDto(t)).ToList()
             };
     }
 }

@@ -16,7 +16,7 @@
                     </MatListItem>
                 }
             </MatList>
-            
+
             @if (CanRegisterOnRaid())
             {
                 <MatButton OnClick=@(async () => await RegisterOnRaid())>Check in</MatButton>
@@ -26,6 +26,17 @@
             {
                 <MatButton OnClick=@(async () => await UnRegisterOnRaid())>Remove registration</MatButton>
             }
+        </div>
+        <div class="col-md-6 d-flex flex-column">
+            <MatH6>Team requests</MatH6>
+            <MatList>
+                @foreach (var partySearchRequest in _raid.PartySearchRequests)
+                {
+                    <MatListItem>
+                        @partySearchRequest.Author.GetFullName()
+                    </MatListItem>
+                }
+            </MatList>
         </div>
     </div>
 }

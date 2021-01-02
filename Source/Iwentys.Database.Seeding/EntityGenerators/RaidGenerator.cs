@@ -2,6 +2,7 @@
 using System.Linq;
 using Iwentys.Database.Seeding.FakerEntities.Raids;
 using Iwentys.Features.Raids.Entities;
+using Iwentys.Features.Raids.Models;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Students.Enums;
@@ -15,6 +16,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
         {
             Raids = new List<Raid>();
             RaidVisitors = new List<RaidVisitor>();
+            PartySearchRequests = new List<RaidPartySearchRequest>();
 
             SystemAdminUser admin = students.First(s => s.Role == StudentRole.Admin).EnsureIsAdmin();
             var raidFaker = new RaidFaker();
@@ -24,16 +26,22 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             Raids.Add(raid);
 
             foreach (Student student in students.Take(10))
-                RaidVisitors.Add(raid.RegisterVisitor(student));
+            {
+                var visitor = raid.RegisterVisitor(student);
+                RaidVisitors.Add(visitor);
+                PartySearchRequests.Add(raid.CreatePartySearchRequest(visitor, new RaidPartySearchRequestArguments() {Description = "Need to add some text"}));
+            }
         }
 
         public List<Raid> Raids { get; set; }
         public List<RaidVisitor> RaidVisitors { get; set; }
+        public List<RaidPartySearchRequest> PartySearchRequests { get; set; }
 
         public void Seed(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Raid>().HasData(Raids);
             modelBuilder.Entity<RaidVisitor>().HasData(RaidVisitors);
+            modelBuilder.Entity<RaidPartySearchRequest>().HasData(PartySearchRequests);
         }
     }
 }

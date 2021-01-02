@@ -47,5 +47,10 @@ namespace Iwentys.Features.Raids.Entities
 
             return RaidVisitor.CreateRequest(Id, visitor.Id);
         }
+
+        public RaidPartySearchRequest CreatePartySearchRequest(RaidVisitor visitor, RaidPartySearchRequestArguments arguments)
+        {
+            return RaidPartySearchRequest.Create(this, visitor, arguments);
+        }
     }
 }
