@@ -70,6 +70,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.Guilds.Tri
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.Raids", "Features\Iwentys.Features.Raids\Iwentys.Features.Raids.csproj", "{075177D8-9015-4717-B2E3-D570ED5B3698}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Features.Study.SubjectAssignments", "Features\Iwentys.Features.Study.SubjectAssignments\Iwentys.Features.Study.SubjectAssignments.csproj", "{8078003F-F9EE-49BE-899B-FAD512957371}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -184,6 +186,10 @@ Global
 		{075177D8-9015-4717-B2E3-D570ED5B3698}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{075177D8-9015-4717-B2E3-D570ED5B3698}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{075177D8-9015-4717-B2E3-D570ED5B3698}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8078003F-F9EE-49BE-899B-FAD512957371}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8078003F-F9EE-49BE-899B-FAD512957371}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8078003F-F9EE-49BE-899B-FAD512957371}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8078003F-F9EE-49BE-899B-FAD512957371}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -212,6 +218,7 @@ Global
 		{6CDD304F-F4C3-4296-9FF5-484735A73B56} = {95512D3C-159E-4224-B79E-E445AE17B0E7}
 		{C04D2C0A-7BA3-4BF4-897D-3237DB02EA28} = {95512D3C-159E-4224-B79E-E445AE17B0E7}
 		{075177D8-9015-4717-B2E3-D570ED5B3698} = {95512D3C-159E-4224-B79E-E445AE17B0E7}
+		{8078003F-F9EE-49BE-899B-FAD512957371} = {95512D3C-159E-4224-B79E-E445AE17B0E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C699E386-11E7-4ABB-9AD6-C676F3CA2061}

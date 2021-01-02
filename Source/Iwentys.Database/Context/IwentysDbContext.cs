@@ -15,6 +15,7 @@ using Iwentys.Features.Quests.Entities;
 using Iwentys.Features.Raids.Entities;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Study.Entities;
+using Iwentys.Features.Study.SubjectAssignments.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -129,7 +130,6 @@ namespace Iwentys.Database.Context
         #endregion
 
         #region Study
-
         public DbSet<StudyGroup> StudyGroups { get; set; }
         public DbSet<StudyProgram> StudyPrograms { get; set; }
         public DbSet<Subject> Subjects { get; set; }
@@ -137,6 +137,9 @@ namespace Iwentys.Database.Context
         public DbSet<GroupSubject> GroupSubjects { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<StudyCourse> StudyCourses { get; set; }
+
+        public DbSet<SubjectAssignment> SubjectAssignments { get; set; }
+        public DbSet<SubjectAssignmentSubmit> SubjectAssignmentSubmits { get; set; }
 
         #endregion
 
