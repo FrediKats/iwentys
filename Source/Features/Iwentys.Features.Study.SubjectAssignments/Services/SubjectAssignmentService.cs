@@ -18,6 +18,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
         private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
         private readonly IGenericRepository<SubjectAssignment> _subjectAssignmentRepository;
         private readonly IGenericRepository<SubjectAssignmentSubmit> _subjectAssignmentSubmitRepository;
+        private readonly IGenericRepository<GroupSubjectAssignment> _groupSubjectAssignmentRepository;
         private readonly IGenericRepository<GroupSubject> _groupSubjectRepository;
 
         public SubjectAssignmentService(IUnitOfWork unitOfWork)
@@ -27,24 +28,18 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
             _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
             _subjectAssignmentRepository = _unitOfWork.GetRepository<SubjectAssignment>();
             _subjectAssignmentSubmitRepository = _unitOfWork.GetRepository<SubjectAssignmentSubmit>();
+            _groupSubjectAssignmentRepository = _unitOfWork.GetRepository<GroupSubjectAssignment>();
             _groupSubjectRepository = _unitOfWork.GetRepository<GroupSubject>();
         }
 
         //TODO: if user is not teacher - filter submits
         public async Task<List<SubjectAssignmentDto>> GetSubjectAssignmentForGroup(AuthorizedUser user, int groupId)
         {
-            return await _subjectAssignmentRepository
+            return await _groupSubjectAssignmentRepository
                 .Get()
-                .Where(sa => sa.GroupSubject.StudyGroupId == groupId)
-                .Select(SubjectAssignmentDto.FromEntity)
-                .ToListAsync();
-        }
-
-        public async Task<List<SubjectAssignmentDto>> GetSubjectAssignmentForGroupSubject(AuthorizedUser user, int groupSubjectId)
-        {
-            return await _subjectAssignmentRepository
-                .Get()
-                .Where(sa => sa.GroupSubjectId == groupSubjectId)
+                .Where(gsa => gsa.GroupId == groupId)
+                .Select(gsa => gsa.SubjectAssignment)
+                .Distinct()
                 .Select(SubjectAssignmentDto.FromEntity)
                 .ToListAsync();
         }
@@ -53,7 +48,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
         {
             return await _subjectAssignmentRepository
                 .Get()
-                .Where(sa => sa.GroupSubject.SubjectId == subjectId)
+                .Where(sa => sa.SubjectId == subjectId)
                 .Select(SubjectAssignmentDto.FromEntity)
                 .ToListAsync();
         }

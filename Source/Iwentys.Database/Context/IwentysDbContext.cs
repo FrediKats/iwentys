@@ -66,7 +66,8 @@ namespace Iwentys.Database.Context
         {
             modelBuilder.Entity<GuildMember>().HasKey(g => new {g.GuildId, g.MemberId});
             modelBuilder.Entity<CompanyWorker>().HasKey(g => new {g.CompanyId, g.WorkerId});
-            modelBuilder.Entity<SubjectActivity>().HasKey(s => new {SubjectForGroupId = s.GroupSubjectId, s.StudentId});
+            modelBuilder.Entity<SubjectActivity>().HasKey(s => new {s.GroupSubjectId, s.StudentId});
+            modelBuilder.Entity<GroupSubjectAssignment>().HasKey(gsa => new {gsa.GroupId, gsa .SubjectAssignmentId});
             modelBuilder.Entity<StudentAchievement>().HasKey(a => new {a.AchievementId, a.StudentId});
             modelBuilder.Entity<GuildAchievement>().HasKey(a => new {a.AchievementId, a.GuildId});
             modelBuilder.Entity<QuestResponse>().HasKey(a => new {a.QuestId, a.StudentId});
@@ -135,9 +136,9 @@ namespace Iwentys.Database.Context
         public DbSet<GroupSubject> GroupSubjects { get; set; }
         public DbSet<StudyCourse> StudyCourses { get; set; }
 
+        public DbSet<GroupSubjectAssignment> GroupSubjectAssignments { get; set; }
         public DbSet<SubjectAssignment> SubjectAssignments { get; set; }
         public DbSet<SubjectAssignmentSubmit> SubjectAssignmentSubmits { get; set; }
-
         #endregion
 
         #region Achievement

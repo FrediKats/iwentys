@@ -21,11 +21,6 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
             return Client.GetFromJsonAsync<List<SubjectAssignmentDto>>($"api/subject-assignment/for-group/{groupId}");
         }
 
-        public Task<List<SubjectAssignmentDto>> GetAssignmentForGroupSubject(int groupSubjectId)
-        {
-            return Client.GetFromJsonAsync<List<SubjectAssignmentDto>>($"api/subject-assignment/for-group-subject/{groupSubjectId}");
-        }
-
         public Task<List<SubjectAssignmentDto>> GetSubjectAssignmentForSubject(int subjectId)
         {
             return Client.GetFromJsonAsync<List<SubjectAssignmentDto>>($"api/subject-assignment/for-subject/{subjectId}");

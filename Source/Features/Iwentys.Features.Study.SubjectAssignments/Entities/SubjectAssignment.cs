@@ -12,8 +12,8 @@ namespace Iwentys.Features.Study.SubjectAssignments.Entities
     {
         public int Id { get; set; }
 
-        public int GroupSubjectId { get; set; }
-        public virtual GroupSubject GroupSubject { get; set; }
+        public int SubjectId { get; set; }
+        public virtual Subject Subject { get; set; }
 
         public string Title { get; set; }
         public string Description { get; set; }
@@ -21,7 +21,9 @@ namespace Iwentys.Features.Study.SubjectAssignments.Entities
         //TODO: add deadline etc?
         //TODO: add author
 
+        //TODO: move to GroupSubjectAssignment
         public virtual ICollection<SubjectAssignmentSubmit> SubjectAssignmentSubmits { get; set; }
+        public virtual ICollection<GroupSubjectAssignment> GroupSubjectAssignments { get; set; }
 
         public static SubjectAssignment Create(IwentysUser user, GroupSubject groupSubject, SubjectAssignmentCreateArguments arguments)
         {
@@ -31,7 +33,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Entities
 
             return new SubjectAssignment
             {
-                GroupSubjectId = groupSubject.SubjectId,
+                SubjectId = groupSubject.SubjectId,
                 Title = arguments.Title,
                 Description = arguments.Description,
                 Link = arguments.Link
