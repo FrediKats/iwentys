@@ -7,6 +7,7 @@ namespace Iwentys.Features.Gamification.Entities
         public int InterestTagId { get; init; }
         public virtual InterestTag InterestTag { get; init; }
 
+        //TODO: replace Student with IwentysUser
         public int StudentId { get; init; }
         public virtual Student Student { get; init; }
     }

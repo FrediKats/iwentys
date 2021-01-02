@@ -4,6 +4,7 @@ using Iwentys.Features.Students.Enums;
 
 namespace Iwentys.Features.Students.Domain
 {
+    //TODO: move to .Study
     public class GroupAdminUser
     {
         public GroupAdminUser(Student student)

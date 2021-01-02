@@ -26,5 +26,7 @@ namespace Iwentys.Features.Achievements.Services
                 .Select(AchievementDto.FromEntity)
                 .ToList();
         }
+        //TODO: implement for guild
+        //TODO: implement getting all achievement
     }
 }

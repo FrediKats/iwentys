@@ -6,6 +6,7 @@ namespace Iwentys.Features.Gamification.Entities
 {
     public class KarmaUpVote
     {
+        //TODO: replace Student with IwentysUser
         public int AuthorId { get; set; }
         public virtual Student Author { get; set; }
 

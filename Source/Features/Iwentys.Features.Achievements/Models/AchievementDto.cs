@@ -17,12 +17,11 @@ namespace Iwentys.Features.Achievements.Models
             GettingTime = gettingTime;
         }
 
-        public int Id { get; set; }
-        public string ImageUrl { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-
-        public DateTime GettingTime { get; set; }
+        public int Id { get; init; }
+        public string ImageUrl { get; init; }
+        public string Name { get; init; }
+        public string Description { get; init; }
+        public DateTime GettingTime { get; init; }
 
         public static Expression<Func<StudentAchievement, AchievementDto>> FromEntity =>
             achievement =>

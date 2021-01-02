@@ -74,5 +74,7 @@ namespace Iwentys.Features.Newsfeeds.Services
                 .Select(NewsfeedViewModel.FromGuildEntity)
                 .ToListAsync();
         }
+
+        //TODO: implement editing
     }
 }

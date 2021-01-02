@@ -134,6 +134,7 @@ namespace Iwentys.Features.Guilds.Tributes.Services
 
         public async Task<TributeInfoResponse> CompleteTribute(AuthorizedUser user, TributeCompleteRequest tributeCompleteRequest)
         {
+            //TODO: add achievement for tributes
             Student student = await _studentRepository.FindByIdAsync(user.Id);
             Tribute tribute = await _guildTributeRepository.FindByIdAsync(tributeCompleteRequest.TributeId);
             GuildMentor mentor = await student.EnsureIsGuildMentor(_guildRepositoryNew, tribute.GuildId);

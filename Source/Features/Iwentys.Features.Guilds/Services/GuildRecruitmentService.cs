@@ -40,5 +40,9 @@ namespace Iwentys.Features.Guilds.Services
             await _unitOfWork.CommitAsync();
             return recruitment;
         }
+
+        //TODO: implement closing recruitment
+        //TODO: add more info about recruitment
+        //TODO: add edit opportunity
     }
 }

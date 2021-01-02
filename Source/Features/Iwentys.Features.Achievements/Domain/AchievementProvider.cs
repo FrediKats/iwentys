@@ -19,6 +19,7 @@ namespace Iwentys.Features.Achievements.Domain
             _guildAchievementRepository = _unitOfWork.GetRepository<GuildAchievement>();
         }
 
+        //TODO: probably we need to remove commit
         public async Task Achieve(Achievement achievement, int studentId)
         {
             if (_studentAchievementRepository.Get().Any(s => s.AchievementId == achievement.Id && s.StudentId == studentId))

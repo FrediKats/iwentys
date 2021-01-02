@@ -14,6 +14,7 @@ namespace Iwentys.Features.Study.Entities
         public int StudyCourseId { get; init; }
         public virtual StudyCourse StudyCourse { get; init; }
 
+        //TODO: add GroupAdmin?
         //FYI: it's not join Student table :c
         public virtual List<Student> Students { get; init; }
         public virtual List<GroupSubject> GroupSubjects { get; init; }

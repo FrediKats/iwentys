@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Quests.Services
 {
+    //TODO: implement executors rating
+    //TODO: add achievements for quest completing
     public class QuestService
     {
         private readonly IUnitOfWork _unitOfWork;

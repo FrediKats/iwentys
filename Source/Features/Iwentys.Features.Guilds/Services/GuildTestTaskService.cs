@@ -51,6 +51,7 @@ namespace Iwentys.Features.Guilds.Services
                 .ToListAsync();
         }
 
+        //TODO: sync with peer-review feature
         public async Task<GuildTestTaskInfoResponse> Accept(AuthorizedUser user, int guildId)
         {
             Guild studentGuild = _guildMemberRepository.ReadForStudent(user.Id);
