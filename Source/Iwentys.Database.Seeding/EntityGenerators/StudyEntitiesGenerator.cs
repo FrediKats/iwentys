@@ -2,6 +2,7 @@
 using System.Linq;
 using Iwentys.Common.Tools;
 using Iwentys.Database.Seeding.FakerEntities;
+using Iwentys.Database.Seeding.FakerEntities.Study;
 using Iwentys.Database.Seeding.Tools;
 using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Students.Enums;

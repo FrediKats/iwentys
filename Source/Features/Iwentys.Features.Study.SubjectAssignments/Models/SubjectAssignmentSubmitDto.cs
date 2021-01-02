@@ -10,10 +10,14 @@ namespace Iwentys.Features.Study.SubjectAssignments.Models
 
         public DateTime SubmitTimeUtc { get; set; }
 
-        public SubjectAssignmentSubmitDto(SubjectAssignmentSubmit submit)
+        public SubjectAssignmentSubmitDto(SubjectAssignmentSubmit submit) : this()
         {
             Student = new StudentInfoDto(submit.Student);
             SubmitTimeUtc = submit.SubmitTimeUtc;
+        }
+
+        public SubjectAssignmentSubmitDto()
+        {
         }
     }
 }
