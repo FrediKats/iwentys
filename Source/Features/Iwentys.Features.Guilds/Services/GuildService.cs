@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Domain;
@@ -11,7 +12,6 @@ using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Repositories;
-using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Guilds.Services

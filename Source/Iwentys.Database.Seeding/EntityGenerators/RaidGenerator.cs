@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Database.Seeding.FakerEntities.Raids;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Raids.Entities;
 using Iwentys.Features.Raids.Models;
-using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
-using Iwentys.Features.Students.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
@@ -18,7 +17,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             RaidVisitors = new List<RaidVisitor>();
             PartySearchRequests = new List<RaidPartySearchRequest>();
 
-            SystemAdminUser admin = students.First(s => s.Role == StudentRole.Admin).EnsureIsAdmin();
+            SystemAdminUser admin = students.First(s => s.IsAdmin).EnsureIsAdmin();
             var raidFaker = new RaidFaker();
 
             var raid = Raid.CreateCommon(admin, raidFaker.CreateRaidCreateArguments());

@@ -26,7 +26,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 FirstName = "Фреди",
                 MiddleName = "Кисикович",
                 SecondName = "Катс",
-                Role = StudentRole.Admin,
+                IsAdmin = true,
                 GroupId = studyGroups.First(g => g.GroupName.Contains("3505")).Id,
                 GithubUsername = "InRedikaWB",
                 CreationTime = DateTime.UtcNow,

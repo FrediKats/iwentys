@@ -4,6 +4,5 @@
     {
         Common = 1,
         GroupAdmin = 2,
-        Admin = 3
     }
 }

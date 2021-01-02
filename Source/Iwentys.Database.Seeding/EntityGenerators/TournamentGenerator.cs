@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Bogus;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Tournaments.Entities;
 using Iwentys.Features.Guilds.Tournaments.Enums;
-using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
-using Iwentys.Features.Students.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators
@@ -22,11 +21,11 @@ namespace Iwentys.Database.Seeding.EntityGenerators
         public TournamentGenerator(List<Student> students, List<Guild> guilds, List<GuildMember> members)
         {
             var faker = new Faker();
-            var admin = students.First(s => s.Role == StudentRole.Admin).EnsureIsAdmin();
+            var admin = students.First(s => s.IsAdmin).EnsureIsAdmin();
             
             var tournamentEntity = new Tournament()
             {
-                AuthorId = admin.Student.Id,
+                AuthorId = admin.User.Id,
                 Id = 1,
                 Name = "Test tournament",
                 StartTime = DateTime.UtcNow.AddMonths(-6),

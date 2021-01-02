@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Companies.Enums;
-using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Companies.Entities
@@ -30,7 +30,7 @@ namespace Iwentys.Features.Companies.Entities
         
         public void Approve(SystemAdminUser systemAdminUser)
         {
-            ApprovedById = systemAdminUser.Student.Id;
+            ApprovedById = systemAdminUser.User.Id;
             Type = CompanyWorkerType.Accepted;
         }
         

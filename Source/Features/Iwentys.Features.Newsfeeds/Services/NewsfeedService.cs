@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Newsfeeds.Entities;

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Features.Gamification.Models;
-using Iwentys.Features.Students.Enums;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -15,7 +14,7 @@ namespace Iwentys.Tests.Features.Gamification
         {
             var testCase = TestCaseContext
                 .Case()
-                .WithNewStudent(out var user, StudentRole.Admin)
+                .WithNewAdmin(out var user)
                 .WithInterestTag(out var tag)
                 .WithUserInterestTag(tag, user);
 

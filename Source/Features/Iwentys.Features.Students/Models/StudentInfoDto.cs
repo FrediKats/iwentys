@@ -18,13 +18,14 @@ namespace Iwentys.Features.Students.Models
             student.CreationTime,
             student.LastOnlineTime,
             student.BarsPoints,
-            student.AvatarUrl)
+            student.AvatarUrl,
+            student.IsAdmin)
         {
         }
 
         public StudentInfoDto(int id, string firstName, string middleName, string secondName, StudentRole role,
             StudentType type, string githubUsername, DateTime creationTime, DateTime lastOnlineTime, int barsPoints,
-            string avatarUrl)
+            string avatarUrl, bool isAdmin)
         {
             Id = id;
             FirstName = firstName;
@@ -37,6 +38,7 @@ namespace Iwentys.Features.Students.Models
             LastOnlineTime = lastOnlineTime;
             BarsPoints = barsPoints;
             AvatarUrl = avatarUrl;
+            IsAdmin = isAdmin;
         }
 
         public StudentInfoDto()
@@ -54,6 +56,8 @@ namespace Iwentys.Features.Students.Models
         public DateTime LastOnlineTime { get; init; }
         public int BarsPoints { get; init; }
         public string AvatarUrl { get; init; }
+
+        public bool IsAdmin { get; set; }
 
         //public string SocialStatus { get; set; }
         //public string AdditionalLink { get; set; }

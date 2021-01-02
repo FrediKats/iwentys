@@ -1,6 +1,5 @@
-﻿namespace Iwentys.Features.Students.Domain
+﻿namespace Iwentys.Features.AccountManagement.Domain
 {
-    //TODO: probably need to move to ...?
     public sealed class AuthorizedUser
     {
         public int Id { get; set; }

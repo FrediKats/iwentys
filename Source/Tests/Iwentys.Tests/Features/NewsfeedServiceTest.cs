@@ -1,4 +1,4 @@
-﻿using Iwentys.Features.Students.Enums;
+﻿using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -12,7 +12,7 @@ namespace Iwentys.Tests.Features
         {
             TestCaseContext
                 .Case()
-                .WithNewStudent(out var user, StudentRole.Admin)
+                .WithNewAdmin(out AuthorizedUser user)
                 .WithSubject(out var subject)
                 .WithSubjectNews(subject, user);
         }

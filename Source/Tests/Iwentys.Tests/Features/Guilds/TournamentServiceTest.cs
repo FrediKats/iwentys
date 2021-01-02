@@ -1,11 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Database.Seeding.FakerEntities.Guilds;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Tournaments.Enums;
 using Iwentys.Features.Guilds.Tournaments.Models;
-using Iwentys.Features.Students.Domain;
-using Iwentys.Features.Students.Enums;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -19,7 +18,7 @@ namespace Iwentys.Tests.Features.Guilds
         {
             TestCaseContext testCase = TestCaseContext
                 .Case()
-                .WithNewStudent(out AuthorizedUser admin, StudentRole.Admin);
+                .WithNewAdmin(out AuthorizedUser admin);
 
             TournamentInfoResponse tournament = await testCase.TournamentService.CreateCodeMarathon(admin, TournamentFaker.Instance.NewCodeMarathon());
 
@@ -31,7 +30,7 @@ namespace Iwentys.Tests.Features.Guilds
         {
             TestCaseContext testCase = TestCaseContext
                 .Case()
-                .WithNewStudent(out AuthorizedUser admin, StudentRole.Admin)
+                .WithNewAdmin(out AuthorizedUser admin)
                 .WithGuild(admin, out ExtendedGuildProfileWithMemberDataDto guild);
 
             TournamentInfoResponse tournament = await testCase.TournamentService.CreateCodeMarathon(admin, TournamentFaker.Instance.NewCodeMarathon());
@@ -46,7 +45,7 @@ namespace Iwentys.Tests.Features.Guilds
         {
             TestCaseContext testCase = TestCaseContext
                 .Case()
-                .WithNewStudent(out AuthorizedUser admin, StudentRole.Admin)
+                .WithNewAdmin(out AuthorizedUser admin)
                 .WithGuild(admin, out ExtendedGuildProfileWithMemberDataDto guild);
 
             TournamentInfoResponse tournament = await testCase.TournamentService.CreateCodeMarathon(admin, TournamentFaker.Instance.NewCodeMarathon());

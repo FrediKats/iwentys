@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Controllers.Tools;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Raids.Models;
 using Iwentys.Features.Raids.Services;
-using Iwentys.Features.Students.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers

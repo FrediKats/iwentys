@@ -1,7 +1,7 @@
-﻿using Iwentys.Features.Guilds.Entities;
+﻿using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Models;
-using Iwentys.Features.Students.Domain;
 
 namespace Iwentys.Tests.TestCaseContexts
 {

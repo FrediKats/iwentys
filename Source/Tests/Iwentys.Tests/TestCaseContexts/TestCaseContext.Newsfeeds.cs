@@ -1,5 +1,5 @@
-﻿using Iwentys.Features.Newsfeeds.Models;
-using Iwentys.Features.Students.Domain;
+﻿using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.Newsfeeds.Models;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
 using Iwentys.Tests.Tools;

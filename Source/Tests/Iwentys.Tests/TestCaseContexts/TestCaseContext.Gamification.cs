@@ -1,6 +1,6 @@
-﻿using Iwentys.Features.Gamification.Entities;
+﻿using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.Gamification.Entities;
 using Iwentys.Features.Gamification.Models;
-using Iwentys.Features.Students.Domain;
 using Iwentys.Tests.Tools;
 
 namespace Iwentys.Tests.TestCaseContexts

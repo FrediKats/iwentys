@@ -2,6 +2,7 @@ using System;
 using Iwentys.Common.Databases;
 using Iwentys.Database.Context;
 using Iwentys.Database.Tools;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Achievements.Services;
 using Iwentys.Features.Companies.Entities;
@@ -18,7 +19,6 @@ using Iwentys.Features.Guilds.Tributes.Services;
 using Iwentys.Features.Newsfeeds.Services;
 using Iwentys.Features.Quests.Models;
 using Iwentys.Features.Quests.Services;
-using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Students.Enums;
 using Iwentys.Features.Students.Services;
@@ -98,6 +98,25 @@ namespace Iwentys.Tests.TestCaseContexts
             return this;
         }
 
+        public TestCaseContext WithNewAdmin(out AuthorizedUser user, StudentRole studentRole = StudentRole.Common)
+        {
+            int id = RandomProvider.Random.Next(999999);
+
+            var userInfo = new Student
+            {
+                Id = id,
+                Role = studentRole,
+                GithubUsername = $"{Constants.GithubUsername}{id}",
+                BarsPoints = 1000,
+                IsAdmin = true
+            };
+
+            UnitOfWork.GetRepository<Student>().InsertAsync(userInfo).Wait();
+            UnitOfWork.CommitAsync().Wait();
+            user = AuthorizedUser.DebugAuth(userInfo.Id);
+            return this;
+        }
+
         public TestCaseContext WithMentor(GuildProfileDto guild, AuthorizedUser admin, out AuthorizedUser mentor)
         {
             WithGuildMentor(guild, out mentor);
@@ -116,7 +135,7 @@ namespace Iwentys.Tests.TestCaseContexts
         {
             //TODO: move save changes to repository
             WithNewStudent(out userInfo);
-            WithNewStudent(out AuthorizedUser admin, StudentRole.Admin);
+            WithNewAdmin(out AuthorizedUser admin);
             
             CompanyService.RequestAdding(companyInfo.Id, userInfo.Id).Wait();
             CompanyService.ApproveAdding(userInfo.Id, admin.Id).Wait();

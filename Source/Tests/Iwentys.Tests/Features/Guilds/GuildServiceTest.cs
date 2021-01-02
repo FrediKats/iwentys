@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Models;
-using Iwentys.Features.Students.Domain;
-using Iwentys.Features.Students.Enums;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -49,7 +48,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithNewStudent(out AuthorizedUser admin, StudentRole.Admin)
+                .WithNewAdmin(out AuthorizedUser admin)
                 .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
 
             await context.GuildService.ApproveGuildCreating(admin, guild.Id);
@@ -64,7 +63,7 @@ namespace Iwentys.Tests.Features.Guilds
             var context = TestCaseContext
                 .Case()
                 .WithNewStudent(out AuthorizedUser user)
-                .WithNewStudent(out AuthorizedUser _, StudentRole.Admin)
+                .WithNewAdmin(out AuthorizedUser _)
                 .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto _);
 
             //TODO: rework to correct exception

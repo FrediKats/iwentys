@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Common.Exceptions;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Quests.Enums;
 using Iwentys.Features.Quests.Models;
-using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Quests.Entities

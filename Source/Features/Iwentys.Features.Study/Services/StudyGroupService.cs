@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Features.Students.Domain;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Students.Enums;
 using Iwentys.Features.Study.Domain;

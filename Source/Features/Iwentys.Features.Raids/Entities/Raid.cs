@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Raids.Enums;
 using Iwentys.Features.Raids.Models;
-using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Raids.Entities
@@ -34,7 +34,7 @@ namespace Iwentys.Features.Raids.Entities
                 StartTime = arguments.StartTimeUtc,
                 EndTime = arguments.EndTimeUtc,
                 RaidType = RaidType.PublicLecture,
-                AuthorId = admin.Student.Id
+                AuthorId = admin.User.Id
             };
         }
 

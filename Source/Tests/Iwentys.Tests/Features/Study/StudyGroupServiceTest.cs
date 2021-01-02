@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Students.Enums;
 using Iwentys.Features.Students.Models;
 using Iwentys.Features.Study.Domain;
 using Iwentys.Tests.TestCaseContexts;
-using LanguageExt;
 using NUnit.Framework;
 
 namespace Iwentys.Tests.Features.Study
@@ -29,7 +29,7 @@ namespace Iwentys.Tests.Features.Study
         {
             TestCaseContext testCase = TestCaseContext
                 .Case()
-                .WithNewStudent(out var admin, StudentRole.Admin);
+                .WithNewAdmin(out AuthorizedUser admin);
 
             List<StudentInfoDto> studentInfoDtos = await testCase
                 .StudentService

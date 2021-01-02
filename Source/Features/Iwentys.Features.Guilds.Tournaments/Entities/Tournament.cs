@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Tournaments.Enums;
 using Iwentys.Features.Guilds.Tournaments.Models;
-using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Guilds.Tournaments.Entities
@@ -34,7 +34,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Entities
                 StartTime = arguments.StartTime,
                 EndTime = arguments.EndTime,
                 Type = type,
-                AuthorId = author.Student.Id,
+                AuthorId = author.User.Id,
                 FinishedManually = false
             };
         }

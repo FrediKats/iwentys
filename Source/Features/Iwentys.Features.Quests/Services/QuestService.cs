@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Economy.Services;
 using Iwentys.Features.Quests.Entities;
 using Iwentys.Features.Quests.Models;
-using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 using Microsoft.EntityFrameworkCore;
 

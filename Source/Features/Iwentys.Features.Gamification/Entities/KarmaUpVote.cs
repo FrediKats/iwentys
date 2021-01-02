@@ -1,5 +1,5 @@
 ﻿using System;
-using Iwentys.Features.Students.Domain;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Gamification.Entities

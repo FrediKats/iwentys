@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Raids.Entities;
 using Iwentys.Features.Raids.Models;
-using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 using Microsoft.EntityFrameworkCore;
 

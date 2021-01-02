@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Iwentys.Common.Exceptions;
-using Iwentys.Features.Students.Domain;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.SubjectAssignments.Models;
 

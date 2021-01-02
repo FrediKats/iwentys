@@ -17,7 +17,7 @@ namespace Iwentys.Features.Newsfeeds.Entities
 
         public static SubjectNewsfeed Create(NewsfeedCreateViewModel createViewModel, Student author, Subject subject)
         {
-            if (author.Role != StudentRole.GroupAdmin && author.Role != StudentRole.Admin)
+            if (author.Role != StudentRole.GroupAdmin && !author.IsAdmin)
                 throw InnerLogicException.NotEnoughPermissionFor(author.Id);
 
             var newsfeed = new Newsfeed

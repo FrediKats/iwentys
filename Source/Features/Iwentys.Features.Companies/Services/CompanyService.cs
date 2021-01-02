@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Companies.Entities;
 using Iwentys.Features.Companies.Models;
-using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
 using Microsoft.EntityFrameworkCore;
 

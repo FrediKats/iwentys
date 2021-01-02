@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Controllers.Tools;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Tributes.Models;
 using Iwentys.Features.Guilds.Tributes.Services;
-using Iwentys.Features.Students.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Guilds
