@@ -15,6 +15,7 @@ namespace Iwentys.Endpoint.Client.Tools
         public SubjectControllerClient Subject{ get; }
         public StudyGroupControllerClient StudyGroup { get; }
         public StudyLeaderboardControllerClient StudyLeaderboard { get; }
+        public SubjectAssignmentControllerClient SubjectAssignment { get; }
 
         public GuildControllerClient Guild { get; }
         public GuildMemberControllerClient GuildMember { get; }
@@ -43,6 +44,7 @@ namespace Iwentys.Endpoint.Client.Tools
             Subject = new SubjectControllerClient(httpClient);
             StudyGroup = new StudyGroupControllerClient(httpClient);
             StudyLeaderboard = new StudyLeaderboardControllerClient(httpClient);
+            SubjectAssignment = new SubjectAssignmentControllerClient(httpClient);
 
             Guild = new GuildControllerClient(httpClient);
             GuildMember = new GuildMemberControllerClient(httpClient);

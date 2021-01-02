@@ -31,11 +31,29 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
         }
 
         //TODO: if user is not teacher - filter submits
-        public async Task<List<SubjectAssignmentDto>> GetSubjectAssignmentForGroup(AuthorizedUser user, int groupSubjectId)
+        public async Task<List<SubjectAssignmentDto>> GetSubjectAssignmentForGroup(AuthorizedUser user, int groupId)
+        {
+            return await _subjectAssignmentRepository
+                .Get()
+                .Where(sa => sa.GroupSubject.StudyGroupId == groupId)
+                .Select(SubjectAssignmentDto.FromEntity)
+                .ToListAsync();
+        }
+
+        public async Task<List<SubjectAssignmentDto>> GetSubjectAssignmentForGroupSubject(AuthorizedUser user, int groupSubjectId)
         {
             return await _subjectAssignmentRepository
                 .Get()
                 .Where(sa => sa.GroupSubjectId == groupSubjectId)
+                .Select(SubjectAssignmentDto.FromEntity)
+                .ToListAsync();
+        }
+
+        public async Task<List<SubjectAssignmentDto>> GetSubjectAssignmentForSubject(AuthorizedUser user, int subjectId)
+        {
+            return await _subjectAssignmentRepository
+                .Get()
+                .Where(sa => sa.GroupSubject.SubjectId == subjectId)
                 .Select(SubjectAssignmentDto.FromEntity)
                 .ToListAsync();
         }

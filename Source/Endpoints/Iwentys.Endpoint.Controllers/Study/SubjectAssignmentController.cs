@@ -20,10 +20,26 @@ namespace Iwentys.Endpoint.Controllers.Study
         }
 
         [HttpGet("for-group/{groupId}")]
-        public async Task<ActionResult<List<SubjectAssignmentDto>>> GetAllGroups(int groupSubjectId)
+        public async Task<ActionResult<List<SubjectAssignmentDto>>> GetAssignmentForGroup(int groupId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            List<SubjectAssignmentDto> result = await _subjectAssignmentService.GetSubjectAssignmentForGroup(authorizedUser, groupSubjectId);
+            List<SubjectAssignmentDto> result = await _subjectAssignmentService.GetSubjectAssignmentForGroup(authorizedUser, groupId);
+            return Ok(result);
+        }
+
+        [HttpGet("for-group-subject/{groupSubjectId}")]
+        public async Task<ActionResult<List<SubjectAssignmentDto>>> GetAssignmentForGroupSubject(int groupSubjectId)
+        {
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            List<SubjectAssignmentDto> result = await _subjectAssignmentService.GetSubjectAssignmentForGroupSubject(authorizedUser, groupSubjectId);
+            return Ok(result);
+        }
+
+        [HttpGet("for-subject/{subjectId}")]
+        public async Task<ActionResult<List<SubjectAssignmentDto>>> GetSubjectAssignmentForSubject(int subjectId)
+        {
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            List<SubjectAssignmentDto> result = await _subjectAssignmentService.GetSubjectAssignmentForSubject(authorizedUser, subjectId);
             return Ok(result);
         }
     }
