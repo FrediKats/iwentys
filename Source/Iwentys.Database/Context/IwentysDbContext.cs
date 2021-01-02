@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Database.Seeding;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Achievements.Entities;
 using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Companies.Entities;
@@ -27,15 +28,12 @@ namespace Iwentys.Database.Context
         {
         }
 
-        //#region Github
+        #region Account management
 
-        //public DbSet<ActivityInfo> ActivityInfos { get; set; }
-        //public DbSet<ContributionFullInfo> ContributionFullInfos { get; set; }
-        //public DbSet<ContributionsInfo> ContributionsInfos { get; set; }
-        //public DbSet<GithubRepository> GithubRepositories { get; set; }
-        //public DbSet<YearActivityInfo> YearActivityInfos { get; set; }
+        public DbSet<UniversitySystemUser> UniversitySystemUsers { get; set; }
+        public DbSet<IwentysUser> IwentysUsers { get; set; }
 
-        //#endregion
+        #endregion
 
         public DbSet<Student> Students { get; set; }
         public DbSet<GithubProject> StudentProjects { get; set; }

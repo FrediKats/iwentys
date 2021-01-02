@@ -70,7 +70,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.Guilds.Tri
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.Raids", "Features\Iwentys.Features.Raids\Iwentys.Features.Raids.csproj", "{075177D8-9015-4717-B2E3-D570ED5B3698}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Features.Study.SubjectAssignments", "Features\Iwentys.Features.Study.SubjectAssignments\Iwentys.Features.Study.SubjectAssignments.csproj", "{8078003F-F9EE-49BE-899B-FAD512957371}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.Study.SubjectAssignments", "Features\Iwentys.Features.Study.SubjectAssignments\Iwentys.Features.Study.SubjectAssignments.csproj", "{8078003F-F9EE-49BE-899B-FAD512957371}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Features.AccountManagement", "Features\Iwentys.Features.AccountManagement\Iwentys.Features.AccountManagement.csproj", "{EF18C03A-75BB-4E5F-82DA-0F88DA24AF24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -190,6 +192,10 @@ Global
 		{8078003F-F9EE-49BE-899B-FAD512957371}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8078003F-F9EE-49BE-899B-FAD512957371}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8078003F-F9EE-49BE-899B-FAD512957371}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF18C03A-75BB-4E5F-82DA-0F88DA24AF24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF18C03A-75BB-4E5F-82DA-0F88DA24AF24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF18C03A-75BB-4E5F-82DA-0F88DA24AF24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF18C03A-75BB-4E5F-82DA-0F88DA24AF24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -219,6 +225,7 @@ Global
 		{C04D2C0A-7BA3-4BF4-897D-3237DB02EA28} = {95512D3C-159E-4224-B79E-E445AE17B0E7}
 		{075177D8-9015-4717-B2E3-D570ED5B3698} = {95512D3C-159E-4224-B79E-E445AE17B0E7}
 		{8078003F-F9EE-49BE-899B-FAD512957371} = {95512D3C-159E-4224-B79E-E445AE17B0E7}
+		{EF18C03A-75BB-4E5F-82DA-0F88DA24AF24} = {95512D3C-159E-4224-B79E-E445AE17B0E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C699E386-11E7-4ABB-9AD6-C676F3CA2061}

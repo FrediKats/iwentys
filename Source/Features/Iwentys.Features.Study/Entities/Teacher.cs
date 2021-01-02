@@ -2,6 +2,7 @@
 
 namespace Iwentys.Features.Study.Entities
 {
+    //TODO: replace with UniversitySystemUser
     public class Teacher
     {
         public int Id { get; init; }

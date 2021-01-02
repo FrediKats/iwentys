@@ -1,28 +1,15 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Enums;
 
 namespace Iwentys.Features.Students.Entities
 {
-    public class Student
+    public class Student : IwentysUser
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Id { get; init; }
-
-        public string FirstName { get; init; }
-        public string MiddleName { get; init; }
-        public string SecondName { get; init; }
         public StudentRole Role { get; set; }
         public StudentType Type { get; init; }
         public int? GroupId { get; set; }
-        public string GithubUsername { get; set; }
-        public DateTime CreationTime { get; init; }
-        public DateTime LastOnlineTime { get; set; }
-        public int BarsPoints { get; set; }
-        public string AvatarUrl { get; set; }
 
         public DateTime GuildLeftTime { get; set; }
 
