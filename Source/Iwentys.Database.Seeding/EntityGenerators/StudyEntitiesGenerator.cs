@@ -3,6 +3,7 @@ using System.Linq;
 using Iwentys.Common.Tools;
 using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Database.Seeding.Tools;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Students.Enums;
 using Iwentys.Features.Study.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -20,11 +21,11 @@ namespace Iwentys.Database.Seeding.EntityGenerators
         public List<Subject> Subjects { get; set; }
         public List<GroupSubject> GroupSubjects { get; set; }
         public List<StudyGroup> StudyGroups { get; set; }
-        public List<Teacher> Teachers { get; set; }
+        public List<UniversitySystemUser> Teachers { get; set; }
 
         public StudyEntitiesGenerator()
         {
-            Teachers = TeacherFaker.Instance.Generate(TeacherCount);
+            Teachers = UniversitySystemUserFaker.Instance.Generate(TeacherCount);
             Subjects = SubjectFaker.Instance.Generate(SubjectCount);
             StudyPrograms = new List<StudyProgram> { new StudyProgram { Id = 1, Name = "ИС" } };
             StudyCourses = new List<StudyCourse>
@@ -107,7 +108,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             modelBuilder.Entity<StudyProgram>().HasData(StudyPrograms);
             modelBuilder.Entity<StudyCourse>().HasData(StudyCourses);
             modelBuilder.Entity<StudyGroup>().HasData(StudyGroups);
-            modelBuilder.Entity<Teacher>().HasData(Teachers);
+            modelBuilder.Entity<UniversitySystemUser>().HasData(Teachers);
             modelBuilder.Entity<Subject>().HasData(Subjects);
             modelBuilder.Entity<GroupSubject>().HasData(GroupSubjects);
         }

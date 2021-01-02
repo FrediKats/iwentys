@@ -138,7 +138,7 @@ namespace Iwentys.Tests.TestCaseContexts
             WithNewAdmin(out AuthorizedUser admin);
             
             CompanyService.RequestAdding(companyInfo.Id, userInfo.Id).Wait();
-            CompanyService.ApproveAdding(userInfo.Id, admin.Id).Wait();
+            CompanyService.ApproveAdding(admin, userInfo.Id).Wait();
             
             return this;
         }

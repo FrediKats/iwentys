@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Raids.Entities;
 using Iwentys.Features.Raids.Models;
 using Iwentys.Features.Students.Entities;
@@ -14,6 +15,7 @@ namespace Iwentys.Features.Raids.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
+        private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
         private readonly IGenericRepository<Student> _studentRepository;
         private readonly IGenericRepository<Raid> _raidRepository;
         private readonly IGenericRepository<RaidVisitor> _raidVisitorRepository;
@@ -23,6 +25,7 @@ namespace Iwentys.Features.Raids.Services
         {
             _unitOfWork = unitOfWork;
 
+            _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
             _studentRepository = _unitOfWork.GetRepository<Student>();
             _raidRepository = _unitOfWork.GetRepository<Raid>();
             _raidVisitorRepository = _unitOfWork.GetRepository<RaidVisitor>();
@@ -31,8 +34,8 @@ namespace Iwentys.Features.Raids.Services
 
         public async Task Create(AuthorizedUser user, RaidCreateArguments arguments)
         {
-            Student student = await _studentRepository.GetByIdAsync(user.Id);
-            SystemAdminUser systemAdminUser = student.EnsureIsAdmin();
+            IwentysUser iwentysUser = await _iwentysUserRepository.GetByIdAsync(user.Id);
+            SystemAdminUser systemAdminUser = iwentysUser.EnsureIsAdmin();
 
             var raid = Raid.CreateCommon(systemAdminUser, arguments);
 
@@ -81,8 +84,8 @@ namespace Iwentys.Features.Raids.Services
 
         public async Task ApproveRegistration(AuthorizedUser user, int raidId, int visitorId)
         {
-            Student student = await _studentRepository.GetByIdAsync(user.Id);
-            SystemAdminUser admin = student.EnsureIsAdmin();
+            IwentysUser iwentysUser = await _iwentysUserRepository.GetByIdAsync(user.Id);
+            SystemAdminUser admin = iwentysUser.EnsureIsAdmin();
             RaidVisitor visitor = await _raidVisitorRepository
                 .Get()
                 .Where(rv => rv.RaidId == raidId && rv.VisitorId == visitorId)

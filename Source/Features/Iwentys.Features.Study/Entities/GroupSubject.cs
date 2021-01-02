@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text.Json;
 using FluentResults;
 using Iwentys.Common.Databases;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Students.Enums;
 using Iwentys.Features.Study.Models;
 
@@ -20,10 +21,10 @@ namespace Iwentys.Features.Study.Entities
         public virtual StudyGroup StudyGroup { get; init; }
 
         public int LectorTeacherId { get; init; }
-        public virtual Teacher LectorTeacher { get; init; }
+        public virtual UniversitySystemUser LectorTeacher { get; init; }
 
         public int PracticeTeacherId { get; init; }
-        public virtual Teacher PracticeTeacher { get; init; }
+        public virtual UniversitySystemUser PracticeTeacher { get; init; }
 
 
         public string SerializedGoogleTableConfig { get; set; }

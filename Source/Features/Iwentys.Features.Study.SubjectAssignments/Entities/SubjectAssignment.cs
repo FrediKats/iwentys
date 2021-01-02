@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.SubjectAssignments.Models;
 
@@ -22,7 +23,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Entities
 
         public virtual ICollection<SubjectAssignmentSubmit> SubjectAssignmentSubmits { get; set; }
 
-        public static SubjectAssignment Create(AuthorizedUser user, GroupSubject groupSubject, SubjectAssignmentCreateArguments arguments)
+        public static SubjectAssignment Create(IwentysUser user, GroupSubject groupSubject, SubjectAssignmentCreateArguments arguments)
         {
             //TODO: allow admins to create assignments?
             if (groupSubject.LectorTeacherId != user.Id && groupSubject.PracticeTeacherId != user.Id)

@@ -5,6 +5,7 @@ using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Companies.Entities;
 using Iwentys.Features.Companies.Models;
 using Iwentys.Features.Students.Entities;
@@ -19,6 +20,7 @@ namespace Iwentys.Features.Companies.Services
         private readonly IGenericRepository<CompanyWorker> _companyWorkerRepository;
         private readonly IGenericRepository<Company> _companyRepository;
         private readonly IGenericRepository<Student> _studentRepository;
+        private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
 
         public CompanyService(IUnitOfWork unitOfWork)
         {
@@ -27,6 +29,7 @@ namespace Iwentys.Features.Companies.Services
             _companyRepository = _unitOfWork.GetRepository<Company>();
             _companyWorkerRepository = _unitOfWork.GetRepository<CompanyWorker>();
             _studentRepository = _unitOfWork.GetRepository<Student>();
+            _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
         }
 
         public async Task<List<CompanyInfoDto>> GetAsync()
@@ -62,10 +65,10 @@ namespace Iwentys.Features.Companies.Services
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task ApproveAdding(int userId, int adminId)
+        public async Task ApproveAdding(AuthorizedUser authorizedAdmin, int userId)
         {
-            Student student = await _studentRepository.FindByIdAsync(adminId);
-            var admin = student.EnsureIsAdmin();
+            IwentysUser iwentysUser = await _iwentysUserRepository.GetByIdAsync(authorizedAdmin.Id);
+            SystemAdminUser admin = iwentysUser.EnsureIsAdmin();
 
             var companyWorkerEntity = await _companyWorkerRepository.Get().SingleAsync(cw => cw.WorkerId == userId);
             companyWorkerEntity.Approve(admin);

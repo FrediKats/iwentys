@@ -133,7 +133,6 @@ namespace Iwentys.Database.Context
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<SubjectActivity> SubjectActivities { get; set; }
         public DbSet<GroupSubject> GroupSubjects { get; set; }
-        public DbSet<Teacher> Teachers { get; set; }
         public DbSet<StudyCourse> StudyCourses { get; set; }
 
         public DbSet<SubjectAssignment> SubjectAssignments { get; set; }
