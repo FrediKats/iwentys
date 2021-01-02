@@ -46,8 +46,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Features\Iwentys.Features.Gamification\Iwentys.Features.Gamification.csproj" />
-    <ProjectReference Include="..\..\Features\Iwentys.Features.Guilds.Tournaments\Iwentys.Features.Guilds.Tournaments.csproj" />
     <ProjectReference Include="..\..\Features\Iwentys.Features.Voting\Iwentys.Features.Voting.csproj" />
     <ProjectReference Include="..\..\Integrations\Iwentys.Integrations.GithubIntegration\Iwentys.Integrations.GithubIntegration.csproj" />
     <ProjectReference Include="..\..\Integrations\Iwentys.Integrations.GoogleTableIntegration\Iwentys.Integrations.GoogleTableIntegration.csproj" />
