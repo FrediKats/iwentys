@@ -21,14 +21,13 @@ namespace Iwentys.Features.Study.SubjectAssignments.Entities
         //TODO: add deadline etc?
         //TODO: add author
 
-        //TODO: move to GroupSubjectAssignment
+        //TODO: move to GroupSubjectAssignment?
         public virtual ICollection<SubjectAssignmentSubmit> SubjectAssignmentSubmits { get; set; }
         public virtual ICollection<GroupSubjectAssignment> GroupSubjectAssignments { get; set; }
 
         public static SubjectAssignment Create(IwentysUser user, GroupSubject groupSubject, SubjectAssignmentCreateArguments arguments)
         {
-            //TODO: allow admins to create assignments?
-            if (groupSubject.LectorTeacherId != user.Id && groupSubject.PracticeTeacherId != user.Id)
+            if (groupSubject.LectorTeacherId != user.Id && groupSubject.PracticeTeacherId != user.Id && !user.IsAdmin)
                 throw new InnerLogicException("User is not group teacher");
 
             return new SubjectAssignment

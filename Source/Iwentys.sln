@@ -72,7 +72,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.Raids", "F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.Study.SubjectAssignments", "Features\Iwentys.Features.Study.SubjectAssignments\Iwentys.Features.Study.SubjectAssignments.csproj", "{8078003F-F9EE-49BE-899B-FAD512957371}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Features.AccountManagement", "Features\Iwentys.Features.AccountManagement\Iwentys.Features.AccountManagement.csproj", "{EF18C03A-75BB-4E5F-82DA-0F88DA24AF24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.AccountManagement", "Features\Iwentys.Features.AccountManagement\Iwentys.Features.AccountManagement.csproj", "{EF18C03A-75BB-4E5F-82DA-0F88DA24AF24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

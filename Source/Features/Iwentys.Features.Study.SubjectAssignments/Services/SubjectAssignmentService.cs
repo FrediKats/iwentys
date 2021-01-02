@@ -55,14 +55,21 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
 
         //TODO: here must be subject id and we need to resolve group subject
         //TODO: OR list of group subject ids
-        public async Task CreateSubjectAssignment(AuthorizedUser user, int groupSubjectId, SubjectAssignmentCreateArguments arguments)
+        public async Task CreateSubjectAssignment(AuthorizedUser user, int subjectId, SubjectAssignmentCreateArguments arguments)
         {
-            GroupSubject subject = await _groupSubjectRepository.GetByIdAsync(groupSubjectId);
             IwentysUser iwentysUser = await _iwentysUserRepository.GetByIdAsync(user.Id);
+            List<GroupSubject> groupSubjects = await _groupSubjectRepository
+                .Get()
+                .Where(gs => gs.SubjectId == subjectId)
+                .ToListAsync();
 
-            var subjectAssignment = SubjectAssignment.Create(iwentysUser, subject, arguments);
+            //TODO: looks like hack
+            foreach (GroupSubject groupSubject in groupSubjects.Take(1))
+            {
+                var subjectAssignment = SubjectAssignment.Create(iwentysUser, groupSubject, arguments);
+                await _subjectAssignmentRepository.InsertAsync(subjectAssignment);
+            }
 
-            await _subjectAssignmentRepository.InsertAsync(subjectAssignment);
             await _unitOfWork.CommitAsync();
         }
 

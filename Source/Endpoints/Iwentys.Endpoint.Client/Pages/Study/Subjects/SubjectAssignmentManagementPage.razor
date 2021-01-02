@@ -1,0 +1,38 @@
+﻿@page "/subject/{SubjectId:int}/assignment/manage"
+
+@using Iwentys.Features.Study.SubjectAssignments.Models
+
+@inherits DependencyInjectionPage
+
+<h3>SubjectAssignmentManagementPage</h3>
+
+<div>
+    <h5>Subject assignment</h5>
+    <MatButton Link=@LinkToSubjectAssignmentCreate()>Create</MatButton>
+    @if (_subjectAssignments is not null)
+    {
+        <div>
+            @foreach (SubjectAssignmentDto subjectAssignment in _subjectAssignments)
+            {
+                //TODO: make generic style for card-like elements
+                <div class="card-list-element">
+                    <MatCard Class="dark-elevation-01">
+                        <MatCardContent>
+                            <div class="card-list-element-content">
+                                <MatHeadline6>
+                                    @subjectAssignment.Title
+                                </MatHeadline6>
+                            </div>
+                        </MatCardContent>
+                    </MatCard>
+                </div>
+
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int SubjectId { get; set; }
+}

@@ -34,5 +34,13 @@ namespace Iwentys.Endpoint.Controllers.Study
             List<SubjectAssignmentDto> result = await _subjectAssignmentService.GetSubjectAssignmentForSubject(authorizedUser, subjectId);
             return Ok(result);
         }
+
+        [HttpPost("{subjectId}")]
+        public async Task<ActionResult<List<SubjectAssignmentDto>>> CreateSubjectAssignment(int subjectId, SubjectAssignmentCreateArguments arguments)
+        {
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            await _subjectAssignmentService.CreateSubjectAssignment(authorizedUser, subjectId, arguments);
+            return Ok();
+        }
     }
 }

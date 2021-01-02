@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using Flurl.Http;
 
 namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
 {
@@ -24,6 +25,13 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
         public Task<List<SubjectAssignmentDto>> GetSubjectAssignmentForSubject(int subjectId)
         {
             return Client.GetFromJsonAsync<List<SubjectAssignmentDto>>($"api/subject-assignment/for-subject/{subjectId}");
+        }
+
+        public Task CreateSubjectAssignment(int subjectId, SubjectAssignmentCreateArguments arguments)
+        {
+            return new FlurlClient(Client)
+                .Request($"api/subject-assignment/{subjectId}")
+                .PostJsonAsync(arguments);
         }
     }
 }
