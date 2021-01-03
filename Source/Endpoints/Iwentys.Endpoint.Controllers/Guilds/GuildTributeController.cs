@@ -20,6 +20,14 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             _guildService = guildService;
         }
 
+        [HttpGet("{tributeId}")]
+        public ActionResult<TributeInfoResponse> Get(int tributeId)
+        {
+            AuthorizedUser user = this.TryAuthWithToken();
+            Task<TributeInfoResponse> result = _guildService.Get(user, tributeId);
+            return Ok(result);
+        }
+
         [HttpGet("pending")]
         public ActionResult<List<TributeInfoResponse>> GetPendingTributes()
         {

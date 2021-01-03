@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using Flurl.Http;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Guilds.Tributes.Models;
 
@@ -15,6 +16,13 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
         }
 
         public HttpClient Client { get; }
+
+        public Task<TributeInfoResponse> Get(int tributeId)
+        {
+            return new FlurlClient(Client)
+                .Request($"/api/guild/tribute/{tributeId}")
+                .GetJsonAsync<TributeInfoResponse>();
+        }
 
         public Task<List<TributeInfoResponse>> GetGuildTribute(int guildId)
         {

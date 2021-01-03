@@ -42,6 +42,18 @@ namespace Iwentys.Features.Guilds.Tributes.Services
             _guildTributeRepository = _unitOfWork.GetRepository<Tribute>();
         }
 
+        //TODO: seems like it all will not work if user leave from guild, join other and resend tribute for project
+        public async Task<TributeInfoResponse> Get(AuthorizedUser user, int tributeId)
+        {
+            Guild guild = _guildMemberRepository.ReadForStudent(user.Id) ?? throw InnerLogicException.GuildExceptions.IsNotGuildMember(user.Id, null);
+
+            return await _guildTributeRepository
+                .Get()
+                .Where(t => t.ProjectId == tributeId)
+                .Select(TributeInfoResponse.FromEntity)
+                .FirstAsync();
+        }
+
         public List<TributeInfoResponse> GetPendingTributes(AuthorizedUser user)
         {
             Guild guild = _guildMemberRepository.ReadForStudent(user.Id) ?? throw InnerLogicException.GuildExceptions.IsNotGuildMember(user.Id, null);

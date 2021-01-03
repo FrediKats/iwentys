@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Features.Guilds.Tributes.Models;
 
@@ -7,8 +6,6 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds.Tributes
 {
     public partial class CreateTributeResponsePage
     {
-        private List<TributeInfoResponse> _tributes;
-
         private TributeInfoResponse _tribute;
         private string _comment;
         private int _difficultLevel;
@@ -18,9 +15,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds.Tributes
         {
             await base.OnInitializedAsync();
 
-            //TODO: male metho for getting by id
-            _tributes = await ClientHolder.GuildTribute.GetGuildTribute(GuildId);
-            _tribute = _tributes.First(t => t.Project.Id == TributeId);
+            _tribute = await ClientHolder.GuildTribute.Get(TributeId);
         }
         
         private async Task CreateResponse()
