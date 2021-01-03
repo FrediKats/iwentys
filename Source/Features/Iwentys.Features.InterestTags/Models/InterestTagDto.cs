@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Iwentys.Features.Gamification.Entities;
+using Iwentys.Features.InterestTags.Entities;
 
-namespace Iwentys.Features.Gamification.Models
+namespace Iwentys.Features.InterestTags.Models
 {
     public class InterestTagDto
     {

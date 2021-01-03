@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Features.AccountManagement.Models;
-using Iwentys.Features.Gamification.Models;
 using Iwentys.Features.Raids.Entities;
 using Iwentys.Features.Raids.Enums;
 
@@ -22,7 +21,6 @@ namespace Iwentys.Features.Raids.Models
         public IwentysUserInfoDto Author { get; set; }
 
         public ICollection<IwentysUserInfoDto> Visitors { get; set; }
-        public ICollection<InterestTagDto> InterestTags { get; set; }
         public ICollection<RaidPartySearchRequestDto> PartySearchRequests { get; set; }
 
         public static Expression<Func<Raid, RaidProfileDto>> FromEntity =>
@@ -37,7 +35,6 @@ namespace Iwentys.Features.Raids.Models
                 RaidType = entity.RaidType,
                 Author = new IwentysUserInfoDto(entity.Author),
                 Visitors = entity.Visitors.Select(s => new IwentysUserInfoDto(s.Visitor)).ToList(),
-                InterestTags = entity.InterestTags.Select(t => new InterestTagDto(t.InterestTag)).ToList(),
                 PartySearchRequests = entity.PartySearchRequests.Select(t => new RaidPartySearchRequestDto(t)).ToList()
             };
     }

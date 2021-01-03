@@ -1,6 +1,6 @@
 ﻿using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.Gamification.Entities;
-using Iwentys.Features.Gamification.Models;
+using Iwentys.Features.InterestTags.Entities;
+using Iwentys.Features.InterestTags.Models;
 using Iwentys.Tests.Tools;
 
 namespace Iwentys.Tests.TestCaseContexts
@@ -22,7 +22,7 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public TestCaseContext WithUserInterestTag(InterestTagDto tag, AuthorizedUser user)
         {
-            InterestTagService.AddStudentTag(user.Id, tag.Id).Wait();
+            InterestTagService.AddUserTag(user.Id, tag.Id).Wait();
             return this;
         }
     }

@@ -11,6 +11,7 @@ using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Tournaments.Entities;
 using Iwentys.Features.Guilds.Tributes.Entities;
+using Iwentys.Features.InterestTags.Entities;
 using Iwentys.Features.Newsfeeds.Entities;
 using Iwentys.Features.Quests.Entities;
 using Iwentys.Features.Raids.Entities;
@@ -53,7 +54,7 @@ namespace Iwentys.Database.Context
 
         #region Gamification
         public DbSet<InterestTag> InterestTags { get; set; }
-        public DbSet<StudentInterestTag> UserInterestTags { get; set; }
+        public DbSet<UserInterestTag> UserInterestTags { get; set; }
         public DbSet<KarmaUpVote> KarmaUpVotes { get; set; }
         public DbSet<CourseLeaderboardRow> CourseLeaderboardRows { get; set; }
         #endregion
@@ -136,7 +137,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<GuildRecruitmentMember>().HasKey(g => new {g.GuildRecruitmentId, g.MemberId});
             modelBuilder.Entity<SubjectNewsfeed>().HasKey(g => new {g.SubjectId, g.NewsfeedId});
             modelBuilder.Entity<GuildNewsfeed>().HasKey(g => new {g.GuildId, g.NewsfeedId});
-            modelBuilder.Entity<StudentInterestTag>().HasKey(g => new {g.StudentId, g.InterestTagId});
+            modelBuilder.Entity<UserInterestTag>().HasKey(g => new {StudentId = g.UserId, g.InterestTagId});
             modelBuilder.Entity<TournamentTeamMember>().HasKey(g => new {g.TeamId, g.MemberId});
             modelBuilder.Entity<KarmaUpVote>().HasKey(g => new {g.AuthorId, g.TargetId});
             modelBuilder.Entity<RaidVisitor>().HasKey(rv => new {rv.RaidId, rv.VisitorId});

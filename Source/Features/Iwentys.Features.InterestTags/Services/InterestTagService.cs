@@ -3,24 +3,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Tools;
-using Iwentys.Features.Gamification.Entities;
-using Iwentys.Features.Gamification.Models;
+using Iwentys.Features.InterestTags.Entities;
+using Iwentys.Features.InterestTags.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Gamification.Services
+namespace Iwentys.Features.InterestTags.Services
 {
     public class InterestTagService
     {
         private readonly IUnitOfWork _unitOfWork;
         
         private readonly IGenericRepository<InterestTag> _interestTagRepository;
-        private readonly IGenericRepository<StudentInterestTag> _userInterestTagRepository;
+        private readonly IGenericRepository<UserInterestTag> _userInterestTagRepository;
 
         public InterestTagService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _interestTagRepository = _unitOfWork.GetRepository<InterestTag>();
-            _userInterestTagRepository = _unitOfWork.GetRepository<StudentInterestTag>();
+            _userInterestTagRepository = _unitOfWork.GetRepository<UserInterestTag>();
         }
 
         public async Task<List<InterestTagDto>> GetAllTags()
@@ -29,25 +29,25 @@ namespace Iwentys.Features.Gamification.Services
             return interestTagEntities.SelectToList(t => new InterestTagDto(t));
         }
 
-        public async Task<List<InterestTagDto>> GetStudentTags(int studentId)
+        public async Task<List<InterestTagDto>> GetUserTags(int userId)
         {
             return await _userInterestTagRepository
                 .Get()
-                .Where(ui => ui.StudentId == studentId)
+                .Where(ui => ui.UserId == userId)
                 .Select(ui => ui.InterestTag)
                 .Select(InterestTagDto.FromEntity)
                 .ToListAsync();
         }
 
-        public async Task AddStudentTag(int studentId, int tagId)
+        public async Task AddUserTag(int userId, int tagId)
         {
-            await _userInterestTagRepository.InsertAsync(new StudentInterestTag {StudentId = studentId, InterestTagId = tagId});
+            await _userInterestTagRepository.InsertAsync(new UserInterestTag {UserId = userId, InterestTagId = tagId});
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task RemoveStudentTag(int studentId, int tagId)
+        public async Task RemoveUserTag(int userId, int tagId)
         {
-            _userInterestTagRepository.Delete(new StudentInterestTag { StudentId = studentId, InterestTagId = tagId });
+            _userInterestTagRepository.Delete(new UserInterestTag { UserId = userId, InterestTagId = tagId });
             await _unitOfWork.CommitAsync();
         }
     }

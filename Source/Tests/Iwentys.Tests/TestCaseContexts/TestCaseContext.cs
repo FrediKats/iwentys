@@ -16,6 +16,7 @@ using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Services;
 using Iwentys.Features.Guilds.Tournaments.Services;
 using Iwentys.Features.Guilds.Tributes.Services;
+using Iwentys.Features.InterestTags.Services;
 using Iwentys.Features.Newsfeeds.Services;
 using Iwentys.Features.Quests.Models;
 using Iwentys.Features.Quests.Services;

@@ -22,7 +22,6 @@ namespace Iwentys.Features.Raids.Entities
         public virtual IwentysUser Author { get; set; }
 
         public virtual ICollection<RaidVisitor> Visitors { get; set; }
-        public virtual ICollection<RaidInterestTag> InterestTags { get; set; }
         public virtual ICollection<RaidPartySearchRequest> PartySearchRequests { get; set; }
 
         public static Raid CreateCommon(SystemAdminUser admin, RaidCreateArguments arguments)

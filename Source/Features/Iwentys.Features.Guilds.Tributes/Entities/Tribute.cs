@@ -10,7 +10,6 @@ using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Tributes.Enums;
 using Iwentys.Features.Guilds.Tributes.Models;
-using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Guilds.Tributes.Entities
 {

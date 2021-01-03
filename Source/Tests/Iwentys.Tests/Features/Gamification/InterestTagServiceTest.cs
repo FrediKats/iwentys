@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Features.Gamification.Models;
+using Iwentys.Features.InterestTags.Models;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -18,7 +18,7 @@ namespace Iwentys.Tests.Features.Gamification
                 .WithInterestTag(out var tag)
                 .WithUserInterestTag(tag, user);
 
-            List<InterestTagDto> interestTagDtos = testCase.InterestTagService.GetStudentTags(user.Id).Result;
+            List<InterestTagDto> interestTagDtos = testCase.InterestTagService.GetUserTags(user.Id).Result;
             Assert.IsTrue(interestTagDtos.Any(t => t.Id == tag.Id));
         }
     }

@@ -1,6 +1,6 @@
-﻿using Iwentys.Features.Gamification.Entities;
+﻿using Iwentys.Features.Raids.Entities;
 
-namespace Iwentys.Features.Raids.Entities
+namespace Iwentys.Features.InterestTags.Entities
 {
     public class RaidInterestTag
     {

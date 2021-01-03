@@ -3,7 +3,6 @@ using System.Linq.Expressions;
 using Iwentys.Features.AccountManagement.Models;
 using Iwentys.Features.Guilds.Tributes.Entities;
 using Iwentys.Features.Guilds.Tributes.Enums;
-using Iwentys.Features.Students.Models;
 
 namespace Iwentys.Features.Guilds.Tributes.Models
 {
