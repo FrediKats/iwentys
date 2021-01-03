@@ -16,7 +16,7 @@ namespace Iwentys.Endpoint.Client.Pages.Study
         }
 
         private string LinkToStudentProfile(StudentInfoDto student) => $"student/profile/{student.Id}";
-        private string LinkToSubjectProfile(Subject subject) => $"subject/profile/{subject.Id}";
+        private string LinkToSubjectProfile(Subject subject) => $"subject/{subject.Id}/profile";
 
         private StudentInfoDto GroupAdmin => _groupProfile?.GroupAdmin;
     }

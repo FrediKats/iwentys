@@ -18,7 +18,7 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects
             };
 
             await ClientHolder.SubjectAssignment.CreateSubjectAssignment(SubjectId, arguments);
-            NavigationManager.NavigateTo($"/subject/{SubjectId}/assignment/manage");
+            NavigationManager.NavigateTo($"/subject/{SubjectId}/management/assignments");
         }
     }
 }

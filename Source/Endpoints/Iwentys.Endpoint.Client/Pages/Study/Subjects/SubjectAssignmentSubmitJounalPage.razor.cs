@@ -21,7 +21,7 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects
             if (row is not SubjectAssignmentSubmitDto submit)
                 throw new IwentysException("Something goes wrong.");
 
-            NavigationManager.NavigateTo($"/subject/{SubjectId}/assignments/submits/{submit.Id}");
+            NavigationManager.NavigateTo($"/subject/{SubjectId}/management/assignments/submits/{submit.Id}");
         }
     }
 }

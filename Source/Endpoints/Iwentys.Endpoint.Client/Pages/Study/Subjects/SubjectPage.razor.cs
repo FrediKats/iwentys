@@ -22,6 +22,6 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects
         }
         
         private string LinkToCreateNewsfeedPage() => $"/newsfeed/create-subject/{SubjectId}";
-        private string LinkToSubjectAssignmentManagement() => $"/subject/{SubjectId}/assignment/manage";
+        private string LinkToSubjectAssignmentManagement() => $"/subject/{SubjectId}/management/assignments";
     }
 }

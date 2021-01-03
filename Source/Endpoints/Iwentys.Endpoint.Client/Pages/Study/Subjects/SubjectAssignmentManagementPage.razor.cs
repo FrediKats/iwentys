@@ -19,7 +19,7 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects
             _subjectAssignments = await ClientHolder.SubjectAssignment.GetSubjectAssignmentForSubject(SubjectId);
         }
 
-        private string LinkToSubjectAssignmentCreate() => $"/subject/{SubjectId}/assignment/create";
-        private string LinkToSubjectAssignmentSubmitJournal() => $"/subject/{SubjectId}/assignments/submits";
+        private string LinkToSubjectAssignmentCreate() => $"/subject/{SubjectId}/management/assignments/create";
+        private string LinkToSubjectAssignmentSubmitJournal() => $"/subject/{SubjectId}/management/assignments/submits";
     }
 }
