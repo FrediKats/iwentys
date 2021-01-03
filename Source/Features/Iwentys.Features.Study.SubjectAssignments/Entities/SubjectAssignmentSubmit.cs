@@ -1,6 +1,6 @@
 ﻿using System;
 using Iwentys.Features.AccountManagement.Entities;
-using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.SubjectAssignments.Enums;
 using Iwentys.Features.Study.SubjectAssignments.Models;
 

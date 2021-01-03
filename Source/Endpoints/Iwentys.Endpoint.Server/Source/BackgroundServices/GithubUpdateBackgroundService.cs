@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Endpoint.Server.Source.Options;
 using Iwentys.Features.GithubIntegration.Services;
-using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Study.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;

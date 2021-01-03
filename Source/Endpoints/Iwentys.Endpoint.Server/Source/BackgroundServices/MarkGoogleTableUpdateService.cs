@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentResults;
 using Iwentys.Common.Databases;
-using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Study;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Integrations.GoogleTableIntegration;

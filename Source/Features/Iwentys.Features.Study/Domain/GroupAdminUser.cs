@@ -1,6 +1,6 @@
 ﻿using Iwentys.Common.Exceptions;
-using Iwentys.Features.Students.Entities;
-using Iwentys.Features.Students.Enums;
+using Iwentys.Features.Study.Entities;
+using Iwentys.Features.Study.Enums;
 
 namespace Iwentys.Features.Study.Domain
 {

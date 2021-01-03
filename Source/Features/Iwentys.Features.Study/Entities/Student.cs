@@ -1,9 +1,9 @@
 ﻿using System;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
-using Iwentys.Features.Students.Enums;
+using Iwentys.Features.Study.Enums;
 
-namespace Iwentys.Features.Students.Entities
+namespace Iwentys.Features.Study.Entities
 {
     public class Student : IwentysUser
     {

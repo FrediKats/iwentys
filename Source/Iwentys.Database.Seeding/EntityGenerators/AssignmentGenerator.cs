@@ -2,7 +2,7 @@
 using Bogus;
 using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Features.Assignments.Entities;
-using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Study.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators

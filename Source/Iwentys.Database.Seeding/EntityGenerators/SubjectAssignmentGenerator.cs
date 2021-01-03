@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Database.Seeding.FakerEntities.Study;
-using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.SubjectAssignments.Entities;
 using Microsoft.EntityFrameworkCore;

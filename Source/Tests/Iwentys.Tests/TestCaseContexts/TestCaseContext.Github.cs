@@ -5,7 +5,7 @@ using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Models;
-using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Study.Entities;
 
 namespace Iwentys.Tests.TestCaseContexts
 {

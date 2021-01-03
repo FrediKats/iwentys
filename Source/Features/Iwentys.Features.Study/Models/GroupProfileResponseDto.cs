@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Iwentys.Features.Students.Enums;
-using Iwentys.Features.Students.Models;
 using Iwentys.Features.Study.Entities;
+using Iwentys.Features.Study.Enums;
+using Iwentys.Features.Study.Models.Students;
 
 namespace Iwentys.Features.Study.Models
 {

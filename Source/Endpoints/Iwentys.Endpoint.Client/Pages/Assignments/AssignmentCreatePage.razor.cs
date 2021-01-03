@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Features.Assignments.Models;
-using Iwentys.Features.Students.Models;
 using Iwentys.Features.Study.Models;
+using Iwentys.Features.Study.Models.Students;
 
 namespace Iwentys.Endpoint.Client.Pages.Assignments
 {

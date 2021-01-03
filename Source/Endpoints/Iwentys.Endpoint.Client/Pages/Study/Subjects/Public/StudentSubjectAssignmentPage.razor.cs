@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Features.Students.Models;
+using Iwentys.Features.Study.Models.Students;
 using Iwentys.Features.Study.SubjectAssignments.Models;
 
 namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Public

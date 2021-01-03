@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Quests.Models;
-using Iwentys.Features.Students.Models;
+using Iwentys.Features.Study.Models.Students;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 

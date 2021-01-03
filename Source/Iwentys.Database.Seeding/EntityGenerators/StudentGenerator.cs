@@ -4,9 +4,8 @@ using System.Linq;
 using Bogus;
 using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Database.Seeding.Tools;
-using Iwentys.Features.Students.Entities;
-using Iwentys.Features.Students.Enums;
 using Iwentys.Features.Study.Entities;
+using Iwentys.Features.Study.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators

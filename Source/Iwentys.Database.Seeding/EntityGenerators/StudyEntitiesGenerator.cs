@@ -5,8 +5,8 @@ using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Database.Seeding.FakerEntities.Study;
 using Iwentys.Database.Seeding.Tools;
 using Iwentys.Features.AccountManagement.Entities;
-using Iwentys.Features.Students.Enums;
 using Iwentys.Features.Study.Entities;
+using Iwentys.Features.Study.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators

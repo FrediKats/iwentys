@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Features.Gamification.Models;
 using Iwentys.Features.Guilds.Models;
-using Iwentys.Features.Students.Models;
 using Iwentys.Features.Study.Models;
+using Iwentys.Features.Study.Models.Students;
 
 namespace Iwentys.Endpoint.Client.Pages.Students
 {

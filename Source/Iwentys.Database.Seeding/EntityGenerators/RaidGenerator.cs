@@ -4,7 +4,7 @@ using Iwentys.Database.Seeding.FakerEntities.Raids;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Raids.Entities;
 using Iwentys.Features.Raids.Models;
-using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Study.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators

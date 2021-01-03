@@ -4,11 +4,11 @@ using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Achievements.Domain;
-using Iwentys.Features.Students.Entities;
-using Iwentys.Features.Students.Models;
+using Iwentys.Features.Study.Entities;
+using Iwentys.Features.Study.Models.Students;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Students.Services
+namespace Iwentys.Features.Study.Services
 {
     public class StudentService
     {

@@ -1,6 +1,4 @@
-﻿using Iwentys.Features.Students.Entities;
-
-namespace Iwentys.Features.Study.Entities
+﻿namespace Iwentys.Features.Study.Entities
 {
     public class SubjectActivity
     {

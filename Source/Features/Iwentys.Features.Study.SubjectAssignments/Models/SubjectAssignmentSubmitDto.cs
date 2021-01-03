@@ -1,5 +1,5 @@
 ﻿using System;
-using Iwentys.Features.Students.Models;
+using Iwentys.Features.Study.Models.Students;
 using Iwentys.Features.Study.SubjectAssignments.Entities;
 
 namespace Iwentys.Features.Study.SubjectAssignments.Models

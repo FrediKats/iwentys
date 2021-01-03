@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Features.Students.Models;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
+using Iwentys.Features.Study.Models.Students;
 
 namespace Iwentys.Endpoint.Client.Pages.Study
 {

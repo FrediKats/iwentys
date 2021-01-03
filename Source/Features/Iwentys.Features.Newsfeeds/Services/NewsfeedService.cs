@@ -7,7 +7,6 @@ using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Newsfeeds.Entities;
 using Iwentys.Features.Newsfeeds.Models;
-using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Study.Entities;
 using Microsoft.EntityFrameworkCore;
 

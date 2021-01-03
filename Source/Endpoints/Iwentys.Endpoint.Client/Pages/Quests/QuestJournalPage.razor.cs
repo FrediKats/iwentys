@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Features.Quests.Enums;
 using Iwentys.Features.Quests.Models;
-using Iwentys.Features.Students.Models;
+using Iwentys.Features.Study.Models.Students;
 
 namespace Iwentys.Endpoint.Client.Pages.Quests
 {

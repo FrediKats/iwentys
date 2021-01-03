@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Features.Students.Entities;
-using Iwentys.Features.Students.Models;
+using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
+using Iwentys.Features.Study.Models.Students;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Study.Repositories

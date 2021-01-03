@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Features.Students.Models
+﻿namespace Iwentys.Features.Study.Models.Students
 {
     public record StudentUpdateRequestDto
     {

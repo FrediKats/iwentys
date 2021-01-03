@@ -1,9 +1,9 @@
 ﻿using Iwentys.Common.Tools;
 using Iwentys.Features.AccountManagement.Models;
-using Iwentys.Features.Students.Entities;
-using Iwentys.Features.Students.Enums;
+using Iwentys.Features.Study.Entities;
+using Iwentys.Features.Study.Enums;
 
-namespace Iwentys.Features.Students.Models
+namespace Iwentys.Features.Study.Models.Students
 {
     public class StudentInfoDto : IwentysUserInfoDto, IResultFormat
     {

@@ -6,7 +6,7 @@ using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Tournaments.Entities;
 using Iwentys.Features.Guilds.Tournaments.Enums;
-using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Study.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators

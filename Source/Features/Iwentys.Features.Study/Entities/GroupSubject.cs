@@ -4,7 +4,7 @@ using System.Text.Json;
 using FluentResults;
 using Iwentys.Common.Databases;
 using Iwentys.Features.AccountManagement.Entities;
-using Iwentys.Features.Students.Enums;
+using Iwentys.Features.Study.Enums;
 using Iwentys.Features.Study.Models;
 
 namespace Iwentys.Features.Study.Entities

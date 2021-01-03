@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Study.Domain;
 
 namespace Iwentys.Features.Study.Entities

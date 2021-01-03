@@ -15,7 +15,6 @@ using Iwentys.Features.InterestTags.Entities;
 using Iwentys.Features.Newsfeeds.Entities;
 using Iwentys.Features.Quests.Entities;
 using Iwentys.Features.Raids.Entities;
-using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.SubjectAssignments.Entities;
 using Microsoft.EntityFrameworkCore;

@@ -1,6 +1,6 @@
-﻿using Iwentys.Features.Students.Enums;
+﻿using Iwentys.Features.Study.Enums;
 
-namespace Iwentys.Features.Students.Models
+namespace Iwentys.Features.Study.Models.Students
 {
     public record StudentCreateArgumentsDto
     {

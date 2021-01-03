@@ -5,7 +5,7 @@ using Iwentys.Common.Databases;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Gamification.Entities;
 using Iwentys.Features.Gamification.Models;
-using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Study.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Gamification.Services

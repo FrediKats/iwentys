@@ -3,7 +3,6 @@ using System.Linq;
 using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Newsfeeds.Entities;
-using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Study.Entities;
 using Microsoft.EntityFrameworkCore;
 

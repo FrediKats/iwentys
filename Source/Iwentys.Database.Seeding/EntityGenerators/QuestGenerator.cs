@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Features.Quests.Entities;
-using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Study.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators

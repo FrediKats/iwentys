@@ -13,8 +13,8 @@ using ChartJs.Blazor.Util;
 using Iwentys.Features.Achievements.Models;
 using Iwentys.Features.Gamification.Entities;
 using Iwentys.Features.GithubIntegration.Models;
-using Iwentys.Features.Students.Models;
 using Iwentys.Features.Study.Models;
+using Iwentys.Features.Study.Models.Students;
 
 namespace Iwentys.Endpoint.Client.Pages.Students
 {

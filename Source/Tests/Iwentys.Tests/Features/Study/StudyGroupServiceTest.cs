@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.Students.Enums;
-using Iwentys.Features.Students.Models;
 using Iwentys.Features.Study.Domain;
+using Iwentys.Features.Study.Enums;
+using Iwentys.Features.Study.Models.Students;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
