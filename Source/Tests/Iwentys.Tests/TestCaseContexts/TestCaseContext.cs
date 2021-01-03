@@ -80,14 +80,13 @@ namespace Iwentys.Tests.TestCaseContexts
             TributeTestCaseContext = new TributeTestCaseContext(this);
         }
 
-        public TestCaseContext WithNewStudent(out AuthorizedUser user, StudentRole studentRole = StudentRole.Common)
+        public TestCaseContext WithNewStudent(out AuthorizedUser user)
         {
             int id = RandomProvider.Random.Next(999999);
 
             var userInfo = new Student
             {
                 Id = id,
-                Role = studentRole,
                 GithubUsername = $"{Constants.GithubUsername}{id}",
                 BarsPoints = 1000
             };
@@ -98,14 +97,13 @@ namespace Iwentys.Tests.TestCaseContexts
             return this;
         }
 
-        public TestCaseContext WithNewAdmin(out AuthorizedUser user, StudentRole studentRole = StudentRole.Common)
+        public TestCaseContext WithNewAdmin(out AuthorizedUser user)
         {
             int id = RandomProvider.Random.Next(999999);
 
             var userInfo = new Student
             {
                 Id = id,
-                Role = studentRole,
                 GithubUsername = $"{Constants.GithubUsername}{id}",
                 BarsPoints = 1000,
                 IsAdmin = true

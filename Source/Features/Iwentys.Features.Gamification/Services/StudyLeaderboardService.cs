@@ -82,6 +82,7 @@ namespace Iwentys.Features.Gamification.Services
             return _studyGroupRepository.Get()
                 .WhereIf(courseId, q => q.StudyCourseId == courseId)
                 .SelectMany(g => g.Students)
+                .Select(s => s.Student)
                 .AsEnumerable()
                 .Select(s => new StudyLeaderboardRowDto(s, _githubIntegrationService.GetGithubUser(s.GithubUsername).Result?.ContributionFullInfo.Total ?? 0))
                 .OrderBy(a => a.Activity)

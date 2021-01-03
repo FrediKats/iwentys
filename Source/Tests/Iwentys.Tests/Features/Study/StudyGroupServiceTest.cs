@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Study.Domain;
-using Iwentys.Features.Study.Enums;
+using Iwentys.Features.Study.Models;
 using Iwentys.Features.Study.Models.Students;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
@@ -31,15 +31,18 @@ namespace Iwentys.Tests.Features.Study
                 .Case()
                 .WithNewAdmin(out AuthorizedUser admin);
 
-            List<StudentInfoDto> studentInfoDtos = await testCase
-                .StudentService
-                .GetAsync();
-            StudentInfoDto newGroupAdmin = studentInfoDtos.First(s => s.Role == StudentRole.Common);
+            //TODO: it's some kind of hack
+            //TODO: implement creating group admin with group
+            GroupProfileResponseDto studentGroup = await testCase.StudyGroupService.Get("M3101");
 
+            StudentInfoDto newGroupAdmin = studentGroup.Students.First();
+
+
+            //TODO: omg, we need to fetch group one more time coz Group admin id is not actual anymore
             await testCase.StudyGroupService.MakeGroupAdmin(admin, newGroupAdmin.Id);
-
+            studentGroup = await testCase.StudyGroupService.Get("M3101");
             newGroupAdmin = await testCase.StudentService.GetAsync(newGroupAdmin.Id);
-            Assert.AreEqual(StudentRole.GroupAdmin, newGroupAdmin.Role);
+            Assert.AreEqual(studentGroup.GroupAdmin.Id, newGroupAdmin.Id);
         }
 
         [Test]
@@ -52,7 +55,7 @@ namespace Iwentys.Tests.Features.Study
             List<StudentInfoDto> studentInfoDtos = await testCase
                 .StudentService
                 .GetAsync();
-            StudentInfoDto newGroupAdmin = studentInfoDtos.First(s => s.Role == StudentRole.Common);
+            StudentInfoDto newGroupAdmin = studentInfoDtos.First();
 
             Assert.ThrowsAsync<InnerLogicException>(() => testCase.StudyGroupService.MakeGroupAdmin(commonUser, newGroupAdmin.Id));
         }

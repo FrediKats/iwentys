@@ -1,5 +1,4 @@
 ﻿using System;
-using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Study.Enums;
 
@@ -7,9 +6,8 @@ namespace Iwentys.Features.Study.Entities
 {
     public class Student : IwentysUser
     {
-        public StudentRole Role { get; set; }
         public StudentType Type { get; init; }
-        public int? GroupId { get; set; }
+        public virtual StudyGroupMember Group { get; set; }
 
 
         public Student()
@@ -22,7 +20,6 @@ namespace Iwentys.Features.Study.Entities
             FirstName = firstName;
             MiddleName = middleName;
             SecondName = secondName;
-            Role = StudentRole.Common;
             CreationTime = DateTime.UtcNow;
             LastOnlineTime = DateTime.UtcNow;
             GuildLeftTime = DateTime.MinValue;
@@ -33,16 +30,13 @@ namespace Iwentys.Features.Study.Entities
             return CreateFromIsu(id, firstName, null, secondName);
         }
 
-        public static Student CreateFromIsu(int id, string firstName, string middleName, string secondName, int? groupId = null)
+        public static Student CreateFromIsu(int id, string firstName, string middleName, string secondName)
         {
             return new Student(id, firstName, middleName, secondName)
             {
-                GroupId = groupId
+                //TODO: it's not work any more, meh
+                //GroupId = -1
             };
         }
-
-        public void MakeGroupAdmin(SystemAdminUser initiator) => Role = StudentRole.GroupAdmin;
-        //TODO: do not allow admin to kick other admin
-        public void MakeCommonMember(SystemAdminUser initiator) => Role = StudentRole.Common;
     }
 }

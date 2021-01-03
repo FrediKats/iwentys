@@ -93,11 +93,12 @@ namespace Iwentys.Database.Context
         public DbSet<RaidPartySearchRequest> PartySearchRequests { get; set; }
         #endregion
 
-        public DbSet<Student> Students { get; set; }
         public DbSet<GithubProject> StudentProjects { get; set; }
         public DbSet<GithubUser> GithubUsersData { get; set; }
 
         #region Study
+        public DbSet<Student> Students { get; set; }
+        public DbSet<StudyGroupMember> StudyGroupMembers { get; set; }
         public DbSet<StudyGroup> StudyGroups { get; set; }
         public DbSet<StudyProgram> StudyPrograms { get; set; }
         public DbSet<Subject> Subjects { get; set; }
@@ -143,6 +144,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<RaidInterestTag>().HasKey(rv => new {rv.RaidId, rv.InterestTagId});
             modelBuilder.Entity<RaidPartySearchRequest>().HasKey(rv => new {rv.RaidId, rv.AuthorId});
             modelBuilder.Entity<CourseLeaderboardRow>().HasKey(clr => new {clr.CourseId, clr.Position});
+            modelBuilder.Entity<StudyGroupMember>().HasKey(sgm => new { sgm.GroupId, sgm.StudentId});
         }
 
         private static void SetUniqKey(ModelBuilder modelBuilder)

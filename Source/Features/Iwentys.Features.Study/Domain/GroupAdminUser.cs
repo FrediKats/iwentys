@@ -1,17 +1,13 @@
 ﻿using Iwentys.Common.Exceptions;
 using Iwentys.Features.Study.Entities;
-using Iwentys.Features.Study.Enums;
 
 namespace Iwentys.Features.Study.Domain
 {
     public class GroupAdminUser
     {
-        public GroupAdminUser(Student student)
+        public GroupAdminUser(Student student, StudyGroup studyGroup)
         {
-            if (student.GroupId is null)
-                throw new InnerLogicException("Student without group");
-            
-            if (student.Role != StudentRole.GroupAdmin)
+            if (student.Id != studyGroup.GroupAdminId)
                 throw InnerLogicException.NotEnoughPermissionFor(student.Id);
 
             Student = student;
@@ -22,9 +18,12 @@ namespace Iwentys.Features.Study.Domain
 
     public static class GroupAdminUserExtensions
     {
+        //TODO: refactor
         public static GroupAdminUser EnsureIsGroupAdmin(this Student profile)
         {
-            return new GroupAdminUser(profile);
+            if (profile.Group?.Group is null)
+                throw new InnerLogicException("Student without group");
+            return new GroupAdminUser(profile, profile.Group?.Group);
         }
     }
 }

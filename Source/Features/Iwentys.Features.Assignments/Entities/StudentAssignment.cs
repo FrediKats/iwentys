@@ -38,7 +38,7 @@ namespace Iwentys.Features.Assignments.Entities
             
             List<StudentAssignment> studentAssignmentEntities = studyGroup.Students.Select(s => new StudentAssignment
             {
-                StudentId = s.Id,
+                StudentId = s.StudentId,
                 Assignment = assignmentEntity,
                 LastUpdateTime = DateTime.UtcNow
             }).ToList();

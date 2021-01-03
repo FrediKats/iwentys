@@ -9,16 +9,16 @@ namespace Iwentys.Features.Study.Models.Students
     {
         public StudentInfoDto(Student student) : base(student)
         {
-            Role = student.Role;
             Type = student.Type;
+            GroupId = student.Group?.GroupId;
         }
 
         public StudentInfoDto()
         {
         }
 
-        public StudentRole Role { get; init; }
         public StudentType Type { get; init; }
+        public int? GroupId { get; set; }
 
         //public string SocialStatus { get; set; }
         //public string AdditionalLink { get; set; }
