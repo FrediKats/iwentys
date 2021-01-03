@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Iwentys.Features.Gamification.Entities;
 using Iwentys.Features.Gamification.Models;
 using Iwentys.Features.Gamification.Services;
 using Iwentys.Features.Students.Enums;
@@ -33,6 +34,23 @@ namespace Iwentys.Endpoint.Controllers.Gamification
             int take = 20)
         {
             return Ok(_studyLeaderboardService.GetStudentsRatings(new StudySearchParametersDto(groupId, subjectId, courseId, semester, skip, take)));
+        }
+
+        //FYI: test propose only. Need to move to daemon
+        [HttpGet("force-update")]
+        public async Task<ActionResult> CourseRatingForceRefresh(int courseId)
+        {
+            await _studyLeaderboardService.CourseRatingForceRefresh(courseId);
+            return Ok();
+        }
+
+        [HttpGet("student-position")]
+        public async Task<ActionResult<CourseLeaderboardRow>> FindStudentLeaderboardPosition(int studentId)
+        {
+            CourseLeaderboardRow position = await _studyLeaderboardService.FindStudentLeaderboardPosition(studentId);
+            if (position is null)
+                return NotFound();
+            return Ok(position);
         }
 
         [HttpGet("coding")]

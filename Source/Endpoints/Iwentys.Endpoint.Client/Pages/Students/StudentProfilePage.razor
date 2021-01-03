@@ -10,6 +10,12 @@
         <div class="col-md-6 d-flex flex-column">
             <div class="profile-element dark-elevation-01">
                 <StudentProfileInfoComponent StudentProfile=@_studentFullProfile></StudentProfileInfoComponent>
+                @if (_leaderboardRow is not null)
+                {
+                    <div dark-elevation-02>
+                        <MatHeadline6>Top-@_leaderboardRow.Position</MatHeadline6>
+                    </div>
+                }
                 <MatButton Link="/student/profile/edit">Edit</MatButton>
             </div>
 

@@ -11,6 +11,7 @@ using ChartJs.Blazor.ChartJS.PieChart;
 using ChartJs.Blazor.Charts;
 using ChartJs.Blazor.Util;
 using Iwentys.Features.Achievements.Models;
+using Iwentys.Features.Gamification.Entities;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.Students.Models;
 using Iwentys.Features.Study.Models;
@@ -23,6 +24,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
         private List<AchievementDto> _achievements;
         private List<CodingActivityInfoResponse> _codingActivityInfo;
         private StudentActivityInfoDto _studentActivity;
+        private CourseLeaderboardRow _leaderboardRow;
 
         private LineConfig _githubChartConfig;
         private ChartJsLineChart _githubChart;
@@ -52,6 +54,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
                 InitStudyChart();
 
             _achievements = await ClientHolder.Achievement.GetForStudent(_studentFullProfile.Id);
+            _leaderboardRow = await ClientHolder.StudyLeaderboard.FindStudentLeaderboardPosition(_studentFullProfile.Id);
         }
 
         private void InitGithubChart()

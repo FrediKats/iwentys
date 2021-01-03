@@ -53,6 +53,12 @@ namespace Iwentys.Database.Tools
             DbSet.Remove(entityToDelete);
         }
 
+        public void Delete(List<TEntity> entities)
+        {
+            foreach (TEntity entity in entities)
+                Delete(entity);
+        }
+
         public void Update(List<TEntity> entitiesToUpdate)
         {
             entitiesToUpdate.ForEach(Update);

@@ -82,6 +82,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<RaidVisitor>().HasKey(rv => new {rv.RaidId, rv.VisitorId});
             modelBuilder.Entity<RaidInterestTag>().HasKey(rv => new {rv.RaidId, rv.InterestTagId});
             modelBuilder.Entity<RaidPartySearchRequest>().HasKey(rv => new {rv.RaidId, rv.AuthorId});
+            modelBuilder.Entity<CourseLeaderboardRow>().HasKey(clr => new {clr.CourseId, clr.Position});
         }
 
         private static void SetUniqKey(ModelBuilder modelBuilder)
@@ -112,6 +113,7 @@ namespace Iwentys.Database.Context
         public DbSet<InterestTag> InterestTags { get; set; }
         public DbSet<StudentInterestTag> UserInterestTags { get; set; }
         public DbSet<KarmaUpVote> KarmaUpVotes { get; set; }
+        public DbSet<CourseLeaderboardRow> CourseLeaderboardRows { get; set; }
         #endregion
 
         #region Guilds
