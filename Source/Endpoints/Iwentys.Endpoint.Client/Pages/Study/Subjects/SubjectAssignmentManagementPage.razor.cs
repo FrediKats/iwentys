@@ -20,5 +20,6 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects
         }
 
         private string LinkToSubjectAssignmentCreate() => $"/subject/{SubjectId}/assignment/create";
+        private string LinkToSubjectAssignmentSubmitJournal() => $"/subject/{SubjectId}/assignments/submits";
     }
 }
