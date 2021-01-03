@@ -85,6 +85,17 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
                 .ToListAsync();
         }
 
+        public async Task<List<SubjectAssignmentSubmitDto>> GetStudentSubjectAssignmentSubmits(AuthorizedUser user, int subjectId, int studentId)
+        {
+            return await _subjectAssignmentSubmitRepository
+                .Get()
+                .Where(sas => sas.SubjectAssignment.SubjectId == subjectId)
+                .Where(sas => sas.StudentId == studentId)
+                .Select(sas => new SubjectAssignmentSubmitDto(sas))
+                .ToListAsync();
+        }
+
+
         public async Task SendSubmit(AuthorizedUser user, int subjectAssignmentId, SubjectAssignmentSubmitCreateArguments arguments)
         {
             SubjectAssignment subjectAssignment = await _subjectAssignmentRepository.GetByIdAsync(subjectAssignmentId);

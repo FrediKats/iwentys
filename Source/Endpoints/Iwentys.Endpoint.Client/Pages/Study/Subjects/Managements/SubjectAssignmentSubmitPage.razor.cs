@@ -2,7 +2,7 @@
 using Iwentys.Features.Study.SubjectAssignments.Enums;
 using Iwentys.Features.Study.SubjectAssignments.Models;
 
-namespace Iwentys.Endpoint.Client.Pages.Study.Subjects
+namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Managements
 {
     public partial class SubjectAssignmentSubmitPage
     {

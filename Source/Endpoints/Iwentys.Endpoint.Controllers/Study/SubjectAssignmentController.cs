@@ -44,11 +44,20 @@ namespace Iwentys.Endpoint.Controllers.Study
         }
 
         [HttpGet("{subjectId}/submits")]
-        public async Task<ActionResult<List<SubjectAssignmentSubmitDto>>> GetSubjectAssignmentSubmits(int subjectId)
+        public async Task<ActionResult<List<SubjectAssignmentSubmitDto>>> GetSubjectAssignmentSubmits(int subjectId, [FromQuery] int? studentId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            List<SubjectAssignmentSubmitDto> submits = await _subjectAssignmentService.GetSubjectAssignmentSubmits(authorizedUser, subjectId);
-            return Ok(submits);
+            //TODO: make search request argument model
+            if (studentId is null)
+            {
+                List<SubjectAssignmentSubmitDto> submits = await _subjectAssignmentService.GetSubjectAssignmentSubmits(authorizedUser, subjectId);
+                return Ok(submits);
+            }
+            else
+            {
+                List<SubjectAssignmentSubmitDto> submits = await _subjectAssignmentService.GetStudentSubjectAssignmentSubmits(authorizedUser, subjectId, studentId.Value);
+                return Ok(submits);
+            }
         }
 
         [HttpGet("{subjectId}/submits/{subjectAssignmentSubmitId}")]

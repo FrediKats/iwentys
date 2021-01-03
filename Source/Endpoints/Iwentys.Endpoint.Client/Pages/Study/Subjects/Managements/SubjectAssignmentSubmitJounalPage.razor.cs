@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.Study.SubjectAssignments.Models;
 
-namespace Iwentys.Endpoint.Client.Pages.Study.Subjects
+namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Managements
 {
     public partial class SubjectAssignmentSubmitJounalPage
     {
