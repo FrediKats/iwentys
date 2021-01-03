@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Tournaments.Enums;
 using Iwentys.Features.Guilds.Tournaments.Models;
-using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Guilds.Tournaments.Entities
 {
@@ -20,7 +20,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Entities
         public bool FinishedManually { get; private set; }
         
         public int AuthorId { get; init; }
-        public virtual Student Author { get; init; }
+        public virtual IwentysUser Author { get; init; }
         public virtual ICollection<TournamentParticipantTeam> Teams { get; init; }
 
         public bool IsActive => DateTime.UtcNow < EndTime && !FinishedManually;
@@ -50,7 +50,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Entities
             };
         }
 
-        public void FinishManually(Student user)
+        public void FinishManually(IwentysUser user)
         {
             if (user.Id != AuthorId)
                 user.EnsureIsAdmin();

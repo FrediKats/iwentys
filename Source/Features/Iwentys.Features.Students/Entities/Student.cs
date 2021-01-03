@@ -11,7 +11,6 @@ namespace Iwentys.Features.Students.Entities
         public StudentType Type { get; init; }
         public int? GroupId { get; set; }
 
-        public DateTime GuildLeftTime { get; set; }
 
         public Student()
         {

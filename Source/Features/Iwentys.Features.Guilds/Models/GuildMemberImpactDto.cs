@@ -1,13 +1,13 @@
-﻿using Iwentys.Features.GithubIntegration.Models;
+﻿using Iwentys.Features.AccountManagement.Models;
+using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.Guilds.Enums;
-using Iwentys.Features.Students.Models;
 
 namespace Iwentys.Features.Guilds.Models
 {
     public record GuildMemberImpactDto
     {
         public GuildMemberImpactDto(
-            StudentInfoDto studentInfoDto,
+            IwentysUserInfoDto studentInfoDto,
             GuildMemberType memberType,
             ContributionFullInfo contribution) : this(studentInfoDto, memberType)
         {
@@ -16,7 +16,7 @@ namespace Iwentys.Features.Guilds.Models
         }
 
         public GuildMemberImpactDto(
-            StudentInfoDto studentInfoDto,
+            IwentysUserInfoDto studentInfoDto,
             GuildMemberType memberType) : this()
         {
             StudentInfoDto = studentInfoDto;
@@ -27,7 +27,7 @@ namespace Iwentys.Features.Guilds.Models
         {
         }
         
-        public StudentInfoDto StudentInfoDto { get; set; }
+        public IwentysUserInfoDto StudentInfoDto { get; set; }
         public ContributionFullInfo Contribution { get; set; }
         public GuildMemberType MemberType { get; set; }
         public int TotalRate { get; init; }

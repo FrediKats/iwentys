@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.GithubIntegration.Services;
@@ -12,7 +13,6 @@ using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Repositories;
-using Iwentys.Features.Students.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Services
@@ -22,7 +22,7 @@ namespace Iwentys.Features.Guilds.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IGenericRepository<Student> _studentRepository;
+        private readonly IGenericRepository<IwentysUser> _studentRepository;
         private readonly IGenericRepository<Guild> _guildRepositoryNew;
         private readonly IGenericRepository<GuildMember> _guildMemberRepository;
         private readonly IGenericRepository<GuildTestTaskSolution> _guildTestTaskSolvingInfoRepository;
@@ -36,7 +36,7 @@ namespace Iwentys.Features.Guilds.Services
 
             _unitOfWork = unitOfWork;
             _githubIntegrationService = githubIntegrationService;
-            _studentRepository = _unitOfWork.GetRepository<Student>();
+            _studentRepository = _unitOfWork.GetRepository<IwentysUser>();
             _guildRepositoryNew = _unitOfWork.GetRepository<Guild>();
             _guildMemberRepository = _unitOfWork.GetRepository<GuildMember>();
             _guildTestTaskSolvingInfoRepository = _unitOfWork.GetRepository<GuildTestTaskSolution>();
@@ -59,7 +59,7 @@ namespace Iwentys.Features.Guilds.Services
                 throw InnerLogicException.GuildExceptions.IsNotGuildMember(user.Id, guildId);
 
 
-            Student studentProfile = await _studentRepository.FindByIdAsync(user.Id);
+            IwentysUser studentProfile = await _studentRepository.FindByIdAsync(user.Id);
 
             var existedTestTask = await _guildTestTaskSolvingInfoRepository
                 .Get()
@@ -98,7 +98,7 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task<GuildTestTaskInfoResponse> Complete(AuthorizedUser user, int guildId, int taskSolveOwnerId)
         {
-            Student review = await _studentRepository.FindByIdAsync(user.Id);
+            IwentysUser review = await _studentRepository.FindByIdAsync(user.Id);
             await review.EnsureIsGuildMentor(_guildRepositoryNew, guildId);
 
             GuildTestTaskSolution testTask = _guildTestTaskSolvingInfoRepository

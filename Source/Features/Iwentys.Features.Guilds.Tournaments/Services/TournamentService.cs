@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Domain;
@@ -12,7 +13,6 @@ using Iwentys.Features.Guilds.Repositories;
 using Iwentys.Features.Guilds.Tournaments.Domain;
 using Iwentys.Features.Guilds.Tournaments.Entities;
 using Iwentys.Features.Guilds.Tournaments.Models;
-using Iwentys.Features.Students.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Tournaments.Services
@@ -23,7 +23,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
         private readonly GithubIntegrationService _githubIntegrationService;
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IGenericRepository<Student> _studentRepository;
+        private readonly IGenericRepository<IwentysUser> _studentRepository;
         private readonly IGenericRepository<Guild> _guildRepository;
         private readonly IGenericRepository<GuildMember> _guildMemberRepository;
         private readonly IGenericRepository<Tournament> _tournamentRepository;
@@ -35,7 +35,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Services
             _unitOfWork = unitOfWork;
             _achievementProvider = achievementProvider;
 
-            _studentRepository = _unitOfWork.GetRepository<Student>();
+            _studentRepository = _unitOfWork.GetRepository<IwentysUser>();
             _guildRepository = _unitOfWork.GetRepository<Guild>();
             _guildMemberRepository = _unitOfWork.GetRepository<GuildMember>();
             _tournamentRepository = _unitOfWork.GetRepository<Tournament>();

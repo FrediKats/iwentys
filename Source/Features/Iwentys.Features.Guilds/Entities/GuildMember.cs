@@ -2,9 +2,9 @@
 using System.Linq.Expressions;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Enums;
-using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Guilds.Entities
 {
@@ -14,7 +14,7 @@ namespace Iwentys.Features.Guilds.Entities
         {
         }
 
-        public GuildMember(Guild guild, Student student, GuildMemberType memberType)
+        public GuildMember(Guild guild, IwentysUser student, GuildMemberType memberType)
             : this(guild.Id, student.Id, memberType)
         {
         }
@@ -30,7 +30,7 @@ namespace Iwentys.Features.Guilds.Entities
         public virtual Guild Guild { get; init; }
 
         public int MemberId { get; init; }
-        public virtual Student Member { get; init; }
+        public virtual IwentysUser Member { get; init; }
 
         public GuildMemberType MemberType { get; private set; }
         

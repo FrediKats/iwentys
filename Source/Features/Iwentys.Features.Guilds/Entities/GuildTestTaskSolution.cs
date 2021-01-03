@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Enums;
-using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Guilds.Entities
 {
@@ -23,19 +23,19 @@ namespace Iwentys.Features.Guilds.Entities
         public virtual Guild Guild { get; init; }
         
         public int StudentId { get; init; }
-        public virtual Student Student { get; init; }
+        public virtual IwentysUser Student { get; init; }
 
         public long? ProjectId { get; set; }
         public virtual GithubProject Project { get; set; }
 
         public int? ReviewerId { get; set; }
-        public virtual Student Reviewer { get; set; }
+        public virtual IwentysUser Reviewer { get; set; }
         
         public DateTime StartTime { get; init; }
         public DateTime? SubmitTime { get; set; }
         public DateTime? CompleteTime { get; set; }
 
-        public static GuildTestTaskSolution Create(Guild guild, Student student)
+        public static GuildTestTaskSolution Create(Guild guild, IwentysUser student)
         {
             return new GuildTestTaskSolution
             {
@@ -53,7 +53,7 @@ namespace Iwentys.Features.Guilds.Entities
             SubmitTime = DateTime.UtcNow;
         }
 
-        public void SetCompleted(Student reviewer)
+        public void SetCompleted(IwentysUser reviewer)
         {
             ReviewerId = reviewer.Id;
             CompleteTime = DateTime.UtcNow;

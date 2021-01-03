@@ -1,6 +1,6 @@
 ﻿using System;
 using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.Students.Entities;
+using Iwentys.Features.AccountManagement.Entities;
 
 namespace Iwentys.Features.Quests.Entities
 {
@@ -10,7 +10,7 @@ namespace Iwentys.Features.Quests.Entities
         public virtual Quest Quest { get; init; }
 
         public int StudentId { get; init; }
-        public virtual Student Student { get; init; }
+        public virtual IwentysUser Student { get; init; }
 
         public DateTime ResponseTime { get; init; }
 

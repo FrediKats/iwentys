@@ -3,11 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Economy.Services;
 using Iwentys.Features.Quests.Entities;
 using Iwentys.Features.Quests.Models;
-using Iwentys.Features.Students.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Quests.Services
@@ -16,7 +16,7 @@ namespace Iwentys.Features.Quests.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         
-        private readonly IGenericRepository<Student> _studentRepository;
+        private readonly IGenericRepository<IwentysUser> _studentRepository;
         private readonly IGenericRepository<Quest> _questRepository;
         private readonly IGenericRepository<QuestResponse> _questResponseRepository;
 
@@ -30,7 +30,7 @@ namespace Iwentys.Features.Quests.Services
             _pointTransactionLogService = pointTransactionLogService;
             _unitOfWork = unitOfWork;
 
-            _studentRepository = _unitOfWork.GetRepository<Student>();
+            _studentRepository = _unitOfWork.GetRepository<IwentysUser>();
             _questRepository = _unitOfWork.GetRepository<Quest>();
             _questResponseRepository = _unitOfWork.GetRepository<QuestResponse>();
         }
@@ -81,7 +81,7 @@ namespace Iwentys.Features.Quests.Services
 
         public async Task<QuestInfoDto> CreateAsync(AuthorizedUser user, CreateQuestRequest createQuest)
         {
-            Student student = await _studentRepository.FindByIdAsync(user.Id);
+            IwentysUser student = await _studentRepository.FindByIdAsync(user.Id);
             var quest = Quest.New(student, createQuest);
             
             await _questRepository.InsertAsync(quest);

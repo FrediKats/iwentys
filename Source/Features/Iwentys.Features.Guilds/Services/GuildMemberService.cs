@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Repositories;
-using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Guilds.Services
 {
@@ -18,7 +18,7 @@ namespace Iwentys.Features.Guilds.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IGenericRepository<Student> _studentRepository;
+        private readonly IGenericRepository<IwentysUser> _userRepository;
         private readonly IGenericRepository<Guild> _guildRepository;
         private readonly IGenericRepository<GuildMember> _guildMemberRepository;
 
@@ -29,7 +29,7 @@ namespace Iwentys.Features.Guilds.Services
             _githubIntegrationService = githubIntegrationService;
 
             _unitOfWork = unitOfWork;
-            _studentRepository = _unitOfWork.GetRepository<Student>();
+            _userRepository = _unitOfWork.GetRepository<IwentysUser>();
             _guildRepository = _unitOfWork.GetRepository<Guild>();
             _guildMemberRepository = _unitOfWork.GetRepository<GuildMember>();
         }
@@ -41,7 +41,7 @@ namespace Iwentys.Features.Guilds.Services
             if (await guild.GetUserMembershipState(user.Id) != UserMembershipState.CanEnter)
                 throw new InnerLogicException($"Student unable to enter this guild! UserId: {user.Id} GuildId: {guildId}");
 
-            Student profile = await _studentRepository.GetByIdAsync(user.Id);
+            IwentysUser profile = await _userRepository.GetByIdAsync(user.Id);
             var guildMemberEntity = new GuildMember(guild.Profile, profile, GuildMemberType.Member);
             await _guildMemberRepository.InsertAsync(guildMemberEntity);
             await _unitOfWork.CommitAsync();
@@ -56,7 +56,7 @@ namespace Iwentys.Features.Guilds.Services
             if (await guild.GetUserMembershipState(user.Id) != UserMembershipState.CanRequest)
                 throw new InnerLogicException($"Student unable to send request to this guild! UserId: {user.Id} GuildId: {guildId}");
 
-            Student profile = await _studentRepository.GetByIdAsync(user.Id);
+            IwentysUser profile = await _userRepository.GetByIdAsync(user.Id);
             var guildMemberEntity = new GuildMember(guild.Profile, profile, GuildMemberType.Requested);
             await _guildMemberRepository.InsertAsync(guildMemberEntity);
             await _unitOfWork.CommitAsync();
@@ -84,7 +84,7 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task<GuildMember[]> GetGuildRequests(AuthorizedUser user, int guildId)
         {
-            Student student = await _studentRepository.GetByIdAsync(user.Id);
+            IwentysUser student = await _userRepository.GetByIdAsync(user.Id);
             Guild guild = await _guildRepository.GetByIdAsync(guildId);
 
             student.EnsureIsGuildMentor(guild);
@@ -96,7 +96,7 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task<GuildMember[]> GetGuildBlocked(AuthorizedUser user, int guildId)
         {
-            Student student = await _studentRepository.GetByIdAsync(user.Id);
+            IwentysUser student = await _userRepository.GetByIdAsync(user.Id);
             Guild guild = await _guildRepository.GetByIdAsync(guildId);
 
             student.EnsureIsGuildMentor(guild);
@@ -117,7 +117,7 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task UnblockStudent(AuthorizedUser user, int guildId, int studentId)
         {
-            Student student = await _studentRepository.GetByIdAsync(user.Id);
+            IwentysUser student = await _userRepository.GetByIdAsync(user.Id);
             Guild guild = await _guildRepository.GetByIdAsync(guildId);
             GuildMentor guildMentor = student.EnsureIsGuildMentor(guild);
 
@@ -140,7 +140,7 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task AcceptRequest(AuthorizedUser user, int guildId, int memberForAccepting)
         {
-            Student student = await _studentRepository.GetByIdAsync(user.Id);
+            IwentysUser student = await _userRepository.GetByIdAsync(user.Id);
             Guild guild = await _guildRepository.GetByIdAsync(guildId);
             GuildMember member = guild.Members.Find(m => m.MemberId == memberForAccepting) ?? throw EntityNotFoundException.Create(typeof(GuildMember), memberForAccepting);
 
@@ -153,7 +153,7 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task RejectRequest(AuthorizedUser user, int guildId, int studentId)
         {
-            Student initiator = await _studentRepository.GetByIdAsync(user.Id);
+            IwentysUser initiator = await _userRepository.GetByIdAsync(user.Id);
             Guild guild = await _guildRepository.GetByIdAsync(guildId);
             GuildMentor guildMentor = initiator.EnsureIsGuildMentor(guild);
 
@@ -173,7 +173,7 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task PromoteToMentor(AuthorizedUser creator, int userForPromotion)
         {
-            Student studentCreator = await _studentRepository.GetByIdAsync(creator.Id);
+            IwentysUser studentCreator = await _userRepository.GetByIdAsync(creator.Id);
             var guildMemberEntity = _guildMemberRepository.GetStudentMembership(creator.Id);
             var guildCreator = await studentCreator.EnsureIsCreator(_guildRepository, guildMemberEntity.GuildId);
             
@@ -187,7 +187,7 @@ namespace Iwentys.Features.Guilds.Services
 
         private GuildDomain CreateDomain(Guild guild)
         {
-            return new GuildDomain(guild, _githubIntegrationService, _studentRepository, _guildMemberRepository);
+            return new GuildDomain(guild, _githubIntegrationService, _userRepository, _guildMemberRepository);
         }
 
         private async Task RemoveMemberAsync(int guildId, int userId)

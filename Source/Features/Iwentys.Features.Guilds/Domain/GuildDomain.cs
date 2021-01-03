@@ -6,13 +6,13 @@ using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Entities;
+using Iwentys.Features.AccountManagement.Models;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Repositories;
-using Iwentys.Features.Students.Entities;
-using Iwentys.Features.Students.Models;
 
 namespace Iwentys.Features.Guilds.Domain
 {
@@ -21,18 +21,18 @@ namespace Iwentys.Features.Guilds.Domain
         public Guild Profile { get; }
 
         private readonly GithubIntegrationService _githubIntegrationService;
-        private readonly IGenericRepository<Student> _studentRepository;
+        private readonly IGenericRepository<IwentysUser> _userRepository;
         private readonly IGenericRepository<GuildMember> _guildMemberRepositoryNew;
 
         public GuildDomain(
             Guild profile,
             GithubIntegrationService githubIntegrationService,
-            IGenericRepository<Student> studentRepository,
+            IGenericRepository<IwentysUser> studentRepository,
             IGenericRepository<GuildMember> guildMemberRepositoryNew)
         {
             Profile = profile;
             _githubIntegrationService = githubIntegrationService;
-            _studentRepository = studentRepository;
+            _userRepository = studentRepository;
             _guildMemberRepositoryNew = guildMemberRepositoryNew;
         }
 
@@ -40,7 +40,7 @@ namespace Iwentys.Features.Guilds.Domain
         {
             var info = new ExtendedGuildProfileWithMemberDataDto(Profile)
             {
-                Leader = Profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentInfoDto(s)),
+                Leader = Profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new IwentysUserInfoDto(s)),
                 //TODO: Make method in Github service for getting projects for guild
                 PinnedRepositories = Profile.PinnedProjects.SelectToList(p => _githubIntegrationService.GetRepository(p.RepositoryOwner, p.RepositoryName).Result),
             };
@@ -58,7 +58,7 @@ namespace Iwentys.Features.Guilds.Domain
             foreach (var member in Profile.Members)
             {
                 var contributionFullInfo = await _githubIntegrationService.FindUserContributionOrEmpty(member.Member);
-                result.Add(new GuildMemberImpactDto(new StudentInfoDto(member.Member), member.MemberType, contributionFullInfo));
+                result.Add(new GuildMemberImpactDto(new IwentysUserInfoDto(member.Member), member.MemberType, contributionFullInfo));
             }
 
             return result;
@@ -72,7 +72,7 @@ namespace Iwentys.Features.Guilds.Domain
 
         public async Task<UserMembershipState> GetUserMembershipState(Int32 userId)
         {
-            Student user = await _studentRepository.GetByIdAsync(userId);
+            IwentysUser user = await _userRepository.GetByIdAsync(userId);
             Guild userGuild = _guildMemberRepositoryNew.ReadForStudent(user.Id);
             GuildMemberType? userStatusInGuild = Profile.Members.Find(m => m.Member.Id == user.Id)?.MemberType;
 
@@ -126,7 +126,7 @@ namespace Iwentys.Features.Guilds.Domain
 
         public async Task<GuildMember> EnsureMemberCanRestrictPermissionForOther(AuthorizedUser user, int memberToKickId)
         {
-            Student editorStudentAccount = await _studentRepository.GetByIdAsync(user.Id);
+            IwentysUser editorStudentAccount = await _userRepository.GetByIdAsync(user.Id);
             editorStudentAccount.EnsureIsGuildMentor(Profile);
 
             GuildMember memberToKick = Profile.Members.Find(m => m.MemberId == memberToKickId);

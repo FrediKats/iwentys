@@ -7,7 +7,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Iwentys.Features.Achievements\Iwentys.Features.Achievements.csproj" />
     <ProjectReference Include="..\Iwentys.Features.Economy\Iwentys.Features.Economy.csproj" />
-    <ProjectReference Include="..\Iwentys.Features.Students\Iwentys.Features.Students.csproj" />
   </ItemGroup>
 
 </Project>

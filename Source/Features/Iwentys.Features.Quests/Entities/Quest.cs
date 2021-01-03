@@ -4,9 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Quests.Enums;
 using Iwentys.Features.Quests.Models;
-using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Quests.Entities
 {
@@ -21,16 +21,16 @@ namespace Iwentys.Features.Quests.Entities
         public QuestState State { get; private set; }
 
         public int AuthorId { get; init; }
-        public virtual Student Author { get; init; }
+        public virtual IwentysUser Author { get; init; }
 
         public int? ExecutorId { get; private set; }
-        public virtual Student Executor { get; private set; }
+        public virtual IwentysUser Executor { get; private set; }
 
         public virtual ICollection<QuestResponse> Responses { get; init; }
 
         public bool IsOutdated => Deadline < DateTime.UtcNow;
 
-        public static Quest New(Student student, CreateQuestRequest createQuest)
+        public static Quest New(IwentysUser student, CreateQuestRequest createQuest)
         {
             if (student.BarsPoints < createQuest.Price)
                 throw InnerLogicException.NotEnoughBarsPoints();
@@ -49,7 +49,7 @@ namespace Iwentys.Features.Quests.Entities
             };
         }
 
-        public void Revoke(Student author)
+        public void Revoke(IwentysUser author)
         {
             if (AuthorId != author.Id)
                 throw InnerLogicException.NotEnoughPermissionFor(author.Id);
@@ -72,7 +72,7 @@ namespace Iwentys.Features.Quests.Entities
             return QuestResponse.New(Id, responseAuthor);
         }
 
-        public void MakeCompleted(AuthorizedUser author, Student executor)
+        public void MakeCompleted(AuthorizedUser author, IwentysUser executor)
         {
             if (AuthorId != author.Id)
                 throw InnerLogicException.NotEnoughPermissionFor(author.Id);
