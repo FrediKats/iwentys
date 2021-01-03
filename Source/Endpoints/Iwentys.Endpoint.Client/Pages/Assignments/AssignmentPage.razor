@@ -19,7 +19,6 @@
             <div>
                 @foreach (AssignmentInfoDto assignment in _assignment)
                 {
-                    //TODO: make generic style for card-like elements
                     <div class="card-list-element">
                         <MatCard Class="dark-elevation-01">
                             <MatCardContent>
@@ -32,7 +31,6 @@
                             <MatCardActions>
                                 @if (assignment.IsCompeted)
                                 {
-                                    //TODO: add undo
                                     <MatButton OnClick=@(async () => await Delete(assignment.Id))>Delete</MatButton>
                                     <MatButton OnClick=@(async () => await MakeUncompleted(assignment.Id))>Undo</MatButton>
                                 }

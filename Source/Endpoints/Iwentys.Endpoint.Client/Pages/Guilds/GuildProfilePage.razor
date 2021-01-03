@@ -2,6 +2,7 @@
 
 @using Iwentys.Endpoint.Client.CustomComponents
 @using Iwentys.Endpoint.Client.Pages.Guilds.Tributes
+@using Iwentys.Endpoint.Client.Pages.Tournaments
 
 @inherits DependencyInjectionPage
 
@@ -19,25 +20,7 @@
         <div class="col-md-6 d-flex flex-column">
             @if (_activeTournament is not null)
             {
-                //TODO: remove copy-paste
-                <div class="card-list-element">
-                    <MatCard Class="dark-elevation-02">
-                        <MatCardContent>
-                            <div class="card-list-element-content">
-                                <MatHeadline6>
-                                    @_activeTournament.Name
-                                </MatHeadline6>
-                                <MatBody2>
-                                    @_activeTournament.Description
-                                </MatBody2>
-                            </div>
-                        </MatCardContent>
-                        <MatCardActions>
-                            @*TODO: Make link?*@
-                            @*<MatButton Link=@LinkToTournamentProfile(tournament)>Open</MatButton>*@
-                        </MatCardActions>
-                    </MatCard>
-                </div>
+                <TournamentInfoComponent Tournament=@_activeTournament></TournamentInfoComponent>
             }
 
             <div class="profile-block dark-elevation-01">

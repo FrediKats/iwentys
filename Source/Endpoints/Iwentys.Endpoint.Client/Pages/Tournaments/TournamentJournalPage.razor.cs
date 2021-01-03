@@ -14,7 +14,5 @@ namespace Iwentys.Endpoint.Client.Pages.Tournaments
 
             _tournaments = await ClientHolder.Tournament.Get();
         }
-
-        private string LinkToTournamentProfile(TournamentInfoResponse tournamentInfo) => $"/tournaments/profile/{tournamentInfo.Id}";
     }
 }
