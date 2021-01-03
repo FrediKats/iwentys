@@ -16,7 +16,6 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects
             _subjectAssignmentSubmits = await ClientHolder.SubjectAssignment.GetSubjectAssignmentSubmits(SubjectId);
         }
 
-        //TODO: add comment sending
         private async Task Approve(SubjectAssignmentSubmitDto submit)
         {
             await ClientHolder.SubjectAssignment.SendFeedback(SubjectId, submit.Id, new SubjectAssignmentSubmitFeedbackArguments

@@ -14,7 +14,7 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects
         {
             await base.OnInitializedAsync();
 
-            //TODO: enshure user is teacher for this subject
+            //TODO: ensure user is teacher for this subject
             _subjectProfile = await ClientHolder.Subject.GetProfile(SubjectId);
             _subjectAssignments = await ClientHolder.SubjectAssignment.GetSubjectAssignmentForSubject(SubjectId);
         }

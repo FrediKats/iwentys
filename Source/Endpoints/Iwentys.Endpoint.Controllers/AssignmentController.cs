@@ -35,7 +35,6 @@ namespace Iwentys.Endpoint.Controllers
             return Ok(assignment);
         }
 
-        //TODO: rework verbs
         [HttpGet("{assignmentId}/complete")]
         public async Task<ActionResult> Complete(int assignmentId)
         {
@@ -52,7 +51,6 @@ namespace Iwentys.Endpoint.Controllers
             return Ok();
         }
 
-        //TODO: it isn't work =\
         [HttpGet("{assignmentId}/delete")]
         public async Task<ActionResult> Delete(int assignmentId)
         {

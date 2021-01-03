@@ -9,7 +9,6 @@ namespace Iwentys.Features.Assignments.Entities
 {
     public class Assignment
     {
-        //TODO: replace with init
         public int Id { get; set; }
         public string Title { get; init; }
         public string Description { get; init; }

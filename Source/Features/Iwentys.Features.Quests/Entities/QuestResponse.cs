@@ -4,7 +4,6 @@ using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Quests.Entities
 {
-    //TODO: add additional info from executor
     public class QuestResponse
     {
         public int QuestId { get; init; }

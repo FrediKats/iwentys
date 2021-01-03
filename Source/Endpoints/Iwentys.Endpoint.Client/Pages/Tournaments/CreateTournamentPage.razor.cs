@@ -14,14 +14,14 @@ namespace Iwentys.Endpoint.Client.Pages.Tournaments
 
         private async Task Create()
         {
-            //TODO: add validation
+            //FYI: WI5 add data validation
             var tournamentArguments = new CreateCodeMarathonTournamentArguments
             {
                 Name = _name,
                 Description = _description,
                 StartTime = _startTime.Value,
                 EndTime = _endTime.Value,
-                //TODO: implement selecting
+                //FYI: WI6 support other CodeMarathonAllowedActivityType
                 ActivityType = CodeMarathonAllowedActivityType.All,
                 MembersType = CodeMarathonAllowedMembersType.All,
             };

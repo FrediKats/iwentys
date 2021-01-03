@@ -2,9 +2,8 @@
 using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Students.Enums;
 
-namespace Iwentys.Features.Students.Domain
+namespace Iwentys.Features.Study.Domain
 {
-    //TODO: move to .Study
     public class GroupAdminUser
     {
         public GroupAdminUser(Student student)

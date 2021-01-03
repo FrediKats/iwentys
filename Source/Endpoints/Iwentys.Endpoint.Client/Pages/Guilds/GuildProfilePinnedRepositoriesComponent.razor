@@ -1,5 +1,4 @@
-﻿@using Blazored.LocalStorage
-@using Iwentys.Features.GithubIntegration.Models
+﻿@using Iwentys.Features.GithubIntegration.Models
 @using Iwentys.Features.Guilds.Models
 
 @namespace Iwentys.Endpoint.Client.Pages.Guilds
@@ -14,7 +13,7 @@
         {
 
             <MatNavItem class="d-flex flex-row justify-content-md-between">
-                @*TODO: fix link*@
+                @*BUG: invalid link*@
                 <NavLink href=@repository.Url>
                     <div class="col-md-10">
                         <MatBody2>@repository.Name</MatBody2>

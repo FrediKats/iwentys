@@ -6,8 +6,8 @@ using Iwentys.Common.Exceptions;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Assignments.Models;
-using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Study.Domain;
 using Iwentys.Features.Study.Entities;
 using Microsoft.EntityFrameworkCore;
 

@@ -4,7 +4,6 @@ namespace Iwentys.Features.AccountManagement.Entities
 {
     public class IwentysUser : UniversitySystemUser
     {
-        //TODO: remove setters
         public bool IsAdmin { get; set; }
         public string GithubUsername { get; set; }
         public DateTime CreationTime { get; init; }

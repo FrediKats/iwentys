@@ -49,7 +49,6 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
 
         private async Task RevokeQuest(QuestInfoDto quest)
         {
-            //TODO: refresh elements
             await ClientHolder.Quest.Revoke(quest.Id);
         }
 

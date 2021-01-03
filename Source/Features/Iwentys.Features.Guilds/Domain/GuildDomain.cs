@@ -41,7 +41,7 @@ namespace Iwentys.Features.Guilds.Domain
             var info = new ExtendedGuildProfileWithMemberDataDto(Profile)
             {
                 Leader = Profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new StudentInfoDto(s)),
-                //TODO; return result
+                //TODO: Make method in Github service for getting projects for guild
                 PinnedRepositories = Profile.PinnedProjects.SelectToList(p => _githubIntegrationService.GetRepository(p.RepositoryOwner, p.RepositoryName).Result),
             };
 

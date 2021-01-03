@@ -5,7 +5,6 @@ using Iwentys.Endpoint.Controllers.Tools;
 using Iwentys.Endpoint.Server.Source.Options;
 using Iwentys.Endpoint.Server.Source.Tokens;
 using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;

@@ -3,7 +3,6 @@
     public enum CodeMarathonAllowedMembersType
     {
         All,
-        //TODO: implement
         WithoutMentors
     }
 }

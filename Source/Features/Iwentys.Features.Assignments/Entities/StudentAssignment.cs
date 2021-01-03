@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.Assignments.Models;
-using Iwentys.Features.Students.Domain;
 using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Study.Domain;
 using Iwentys.Features.Study.Entities;
 
 namespace Iwentys.Features.Assignments.Entities
