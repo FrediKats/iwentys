@@ -29,28 +29,88 @@ namespace Iwentys.Database.Context
         }
 
         #region Account management
-
         public DbSet<UniversitySystemUser> UniversitySystemUsers { get; set; }
         public DbSet<IwentysUser> IwentysUsers { get; set; }
+        #endregion
 
+        #region Achievement
+        public DbSet<Achievement> Achievements { get; set; }
+        public DbSet<StudentAchievement> StudentAchievements { get; set; }
+        public DbSet<GuildAchievement> GuildAchievements { get; set; }
+        #endregion
+
+        #region Assignmens
+        public DbSet<Assignment> Assignments { get; set; }
+        public DbSet<StudentAssignment> StudentAssignments { get; set; }
+        #endregion
+
+        #region Companies
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<CompanyWorker> CompanyWorkers { get; set; }
+        #endregion
+
+        public DbSet<BarsPointTransaction> BarsPointTransactionLogs { get; set; }
+
+        #region Gamification
+        public DbSet<InterestTag> InterestTags { get; set; }
+        public DbSet<StudentInterestTag> UserInterestTags { get; set; }
+        public DbSet<KarmaUpVote> KarmaUpVotes { get; set; }
+        public DbSet<CourseLeaderboardRow> CourseLeaderboardRows { get; set; }
+        #endregion
+
+        #region Guilds
+        public DbSet<Guild> Guilds { get; set; }
+        public DbSet<GuildMember> GuildMembers { get; set; }
+        public DbSet<GuildPinnedProject> GuildPinnedProjects { get; set; }
+        public DbSet<GuildTestTaskSolution> GuildTestTaskSolvingInfos { get; set; }
+        public DbSet<GuildRecruitment> GuildRecruitment { get; set; }
+        public DbSet<GuildRecruitmentMember> GuildRecruitmentMembers { get; set; }
+        public DbSet<Tribute> Tributes { get; set; }
+        #endregion
+
+        #region Guild.Tournaments
+        public DbSet<Tournament> Tournaments { get; set; }
+        public DbSet<TournamentParticipantTeam> TournamentParticipantTeams { get; set; }
+        public DbSet<TournamentTeamMember> TournamentTeamMembers { get; set; }
+        public DbSet<CodeMarathonTournament> CodeMarathonTournaments { get; set; }
+        #endregion
+
+        #region Newsfeed
+        public DbSet<Newsfeed> Newsfeeds { get; set; }
+        public DbSet<SubjectNewsfeed> SubjectNewsfeeds { get; set; }
+        public DbSet<GuildNewsfeed> GuildNewsfeeds { get; set; }
+        #endregion
+
+        #region Quests
+        public DbSet<Quest> Quests { get; set; }
+        public DbSet<QuestResponse> QuestResponses { get; set; }
+        #endregion
+
+        #region Raids
+        public DbSet<Raid> Raids { get; set; }
+        public DbSet<RaidVisitor> RaidVisitors { get; set; }
+        public DbSet<RaidInterestTag> RaidInterestTags { get; set; }
+        public DbSet<RaidPartySearchRequest> PartySearchRequests { get; set; }
         #endregion
 
         public DbSet<Student> Students { get; set; }
         public DbSet<GithubProject> StudentProjects { get; set; }
         public DbSet<GithubUser> GithubUsersData { get; set; }
-        public DbSet<BarsPointTransaction> BarsPointTransactionLogs { get; set; }
-        public DbSet<Company> Companies { get; set; }
-        public DbSet<CompanyWorker> CompanyWorkers { get; set; }
 
-        public DbSet<Quest> Quests { get; set; }
-        public DbSet<QuestResponse> QuestResponses { get; set; }
+        #region Study
+        public DbSet<StudyGroup> StudyGroups { get; set; }
+        public DbSet<StudyProgram> StudyPrograms { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
+        public DbSet<SubjectActivity> SubjectActivities { get; set; }
+        public DbSet<GroupSubject> GroupSubjects { get; set; }
+        public DbSet<StudyCourse> StudyCourses { get; set; }
+        #endregion
 
-        public DbSet<Assignment> Assignments { get; set; }
-        public DbSet<StudentAssignment> StudentAssignments { get; set; }
-
-        public DbSet<Newsfeed> Newsfeeds { get; set; }
-        public DbSet<SubjectNewsfeed> SubjectNewsfeeds { get; set; }
-        public DbSet<GuildNewsfeed> GuildNewsfeeds { get; set; }
+        #region Study.Assignments
+        public DbSet<GroupSubjectAssignment> GroupSubjectAssignments { get; set; }
+        public DbSet<SubjectAssignment> SubjectAssignments { get; set; }
+        public DbSet<SubjectAssignmentSubmit> SubjectAssignmentSubmits { get; set; }
+        #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -108,52 +168,5 @@ namespace Iwentys.Database.Context
             foreach (IMutableForeignKey fk in cascadeFKs)
                 fk.DeleteBehavior = DeleteBehavior.Restrict;
         }
-
-        #region Gamification
-        public DbSet<InterestTag> InterestTags { get; set; }
-        public DbSet<StudentInterestTag> UserInterestTags { get; set; }
-        public DbSet<KarmaUpVote> KarmaUpVotes { get; set; }
-        public DbSet<CourseLeaderboardRow> CourseLeaderboardRows { get; set; }
-        #endregion
-
-        #region Guilds
-        public DbSet<Guild> Guilds { get; set; }
-        public DbSet<GuildMember> GuildMembers { get; set; }
-        public DbSet<GuildPinnedProject> GuildPinnedProjects { get; set; }
-        public DbSet<Tournament> Tournaments { get; set; }
-        public DbSet<TournamentParticipantTeam> TournamentParticipantTeams { get; set; }
-        public DbSet<TournamentTeamMember> TournamentTeamMembers { get; set; }
-        public DbSet<CodeMarathonTournament> CodeMarathonTournaments { get; set; }
-        public DbSet<Tribute> Tributes { get; set; }
-        public DbSet<GuildTestTaskSolution> GuildTestTaskSolvingInfos { get; set; }
-        public DbSet<GuildRecruitment> GuildRecruitment { get; set; }
-        public DbSet<GuildRecruitmentMember> GuildRecruitmentMembers { get; set; }
-        #endregion
-
-        #region Study
-        public DbSet<StudyGroup> StudyGroups { get; set; }
-        public DbSet<StudyProgram> StudyPrograms { get; set; }
-        public DbSet<Subject> Subjects { get; set; }
-        public DbSet<SubjectActivity> SubjectActivities { get; set; }
-        public DbSet<GroupSubject> GroupSubjects { get; set; }
-        public DbSet<StudyCourse> StudyCourses { get; set; }
-
-        public DbSet<GroupSubjectAssignment> GroupSubjectAssignments { get; set; }
-        public DbSet<SubjectAssignment> SubjectAssignments { get; set; }
-        public DbSet<SubjectAssignmentSubmit> SubjectAssignmentSubmits { get; set; }
-        #endregion
-
-        #region Achievement
-        public DbSet<Achievement> Achievements { get; set; }
-        public DbSet<StudentAchievement> StudentAchievements { get; set; }
-        public DbSet<GuildAchievement> GuildAchievements { get; set; }
-        #endregion
-
-        #region Raids
-        public DbSet<Raid> Raids { get; set; }
-        public DbSet<RaidVisitor> RaidVisitors { get; set; }
-        public DbSet<RaidInterestTag> RaidInterestTags { get; set; }
-        public DbSet<RaidPartySearchRequest> PartySearchRequests { get; set; }
-        #endregion
     }
 }

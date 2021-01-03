@@ -9,6 +9,7 @@ namespace Iwentys.Features.Newsfeeds.Entities
         public string Title { get; init; }
         public string Content { get; init; }
         public DateTime CreationTimeUtc { get; init; }
+        public DateTime LastUpdateTimeUtc { get; init; }
         public string SourceLink { get; init; }
 
         public int AuthorId { get; init; }

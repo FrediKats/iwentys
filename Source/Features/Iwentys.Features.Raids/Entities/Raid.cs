@@ -12,9 +12,10 @@ namespace Iwentys.Features.Raids.Entities
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public DateTime CreationTime { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public DateTime CreationTimeUtc { get; set; }
+        public DateTime LastUpdateTimeUtc { get; set; }
+        public DateTime StartTimeUtc { get; set; }
+        public DateTime EndTimeUtc { get; set; }
         public RaidType RaidType { get; set; }
 
         public int AuthorId { get; set; }
@@ -30,9 +31,9 @@ namespace Iwentys.Features.Raids.Entities
             {
                 Title = arguments.Title,
                 Description = arguments.Description,
-                CreationTime = DateTime.UtcNow,
-                StartTime = arguments.StartTimeUtc,
-                EndTime = arguments.EndTimeUtc,
+                CreationTimeUtc = DateTime.UtcNow,
+                StartTimeUtc = arguments.StartTimeUtc,
+                EndTimeUtc = arguments.EndTimeUtc,
                 RaidType = RaidType.PublicLecture,
                 AuthorId = admin.User.Id
             };

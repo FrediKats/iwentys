@@ -18,7 +18,10 @@ namespace Iwentys.Features.Study.SubjectAssignments.Entities
         public string Title { get; set; }
         public string Description { get; set; }
         public string Link { get; set; }
-        //TODO: add deadline etc?
+
+        public DateTime CreationTimeUtc { get; set; }
+        public DateTime LastUpdateTimeUtc { get; set; }
+        public DateTime DeadlineTimeUtc { get; set; }
         //TODO: add author
 
         //TODO: move to GroupSubjectAssignment?
