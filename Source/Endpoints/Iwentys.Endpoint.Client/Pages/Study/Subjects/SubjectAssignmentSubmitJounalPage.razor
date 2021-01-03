@@ -3,12 +3,15 @@
 @using Iwentys.Features.Study.SubjectAssignments.Models
 @inherits DependencyInjectionPage
 
-<h3>SubjectAssignmentSubmitJounalPage</h3>
+<h3>SubjectAssignmentSubmitJounalPage (double click works fine!)</h3>
 
 @if (_subjectAssignmentSubmits is not null)
 {
     <div>
-        <MatTable Items="@_subjectAssignmentSubmits" class="dark-elevation-01">
+    <MatTable
+        Items="@_subjectAssignmentSubmits"
+        OnRowDbClick=@NavigateToSubmitPage
+        class="dark-elevation-01">
             <MatTableHeader>
                 <th>Assignment</th>
                 <th>Student</th>
@@ -26,49 +29,6 @@
                 <td>@context.RejectTimeUtc</td>
             </MatTableRow>
         </MatTable>
-
-        @*@foreach (SubjectAssignmentSubmitDto submit in _subjectAssignmentSubmits)
-        {
-            <div class="card-list-element">
-                <MatCard Class="dark-elevation-01">
-                    <MatCardContent>
-                        <div class="card-list-element-content">
-                            <MatHeadline6>
-                                @submit.Student.GetFullName()
-                            </MatHeadline6>
-                            @switch (submit.GetState())
-                            {
-                                case SubjectAssignmentSubmitDto.AssignmentSubmitState.Open:
-                                    break;
-                                case SubjectAssignmentSubmitDto.AssignmentSubmitState.Approved:
-                                    <MatBody2>
-                                        Approved (@submit.ApproveTimeUtc)
-                                    </MatBody2>
-                                    break;
-                                case SubjectAssignmentSubmitDto.AssignmentSubmitState.Rejected:
-                                    <MatBody2>
-                                        Rejected (@submit.RejectTimeUtc)
-                                    </MatBody2>
-                                    break;
-                                default:
-                                    throw new ArgumentOutOfRangeException();
-                            }
-                        </div>
-                    </MatCardContent>
-                    <MatCardActions>
-                        @if (submit.ApproveTimeUtc is null)
-                        {
-                            <MatButton OnClick=@(async () => await Approve(submit))>Approve</MatButton>
-                        }
-
-                        @if (submit.RejectTimeUtc is null)
-                        {
-                            <MatButton OnClick=@(async () => await Reject(submit))>Reject</MatButton>
-                        }
-                    </MatCardActions>
-                </MatCard>
-            </div>
-        }*@
     </div>
 }
 

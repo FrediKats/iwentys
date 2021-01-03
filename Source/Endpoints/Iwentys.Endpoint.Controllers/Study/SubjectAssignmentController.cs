@@ -51,6 +51,14 @@ namespace Iwentys.Endpoint.Controllers.Study
             return Ok(submits);
         }
 
+        [HttpGet("{subjectId}/submits/{subjectAssignmentSubmitId}")]
+        public async Task<ActionResult<SubjectAssignmentSubmitDto>> GetSubjectAssignmentSubmit(int subjectId, int subjectAssignmentSubmitId)
+        {
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            SubjectAssignmentSubmitDto result = await _subjectAssignmentService.GetSubjectAssignmentSubmit(authorizedUser, subjectAssignmentSubmitId);
+            return Ok(result);
+        }
+
         [HttpPost("{subjectId}/submits/{subjectAssignmentSubmitId}")]
         public async Task<ActionResult> SendFeedback(int subjectId, int subjectAssignmentSubmitId, [FromBody] SubjectAssignmentSubmitFeedbackArguments arguments)
         {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Features.Study.SubjectAssignments.Enums;
+using Iwentys.Common.Exceptions;
 using Iwentys.Features.Study.SubjectAssignments.Models;
 
 namespace Iwentys.Endpoint.Client.Pages.Study.Subjects
@@ -16,26 +16,12 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects
             _subjectAssignmentSubmits = await ClientHolder.SubjectAssignment.GetSubjectAssignmentSubmits(SubjectId);
         }
 
-        private async Task Approve(SubjectAssignmentSubmitDto submit)
+        private void NavigateToSubmitPage(object row)
         {
-            await ClientHolder.SubjectAssignment.SendFeedback(SubjectId, submit.Id, new SubjectAssignmentSubmitFeedbackArguments
-            {
-                Comment = "Smth",
-                FeedbackType = FeedbackType.Approve
-            });
+            if (row is not SubjectAssignmentSubmitDto submit)
+                throw new IwentysException("Something goes wrong.");
 
-            _subjectAssignmentSubmits = await ClientHolder.SubjectAssignment.GetSubjectAssignmentSubmits(SubjectId);
-        }
-
-        private async Task Reject(SubjectAssignmentSubmitDto submit)
-        {
-            await ClientHolder.SubjectAssignment.SendFeedback(SubjectId, submit.Id, new SubjectAssignmentSubmitFeedbackArguments
-            {
-                Comment = "Smth",
-                FeedbackType = FeedbackType.Reject
-            });
-
-            _subjectAssignmentSubmits = await ClientHolder.SubjectAssignment.GetSubjectAssignmentSubmits(SubjectId);
+            NavigationManager.NavigateTo($"/subject/{SubjectId}/assignments/submits/{submit.Id}");
         }
     }
 }

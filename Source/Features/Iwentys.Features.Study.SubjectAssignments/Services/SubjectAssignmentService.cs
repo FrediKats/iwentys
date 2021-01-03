@@ -43,7 +43,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
                 .Select(SubjectAssignmentDto.FromEntity)
                 .ToListAsync();
         }
-
+        
         public async Task<List<SubjectAssignmentDto>> GetSubjectAssignmentForSubject(AuthorizedUser user, int subjectId)
         {
             return await _subjectAssignmentRepository
@@ -93,6 +93,15 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
 
             await _subjectAssignmentSubmitRepository.InsertAsync(subjectAssignmentSubmit);
             await _unitOfWork.CommitAsync();
+        }
+
+        public async Task<SubjectAssignmentSubmitDto> GetSubjectAssignmentSubmit(AuthorizedUser user, int subjectAssignmentSubmitId)
+        {
+            return await _subjectAssignmentSubmitRepository
+                .Get()
+                .Where(sas => sas.Id == subjectAssignmentSubmitId)
+                .Select(sas => new SubjectAssignmentSubmitDto(sas))
+                .SingleAsync();
         }
 
         //TODO: check permission
