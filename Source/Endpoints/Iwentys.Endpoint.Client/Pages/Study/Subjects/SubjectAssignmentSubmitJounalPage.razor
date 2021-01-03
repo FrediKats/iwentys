@@ -1,5 +1,6 @@
 ﻿@page "/subject/{SubjectId:int}/assignments/submits"
 
+@using Iwentys.Features.Study.SubjectAssignments.Models
 @inherits DependencyInjectionPage
 
 <h3>SubjectAssignmentSubmitJounalPage</h3>
@@ -7,7 +8,7 @@
 @if (_subjectAssignmentSubmits is not null)
 {
     <div>
-        @foreach (var submit in _subjectAssignmentSubmits)
+        @foreach (SubjectAssignmentSubmitDto submit in _subjectAssignmentSubmits)
         {
             //TODO: make generic style for card-like elements
             <div class="card-list-element">
@@ -17,11 +18,32 @@
                             <MatHeadline6>
                                 @submit.Student.GetFullName()
                             </MatHeadline6>
-                            <MatBody2>
-                                Submitted at @submit.SubmitTimeUtc
-                            </MatBody2>
+                            @if (submit.ApproveTimeUtc is not null)
+                            {
+                                <MatBody2>
+                                    Approved (@submit.ApproveTimeUtc)
+                                </MatBody2>
+                            }
+
+                            @if (submit.RejectTimeUtc is not null)
+                            {
+                                <MatBody2>
+                                    Rejected (@submit.RejectTimeUtc)
+                                </MatBody2>
+                            }
                         </div>
                     </MatCardContent>
+                    <MatCardActions>
+                        @if (submit.ApproveTimeUtc is null)
+                        {
+                            <MatButton OnClick=@(async () => await Approve(submit))>Approve</MatButton>
+                        }
+
+                        @if (submit.RejectTimeUtc is null)
+                        {
+                            <MatButton OnClick=@(async () => await Reject(submit))>Reject</MatButton>
+                        }
+                    </MatCardActions>
                 </MatCard>
             </div>
 

@@ -95,12 +95,16 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
             await _unitOfWork.CommitAsync();
         }
 
+        //TODO: check permission
         public async Task SendFeedback(AuthorizedUser user, int subjectAssignmentSubmitId, SubjectAssignmentSubmitFeedbackArguments assignment)
         {
             SubjectAssignmentSubmit subjectAssignmentSubmit = await _subjectAssignmentSubmitRepository.GetByIdAsync(subjectAssignmentSubmitId);
             IwentysUser iwentysUser = await _iwentysUserRepository.GetByIdAsync(user.Id);
 
             subjectAssignmentSubmit.ApplyFeedback(iwentysUser, assignment);
+
+            _subjectAssignmentSubmitRepository.Update(subjectAssignmentSubmit);
+            await _unitOfWork.CommitAsync();
         }
     }
 }

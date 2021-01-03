@@ -40,5 +40,12 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
                 .Request($"api/subject-assignment/{subjectId}/submits")
                 .GetJsonAsync<List<SubjectAssignmentSubmitDto>>();
         }
+
+        public Task SendFeedback(int subjectId, int subjectAssignmentSubmitId, SubjectAssignmentSubmitFeedbackArguments arguments)
+        {
+            return new FlurlClient(Client)
+                .Request($"api/subject-assignment/{subjectId}/submits/{subjectAssignmentSubmitId}")
+                .PostJsonAsync(arguments);
+        }
     }
 }
