@@ -50,8 +50,7 @@ namespace Iwentys.Tests.Features.Guilds
                     new GuildMember(1, 1, GuildMemberType.Creator)
                 },
                 HiringPolicy = GuildHiringPolicy.Open,
-                PinnedProjects = new List<GuildPinnedProject>(),
-                Achievements = new List<GuildAchievement>()
+                PinnedProjects = new List<GuildPinnedProject>()
             };
 
             //_tributeRepository = new Mock<IGenericRepository<Tribute>>();

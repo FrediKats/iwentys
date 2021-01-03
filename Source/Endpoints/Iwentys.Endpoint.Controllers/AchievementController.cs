@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/achievements")]
     [ApiController]
     public class AchievementController : ControllerBase
     {
@@ -16,10 +16,17 @@ namespace Iwentys.Endpoint.Controllers
             _achievementService = achievementService;
         }
 
-        [HttpGet("for-student")]
+        [HttpGet("students/{studentId}")]
         public ActionResult<List<AchievementDto>> GetForStudent(int studentId)
         {
             List<AchievementDto> achievementDtos = _achievementService.GetForStudent(studentId);
+            return Ok(achievementDtos);
+        }
+
+        [HttpGet("guilds/{guildId}")]
+        public ActionResult<List<AchievementDto>> GetForGuild(int guildId)
+        {
+            List<AchievementDto> achievementDtos = _achievementService.GetForGuild(guildId);
             return Ok(achievementDtos);
         }
     }

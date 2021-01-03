@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.Achievements.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Students.Entities;
@@ -23,8 +22,6 @@ namespace Iwentys.Features.Guilds.Entities
         public virtual List<GuildPinnedProject> PinnedProjects { get; init; } = new List<GuildPinnedProject>();
         public virtual List<GuildTestTaskSolution> TestTasks { get; init; } = new List<GuildTestTaskSolution>();
         
-        public virtual List<GuildAchievement> Achievements { get; init; } = new List<GuildAchievement>();
-
         public static Guild Create(Student creator, GuildCreateRequestDto arguments)
         {
             var newGuild = new Guild

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Iwentys.Features.Achievements.Models;
 using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Tournaments.Models;
 using Iwentys.Features.Guilds.Tributes.Models;
@@ -12,6 +13,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
         private ExtendedGuildProfileWithMemberDataDto _guild;
         private GuildMemberLeaderBoardDto _memberLeaderBoard;
         private List<NewsfeedViewModel> _newsfeeds;
+        private List<AchievementDto> _achievements;
         private TributeInfoResponse _activeTribute;
         private TournamentInfoResponse _activeTournament;
         
@@ -24,6 +26,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
             _memberLeaderBoard = await ClientHolder.Guild.GetGuildMemberLeaderBoard(_guild.Id);
             _activeTribute = await ClientHolder.GuildTribute.FindStudentActiveTribute();
             _activeTournament = await ClientHolder.Tournament.FindGuildActiveTournament(_guild.Id);
+            _achievements = await ClientHolder.Achievement.GetForGuild(GuildId);
         }
 
         private string LinkToCreateNewsfeedPage()
