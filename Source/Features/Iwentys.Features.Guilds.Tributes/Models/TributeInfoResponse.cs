@@ -16,9 +16,9 @@ namespace Iwentys.Features.Guilds.Tributes.Models
         public int? DifficultLevel { get; set; }
         public int? Mark { get; set; }
         public DateTime CreationTimeUtc { get; set; }
+        public DateTime LastUpdateTimeUtc { get; private set; }
 
         public StudentInfoDto Mentor { get; set; }
-        public int? MentorId { get; set; }
 
         public static Expression<Func<Tribute, TributeInfoResponse>> FromEntity =>
             project =>
@@ -37,6 +37,7 @@ namespace Iwentys.Features.Guilds.Tributes.Models
                     DifficultLevel = project.DifficultLevel,
                     Mark = project.Mark,
                     CreationTimeUtc = project.CreationTimeUtc,
+                    LastUpdateTimeUtc = project.LastUpdateTimeUtc,
                     Mentor = project.Mentor == null ? null : new StudentInfoDto(project.Mentor)
                 };
 
@@ -50,6 +51,7 @@ namespace Iwentys.Features.Guilds.Tributes.Models
                 DifficultLevel = project.DifficultLevel,
                 Mark = project.Mark,
                 CreationTimeUtc = project.CreationTimeUtc,
+                LastUpdateTimeUtc = project.LastUpdateTimeUtc,
                 Mentor = project.Mentor is null ? null : new StudentInfoDto(project.Mentor)
             };
         }

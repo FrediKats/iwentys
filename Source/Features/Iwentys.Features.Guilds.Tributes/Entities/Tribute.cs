@@ -25,6 +25,7 @@ namespace Iwentys.Features.Guilds.Tributes.Entities
             ProjectId = project.Id;
             State = TributeState.Active;
             CreationTimeUtc = DateTime.UtcNow;
+            LastUpdateTimeUtc = CreationTimeUtc;
         }
 
         [Key]
@@ -44,6 +45,7 @@ namespace Iwentys.Features.Guilds.Tributes.Entities
         public int? Mark { get; private set; }
         public string Comment { get; private set; }
         public DateTime CreationTimeUtc { get; init; }
+        public DateTime LastUpdateTimeUtc { get; private set; }
 
         public static Tribute Create(Guild guild, Student student, GithubProject project, List<Tribute> allTributes)
         {
@@ -67,6 +69,7 @@ namespace Iwentys.Features.Guilds.Tributes.Entities
                 throw InnerLogicException.TributeExceptions.IsNotActive(ProjectId);
 
             State = TributeState.Canceled;
+            LastUpdateTimeUtc = DateTime.UtcNow;
         }
 
         public void SetCompleted(int mentorId, TributeCompleteRequest tributeCompleteRequest)
@@ -79,6 +82,7 @@ namespace Iwentys.Features.Guilds.Tributes.Entities
             Mark = tributeCompleteRequest.Mark;
             Comment = tributeCompleteRequest.Comment;
             State = TributeState.Completed;
+            LastUpdateTimeUtc = DateTime.UtcNow;
         }
 
         public static Expression<Func<Tribute, bool>> IsActive => tribute => tribute.State == TributeState.Active;

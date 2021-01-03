@@ -109,6 +109,7 @@ namespace Iwentys.Features.Guilds.Tributes.Services
                 .SingleAsync();
         }
 
+        //TODO: looks like hack or method from other service
         public async Task<GithubProject> GetOrCreateAsync(GithubRepositoryInfoDto project, Student creator)
         {
             GithubProject githubProject = await _studentProjectRepository.FindByIdAsync(project.Id);
