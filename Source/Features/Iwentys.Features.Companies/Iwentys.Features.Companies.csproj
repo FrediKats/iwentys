@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Iwentys.Features.Students\Iwentys.Features.Students.csproj" />
+    <ProjectReference Include="..\Iwentys.Features.AccountManagement\Iwentys.Features.AccountManagement.csproj" />
   </ItemGroup>
 
 </Project>

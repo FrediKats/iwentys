@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Models;
 using Iwentys.Features.Companies.Models;
-using Iwentys.Features.Students.Models;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -19,7 +19,7 @@ namespace Iwentys.Tests.Features
                 .WithCompany(out CompanyInfoDto company)
                 .WithCompanyWorker(company, out AuthorizedUser user);
 
-            List<StudentInfoDto> companyMembers = (await testCase.CompanyService.GetAsync(company.Id)).Workers;
+            List<IwentysUserInfoDto> companyMembers = (await testCase.CompanyService.GetAsync(company.Id)).Workers;
 
             Assert.IsTrue(companyMembers.Any(cw => cw.Id == user.Id));
         }
@@ -36,7 +36,7 @@ namespace Iwentys.Tests.Features
             List<CompanyWorkRequestDto> companyRequests = await testCase.CompanyService.GetCompanyWorkRequest();
             CompanyInfoDto companyInfo = await testCase.CompanyService.GetAsync(company.Id);
 
-            List<StudentInfoDto> companyMembers = companyInfo.Workers;
+            List<IwentysUserInfoDto> companyMembers = companyInfo.Workers;
 
             Assert.IsFalse(companyMembers.Any(cw => cw.Id == worker.Id));
             Assert.IsTrue(companyRequests.Any(cr => cr.Worker.Id == worker.Id));

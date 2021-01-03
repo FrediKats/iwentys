@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Raids.Enums;
 using Iwentys.Features.Raids.Models;
-using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Raids.Entities
 {
@@ -19,7 +19,7 @@ namespace Iwentys.Features.Raids.Entities
         public RaidType RaidType { get; set; }
 
         public int AuthorId { get; set; }
-        public virtual Student Author { get; set; }
+        public virtual IwentysUser Author { get; set; }
 
         public virtual ICollection<RaidVisitor> Visitors { get; set; }
         public virtual ICollection<RaidInterestTag> InterestTags { get; set; }
@@ -39,7 +39,7 @@ namespace Iwentys.Features.Raids.Entities
             };
         }
 
-        public RaidVisitor RegisterVisitor(Student visitor)
+        public RaidVisitor RegisterVisitor(IwentysUser visitor)
         {
             if (RaidType == RaidType.PublicLecture)
             {

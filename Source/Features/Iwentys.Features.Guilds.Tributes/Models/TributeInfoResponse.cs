@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Iwentys.Features.AccountManagement.Models;
 using Iwentys.Features.Guilds.Tributes.Entities;
 using Iwentys.Features.Guilds.Tributes.Enums;
 using Iwentys.Features.Students.Models;
@@ -18,7 +19,7 @@ namespace Iwentys.Features.Guilds.Tributes.Models
         public DateTime CreationTimeUtc { get; set; }
         public DateTime LastUpdateTimeUtc { get; private set; }
 
-        public StudentInfoDto Mentor { get; set; }
+        public IwentysUserInfoDto Mentor { get; set; }
 
         public static Expression<Func<Tribute, TributeInfoResponse>> FromEntity =>
             project =>
@@ -38,7 +39,7 @@ namespace Iwentys.Features.Guilds.Tributes.Models
                     Mark = project.Mark,
                     CreationTimeUtc = project.CreationTimeUtc,
                     LastUpdateTimeUtc = project.LastUpdateTimeUtc,
-                    Mentor = project.Mentor == null ? null : new StudentInfoDto(project.Mentor)
+                    Mentor = project.Mentor == null ? null : new IwentysUserInfoDto(project.Mentor)
                 };
 
         public static TributeInfoResponse Wrap(Tribute project)
@@ -52,7 +53,7 @@ namespace Iwentys.Features.Guilds.Tributes.Models
                 Mark = project.Mark,
                 CreationTimeUtc = project.CreationTimeUtc,
                 LastUpdateTimeUtc = project.LastUpdateTimeUtc,
-                Mentor = project.Mentor is null ? null : new StudentInfoDto(project.Mentor)
+                Mentor = project.Mentor is null ? null : new IwentysUserInfoDto(project.Mentor)
             };
         }
     }

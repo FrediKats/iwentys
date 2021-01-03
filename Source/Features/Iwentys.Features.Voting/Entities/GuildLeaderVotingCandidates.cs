@@ -1,4 +1,4 @@
-﻿using Iwentys.Features.Students.Entities;
+﻿using Iwentys.Features.AccountManagement.Entities;
 
 namespace Iwentys.Features.Voting.Entities
 {
@@ -8,6 +8,6 @@ namespace Iwentys.Features.Voting.Entities
         public virtual Voting Voting { get; init; }
 
         public int CandidateId { get; init; }
-        public virtual Student Candidate { get; init; }
+        public virtual IwentysUser Candidate { get; init; }
     }
 }

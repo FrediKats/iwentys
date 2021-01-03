@@ -1,6 +1,6 @@
 ﻿using Iwentys.Common.Exceptions;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Raids.Enums;
-using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Raids.Entities
 {
@@ -10,7 +10,7 @@ namespace Iwentys.Features.Raids.Entities
         public virtual Raid Raid { get; set; }
 
         public int VisitorId { get; set; }
-        public virtual Student Visitor { get; set; }
+        public virtual IwentysUser Visitor { get; set; }
 
         public RaidVisitorRole Role { get; set; }
 

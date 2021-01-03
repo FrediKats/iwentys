@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Assignments.Models;
-using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Study.Entities;
 
 namespace Iwentys.Features.Assignments.Entities
@@ -16,14 +16,14 @@ namespace Iwentys.Features.Assignments.Entities
         public DateTime? Deadline { get; init; }
 
         public int CreatorId { get; init; }
-        public virtual Student Creator { get; init; }
+        public virtual IwentysUser Creator { get; init; }
 
         public int? SubjectId { get; init; }
         public virtual Subject Subject { get; init; }
 
         public virtual ICollection<StudentAssignment> StudentAssignments { get; init; }
 
-        public static Assignment Create(Student creator, AssignmentCreateRequestDto assignmentCreateRequestDto)
+        public static Assignment Create(IwentysUser creator, AssignmentCreateRequestDto assignmentCreateRequestDto)
         {
             return new Assignment
             {
@@ -36,7 +36,7 @@ namespace Iwentys.Features.Assignments.Entities
             };
         }
 
-        public StudentAssignment MarkCompleted(Student student)
+        public StudentAssignment MarkCompleted(IwentysUser student)
         {
             StudentAssignment studentAssignment = StudentAssignments.First(sa => sa.StudentId == student.Id);
 
@@ -45,7 +45,7 @@ namespace Iwentys.Features.Assignments.Entities
             return studentAssignment;
         }
 
-        public StudentAssignment MarkUncompleted(Student student)
+        public StudentAssignment MarkUncompleted(IwentysUser student)
         {
             StudentAssignment studentAssignment = StudentAssignments.First(sa => sa.StudentId == student.Id);
 

@@ -1,16 +1,16 @@
-﻿using Iwentys.Features.Raids.Entities;
-using Iwentys.Features.Students.Models;
+﻿using Iwentys.Features.AccountManagement.Models;
+using Iwentys.Features.Raids.Entities;
 
 namespace Iwentys.Features.Raids.Models
 {
     public class RaidPartySearchRequestDto
     {
-        public StudentInfoDto Author { get; set; }
+        public IwentysUserInfoDto Author { get; set; }
         public string Description { get; set; }
 
         public RaidPartySearchRequestDto(RaidPartySearchRequest request) : this()
         {
-            Author = new StudentInfoDto(request.Author);
+            Author = new IwentysUserInfoDto(request.Author);
             Description = request.Description;
         }
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq.Expressions;
 using Iwentys.Common.Exceptions;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Companies.Entities;
 using Iwentys.Features.Companies.Enums;
-using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Companies.Models
 {
@@ -17,7 +17,7 @@ namespace Iwentys.Features.Companies.Models
             return new CompanyWorkRequestDto(new CompanyInfoDto(worker.Company), worker.Worker);
         }
 
-        public CompanyWorkRequestDto(CompanyInfoDto company, Student worker)
+        public CompanyWorkRequestDto(CompanyInfoDto company, IwentysUser worker)
         {
             Company = company;
             Worker = worker;
@@ -30,6 +30,6 @@ namespace Iwentys.Features.Companies.Models
         public static Expression<Func<CompanyWorker, CompanyWorkRequestDto>> FromEntity => entity => Create(entity);
         
         public CompanyInfoDto Company { get; init; }
-        public Student Worker { get; init; }
+        public IwentysUser Worker { get; init; }
     }
 }

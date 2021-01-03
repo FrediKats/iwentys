@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Iwentys.Features.AccountManagement.Models;
 using Iwentys.Features.Assignments.Entities;
-using Iwentys.Features.Students.Models;
 using Iwentys.Features.Study.Entities;
 
 namespace Iwentys.Features.Assignments.Models
 {
     public record AssignmentInfoDto
     {
-        public AssignmentInfoDto(int id, string title, string description, DateTime creationTime, DateTime? deadline, StudentInfoDto creator, Subject subject, bool isCompeted)
+        public AssignmentInfoDto(int id, string title, string description, DateTime creationTime, DateTime? deadline, IwentysUserInfoDto creator, Subject subject, bool isCompeted)
         {
             Id = id;
             Title = title;
@@ -27,7 +27,7 @@ namespace Iwentys.Features.Assignments.Models
                 studentAssignment.Assignment.Description,
                 studentAssignment.Assignment.CreationTimeUtc,
                 studentAssignment.Assignment.Deadline,
-                new StudentInfoDto(studentAssignment.Assignment.Creator),
+                new IwentysUserInfoDto(studentAssignment.Assignment.Creator),
                 studentAssignment.Assignment.Subject,
                 studentAssignment.IsCompleted)
         {
@@ -44,7 +44,7 @@ namespace Iwentys.Features.Assignments.Models
         public string Description { get; init; }
         public DateTime CreationTime { get; init; }
         public DateTime? Deadline { get; init; }
-        public StudentInfoDto Creator { get; init; }
+        public IwentysUserInfoDto Creator { get; init; }
         public Subject Subject { get; init; }
         public bool IsCompeted { get; init; }
     }

@@ -8,7 +8,6 @@ using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Companies.Entities;
 using Iwentys.Features.Companies.Models;
-using Iwentys.Features.Students.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Companies.Services
@@ -19,7 +18,7 @@ namespace Iwentys.Features.Companies.Services
         
         private readonly IGenericRepository<CompanyWorker> _companyWorkerRepository;
         private readonly IGenericRepository<Company> _companyRepository;
-        private readonly IGenericRepository<Student> _studentRepository;
+        private readonly IGenericRepository<IwentysUser> _studentRepository;
         private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
 
         public CompanyService(IUnitOfWork unitOfWork)
@@ -28,7 +27,7 @@ namespace Iwentys.Features.Companies.Services
             
             _companyRepository = _unitOfWork.GetRepository<Company>();
             _companyWorkerRepository = _unitOfWork.GetRepository<CompanyWorker>();
-            _studentRepository = _unitOfWork.GetRepository<Student>();
+            _studentRepository = _unitOfWork.GetRepository<IwentysUser>();
             _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
         }
 
@@ -55,7 +54,7 @@ namespace Iwentys.Features.Companies.Services
         public async Task RequestAdding(int companyId, int userId)
         {
             Company company = await _companyRepository.FindByIdAsync(companyId);
-            Student profile = await _studentRepository.FindByIdAsync(userId);
+            IwentysUser profile = await _studentRepository.FindByIdAsync(userId);
             
             List<CompanyWorker> workerRequests = await _companyWorkerRepository.Get().Where(CompanyWorker.IsRequested).ToListAsync();
             if (workerRequests.Any(r => r.WorkerId == profile.Id))

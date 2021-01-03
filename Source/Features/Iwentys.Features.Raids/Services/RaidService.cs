@@ -6,7 +6,6 @@ using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Raids.Entities;
 using Iwentys.Features.Raids.Models;
-using Iwentys.Features.Students.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Raids.Services
@@ -16,7 +15,6 @@ namespace Iwentys.Features.Raids.Services
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
-        private readonly IGenericRepository<Student> _studentRepository;
         private readonly IGenericRepository<Raid> _raidRepository;
         private readonly IGenericRepository<RaidVisitor> _raidVisitorRepository;
         private readonly IGenericRepository<RaidPartySearchRequest> _raidPartySearchRequestRepository;
@@ -26,7 +24,6 @@ namespace Iwentys.Features.Raids.Services
             _unitOfWork = unitOfWork;
 
             _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
-            _studentRepository = _unitOfWork.GetRepository<Student>();
             _raidRepository = _unitOfWork.GetRepository<Raid>();
             _raidVisitorRepository = _unitOfWork.GetRepository<RaidVisitor>();
             _raidPartySearchRequestRepository = _unitOfWork.GetRepository<RaidPartySearchRequest>();
@@ -62,7 +59,7 @@ namespace Iwentys.Features.Raids.Services
 
         public async Task RegisterOnRaid(AuthorizedUser user, int raidId)
         {
-            Student student = await _studentRepository.GetByIdAsync(user.Id);
+            var student = await _iwentysUserRepository.GetByIdAsync(user.Id);
             Raid raid = await _raidRepository.GetByIdAsync(raidId);
 
             RaidVisitor visitor = raid.RegisterVisitor(student);
@@ -99,7 +96,7 @@ namespace Iwentys.Features.Raids.Services
 
         public async Task CreatePartySearchRequest(AuthorizedUser user, int raidId, RaidPartySearchRequestArguments arguments)
         {
-            Student student = await _studentRepository.GetByIdAsync(user.Id);
+            var student = await _iwentysUserRepository.GetByIdAsync(user.Id);
             Raid raid = await _raidRepository.GetByIdAsync(raidId);
             RaidVisitor visitor = await _raidVisitorRepository
                 .Get()

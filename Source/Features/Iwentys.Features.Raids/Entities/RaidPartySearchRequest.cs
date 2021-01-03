@@ -1,6 +1,6 @@
 ﻿using System;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Raids.Models;
-using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Raids.Entities
 {
@@ -10,7 +10,7 @@ namespace Iwentys.Features.Raids.Entities
         public virtual Raid Raid { get; set; }
 
         public int AuthorId { get; set; }
-        public virtual Student Author { get; set; }
+        public virtual IwentysUser Author { get; set; }
 
         public string Description { get; set; }
         public DateTime CreationTimeUtc { get; set; }
