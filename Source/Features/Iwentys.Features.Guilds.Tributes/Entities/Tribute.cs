@@ -86,6 +86,6 @@ namespace Iwentys.Features.Guilds.Tributes.Entities
         }
 
         public static Expression<Func<Tribute, bool>> IsActive => tribute => tribute.State == TributeState.Active;
-        public static Expression<Func<Tribute, bool>> BelongTo(IwentysUser student) => tribute => tribute.Project.StudentId == student.Id;
+        public static Expression<Func<Tribute, bool>> BelongTo(IwentysUser student) => tribute => tribute.Project.OwnerUserId == student.Id;
     }
 }

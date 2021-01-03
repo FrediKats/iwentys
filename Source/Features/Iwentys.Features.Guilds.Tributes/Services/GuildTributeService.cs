@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.GithubIntegration.Services;
@@ -74,7 +75,7 @@ namespace Iwentys.Features.Guilds.Tributes.Services
             return _guildTributeRepository
                 .Get()
                 .Where(t => t.GuildId == guild.Id)
-                .Where(t => t.Project.StudentId == user.Id)
+                .Where(t => t.Project.OwnerUserId == user.Id)
                 .Select(TributeInfoResponse.FromEntity)
                 .ToList();
         }
@@ -110,7 +111,7 @@ namespace Iwentys.Features.Guilds.Tributes.Services
         }
 
         //TODO: looks like hack or method from other service
-        public async Task<GithubProject> GetOrCreateAsync(GithubRepositoryInfoDto project, Student creator)
+        public async Task<GithubProject> GetOrCreateAsync(GithubRepositoryInfoDto project, IwentysUser creator)
         {
             GithubProject githubProject = await _studentProjectRepository.FindByIdAsync(project.Id);
             if (githubProject is not null)
@@ -130,7 +131,7 @@ namespace Iwentys.Features.Guilds.Tributes.Services
             Student student = await _studentRepository.FindByIdAsync(user.Id);
             Tribute tribute = await _guildTributeRepository.FindByIdAsync(tributeId);
 
-            if (tribute.Project.StudentId == user.Id)
+            if (tribute.Project.OwnerUserId == user.Id)
             {
                 tribute.SetCanceled();
             }

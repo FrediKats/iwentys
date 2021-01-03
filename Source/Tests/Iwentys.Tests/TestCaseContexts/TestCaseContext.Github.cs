@@ -2,6 +2,7 @@
 using Iwentys.Common.Databases;
 using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.Students.Entities;
@@ -12,7 +13,7 @@ namespace Iwentys.Tests.TestCaseContexts
     {
         public TestCaseContext WithStudentProject(AuthorizedUser userInfo, out GithubProject githubProject)
         {
-            Student student = this.UnitOfWork.GetRepository<Student>().GetByIdAsync(userInfo.Id).Result;
+            IwentysUser student = UnitOfWork.GetRepository<Student>().GetByIdAsync(userInfo.Id).Result;
             GithubRepositoryInfoDto repositoryInfo = GithubRepositoryFaker.Instance.Generate(student.GithubUsername);
 
             githubProject = new GithubProject(student, repositoryInfo);

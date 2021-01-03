@@ -1,5 +1,5 @@
-﻿using Iwentys.Features.GithubIntegration.Models;
-using Iwentys.Features.Students.Entities;
+﻿using Iwentys.Features.AccountManagement.Entities;
+using Iwentys.Features.GithubIntegration.Models;
 
 namespace Iwentys.Features.GithubIntegration.Entities
 {
@@ -9,14 +9,14 @@ namespace Iwentys.Features.GithubIntegration.Entities
         {
         }
 
-        public GithubProject(Student owner, GithubRepositoryInfoDto githubRepositoryInfoDto) : this()
+        public GithubProject(IwentysUser owner, GithubRepositoryInfoDto githubRepositoryInfoDto) : this()
         {
             Id = githubRepositoryInfoDto.Id;
             Owner = owner.GithubUsername;
             Description = githubRepositoryInfoDto.Description;
             FullUrl = githubRepositoryInfoDto.Url;
             Name = githubRepositoryInfoDto.Name;
-            StudentId = owner.Id;
+            OwnerUserId = owner.Id;
         }
 
         public long Id { get; set; }
@@ -27,7 +27,7 @@ namespace Iwentys.Features.GithubIntegration.Entities
         public int StarCount { get; set; }
         public long GithubRepositoryId { get; set; }
 
-        public int StudentId { get; set; }
-        public virtual Student Student { get; set; }
+        public int OwnerUserId { get; set; }
+        public virtual IwentysUser OwnerUser { get; set; }
     }
 }

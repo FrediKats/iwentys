@@ -2,8 +2,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
 using Iwentys.Common.Tools;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.GithubIntegration.Models;
-using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.GithubIntegration.Entities
 {
@@ -25,12 +25,12 @@ namespace Iwentys.Features.GithubIntegration.Entities
             set => SerializedContributionData = JsonSerializer.Serialize(value);
         }
 
-        public static GithubUser Create(Student student, GithubUserInfoDto githubUser, ContributionFullInfo contributionFullInfo)
+        public static GithubUser Create(IwentysUser user, GithubUserInfoDto githubUser, ContributionFullInfo contributionFullInfo)
         {
-            return new GithubUser()
+            return new GithubUser
             {
-                StudentId = student.Id,
-                Username = student.GithubUsername,
+                StudentId = user.Id,
+                Username = user.GithubUsername,
                 AvatarUrl = githubUser.AvatarUrl,
                 Bio = githubUser.Bio,
                 Company = githubUser.Bio,
