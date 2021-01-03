@@ -6,6 +6,13 @@ namespace Iwentys.Features.Study.SubjectAssignments.Models
 {
     public class SubjectAssignmentSubmitDto
     {
+        public enum AssignmentSubmitState
+        {
+            Open,
+            Approved,
+            Rejected
+        }
+
         public int Id { get; set; }
         public StudentInfoDto Student { get; set; }
         public string StudentDescription { get; set; }
@@ -17,6 +24,14 @@ namespace Iwentys.Features.Study.SubjectAssignments.Models
         public DateTime? RejectTimeUtc { get; set; }
         public string Comment { get; set; }
 
+        public AssignmentSubmitState GetState()
+        {
+            if (RejectTimeUtc is not null)
+                return AssignmentSubmitState.Rejected;
+            if (ApproveTimeUtc is not null)
+                return AssignmentSubmitState.Approved;
+            return AssignmentSubmitState.Open;
+        }
 
         public SubjectAssignmentSubmitDto(SubjectAssignmentSubmit submit) : this()
         {

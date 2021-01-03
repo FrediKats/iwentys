@@ -8,7 +8,26 @@
 @if (_subjectAssignmentSubmits is not null)
 {
     <div>
-        @foreach (SubjectAssignmentSubmitDto submit in _subjectAssignmentSubmits)
+        <MatTable Items="@_subjectAssignmentSubmits" class="dark-elevation-01">
+            <MatTableHeader>
+                <th>Assignment</th>
+                <th>Student</th>
+                <th>Submit time</th>
+                <th>State</th>
+                <th>Approve time</th>
+                <th>Reject time</th>
+            </MatTableHeader>
+            <MatTableRow>
+                <td>@context.SubjectAssignmentTitle</td>
+                <td>@context.Student.GetFullName()</td>
+                <td>@context.SubmitTimeUtc</td>
+                <td>@context.GetState()</td>
+                <td>@context.ApproveTimeUtc</td>
+                <td>@context.RejectTimeUtc</td>
+            </MatTableRow>
+        </MatTable>
+
+        @*@foreach (SubjectAssignmentSubmitDto submit in _subjectAssignmentSubmits)
         {
             <div class="card-list-element">
                 <MatCard Class="dark-elevation-01">
@@ -17,18 +36,22 @@
                             <MatHeadline6>
                                 @submit.Student.GetFullName()
                             </MatHeadline6>
-                            @if (submit.ApproveTimeUtc is not null)
+                            @switch (submit.GetState())
                             {
-                                <MatBody2>
-                                    Approved (@submit.ApproveTimeUtc)
-                                </MatBody2>
-                            }
-
-                            @if (submit.RejectTimeUtc is not null)
-                            {
-                                <MatBody2>
-                                    Rejected (@submit.RejectTimeUtc)
-                                </MatBody2>
+                                case SubjectAssignmentSubmitDto.AssignmentSubmitState.Open:
+                                    break;
+                                case SubjectAssignmentSubmitDto.AssignmentSubmitState.Approved:
+                                    <MatBody2>
+                                        Approved (@submit.ApproveTimeUtc)
+                                    </MatBody2>
+                                    break;
+                                case SubjectAssignmentSubmitDto.AssignmentSubmitState.Rejected:
+                                    <MatBody2>
+                                        Rejected (@submit.RejectTimeUtc)
+                                    </MatBody2>
+                                    break;
+                                default:
+                                    throw new ArgumentOutOfRangeException();
                             }
                         </div>
                     </MatCardContent>
@@ -45,8 +68,7 @@
                     </MatCardActions>
                 </MatCard>
             </div>
-
-        }
+        }*@
     </div>
 }
 
