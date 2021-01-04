@@ -57,7 +57,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
         //TODO: OR list of group subject ids
         public async Task CreateSubjectAssignment(AuthorizedUser user, int subjectId, SubjectAssignmentCreateArguments arguments)
         {
-            IwentysUser iwentysUser = await _iwentysUserRepository.GetByIdAsync(user.Id);
+            IwentysUser iwentysUser = await _iwentysUserRepository.GetById(user.Id);
             List<GroupSubject> groupSubjects = await _groupSubjectRepository
                 .Get()
                 .Where(gs => gs.SubjectId == subjectId)
@@ -98,7 +98,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
 
         public async Task SendSubmit(AuthorizedUser user, int subjectAssignmentId, SubjectAssignmentSubmitCreateArguments arguments)
         {
-            SubjectAssignment subjectAssignment = await _subjectAssignmentRepository.GetByIdAsync(subjectAssignmentId);
+            SubjectAssignment subjectAssignment = await _subjectAssignmentRepository.GetById(subjectAssignmentId);
 
             SubjectAssignmentSubmit subjectAssignmentSubmit = subjectAssignment.CreateSubmit(user, arguments);
 
@@ -118,8 +118,8 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
         //TODO: check permission
         public async Task SendFeedback(AuthorizedUser user, int subjectAssignmentSubmitId, SubjectAssignmentSubmitFeedbackArguments assignment)
         {
-            SubjectAssignmentSubmit subjectAssignmentSubmit = await _subjectAssignmentSubmitRepository.GetByIdAsync(subjectAssignmentSubmitId);
-            IwentysUser iwentysUser = await _iwentysUserRepository.GetByIdAsync(user.Id);
+            SubjectAssignmentSubmit subjectAssignmentSubmit = await _subjectAssignmentSubmitRepository.GetById(subjectAssignmentSubmitId);
+            IwentysUser iwentysUser = await _iwentysUserRepository.GetById(user.Id);
 
             subjectAssignmentSubmit.ApplyFeedback(iwentysUser, assignment);
 

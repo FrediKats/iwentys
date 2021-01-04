@@ -149,7 +149,7 @@ namespace Iwentys.Tests.TestCaseContexts
                 price,
                 DateTime.UtcNow.AddDays(1));
             
-            quest = QuestService.CreateAsync(user, request).Result;
+            quest = QuestService.Create(user, request).Result;
 
             return this;
         }

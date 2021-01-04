@@ -23,11 +23,11 @@ namespace Iwentys.Features.Guilds.Tributes.Models
         public ActiveTributeResponseDto()
         {
         }
-        
+
         public long ProjectId { get; init; }
         public TributeState State { get; init; }
         public string ProjectName { get; init; }
         public DateTime CreationTime { get; init; }
-        public DateTime LastUpdateTimeUtc { get; private set; }
+        public DateTime LastUpdateTimeUtc { get; }
     }
 }

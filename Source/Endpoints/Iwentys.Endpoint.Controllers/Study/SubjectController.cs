@@ -22,7 +22,7 @@ namespace Iwentys.Endpoint.Controllers.Study
         public async Task<ActionResult<List<SubjectProfileDto>>> GetAllSubjects(int? courseId, StudySemester? semester)
         {
             var studySearchParameters = new StudySearchParametersDto(null, null, courseId, semester, 0, 20);
-            List<SubjectProfileDto> subjectInfo = await _subjectService.GetSubjectsForDtoAsync(studySearchParameters);
+            List<SubjectProfileDto> subjectInfo = await _subjectService.GetSubjectsForDto(studySearchParameters);
 
             return Ok(subjectInfo);
         }

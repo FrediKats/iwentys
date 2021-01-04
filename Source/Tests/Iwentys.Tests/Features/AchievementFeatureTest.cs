@@ -18,8 +18,8 @@ namespace Iwentys.Tests.Features
                 .Case()
                 .WithNewStudent(out AuthorizedUser user);
 
-            await testCase.StudentService.AddGithubUsernameAsync(user.Id, "username");
-            AchievementDto studentAchievementEntity = (testCase
+            await testCase.StudentService.AddGithubUsername(user.Id, "username");
+            AchievementInfoDto studentAchievementEntity = (await testCase
                     .AchievementService
                     .GetForStudent(user.Id))
                 .FirstOrDefault(a => a.Id == AchievementList.AddGithubAchievement.Id);

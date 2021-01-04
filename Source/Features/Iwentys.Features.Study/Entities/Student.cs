@@ -7,7 +7,7 @@ namespace Iwentys.Features.Study.Entities
     public class Student : IwentysUser
     {
         public StudentType Type { get; init; }
-        public virtual StudyGroupMember Group { get; set; }
+        public virtual StudyGroupMember GroupMember { get; set; }
 
 
         public Student()

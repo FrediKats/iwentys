@@ -13,7 +13,6 @@ namespace Iwentys.Features.Guilds.Models
     {
         public GuildProfileDto()
         {
-            
         }
 
         public GuildProfileDto(Guild guild) : base(guild)

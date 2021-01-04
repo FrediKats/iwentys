@@ -17,7 +17,7 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public TributeInfoResponse WithTribute(AuthorizedUser userInfo, GithubProject project)
         {
-            var userGithub = _context.StudentService.GetAsync(userInfo.Id).Result.GithubUsername;
+            var userGithub = _context.StudentService.Get(userInfo.Id).Result.GithubUsername;
             return _context.GuildTributeServiceService.CreateTribute(userInfo, new CreateProjectRequestDto(userGithub, project.Name)).Result;
         }
 

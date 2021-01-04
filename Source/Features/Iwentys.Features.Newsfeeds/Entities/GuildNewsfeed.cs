@@ -20,7 +20,7 @@ namespace Iwentys.Features.Newsfeeds.Entities
                 Title = createViewModel.Title,
                 Content = createViewModel.Content,
                 CreationTimeUtc = DateTime.UtcNow,
-                AuthorId = author.Student.Id
+                AuthorId = author.User.Id
             };
 
             var guildNewsfeed = new GuildNewsfeed

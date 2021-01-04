@@ -10,6 +10,7 @@ namespace Iwentys.Features.Guilds.Entities
         public virtual Guild Guild { get; init; }
         public int GuildId { get; init; }
 
+        //TODO: here must be just libk to github project
         public string RepositoryOwner { get; init; }
         public string RepositoryName { get; init; }
 

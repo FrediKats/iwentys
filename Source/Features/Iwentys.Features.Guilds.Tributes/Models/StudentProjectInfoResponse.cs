@@ -9,7 +9,7 @@ namespace Iwentys.Features.Guilds.Tributes.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public string AuthorUsername { get; set; }
-        
+
         public static StudentProjectInfoResponse Wrap(GithubProject project)
         {
             return new StudentProjectInfoResponse

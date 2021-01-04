@@ -15,18 +15,18 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
 
         public HttpClient Client { get; }
 
-        public Task<List<AchievementDto>> GetForStudent(int studentId)
+        public Task<List<AchievementInfoDto>> GetForStudent(int studentId)
         {
             return new FlurlClient(Client)
                 .Request($"/api/achievements/students/{studentId}")
-                .GetJsonAsync<List<AchievementDto>>();
+                .GetJsonAsync<List<AchievementInfoDto>>();
         }
 
-        public Task<List<AchievementDto>> GetForGuild(int guildId)
+        public Task<List<AchievementInfoDto>> GetForGuild(int guildId)
         {
             return new FlurlClient(Client)
                 .Request($"/api/achievements/guilds/{guildId}")
-                .GetJsonAsync<List<AchievementDto>>();
+                .GetJsonAsync<List<AchievementInfoDto>>();
         }
     }
 }

@@ -41,7 +41,7 @@ namespace Iwentys.Tests.Features.Study
             //TODO: omg, we need to fetch group one more time coz Group admin id is not actual anymore
             await testCase.StudyGroupService.MakeGroupAdmin(admin, newGroupAdmin.Id);
             studentGroup = await testCase.StudyGroupService.Get("M3101");
-            newGroupAdmin = await testCase.StudentService.GetAsync(newGroupAdmin.Id);
+            newGroupAdmin = await testCase.StudentService.Get(newGroupAdmin.Id);
             Assert.AreEqual(studentGroup.GroupAdmin.Id, newGroupAdmin.Id);
         }
 
@@ -54,7 +54,7 @@ namespace Iwentys.Tests.Features.Study
 
             List<StudentInfoDto> studentInfoDtos = await testCase
                 .StudentService
-                .GetAsync();
+                .Get();
             StudentInfoDto newGroupAdmin = studentInfoDtos.First();
 
             Assert.ThrowsAsync<InnerLogicException>(() => testCase.StudyGroupService.MakeGroupAdmin(commonUser, newGroupAdmin.Id));

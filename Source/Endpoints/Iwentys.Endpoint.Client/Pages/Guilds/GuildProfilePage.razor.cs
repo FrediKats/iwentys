@@ -13,7 +13,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
         private ExtendedGuildProfileWithMemberDataDto _guild;
         private GuildMemberLeaderBoardDto _memberLeaderBoard;
         private List<NewsfeedViewModel> _newsfeeds;
-        private List<AchievementDto> _achievements;
+        private List<AchievementInfoDto> _achievements;
         private TributeInfoResponse _activeTribute;
         private TournamentInfoResponse _activeTournament;
         

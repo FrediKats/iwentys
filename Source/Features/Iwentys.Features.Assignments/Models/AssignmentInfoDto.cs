@@ -26,8 +26,8 @@ namespace Iwentys.Features.Assignments.Models
                 studentAssignment.Assignment.Title,
                 studentAssignment.Assignment.Description,
                 studentAssignment.Assignment.CreationTimeUtc,
-                studentAssignment.Assignment.Deadline,
-                new IwentysUserInfoDto(studentAssignment.Assignment.Creator),
+                studentAssignment.Assignment.DeadlineTimeUtc,
+                new IwentysUserInfoDto(studentAssignment.Assignment.Author),
                 studentAssignment.Assignment.Subject,
                 studentAssignment.IsCompleted)
         {

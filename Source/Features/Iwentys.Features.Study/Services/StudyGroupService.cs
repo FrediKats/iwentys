@@ -40,7 +40,7 @@ namespace Iwentys.Features.Study.Services
             return result.Single();
         }
 
-        public async Task<List<GroupProfileResponseDto>> GetStudyGroupsForDtoAsync(int? courseId)
+        public async Task<List<GroupProfileResponseDto>> GetStudyGroupsForDto(int? courseId)
         {
             List<GroupProfileResponseDto> result = await _studyGroupRepository
                 .Get()
@@ -53,7 +53,7 @@ namespace Iwentys.Features.Study.Services
 
         public async Task<GroupProfileResponseDto> GetStudentGroup(int studentId)
         {
-            Student student = await _studentRepository.GetByIdAsync(studentId);
+            Student student = await _studentRepository.GetById(studentId);
 
             return await _studyGroupMemberRepository
                 .Get()
@@ -65,11 +65,11 @@ namespace Iwentys.Features.Study.Services
 
         public async Task MakeGroupAdmin(AuthorizedUser initiator, int newGroupAdminId)
         {
-            Student initiatorProfile = await _studentRepository.GetByIdAsync(initiator.Id);
+            Student initiatorProfile = await _studentRepository.GetById(initiator.Id);
             SystemAdminUser admin = initiatorProfile.EnsureIsAdmin();
-            Student newGroupAdminProfile = await _studentRepository.GetByIdAsync(newGroupAdminId);
+            Student newGroupAdminProfile = await _studentRepository.GetById(newGroupAdminId);
 
-            StudyGroup studyGroup = newGroupAdminProfile.Group.Group;
+            StudyGroup studyGroup = newGroupAdminProfile.GroupMember.Group;
 
             studyGroup.GroupAdminId = newGroupAdminProfile.Id;
 

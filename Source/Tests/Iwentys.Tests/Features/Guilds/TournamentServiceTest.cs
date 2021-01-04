@@ -35,7 +35,7 @@ namespace Iwentys.Tests.Features.Guilds
 
             TournamentInfoResponse tournament = await testCase.TournamentService.CreateCodeMarathon(admin, TournamentFaker.Instance.NewCodeMarathon());
             await testCase.TournamentService.RegisterToTournament(admin, tournament.Id);
-            tournament = await testCase.TournamentService.GetAsync(tournament.Id);
+            tournament = await testCase.TournamentService.Get(tournament.Id);
             
             Assert.That(tournament.Teams.Any(t => t.TeamName == guild.Title));
         }
@@ -51,7 +51,7 @@ namespace Iwentys.Tests.Features.Guilds
             TournamentInfoResponse tournament = await testCase.TournamentService.CreateCodeMarathon(admin, TournamentFaker.Instance.NewCodeMarathon());
 
             await testCase.TournamentService.RegisterToTournament(admin, tournament.Id);
-            tournament = await testCase.TournamentService.GetAsync(tournament.Id);
+            tournament = await testCase.TournamentService.Get(tournament.Id);
 
             TournamentTeamInfoDto team = tournament.Teams.First(t => t.TeamName == guild.Title);
             Assert.That(team.MemberIds.Contains(admin.Id));

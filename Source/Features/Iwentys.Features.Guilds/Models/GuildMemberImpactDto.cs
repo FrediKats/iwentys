@@ -26,7 +26,7 @@ namespace Iwentys.Features.Guilds.Models
         public GuildMemberImpactDto()
         {
         }
-        
+
         public IwentysUserInfoDto StudentInfoDto { get; set; }
         public ContributionFullInfo Contribution { get; set; }
         public GuildMemberType MemberType { get; set; }

@@ -19,7 +19,7 @@ namespace Iwentys.Common.Databases
     
     public static class GenericRepositoryExtensions
     {
-        public static async Task<TEntity> GetByIdAsync<TEntity, TKey>(this IGenericRepository<TEntity> repository, TKey key) where TEntity : class
+        public static async Task<TEntity> GetById<TEntity, TKey>(this IGenericRepository<TEntity> repository, TKey key) where TEntity : class
         {
             return await repository.FindByIdAsync(key) ?? throw EntityNotFoundException.Create(typeof(TEntity), key);
         }

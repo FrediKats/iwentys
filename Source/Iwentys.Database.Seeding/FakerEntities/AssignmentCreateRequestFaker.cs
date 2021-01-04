@@ -4,7 +4,7 @@ using Iwentys.Features.Assignments.Models;
 
 namespace Iwentys.Database.Seeding.FakerEntities
 {
-    public class AssignmentCreateRequestFaker : Faker<AssignmentCreateRequestDto>
+    public class AssignmentCreateRequestFaker : Faker<AssignmentCreateArguments>
     {
         public AssignmentCreateRequestFaker()
         {

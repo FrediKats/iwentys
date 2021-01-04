@@ -132,7 +132,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<StudentAchievement>().HasKey(a => new {a.AchievementId, a.StudentId});
             modelBuilder.Entity<GuildAchievement>().HasKey(a => new {a.AchievementId, a.GuildId});
             modelBuilder.Entity<QuestResponse>().HasKey(a => new {a.QuestId, a.StudentId});
-            modelBuilder.Entity<GuildTestTaskSolution>().HasKey(a => new {a.GuildId, a.StudentId});
+            modelBuilder.Entity<GuildTestTaskSolution>().HasKey(a => new {a.GuildId, StudentId = a.AuthorId});
             modelBuilder.Entity<StudentAssignment>().HasKey(a => new {a.AssignmentId, a.StudentId});
             modelBuilder.Entity<GuildRecruitmentMember>().HasKey(g => new {g.GuildRecruitmentId, g.MemberId});
             modelBuilder.Entity<SubjectNewsfeed>().HasKey(g => new {g.SubjectId, g.NewsfeedId});

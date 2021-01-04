@@ -22,7 +22,7 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         [HttpGet]
         public ActionResult<List<GuildTestTaskInfoResponse>> Get([FromQuery] int guildId)
         {
-            return Ok(_guildTestTaskService.Get(guildId));
+            return Ok(_guildTestTaskService.GetResponses(guildId));
         }
 
         [HttpPut("accept")]

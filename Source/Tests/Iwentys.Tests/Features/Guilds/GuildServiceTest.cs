@@ -37,7 +37,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
 
-            var createdGuild = await context.GuildService.GetAsync(guild.Id, null);
+            var createdGuild = await context.GuildService.Get(guild.Id, null);
 
             Assert.AreEqual(GuildType.Pending, createdGuild.GuildType);
         }
@@ -52,7 +52,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
 
             await context.GuildService.ApproveGuildCreating(admin, guild.Id);
-            var createdGuild = await context.GuildService.GetAsync(guild.Id, null);
+            var createdGuild = await context.GuildService.Get(guild.Id, null);
 
             Assert.AreEqual(GuildType.Created, createdGuild.GuildType);
         }
@@ -205,7 +205,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithGuild(guildCreator, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithGuildMember(guild, guildCreator, out AuthorizedUser member);
 
-            await context.GuildMemberService.KickGuildMemberAsync(guildCreator, guild.Id, member.Id);
+            await context.GuildMemberService.KickGuildMember(guildCreator, guild.Id, member.Id);
             GuildProfileDto memberGuild = context.GuildService.FindStudentGuild(member.Id);
 
             Assert.That(memberGuild, Is.Null);
@@ -221,7 +221,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithGuildMentor(guild, out AuthorizedUser mentor)
                 .WithGuildMentor(guild, out AuthorizedUser anotherMentor);
 
-            Assert.ThrowsAsync<InnerLogicException>(() =>  context.GuildMemberService.KickGuildMemberAsync(mentor, guild.Id, anotherMentor.Id));
+            Assert.ThrowsAsync<InnerLogicException>(() =>  context.GuildMemberService.KickGuildMember(mentor, guild.Id, anotherMentor.Id));
         }
 
         [Test]
@@ -320,9 +320,9 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithGuildRequest(guild, out AuthorizedUser _);
-            await context.GuildService.UpdateAsync(user, GuildUpdateRequestDto.ForPolicyUpdate(guild.Id, GuildHiringPolicy.Close));
+            await context.GuildService.Update(user, GuildUpdateRequestDto.ForPolicyUpdate(guild.Id, GuildHiringPolicy.Close));
 
-            var guildEntity = await context.GuildService.GetAsync(guild.Id, null);
+            var guildEntity = await context.GuildService.Get(guild.Id, null);
             Assert.That(guildEntity.HiringPolicy, Is.EqualTo(GuildHiringPolicy.Close));
         }
 
@@ -334,8 +334,8 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithNewStudent(out AuthorizedUser user)
                 .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guildDto)
                 .WithGuildRequest(guildDto, out AuthorizedUser student);
-            await context.GuildService.UpdateAsync(user, GuildUpdateRequestDto.ForPolicyUpdate(guildDto.Id, GuildHiringPolicy.Close));
-            await context.GuildService.UpdateAsync(user, GuildUpdateRequestDto.ForPolicyUpdate(guildDto.Id, GuildHiringPolicy.Open));
+            await context.GuildService.Update(user, GuildUpdateRequestDto.ForPolicyUpdate(guildDto.Id, GuildHiringPolicy.Close));
+            await context.GuildService.Update(user, GuildUpdateRequestDto.ForPolicyUpdate(guildDto.Id, GuildHiringPolicy.Open));
 
             var guildMemberLeaderBoardDto = await context.GuildService.GetGuildMemberLeaderBoard(guildDto.Id);
             var newMember = guildMemberLeaderBoardDto.MembersImpact.Find(m => m.StudentInfoDto.Id == student.Id);

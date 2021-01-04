@@ -10,37 +10,47 @@ namespace Iwentys.Features.Guilds.Domain
 {
     public class GuildMentor
     {
-        public GuildMentor(IwentysUser student, Guild guild, GuildMemberType memberType)
+        public GuildMentor(IwentysUser user, Guild guild, GuildMemberType memberType)
         {
             if (!memberType.IsMentor())
-                throw InnerLogicException.GuildExceptions.IsNotGuildMentor(student.Id);
+                throw InnerLogicException.GuildExceptions.IsNotGuildMentor(user.Id);
 
-            Student = student;
+            User = user;
             Guild = guild;
             MemberType = memberType;
         }
 
-        public IwentysUser Student { get; }
+        public IwentysUser User { get; }
         public Guild Guild { get; }
         public GuildMemberType MemberType { get; }
     }
 
     public static class GuildMentorUserExtensions
     {
-        public static async Task<GuildMentor> EnsureIsGuildMentor(this IwentysUser student, IGenericRepository<Guild> guildRepository, int guildId)
+        public static async Task<GuildMentor> EnsureIsGuildMentor(this IwentysUser user, IGenericRepository<Guild> guildRepository, int guildId)
         {
-            Guild guild = await guildRepository.GetByIdAsync(guildId);
-            return EnsureIsGuildMentor(student, guild);
+            Guild guild = await guildRepository.GetById(guildId);
+            return EnsureIsGuildMentor(user, guild);
         }
 
-        public static GuildMentor EnsureIsGuildMentor(this IwentysUser student, Guild guild)
+        public static GuildMentor EnsureIsGuildMentor(this IwentysUser user, Guild guild)
         {
-            GuildMember membership = guild.Members.FirstOrDefault(m => m.MemberId == student.Id);
+            GuildMember membership = guild.Members.FirstOrDefault(m => m.MemberId == user.Id);
 
             if (membership is null)
-                throw InnerLogicException.GuildExceptions.IsNotGuildMember(student.Id, guild.Id);
+                throw InnerLogicException.GuildExceptions.IsNotGuildMember(user.Id, guild.Id);
 
-            return new GuildMentor(student, guild, membership.MemberType);
+            return new GuildMentor(user, guild, membership.MemberType);
+        }
+
+        public static async Task<GuildMentor> EnsureIsGuildMentor(this Task<IwentysUser> user, Guild guild)
+        {
+            GuildMember membership = guild.Members.FirstOrDefault(m => m.MemberId == user.Id);
+
+            if (membership is null)
+                throw InnerLogicException.GuildExceptions.IsNotGuildMember(user.Id, guild.Id);
+
+            return new GuildMentor(await user, guild, membership.MemberType);
         }
     }
 }

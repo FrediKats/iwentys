@@ -14,7 +14,7 @@ namespace Iwentys.Features.Guilds.Models
             Id = guild.Id;
             Title = guild.Title;
             Bio = guild.Bio;
-            LogoUrl = guild.LogoUrl;
+            ImmageUrl = guild.ImageUrl;
             TestTaskLink = guild.TestTaskLink;
             HiringPolicy = guild.HiringPolicy;
             GuildType = guild.GuildType;
@@ -23,7 +23,7 @@ namespace Iwentys.Features.Guilds.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string Bio { get; set; }
-        public string LogoUrl { get; set; }
+        public string ImmageUrl { get; set; }
         public string TestTaskLink { get; set; }
 
         public GuildHiringPolicy HiringPolicy { get; set; }

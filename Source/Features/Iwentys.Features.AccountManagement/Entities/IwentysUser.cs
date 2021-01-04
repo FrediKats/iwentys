@@ -14,6 +14,5 @@ namespace Iwentys.Features.AccountManagement.Entities
 
         //TODO: REMOVE ASAP
         public DateTime GuildLeftTime { get; set; }
-
     }
 }

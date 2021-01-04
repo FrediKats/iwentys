@@ -21,9 +21,9 @@ namespace Iwentys.Features.Study.Domain
         //TODO: refactor
         public static GroupAdminUser EnsureIsGroupAdmin(this Student profile)
         {
-            if (profile.Group?.Group is null)
+            if (profile.GroupMember?.Group is null)
                 throw new InnerLogicException("Student without group");
-            return new GroupAdminUser(profile, profile.Group?.Group);
+            return new GroupAdminUser(profile, profile.GroupMember?.Group);
         }
     }
 }

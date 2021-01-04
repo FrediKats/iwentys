@@ -38,7 +38,7 @@ namespace Iwentys.Endpoint.Controllers
         [HttpGet("subject/{subjectId}")]
         public async Task<ActionResult<List<NewsfeedViewModel>>> GetForSubject(int subjectId)
         {
-            return Ok(await _newsfeedService.GetSubjectNewsfeedsAsync(subjectId));
+            return Ok(await _newsfeedService.GetSubjectNewsfeeds(subjectId));
         }
 
         [HttpGet("guild/{guildId}")]

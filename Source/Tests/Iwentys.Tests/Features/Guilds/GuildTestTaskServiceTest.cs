@@ -23,7 +23,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithGuildMember(guildProfile, guildCreator, out AuthorizedUser guildNewcomer);
 
             await context.GuildTestTaskService.Accept(guildNewcomer, guildProfile.Id);
-            List<GuildTestTaskInfoResponse> taskInfoResponses = await context.GuildTestTaskService.Get(guildProfile.Id);
+            List<GuildTestTaskInfoResponse> taskInfoResponses = await context.GuildTestTaskService.GetResponses(guildProfile.Id);
 
             Assert.IsTrue(taskInfoResponses.Any(t => t.StudentId == guildNewcomer.Id));
         }
@@ -41,7 +41,7 @@ namespace Iwentys.Tests.Features.Guilds
             await context.GuildTestTaskService.Accept(guildNewcomer, guildProfile.Id);
             await context.GuildTestTaskService.Submit(guildNewcomer, guildProfile.Id, githubProject.Owner, githubProject.Name);
 
-            List<GuildTestTaskInfoResponse> taskInfoResponses = await context.GuildTestTaskService.Get(guildProfile.Id);
+            List<GuildTestTaskInfoResponse> taskInfoResponses = await context.GuildTestTaskService.GetResponses(guildProfile.Id);
             GuildTestTaskInfoResponse userResponse = taskInfoResponses.First(t => t.StudentId == guildNewcomer.Id);
 
             Assert.AreEqual(GuildTestTaskState.Submitted, userResponse.TestTaskState);
@@ -61,7 +61,7 @@ namespace Iwentys.Tests.Features.Guilds
             await context.GuildTestTaskService.Submit(guildNewcomer, guildProfile.Id, githubProject.Owner, githubProject.Name);
             await context.GuildTestTaskService.Complete(guildCreator, guildProfile.Id, guildNewcomer.Id);
 
-            List<GuildTestTaskInfoResponse> taskInfoResponses = await context.GuildTestTaskService.Get(guildProfile.Id);
+            List<GuildTestTaskInfoResponse> taskInfoResponses = await context.GuildTestTaskService.GetResponses(guildProfile.Id);
             GuildTestTaskInfoResponse userResponse = taskInfoResponses.First(t => t.StudentId == guildNewcomer.Id);
 
             Assert.AreEqual(GuildTestTaskState.Completed, userResponse.TestTaskState);

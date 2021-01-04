@@ -20,9 +20,9 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
             return Client.GetFromJsonAsync<List<AssignmentInfoDto>>("/api/assignments");
         }
 
-        public async Task<AssignmentInfoDto> Create(AssignmentCreateRequestDto assignmentCreateRequestDto)
+        public async Task<AssignmentInfoDto> Create(AssignmentCreateArguments assignmentCreateArguments)
         {
-            HttpResponseMessage responseMessage = await Client.PostAsJsonAsync($"api/assignments", assignmentCreateRequestDto);
+            HttpResponseMessage responseMessage = await Client.PostAsJsonAsync($"api/assignments", assignmentCreateArguments);
             return await responseMessage.Content.ReadFromJsonAsync<AssignmentInfoDto>();
         }
 

@@ -10,10 +10,6 @@ namespace Iwentys.Features.Guilds.Entities
 {
     public class GuildMember
     {
-        protected GuildMember()
-        {
-        }
-
         public GuildMember(Guild guild, IwentysUser student, GuildMemberType memberType)
             : this(guild.Id, student.Id, memberType)
         {
@@ -26,6 +22,10 @@ namespace Iwentys.Features.Guilds.Entities
             MemberType = memberType;
         }
 
+        public GuildMember()
+        {
+        }
+
         public int GuildId { get; init; }
         public virtual Guild Guild { get; init; }
 
@@ -33,7 +33,14 @@ namespace Iwentys.Features.Guilds.Entities
         public virtual IwentysUser Member { get; init; }
 
         public GuildMemberType MemberType { get; private set; }
-        
+
+        public static Expression<Func<GuildMember, bool>> IsMember()
+        {
+            return member => member.MemberType == GuildMemberType.Creator
+                             || member.MemberType == GuildMemberType.Mentor
+                             || member.MemberType == GuildMemberType.Member;
+        }
+
         public void MarkBlocked()
         {
             Member.GuildLeftTime = DateTime.UtcNow;
@@ -59,13 +66,6 @@ namespace Iwentys.Features.Guilds.Entities
                 throw InnerLogicException.GuildExceptions.CreatorCannotLeave(MemberId, GuildId);
 
             guildMemberRepository.Delete(this);
-        }
-
-        public static Expression<Func<GuildMember, bool>> IsMember()
-        {
-            return member => member.MemberType == GuildMemberType.Creator
-                             || member.MemberType == GuildMemberType.Mentor
-                             || member.MemberType == GuildMemberType.Member;
         }
     }
 }

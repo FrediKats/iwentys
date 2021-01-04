@@ -10,7 +10,7 @@ namespace Iwentys.Features.Study.Models.Students
         public StudentInfoDto(Student student) : base(student)
         {
             Type = student.Type;
-            GroupId = student.Group?.GroupId;
+            GroupId = student.GroupMember?.GroupId;
         }
 
         public StudentInfoDto()

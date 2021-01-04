@@ -56,7 +56,7 @@ namespace Iwentys.Endpoint.Server.Controllers
         [HttpGet("loginOrCreate/{userId}")]
         public async Task<ActionResult<IwentysAuthResponse>> LoginOrCreate(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
-            await _studentService.GetOrCreateAsync(userId);
+            await _studentService.GetOrCreate(userId);
             return Ok(TokenGenerator.Generate(userId, signingEncodingKey, _jwtApplicationOptions));
         }
 

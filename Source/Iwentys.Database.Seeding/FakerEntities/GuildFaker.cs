@@ -12,7 +12,7 @@ namespace Iwentys.Database.Seeding.FakerEntities
                 .RuleFor(g => g.Id, f => f.IndexVariable++ + 1)
                 .RuleFor(g => g.Title, f => f.Company.CompanyName())
                 .RuleFor(g => g.Bio, f => f.Lorem.Paragraph())
-                .RuleFor(g => g.LogoUrl, f => f.Image.PicsumUrl())
+                .RuleFor(g => g.ImageUrl, f => f.Image.PicsumUrl())
                 .RuleFor(g => g.HiringPolicy, GuildHiringPolicy.Open)
                 .RuleFor(g => g.GuildType, GuildType.Created);
         }

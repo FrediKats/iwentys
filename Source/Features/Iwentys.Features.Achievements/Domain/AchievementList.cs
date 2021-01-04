@@ -65,7 +65,7 @@ namespace Iwentys.Features.Achievements.Domain
                 Id = IdentifierGenerator.Next(),
                 Title = title,
                 Description = description,
-                Url = url
+                ImageUrl = url
             };
 
             Achievements.Add(achievement);

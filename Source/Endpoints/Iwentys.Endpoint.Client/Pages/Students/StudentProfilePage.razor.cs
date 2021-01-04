@@ -21,7 +21,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
     public partial class StudentProfilePage
     {
         private StudentInfoDto _studentFullProfile;
-        private List<AchievementDto> _achievements;
+        private List<AchievementInfoDto> _achievements;
         private List<CodingActivityInfoResponse> _codingActivityInfo;
         private StudentActivityInfoDto _studentActivity;
         private CourseLeaderboardRow _leaderboardRow;

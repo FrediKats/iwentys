@@ -23,15 +23,15 @@ namespace Iwentys.Endpoint.Controllers
         public async Task<ActionResult<List<AssignmentInfoDto>>> Get()
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            List<AssignmentInfoDto> assignments = await _assignmentService.ReadByUserAsync(user);
+            List<AssignmentInfoDto> assignments = await _assignmentService.GetUserAssignments(user);
             return Ok(assignments);
         }
 
         [HttpPost]
-        public async Task<ActionResult<AssignmentInfoDto>> Create([FromBody] AssignmentCreateRequestDto assignmentCreateRequestDto)
+        public async Task<ActionResult<AssignmentInfoDto>> Create([FromBody] AssignmentCreateArguments assignmentCreateArguments)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            var assignment = await _assignmentService.CreateAsync(user, assignmentCreateRequestDto);
+            var assignment = await _assignmentService.Create(user, assignmentCreateArguments);
             return Ok(assignment);
         }
 
@@ -39,7 +39,7 @@ namespace Iwentys.Endpoint.Controllers
         public async Task<ActionResult> Complete(int assignmentId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            await _assignmentService.CompleteAsync(user, assignmentId);
+            await _assignmentService.Complete(user, assignmentId);
             return Ok();
         }
 
@@ -47,7 +47,7 @@ namespace Iwentys.Endpoint.Controllers
         public async Task<ActionResult> Undo(int assignmentId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            await _assignmentService.UndoAsync(user, assignmentId);
+            await _assignmentService.Undo(user, assignmentId);
             return Ok();
         }
 
@@ -55,7 +55,7 @@ namespace Iwentys.Endpoint.Controllers
         public async Task<ActionResult> Delete(int assignmentId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            await _assignmentService.DeleteAsync(user, assignmentId);
+            await _assignmentService.Delete(user, assignmentId);
             return Ok();
         }
     }

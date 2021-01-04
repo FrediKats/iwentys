@@ -37,7 +37,7 @@ namespace Iwentys.Features.Gamification.Services
 
         public async Task UpVote(AuthorizedUser author, int targetId)
         {
-            Student target = await _studentRepository.GetByIdAsync(targetId);
+            Student target = await _studentRepository.GetById(targetId);
 
             var karmaUpVote = KarmaUpVote.Create(author, target);
 
@@ -47,7 +47,7 @@ namespace Iwentys.Features.Gamification.Services
 
         public async Task RemoveUpVote(AuthorizedUser author, int targetId)
         {
-            Student target = await _studentRepository.GetByIdAsync(targetId);
+            Student target = await _studentRepository.GetById(targetId);
             KarmaUpVote upVote = await _karmaRepository.Get().FirstAsync(k => k.AuthorId == author.Id && k.TargetId == target.Id);
 
             _karmaRepository.Delete(upVote);

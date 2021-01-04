@@ -11,15 +11,15 @@ namespace Iwentys.Tests.TestCaseContexts
         {
             var guildCreateRequest = new GuildCreateRequestDto(null, null, null, GuildHiringPolicy.Close);
 
-            GuildProfileShortInfoDto guild = GuildService.CreateAsync(user, guildCreateRequest).Result;
-            guildProfile = GuildService.GetAsync(guild.Id, user.Id).Result;
+            GuildProfileShortInfoDto guild = GuildService.Create(user, guildCreateRequest).Result;
+            guildProfile = GuildService.Get(guild.Id, user.Id).Result;
             return this;
         }
 
         public TestCaseContext WithGuildMember(GuildProfileDto guild, AuthorizedUser guildEditor, out AuthorizedUser user)
         {
             WithNewStudent(out user);
-            GuildMemberService.RequestGuildAsync(user, guild.Id).Wait();
+            GuildMemberService.RequestGuild(user, guild.Id).Wait();
             GuildMemberService.AcceptRequest(guildEditor, guild.Id, user.Id).Wait();
             return this;
         }
@@ -36,14 +36,14 @@ namespace Iwentys.Tests.TestCaseContexts
         public TestCaseContext WithGuildRequest(GuildProfileDto guild, out AuthorizedUser user)
         {
             WithNewStudent(out user);
-            GuildMemberService.RequestGuildAsync(user, guild.Id).Wait();
+            GuildMemberService.RequestGuild(user, guild.Id).Wait();
             return this;
         }
 
         public TestCaseContext WithGuildBlocked(GuildProfileDto guild, AuthorizedUser guildEditor, out AuthorizedUser user)
         {
             WithNewStudent(out user);
-            GuildMemberService.RequestGuildAsync(user, guild.Id).Wait();
+            GuildMemberService.RequestGuild(user, guild.Id).Wait();
             GuildMemberService.BlockGuildMember(guildEditor, guild.Id, user.Id).Wait();
             return this;
         }

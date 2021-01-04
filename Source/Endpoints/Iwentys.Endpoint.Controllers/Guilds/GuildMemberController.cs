@@ -23,21 +23,21 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         public async Task<ActionResult<GuildProfileDto>> Enter(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(await _guildMemberService.EnterGuildAsync(user, guildId));
+            return Ok(await _guildMemberService.EnterGuild(user, guildId));
         }
 
         [HttpPut("{guildId}/request")]
         public async Task<ActionResult<GuildProfileDto>> SendRequest(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(await _guildMemberService.RequestGuildAsync(user, guildId));
+            return Ok(await _guildMemberService.RequestGuild(user, guildId));
         }
 
         [HttpPut("{guildId}/leave")]
         public async Task<ActionResult> Leave(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            await _guildMemberService.LeaveGuildAsync(user, guildId);
+            await _guildMemberService.LeaveGuild(user, guildId);
             return Ok();
         }
 
@@ -75,7 +75,7 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         public async Task<IActionResult> KickGuildMember(int guildId, int memberId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            await _guildMemberService.KickGuildMemberAsync(user, guildId, memberId);
+            await _guildMemberService.KickGuildMember(user, guildId, memberId);
             return Ok();
         }
 

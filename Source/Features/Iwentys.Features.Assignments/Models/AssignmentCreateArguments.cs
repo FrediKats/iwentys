@@ -2,9 +2,9 @@
 
 namespace Iwentys.Features.Assignments.Models
 {
-    public record AssignmentCreateRequestDto
+    public record AssignmentCreateArguments
     {
-        public AssignmentCreateRequestDto(string title, string description, int? subjectId, DateTime? deadline, bool forStudyGroup) : this()
+        public AssignmentCreateArguments(string title, string description, int? subjectId, DateTime? deadline, bool forStudyGroup) : this()
         {
             Title = title;
             Description = description;
@@ -13,10 +13,10 @@ namespace Iwentys.Features.Assignments.Models
             ForStudyGroup = forStudyGroup;
         }
 
-        public AssignmentCreateRequestDto()
+        public AssignmentCreateArguments()
         {
         }
-        
+
         public string Title { get; init; }
         public string Description { get; init; }
         public int? SubjectId { get; init; }

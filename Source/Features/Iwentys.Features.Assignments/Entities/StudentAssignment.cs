@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Iwentys.Common.Exceptions;
+using Iwentys.Common.Tools;
 using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.Study.Domain;
 using Iwentys.Features.Study.Entities;
@@ -11,7 +11,7 @@ namespace Iwentys.Features.Assignments.Entities
     public class StudentAssignment
     {
         public bool IsCompleted { get; private set; }
-        public DateTime LastUpdateTime { get; private set; }
+        public DateTime LastUpdateTimeUtc { get; private set; }
 
         public int AssignmentId { get; init; }
         public virtual Assignment Assignment { get; init; }
@@ -19,31 +19,32 @@ namespace Iwentys.Features.Assignments.Entities
         public int StudentId { get; init; }
         public virtual Student Student { get; init; }
 
-        public static StudentAssignment Create(Student creator, AssignmentCreateRequestDto assignmentCreateRequestDto)
+        public static StudentAssignment Create(Student author, AssignmentCreateArguments createArguments)
         {
-            var assignmentEntity = Assignment.Create(creator, assignmentCreateRequestDto);
+            var assignmentEntity = Assignment.Create(author, createArguments);
             var studentAssignmentEntity = new StudentAssignment
             {
-                StudentId = creator.Id,
+                StudentId = author.Id,
                 Assignment = assignmentEntity,
-                LastUpdateTime = DateTime.UtcNow
+                LastUpdateTimeUtc = DateTime.UtcNow
             };
 
             return studentAssignmentEntity;
         }
 
-        public static List<StudentAssignment> CreateForGroup(GroupAdminUser groupAdmin, AssignmentCreateRequestDto assignmentCreateRequestDto, StudyGroup studyGroup)
+        public static List<StudentAssignment> CreateForGroup(GroupAdminUser groupAdmin, AssignmentCreateArguments createArguments)
         {
-            var assignmentEntity = Assignment.Create(groupAdmin.Student, assignmentCreateRequestDto);
-            
-            List<StudentAssignment> studentAssignmentEntities = studyGroup.Students.Select(s => new StudentAssignment
+            var assignment = Assignment.Create(groupAdmin.Student, createArguments);
+            List<StudyGroupMember> groupMembers = groupAdmin.Student.GroupMember.Group.Students;
+
+            List<StudentAssignment> studentAssignments = groupMembers.SelectToList(s => new StudentAssignment
             {
                 StudentId = s.StudentId,
-                Assignment = assignmentEntity,
-                LastUpdateTime = DateTime.UtcNow
-            }).ToList();
+                Assignment = assignment,
+                LastUpdateTimeUtc = DateTime.UtcNow
+            });
 
-            return studentAssignmentEntities;
+            return studentAssignments;
         }
 
         public void MarkCompleted()
@@ -52,7 +53,7 @@ namespace Iwentys.Features.Assignments.Entities
                 throw InnerLogicException.AssignmentExceptions.IsAlreadyCompleted(AssignmentId);
 
             IsCompleted = true;
-            LastUpdateTime = DateTime.UtcNow;
+            LastUpdateTimeUtc = DateTime.UtcNow;
         }
 
         public void MarkUncompleted()
@@ -61,7 +62,7 @@ namespace Iwentys.Features.Assignments.Entities
                 throw InnerLogicException.AssignmentExceptions.IsNotCompleted(AssignmentId);
             
             IsCompleted = false;
-            LastUpdateTime = DateTime.UtcNow;
+            LastUpdateTimeUtc = DateTime.UtcNow;
         }
     }
 }

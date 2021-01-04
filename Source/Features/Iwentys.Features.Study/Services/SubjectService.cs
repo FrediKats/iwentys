@@ -52,7 +52,7 @@ namespace Iwentys.Features.Study.Services
             return subjectEntities.SelectToList(entity => new SubjectProfileDto(entity));
         }
 
-        public async Task<List<SubjectProfileDto>> GetSubjectsForDtoAsync(StudySearchParametersDto searchParametersDto)
+        public async Task<List<SubjectProfileDto>> GetSubjectsForDto(StudySearchParametersDto searchParametersDto)
         {
             List<Subject> subjectEntities = await _groupSubjectRepository
                 .Get()

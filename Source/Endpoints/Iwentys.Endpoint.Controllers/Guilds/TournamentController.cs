@@ -22,14 +22,14 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         [HttpGet]
         public async Task<ActionResult<List<TournamentInfoResponse>>> Get()
         {
-            List<TournamentInfoResponse> tournaments = await _tournamentService.GetAsync();
+            List<TournamentInfoResponse> tournaments = await _tournamentService.Get();
             return Ok(tournaments);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<TournamentInfoResponse>> Get(int id)
         {
-            TournamentInfoResponse tournament = await _tournamentService.GetAsync(id);
+            TournamentInfoResponse tournament = await _tournamentService.Get(id);
             return Ok(tournament);
         }
 

@@ -21,7 +21,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 {
                     AchievementId = AchievementList.BetaTester.Id,
                     StudentId = s.Id,
-                    CreationTimeUtc = DateTime.UtcNow
+                    GettingTimeUtc = DateTime.UtcNow
                 }).ToList();
 
             GuildAchievementModels = guilds
@@ -29,7 +29,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 {
                     AchievementId = AchievementList.BetaTester.Id,
                     GuildId = g.Id,
-                    CreationTimeUtc = DateTime.UtcNow
+                    GettingTimeUtc = DateTime.UtcNow
                 }).ToList();
         }
 

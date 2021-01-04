@@ -21,15 +21,14 @@ namespace Iwentys.Features.Guilds.Tributes.Services
 {
     public class GuildTributeService
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly GithubIntegrationService _githubIntegrationService;
+        private readonly IGenericRepository<GuildMember> _guildMemberRepository;
+        private readonly IGenericRepository<Guild> _guildRepositoryNew;
+        private readonly IGenericRepository<Tribute> _guildTributeRepository;
+        private readonly IGenericRepository<GithubProject> _studentProjectRepository;
 
         private readonly IGenericRepository<IwentysUser> _studentRepository;
-        private readonly IGenericRepository<Guild> _guildRepositoryNew;
-        private readonly IGenericRepository<GuildMember> _guildMemberRepository;
-        private readonly IGenericRepository<GithubProject> _studentProjectRepository;
-        private readonly IGenericRepository<Tribute> _guildTributeRepository;
-
-        private readonly GithubIntegrationService _githubIntegrationService;
+        private readonly IUnitOfWork _unitOfWork;
 
         public GuildTributeService(IUnitOfWork unitOfWork, GithubIntegrationService githubIntegrationService)
         {
@@ -93,7 +92,7 @@ namespace Iwentys.Features.Guilds.Tributes.Services
         {
             IwentysUser student = await _studentRepository.FindByIdAsync(user.Id);
             GithubRepositoryInfoDto githubProject = await _githubIntegrationService.GetRepository(createProject.Owner, createProject.RepositoryName);
-            GithubProject project = await GetOrCreateAsync(githubProject, student);
+            GithubProject project = await GetOrCreate(githubProject, student);
             Guild guild = _guildMemberRepository.ReadForStudent(student.Id);
             List<Tribute> allTributes = await _guildTributeRepository.Get().ToListAsync();
 
@@ -110,7 +109,7 @@ namespace Iwentys.Features.Guilds.Tributes.Services
         }
 
         //TODO: looks like hack or method from other service
-        public async Task<GithubProject> GetOrCreateAsync(GithubRepositoryInfoDto project, IwentysUser creator)
+        public async Task<GithubProject> GetOrCreate(GithubRepositoryInfoDto project, IwentysUser creator)
         {
             GithubProject githubProject = await _studentProjectRepository.FindByIdAsync(project.Id);
             if (githubProject is not null)
@@ -118,7 +117,7 @@ namespace Iwentys.Features.Guilds.Tributes.Services
 
             //TODO: need to get this from GithubService
             var newProject = new GithubProject(creator, project);
-            
+
             await _studentProjectRepository.InsertAsync(newProject);
             await _unitOfWork.CommitAsync();
             return newProject;
@@ -151,8 +150,8 @@ namespace Iwentys.Features.Guilds.Tributes.Services
             Tribute tribute = await _guildTributeRepository.FindByIdAsync(tributeCompleteRequest.TributeId);
             GuildMentor mentor = await student.EnsureIsGuildMentor(_guildRepositoryNew, tribute.GuildId);
 
-            tribute.SetCompleted(mentor.Student.Id, tributeCompleteRequest);
-            
+            tribute.SetCompleted(mentor.User.Id, tributeCompleteRequest);
+
             _guildTributeRepository.Update(tribute);
             await _unitOfWork.CommitAsync();
             return TributeInfoResponse.Wrap(tribute);

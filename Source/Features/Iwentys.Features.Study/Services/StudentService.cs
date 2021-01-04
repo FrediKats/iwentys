@@ -24,7 +24,7 @@ namespace Iwentys.Features.Study.Services
             _studentRepository = _unitOfWork.GetRepository<Student>();
         }
 
-        public async Task<List<StudentInfoDto>> GetAsync()
+        public async Task<List<StudentInfoDto>> Get()
         {
             List<Student> students = await _studentRepository
                 .Get()
@@ -33,13 +33,13 @@ namespace Iwentys.Features.Study.Services
             return students.SelectToList(s => new StudentInfoDto(s));
         }
 
-        public async Task<StudentInfoDto> GetAsync(int id)
+        public async Task<StudentInfoDto> Get(int id)
         {
             Student student = await _studentRepository.FindByIdAsync(id);
             return new StudentInfoDto(student);
         }
 
-        public async Task<StudentInfoDto> GetOrCreateAsync(int id)
+        public async Task<StudentInfoDto> GetOrCreate(int id)
         {
             Student student = await _studentRepository.FindByIdAsync(id);
             if (student is null)
@@ -52,7 +52,7 @@ namespace Iwentys.Features.Study.Services
             return new StudentInfoDto(student);
         }
 
-        public async Task<StudentInfoDto> AddGithubUsernameAsync(int id, string githubUsername)
+        public async Task<StudentInfoDto> AddGithubUsername(int id, string githubUsername)
         {
             bool isUsernameUsed = await _studentRepository.Get().AnyAsync(s => s.GithubUsername == githubUsername);
             if (isUsernameUsed)
@@ -70,7 +70,7 @@ namespace Iwentys.Features.Study.Services
             return new StudentInfoDto(await _studentRepository.FindByIdAsync(id));
         }
 
-        public async Task<StudentInfoDto> RemoveGithubUsernameAsync(int id, string githubUsername)
+        public async Task<StudentInfoDto> RemoveGithubUsername(int id, string githubUsername)
         {
             Student user = await _studentRepository.FindByIdAsync(id);
             user.GithubUsername = githubUsername;

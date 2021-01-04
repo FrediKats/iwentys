@@ -7,16 +7,15 @@ namespace Iwentys.Features.Achievements.Domain
 {
     public class AchievementProvider
     {
-        private readonly IUnitOfWork _unitOfWork;
-        
-        private readonly IGenericRepository<StudentAchievement> _studentAchievementRepository;
         private readonly IGenericRepository<GuildAchievement> _guildAchievementRepository;
+        private readonly IGenericRepository<StudentAchievement> _studentAchievementRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public AchievementProvider(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _studentAchievementRepository = _unitOfWork.GetRepository<StudentAchievement>();
             _guildAchievementRepository = _unitOfWork.GetRepository<GuildAchievement>();
+            _studentAchievementRepository = _unitOfWork.GetRepository<StudentAchievement>();
         }
 
         //TODO: probably we need to remove commit
@@ -24,7 +23,7 @@ namespace Iwentys.Features.Achievements.Domain
         {
             if (_studentAchievementRepository.Get().Any(s => s.AchievementId == achievement.Id && s.StudentId == studentId))
                 return;
-            
+
             await _studentAchievementRepository.InsertAsync(StudentAchievement.Create(studentId, achievement.Id));
             await _unitOfWork.CommitAsync();
         }

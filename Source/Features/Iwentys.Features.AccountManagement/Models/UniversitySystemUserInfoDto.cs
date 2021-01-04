@@ -4,12 +4,6 @@ namespace Iwentys.Features.AccountManagement.Models
 {
     public class UniversitySystemUserInfoDto
     {
-        public int Id { get; init; }
-
-        public string FirstName { get; init; }
-        public string MiddleName { get; init; }
-        public string SecondName { get; init; }
-
         public UniversitySystemUserInfoDto(UniversitySystemUser user) : this()
         {
             Id = user.Id;
@@ -21,6 +15,12 @@ namespace Iwentys.Features.AccountManagement.Models
         public UniversitySystemUserInfoDto()
         {
         }
+
+        public int Id { get; init; }
+
+        public string FirstName { get; init; }
+        public string MiddleName { get; init; }
+        public string SecondName { get; init; }
 
         public string GetFullName()
         {

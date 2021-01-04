@@ -31,7 +31,7 @@ namespace Iwentys.Features.Raids.Services
 
         public async Task Create(AuthorizedUser user, RaidCreateArguments arguments)
         {
-            IwentysUser iwentysUser = await _iwentysUserRepository.GetByIdAsync(user.Id);
+            IwentysUser iwentysUser = await _iwentysUserRepository.GetById(user.Id);
             SystemAdminUser systemAdminUser = iwentysUser.EnsureIsAdmin();
 
             var raid = Raid.CreateCommon(systemAdminUser, arguments);
@@ -59,8 +59,8 @@ namespace Iwentys.Features.Raids.Services
 
         public async Task RegisterOnRaid(AuthorizedUser user, int raidId)
         {
-            var student = await _iwentysUserRepository.GetByIdAsync(user.Id);
-            Raid raid = await _raidRepository.GetByIdAsync(raidId);
+            var student = await _iwentysUserRepository.GetById(user.Id);
+            Raid raid = await _raidRepository.GetById(raidId);
 
             RaidVisitor visitor = raid.RegisterVisitor(student);
 
@@ -70,7 +70,7 @@ namespace Iwentys.Features.Raids.Services
 
         public async Task UnRegisterOnRaid(AuthorizedUser user, int raidId)
         {
-            Raid raid = await _raidRepository.GetByIdAsync(raidId);
+            Raid raid = await _raidRepository.GetById(raidId);
             RaidVisitor raidVisitor = await _raidVisitorRepository
                 .Get()
                 .FirstAsync(rv => rv.Raid == raid && rv.VisitorId == user.Id);
@@ -81,7 +81,7 @@ namespace Iwentys.Features.Raids.Services
 
         public async Task ApproveRegistration(AuthorizedUser user, int raidId, int visitorId)
         {
-            IwentysUser iwentysUser = await _iwentysUserRepository.GetByIdAsync(user.Id);
+            IwentysUser iwentysUser = await _iwentysUserRepository.GetById(user.Id);
             SystemAdminUser admin = iwentysUser.EnsureIsAdmin();
             RaidVisitor visitor = await _raidVisitorRepository
                 .Get()
@@ -96,8 +96,8 @@ namespace Iwentys.Features.Raids.Services
 
         public async Task CreatePartySearchRequest(AuthorizedUser user, int raidId, RaidPartySearchRequestArguments arguments)
         {
-            var student = await _iwentysUserRepository.GetByIdAsync(user.Id);
-            Raid raid = await _raidRepository.GetByIdAsync(raidId);
+            var student = await _iwentysUserRepository.GetById(user.Id);
+            Raid raid = await _raidRepository.GetById(raidId);
             RaidVisitor visitor = await _raidVisitorRepository
                 .Get()
                 .Where(rv => rv.RaidId == raidId && rv.VisitorId == user.Id)

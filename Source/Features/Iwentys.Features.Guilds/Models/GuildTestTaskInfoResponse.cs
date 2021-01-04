@@ -8,10 +8,10 @@ namespace Iwentys.Features.Guilds.Models
     public class GuildTestTaskInfoResponse
     {
         public int StudentId { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime? SubmitTime { get; set; }
+        public DateTime StartTimeUtc { get; set; }
+        public DateTime? SubmitTimeUtc { get; set; }
         public long? ProjectId { get; set; }
-        public DateTime? CompleteTime { get; set; }
+        public DateTime? CompleteTimeUtc { get; set; }
 
         public GuildTestTaskState TestTaskState { get; set; }
 
@@ -19,11 +19,11 @@ namespace Iwentys.Features.Guilds.Models
             testTask =>
                 new GuildTestTaskInfoResponse
                 {
-                    StudentId = testTask.StudentId,
-                    StartTime = testTask.StartTime,
-                    SubmitTime = testTask.SubmitTime,
+                    StudentId = testTask.AuthorId,
+                    StartTimeUtc = testTask.StartTimeUtc,
+                    SubmitTimeUtc = testTask.SubmitTimeUtc,
                     ProjectId = testTask.ProjectId,
-                    CompleteTime = testTask.CompleteTime,
+                    CompleteTimeUtc = testTask.CompleteTimeUtc,
                     TestTaskState = testTask.GetState()
                 };
 
@@ -32,11 +32,11 @@ namespace Iwentys.Features.Guilds.Models
         {
             return new GuildTestTaskInfoResponse
             {
-                StudentId = testTask.StudentId,
-                StartTime = testTask.StartTime,
-                SubmitTime = testTask.SubmitTime,
+                StudentId = testTask.AuthorId,
+                StartTimeUtc = testTask.StartTimeUtc,
+                SubmitTimeUtc = testTask.SubmitTimeUtc,
                 ProjectId = testTask.ProjectId,
-                CompleteTime = testTask.CompleteTime,
+                CompleteTimeUtc = testTask.CompleteTimeUtc,
                 TestTaskState = testTask.GetState()
             };
         }

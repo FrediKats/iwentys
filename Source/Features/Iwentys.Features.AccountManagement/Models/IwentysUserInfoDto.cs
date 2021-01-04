@@ -5,13 +5,6 @@ namespace Iwentys.Features.AccountManagement.Models
 {
     public class IwentysUserInfoDto : UniversitySystemUserInfoDto
     {
-        public bool IsAdmin { get; set; }
-        public string GithubUsername { get; set; }
-        public DateTime CreationTime { get; init; }
-        public DateTime LastOnlineTime { get; set; }
-        public int BarsPoints { get; set; }
-        public string AvatarUrl { get; set; }
-
         public IwentysUserInfoDto(IwentysUser user) : base(user)
         {
             IsAdmin = user.IsAdmin;
@@ -25,5 +18,12 @@ namespace Iwentys.Features.AccountManagement.Models
         public IwentysUserInfoDto()
         {
         }
+
+        public bool IsAdmin { get; set; }
+        public string GithubUsername { get; set; }
+        public DateTime CreationTime { get; init; }
+        public DateTime LastOnlineTime { get; set; }
+        public int BarsPoints { get; set; }
+        public string AvatarUrl { get; set; }
     }
 }

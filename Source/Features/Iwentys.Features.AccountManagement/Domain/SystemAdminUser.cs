@@ -1,4 +1,5 @@
-﻿using Iwentys.Common.Exceptions;
+﻿using System.Threading.Tasks;
+using Iwentys.Common.Exceptions;
 using Iwentys.Features.AccountManagement.Entities;
 
 namespace Iwentys.Features.AccountManagement.Domain
@@ -9,7 +10,7 @@ namespace Iwentys.Features.AccountManagement.Domain
         {
             if (!user.IsAdmin)
                 throw InnerLogicException.NotEnoughPermissionFor(user.Id);
-            
+
             User = user;
         }
 
@@ -21,6 +22,11 @@ namespace Iwentys.Features.AccountManagement.Domain
         public static SystemAdminUser EnsureIsAdmin(this IwentysUser profile)
         {
             return new SystemAdminUser(profile);
+        }
+
+        public static async Task<SystemAdminUser> EnsureIsAdmin(this Task<IwentysUser> profile)
+        {
+            return new SystemAdminUser(await profile);
         }
     }
 }

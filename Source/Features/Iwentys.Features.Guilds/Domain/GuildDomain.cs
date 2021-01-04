@@ -72,7 +72,7 @@ namespace Iwentys.Features.Guilds.Domain
 
         public async Task<UserMembershipState> GetUserMembershipState(Int32 userId)
         {
-            IwentysUser user = await _userRepository.GetByIdAsync(userId);
+            IwentysUser user = await _userRepository.GetById(userId);
             Guild userGuild = _guildMemberRepositoryNew.ReadForStudent(user.Id);
             GuildMemberType? userStatusInGuild = Profile.Members.Find(m => m.Member.Id == user.Id)?.MemberType;
 
@@ -117,7 +117,7 @@ namespace Iwentys.Features.Guilds.Domain
         //    {
         //        //TODO: need to fix after https://github.com/octokit/octokit.net/pull/2239
         //        //_profile.Bio = organizationInfo.Bio;
-        //        Profile.LogoUrl = organizationInfo.Url;
+        //        Profile.ImageUrl = organizationInfo.Url;
         //        _guildRepository.UpdateAsync(Profile);
         //    }
 
@@ -126,7 +126,7 @@ namespace Iwentys.Features.Guilds.Domain
 
         public async Task<GuildMember> EnsureMemberCanRestrictPermissionForOther(AuthorizedUser user, int memberToKickId)
         {
-            IwentysUser editorStudentAccount = await _userRepository.GetByIdAsync(user.Id);
+            IwentysUser editorStudentAccount = await _userRepository.GetById(user.Id);
             editorStudentAccount.EnsureIsGuildMentor(Profile);
 
             GuildMember memberToKick = Profile.Members.Find(m => m.MemberId == memberToKickId);
