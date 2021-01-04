@@ -31,6 +31,7 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
 
                 //FYI: this value is used in selector
                 subject.Insert(0, null);
+                _subjects = subject;
             }
         }
 
