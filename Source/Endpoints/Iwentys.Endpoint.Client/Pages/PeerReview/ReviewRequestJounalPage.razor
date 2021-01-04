@@ -1,0 +1,34 @@
+﻿@page "/peer-review"
+
+@using Iwentys.Features.PeerReview.Models
+
+@inherits DependencyInjectionPage
+
+<h3>ReviewRequestJounalPage</h3>
+
+<div>
+    <h5>Review requests</h5>
+    @if (_projectReviewRequests is not null)
+    {
+        <div>
+            @foreach (ProjectReviewRequestInfoDto reviewRequest in _projectReviewRequests)
+            {
+                <div class="card-list-element">
+                    <MatCard Class="dark-elevation-01">
+                        <MatCardContent>
+                            <div class="card-list-element-content">
+                                <MatHeadline6>
+                                    @reviewRequest.Description
+                                </MatHeadline6>
+                            </div>
+                        </MatCardContent>
+                    </MatCard>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+
+}

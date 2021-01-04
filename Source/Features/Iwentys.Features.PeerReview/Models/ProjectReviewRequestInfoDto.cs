@@ -6,6 +6,7 @@ namespace Iwentys.Features.PeerReview.Models
 {
     public class ProjectReviewRequestInfoDto
     {
+        //TODO: need to add project info, title, tags
         public int Id { get; set; }
         public string Description { get; set; }
         public ProjectReviewState State { get; set; }
