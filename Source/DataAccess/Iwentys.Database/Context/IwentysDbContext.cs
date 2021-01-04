@@ -13,6 +13,7 @@ using Iwentys.Features.Guilds.Tournaments.Entities;
 using Iwentys.Features.Guilds.Tributes.Entities;
 using Iwentys.Features.InterestTags.Entities;
 using Iwentys.Features.Newsfeeds.Entities;
+using Iwentys.Features.PeerReview.Entities;
 using Iwentys.Features.Quests.Entities;
 using Iwentys.Features.Raids.Entities;
 using Iwentys.Features.Study.Entities;
@@ -81,6 +82,10 @@ namespace Iwentys.Database.Context
         public DbSet<GuildNewsfeed> GuildNewsfeeds { get; set; }
         #endregion
 
+        #region PeerReview
+        public DbSet<ProjectReviewRequest> ProjectReviewRequests { get; set; }
+        #endregion
+
         #region Quests
         public DbSet<Quest> Quests { get; set; }
         public DbSet<QuestResponse> QuestResponses { get; set; }
@@ -93,8 +98,10 @@ namespace Iwentys.Database.Context
         public DbSet<RaidPartySearchRequest> PartySearchRequests { get; set; }
         #endregion
 
+        #region Github integration
         public DbSet<GithubProject> StudentProjects { get; set; }
         public DbSet<GithubUser> GithubUsersData { get; set; }
+        #endregion
 
         #region Study
         public DbSet<Student> Students { get; set; }
