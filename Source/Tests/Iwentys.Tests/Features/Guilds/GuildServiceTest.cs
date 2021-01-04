@@ -307,13 +307,12 @@ namespace Iwentys.Tests.Features.Guilds
         }
 
         [Test]
-        //TODO: fix
-        [Ignore("Meh?")]
         public async Task UpdateGuild_UpdateHiringPolicyToClose_CloseGuild()
         {
             var context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
-            context.WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
+            context
+                .WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithGuildRequest(guild, out AuthorizedUser _);
             await context.GuildService.Update(user, GuildUpdateRequestDto.ForPolicyUpdate(guild.Id, GuildHiringPolicy.Close));
 
@@ -322,8 +321,6 @@ namespace Iwentys.Tests.Features.Guilds
         }
 
         [Test]
-        //TODO: fix
-        [Ignore("Meh?")]
         public async Task UpdateGuild_UpdateHiringPolicyToOpen_SwitchRequestsToMembers()
         {
             var context = TestCaseContext.Case();

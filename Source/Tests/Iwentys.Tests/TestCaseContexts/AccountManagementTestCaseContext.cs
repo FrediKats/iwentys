@@ -1,6 +1,6 @@
-﻿using Iwentys.Features.AccountManagement.Domain;
+﻿using Iwentys.Database.Seeding.FakerEntities;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
-using Iwentys.Tests.Tools;
 
 namespace Iwentys.Tests.TestCaseContexts
 {
@@ -15,8 +15,7 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public AuthorizedUser WithUser(bool isAdmin = false)
         {
-            int id = RandomProvider.Random.Next(999999);
-
+            var id = UniversitySystemUserFaker.Instance.GetIdentifier();
             var user = new IwentysUser
             {
                 Id = id,

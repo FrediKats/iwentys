@@ -9,7 +9,7 @@ namespace Iwentys.Database.Seeding.FakerEntities
     {
         public StudentFaker()
         {
-            RuleFor(s => s.Id, f => f.IndexFaker + 1)
+            RuleFor(s => s.Id, f => UniversitySystemUserFaker.Instance.GetIdentifier())
                 .RuleFor(s => s.FirstName, f => f.Name.FirstName())
                 .RuleFor(s => s.SecondName, f => f.Name.LastName())
                 .RuleFor(s => s.Type, StudentType.Budgetary)

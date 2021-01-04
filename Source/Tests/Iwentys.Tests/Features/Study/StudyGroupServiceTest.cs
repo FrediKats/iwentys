@@ -26,16 +26,12 @@ namespace Iwentys.Tests.Features.Study
         {
             TestCaseContext testCase = TestCaseContext.Case();
             AuthorizedUser admin = testCase.AccountManagementTestCaseContext.WithUser(true);
-
-            //TODO: it's some kind of hack
-            //TODO: implement creating group admin with group
             GroupProfileResponseDto studyGroup = testCase.StudyTestCaseContext.WithStudyGroup();
             AuthorizedUser newGroupAdmin = testCase.StudyTestCaseContext.WithNewStudent(studyGroup);
 
-            //TODO: omg, we need to fetch group one more time coz Group admin id is not actual anymore
             await testCase.StudyGroupService.MakeGroupAdmin(admin, newGroupAdmin.Id);
+
             studyGroup = await testCase.StudyGroupService.GetStudentGroup(newGroupAdmin.Id);
-            var student = await testCase.StudentService.Get(newGroupAdmin.Id);
             Assert.AreEqual(studyGroup.GroupAdmin.Id, newGroupAdmin.Id);
         }
 

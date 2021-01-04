@@ -45,12 +45,14 @@ namespace Iwentys.Features.Guilds.Domain
 
         public static async Task<GuildMentor> EnsureIsGuildMentor(this Task<IwentysUser> user, Guild guild)
         {
-            GuildMember membership = guild.Members.FirstOrDefault(m => m.MemberId == user.Id);
+            IwentysUser member = await user;
+
+            GuildMember membership = guild.Members.FirstOrDefault(m => m.MemberId == member.Id);
 
             if (membership is null)
-                throw InnerLogicException.GuildExceptions.IsNotGuildMember(user.Id, guild.Id);
+                throw InnerLogicException.GuildExceptions.IsNotGuildMember(member.Id, guild.Id);
 
-            return new GuildMentor(await user, guild, membership.MemberType);
+            return new GuildMentor(member, guild, membership.MemberType);
         }
     }
 }
