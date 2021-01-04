@@ -29,5 +29,19 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
                 .Request("api/peer-review/requests/available-projects")
                 .GetJsonAsync<List<GithubRepositoryInfoDto>>();
         }
+
+        public async Task CreateReviewRequest(ReviewRequestCreateArguments createArguments)
+        {
+            await new FlurlClient(Client)
+                .Request("api/peer-review/requests")
+                .PostJsonAsync(createArguments);
+        }
+
+        public async Task SendReviewFeedback(int reviewRequestId, ReviewRequestCreateArguments createArguments)
+        {
+            await new FlurlClient(Client)
+                .Request($"api/peer-review/requests/{reviewRequestId}/feedback")
+                .PostJsonAsync(createArguments);
+        }
     }
 }

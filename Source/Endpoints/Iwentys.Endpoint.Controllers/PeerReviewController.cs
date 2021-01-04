@@ -34,5 +34,21 @@ namespace Iwentys.Endpoint.Controllers
             List<GithubRepositoryInfoDto> projects = await _projectReviewService.GetAvailableForReviewProject(authorizedUser);
             return Ok(projects);
         }
+
+        [HttpPost("requests")]
+        public async Task<ActionResult> CreateReviewRequest([FromBody] ReviewRequestCreateArguments createArguments)
+        {
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            await _projectReviewService.CreateReviewRequest(authorizedUser, createArguments);
+            return Ok();
+        }
+
+        [HttpPost("requests/{reviewRequestId}/feedback")]
+        public async Task<ActionResult> SendReviewFeedback(int reviewRequestId, [FromBody] ReviewFeedbackCreateArguments createArguments)
+        {
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            await _projectReviewService.SendReviewFeedback(authorizedUser, reviewRequestId, createArguments);
+            return Ok();
+        }
     }
 }

@@ -1,10 +1,8 @@
 ﻿@page "/peer-review/create"
 
-@using Iwentys.Features.PeerReview.Models
-
 @inherits DependencyInjectionPage
 
-<h3>PeerReviewCreatePage</h3>
+<h3>PeerReviewRequestCreatePage</h3>
 
 @if (_availableForReviewProject is not null)
 {
@@ -19,6 +17,8 @@
             </ItemTemplate>
         </MatSelectItem>
     </p>
+
+    <MatButton OnClick=@(async () => await CreateRequest())>Create</MatButton>
 }
 
 @code {
