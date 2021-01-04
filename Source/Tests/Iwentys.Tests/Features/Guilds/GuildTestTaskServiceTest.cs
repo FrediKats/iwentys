@@ -35,8 +35,9 @@ namespace Iwentys.Tests.Features.Guilds
                 .Case()
                 .WithNewStudent(out AuthorizedUser guildCreator)
                 .WithGuild(guildCreator, out ExtendedGuildProfileWithMemberDataDto guildProfile)
-                .WithGuildMember(guildProfile, guildCreator, out AuthorizedUser guildNewcomer)
-                .WithStudentProject(guildNewcomer, out GithubProject githubProject);
+                .WithGuildMember(guildProfile, guildCreator, out AuthorizedUser guildNewcomer);
+            context.GithubTestCaseContext.WithGithubAccount(guildNewcomer);
+            GithubProject githubProject = context.GithubTestCaseContext.WithStudentProject(guildNewcomer);
 
             await context.GuildTestTaskService.Accept(guildNewcomer, guildProfile.Id);
             await context.GuildTestTaskService.Submit(guildNewcomer, guildProfile.Id, githubProject.Owner, githubProject.Name);
@@ -54,8 +55,9 @@ namespace Iwentys.Tests.Features.Guilds
                 .Case()
                 .WithNewStudent(out AuthorizedUser guildCreator)
                 .WithGuild(guildCreator, out ExtendedGuildProfileWithMemberDataDto guildProfile)
-                .WithGuildMember(guildProfile, guildCreator, out AuthorizedUser guildNewcomer)
-                .WithStudentProject(guildNewcomer, out GithubProject githubProject);
+                .WithGuildMember(guildProfile, guildCreator, out AuthorizedUser guildNewcomer);
+            context.GithubTestCaseContext.WithGithubAccount(guildNewcomer);
+            GithubProject githubProject = context.GithubTestCaseContext.WithStudentProject(guildNewcomer);
 
             await context.GuildTestTaskService.Accept(guildNewcomer, guildProfile.Id);
             await context.GuildTestTaskService.Submit(guildNewcomer, guildProfile.Id, githubProject.Owner, githubProject.Name);

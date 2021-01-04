@@ -49,6 +49,7 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly KarmaService KarmaService;
 
         public readonly TributeTestCaseContext TributeTestCaseContext;
+        public readonly GithubTestCaseContext GithubTestCaseContext;
 
         public static TestCaseContext Case() => new TestCaseContext();
 
@@ -77,6 +78,7 @@ namespace Iwentys.Tests.TestCaseContexts
             KarmaService = new KarmaService(UnitOfWork);
 
             TributeTestCaseContext = new TributeTestCaseContext(this);
+            GithubTestCaseContext = new GithubTestCaseContext(this);
         }
 
         public TestCaseContext WithNewStudent(out AuthorizedUser user)
@@ -90,19 +92,9 @@ namespace Iwentys.Tests.TestCaseContexts
                 BarsPoints = 1000
             };
 
-
-            //TODO: meh?
-            var newGithubUser = new GithubUser
-            {
-                IwentysUserId = userInfo.Id,
-                Username = userInfo.GithubUsername,
-            };
-
             UnitOfWork.GetRepository<Student>().InsertAsync(userInfo).Wait();
-            UnitOfWork.GetRepository<GithubUser>().InsertAsync(newGithubUser).Wait();
-            user = AuthorizedUser.DebugAuth(userInfo.Id);
-
             UnitOfWork.CommitAsync().Wait();
+            user = AuthorizedUser.DebugAuth(userInfo.Id);
             return this;
         }
 

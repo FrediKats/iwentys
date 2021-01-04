@@ -21,8 +21,10 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithNewStudent(out AuthorizedUser student)
                 .WithGuild(student, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithNewAdmin(out AuthorizedUser admin)
-                .WithMentor(guild, admin, out AuthorizedUser mentor)
-                .WithStudentProject(student, out GithubProject project);
+                .WithMentor(guild, admin, out AuthorizedUser mentor);
+
+            context.GithubTestCaseContext.WithGithubAccount(student);
+            GithubProject project = context.GithubTestCaseContext.WithStudentProject(student);
 
             context.TributeTestCaseContext.WithTribute(student, project);
             List<TributeInfoResponse> tributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
@@ -39,8 +41,9 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithNewStudent(out AuthorizedUser student)
                 .WithGuild(student, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithNewAdmin(out AuthorizedUser admin)
-                .WithMentor(guild, admin, out AuthorizedUser mentor)
-                .WithStudentProject(student, out GithubProject project);
+                .WithMentor(guild, admin, out AuthorizedUser mentor);
+            context.GithubTestCaseContext.WithGithubAccount(student);
+            GithubProject project = context.GithubTestCaseContext.WithStudentProject(student);
 
             TributeInfoResponse tributeInfo = context.TributeTestCaseContext.WithTribute(student, project);
             await context.GuildTributeServiceService.CancelTribute(student, tributeInfo.Project.Id);
@@ -60,8 +63,9 @@ namespace Iwentys.Tests.Features.Guilds
                 .WithNewStudent(out AuthorizedUser student)
                 .WithGuild(student, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithNewAdmin(out AuthorizedUser admin)
-                .WithMentor(guild, admin, out AuthorizedUser mentor)
-                .WithStudentProject(student, out GithubProject project);
+                .WithMentor(guild, admin, out AuthorizedUser mentor);
+            context.GithubTestCaseContext.WithGithubAccount(student);
+            GithubProject project = context.GithubTestCaseContext.WithStudentProject(student);
 
             TributeInfoResponse tributeInfo = context.TributeTestCaseContext.WithTribute(student, project);
             tributeInfo = context.TributeTestCaseContext.CompleteTribute(mentor,tributeInfo);
