@@ -22,7 +22,7 @@ namespace Iwentys.Endpoint.Controllers
         [HttpGet("student/{studentId}")]
         public async Task<ActionResult<List<CodingActivityInfoResponse>>> GetForStudent(int studentId)
         {
-            GithubUser result = await _githubIntegrationService.UserApiApiAccessor.FindGithubUser(studentId);
+            GithubUser result = await _githubIntegrationService.User.FindGithubUser(studentId);
 
             if (result?.ContributionFullInfo is null)
                 return Ok(new List<CodingActivityInfoResponse>());
@@ -33,7 +33,7 @@ namespace Iwentys.Endpoint.Controllers
         [HttpGet("student/{studentId}/repository")]
         public async Task<ActionResult<IReadOnlyList<GithubRepositoryInfoDto>>> GetStudentRepositories(int studentId)
         {
-            IReadOnlyList<GithubRepositoryInfoDto> result = await _githubIntegrationService.GetStudentRepositories(studentId);
+            IReadOnlyList<GithubRepositoryInfoDto> result = await _githubIntegrationService.Repository.GetStudentRepositories(studentId);
             return Ok(result);
         }
     }

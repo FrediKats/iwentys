@@ -89,7 +89,7 @@ namespace Iwentys.Features.Guilds.Services
             if (testTaskSolution.GetState() == GuildTestTaskState.Completed)
                 throw new InnerLogicException("Task already completed");
 
-            GithubRepositoryInfoDto githubRepositoryInfoDto = await _githubIntegrationService.GetRepository(projectOwner, projectName);
+            GithubRepositoryInfoDto githubRepositoryInfoDto = await _githubIntegrationService.Repository.GetRepository(projectOwner, projectName);
             testTaskSolution.SendSubmit(githubRepositoryInfoDto.Id);
 
             _guildTestTaskSolutionRepository.Update(testTaskSolution);

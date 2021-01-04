@@ -105,7 +105,7 @@ namespace Iwentys.Features.Guilds.Services
             Guild guild = await _guildRepository.GetById(guildId);
             GuildMentor guildMentor = await _iwentysUserRepository.GetById(user.Id).EnsureIsGuildMentor(guild);
 
-            GithubRepositoryInfoDto repositoryInfoDto = await _githubIntegrationService.GetRepository(owner, projectName);
+            GithubRepositoryInfoDto repositoryInfoDto = await _githubIntegrationService.Repository.GetRepository(owner, projectName);
             var guildPinnedProjectEntity = GuildPinnedProject.Create(guildId, repositoryInfoDto);
 
             await _guildPinnedProjectRepository.InsertAsync(guildPinnedProjectEntity);

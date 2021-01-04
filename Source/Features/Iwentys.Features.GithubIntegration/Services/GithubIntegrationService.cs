@@ -1,86 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Iwentys.Common.Databases;
-using Iwentys.Features.GithubIntegration.Entities;
-using Iwentys.Features.GithubIntegration.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Iwentys.Common.Databases;
 
 namespace Iwentys.Features.GithubIntegration.Services
 {
     public class GithubIntegrationService
     {
-        private readonly IGithubApiAccessor _githubApiAccessor;
-        private readonly IUnitOfWork _unitOfWork;
+        public readonly GithubUserApiAccessor User;
+        public readonly GithubRepositoryApiAccessor Repository;
 
-        private readonly IGenericRepository<GithubProject> _studentProjectRepository;
-
-        public readonly GithubUserApiAccessor UserApiApiAccessor;
-
-        public GithubIntegrationService(IGithubApiAccessor githubApiAccessor, IUnitOfWork unitOfWork, GithubUserApiAccessor userApiApiAccessor)
+        public GithubIntegrationService(IGithubApiAccessor githubApiAccessor, IUnitOfWork unitOfWork)
         {
-            _githubApiAccessor = githubApiAccessor;
-            UserApiApiAccessor = userApiApiAccessor;
-
-            _unitOfWork = unitOfWork;
-            _studentProjectRepository = _unitOfWork.GetRepository<GithubProject>();
-        }
-
-        public async Task<GithubRepositoryInfoDto> GetRepository(string username, string projectName, bool useCache = true)
-        {
-            if (!useCache)
-            {
-                GithubUser githubUser = await UserApiApiAccessor.GetGithubUser(username, useCache);
-                await ForceRescanUserRepositories(githubUser);
-            }
-
-            GithubProject githubRepository = await _studentProjectRepository
-                .Get()
-                .SingleOrDefaultAsync(p => p.Owner == username && p.Name == projectName);
-
-            if (githubRepository is null)
-                return await _githubApiAccessor.GetRepository(username, projectName);
-
-            return new GithubRepositoryInfoDto(githubRepository);
-        }
-
-        public async Task<List<GithubRepositoryInfoDto>> GetStudentRepositories(int studentId, bool useCache = true)
-        {
-            //TODO: check case when find return null
-            GithubUser githubUser = await UserApiApiAccessor.FindGithubUser(studentId, useCache);
-
-            return await GetUserRepositories(githubUser.Username, useCache);
-        }
-
-        public async Task<List<GithubRepositoryInfoDto>> GetUserRepositories(string username, bool useCache = true)
-        {
-            GithubUser githubUser = await UserApiApiAccessor.GetGithubUser(username, useCache);
-
-            if (!useCache)
-            {
-                await ForceRescanUserRepositories(githubUser);
-            }
-
-            return await _studentProjectRepository
-                .Get()
-                .Where(p => p.OwnerUserId == githubUser.IwentysUserId)
-                .Select(GithubRepositoryInfoDto.FromEntity)
-                .ToListAsync();
-        }
-
-        //TODO: rework but not now. Probably perf problems
-        //TODO: remove old repo that is not exist in githubRepositories
-        public async Task ForceRescanUserRepositories(GithubUser githubUser)
-        {
-            List<GithubRepositoryInfoDto> githubRepositories = await _githubApiAccessor.GetUserRepositories(githubUser.Username);
-            IEnumerable<GithubProject> studentProjects = githubRepositories.Select(r => new GithubProject(githubUser, r));
-            foreach (GithubProject project in studentProjects)
-                if (_studentProjectRepository.FindByIdAsync(project.Id) is null)
-                    _studentProjectRepository.Update(project);
-                else
-                    await _studentProjectRepository.InsertAsync(project);
-
-            await _unitOfWork.CommitAsync();
+            User = new GithubUserApiAccessor(githubApiAccessor, unitOfWork);
+            Repository = new GithubRepositoryApiAccessor(githubApiAccessor, unitOfWork, User);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Iwentys.Tests.TestCaseContexts
         public TestCaseContext WithStudentProject(AuthorizedUser userInfo, out GithubProject githubProject)
         {
             IwentysUser student = UnitOfWork.GetRepository<Student>().GetById(userInfo.Id).Result;
-            GithubUser githubUser = GithubIntegrationService.UserApiApiAccessor.FindGithubUser(userInfo.Id).Result;
+            GithubUser githubUser = GithubIntegrationService.User.Get(userInfo.Id).Result;
             GithubRepositoryInfoDto repositoryInfo = GithubRepositoryFaker.Instance.Generate(student.GithubUsername);
 
             githubProject = new GithubProject(githubUser, repositoryInfo);

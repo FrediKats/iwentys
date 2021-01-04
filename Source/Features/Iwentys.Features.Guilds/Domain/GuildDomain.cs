@@ -42,7 +42,7 @@ namespace Iwentys.Features.Guilds.Domain
             {
                 Leader = Profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new IwentysUserInfoDto(s)),
                 //TODO: Make method in Github service for getting projects for guild
-                PinnedRepositories = Profile.PinnedProjects.SelectToList(p => _githubIntegrationService.GetRepository(p.RepositoryOwner, p.RepositoryName).Result),
+                PinnedRepositories = Profile.PinnedProjects.SelectToList(p => _githubIntegrationService.Repository.GetRepository(p.RepositoryOwner, p.RepositoryName).Result),
             };
 
             if (userId is not null)
@@ -57,7 +57,7 @@ namespace Iwentys.Features.Guilds.Domain
             List<GuildMemberImpactDto> result = new List<GuildMemberImpactDto>();
             foreach (var member in Profile.Members)
             {
-                var contributionFullInfo = await _githubIntegrationService.UserApiApiAccessor.FindUserContributionOrEmpty(member.Member);
+                var contributionFullInfo = await _githubIntegrationService.User.FindUserContributionOrEmpty(member.Member);
                 result.Add(new GuildMemberImpactDto(new IwentysUserInfoDto(member.Member), member.MemberType, contributionFullInfo));
             }
 

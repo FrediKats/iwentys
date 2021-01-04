@@ -84,7 +84,7 @@ namespace Iwentys.Features.Gamification.Services
                 .SelectMany(g => g.Students)
                 .Select(s => s.Student)
                 .AsEnumerable()
-                .Select(s => new StudyLeaderboardRowDto(s, _githubIntegrationService.UserApiApiAccessor.GetGithubUser(s.GithubUsername).Result?.ContributionFullInfo.Total ?? 0))
+                .Select(s => new StudyLeaderboardRowDto(s, _githubIntegrationService.User.GetGithubUser(s.GithubUsername).Result?.ContributionFullInfo.Total ?? 0))
                 .OrderBy(a => a.Activity)
                 .Skip(skip)
                 .Take(take)

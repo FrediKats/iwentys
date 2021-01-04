@@ -21,7 +21,6 @@ using Iwentys.Features.Newsfeeds.Services;
 using Iwentys.Features.Quests.Models;
 using Iwentys.Features.Quests.Services;
 using Iwentys.Features.Study.Entities;
-using Iwentys.Features.Study.Enums;
 using Iwentys.Features.Study.Services;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Tests.Tools;
@@ -60,10 +59,9 @@ namespace Iwentys.Tests.TestCaseContexts
             
             var achievementProvider = new AchievementProvider(UnitOfWork);
             var githubApiAccessor = new DummyGithubApiAccessor();
-            var githubUserApiAccessor = new GithubUserApiAccessor(githubApiAccessor, UnitOfWork);
 
             StudentService = new StudentService(UnitOfWork, achievementProvider);
-            GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, UnitOfWork, githubUserApiAccessor);
+            GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, UnitOfWork);
             GuildService = new GuildService(GithubIntegrationService, UnitOfWork);
             GuildMemberService = new GuildMemberService(GithubIntegrationService, UnitOfWork);
             GuildTributeServiceService = new GuildTributeService(UnitOfWork, GithubIntegrationService);
@@ -92,9 +90,19 @@ namespace Iwentys.Tests.TestCaseContexts
                 BarsPoints = 1000
             };
 
+
+            //TODO: meh?
+            var newGithubUser = new GithubUser
+            {
+                IwentysUserId = userInfo.Id,
+                Username = userInfo.GithubUsername,
+            };
+
             UnitOfWork.GetRepository<Student>().InsertAsync(userInfo).Wait();
-            UnitOfWork.CommitAsync().Wait();
+            UnitOfWork.GetRepository<GithubUser>().InsertAsync(newGithubUser).Wait();
             user = AuthorizedUser.DebugAuth(userInfo.Id);
+
+            UnitOfWork.CommitAsync().Wait();
             return this;
         }
 
@@ -162,7 +170,7 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public TestCaseContext WithGithubRepository(AuthorizedUser userInfo, out GithubUser user)
         {
-            user = GithubIntegrationService.UserApiApiAccessor.CreateOrUpdate(userInfo.Id).Result;
+            user = GithubIntegrationService.User.CreateOrUpdate(userInfo.Id).Result;
             return this;
         }
     }

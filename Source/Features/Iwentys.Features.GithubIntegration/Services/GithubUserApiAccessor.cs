@@ -109,6 +109,11 @@ namespace Iwentys.Features.GithubIntegration.Services
             return result;
         }
 
+        public async Task<GithubUser> Get(int studentId, bool useCache = true)
+        {
+            return await FindGithubUser(studentId, useCache) ?? throw EntityNotFoundException.Create(typeof(GithubUser), studentId);
+        }
+
         //TODO: why this is Find? Do we need this?
         public async Task<GithubUser> FindGithubUser(int studentId, bool useCache = true)
         {

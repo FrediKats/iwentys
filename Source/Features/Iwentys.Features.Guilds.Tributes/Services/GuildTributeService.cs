@@ -91,7 +91,7 @@ namespace Iwentys.Features.Guilds.Tributes.Services
         public async Task<TributeInfoResponse> CreateTribute(AuthorizedUser user, CreateProjectRequestDto createProject)
         {
             IwentysUser student = await _studentRepository.FindByIdAsync(user.Id);
-            GithubRepositoryInfoDto githubProject = await _githubIntegrationService.GetRepository(createProject.Owner, createProject.RepositoryName);
+            GithubRepositoryInfoDto githubProject = await _githubIntegrationService.Repository.GetRepository(createProject.Owner, createProject.RepositoryName);
             GithubProject project = await GetOrCreate(githubProject, student);
             Guild guild = _guildMemberRepository.ReadForStudent(student.Id);
             List<Tribute> allTributes = await _guildTributeRepository.Get().ToListAsync();
@@ -115,8 +115,7 @@ namespace Iwentys.Features.Guilds.Tributes.Services
             if (githubProject is not null)
                 return githubProject;
 
-            //TODO: replace with Get*
-            GithubUser githubUser = await _githubIntegrationService.UserApiApiAccessor.FindGithubUser(creator.Id);
+            GithubUser githubUser = await _githubIntegrationService.User.Get(creator.Id);
             //TODO: need to get this from GithubService
             var newProject = new GithubProject(githubUser, project);
 
