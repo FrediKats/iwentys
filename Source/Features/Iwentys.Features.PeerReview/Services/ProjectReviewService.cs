@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.PeerReview.Entities;
+using Iwentys.Features.PeerReview.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.PeerReview.Services
@@ -19,11 +22,24 @@ namespace Iwentys.Features.PeerReview.Services
             _projectReviewRequestRepository = _unitOfWork.GetRepository<ProjectReviewRequest>();
         }
 
-        public async Task<List<ProjectReviewRequest>> GetRequests()
+        public async Task<List<ProjectReviewRequestInfoDto>> GetRequests()
         {
             return await _projectReviewRequestRepository
                 .Get()
+                .Select(prr => new ProjectReviewRequestInfoDto(prr))
                 .ToListAsync();
+        }
+
+        public async Task<ProjectReviewRequestInfoDto> CreateReviewRequest(AuthorizedUser author, ReviewRequestCreateArguments createArguments)
+        {
+            //TODO: ensure project was not been added to review before
+
+            var projectReviewRequest = ProjectReviewRequest.Create(author, createArguments);
+
+            await _projectReviewRequestRepository.InsertAsync(projectReviewRequest);
+            await _unitOfWork.CommitAsync();
+
+            return new ProjectReviewRequestInfoDto(projectReviewRequest);
         }
     }
 }
