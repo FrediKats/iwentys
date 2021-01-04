@@ -19,6 +19,7 @@ using Iwentys.Features.Guilds.Tournaments.Services;
 using Iwentys.Features.Guilds.Tributes.Services;
 using Iwentys.Features.InterestTags.Services;
 using Iwentys.Features.Newsfeeds.Services;
+using Iwentys.Features.PeerReview.Services;
 using Iwentys.Features.Quests.Models;
 using Iwentys.Features.Quests.Services;
 using Iwentys.Features.Study.Services;
@@ -48,6 +49,7 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly StudyGroupService StudyGroupService;
         public readonly GuildTestTaskService GuildTestTaskService;
         public readonly KarmaService KarmaService;
+        public readonly ProjectReviewService ProjectReviewService;
 
         public readonly TributeTestCaseContext TributeTestCaseContext;
         public readonly GithubTestCaseContext GithubTestCaseContext;
@@ -55,6 +57,8 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly StudyTestCaseContext StudyTestCaseContext;
         public readonly QuestTestCaseContext QuestTestCaseContext;
         public readonly CompanyTestCaseContext CompanyTestCaseContext;
+        public readonly PeerReviewTestCaseContext PeerReviewTestCaseContext;
+        
 
         public static TestCaseContext Case() => new TestCaseContext();
 
@@ -82,6 +86,7 @@ namespace Iwentys.Tests.TestCaseContexts
             StudyGroupService = new StudyGroupService(UnitOfWork);
             GuildTestTaskService = new GuildTestTaskService(achievementProvider, UnitOfWork, GithubIntegrationService);
             KarmaService = new KarmaService(UnitOfWork);
+            ProjectReviewService = new ProjectReviewService(UnitOfWork);
 
             TributeTestCaseContext = new TributeTestCaseContext(this);
             GithubTestCaseContext = new GithubTestCaseContext(this);
@@ -89,6 +94,7 @@ namespace Iwentys.Tests.TestCaseContexts
             StudyTestCaseContext = new StudyTestCaseContext(this);
             QuestTestCaseContext = new QuestTestCaseContext(this);
             CompanyTestCaseContext = new CompanyTestCaseContext(this);
+            PeerReviewTestCaseContext = new PeerReviewTestCaseContext(this);
         }
         
         public TestCaseContext WithMentor(GuildProfileDto guild, AuthorizedUser admin, out AuthorizedUser mentor)

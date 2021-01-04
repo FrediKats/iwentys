@@ -32,7 +32,7 @@ namespace Iwentys.Tests.TestCaseContexts
             return githubProject;
         }
 
-        public void WithGithubAccount(AuthorizedUser user)
+        public GithubUser WithGithubAccount(AuthorizedUser user)
         {
             IwentysUser iwentysUser = _context.UnitOfWork.GetRepository<IwentysUser>().GetById(user.Id).Result;
             var newGithubUser = new GithubUser
@@ -42,6 +42,8 @@ namespace Iwentys.Tests.TestCaseContexts
             };
             _context.UnitOfWork.GetRepository<GithubUser>().InsertAsync(newGithubUser).Wait();
             _context.UnitOfWork.CommitAsync().Wait();
+
+            return newGithubUser;
         }
     }
 }
