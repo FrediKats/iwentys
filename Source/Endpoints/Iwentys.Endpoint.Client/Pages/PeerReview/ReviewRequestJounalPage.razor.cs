@@ -14,5 +14,7 @@ namespace Iwentys.Endpoint.Client.Pages.PeerReview
 
             _projectReviewRequests = await ClientHolder.PeerReview.Get();
         }
+
+        public static string LinkToReviewRequestCreatePage() => "peer-review/create";
     }
 }

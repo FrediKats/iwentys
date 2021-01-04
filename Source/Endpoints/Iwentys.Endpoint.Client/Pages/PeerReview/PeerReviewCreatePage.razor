@@ -1,0 +1,26 @@
+﻿@page "/peer-review/create"
+
+@using Iwentys.Features.PeerReview.Models
+
+@inherits DependencyInjectionPage
+
+<h3>PeerReviewCreatePage</h3>
+
+@if (_availableForReviewProject is not null)
+{
+    <p>Select project</p>
+    <p>
+        <MatSelectItem @bind-Value="@_selectedProject" Items="@_availableForReviewProject" Class="input-element">
+            <ItemTemplate>
+                @if (context is not null)
+                {
+                    <span>@context.Owner/@context.Name</span>
+                }
+            </ItemTemplate>
+        </MatSelectItem>
+    </p>
+}
+
+@code {
+
+}
