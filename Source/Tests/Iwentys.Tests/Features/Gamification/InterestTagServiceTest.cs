@@ -13,13 +13,14 @@ namespace Iwentys.Tests.Features.Gamification
         [Test]
         public void AddTagToUser_EnsureUserHaveTag()
         {
-            var testCase = TestCaseContext.Case()
-                .WithInterestTag(out var tag);
+            TestCaseContext testCase = TestCaseContext.Case();
             AuthorizedUser user = testCase.AccountManagementTestCaseContext.WithUser(true);
-            testCase.WithUserInterestTag(tag, user);
+            InterestTagDto tag = testCase.GamificationTestCaseContext.WithInterestTag();
+            
+            testCase.GamificationTestCaseContext.WithUserInterestTag(tag, user);
 
-            List<InterestTagDto> interestTagDtos = testCase.InterestTagService.GetUserTags(user.Id).Result;
-            Assert.IsTrue(interestTagDtos.Any(t => t.Id == tag.Id));
+            List<InterestTagDto> tags = testCase.InterestTagService.GetUserTags(user.Id).Result;
+            Assert.IsTrue(tags.Any(t => t.Id == tag.Id));
         }
     }
 }

@@ -18,8 +18,8 @@ namespace Iwentys.Tests.Features.Guilds
         {
             var context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
-            context.WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
-                .WithGuildMember(guild, user, out AuthorizedUser guildNewcomer);
+            ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
+            AuthorizedUser guildNewcomer = context.GuildTestCaseContext.WithGuildMember(guild, user);
 
             await context.GuildTestTaskService.Accept(guildNewcomer, guild.Id);
             List<GuildTestTaskInfoResponse> taskInfoResponses = await context.GuildTestTaskService.GetResponses(guild.Id);
@@ -32,8 +32,8 @@ namespace Iwentys.Tests.Features.Guilds
         {
             var context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
-            context.WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
-                .WithGuildMember(guild, user, out AuthorizedUser guildNewcomer);
+            ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
+            AuthorizedUser guildNewcomer = context.GuildTestCaseContext.WithGuildMember(guild, user);
 
             context.GithubTestCaseContext.WithGithubAccount(guildNewcomer);
             GithubProject githubProject = context.GithubTestCaseContext.WithStudentProject(guildNewcomer);
@@ -52,8 +52,9 @@ namespace Iwentys.Tests.Features.Guilds
         {
             var context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
-            context.WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
-                .WithGuildMember(guild, user, out AuthorizedUser guildNewcomer);
+            ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
+            AuthorizedUser guildNewcomer = context.GuildTestCaseContext.WithGuildMember(guild, user);
+
             context.GithubTestCaseContext.WithGithubAccount(guildNewcomer);
             GithubProject githubProject = context.GithubTestCaseContext.WithStudentProject(guildNewcomer);
 

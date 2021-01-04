@@ -6,23 +6,29 @@ using Iwentys.Tests.Tools;
 
 namespace Iwentys.Tests.TestCaseContexts
 {
-    public partial class TestCaseContext
+    public class NewsfeedTestCaseContext
     {
-        public TestCaseContext WithSubject(out SubjectProfileDto subjectProfile)
+        private readonly TestCaseContext _context;
+
+        public NewsfeedTestCaseContext(TestCaseContext context)
+        {
+            _context = context;
+        }
+
+        public SubjectProfileDto WithSubject()
         {
             var subject = new Subject
             {
                 Name = RandomProvider.Faker.Name.JobArea()
             };
-            UnitOfWork.GetRepository<Subject>().InsertAsync(subject).Wait();
-            UnitOfWork.CommitAsync().Wait();
+            _context.UnitOfWork.GetRepository<Subject>().InsertAsync(subject).Wait();
+            _context.UnitOfWork.CommitAsync().Wait();
 
-            subjectProfile = new SubjectProfileDto(subject);
-            return this;
+            return new SubjectProfileDto(subject);
         }
 
         //TODO: return smth
-        public TestCaseContext WithSubjectNews(SubjectProfileDto subjectProfile, AuthorizedUser creator)
+        public void WithSubjectNews(SubjectProfileDto subjectProfile, AuthorizedUser creator)
         {
             var createViewModel = new NewsfeedCreateViewModel()
             {
@@ -30,9 +36,7 @@ namespace Iwentys.Tests.TestCaseContexts
                 Content = RandomProvider.Faker.Lorem.Sentence()
             };
 
-            NewsfeedService.CreateSubjectNewsfeed(createViewModel, creator, subjectProfile.Id).Wait();
-            
-            return this;
+            _context.NewsfeedService.CreateSubjectNewsfeed(createViewModel, creator, subjectProfile.Id).Wait();
         }
     }
 }

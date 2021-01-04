@@ -1,4 +1,3 @@
-using System;
 using Iwentys.Common.Databases;
 using Iwentys.Database.Context;
 using Iwentys.Database.Tools;
@@ -6,21 +5,17 @@ using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Services;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Achievements.Services;
-using Iwentys.Features.Companies.Entities;
-using Iwentys.Features.Companies.Models;
 using Iwentys.Features.Companies.Services;
 using Iwentys.Features.Economy.Services;
 using Iwentys.Features.Gamification.Services;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Services;
-using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Services;
 using Iwentys.Features.Guilds.Tournaments.Services;
 using Iwentys.Features.Guilds.Tributes.Services;
 using Iwentys.Features.InterestTags.Services;
 using Iwentys.Features.Newsfeeds.Services;
 using Iwentys.Features.PeerReview.Services;
-using Iwentys.Features.Quests.Models;
 using Iwentys.Features.Quests.Services;
 using Iwentys.Features.Study.Services;
 using Iwentys.Integrations.GithubIntegration;
@@ -30,7 +25,8 @@ namespace Iwentys.Tests.TestCaseContexts
 {
     public partial class TestCaseContext
     {
-        private readonly IwentysDbContext _context;
+        //TODO: make private
+        public readonly IwentysDbContext _context;
         public readonly IUnitOfWork UnitOfWork;
 
         public readonly IwentysUserService IwentysUserService;
@@ -58,7 +54,9 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly QuestTestCaseContext QuestTestCaseContext;
         public readonly CompanyTestCaseContext CompanyTestCaseContext;
         public readonly PeerReviewTestCaseContext PeerReviewTestCaseContext;
-        
+        public readonly GamificationTestCaseContext GamificationTestCaseContext;
+        public readonly NewsfeedTestCaseContext NewsfeedTestCaseContext;
+        public readonly GuildTestCaseContext GuildTestCaseContext;
 
         public static TestCaseContext Case() => new TestCaseContext();
 
@@ -95,15 +93,10 @@ namespace Iwentys.Tests.TestCaseContexts
             QuestTestCaseContext = new QuestTestCaseContext(this);
             CompanyTestCaseContext = new CompanyTestCaseContext(this);
             PeerReviewTestCaseContext = new PeerReviewTestCaseContext(this);
+            GamificationTestCaseContext = new GamificationTestCaseContext(this);
+            NewsfeedTestCaseContext = new NewsfeedTestCaseContext(this);
+            GuildTestCaseContext = new GuildTestCaseContext(this);
         }
-        
-        public TestCaseContext WithMentor(GuildProfileDto guild, AuthorizedUser admin, out AuthorizedUser mentor)
-        {
-            WithGuildMentor(guild, out mentor);
-            return this;
-        }
-
-        
         
         public static class Constants
         {
