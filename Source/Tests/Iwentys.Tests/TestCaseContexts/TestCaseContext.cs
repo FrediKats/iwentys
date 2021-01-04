@@ -3,6 +3,7 @@ using Iwentys.Common.Databases;
 using Iwentys.Database.Context;
 using Iwentys.Database.Tools;
 using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Services;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Achievements.Services;
 using Iwentys.Features.Companies.Entities;
@@ -32,6 +33,7 @@ namespace Iwentys.Tests.TestCaseContexts
         private readonly IwentysDbContext _context;
         public readonly IUnitOfWork UnitOfWork;
 
+        public readonly IwentysUserService IwentysUserService;
         public readonly StudentService StudentService;
         public readonly GuildService GuildService;
         public readonly GuildMemberService GuildMemberService;
@@ -50,6 +52,8 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public readonly TributeTestCaseContext TributeTestCaseContext;
         public readonly GithubTestCaseContext GithubTestCaseContext;
+        public readonly AccountManagementTestCaseContext AccountManagementTestCaseContext;
+        public readonly StudyTestCaseContext StudyTestCaseContext;
 
         public static TestCaseContext Case() => new TestCaseContext();
 
@@ -61,6 +65,7 @@ namespace Iwentys.Tests.TestCaseContexts
             var achievementProvider = new AchievementProvider(UnitOfWork);
             var githubApiAccessor = new DummyGithubApiAccessor();
 
+            IwentysUserService = new IwentysUserService(UnitOfWork);
             StudentService = new StudentService(UnitOfWork, achievementProvider);
             GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, UnitOfWork);
             GuildService = new GuildService(GithubIntegrationService, UnitOfWork);
@@ -79,43 +84,10 @@ namespace Iwentys.Tests.TestCaseContexts
 
             TributeTestCaseContext = new TributeTestCaseContext(this);
             GithubTestCaseContext = new GithubTestCaseContext(this);
+            AccountManagementTestCaseContext = new AccountManagementTestCaseContext(this);
+            StudyTestCaseContext = new StudyTestCaseContext(this);
         }
-
-        public TestCaseContext WithNewStudent(out AuthorizedUser user)
-        {
-            int id = RandomProvider.Random.Next(999999);
-
-            var userInfo = new Student
-            {
-                Id = id,
-                GithubUsername = $"{Constants.GithubUsername}{id}",
-                BarsPoints = 1000
-            };
-
-            UnitOfWork.GetRepository<Student>().InsertAsync(userInfo).Wait();
-            UnitOfWork.CommitAsync().Wait();
-            user = AuthorizedUser.DebugAuth(userInfo.Id);
-            return this;
-        }
-
-        public TestCaseContext WithNewAdmin(out AuthorizedUser user)
-        {
-            int id = RandomProvider.Random.Next(999999);
-
-            var userInfo = new Student
-            {
-                Id = id,
-                GithubUsername = $"{Constants.GithubUsername}{id}",
-                BarsPoints = 1000,
-                IsAdmin = true
-            };
-
-            UnitOfWork.GetRepository<Student>().InsertAsync(userInfo).Wait();
-            UnitOfWork.CommitAsync().Wait();
-            user = AuthorizedUser.DebugAuth(userInfo.Id);
-            return this;
-        }
-
+        
         public TestCaseContext WithMentor(GuildProfileDto guild, AuthorizedUser admin, out AuthorizedUser mentor)
         {
             WithGuildMentor(guild, out mentor);
@@ -132,9 +104,8 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public TestCaseContext WithCompanyWorker(CompanyInfoDto companyInfo, out AuthorizedUser userInfo)
         {
-            //TODO: move save changes to repository
-            WithNewStudent(out userInfo);
-            WithNewAdmin(out AuthorizedUser admin);
+            userInfo = AccountManagementTestCaseContext.WithUser();
+            AuthorizedUser admin = AccountManagementTestCaseContext.WithUser(true);
             
             CompanyService.RequestAdding(companyInfo.Id, userInfo.Id).Wait();
             CompanyService.ApproveAdding(admin, userInfo.Id).Wait();
@@ -155,7 +126,7 @@ namespace Iwentys.Tests.TestCaseContexts
             return this;
         }
 
-        private static class Constants
+        public static class Constants
         {
             public const string GithubUsername = "GhUser";
         }

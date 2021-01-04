@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Study.Domain;
+using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
 using Iwentys.Features.Study.Models.Students;
 using Iwentys.Tests.TestCaseContexts;
@@ -28,20 +29,21 @@ namespace Iwentys.Tests.Features.Study
         public async Task MakeGroupAdmin_EnsureUserIsAdmin()
         {
             TestCaseContext testCase = TestCaseContext
-                .Case()
-                .WithNewAdmin(out AuthorizedUser admin);
+                .Case();
+            AuthorizedUser admin = testCase.AccountManagementTestCaseContext.WithUser(true);
+
 
             //TODO: it's some kind of hack
             //TODO: implement creating group admin with group
             GroupProfileResponseDto studentGroup = await testCase.StudyGroupService.Get("M3101");
 
-            StudentInfoDto newGroupAdmin = studentGroup.Students.First();
-
+            StudyGroup studyGroup = testCase.StudyTestCaseContext.WithStudyGroup();
+            AuthorizedUser newGroupAdmin = testCase.StudyTestCaseContext.WithNewStudent(studyGroup);
 
             //TODO: omg, we need to fetch group one more time coz Group admin id is not actual anymore
             await testCase.StudyGroupService.MakeGroupAdmin(admin, newGroupAdmin.Id);
             studentGroup = await testCase.StudyGroupService.Get("M3101");
-            newGroupAdmin = await testCase.StudentService.Get(newGroupAdmin.Id);
+            var student = await testCase.StudentService.Get(newGroupAdmin.Id);
             Assert.AreEqual(studentGroup.GroupAdmin.Id, newGroupAdmin.Id);
         }
 
@@ -49,13 +51,11 @@ namespace Iwentys.Tests.Features.Study
         public async Task MakeGroupAdminWithoutPermission_NotEnoughPermissionException()
         {
             TestCaseContext testCase = TestCaseContext
-                .Case()
-                .WithNewStudent(out var commonUser);
+                .Case();
+            AuthorizedUser commonUser = testCase.AccountManagementTestCaseContext.WithUser();
 
-            List<StudentInfoDto> studentInfoDtos = await testCase
-                .StudentService
-                .Get();
-            StudentInfoDto newGroupAdmin = studentInfoDtos.First();
+            StudyGroup studyGroup = testCase.StudyTestCaseContext.WithStudyGroup();
+            AuthorizedUser newGroupAdmin = testCase.StudyTestCaseContext.WithNewStudent(studyGroup);
 
             Assert.ThrowsAsync<InnerLogicException>(() => testCase.StudyGroupService.MakeGroupAdmin(commonUser, newGroupAdmin.Id));
         }

@@ -16,11 +16,11 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public void CreateTribute_TributeExists()
         {
-            TestCaseContext context = TestCaseContext
-                .Case()
-                .WithNewStudent(out AuthorizedUser student)
+            TestCaseContext context = TestCaseContext.Case();
+            AuthorizedUser student = context.AccountManagementTestCaseContext.WithUser();
+            AuthorizedUser admin = context.AccountManagementTestCaseContext.WithUser(true);
+            context
                 .WithGuild(student, out ExtendedGuildProfileWithMemberDataDto guild)
-                .WithNewAdmin(out AuthorizedUser admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor);
 
             context.GithubTestCaseContext.WithGithubAccount(student);
@@ -36,12 +36,13 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public async Task CancelTribute_DoNotReturnForMentorAndReturnForStudent()
         {
-            TestCaseContext context = TestCaseContext
-                .Case()
-                .WithNewStudent(out AuthorizedUser student)
+            TestCaseContext context = TestCaseContext.Case();
+            AuthorizedUser student = context.AccountManagementTestCaseContext.WithUser();
+            AuthorizedUser admin = context.AccountManagementTestCaseContext.WithUser(true);
+            context
                 .WithGuild(student, out ExtendedGuildProfileWithMemberDataDto guild)
-                .WithNewAdmin(out AuthorizedUser admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor);
+
             context.GithubTestCaseContext.WithGithubAccount(student);
             GithubProject project = context.GithubTestCaseContext.WithStudentProject(student);
 
@@ -58,11 +59,11 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public void CompleteTribute_DoNotReturnForMentorAndChangeState()
         {
-            TestCaseContext context = TestCaseContext
-                .Case()
-                .WithNewStudent(out AuthorizedUser student)
+            TestCaseContext context = TestCaseContext.Case();
+            AuthorizedUser student = context.AccountManagementTestCaseContext.WithUser();
+            AuthorizedUser admin = context.AccountManagementTestCaseContext.WithUser(true);
+            context
                 .WithGuild(student, out ExtendedGuildProfileWithMemberDataDto guild)
-                .WithNewAdmin(out AuthorizedUser admin)
                 .WithMentor(guild, admin, out AuthorizedUser mentor);
             context.GithubTestCaseContext.WithGithubAccount(student);
             GithubProject project = context.GithubTestCaseContext.WithStudentProject(student);

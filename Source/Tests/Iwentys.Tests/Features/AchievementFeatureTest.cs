@@ -12,11 +12,11 @@ namespace Iwentys.Tests.Features
     public class AchievementFeatureTest
     {
         [Test]
+        [Ignore("Need to move github update to iwentys user service")]
         public async Task CreateGuild_ShouldReturnCreatorAsMember()
         {
-            TestCaseContext testCase = TestCaseContext
-                .Case()
-                .WithNewStudent(out AuthorizedUser user);
+            TestCaseContext testCase = TestCaseContext.Case();
+            AuthorizedUser user = testCase.AccountManagementTestCaseContext.WithUser();
 
             await testCase.StudentService.AddGithubUsername(user.Id, "username");
             AchievementInfoDto studentAchievementEntity = (await testCase

@@ -35,7 +35,7 @@ namespace Iwentys.Features.Study.Services
 
         public async Task<StudentInfoDto> Get(int id)
         {
-            Student student = await _studentRepository.FindByIdAsync(id);
+            Student student = await _studentRepository.GetById(id);
             return new StudentInfoDto(student);
         }
 
@@ -52,6 +52,7 @@ namespace Iwentys.Features.Study.Services
             return new StudentInfoDto(student);
         }
 
+        //TODO: move to IwentysUser
         public async Task<StudentInfoDto> AddGithubUsername(int id, string githubUsername)
         {
             bool isUsernameUsed = await _studentRepository.Get().AnyAsync(s => s.GithubUsername == githubUsername);

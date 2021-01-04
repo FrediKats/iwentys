@@ -29,8 +29,8 @@ namespace Iwentys.Tests.Features
         {
             TestCaseContext testCase = TestCaseContext
                 .Case()
-                .WithCompany(out CompanyInfoDto company)
-                .WithNewStudent(out AuthorizedUser worker);
+                .WithCompany(out CompanyInfoDto company);
+            AuthorizedUser worker = testCase.AccountManagementTestCaseContext.WithUser();
 
             await testCase.CompanyService.RequestAdding(company.Id, worker.Id);
             List<CompanyWorkRequestDto> companyRequests = await testCase.CompanyService.GetCompanyWorkRequest();

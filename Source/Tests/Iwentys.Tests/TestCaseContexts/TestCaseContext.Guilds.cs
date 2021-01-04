@@ -18,7 +18,7 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public TestCaseContext WithGuildMember(GuildProfileDto guild, AuthorizedUser guildEditor, out AuthorizedUser user)
         {
-            WithNewStudent(out user);
+            user = AccountManagementTestCaseContext.WithUser();
             GuildMemberService.RequestGuild(user, guild.Id).Wait();
             GuildMemberService.AcceptRequest(guildEditor, guild.Id, user.Id).Wait();
             return this;
@@ -27,7 +27,7 @@ namespace Iwentys.Tests.TestCaseContexts
         public TestCaseContext WithGuildMentor(GuildProfileDto guild, out AuthorizedUser user)
         {
             //TODO: make method for promoting to guild editor/mentor
-            WithNewStudent(out user);
+            user = AccountManagementTestCaseContext.WithUser();
             _context.GuildMembers.Add(new GuildMember(guild.Id, user.Id, GuildMemberType.Mentor));
             _context.SaveChanges();
             return this;
@@ -35,14 +35,14 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public TestCaseContext WithGuildRequest(GuildProfileDto guild, out AuthorizedUser user)
         {
-            WithNewStudent(out user);
+            user = AccountManagementTestCaseContext.WithUser();
             GuildMemberService.RequestGuild(user, guild.Id).Wait();
             return this;
         }
 
         public TestCaseContext WithGuildBlocked(GuildProfileDto guild, AuthorizedUser guildEditor, out AuthorizedUser user)
         {
-            WithNewStudent(out user);
+            user = AccountManagementTestCaseContext.WithUser();
             GuildMemberService.RequestGuild(user, guild.Id).Wait();
             GuildMemberService.BlockGuildMember(guildEditor, guild.Id, user.Id).Wait();
             return this;

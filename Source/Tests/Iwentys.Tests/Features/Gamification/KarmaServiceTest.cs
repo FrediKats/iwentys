@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Gamification.Models;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
@@ -11,10 +12,9 @@ namespace Iwentys.Tests.Features.Gamification
         [Test]
         public async Task AddKarma_ShouldContainUpVote()
         {
-            var testCase = TestCaseContext
-                .Case()
-                .WithNewStudent(out var first)
-                .WithNewStudent(out var second);
+            var testCase = TestCaseContext.Case();
+            AuthorizedUser first = testCase.AccountManagementTestCaseContext.WithUser();
+            AuthorizedUser second = testCase.AccountManagementTestCaseContext.WithUser();
 
             await testCase.KarmaService.UpVote(first, second.Id);
 
@@ -26,10 +26,9 @@ namespace Iwentys.Tests.Features.Gamification
         [Test]
         public async Task AddAndRemoveKarma_ShouldNotContainUpVote()
         {
-            var testCase = TestCaseContext
-                .Case()
-                .WithNewStudent(out var first)
-                .WithNewStudent(out var second);
+            var testCase = TestCaseContext.Case();
+            AuthorizedUser first = testCase.AccountManagementTestCaseContext.WithUser();
+            AuthorizedUser second = testCase.AccountManagementTestCaseContext.WithUser();
 
             await testCase.KarmaService.UpVote(first, second.Id);
             await testCase.KarmaService.RemoveUpVote(first, second.Id);

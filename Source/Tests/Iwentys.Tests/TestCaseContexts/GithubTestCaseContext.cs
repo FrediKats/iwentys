@@ -35,7 +35,6 @@ namespace Iwentys.Tests.TestCaseContexts
         public void WithGithubAccount(AuthorizedUser user)
         {
             IwentysUser iwentysUser = _context.UnitOfWork.GetRepository<IwentysUser>().GetById(user.Id).Result;
-            //TODO: meh?
             var newGithubUser = new GithubUser
             {
                 IwentysUserId = iwentysUser.Id,

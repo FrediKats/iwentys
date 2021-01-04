@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
 using Iwentys.Common.Tools;
@@ -17,6 +18,8 @@ namespace Iwentys.Features.GithubIntegration.Entities
         public string Bio { get; set; }
         public string Company { get; set; }
         public string SerializedContributionData { get; set; }
+
+        public virtual ICollection<GithubProject> Projects { get; set; }
 
         [NotMapped]
         public ContributionFullInfo ContributionFullInfo

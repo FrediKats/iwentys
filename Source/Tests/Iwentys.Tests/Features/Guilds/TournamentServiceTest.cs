@@ -17,8 +17,9 @@ namespace Iwentys.Tests.Features.Guilds
         public async Task CreateCodeMarathonTournament_ShouldHaveCorrectType()
         {
             TestCaseContext testCase = TestCaseContext
-                .Case()
-                .WithNewAdmin(out AuthorizedUser admin);
+                .Case();
+            AuthorizedUser admin = testCase.AccountManagementTestCaseContext.WithUser(true);
+
 
             TournamentInfoResponse tournament = await testCase.TournamentService.CreateCodeMarathon(admin, TournamentFaker.Instance.NewCodeMarathon());
 
@@ -29,8 +30,9 @@ namespace Iwentys.Tests.Features.Guilds
         public async Task RegisterTournamentTeam_TeamCreated()
         {
             TestCaseContext testCase = TestCaseContext
-                .Case()
-                .WithNewAdmin(out AuthorizedUser admin)
+                .Case();
+            AuthorizedUser admin = testCase.AccountManagementTestCaseContext.WithUser(true);
+            testCase
                 .WithGuild(admin, out ExtendedGuildProfileWithMemberDataDto guild);
 
             TournamentInfoResponse tournament = await testCase.TournamentService.CreateCodeMarathon(admin, TournamentFaker.Instance.NewCodeMarathon());
@@ -44,8 +46,9 @@ namespace Iwentys.Tests.Features.Guilds
         public async Task RegisterTournamentTeam_ShouldBeInMembers()
         {
             TestCaseContext testCase = TestCaseContext
-                .Case()
-                .WithNewAdmin(out AuthorizedUser admin)
+                .Case();
+            AuthorizedUser admin = testCase.AccountManagementTestCaseContext.WithUser(true);
+            testCase
                 .WithGuild(admin, out ExtendedGuildProfileWithMemberDataDto guild);
 
             TournamentInfoResponse tournament = await testCase.TournamentService.CreateCodeMarathon(admin, TournamentFaker.Instance.NewCodeMarathon());
