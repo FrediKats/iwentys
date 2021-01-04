@@ -1,5 +1,8 @@
-﻿using Iwentys.Features.AccountManagement.Domain;
+﻿using Bogus;
+using Iwentys.Common.Databases;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Study.Entities;
+using Iwentys.Features.Study.Models;
 using Iwentys.Tests.Tools;
 
 namespace Iwentys.Tests.TestCaseContexts
@@ -13,16 +16,21 @@ namespace Iwentys.Tests.TestCaseContexts
             _context = context;
         }
 
-        public StudyGroup WithStudyGroup()
+        public GroupProfileResponseDto WithStudyGroup()
         {
-            var studyGroup = new StudyGroup();
+            var studyGroup = new StudyGroup()
+            {
+                GroupName = new Faker().Lorem.Word()
+            };
+
 
             _context.UnitOfWork.GetRepository<StudyGroup>().InsertAsync(studyGroup).Wait();
             _context.UnitOfWork.CommitAsync().Wait();
-            return studyGroup;
+            studyGroup = _context.UnitOfWork.GetRepository<StudyGroup>().GetById(studyGroup.Id).Result;
+            return new GroupProfileResponseDto(studyGroup);
         }
 
-        public AuthorizedUser WithNewStudent(StudyGroup studyGroup)
+        public AuthorizedUser WithNewStudent(GroupProfileResponseDto studyGroup)
         {
             int id = RandomProvider.Random.Next(999999);
 
@@ -30,10 +38,11 @@ namespace Iwentys.Tests.TestCaseContexts
             {
                 Id = id,
                 GithubUsername = $"{TestCaseContext.Constants.GithubUsername}{id}",
-                BarsPoints = 1000
+                BarsPoints = 1000,
             };
 
             _context.UnitOfWork.GetRepository<Student>().InsertAsync(userInfo).Wait();
+            _context.UnitOfWork.GetRepository<StudyGroupMember>().InsertAsync(new StudyGroupMember {StudentId = userInfo.Id, GroupId = studyGroup.Id}).Wait();
             _context.UnitOfWork.CommitAsync().Wait();
             var user = AuthorizedUser.DebugAuth(userInfo.Id);
             return user;

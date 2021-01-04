@@ -21,7 +21,6 @@ using Iwentys.Features.InterestTags.Services;
 using Iwentys.Features.Newsfeeds.Services;
 using Iwentys.Features.Quests.Models;
 using Iwentys.Features.Quests.Services;
-using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Services;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Tests.Tools;
@@ -54,6 +53,8 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly GithubTestCaseContext GithubTestCaseContext;
         public readonly AccountManagementTestCaseContext AccountManagementTestCaseContext;
         public readonly StudyTestCaseContext StudyTestCaseContext;
+        public readonly QuestTestCaseContext QuestTestCaseContext;
+        public readonly CompanyTestCaseContext CompanyTestCaseContext;
 
         public static TestCaseContext Case() => new TestCaseContext();
 
@@ -86,6 +87,8 @@ namespace Iwentys.Tests.TestCaseContexts
             GithubTestCaseContext = new GithubTestCaseContext(this);
             AccountManagementTestCaseContext = new AccountManagementTestCaseContext(this);
             StudyTestCaseContext = new StudyTestCaseContext(this);
+            QuestTestCaseContext = new QuestTestCaseContext(this);
+            CompanyTestCaseContext = new CompanyTestCaseContext(this);
         }
         
         public TestCaseContext WithMentor(GuildProfileDto guild, AuthorizedUser admin, out AuthorizedUser mentor)
@@ -94,38 +97,8 @@ namespace Iwentys.Tests.TestCaseContexts
             return this;
         }
 
-        public TestCaseContext WithCompany(out CompanyInfoDto companyInfo)
-        {
-            var company = new Company();
-            company = CompanyService.Create(company).Result;
-            companyInfo = new CompanyInfoDto(company);
-            return this;
-        }
-
-        public TestCaseContext WithCompanyWorker(CompanyInfoDto companyInfo, out AuthorizedUser userInfo)
-        {
-            userInfo = AccountManagementTestCaseContext.WithUser();
-            AuthorizedUser admin = AccountManagementTestCaseContext.WithUser(true);
-            
-            CompanyService.RequestAdding(companyInfo.Id, userInfo.Id).Wait();
-            CompanyService.ApproveAdding(admin, userInfo.Id).Wait();
-            
-            return this;
-        }
         
-        public TestCaseContext WithQuest(AuthorizedUser user, int price, out QuestInfoDto quest)
-        {
-            var request = new CreateQuestRequest(
-                "Some quest",
-                "Some desc",
-                price,
-                DateTime.UtcNow.AddDays(1));
-            
-            quest = QuestService.Create(user, request).Result;
-
-            return this;
-        }
-
+        
         public static class Constants
         {
             public const string GithubUsername = "GhUser";

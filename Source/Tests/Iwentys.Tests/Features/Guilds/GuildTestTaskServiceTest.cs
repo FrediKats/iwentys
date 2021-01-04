@@ -21,7 +21,7 @@ namespace Iwentys.Tests.Features.Guilds
             context.WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithGuildMember(guild, user, out AuthorizedUser guildNewcomer);
 
-            await context.GuildTestTaskService.Accept(guildNewcomer, user.Id);
+            await context.GuildTestTaskService.Accept(guildNewcomer, guild.Id);
             List<GuildTestTaskInfoResponse> taskInfoResponses = await context.GuildTestTaskService.GetResponses(guild.Id);
 
             Assert.IsTrue(taskInfoResponses.Any(t => t.StudentId == guildNewcomer.Id));
@@ -34,11 +34,12 @@ namespace Iwentys.Tests.Features.Guilds
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             context.WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild)
                 .WithGuildMember(guild, user, out AuthorizedUser guildNewcomer);
+
             context.GithubTestCaseContext.WithGithubAccount(guildNewcomer);
             GithubProject githubProject = context.GithubTestCaseContext.WithStudentProject(guildNewcomer);
 
-            await context.GuildTestTaskService.Accept(guildNewcomer, user.Id);
-            await context.GuildTestTaskService.Submit(guildNewcomer, user.Id, githubProject.Owner, githubProject.Name);
+            await context.GuildTestTaskService.Accept(guildNewcomer, guild.Id);
+            await context.GuildTestTaskService.Submit(guildNewcomer, guild.Id, githubProject.Owner, githubProject.Name);
 
             List<GuildTestTaskInfoResponse> taskInfoResponses = await context.GuildTestTaskService.GetResponses(guild.Id);
             GuildTestTaskInfoResponse userResponse = taskInfoResponses.First(t => t.StudentId == guildNewcomer.Id);

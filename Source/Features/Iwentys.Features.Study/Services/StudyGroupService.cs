@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Study.Domain;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
@@ -15,6 +16,7 @@ namespace Iwentys.Features.Study.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         
+        private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
         private readonly IGenericRepository<Student> _studentRepository;
         private readonly IGenericRepository<StudyGroup> _studyGroupRepository;
         private readonly IGenericRepository<StudyGroupMember> _studyGroupMemberRepository;
@@ -23,6 +25,7 @@ namespace Iwentys.Features.Study.Services
         {
             _unitOfWork = unitOfWork;
 
+            _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
             _studentRepository = _unitOfWork.GetRepository<Student>();
             _studyGroupRepository = _unitOfWork.GetRepository<StudyGroup>();
             _studyGroupMemberRepository = _unitOfWork.GetRepository<StudyGroupMember>();
@@ -65,7 +68,7 @@ namespace Iwentys.Features.Study.Services
 
         public async Task MakeGroupAdmin(AuthorizedUser initiator, int newGroupAdminId)
         {
-            Student initiatorProfile = await _studentRepository.GetById(initiator.Id);
+            var initiatorProfile = await _iwentysUserRepository.GetById(initiator.Id);
             SystemAdminUser admin = initiatorProfile.EnsureIsAdmin();
             Student newGroupAdminProfile = await _studentRepository.GetById(newGroupAdminId);
 

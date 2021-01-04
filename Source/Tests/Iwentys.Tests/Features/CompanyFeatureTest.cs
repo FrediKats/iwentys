@@ -14,10 +14,9 @@ namespace Iwentys.Tests.Features
         [Test]
         public async Task CreateCompanyWithWorker_ShouldReturnOneWorker()
         {
-            TestCaseContext testCase = TestCaseContext
-                .Case()
-                .WithCompany(out CompanyInfoDto company)
-                .WithCompanyWorker(company, out AuthorizedUser user);
+            TestCaseContext testCase = TestCaseContext.Case();
+            CompanyInfoDto company = testCase.CompanyTestCaseContext.WithCompany();
+            AuthorizedUser user = testCase.CompanyTestCaseContext.WithCompanyWorker(company);
 
             List<IwentysUserInfoDto> companyMembers = (await testCase.CompanyService.Get(company.Id)).Workers;
 
@@ -27,9 +26,8 @@ namespace Iwentys.Tests.Features
         [Test]
         public async Task SendCompanyWorkerRequest_RequestWillExists()
         {
-            TestCaseContext testCase = TestCaseContext
-                .Case()
-                .WithCompany(out CompanyInfoDto company);
+            TestCaseContext testCase = TestCaseContext.Case();
+            CompanyInfoDto company = testCase.CompanyTestCaseContext.WithCompany();
             AuthorizedUser worker = testCase.AccountManagementTestCaseContext.WithUser();
 
             await testCase.CompanyService.RequestAdding(company.Id, worker.Id);

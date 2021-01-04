@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Newsfeeds.Entities;
@@ -14,6 +15,8 @@ namespace Iwentys.Features.Newsfeeds.Services
 {
     public class NewsfeedService
     {
+        private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
+
         private readonly IGenericRepository<GuildNewsfeed> _guildNewsfeedRepository;
         private readonly IGenericRepository<Guild> _guildRepository;
 
@@ -31,15 +34,17 @@ namespace Iwentys.Features.Newsfeeds.Services
             _guildRepository = _unitOfWork.GetRepository<Guild>();
             _subjectNewsfeedRepository = _unitOfWork.GetRepository<SubjectNewsfeed>();
             _guildNewsfeedRepository = _unitOfWork.GetRepository<GuildNewsfeed>();
+            _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
         }
 
         public async Task CreateSubjectNewsfeed(NewsfeedCreateViewModel createViewModel, AuthorizedUser authorizedUser, int subjectId)
         {
-            Student author = await _studentRepository.GetById(authorizedUser.Id);
+            var author = await _iwentysUserRepository.GetById(authorizedUser.Id);
             Subject subject = await _subjectRepository.GetById(subjectId);
-            StudyGroup studyGroup = author.GroupMember?.Group;
+            //TODO: fix
+            //StudyGroup studyGroup = author.GroupMember?.Group;
 
-            var newsfeedEntity = SubjectNewsfeed.Create(createViewModel, author, subject, studyGroup);
+            var newsfeedEntity = SubjectNewsfeed.Create(createViewModel, author, subject, null);
 
             await _subjectNewsfeedRepository.InsertAsync(newsfeedEntity);
             await _unitOfWork.CommitAsync();

@@ -15,14 +15,15 @@ namespace Iwentys.Features.Study.Models
         public List<StudentInfoDto> Students { get; set; }
         public List<Subject> Subjects { get; init; }
 
+        //TODO: fix NRE
         public GroupProfileResponseDto(StudyGroup group)
             : this(
                 group.Id,
                 group.GroupName,
                 //TODO: OMG # _ # 
                 group.GroupAdminId == null ? null : new StudentInfoDto(group.Students.First(s => s.StudentId == group.GroupAdminId.Value).Student),
-                group.Students.Select(s => new StudentInfoDto(s.Student)).ToList(),
-                group.GroupSubjects.Select(gs => gs.Subject).ToList())
+                group.Students?.Select(s => new StudentInfoDto(s.Student)).ToList(),
+                group.GroupSubjects?.Select(gs => gs.Subject).ToList())
         {
         }
 

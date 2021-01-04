@@ -85,10 +85,10 @@ namespace Iwentys.Tests.Features.Guilds
         {
             var context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
-            AuthorizedUser admin = context.AccountManagementTestCaseContext.WithUser(true);
+            AuthorizedUser student = context.AccountManagementTestCaseContext.WithUser();
             context.WithGuild(user, out ExtendedGuildProfileWithMemberDataDto guild);
 
-            Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.GetGuildRequests(user, guild.Id));
+            Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.GetGuildRequests(student, guild.Id));
         }
 
         [Test]
