@@ -10,7 +10,7 @@ namespace Iwentys.Features.GithubIntegration.Entities
     public class GithubUser
     {
         [Key]
-        public int StudentId { get; set; }
+        public int IwentysUserId { get; set; }
 
         public string Username { get; set; }
         public string AvatarUrl { get; set; }
@@ -29,7 +29,7 @@ namespace Iwentys.Features.GithubIntegration.Entities
         {
             return new GithubUser
             {
-                StudentId = user.Id,
+                IwentysUserId = user.Id,
                 Username = user.GithubUsername,
                 AvatarUrl = githubUser.AvatarUrl,
                 Bio = githubUser.Bio,

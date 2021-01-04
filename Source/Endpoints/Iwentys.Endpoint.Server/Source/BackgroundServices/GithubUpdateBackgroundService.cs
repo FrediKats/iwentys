@@ -40,7 +40,7 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
                     var githubUserDataService = scope.ServiceProvider.GetRequiredService<GithubIntegrationService>();
                     foreach (Student student in studentRepository.Get().Where(s => s.GithubUsername != null))
                     {
-                        await githubUserDataService.CreateOrUpdate(student.Id);
+                        await githubUserDataService.UserApiApiAccessor.CreateOrUpdate(student.Id);
                     }
                 }
                 catch (InvalidOperationException operationException)

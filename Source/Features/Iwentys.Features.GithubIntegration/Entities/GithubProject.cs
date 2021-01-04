@@ -9,14 +9,14 @@ namespace Iwentys.Features.GithubIntegration.Entities
         {
         }
 
-        public GithubProject(IwentysUser owner, GithubRepositoryInfoDto githubRepositoryInfoDto) : this()
+        public GithubProject(GithubUser githubUser, GithubRepositoryInfoDto githubRepositoryInfoDto) : this()
         {
             Id = githubRepositoryInfoDto.Id;
-            Owner = owner.GithubUsername;
+            Owner = githubUser.Username;
             Description = githubRepositoryInfoDto.Description;
             FullUrl = githubRepositoryInfoDto.Url;
             Name = githubRepositoryInfoDto.Name;
-            OwnerUserId = owner.Id;
+            OwnerUserId = githubUser.IwentysUserId;
         }
 
         public long Id { get; set; }

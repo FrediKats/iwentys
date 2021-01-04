@@ -14,9 +14,10 @@ namespace Iwentys.Tests.TestCaseContexts
         public TestCaseContext WithStudentProject(AuthorizedUser userInfo, out GithubProject githubProject)
         {
             IwentysUser student = UnitOfWork.GetRepository<Student>().GetById(userInfo.Id).Result;
+            GithubUser githubUser = GithubIntegrationService.UserApiApiAccessor.FindGithubUser(userInfo.Id).Result;
             GithubRepositoryInfoDto repositoryInfo = GithubRepositoryFaker.Instance.Generate(student.GithubUsername);
 
-            githubProject = new GithubProject(student, repositoryInfo);
+            githubProject = new GithubProject(githubUser, repositoryInfo);
             //FYI: force EF to generate unique id
             githubProject.Id = 0;
 

@@ -101,7 +101,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
 
             foreach (TournamentTeamMember member in members)
             {
-                var contributionFullInfo = await _githubIntegrationService.FindUserContributionOrEmpty(member.Member);
+                var contributionFullInfo = await _githubIntegrationService.UserApiApiAccessor.FindUserContributionOrEmpty(member.Member);
                 member.Points = contributionFullInfo.GetActivityForPeriod(_tournament.StartTime, _tournament.EndTime);
             }
 

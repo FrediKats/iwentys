@@ -57,7 +57,7 @@ namespace Iwentys.Features.Guilds.Domain
             List<GuildMemberImpactDto> result = new List<GuildMemberImpactDto>();
             foreach (var member in Profile.Members)
             {
-                var contributionFullInfo = await _githubIntegrationService.FindUserContributionOrEmpty(member.Member);
+                var contributionFullInfo = await _githubIntegrationService.UserApiApiAccessor.FindUserContributionOrEmpty(member.Member);
                 result.Add(new GuildMemberImpactDto(new IwentysUserInfoDto(member.Member), member.MemberType, contributionFullInfo));
             }
 

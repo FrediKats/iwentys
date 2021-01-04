@@ -60,9 +60,10 @@ namespace Iwentys.Tests.TestCaseContexts
             
             var achievementProvider = new AchievementProvider(UnitOfWork);
             var githubApiAccessor = new DummyGithubApiAccessor();
+            var githubUserApiAccessor = new GithubUserApiAccessor(githubApiAccessor, UnitOfWork);
 
             StudentService = new StudentService(UnitOfWork, achievementProvider);
-            GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, UnitOfWork);
+            GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, UnitOfWork, githubUserApiAccessor);
             GuildService = new GuildService(GithubIntegrationService, UnitOfWork);
             GuildMemberService = new GuildMemberService(GithubIntegrationService, UnitOfWork);
             GuildTributeServiceService = new GuildTributeService(UnitOfWork, GithubIntegrationService);
@@ -161,7 +162,7 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public TestCaseContext WithGithubRepository(AuthorizedUser userInfo, out GithubUser user)
         {
-            user = GithubIntegrationService.CreateOrUpdate(userInfo.Id).Result;
+            user = GithubIntegrationService.UserApiApiAccessor.CreateOrUpdate(userInfo.Id).Result;
             return this;
         }
     }

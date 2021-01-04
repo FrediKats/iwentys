@@ -23,12 +23,14 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             foreach (Student student in students)
             {
                 ActivityInfo activity = CreateActivity();
-                GithubUserEntities.Add(new GithubUser
+                var githubUser = new GithubUser
                 {
-                    StudentId = student.Id,
+                    IwentysUserId = student.Id,
                     Username = student.GithubUsername,
-                    ContributionFullInfo = new ContributionFullInfo { RawActivity = activity}
-                });
+                    ContributionFullInfo = new ContributionFullInfo {RawActivity = activity}
+                };
+
+                GithubUserEntities.Add(githubUser);
                 
                 var repositoryInfo = new GithubRepositoryInfoDto(
                     faker.IndexVariable++,
@@ -38,7 +40,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                     faker.Internet.Url(),
                     faker.Random.Int(0, 100));
                 
-                GithubProjectEntities.Add(new GithubProject(student, repositoryInfo));
+                GithubProjectEntities.Add(new GithubProject(githubUser, repositoryInfo));
             }
         }
 

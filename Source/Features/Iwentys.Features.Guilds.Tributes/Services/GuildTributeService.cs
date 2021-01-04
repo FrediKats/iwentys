@@ -115,8 +115,10 @@ namespace Iwentys.Features.Guilds.Tributes.Services
             if (githubProject is not null)
                 return githubProject;
 
+            //TODO: replace with Get*
+            GithubUser githubUser = await _githubIntegrationService.UserApiApiAccessor.FindGithubUser(creator.Id);
             //TODO: need to get this from GithubService
-            var newProject = new GithubProject(creator, project);
+            var newProject = new GithubProject(githubUser, project);
 
             await _studentProjectRepository.InsertAsync(newProject);
             await _unitOfWork.CommitAsync();
