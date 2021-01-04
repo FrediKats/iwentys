@@ -54,7 +54,7 @@
                 break;
 
             default:
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException(nameof(QuestState), "Unsupported quest state");
         }
     }
 </div>

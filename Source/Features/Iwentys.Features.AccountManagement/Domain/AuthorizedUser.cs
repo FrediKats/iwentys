@@ -12,7 +12,7 @@
         //FYI: Only for debug propose
         public static AuthorizedUser DebugAuth(int id)
         {
-            return new(id);
+            return new AuthorizedUser(id);
         }
     }
 }

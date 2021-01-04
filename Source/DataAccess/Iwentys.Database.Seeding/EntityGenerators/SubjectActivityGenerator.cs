@@ -22,7 +22,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                     {
                         GroupSubjectId = groupSubjectEntity.Id,
                         StudentId = studyGroupMember.StudentId,
-                        Points = RandomExtensions.Instance.NextDouble() * 100
+                        Points = RandomExtensions.Instance.Random.Double() * 100
                     });
                 }
             }

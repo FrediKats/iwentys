@@ -34,7 +34,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 
             foreach (Student student in Students)
             {
-                StudyGroupMembers.Add(new StudyGroupMember {StudentId = student.Id, GroupId = studyGroups.GetRandom().Id });
+                StudyGroupMembers.Add(new StudyGroupMember {StudentId = student.Id, GroupId = RandomExtensions.Instance.PickRandom(studyGroups).Id });
             }
 
             StudyGroupMembers

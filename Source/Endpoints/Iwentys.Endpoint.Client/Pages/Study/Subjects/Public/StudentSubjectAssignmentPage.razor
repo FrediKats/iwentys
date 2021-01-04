@@ -54,7 +54,7 @@
                                     </MatBody2>
                                     break;
                                 default:
-                                    throw new ArgumentOutOfRangeException();
+                                    throw new ArgumentOutOfRangeException(nameof(SubjectAssignmentSubmitDto.AssignmentSubmitState), "Unsupported assignment state");
                             }
                         </div>
                     </MatCardContent>

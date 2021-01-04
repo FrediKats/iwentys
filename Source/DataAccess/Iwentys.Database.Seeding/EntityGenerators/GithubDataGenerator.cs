@@ -50,8 +50,8 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             for (int i = 1; i <= 11; i++)
             {
                 result.Add(new ContributionsInfo(
-                    $"2020-{RandomExtensions.Instance.Next(12) + 1:D2}-20",
-                    RandomExtensions.Instance.Next(100)));
+                    $"2020-{RandomExtensions.Instance.Random.Int(1, 12):D2}-20",
+                    RandomExtensions.Instance.Random.Int(0, 100)));
             }
 
             return new ActivityInfo

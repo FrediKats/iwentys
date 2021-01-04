@@ -55,8 +55,8 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 Id = Create.GroupSubjectIdentifierGenerator.Next(),
                 SubjectId = subject.Id,
                 StudyGroupId = group.Id,
-                LectorTeacherId = Teachers.GetRandom().Id,
-                PracticeTeacherId = Teachers.GetRandom().Id,
+                LectorTeacherId = RandomExtensions.Instance.PickRandom(Teachers).Id,
+                PracticeTeacherId = RandomExtensions.Instance.PickRandom(Teachers).Id,
                 StudySemester = CurrentSemester
             };
         }

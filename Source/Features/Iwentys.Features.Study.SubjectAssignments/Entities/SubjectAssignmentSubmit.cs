@@ -38,7 +38,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Entities
                     Reject(teacher, arguments);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(FeedbackType), "Unsupported feedback state");
             }
         }
 

@@ -47,7 +47,8 @@ namespace Iwentys.Polygon
                 });
             }
 
-            var logger = new Logger<TableParser>(new LoggerFactory());
+            var loggerFactory = new LoggerFactory();
+            var logger = loggerFactory.CreateLogger("Polygon");
             var parser = new TableParser(logger, sheetsService);
 
             var m3101 = parser.Execute(new MarkParser(M3101(), logger));
