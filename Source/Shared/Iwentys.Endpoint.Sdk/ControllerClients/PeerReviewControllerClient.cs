@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Flurl.Http;
+using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.PeerReview.Models;
 
 namespace Iwentys.Endpoint.Sdk.ControllerClients
@@ -18,8 +19,15 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
         public async Task<List<ProjectReviewRequestInfoDto>> Get()
         {
             return await new FlurlClient(Client)
-                .Request("api/peer-review")
+                .Request("api/peer-review/requests")
                 .GetJsonAsync<List<ProjectReviewRequestInfoDto>>();
+        }
+
+        public async Task<List<GithubRepositoryInfoDto>> GetAvailableForReviewProject()
+        {
+            return await new FlurlClient(Client)
+                .Request("api/peer-review/requests/available-projects")
+                .GetJsonAsync<List<GithubRepositoryInfoDto>>();
         }
     }
 }
