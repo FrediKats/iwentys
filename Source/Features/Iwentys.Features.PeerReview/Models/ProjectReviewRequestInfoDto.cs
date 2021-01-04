@@ -13,13 +13,17 @@ namespace Iwentys.Features.PeerReview.Models
 
         public long ProjectId { get; set; }
 
-        public ProjectReviewRequestInfoDto(ProjectReviewRequest reviewRequest)
+        public ProjectReviewRequestInfoDto(ProjectReviewRequest reviewRequest) : this()
         {
             Id = reviewRequest.Id;
             Description = reviewRequest.Description;
             State = reviewRequest.State;
             CreationTimeUtc = reviewRequest.CreationTimeUtc;
             ProjectId = reviewRequest.ProjectId;
+        }
+
+        public ProjectReviewRequestInfoDto()
+        {
         }
     }
 }

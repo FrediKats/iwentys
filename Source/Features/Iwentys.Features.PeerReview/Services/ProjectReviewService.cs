@@ -14,12 +14,14 @@ namespace Iwentys.Features.PeerReview.Services
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IGenericRepository<ProjectReviewRequest> _projectReviewRequestRepository;
+        private readonly IGenericRepository<ProjectReviewFeedback> _projectReviewFeedbackRepository;
 
         public ProjectReviewService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
 
             _projectReviewRequestRepository = _unitOfWork.GetRepository<ProjectReviewRequest>();
+            _projectReviewFeedbackRepository = _unitOfWork.GetRepository<ProjectReviewFeedback>();
         }
 
         public async Task<List<ProjectReviewRequestInfoDto>> GetRequests()
@@ -40,6 +42,17 @@ namespace Iwentys.Features.PeerReview.Services
             await _unitOfWork.CommitAsync();
 
             return new ProjectReviewRequestInfoDto(projectReviewRequest);
+        }
+
+        public async Task<ProjectReviewFeedbackInfoDto> SendReviewFeedback(AuthorizedUser author, int reviewRequestId, ReviewFeedbackCreateArguments createArguments)
+        {
+            ProjectReviewRequest projectReviewRequest = await _projectReviewRequestRepository.GetById(reviewRequestId);
+            ProjectReviewFeedback projectReviewFeedback = projectReviewRequest.CreateFeedback(author, createArguments);
+
+            await _projectReviewFeedbackRepository.InsertAsync(projectReviewFeedback);
+            await _unitOfWork.CommitAsync();
+
+            return new ProjectReviewFeedbackInfoDto(projectReviewFeedback);
         }
     }
 }
