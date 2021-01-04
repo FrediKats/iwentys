@@ -34,6 +34,8 @@ namespace Iwentys.Endpoint.Client.Tools
 
         public RaidControllerClient Raid { get; }
 
+        public PeerReviewControllerClient PeerReview { get; }
+
 
         public ControllerClientHolder(HttpClient httpClient)
         {
@@ -62,6 +64,8 @@ namespace Iwentys.Endpoint.Client.Tools
             Quest = new QuestControllerClient(httpClient);
 
             Raid = new RaidControllerClient(httpClient);
+
+            PeerReview = new PeerReviewControllerClient(httpClient);
         }
     }
 }

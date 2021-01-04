@@ -78,7 +78,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Endpoint.Sdk", "Sha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Polygon", "Tests\Iwentys.Polygon\Iwentys.Polygon.csproj", "{0B5841E7-3796-4387-8C96-CB07A4D7AEF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Features.PeerReview", "Features\Iwentys.Features.PeerReview\Iwentys.Features.PeerReview.csproj", "{C885D36B-8189-40A4-B52C-929F225E547A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.PeerReview", "Features\Iwentys.Features.PeerReview\Iwentys.Features.PeerReview.csproj", "{C885D36B-8189-40A4-B52C-929F225E547A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
