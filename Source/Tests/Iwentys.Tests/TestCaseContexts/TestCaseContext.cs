@@ -16,6 +16,7 @@ using Iwentys.Features.Newsfeeds.Services;
 using Iwentys.Features.PeerReview.Services;
 using Iwentys.Features.Quests.Services;
 using Iwentys.Features.Study.Services;
+using Iwentys.Features.Study.SubjectAssignments.Services;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Tests.Tools;
 
@@ -44,6 +45,7 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly GuildTestTaskService GuildTestTaskService;
         public readonly KarmaService KarmaService;
         public readonly ProjectReviewService ProjectReviewService;
+        public readonly SubjectAssignmentService SubjectAssignmentService;
 
         public readonly TributeTestCaseContext TributeTestCaseContext;
         public readonly GithubTestCaseContext GithubTestCaseContext;
@@ -83,6 +85,7 @@ namespace Iwentys.Tests.TestCaseContexts
             GuildTestTaskService = new GuildTestTaskService(achievementProvider, UnitOfWork, GithubIntegrationService);
             KarmaService = new KarmaService(UnitOfWork);
             ProjectReviewService = new ProjectReviewService(UnitOfWork);
+            SubjectAssignmentService = new SubjectAssignmentService(UnitOfWork);
 
             TributeTestCaseContext = new TributeTestCaseContext(this);
             GithubTestCaseContext = new GithubTestCaseContext(this);

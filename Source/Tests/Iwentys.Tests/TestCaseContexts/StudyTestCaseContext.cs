@@ -1,9 +1,10 @@
 ﻿using System.Linq;
 using Bogus;
-using Iwentys.Common.Databases;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Study.Entities;
+using Iwentys.Features.Study.Enums;
 using Iwentys.Features.Study.Models;
+using Iwentys.Features.Study.SubjectAssignments.Models;
 using Iwentys.Tests.Tools;
 
 namespace Iwentys.Tests.TestCaseContexts
@@ -33,6 +34,42 @@ namespace Iwentys.Tests.TestCaseContexts
                 .Where(sg => sg.Id == studyGroup.Id)
                 .Select(GroupProfileResponseDto.FromEntity)
                 .Single();
+        }
+
+        public Subject WithSubject()
+        {
+            var subject = new Subject
+            {
+                Name = new Faker().Lorem.Word()
+            };
+
+            _context.UnitOfWork.GetRepository<Subject>().InsertAsync(subject).Wait();
+            return subject;
+        }
+
+        public GroupSubject WithGroupSubject(GroupProfileResponseDto studyGroup, Subject subject)
+        {
+            var groupSubject = new GroupSubject
+            {
+                StudyGroupId = studyGroup.Id,
+                SubjectId = subject.Id,
+                StudySemester = StudySemester.Y21H1
+            };
+            _context.UnitOfWork.GetRepository<GroupSubject>().InsertAsync(groupSubject).Wait();
+            return groupSubject;
+        }
+
+        //TODO: return smth
+        public void WithSubjectAssignment(AuthorizedUser user, GroupSubject groupSubject)
+        {
+            var subjectAssignmentCreateArguments = new SubjectAssignmentCreateArguments
+            {
+                Title = new Faker().Lorem.Word(),
+                Description = new Faker().Lorem.Word(),
+                Link = new Faker().Lorem.Word(),
+            };
+
+            _context.SubjectAssignmentService.CreateSubjectAssignment(user, groupSubject.SubjectId, subjectAssignmentCreateArguments).Wait();
         }
 
         public AuthorizedUser WithNewStudent(GroupProfileResponseDto studyGroup)

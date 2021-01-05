@@ -20,10 +20,10 @@ namespace Iwentys.Features.Study.Entities
         public int StudyGroupId { get; init; }
         public virtual StudyGroup StudyGroup { get; init; }
 
-        public int LectorTeacherId { get; init; }
+        public int? LectorTeacherId { get; init; }
         public virtual UniversitySystemUser LectorTeacher { get; init; }
 
-        public int PracticeTeacherId { get; init; }
+        public int? PracticeTeacherId { get; init; }
         public virtual UniversitySystemUser PracticeTeacher { get; init; }
 
 
