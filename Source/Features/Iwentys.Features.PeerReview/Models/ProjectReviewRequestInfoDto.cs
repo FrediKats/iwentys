@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.PeerReview.Entities;
 using Iwentys.Features.PeerReview.Enums;
 
@@ -33,6 +34,22 @@ namespace Iwentys.Features.PeerReview.Models
         }
 
         public static Expression<Func<ProjectReviewRequest, ProjectReviewRequestInfoDto>> FromEntity =>
-            entity => new ProjectReviewRequestInfoDto(entity);
+            entity => new ProjectReviewRequestInfoDto
+            {
+                Id = entity.Id,
+                Description = entity.Description,
+                State = entity.State,
+                CreationTimeUtc = entity.CreationTimeUtc,
+                Project = new GithubRepositoryInfoDto
+                {
+                    Id = entity.Project.Id,
+                    Owner = entity.Project.Owner,
+                    Name = entity.Project.Name,
+                    Description = entity.Project.Description,
+                    Url = entity.Project.FullUrl,
+                    StarCount = entity.Project.StarCount,
+                },
+                ReviewFeedbacks = entity.ReviewFeedbacks.Select(rf => new ProjectReviewFeedbackInfoDto(rf)).ToList(),
+            };
     }
 }

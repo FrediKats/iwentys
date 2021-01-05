@@ -19,6 +19,11 @@ namespace Iwentys.Features.InterestTags.Models
         {
         }
 
-        public static Expression<Func<InterestTag, InterestTagDto>> FromEntity => entity => new InterestTagDto(entity);
+        public static Expression<Func<InterestTag, InterestTagDto>> FromEntity =>
+            entity => new InterestTagDto
+            {
+                Id = entity.Id,
+                Title = entity.Title
+            };
     }
 }

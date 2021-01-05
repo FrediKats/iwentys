@@ -11,27 +11,16 @@ namespace Iwentys.Features.Study.Models
     {
         public int Id { get; init; }
         public string GroupName { get; init; }
-        public StudentInfoDto GroupAdmin { get; set; }
+        public int? GroupAdminId { get; set; }
         public List<StudentInfoDto> Students { get; set; }
         public List<Subject> Subjects { get; init; }
 
-        //TODO: fix NRE
-        public GroupProfileResponseDto(StudyGroup group)
-            : this(
-                group.Id,
-                group.GroupName,
-                //TODO: OMG # _ # 
-                group.GroupAdminId == null ? null : new StudentInfoDto(group.Students.First(s => s.StudentId == group.GroupAdminId.Value).Student),
-                group.Students?.Select(s => new StudentInfoDto(s.Student)).ToList(),
-                group.GroupSubjects?.Select(gs => gs.Subject).ToList())
-        {
-        }
+        public StudentInfoDto GroupAdmin => GroupAdminId is null ? null : Students.Find(s => s.Id == GroupAdminId);
 
         public GroupProfileResponseDto(int id, string groupName, StudentInfoDto groupAdmin, List<StudentInfoDto> students, List<Subject> subjects) :this()
         {
             Id = id;
             GroupName = groupName;
-            GroupAdmin = groupAdmin;
             Students = students;
             Subjects = subjects;
         }
@@ -41,6 +30,13 @@ namespace Iwentys.Features.Study.Models
         }
 
         public static Expression<Func<StudyGroup, GroupProfileResponseDto>> FromEntity =>
-            entity => new GroupProfileResponseDto(entity);
+            entity => new GroupProfileResponseDto
+            {
+                Id = entity.Id,
+                GroupName = entity.GroupName,
+                GroupAdminId = entity.GroupAdminId,
+                Students = entity.Students.Select(s => new StudentInfoDto(s.Student)).ToList(),
+                Subjects = entity.GroupSubjects.Select(gs => gs.Subject).ToList(),
+            };
     }
 }

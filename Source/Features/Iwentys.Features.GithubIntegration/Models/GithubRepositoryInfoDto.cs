@@ -31,7 +31,16 @@ namespace Iwentys.Features.GithubIntegration.Models
         {
         }
 
-        public static Expression<Func<GithubProject, GithubRepositoryInfoDto>> FromEntity => entity => new GithubRepositoryInfoDto(entity);
+        public static Expression<Func<GithubProject, GithubRepositoryInfoDto>> FromEntity =>
+            githubProject => new GithubRepositoryInfoDto
+            {
+                Id = githubProject.Id,
+                Owner = githubProject.Owner,
+                Name = githubProject.Name,
+                Description = githubProject.Description,
+                Url = githubProject.FullUrl,
+                StarCount = githubProject.StarCount,
+            };
 
         public long Id { get; init; }
         public string Owner { get; init; }

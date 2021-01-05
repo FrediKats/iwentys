@@ -24,7 +24,7 @@ namespace Iwentys.Features.Raids.Models
         public ICollection<RaidPartySearchRequestDto> PartySearchRequests { get; set; }
 
         public static Expression<Func<Raid, RaidProfileDto>> FromEntity =>
-            entity => new RaidProfileDto()
+            entity => new RaidProfileDto
             {
                 Id = entity.Id,
                 Title = entity.Title,

@@ -27,6 +27,7 @@ namespace Iwentys.Features.Companies.Models
         {
         }
 
+        //TODO: it is not work
         public static Expression<Func<CompanyWorker, CompanyWorkRequestDto>> FromEntity => entity => Create(entity);
         
         public CompanyInfoDto Company { get; init; }

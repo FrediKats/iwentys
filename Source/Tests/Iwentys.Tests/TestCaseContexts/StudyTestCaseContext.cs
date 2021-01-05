@@ -1,4 +1,5 @@
-﻿using Bogus;
+﻿using System.Linq;
+using Bogus;
 using Iwentys.Common.Databases;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Study.Entities;
@@ -26,8 +27,12 @@ namespace Iwentys.Tests.TestCaseContexts
 
             _context.UnitOfWork.GetRepository<StudyGroup>().InsertAsync(studyGroup).Wait();
             _context.UnitOfWork.CommitAsync().Wait();
-            studyGroup = _context.UnitOfWork.GetRepository<StudyGroup>().GetById(studyGroup.Id).Result;
-            return new GroupProfileResponseDto(studyGroup);
+            return _context.UnitOfWork
+                .GetRepository<StudyGroup>()
+                .Get()
+                .Where(sg => sg.Id == studyGroup.Id)
+                .Select(GroupProfileResponseDto.FromEntity)
+                .Single();
         }
 
         public AuthorizedUser WithNewStudent(GroupProfileResponseDto studyGroup)
