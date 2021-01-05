@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Models;
+using Iwentys.Features.PeerReview.Enums;
 using Iwentys.Features.PeerReview.Models;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
@@ -54,8 +55,24 @@ namespace Iwentys.Tests.Features.PeerReview
 
             reviewRequest = testCase.ProjectReviewService.GetRequests().Result.First(r => r.Id == reviewRequest.Id);
 
-            List<ProjectReviewRequestInfoDto> reviewRequests = await testCase.ProjectReviewService.GetRequests();
             Assert.IsTrue(reviewRequest.ReviewFeedbacks.Any(rf => rf.Id == feedback.Id));
+        }
+
+        [Test]
+        public async Task FinishReviewFeedback_StateChanged()
+        {
+            TestCaseContext testCase = TestCaseContext.Case();
+            AuthorizedUser user = testCase.AccountManagementTestCaseContext.WithUser();
+            AuthorizedUser reviewer = testCase.AccountManagementTestCaseContext.WithUser();
+            GithubUser githubUser = testCase.GithubTestCaseContext.WithGithubAccount(user);
+            GithubProject studentProject = testCase.GithubTestCaseContext.WithStudentProject(user);
+
+            ProjectReviewRequestInfoDto reviewRequest = testCase.PeerReviewTestCaseContext.WithReviewRequest(user, studentProject);
+
+            await testCase.ProjectReviewService.FinishReview(user, reviewRequest.Id);
+
+            reviewRequest = testCase.ProjectReviewService.GetRequests().Result.First(r => r.Id == reviewRequest.Id);
+            Assert.AreEqual(ProjectReviewState.Finished, reviewRequest.State);
         }
     }
 }

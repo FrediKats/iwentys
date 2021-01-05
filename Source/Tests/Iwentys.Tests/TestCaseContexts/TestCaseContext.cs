@@ -1,14 +1,12 @@
 using Iwentys.Common.Databases;
 using Iwentys.Database.Context;
 using Iwentys.Database.Tools;
-using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Services;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Achievements.Services;
 using Iwentys.Features.Companies.Services;
 using Iwentys.Features.Economy.Services;
 using Iwentys.Features.Gamification.Services;
-using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Services;
 using Iwentys.Features.Guilds.Tournaments.Services;
@@ -101,12 +99,6 @@ namespace Iwentys.Tests.TestCaseContexts
         public static class Constants
         {
             public const string GithubUsername = "GhUser";
-        }
-
-        public TestCaseContext WithGithubRepository(AuthorizedUser userInfo, out GithubUser user)
-        {
-            user = GithubIntegrationService.User.CreateOrUpdate(userInfo.Id).Result;
-            return this;
         }
     }
 }

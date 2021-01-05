@@ -50,5 +50,13 @@ namespace Iwentys.Endpoint.Controllers
             await _projectReviewService.SendReviewFeedback(authorizedUser, reviewRequestId, createArguments);
             return Ok();
         }
+
+        [HttpPost("requests/{reviewRequestId}/finish")]
+        public async Task<ActionResult> FinishReview(int reviewRequestId)
+        {
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            await _projectReviewService.FinishReview(authorizedUser, reviewRequestId);
+            return Ok();
+        }
     }
 }

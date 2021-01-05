@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.PeerReview.Entities;
@@ -15,6 +16,7 @@ namespace Iwentys.Features.PeerReview.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
+        private readonly IGenericRepository<IwentysUser> _userRepository;
         private readonly IGenericRepository<ProjectReviewRequest> _projectReviewRequestRepository;
         private readonly IGenericRepository<ProjectReviewFeedback> _projectReviewFeedbackRepository;
         private readonly IGenericRepository<GithubProject> _projectRepository;
@@ -23,6 +25,7 @@ namespace Iwentys.Features.PeerReview.Services
         {
             _unitOfWork = unitOfWork;
 
+            _userRepository = _unitOfWork.GetRepository<IwentysUser>();
             _projectReviewRequestRepository = _unitOfWork.GetRepository<ProjectReviewRequest>();
             _projectReviewFeedbackRepository = _unitOfWork.GetRepository<ProjectReviewFeedback>();
             _projectRepository = _unitOfWork.GetRepository<GithubProject>();
@@ -71,6 +74,17 @@ namespace Iwentys.Features.PeerReview.Services
             await _unitOfWork.CommitAsync();
 
             return new ProjectReviewFeedbackInfoDto(projectReviewFeedback);
+        }
+
+        public async Task FinishReview(AuthorizedUser authorizedUser, int reviewRequestId)
+        {
+            IwentysUser user = await _userRepository.GetById(authorizedUser.Id);
+            ProjectReviewRequest projectReviewRequest = await _projectReviewRequestRepository.GetById(reviewRequestId);
+
+            projectReviewRequest.FinishReview(user);
+
+             _projectReviewRequestRepository.Update(projectReviewRequest);
+            await _unitOfWork.CommitAsync();
         }
     }
 }

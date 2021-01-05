@@ -43,5 +43,12 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
                 .Request($"api/peer-review/requests/{reviewRequestId}/feedback")
                 .PostJsonAsync(createArguments);
         }
+
+        public async Task FinishReview(int reviewRequestId)
+        {
+            await new FlurlClient(Client)
+                .Request($"api/peer-review/requests/{reviewRequestId}/finish")
+                .PutAsync();
+        }
     }
 }
