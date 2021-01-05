@@ -39,5 +39,7 @@ namespace Iwentys.Features.GithubIntegration.Models
         public string Description { get; init; }
         public string Url { get; init; }
         public int StarCount { get; init; }
+
+        public string GithubLikeTitle() => $"{Owner}/{Name}";
     }
 }

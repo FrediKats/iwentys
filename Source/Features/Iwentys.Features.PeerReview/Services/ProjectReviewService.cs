@@ -35,7 +35,7 @@ namespace Iwentys.Features.PeerReview.Services
         {
             return await _projectReviewRequestRepository
                 .Get()
-                .Select(prr => new ProjectReviewRequestInfoDto(prr))
+                .Select(ProjectReviewRequestInfoDto.FromEntity)
                 .ToListAsync();
         }
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -15,7 +15,7 @@ namespace Iwentys.Features.PeerReview.Models
         public ProjectReviewState State { get; set; }
         public DateTime CreationTimeUtc { get; set; }
 
-        public long ProjectId { get; set; }
+        public GithubRepositoryInfoDto Project { get; set; }
         public ICollection<ProjectReviewFeedbackInfoDto> ReviewFeedbacks { get; set; }
 
         public ProjectReviewRequestInfoDto(ProjectReviewRequest reviewRequest) : this()
@@ -24,7 +24,7 @@ namespace Iwentys.Features.PeerReview.Models
             Description = reviewRequest.Description;
             State = reviewRequest.State;
             CreationTimeUtc = reviewRequest.CreationTimeUtc;
-            ProjectId = reviewRequest.ProjectId;
+            Project = new GithubRepositoryInfoDto(reviewRequest.Project);
             ReviewFeedbacks = reviewRequest.ReviewFeedbacks?.Select(rf => new ProjectReviewFeedbackInfoDto(rf)).ToList();
         }
 

@@ -12,7 +12,7 @@
             <ItemTemplate>
                 @if (context is not null)
                 {
-                    <span>@context.Owner/@context.Name</span>
+                    <span>@context.GithubLikeTitle()</span>
                 }
             </ItemTemplate>
         </MatSelectItem>

@@ -38,7 +38,7 @@ namespace Iwentys.Tests.Features.PeerReview
             ProjectReviewRequestInfoDto reviewRequest = testCase.PeerReviewTestCaseContext.WithReviewRequest(user, studentProject);
 
             List<ProjectReviewRequestInfoDto> reviewRequests = await testCase.ProjectReviewService.GetRequests();
-            Assert.IsTrue(reviewRequests.Any(rr => rr.ProjectId == reviewRequest.ProjectId));
+            Assert.IsTrue(reviewRequests.Any(rr => rr.Project.Id == reviewRequest.Project.Id));
         }
 
         [Test]
