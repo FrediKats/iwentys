@@ -16,6 +16,7 @@ using Iwentys.Features.InterestTags.Services;
 using Iwentys.Features.Newsfeeds.Services;
 using Iwentys.Features.PeerReview.Services;
 using Iwentys.Features.Quests.Services;
+using Iwentys.Features.Raids.Services;
 using Iwentys.Features.Study.Services;
 using Iwentys.Features.Study.SubjectAssignments.Services;
 using Iwentys.Integrations.GithubIntegration;
@@ -48,6 +49,7 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly ProjectReviewService ProjectReviewService;
         public readonly SubjectAssignmentService SubjectAssignmentService;
         public readonly AssignmentService AssignmentService;
+        public readonly RaidService RaidService;
 
         public readonly TributeTestCaseContext TributeTestCaseContext;
         public readonly GithubTestCaseContext GithubTestCaseContext;
@@ -90,6 +92,7 @@ namespace Iwentys.Tests.TestCaseContexts
             ProjectReviewService = new ProjectReviewService(UnitOfWork);
             SubjectAssignmentService = new SubjectAssignmentService(UnitOfWork);
             AssignmentService = new AssignmentService(UnitOfWork);
+            RaidService = new RaidService(UnitOfWork);
 
             TributeTestCaseContext = new TributeTestCaseContext(this);
             GithubTestCaseContext = new GithubTestCaseContext(this);
