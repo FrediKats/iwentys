@@ -9,6 +9,7 @@ namespace Iwentys.Endpoint.Client.Pages.PeerReview
     {
         private List<GithubRepositoryInfoDto> _availableForReviewProject;
         private GithubRepositoryInfoDto _selectedProject;
+        private string _description;
 
         protected override async Task OnInitializedAsync()
         {
@@ -23,8 +24,8 @@ namespace Iwentys.Endpoint.Client.Pages.PeerReview
         {
             var arguments = new ReviewRequestCreateArguments
             {
-                ProjectId = _selectedProject.Id
-                //TODO: add description
+                ProjectId = _selectedProject.Id,
+                Description = _description
             };
 
             await ClientHolder.PeerReview.CreateReviewRequest(arguments);

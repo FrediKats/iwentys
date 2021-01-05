@@ -18,6 +18,9 @@
         </MatSelectItem>
     </p>
 
+    <p>
+        <MatTextField @bind-Value="@_description" Label="Description" Class="input-element"></MatTextField>
+    </p>
     <MatButton OnClick=@(async () => await CreateRequest())>Create</MatButton>
 }
 

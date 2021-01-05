@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Flurl.Http;
@@ -37,7 +37,7 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
                 .PostJsonAsync(createArguments);
         }
 
-        public async Task SendReviewFeedback(int reviewRequestId, ReviewRequestCreateArguments createArguments)
+        public async Task SendReviewFeedback(int reviewRequestId, ReviewFeedbackCreateArguments createArguments)
         {
             await new FlurlClient(Client)
                 .Request($"api/peer-review/requests/{reviewRequestId}/feedback")

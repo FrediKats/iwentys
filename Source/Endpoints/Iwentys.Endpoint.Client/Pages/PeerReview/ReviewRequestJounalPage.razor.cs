@@ -16,5 +16,6 @@ namespace Iwentys.Endpoint.Client.Pages.PeerReview
         }
 
         public static string LinkToReviewRequestCreatePage() => "peer-review/create";
+        public static string LinkToSendingFeedback(ProjectReviewRequestInfoDto request) => $"/peer-review/{request.Id}/feedback";
     }
 }
