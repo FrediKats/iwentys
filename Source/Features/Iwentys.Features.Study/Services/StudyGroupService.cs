@@ -2,9 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Features.Students.Domain;
-using Iwentys.Features.Students.Entities;
-using Iwentys.Features.Students.Enums;
+using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Study.Domain;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
@@ -17,15 +16,19 @@ namespace Iwentys.Features.Study.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         
+        private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
         private readonly IGenericRepository<Student> _studentRepository;
         private readonly IGenericRepository<StudyGroup> _studyGroupRepository;
+        private readonly IGenericRepository<StudyGroupMember> _studyGroupMemberRepository;
 
         public StudyGroupService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
 
+            _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
             _studentRepository = _unitOfWork.GetRepository<Student>();
             _studyGroupRepository = _unitOfWork.GetRepository<StudyGroup>();
+            _studyGroupMemberRepository = _unitOfWork.GetRepository<StudyGroupMember>();
         }
 
         public async Task<GroupProfileResponseDto> Get(string groupName)
@@ -35,58 +38,45 @@ namespace Iwentys.Features.Study.Services
                 .Get()
                 .Where(StudyGroup.IsMatch(name))
                 .Select(GroupProfileResponseDto.FromEntity)
-                .WithStudents(_studentRepository);
+                .ToListAsync();
 
             return result.Single();
         }
 
-        public async Task<List<GroupProfileResponseDto>> GetStudyGroupsForDtoAsync(int? courseId)
+        public async Task<List<GroupProfileResponseDto>> GetStudyGroupsForDto(int? courseId)
         {
             List<GroupProfileResponseDto> result = await _studyGroupRepository
                 .Get()
                 .WhereIf(courseId, gs => gs.StudyCourseId == courseId)
                 .Select(GroupProfileResponseDto.FromEntity)
-                .WithStudents(_studentRepository);
+                .ToListAsync();
 
             return result;
         }
 
         public async Task<GroupProfileResponseDto> GetStudentGroup(int studentId)
         {
-            Student student = await _studentRepository.GetByIdAsync(studentId);
-            if (student.GroupId is null)
-                return null;
+            Student student = await _studentRepository.GetById(studentId);
 
-            List<GroupProfileResponseDto> result = await _studyGroupRepository
+            return await _studyGroupMemberRepository
                 .Get()
-                .Where(sg => sg.Id == student.GroupId)
+                .Where(sgm => sgm.StudentId == studentId)
+                .Select(sgm => sgm.Group)
                 .Select(GroupProfileResponseDto.FromEntity)
-                .WithStudents(_studentRepository);
-
-            return result.Single();
+                .SingleOrDefaultAsync();
         }
 
         public async Task MakeGroupAdmin(AuthorizedUser initiator, int newGroupAdminId)
         {
-            Student initiatorProfile = await _studentRepository.GetByIdAsync(initiator.Id);
+            var initiatorProfile = await _iwentysUserRepository.GetById(initiator.Id);
             SystemAdminUser admin = initiatorProfile.EnsureIsAdmin();
-            Student newGroupAdminProfile = await _studentRepository.GetByIdAsync(newGroupAdminId);
+            Student newGroupAdminProfile = await _studentRepository.GetById(newGroupAdminId);
 
-            List<Student> groupStudents = await _studentRepository
-                .Get()
-                .Where(s => s.GroupId == newGroupAdminProfile.GroupId)
-                .ToListAsync();
+            StudyGroup studyGroup = newGroupAdminProfile.GroupMember.Group;
 
-            var currentGroupAdmin = groupStudents.SingleOrDefault(s => s.Role == StudentRole.GroupAdmin);
-            if (currentGroupAdmin is not null)
-            {
-                currentGroupAdmin.MakeCommonMember(admin);
-                _studentRepository.Update(currentGroupAdmin);
-            }
+            studyGroup.GroupAdminId = newGroupAdminProfile.Id;
 
-            newGroupAdminProfile.MakeGroupAdmin(admin);
-            _studentRepository.Update(newGroupAdminProfile);
-
+            _studyGroupRepository.Update(studyGroup);
             await _unitOfWork.CommitAsync();
         }
     }

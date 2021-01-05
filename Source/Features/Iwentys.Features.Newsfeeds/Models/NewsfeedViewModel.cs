@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Iwentys.Features.AccountManagement.Models;
 using Iwentys.Features.Newsfeeds.Entities;
-using Iwentys.Features.Students.Models;
 
 namespace Iwentys.Features.Newsfeeds.Models
 {
@@ -13,7 +13,7 @@ namespace Iwentys.Features.Newsfeeds.Models
         public DateTime CreationTimeUtc { get; set; }
         public string SourceLink { get; set; }
 
-        public StudentInfoDto Author { get; set; }
+        public IwentysUserInfoDto Author { get; set; }
 
         public static Expression<Func<SubjectNewsfeed, NewsfeedViewModel>> FromSubjectEntity =>
             entity =>
@@ -24,7 +24,7 @@ namespace Iwentys.Features.Newsfeeds.Models
                     Content = entity.Newsfeed.Content,
                     CreationTimeUtc = entity.Newsfeed.CreationTimeUtc,
                     SourceLink = entity.Newsfeed.SourceLink,
-                    Author = new StudentInfoDto(entity.Newsfeed.Author)
+                    Author = new IwentysUserInfoDto(entity.Newsfeed.Author)
                 };
 
         public static Expression<Func<GuildNewsfeed, NewsfeedViewModel>> FromGuildEntity =>
@@ -36,7 +36,7 @@ namespace Iwentys.Features.Newsfeeds.Models
                     Content = entity.Newsfeed.Content,
                     CreationTimeUtc = entity.Newsfeed.CreationTimeUtc,
                     SourceLink = entity.Newsfeed.SourceLink,
-                    Author = new StudentInfoDto(entity.Newsfeed.Author)
+                    Author = new IwentysUserInfoDto(entity.Newsfeed.Author)
                 };
     }
 }

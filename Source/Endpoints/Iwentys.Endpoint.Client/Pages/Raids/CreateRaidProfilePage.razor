@@ -1,0 +1,30 @@
+﻿@page "/raids/create"
+
+
+@inherits DependencyInjectionPage
+
+<h3>CreateRaidProfilePage</h3>
+
+<div class="container-fluid d-flex flex-row">
+    <div class="col-md-6 d-flex flex-column dark-elevation-01">
+        <h5>Create assignment</h5>
+
+        <p>
+            <MatTextField @bind-Value="@_name" Label="Title" Class="input-element"></MatTextField>
+        </p>
+
+        <p>
+            <MatTextField @bind-Value="@_description" Label="Description" Class="input-element"></MatTextField>
+        </p>
+
+        <p>
+            <MatDatePicker @bind-Value="@_startTime" Class="input-element" Label="Start time"></MatDatePicker>
+        </p>
+
+        <p>
+            <MatDatePicker @bind-Value="@_endTime" Class="input-element" Label="End time"></MatDatePicker>
+        </p>
+
+        <MatButton OnClick="@(async () => await Create())" class="dark-elevation-04">Create</MatButton>
+    </div>
+</div>

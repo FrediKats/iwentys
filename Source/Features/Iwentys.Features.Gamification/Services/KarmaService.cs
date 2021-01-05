@@ -2,10 +2,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
+using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Gamification.Entities;
 using Iwentys.Features.Gamification.Models;
-using Iwentys.Features.Students.Domain;
-using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Study.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Gamification.Services
@@ -14,14 +15,14 @@ namespace Iwentys.Features.Gamification.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IGenericRepository<Student> _studentRepository;
+        private readonly IGenericRepository<IwentysUser> _studentRepository;
         private readonly IGenericRepository<KarmaUpVote> _karmaRepository;
 
         public KarmaService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
 
-            _studentRepository = _unitOfWork.GetRepository<Student>();
+            _studentRepository = _unitOfWork.GetRepository<IwentysUser>();
             _karmaRepository = _unitOfWork.GetRepository<KarmaUpVote>();
         }
 
@@ -37,7 +38,7 @@ namespace Iwentys.Features.Gamification.Services
 
         public async Task UpVote(AuthorizedUser author, int targetId)
         {
-            Student target = await _studentRepository.GetByIdAsync(targetId);
+            IwentysUser target = await _studentRepository.GetById(targetId);
 
             var karmaUpVote = KarmaUpVote.Create(author, target);
 
@@ -47,7 +48,7 @@ namespace Iwentys.Features.Gamification.Services
 
         public async Task RemoveUpVote(AuthorizedUser author, int targetId)
         {
-            Student target = await _studentRepository.GetByIdAsync(targetId);
+            IwentysUser target = await _studentRepository.GetById(targetId);
             KarmaUpVote upVote = await _karmaRepository.Get().FirstAsync(k => k.AuthorId == author.Id && k.TargetId == target.Id);
 
             _karmaRepository.Delete(upVote);

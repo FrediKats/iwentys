@@ -1,9 +1,6 @@
 ﻿@page "/assignment/create"
-@using Blazored.LocalStorage
 
-@inject HttpClient Http
-@inject ILocalStorageService LocalStorage
-@inject NavigationManager NavigationManagerClient
+@inherits DependencyInjectionPage
 
 <div class="container-fluid d-flex flex-row">
     <div class="col-md-3 d-flex flex-column dark-elevation-01">
@@ -29,7 +26,7 @@
                 Clean
             </MatButton>
         </p>
-        
+
         @if (IsUserAdmin())
         {
             <div>

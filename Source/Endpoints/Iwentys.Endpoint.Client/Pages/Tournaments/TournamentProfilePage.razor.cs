@@ -1,35 +1,29 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using Iwentys.Endpoint.Client.Tools;
-using Iwentys.Endpoint.Sdk.ControllerClients.Guilds;
+﻿using System.Threading.Tasks;
 using Iwentys.Features.Guilds.Tournaments.Models;
 
 namespace Iwentys.Endpoint.Client.Pages.Tournaments
 {
     public partial class TournamentProfilePage
     {
-        private TournamentControllerClient _tournamentControllerClient;
-
         private TournamentInfoResponse _tournament;
 
         protected override async Task OnInitializedAsync()
         {
-            HttpClient httpClient = await Http.TrySetHeader(LocalStorage);
-            _tournamentControllerClient = new TournamentControllerClient(httpClient);
+            await base.OnInitializedAsync();
 
-            _tournament = await _tournamentControllerClient.Get(TournamentId);
+            _tournament = await ClientHolder.Tournament.Get(TournamentId);
         }
 
         private async Task RegisterToTournament()
         {
-            await _tournamentControllerClient.RegisterToTournament(_tournament.Id);
-            _tournament = await _tournamentControllerClient.Get(TournamentId);
+            await ClientHolder.Tournament.RegisterToTournament(_tournament.Id);
+            _tournament = await ClientHolder.Tournament.Get(TournamentId);
         }
 
         private async Task ForceUpdate()
         {
-            await _tournamentControllerClient.ForceUpdate(_tournament.Id);
-            _tournament = await _tournamentControllerClient.Get(TournamentId);
+            await ClientHolder.Tournament.ForceUpdate(_tournament.Id);
+            _tournament = await ClientHolder.Tournament.Get(TournamentId);
         }
     }
 }

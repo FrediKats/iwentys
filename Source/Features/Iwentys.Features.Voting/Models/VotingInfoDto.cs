@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Iwentys.Features.Students.Entities;
+using Iwentys.Features.AccountManagement.Entities;
 
 namespace Iwentys.Features.Voting.Models
 {
@@ -13,6 +13,6 @@ namespace Iwentys.Features.Voting.Models
         public DateTime DueTo { get; set; }
 
         public List<VotingAnswerStatisticDto> Answers { get; set; }
-        public List<Student> WithoutVote { get; set; }
+        public List<IwentysUser> WithoutVote { get; set; }
     }
 }

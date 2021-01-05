@@ -1,5 +1,5 @@
 ﻿using System;
-using Iwentys.Features.Students.Entities;
+using Iwentys.Features.AccountManagement.Entities;
 
 namespace Iwentys.Features.Newsfeeds.Entities
 {
@@ -9,9 +9,10 @@ namespace Iwentys.Features.Newsfeeds.Entities
         public string Title { get; init; }
         public string Content { get; init; }
         public DateTime CreationTimeUtc { get; init; }
+        public DateTime LastUpdateTimeUtc { get; init; }
         public string SourceLink { get; init; }
 
         public int AuthorId { get; init; }
-        public virtual Student Author { get; init; }
+        public virtual IwentysUser Author { get; init; }
     }
 }

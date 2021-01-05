@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Features.Achievements.Entities;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
-using Iwentys.Features.Students.Entities;
 using Moq;
 using NUnit.Framework;
 
@@ -21,9 +20,9 @@ namespace Iwentys.Tests.Features.Guilds
         private Guild _guild;
         private GuildDomain _guildDomain;
 
-        private Student _student;
+        private IwentysUser _student;
 
-        private Mock<IGenericRepository<Student>> _studentRepository;
+        private Mock<IGenericRepository<IwentysUser>> _studentRepository;
         private Mock<GithubIntegrationService> _githubUserDataService;
 
         // User without guild
@@ -35,7 +34,7 @@ namespace Iwentys.Tests.Features.Guilds
         [SetUp]
         public void SetUp()
         {
-            _student = new Student()
+            _student = new IwentysUser()
             {
                 Id = 1,
                 LastOnlineTime = DateTime.MinValue.ToUniversalTime(),
@@ -50,8 +49,7 @@ namespace Iwentys.Tests.Features.Guilds
                     new GuildMember(1, 1, GuildMemberType.Creator)
                 },
                 HiringPolicy = GuildHiringPolicy.Open,
-                PinnedProjects = new List<GuildPinnedProject>(),
-                Achievements = new List<GuildAchievement>()
+                PinnedProjects = new List<GuildPinnedProject>()
             };
 
             //_tributeRepository = new Mock<IGenericRepository<Tribute>>();
@@ -64,7 +62,7 @@ namespace Iwentys.Tests.Features.Guilds
             //    .Setup(a => a.GetRepository(It.IsAny<String>(), It.IsAny<String>()))
             //    .Returns(default(GithubRepositoryInfoDto));
             _githubUserDataService
-                .Setup(a => a.GetGithubUser(It.IsAny<String>(), It.IsAny<bool>()))
+                .Setup(a => a.User.GetGithubUser(It.IsAny<String>(), It.IsAny<bool>()))
                 .Returns(Task.FromResult(new GithubUser { ContributionFullInfo = new ContributionFullInfo { RawActivity = new ActivityInfo() { Contributions = new List<ContributionsInfo>(), Years = new List<YearActivityInfo>() } } }));
 
             //_guildRepository = new Mock<GuildRepository>();
@@ -77,7 +75,7 @@ namespace Iwentys.Tests.Features.Guilds
             //    .Setup(r => r.IsStudentHaveRequest(It.IsAny<Int32>()))
             //    .Returns(false);
 
-            _studentRepository = new Mock<IGenericRepository<Student>>();
+            _studentRepository = new Mock<IGenericRepository<IwentysUser>>();
             _studentRepository
                 .Setup(r => r.FindByIdAsync(It.IsAny<Int32>()))
                 .Returns(Task.FromResult(_student));

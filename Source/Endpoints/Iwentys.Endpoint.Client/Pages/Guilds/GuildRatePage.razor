@@ -1,9 +1,7 @@
 ﻿@page "/guild/rate"
-@using Blazored.LocalStorage
 @using Iwentys.Features.Guilds.Models
 
-@inject HttpClient Http
-@inject ILocalStorageService LocalStorage
+@inherits DependencyInjectionPage
 
 <div class="text-center">
     <h3>Рейтинг Гильдий</h3>
@@ -17,7 +15,7 @@
                     <div class="guild-rating-row dark-elevation-01">
                         <div class="d-flex flex-row">
                             <div class="col-md-2">
-                                <img src=@guild.LogoUrl class="guild-logo" />
+                                <img src=@guild.ImmageUrl class="guild-logo" />
                             </div>
 
                             <div class="col-md-8">

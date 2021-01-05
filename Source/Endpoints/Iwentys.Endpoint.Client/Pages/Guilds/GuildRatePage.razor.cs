@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Endpoint.Client.Tools;
-using Iwentys.Endpoint.Sdk.ControllerClients.Guilds;
 using Iwentys.Features.Guilds.Models;
-using Microsoft.AspNetCore.Components;
 
 namespace Iwentys.Endpoint.Client.Pages.Guilds
 {
-    public partial class GuildRatePage : ComponentBase
+    public partial class GuildRatePage
     {
         private IReadOnlyList<GuildProfileDto> _guildProfiles;
 
@@ -15,8 +12,8 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
 
         protected override async Task OnInitializedAsync()
         {
-            var guildControllerClient = new GuildControllerClient(await Http.TrySetHeader(LocalStorage));
-            _guildProfiles = await guildControllerClient.GetOverview();
+            await base.OnInitializedAsync();
+            _guildProfiles = await ClientHolder.Guild.GetOverview();
         }
     }
 }

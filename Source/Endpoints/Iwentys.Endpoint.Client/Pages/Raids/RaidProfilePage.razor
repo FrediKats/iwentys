@@ -1,0 +1,47 @@
+﻿@page "/raids/profile/{RaidId:int}"
+
+@inherits DependencyInjectionPage
+
+<h3>RaidProfilePage</h3>
+@if (_raid is not null)
+{
+    <div class="container-fluid d-flex flex-row">
+        <div class="col-md-6 d-flex flex-column">
+            <MatH6>Visitors (@_raid.Visitors.Count)</MatH6>
+            <MatList>
+                @foreach (var visitor in _raid.Visitors)
+                {
+                    <MatListItem>
+                        @visitor.GetFullName()
+                    </MatListItem>
+                }
+            </MatList>
+
+            @if (CanRegisterOnRaid())
+            {
+                <MatButton OnClick=@(async () => await RegisterOnRaid())>Check in</MatButton>
+            }
+
+            @if (CanUnRegisterOnRaid())
+            {
+                <MatButton OnClick=@(async () => await UnRegisterOnRaid())>Remove registration</MatButton>
+            }
+        </div>
+        <div class="col-md-6 d-flex flex-column">
+            <MatH6>Team requests</MatH6>
+            <MatList>
+                @foreach (var partySearchRequest in _raid.PartySearchRequests)
+                {
+                    <MatListItem>
+                        @partySearchRequest.Author.GetFullName()
+                    </MatListItem>
+                }
+            </MatList>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int RaidId { get; set; }
+}

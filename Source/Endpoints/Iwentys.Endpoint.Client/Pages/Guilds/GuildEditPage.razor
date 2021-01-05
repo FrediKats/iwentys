@@ -1,11 +1,8 @@
 ﻿@page "/guild/profile/{GuildId:int}/edit"
-@using Blazored.LocalStorage
-@using Iwentys.Endpoint.Client.Tools
-@using Iwentys.Endpoint.Sdk.ControllerClients.Guilds
+
 @using Iwentys.Features.Guilds.Models
 
-@inject HttpClient Http
-@inject ILocalStorageService LocalStorage
+@inherits DependencyInjectionPage
 
 <h3>GuildEditPage</h3>
 
@@ -20,10 +17,4 @@
     public int GuildId { get; set; }
 
     private ExtendedGuildProfileWithMemberDataDto _guild;
-
-    protected override async Task OnInitializedAsync()
-    {
-        var guildControllerClient = new GuildControllerClient(await Http.TrySetHeader(LocalStorage));
-        _guild = await guildControllerClient.Get(GuildId);
-    }
 }

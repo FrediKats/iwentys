@@ -1,11 +1,8 @@
 ﻿@page "/assignment"
 
-@using Blazored.LocalStorage
 @using Iwentys.Features.Assignments.Models
 
-@inject HttpClient Http
-@inject ILocalStorageService LocalStorage
-@inject NavigationManager NavigationManagerClient
+@inherits DependencyInjectionPage
 
 <div class="container-fluid d-flex flex-row">
     <div class="col-md-3 d-flex flex-column">
@@ -22,20 +19,18 @@
             <div>
                 @foreach (AssignmentInfoDto assignment in _assignment)
                 {
-                    //TODO: make generic style for card-like elements
                     <div class="card-list-element">
                         <MatCard Class="dark-elevation-01">
                             <MatCardContent>
                                 <div class="card-list-element-content">
                                     <MatHeadline6>
-                                        @assignment.Title @(assignment.Deadline is not null ? assignment.Deadline : "")
+                                        @assignment.Title @(assignment.DeadlineTimeUtc is not null ? assignment.DeadlineTimeUtc : "")
                                     </MatHeadline6>
                                 </div>
                             </MatCardContent>
                             <MatCardActions>
                                 @if (assignment.IsCompeted)
                                 {
-                                    //TODO: add undo
                                     <MatButton OnClick=@(async () => await Delete(assignment.Id))>Delete</MatButton>
                                     <MatButton OnClick=@(async () => await MakeUncompleted(assignment.Id))>Undo</MatButton>
                                 }

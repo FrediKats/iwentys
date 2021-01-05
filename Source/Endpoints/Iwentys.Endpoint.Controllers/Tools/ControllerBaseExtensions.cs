@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using Iwentys.Features.Students.Domain;
+using Iwentys.Features.AccountManagement.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Tools
@@ -8,7 +8,7 @@ namespace Iwentys.Endpoint.Controllers.Tools
     {
         public static AuthorizedUser TryAuthWithToken(this ControllerBase controller)
         {
-            //TODO: for test propose
+            //FYI: for test propose
             const int defaultUserId = 228617;
             return TryAuthWithTokenOrDefault(controller, defaultUserId);
         }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Endpoint.Server.Source.Options;
 using Iwentys.Features.GithubIntegration.Services;
-using Iwentys.Features.Students.Entities;
+using Iwentys.Features.Study.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -40,7 +40,7 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
                     var githubUserDataService = scope.ServiceProvider.GetRequiredService<GithubIntegrationService>();
                     foreach (Student student in studentRepository.Get().Where(s => s.GithubUsername != null))
                     {
-                        await githubUserDataService.CreateOrUpdate(student.Id);
+                        await githubUserDataService.User.CreateOrUpdate(student.Id);
                     }
                 }
                 catch (InvalidOperationException operationException)

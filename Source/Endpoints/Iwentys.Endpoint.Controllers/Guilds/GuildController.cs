@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Controllers.Tools;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Services;
-using Iwentys.Features.Students.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Guilds
@@ -24,14 +24,14 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         public async Task<ActionResult<GuildProfileShortInfoDto>> Create([FromBody] GuildCreateRequestDto arguments)
         {
             AuthorizedUser creator = this.TryAuthWithToken();
-            return Ok(await _guildService.CreateAsync(creator, arguments));
+            return Ok(await _guildService.Create(creator, arguments));
         }
 
         [HttpPut]
         public async Task<ActionResult<GuildProfileShortInfoDto>> Update([FromBody] GuildUpdateRequestDto arguments)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(await _guildService.UpdateAsync(user, arguments));
+            return Ok(await _guildService.Update(user, arguments));
         }
 
         [HttpGet]
@@ -44,7 +44,7 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         public async Task<ActionResult<ExtendedGuildProfileWithMemberDataDto>> Get(int id)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(await _guildService.GetAsync(id, user.Id));
+            return Ok(await _guildService.Get(id, user.Id));
         }
 
         [HttpGet("for-member")]
@@ -61,7 +61,7 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         public async Task<ActionResult<GithubRepositoryInfoDto>> AddPinnedProject([FromRoute] int guildId, [FromBody] CreateProjectRequestDto createProject)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(await _guildService.AddPinnedRepositoryAsync(user, guildId, createProject.Owner, createProject.RepositoryName));
+            return Ok(await _guildService.AddPinnedRepository(user, guildId, createProject.Owner, createProject.RepositoryName));
         }
 
         [HttpDelete("{guildId}/pinned/{repositoryId}")]

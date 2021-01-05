@@ -1,8 +1,9 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Achievements.Models;
-using Iwentys.Features.Students.Domain;
+using Iwentys.Features.Study.Models;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -14,12 +15,12 @@ namespace Iwentys.Tests.Features
         [Test]
         public async Task CreateGuild_ShouldReturnCreatorAsMember()
         {
-            TestCaseContext testCase = TestCaseContext
-                .Case()
-                .WithNewStudent(out AuthorizedUser user);
+            TestCaseContext testCase = TestCaseContext.Case();
+            GroupProfileResponseDto studyGroup = testCase.StudyTestCaseContext.WithStudyGroup();
+            AuthorizedUser user = testCase.StudyTestCaseContext.WithNewStudent(studyGroup);
 
-            await testCase.StudentService.AddGithubUsernameAsync(user.Id, "username");
-            AchievementDto studentAchievementEntity = (testCase
+            await testCase.StudentService.AddGithubUsername(user.Id, "username");
+            AchievementInfoDto studentAchievementEntity = (await testCase
                     .AchievementService
                     .GetForStudent(user.Id))
                 .FirstOrDefault(a => a.Id == AchievementList.AddGithubAchievement.Id);

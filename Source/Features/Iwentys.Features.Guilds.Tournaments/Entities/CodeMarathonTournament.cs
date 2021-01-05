@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Guilds.Tournaments.Enums;
 using Iwentys.Features.Guilds.Tournaments.Models;
-using Iwentys.Features.Students.Domain;
 
 namespace Iwentys.Features.Guilds.Tournaments.Entities
 {

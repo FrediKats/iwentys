@@ -1,11 +1,8 @@
-﻿@using Blazored.LocalStorage
-@using Iwentys.Features.Students.Enums
-@using Iwentys.Features.Students.Models
+﻿@namespace Iwentys.Endpoint.Client.Pages.Students
 
-@namespace Iwentys.Endpoint.Client.Pages.Students
-
-@inject HttpClient Http
-@inject ILocalStorageService LocalStorage
+@using Iwentys.Features.Study.Models.Students
+@using Iwentys.Features.Study.Enums
+@inherits DependencyInjectionPage
 
 @if (StudentProfile is not null)
 {
@@ -17,15 +14,15 @@
 
             @if (_group?.GroupName is not null)
             {
-                @if (StudentProfile.Role == StudentRole.GroupAdmin)
+                @if (StudentProfile.Id == _group.Id)
                 {
                     <MatBody1>Группа: <NavLink href=@LinkToGroupProfile>@_group.GroupName</NavLink>(Админ)</MatBody1>
                 }
 
-                @if (StudentProfile.Role != StudentRole.GroupAdmin)
+                @if (StudentProfile.Id != _group.Id)
                 {
                     <MatBody1>Группа: <NavLink href=@LinkToGroupProfile>@_group.GroupName</NavLink></MatBody1>
-                    @if (_self?.Role == StudentRole.Admin)
+                    @if (_self?.IsAdmin == true)
                     {
                         <MatButton OnClick=@(async () => await MakeGroupAdmin())>Make admin</MatButton>
                     }

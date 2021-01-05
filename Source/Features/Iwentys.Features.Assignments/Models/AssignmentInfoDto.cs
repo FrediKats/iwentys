@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Iwentys.Features.AccountManagement.Models;
 using Iwentys.Features.Assignments.Entities;
-using Iwentys.Features.Students.Models;
 using Iwentys.Features.Study.Entities;
 
 namespace Iwentys.Features.Assignments.Models
 {
     public record AssignmentInfoDto
     {
-        public AssignmentInfoDto(int id, string title, string description, DateTime creationTime, DateTime? deadline, StudentInfoDto creator, Subject subject, bool isCompeted)
+        public AssignmentInfoDto(int id, string title, string description, DateTime creationTimeUtc, DateTime? deadlineTimeUtc, IwentysUserInfoDto creator, Subject subject, bool isCompeted)
         {
             Id = id;
             Title = title;
             Description = description;
-            CreationTime = creationTime;
-            Deadline = deadline;
+            CreationTimeUtc = creationTimeUtc;
+            DeadlineTimeUtc = deadlineTimeUtc;
             Creator = creator;
             Subject = subject;
             IsCompeted = isCompeted;
@@ -26,8 +26,8 @@ namespace Iwentys.Features.Assignments.Models
                 studentAssignment.Assignment.Title,
                 studentAssignment.Assignment.Description,
                 studentAssignment.Assignment.CreationTimeUtc,
-                studentAssignment.Assignment.Deadline,
-                new StudentInfoDto(studentAssignment.Assignment.Creator),
+                studentAssignment.Assignment.DeadlineTimeUtc,
+                new IwentysUserInfoDto(studentAssignment.Assignment.Author),
                 studentAssignment.Assignment.Subject,
                 studentAssignment.IsCompleted)
         {
@@ -37,14 +37,24 @@ namespace Iwentys.Features.Assignments.Models
         {
         }
 
-        public static Expression<Func<StudentAssignment, AssignmentInfoDto>> FromStudentEntity => entity => new AssignmentInfoDto(entity);
+        public static Expression<Func<StudentAssignment, AssignmentInfoDto>> FromStudentEntity =>
+            entity => new AssignmentInfoDto
+            {
+                Id = entity.Assignment.Id,
+                Title = entity.Assignment.Title,
+                Description = entity.Assignment.Description,
+                CreationTimeUtc = entity.Assignment.CreationTimeUtc,
+                DeadlineTimeUtc = entity.Assignment.DeadlineTimeUtc,
+                Creator = new IwentysUserInfoDto(entity.Assignment.Author),
+                IsCompeted = entity.IsCompleted,
+            };
 
         public int Id { get; init; }
         public string Title { get; init; }
         public string Description { get; init; }
-        public DateTime CreationTime { get; init; }
-        public DateTime? Deadline { get; init; }
-        public StudentInfoDto Creator { get; init; }
+        public DateTime CreationTimeUtc { get; init; }
+        public DateTime? DeadlineTimeUtc { get; init; }
+        public IwentysUserInfoDto Creator { get; init; }
         public Subject Subject { get; init; }
         public bool IsCompeted { get; init; }
     }

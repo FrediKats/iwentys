@@ -1,11 +1,9 @@
-﻿@using Blazored.LocalStorage
-@using Iwentys.Features.GithubIntegration.Models
+﻿@using Iwentys.Features.GithubIntegration.Models
 @using Iwentys.Features.Guilds.Models
 
 @namespace Iwentys.Endpoint.Client.Pages.Guilds
 
-@inject HttpClient Http
-@inject ILocalStorageService LocalStorage
+@inherits DependencyInjectionPage
 
 <div class="text-center">
     <MatHeadline5>Репозитории</MatHeadline5>
@@ -15,10 +13,9 @@
         {
 
             <MatNavItem class="d-flex flex-row justify-content-md-between">
-                @*TODO: fix link*@
                 <NavLink href=@repository.Url>
                     <div class="col-md-10">
-                        <MatBody2>@repository.Name</MatBody2>
+                        <MatBody2>@repository.GithubLikeTitle()</MatBody2>
 
                         <MatBody2>@repository.Description</MatBody2>
                     </div>

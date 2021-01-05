@@ -5,11 +5,11 @@
 <div Class="text-center">
     <MatHeadline5>Ачивки</MatHeadline5>
     <div class="container-fluid d-flex flex-row">
-        @foreach (AchievementDto achievement in Achievements)
+        @foreach (AchievementInfoDto achievement in Achievements)
         {
             <div class="d-flex flex-column achievement-item">
                 <img src="@achievement.ImageUrl" />
-                <MatHeadline6>@achievement.Name</MatHeadline6>
+                <MatHeadline6>@achievement.Title</MatHeadline6>
             </div>
         }
     </div>
@@ -17,5 +17,5 @@
 
 @code {
     [Parameter]
-    public List<AchievementDto> Achievements { get; set; }
+    public List<AchievementInfoDto> Achievements { get; set; }
 }

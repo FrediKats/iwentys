@@ -45,7 +45,7 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
                     {
                         try
                         {
-                            googleTableUpdateService.UpdateSubjectActivityForGroup(g);
+                            await googleTableUpdateService.UpdateSubjectActivityForGroup(g);
                         }
                         catch (Exception e)
                         {

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Domain;
@@ -10,7 +11,6 @@ using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Tournaments.Entities;
 using Iwentys.Features.Guilds.Tournaments.Models;
-using Iwentys.Features.Students.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Tournaments.Domain
@@ -77,7 +77,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
 
         private int CountGuildRating(Guild guild)
         {
-            var domain = new GuildDomain(guild, _githubIntegrationService, _unitOfWork.GetRepository<Student>(), _unitOfWork.GetRepository<GuildMember>());
+            var domain = new GuildDomain(guild, _githubIntegrationService, _unitOfWork.GetRepository<IwentysUser>(), _unitOfWork.GetRepository<GuildMember>());
             //TODO: remove result
             List<GuildMemberImpactDto> users = domain.GetMemberImpacts().Result;
             
@@ -101,7 +101,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
 
             foreach (TournamentTeamMember member in members)
             {
-                var contributionFullInfo = await _githubIntegrationService.FindUserContributionOrEmpty(member.Member);
+                var contributionFullInfo = await _githubIntegrationService.User.FindUserContributionOrEmpty(member.Member);
                 member.Points = contributionFullInfo.GetActivityForPeriod(_tournament.StartTime, _tournament.EndTime);
             }
 

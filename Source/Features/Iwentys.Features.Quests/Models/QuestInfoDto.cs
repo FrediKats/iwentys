@@ -1,34 +1,17 @@
 ﻿using Iwentys.Features.Quests.Entities;
 using Iwentys.Features.Quests.Enums;
-using Iwentys.Features.Students.Models;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
-using Iwentys.Common.Tools;
+using Iwentys.Features.AccountManagement.Models;
 
 namespace Iwentys.Features.Quests.Models
 {
     public record QuestInfoDto
     {
-        public QuestInfoDto(Quest quest)
-            :  this(
-                quest.Id,
-                quest.Title,
-                quest.Description,
-                quest.Price,
-                quest.CreationTime,
-                quest.Deadline,
-                quest.State,
-                quest.IsOutdated,
-                new StudentInfoDto(quest.Author),
-                quest.Executor == null ? null : new StudentInfoDto(quest.Executor),
-                //TODO: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-                quest.Responses?.SelectToList(qr => new QuestResponseInfoDto(qr)))
-        {
-        }
-
-        public QuestInfoDto(int id, string title, string description, int price, DateTime creationTime, DateTime? deadline, QuestState state, bool isOutdated, StudentInfoDto author, StudentInfoDto executor,
+        public QuestInfoDto(int id, string title, string description, int price, DateTime creationTime, DateTime? deadline, QuestState state, bool isOutdated, IwentysUserInfoDto author, IwentysUserInfoDto executor,
             List<QuestResponseInfoDto> responseInfos)
         {
             Id = id;
@@ -56,10 +39,24 @@ namespace Iwentys.Features.Quests.Models
         public DateTime? Deadline { get; init; }
         public QuestState State { get; init; }
         public bool IsOutdated { get; init; }
-        public StudentInfoDto Author { get; init; }
-        public StudentInfoDto Executor { get; init; }
+        public IwentysUserInfoDto Author { get; init; }
+        public IwentysUserInfoDto Executor { get; init; }
         public List<QuestResponseInfoDto> ResponseInfos { get; set; }
 
-        public static Expression<Func<Quest, QuestInfoDto>> FromEntity => entity => new QuestInfoDto(entity);
+        public static Expression<Func<Quest, QuestInfoDto>> FromEntity =>
+            entity => new QuestInfoDto
+            {
+                Id = entity.Id,
+                Title = entity.Title,
+                Description = entity.Description,
+                Price = entity.Price,
+                CreationTime = entity.CreationTime,
+                Deadline = entity.Deadline,
+                State = entity.State,
+                IsOutdated = entity.IsOutdated,
+                Author = new IwentysUserInfoDto(entity.Author),
+                Executor = entity.Executor == null ? null : new IwentysUserInfoDto(entity.Executor),
+                ResponseInfos = entity.Responses.Select(qr => new QuestResponseInfoDto(qr)).ToList()
+            };
     }
 }

@@ -16,10 +16,12 @@ using Iwentys.Features.Guilds;
 using Iwentys.Features.Guilds.Tournaments;
 using Iwentys.Features.Guilds.Tributes;
 using Iwentys.Features.Newsfeeds;
+using Iwentys.Features.PeerReview;
 using Iwentys.Features.Quests;
-using Iwentys.Features.Students;
+using Iwentys.Features.Raids;
 using Iwentys.Features.Study;
 using Iwentys.Features.Study.Repositories;
+using Iwentys.Features.Study.SubjectAssignments;
 using Iwentys.Features.Voting;
 using Iwentys.Integrations.GithubIntegration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -78,12 +80,15 @@ namespace Iwentys.Endpoint.Server.Source.Tools
 
             services.AddIwentysTributesFeatureServices();
             services.AddIwentysNewsfeedFeatureServices();
+            services.AddIwentysPeerReviewFeatureServices();
             services.AddIwentysQuestFeatureServices();
-            services.AddIwentysStudentsFeatureServices();
             
             services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
             services.AddIwentysStudyFeatureServices();
+            services.AddIwentysSubjectAssignmentFeatureServices();
+
             services.AddIwentysVotingFeatureServices();
+            services.AddIwentysRaidFeatureServices();
 
             return services;
         }

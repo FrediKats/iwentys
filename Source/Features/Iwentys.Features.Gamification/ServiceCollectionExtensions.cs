@@ -8,7 +8,6 @@ namespace Iwentys.Features.Gamification
         public static IServiceCollection AddIwentysGamificationFeatureServices(this IServiceCollection services)
         {
             services.AddScoped<StudyLeaderboardService>();
-            services.AddScoped<InterestTagService>();
             services.AddScoped<KarmaService>();
 
             return services;

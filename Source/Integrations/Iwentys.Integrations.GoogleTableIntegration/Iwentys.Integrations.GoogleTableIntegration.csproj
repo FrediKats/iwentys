@@ -11,7 +11,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Features\Iwentys.Features.Study\Iwentys.Features.Study.csproj" />
-    <ProjectReference Include="..\..\Iwentys.Common\Iwentys.Common.csproj" />
   </ItemGroup>
 
 </Project>

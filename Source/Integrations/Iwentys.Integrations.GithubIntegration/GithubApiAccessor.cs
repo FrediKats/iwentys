@@ -32,7 +32,7 @@ namespace Iwentys.Integrations.GithubIntegration
                 .Repository
                 .Get(username, repositoryName) ?? throw EntityNotFoundException.Create(nameof(GithubRepositoryInfoDto), repositoryName);
 
-            return new GithubRepositoryInfoDto(repository.Id, repository.Owner.Login, repository.Name, repository.Description, repository.Url, repository.StargazersCount);
+            return new GithubRepositoryInfoDto(repository.Id, repository.Owner.Login, repository.Name, repository.Description, repository.HtmlUrl, repository.StargazersCount);
         }
 
         public async Task<List<GithubRepositoryInfoDto>> GetUserRepositories(string username)

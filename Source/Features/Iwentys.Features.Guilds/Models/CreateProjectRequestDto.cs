@@ -11,7 +11,7 @@
         public CreateProjectRequestDto()
         {
         }
-        
+
         public string Owner { get; init; }
         public string RepositoryName { get; init; }
     }

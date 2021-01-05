@@ -1,0 +1,44 @@
+﻿@page "/peer-review"
+
+@using Iwentys.Features.PeerReview.Models
+
+@inherits DependencyInjectionPage
+
+<h3>ReviewRequestJounalPage</h3>
+
+<div>
+    <h5>Review requests</h5>
+    <MatButton Link=@LinkToReviewRequestCreatePage()>Create request</MatButton>
+    @if (_projectReviewRequests is not null)
+    {
+        <div>
+            @foreach (ProjectReviewRequestInfoDto reviewRequest in _projectReviewRequests)
+            {
+                <div class="card-list-element">
+                    <MatCard Class="dark-elevation-01">
+                        <MatCardContent>
+                            <div class="card-list-element-content">
+                                <MatHeadline6>
+                                    @reviewRequest.Project.GithubLikeTitle()
+                                </MatHeadline6>
+                                <MatBody2>
+                                    @reviewRequest.Project.Description
+                                </MatBody2>
+                                <MatBody2>
+                                    Comment from author: @reviewRequest.Description
+                                </MatBody2>
+                            </div>
+                        </MatCardContent>
+                        <MatCardActions>
+                            <MatButton Link=@LinkToSendingFeedback(reviewRequest)>Send feedback</MatButton>
+                        </MatCardActions>
+                    </MatCard>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+
+}

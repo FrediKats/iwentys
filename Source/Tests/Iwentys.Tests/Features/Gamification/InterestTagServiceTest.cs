@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Features.Gamification.Models;
-using Iwentys.Features.Students.Enums;
+using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.InterestTags.Models;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -13,14 +13,14 @@ namespace Iwentys.Tests.Features.Gamification
         [Test]
         public void AddTagToUser_EnsureUserHaveTag()
         {
-            var testCase = TestCaseContext
-                .Case()
-                .WithNewStudent(out var user, StudentRole.Admin)
-                .WithInterestTag(out var tag)
-                .WithUserInterestTag(tag, user);
+            TestCaseContext testCase = TestCaseContext.Case();
+            AuthorizedUser user = testCase.AccountManagementTestCaseContext.WithUser(true);
+            InterestTagDto tag = testCase.GamificationTestCaseContext.WithInterestTag();
+            
+            testCase.GamificationTestCaseContext.WithUserInterestTag(tag, user);
 
-            List<InterestTagDto> interestTagDtos = testCase.InterestTagService.GetStudentTags(user.Id).Result;
-            Assert.IsTrue(interestTagDtos.Any(t => t.Id == tag.Id));
+            List<InterestTagDto> tags = testCase.InterestTagService.GetUserTags(user.Id).Result;
+            Assert.IsTrue(tags.Any(t => t.Id == tag.Id));
         }
     }
 }

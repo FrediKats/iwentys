@@ -1,7 +1,4 @@
 ﻿using System.Threading.Tasks;
-
-using Iwentys.Endpoint.Client.Tools;
-using Iwentys.Endpoint.Sdk.ControllerClients;
 using Iwentys.Features.Quests.Models;
 
 namespace Iwentys.Endpoint.Client.Pages.Quests
@@ -10,17 +7,16 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
     {
         private QuestInfoDto _quest;
 
-        private QuestControllerClient _questControllerClient;
-
         protected override async Task OnInitializedAsync()
         {
-            _questControllerClient = new QuestControllerClient(await Http.TrySetHeader(LocalStorage));
-            _quest = await _questControllerClient.Get(QuestId);
+            await base.OnInitializedAsync();
+            
+            _quest = await ClientHolder.Quest.Get(QuestId);
         }
 
         private async Task SendResponse()
         {
-            await _questControllerClient.SendResponse(_quest.Id);
+            await ClientHolder.Quest.SendResponse(_quest.Id);
         }
     }
 }

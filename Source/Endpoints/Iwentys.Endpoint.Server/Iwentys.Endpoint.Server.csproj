@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>Iwentys.Endpoint.Server-6A4DDF6B-8357-47F6-8BAF-5D53458924D0</UserSecretsId>
-    <AnalysisLevel>preview</AnalysisLevel>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -46,15 +45,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Features\Iwentys.Features.Gamification\Iwentys.Features.Gamification.csproj" />
-    <ProjectReference Include="..\..\Features\Iwentys.Features.Guilds.Tournaments\Iwentys.Features.Guilds.Tournaments.csproj" />
+    <ProjectReference Include="..\..\DataAccess\Iwentys.Database\Iwentys.Database.csproj" />
     <ProjectReference Include="..\..\Features\Iwentys.Features.Voting\Iwentys.Features.Voting.csproj" />
     <ProjectReference Include="..\..\Integrations\Iwentys.Integrations.GithubIntegration\Iwentys.Integrations.GithubIntegration.csproj" />
     <ProjectReference Include="..\..\Integrations\Iwentys.Integrations.GoogleTableIntegration\Iwentys.Integrations.GoogleTableIntegration.csproj" />
-    <ProjectReference Include="..\..\Iwentys.Database\Iwentys.Database.csproj" />
     <ProjectReference Include="..\Iwentys.Endpoint.Client\Iwentys.Endpoint.Client.csproj" />
     <ProjectReference Include="..\Iwentys.Endpoint.Controllers\Iwentys.Endpoint.Controllers.csproj" />
-    <ProjectReference Include="..\Iwentys.Endpoints.ClientBot\Iwentys.Endpoints.ClientBot.csproj" />
   </ItemGroup>
 
 </Project>

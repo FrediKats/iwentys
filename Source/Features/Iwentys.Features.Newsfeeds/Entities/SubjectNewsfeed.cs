@@ -1,8 +1,7 @@
 ﻿using System;
 using Iwentys.Common.Exceptions;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Newsfeeds.Models;
-using Iwentys.Features.Students.Entities;
-using Iwentys.Features.Students.Enums;
 using Iwentys.Features.Study.Entities;
 
 namespace Iwentys.Features.Newsfeeds.Entities
@@ -15,9 +14,10 @@ namespace Iwentys.Features.Newsfeeds.Entities
         public int NewsfeedId { get; init; }
         public virtual Newsfeed Newsfeed { get; init; }
 
-        public static SubjectNewsfeed Create(NewsfeedCreateViewModel createViewModel, Student author, Subject subject)
+        public static SubjectNewsfeed Create(NewsfeedCreateViewModel createViewModel, IwentysUser author, Subject subject, StudyGroup studyGroup)
         {
-            if (author.Role != StudentRole.GroupAdmin && author.Role != StudentRole.Admin)
+            //TODO: remove possible NRE
+            if (!author.IsAdmin && author.Id != studyGroup?.GroupAdminId)
                 throw InnerLogicException.NotEnoughPermissionFor(author.Id);
 
             var newsfeed = new Newsfeed

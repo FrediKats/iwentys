@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using FluentResults;
 using Iwentys.Common.Databases;
-using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Study;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Integrations.GoogleTableIntegration;
@@ -30,7 +30,7 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
             _subjectActivityRepository = _unitOfWork.GetRepository<SubjectActivity>();
         }
 
-        public void UpdateSubjectActivityForGroup(GroupSubject groupSubjectData)
+        public async Task UpdateSubjectActivityForGroup(GroupSubject groupSubjectData)
         {
             Result<GoogleTableData> googleTableData = groupSubjectData.TryGetGoogleTableDataConfig();
             if (googleTableData.IsFailed)
@@ -68,21 +68,20 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
                         continue;
                     }
 
-                    //TODO: remove wait
-                    _subjectActivityRepository.InsertAsync(new SubjectActivity
+                    await _subjectActivityRepository.InsertAsync(new SubjectActivity
                     {
                         StudentId = studentProfile.Id,
                         GroupSubjectId = groupSubjectData.Id,
                         Points = pointsCount
-                    }).Wait();
-                    _unitOfWork.CommitAsync().Wait();
+                    });
+                    await _unitOfWork.CommitAsync();
                     
                     continue;
                 }
 
                 activity.Points = pointsCount;
                 _subjectActivityRepository.Update(activity);
-                _unitOfWork.CommitAsync().Wait();
+                await _unitOfWork.CommitAsync();
             }
         }
 

@@ -4,12 +4,10 @@
 
 @namespace Iwentys.Endpoint.Client.Pages.Guilds
 
-@inject HttpClient Http
-@inject ILocalStorageService LocalStorage
-@inject NavigationManager NavigationManagerClient
+@inherits DependencyInjectionPage
 
 <div class="container-fluid d-flex flex-column align-items-center">
-    <img src=@SelectedGuildProfile.LogoUrl class="guild-logo" />
+    <img src=@SelectedGuildProfile.ImmageUrl class="guild-logo" />
 
     <MatHeadline4>@SelectedGuildProfile.Title</MatHeadline4>
     <MatButton Link="@LeaderProfileLink()">Лидер: @SelectedGuildProfile.Leader.GetFullName()</MatButton>

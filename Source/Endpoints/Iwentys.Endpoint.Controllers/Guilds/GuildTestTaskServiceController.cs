@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Controllers.Tools;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Services;
-using Iwentys.Features.Students.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Guilds
@@ -22,7 +22,7 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         [HttpGet]
         public ActionResult<List<GuildTestTaskInfoResponse>> Get([FromQuery] int guildId)
         {
-            return Ok(_guildTestTaskService.Get(guildId));
+            return Ok(_guildTestTaskService.GetResponses(guildId));
         }
 
         [HttpPut("accept")]

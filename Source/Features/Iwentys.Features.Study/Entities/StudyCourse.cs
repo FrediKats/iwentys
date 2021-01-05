@@ -1,4 +1,4 @@
-﻿using Iwentys.Features.Students.Enums;
+﻿using Iwentys.Features.Study.Enums;
 
 namespace Iwentys.Features.Study.Entities
 {

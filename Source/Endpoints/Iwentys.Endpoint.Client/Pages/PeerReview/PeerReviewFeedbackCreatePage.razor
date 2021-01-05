@@ -1,0 +1,24 @@
+﻿@inherits DependencyInjectionPage
+
+@page "/peer-review/{ReviewRequestId:int}/feedback"
+
+<h3>PeerReviewFeedbackCreatePage</h3>
+@if (_request is not null)
+{
+    <p>
+        @_request.Project.GithubLikeTitle()
+    </p>
+    <p>
+        @_request.Project.Description
+    </p>
+}
+
+<p>
+    <MatTextField @bind-Value="@_description" Label="Description" Class="input-element"></MatTextField>
+</p>
+<MatButton OnClick=@(async () => await CreateFeedback())>Create</MatButton>
+
+@code {
+    [Parameter]
+    public int ReviewRequestId { get; set; }
+}

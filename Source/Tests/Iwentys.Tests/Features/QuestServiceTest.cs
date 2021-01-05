@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Models;
 using Iwentys.Features.Quests.Models;
-using Iwentys.Features.Students.Domain;
-using Iwentys.Features.Students.Models;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -15,11 +15,11 @@ namespace Iwentys.Tests.Features
         [Test]
         public async Task CreateQuest_ReturnAsActive()
         {
-            TestCaseContext test = TestCaseContext.Case()
-                .WithNewStudent(out AuthorizedUser user)
-                .WithQuest(user, 50, out QuestInfoDto quest);
+            TestCaseContext testCase = TestCaseContext.Case();
+            AuthorizedUser user = testCase.AccountManagementTestCaseContext.WithUser();
+            QuestInfoDto quest = testCase.QuestTestCaseContext.WithQuest(user, 50);
 
-            List<QuestInfoDto> quests = await test.QuestService.GetActiveAsync();
+            List<QuestInfoDto> quests = await testCase.QuestService.GetActive();
 
             Assert.IsTrue(quests.Any(q => q.Id == quest.Id));
         }
@@ -27,11 +27,11 @@ namespace Iwentys.Tests.Features
         [Test]
         public async Task CreateQuest_ReturnAsCreatedByUser()
         {
-            TestCaseContext test = TestCaseContext.Case()
-                .WithNewStudent(out AuthorizedUser user)
-                .WithQuest(user, 50, out QuestInfoDto quest);
+            TestCaseContext testCase = TestCaseContext.Case();
+            AuthorizedUser user = testCase.AccountManagementTestCaseContext.WithUser();
+            QuestInfoDto quest = testCase.QuestTestCaseContext.WithQuest(user, 50);
 
-            List<QuestInfoDto> quests = await test.QuestService.GetCreatedByUserAsync(user);
+            List<QuestInfoDto> quests = await testCase.QuestService.GetCreatedByUser(user);
             
             Assert.IsTrue(quests.Any(q => q.Id == quest.Id));
         }
@@ -39,34 +39,33 @@ namespace Iwentys.Tests.Features
         [Test]
         public async Task CompleteQuest()
         {
-            TestCaseContext test = TestCaseContext.Case()
-                .WithNewStudent(out AuthorizedUser questCreator)
-                .WithNewStudent(out AuthorizedUser questExecutor);
+            TestCaseContext testCase = TestCaseContext.Case();
+            AuthorizedUser questCreator = testCase.AccountManagementTestCaseContext.WithUser();
+            AuthorizedUser questExecutor = testCase.AccountManagementTestCaseContext.WithUser();
+            QuestInfoDto quest = testCase.QuestTestCaseContext.WithQuest(questCreator, 50);
 
-            StudentInfoDto questExecuteAccount = await test.StudentService.GetAsync(questExecutor.Id);
-            int executorPointsCount = questExecuteAccount.BarsPoints; 
-            
-            test.WithQuest(questCreator, 50, out QuestInfoDto quest);
-            await test.QuestService.SendResponseAsync(questExecutor, quest.Id);
-            await test.QuestService.CompleteAsync(questCreator, quest.Id, questExecutor.Id);
+            IwentysUserInfoDto questExecuteAccount = await testCase.IwentysUserService.Get(questExecutor.Id);
+            int executorPointsCount = questExecuteAccount.BarsPoints;
 
-            questExecuteAccount = await test.StudentService.GetAsync(questExecutor.Id);
+            await testCase.QuestService.SendResponse(questExecutor, quest.Id);
+            await testCase.QuestService.Complete(questCreator, quest.Id, questExecutor.Id);
+
+            questExecuteAccount = await testCase.IwentysUserService.Get(questExecutor.Id);
             Assert.AreEqual(executorPointsCount + quest.Price, questExecuteAccount.BarsPoints);
         }
 
         [Test]
         public async Task RevokeQuest_EnsureCorrectPointsCount()
         {
-            TestCaseContext test = TestCaseContext.Case()
-                .WithNewStudent(out AuthorizedUser questCreator);
-
-            var questCreatorAccount = await test.StudentService.GetAsync(questCreator.Id);
+            TestCaseContext testCase = TestCaseContext.Case();
+            AuthorizedUser questCreator = testCase.AccountManagementTestCaseContext.WithUser();
+            IwentysUserInfoDto questCreatorAccount = await testCase.IwentysUserService.Get(questCreator.Id);
             int pointsCountBefore = questCreatorAccount.BarsPoints;
+            QuestInfoDto quest = testCase.QuestTestCaseContext.WithQuest(questCreator, 50);
 
-            test.WithQuest(questCreator, 50, out QuestInfoDto quest);
-            await test.QuestService.RevokeAsync(questCreator, quest.Id);
+            await testCase.QuestService.Revoke(questCreator, quest.Id);
 
-            questCreatorAccount = await test.StudentService.GetAsync(questCreator.Id);
+            questCreatorAccount = await testCase.IwentysUserService.Get(questCreator.Id);
             Assert.AreEqual(pointsCountBefore, questCreatorAccount.BarsPoints);
         }
     }

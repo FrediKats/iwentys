@@ -1,12 +1,8 @@
 ﻿@page "/student/profile/{StudentId:int?}"
-@using Blazored.LocalStorage
 @using Iwentys.Endpoint.Client.CustomComponents
 @using ChartJs.Blazor.Charts
 
-
-@inject HttpClient Http
-@inject ILocalStorageService LocalStorage
-
+@inherits DependencyInjectionPage
 
 @if (_studentFullProfile is not null)
 {
@@ -14,11 +10,20 @@
         <div class="col-md-6 d-flex flex-column">
             <div class="profile-element dark-elevation-01">
                 <StudentProfileInfoComponent StudentProfile=@_studentFullProfile></StudentProfileInfoComponent>
+                @if (_leaderboardRow is not null)
+                {
+                    <div dark-elevation-02>
+                        <MatHeadline6>Top-@_leaderboardRow.Position</MatHeadline6>
+                    </div>
+                }
                 <MatButton Link="/student/profile/edit">Edit</MatButton>
             </div>
 
             <div class="profile-element dark-elevation-01">
-                <AchievementComponent Achievements=@_achievements></AchievementComponent>
+                @if (_achievements is not null)
+                {
+                    <AchievementComponent Achievements=@_achievements></AchievementComponent>
+                }
             </div>
         </div>
 

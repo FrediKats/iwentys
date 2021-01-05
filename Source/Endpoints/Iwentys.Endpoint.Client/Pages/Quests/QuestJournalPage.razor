@@ -1,10 +1,8 @@
 ﻿@page "/quest/active"
 
-@using Blazored.LocalStorage
 @using Iwentys.Features.Quests.Models
 
-@inject HttpClient Http
-@inject ILocalStorageService LocalStorage
+@inherits DependencyInjectionPage
 
 <div class="container-fluid d-flex flex-row">
     <div class="col-md-3 d-flex flex-column">

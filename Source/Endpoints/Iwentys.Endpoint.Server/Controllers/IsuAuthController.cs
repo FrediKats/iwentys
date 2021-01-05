@@ -4,8 +4,8 @@ using Iwentys.Common.Transferable;
 using Iwentys.Endpoint.Controllers.Tools;
 using Iwentys.Endpoint.Server.Source.Options;
 using Iwentys.Endpoint.Server.Source.Tokens;
-using Iwentys.Features.Students.Domain;
-using Iwentys.Features.Students.Services;
+using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.Study.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Tef.IsuIntegrator;
@@ -56,7 +56,7 @@ namespace Iwentys.Endpoint.Server.Controllers
         [HttpGet("loginOrCreate/{userId}")]
         public async Task<ActionResult<IwentysAuthResponse>> LoginOrCreate(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
-            await _studentService.GetOrCreateAsync(userId);
+            await _studentService.GetOrCreate(userId);
             return Ok(TokenGenerator.Generate(userId, signingEncodingKey, _jwtApplicationOptions));
         }
 

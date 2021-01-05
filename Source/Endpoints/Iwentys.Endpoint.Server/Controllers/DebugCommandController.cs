@@ -34,7 +34,7 @@ namespace Iwentys.Endpoint.Server.Controllers
         //}
 
         [HttpPost("UpdateSubjectActivityForGroup")]
-        public ActionResult UpdateSubjectActivityForGroup(int subjectId, int groupId)
+        public async Task<ActionResult> UpdateSubjectActivityForGroup(int subjectId, int groupId)
         {
             GroupSubject groupSubjectData = _unitOfWork.GetRepository<GroupSubject>()
                 .Get()
@@ -46,7 +46,7 @@ namespace Iwentys.Endpoint.Server.Controllers
                 return Ok();
             }
 
-            _markGoogleTableUpdateService.UpdateSubjectActivityForGroup(groupSubjectData);
+            await _markGoogleTableUpdateService.UpdateSubjectActivityForGroup(groupSubjectData);
             return Ok();
         }
 

@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
+using Iwentys.Features.Gamification.Entities;
 using Iwentys.Features.Gamification.Models;
 using Iwentys.Features.GithubIntegration.Services;
-using Iwentys.Features.Students.Entities;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
 using Iwentys.Features.Study.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Gamification.Services
 {
@@ -16,6 +18,7 @@ namespace Iwentys.Features.Gamification.Services
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IGenericRepository<StudyGroup> _studyGroupRepository;
+        private readonly IGenericRepository<CourseLeaderboardRow> _courseLeaderboardRowRepository;
 
         private readonly GithubIntegrationService _githubIntegrationService;
         private readonly ISubjectActivityRepository _subjectActivityRepository;
@@ -27,7 +30,7 @@ namespace Iwentys.Features.Gamification.Services
             _subjectActivityRepository = subjectActivityRepository;
             
             _unitOfWork = unitOfWork;
-            _unitOfWork.GetRepository<Student>();
+            _courseLeaderboardRowRepository = _unitOfWork.GetRepository<CourseLeaderboardRow>();
             _studyGroupRepository = _unitOfWork.GetRepository<StudyGroup>();
         }
 
@@ -50,13 +53,38 @@ namespace Iwentys.Features.Gamification.Services
                 .ToList();
         }
 
+        public async Task CourseRatingForceRefresh(int courseId)
+        {
+            List<CourseLeaderboardRow> oldRows = _courseLeaderboardRowRepository
+                .Get()
+                .Where(clr => clr.CourseId == courseId)
+                .ToList();
+
+            _courseLeaderboardRowRepository.Delete(oldRows);
+
+            List<SubjectActivity> result = _subjectActivityRepository.GetStudentActivities(new StudySearchParametersDto {CourseId = courseId}).ToList();
+            List<CourseLeaderboardRow> newRows = CourseLeaderboardRow.Create(courseId, result);
+
+            await _courseLeaderboardRowRepository.InsertAsync(newRows);
+            await _unitOfWork.CommitAsync();
+        }
+
+        public Task<CourseLeaderboardRow> FindStudentLeaderboardPosition(int studentId)
+        {
+            return _courseLeaderboardRowRepository
+                .Get()
+                .Where(clr => clr.StudentId == studentId)
+                .FirstOrDefaultAsync();
+        }
+
         public List<StudyLeaderboardRowDto> GetCodingRating(int? courseId, int skip, int take)
         {
             return _studyGroupRepository.Get()
                 .WhereIf(courseId, q => q.StudyCourseId == courseId)
                 .SelectMany(g => g.Students)
+                .Select(s => s.Student)
                 .AsEnumerable()
-                .Select(s => new StudyLeaderboardRowDto(s, _githubIntegrationService.GetGithubUser(s.GithubUsername).Result?.ContributionFullInfo.Total ?? 0))
+                .Select(s => new StudyLeaderboardRowDto(s, _githubIntegrationService.User.GetGithubUser(s.GithubUsername).Result?.ContributionFullInfo.Total ?? 0))
                 .OrderBy(a => a.Activity)
                 .Skip(skip)
                 .Take(take)

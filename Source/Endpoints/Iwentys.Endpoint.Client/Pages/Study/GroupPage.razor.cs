@@ -1,26 +1,22 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Endpoint.Client.Tools;
-using Iwentys.Endpoint.Sdk.ControllerClients.Study;
-using Iwentys.Features.Students.Models;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
-using Microsoft.AspNetCore.Components;
+using Iwentys.Features.Study.Models.Students;
 
 namespace Iwentys.Endpoint.Client.Pages.Study
 {
-    public partial class GroupPage : ComponentBase
+    public partial class GroupPage
     {
         private GroupProfileResponseDto _groupProfile;
 
         protected override async Task OnInitializedAsync()
         {
-            var studentControllerClient = new StudyGroupControllerClient(await Http.TrySetHeader(LocalStorage));
-
-            _groupProfile = await studentControllerClient.Get(GroupName);
+            await base.OnInitializedAsync();
+            _groupProfile = await ClientHolder.StudyGroup.Get(GroupName);
         }
 
         private string LinkToStudentProfile(StudentInfoDto student) => $"student/profile/{student.Id}";
-        private string LinkToSubjectProfile(Subject subject) => $"subject/profile/{subject.Id}";
+        private string LinkToSubjectProfile(Subject subject) => $"subject/{subject.Id}/profile";
 
         private StudentInfoDto GroupAdmin => _groupProfile?.GroupAdmin;
     }

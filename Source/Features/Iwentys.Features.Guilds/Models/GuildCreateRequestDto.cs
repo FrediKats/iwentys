@@ -15,7 +15,7 @@ namespace Iwentys.Features.Guilds.Models
         public GuildCreateRequestDto()
         {
         }
-        
+
         public string Title { get; init; }
         public string Bio { get; init; }
         public string LogoUrl { get; init; }

@@ -1,17 +1,17 @@
 ﻿using System;
+using Iwentys.Features.AccountManagement.Models;
 using Iwentys.Features.Quests.Entities;
-using Iwentys.Features.Students.Models;
 
 namespace Iwentys.Features.Quests.Models
 {
     public class QuestResponseInfoDto
     {
-        public StudentInfoDto Student { get; set; }
+        public IwentysUserInfoDto Student { get; set; }
         public DateTime ResponseTime { get; set; }
 
         public QuestResponseInfoDto(QuestResponse questResponse) : this()
         {
-            Student = new StudentInfoDto(questResponse.Student);
+            Student = new IwentysUserInfoDto(questResponse.Student);
             ResponseTime = questResponse.ResponseTime;
         }
 

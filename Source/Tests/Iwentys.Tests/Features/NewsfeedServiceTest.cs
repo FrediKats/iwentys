@@ -1,4 +1,5 @@
-﻿using Iwentys.Features.Students.Enums;
+﻿using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.Study.Models;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -10,11 +11,14 @@ namespace Iwentys.Tests.Features
         [Test]
         public void CreateSubjectNews_Ok()
         {
-            TestCaseContext
-                .Case()
-                .WithNewStudent(out var user, StudentRole.Admin)
-                .WithSubject(out var subject)
-                .WithSubjectNews(subject, user);
+            //GroupProfileResponseDto studyGroup = testCase.StudyTestCaseContext.WithStudyGroup();
+            //AuthorizedUser student = testCase.StudyTestCaseContext.WithNewStudent(studyGroup);
+
+            TestCaseContext testCase = TestCaseContext.Case();
+            AuthorizedUser admin = testCase.AccountManagementTestCaseContext.WithUser(true);
+            SubjectProfileDto subject = testCase.NewsfeedTestCaseContext.WithSubject();
+            
+            testCase.NewsfeedTestCaseContext.WithSubjectNews(subject, admin);
         }
     }
 }

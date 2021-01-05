@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Iwentys.Features.Students.Enums;
-using Iwentys.Features.Students.Models;
 using Iwentys.Features.Study.Entities;
+using Iwentys.Features.Study.Models.Students;
 
 namespace Iwentys.Features.Study.Models
 {
@@ -12,19 +11,13 @@ namespace Iwentys.Features.Study.Models
     {
         public int Id { get; init; }
         public string GroupName { get; init; }
+        public int? GroupAdminId { get; set; }
         public List<StudentInfoDto> Students { get; set; }
         public List<Subject> Subjects { get; init; }
 
-        public GroupProfileResponseDto(StudyGroup group)
-            : this(
-                group.Id,
-                group.GroupName,
-                group.Students.Select(s => new StudentInfoDto(s)).ToList(),
-                group.GroupSubjects.Select(gs => gs.Subject).ToList())
-        {
-        }
+        public StudentInfoDto GroupAdmin => GroupAdminId is null ? null : Students.Find(s => s.Id == GroupAdminId);
 
-        public GroupProfileResponseDto(int id, string groupName, List<StudentInfoDto> students, List<Subject> subjects) :this()
+        public GroupProfileResponseDto(int id, string groupName, StudentInfoDto groupAdmin, List<StudentInfoDto> students, List<Subject> subjects) :this()
         {
             Id = id;
             GroupName = groupName;
@@ -37,8 +30,13 @@ namespace Iwentys.Features.Study.Models
         }
 
         public static Expression<Func<StudyGroup, GroupProfileResponseDto>> FromEntity =>
-            entity => new GroupProfileResponseDto(entity);
-
-        public StudentInfoDto GroupAdmin => Students.FirstOrDefault(s => s.Role == StudentRole.GroupAdmin);
+            entity => new GroupProfileResponseDto
+            {
+                Id = entity.Id,
+                GroupName = entity.GroupName,
+                GroupAdminId = entity.GroupAdminId,
+                Students = entity.Students.Select(s => new StudentInfoDto(s.Student)).ToList(),
+                Subjects = entity.GroupSubjects.Select(gs => gs.Subject).ToList(),
+            };
     }
 }

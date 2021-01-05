@@ -10,24 +10,21 @@ using ChartJs.Blazor.ChartJS.LineChart;
 using ChartJs.Blazor.ChartJS.PieChart;
 using ChartJs.Blazor.Charts;
 using ChartJs.Blazor.Util;
-using Iwentys.Endpoint.Client.Tools;
-using Iwentys.Endpoint.Sdk.ControllerClients;
-using Iwentys.Endpoint.Sdk.ControllerClients.Study;
 using Iwentys.Features.Achievements.Models;
+using Iwentys.Features.Gamification.Entities;
 using Iwentys.Features.GithubIntegration.Models;
-using Iwentys.Features.Students.Models;
 using Iwentys.Features.Study.Models;
-using Microsoft.AspNetCore.Components;
+using Iwentys.Features.Study.Models.Students;
 
 namespace Iwentys.Endpoint.Client.Pages.Students
 {
-    public partial class StudentProfilePage : ComponentBase
+    public partial class StudentProfilePage
     {
-
         private StudentInfoDto _studentFullProfile;
-        private List<AchievementDto> _achievements;
+        private List<AchievementInfoDto> _achievements;
         private List<CodingActivityInfoResponse> _codingActivityInfo;
         private StudentActivityInfoDto _studentActivity;
+        private CourseLeaderboardRow _leaderboardRow;
 
         private LineConfig _githubChartConfig;
         private ChartJsLineChart _githubChart;
@@ -37,30 +34,27 @@ namespace Iwentys.Endpoint.Client.Pages.Students
 
         protected override async Task OnInitializedAsync()
         {
-            var httpClient = await Http.TrySetHeader(LocalStorage);
-            var studentControllerClient = new StudentControllerClient(httpClient);
-            var githubControllerClient = new GithubControllerClient(httpClient);
-            var studyLeaderboardControllerClient = new StudyLeaderboardControllerClient(httpClient);
-
+            await base.OnInitializedAsync();
+            
             if (StudentId is null)
             {
-
-                _studentFullProfile = await studentControllerClient.GetSelf();
+                _studentFullProfile = await ClientHolder.Student.GetSelf();
             }
             else
             {
-                _studentFullProfile = await studentControllerClient.Get(StudentId.Value);
+                _studentFullProfile = await ClientHolder.Student.Get(StudentId.Value);
             }
 
-            _codingActivityInfo = await githubControllerClient.Get(_studentFullProfile.Id);
+            _codingActivityInfo = await ClientHolder.Github.Get(_studentFullProfile.Id);
             if (_codingActivityInfo is not null)
                 InitGithubChart();
 
-            _studentActivity = await studyLeaderboardControllerClient.GetStudentActivity(_studentFullProfile.Id);
+            _studentActivity = await ClientHolder.StudyLeaderboard.GetStudentActivity(_studentFullProfile.Id);
             if (_studentActivity is not null)
                 InitStudyChart();
 
-            _achievements = await new AchievementControllerClient(httpClient).GetForStudent(_studentFullProfile.Id);
+            _achievements = await ClientHolder.Achievement.GetForStudent(_studentFullProfile.Id);
+            _leaderboardRow = await ClientHolder.StudyLeaderboard.FindStudentLeaderboardPosition(_studentFullProfile.Id);
         }
 
         private void InitGithubChart()

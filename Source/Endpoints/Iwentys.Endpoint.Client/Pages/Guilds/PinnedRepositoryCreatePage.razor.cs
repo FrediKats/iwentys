@@ -1,8 +1,4 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using Iwentys.Endpoint.Client.Tools;
-using Iwentys.Endpoint.Sdk.ControllerClients.Guilds;
-using Iwentys.Features.GithubIntegration.Models;
+﻿using System.Threading.Tasks;
 using Iwentys.Features.Guilds.Models;
 
 namespace Iwentys.Endpoint.Client.Pages.Guilds
@@ -14,10 +10,8 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
 
         private async Task AddPin()
         {
-            HttpClient httpClient = await Http.TrySetHeader(LocalStorage);
-            var guildControllerClient = new GuildControllerClient(httpClient);
-            GithubRepositoryInfoDto project = await guildControllerClient.AddPinnedProject(GuildId, new CreateProjectRequestDto(_owner, _repositoryName));
-            Navigation.NavigateTo($"/guild/profile/{GuildId}");
+            await ClientHolder.Guild.AddPinnedProject(GuildId, new CreateProjectRequestDto(_owner, _repositoryName));
+            NavigationManager.NavigateTo($"/guild/profile/{GuildId}");
         }
     }
 }

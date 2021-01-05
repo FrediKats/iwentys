@@ -1,6 +1,6 @@
 ﻿using System;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Economy.Enums;
-using Iwentys.Features.Students.Entities;
 
 namespace Iwentys.Features.Economy.Entities
 {
@@ -14,7 +14,7 @@ namespace Iwentys.Features.Economy.Entities
 
         public BarsPointTransactionStatus Status { get; init; }
 
-        public static BarsPointTransaction CompletedFor(Student fromUser, Student toUser, int value)
+        public static BarsPointTransaction CompletedFor(IwentysUser fromUser, IwentysUser toUser, int value)
         {
             fromUser.BarsPoints -= value;
             toUser.BarsPoints += value;
@@ -29,7 +29,7 @@ namespace Iwentys.Features.Economy.Entities
             };
         }
 
-        public static BarsPointTransaction RegisterFail(Student fromUser, Student toUser, int value)
+        public static BarsPointTransaction RegisterFail(IwentysUser fromUser, IwentysUser toUser, int value)
         {
             return new BarsPointTransaction
             {
@@ -41,7 +41,7 @@ namespace Iwentys.Features.Economy.Entities
             };
         }
 
-        public static BarsPointTransaction ReceiveFromSystem(Student toUser, int value)
+        public static BarsPointTransaction ReceiveFromSystem(IwentysUser toUser, int value)
         {
             toUser.BarsPoints += value;
 

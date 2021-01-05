@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Common.Tools;
+using Iwentys.Features.AccountManagement.Models;
 using Iwentys.Features.Companies.Entities;
 using Iwentys.Features.Companies.Enums;
-using Iwentys.Features.Students.Models;
 
 namespace Iwentys.Features.Companies.Models
 {
@@ -15,11 +15,11 @@ namespace Iwentys.Features.Companies.Models
                 company.Name,
                 company.Latitude,
                 company.Longitude,
-                company.Workers?.Where(w => w.Type == CompanyWorkerType.Accepted).SelectToList(w => new StudentInfoDto(w.Worker)))
+                company.Workers?.Where(w => w.Type == CompanyWorkerType.Accepted).SelectToList(w => new IwentysUserInfoDto(w.Worker)))
         {
         }
 
-        public CompanyInfoDto(int id, string name, double latitude, double longitude, List<StudentInfoDto> workers)
+        public CompanyInfoDto(int id, string name, double latitude, double longitude, List<IwentysUserInfoDto> workers)
         {
             Id = id;
             Name = name;
@@ -36,6 +36,6 @@ namespace Iwentys.Features.Companies.Models
         public string Name { get; init; }
         public double Latitude { get; init; }
         public double Longitude { get; init; }
-        public List<StudentInfoDto> Workers { get; init; }
+        public List<IwentysUserInfoDto> Workers { get; init; }
     }
 }

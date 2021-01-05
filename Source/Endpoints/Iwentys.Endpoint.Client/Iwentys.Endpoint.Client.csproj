@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Iwentys.Endpoint.Sdk\Iwentys.Endpoint.Sdk.csproj" />
+    <ProjectReference Include="..\..\Shared\Iwentys.Endpoint.Sdk\Iwentys.Endpoint.Sdk.csproj" />
   </ItemGroup>
 
 </Project>

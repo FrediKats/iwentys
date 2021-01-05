@@ -1,0 +1,36 @@
+﻿@page "/subject/{SubjectId:int}/profile"
+
+@using Iwentys.Features.Study.SubjectAssignments.Models
+
+@inherits DependencyInjectionPage
+
+<h3>SubjectPage</h3>
+
+@if (_subjectProfile is not null)
+{
+    <div class="container-fluid d-flex flex-row">
+        <div class="col-md-6 d-flex flex-column">
+            <MatHeadline4>Info</MatHeadline4>
+            <MatBody1>@_subjectProfile.Name</MatBody1>
+            <MatButton Link=@LinkToSubjectAssignmentManagement()>Mange subject assignments</MatButton>
+            <MatButton Link=@LinkToMyAssignmentManagement()>My assignments</MatButton>
+        </div>
+
+        <div class="col-md-6 d-flex flex-column">
+            <div>
+                <MatH6>Newsfeed</MatH6>
+                @if (_newsfeeds is not null)
+                {
+                    <NewsfeedComponent Newsfeeds=@_newsfeeds></NewsfeedComponent>
+                    <MatButton Link=@LinkToCreateNewsfeedPage()>Create</MatButton>
+                }
+            </div>
+
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int SubjectId { get; set; }
+}

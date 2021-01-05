@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Controllers.Tools;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Guilds.Tournaments.Models;
 using Iwentys.Features.Guilds.Tournaments.Services;
-using Iwentys.Features.Students.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Guilds
@@ -22,14 +22,14 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         [HttpGet]
         public async Task<ActionResult<List<TournamentInfoResponse>>> Get()
         {
-            List<TournamentInfoResponse> tournaments = await _tournamentService.GetAsync();
+            List<TournamentInfoResponse> tournaments = await _tournamentService.Get();
             return Ok(tournaments);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<TournamentInfoResponse>> Get(int id)
         {
-            TournamentInfoResponse tournament = await _tournamentService.GetAsync(id);
+            TournamentInfoResponse tournament = await _tournamentService.Get(id);
             return Ok(tournament);
         }
 

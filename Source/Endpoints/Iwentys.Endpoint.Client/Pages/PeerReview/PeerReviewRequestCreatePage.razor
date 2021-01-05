@@ -1,0 +1,29 @@
+﻿@page "/peer-review/create"
+
+@inherits DependencyInjectionPage
+
+<h3>PeerReviewRequestCreatePage</h3>
+
+@if (_availableForReviewProject is not null)
+{
+    <p>Select project</p>
+    <p>
+        <MatSelectItem @bind-Value="@_selectedProject" Items="@_availableForReviewProject" Class="input-element">
+            <ItemTemplate>
+                @if (context is not null)
+                {
+                    <span>@context.GithubLikeTitle()</span>
+                }
+            </ItemTemplate>
+        </MatSelectItem>
+    </p>
+
+    <p>
+        <MatTextField @bind-Value="@_description" Label="Description" Class="input-element"></MatTextField>
+    </p>
+    <MatButton OnClick=@(async () => await CreateRequest())>Create</MatButton>
+}
+
+@code {
+
+}

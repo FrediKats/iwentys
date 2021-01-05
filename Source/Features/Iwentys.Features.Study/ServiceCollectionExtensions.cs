@@ -7,6 +7,7 @@ namespace Iwentys.Features.Study
     {
         public static IServiceCollection AddIwentysStudyFeatureServices(this IServiceCollection services)
         {
+            services.AddScoped<StudentService>();
             services.AddScoped<StudyGroupService>();
             services.AddScoped<SubjectActivityService>();
             services.AddScoped<SubjectService>();

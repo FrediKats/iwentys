@@ -1,4 +1,4 @@
-﻿using Iwentys.Features.Students.Entities;
+﻿using Iwentys.Features.AccountManagement.Entities;
 
 namespace Iwentys.Features.Guilds.Entities
 {
@@ -8,6 +8,6 @@ namespace Iwentys.Features.Guilds.Entities
         public virtual GuildRecruitment GuildRecruitment { get; init; }
 
         public int MemberId { get; init; }
-        public virtual Student Member { get; init; }
+        public virtual IwentysUser Member { get; init; }
     }
 }

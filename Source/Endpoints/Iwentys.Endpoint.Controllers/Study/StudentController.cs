@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Controllers.Tools;
-using Iwentys.Features.Students.Domain;
-using Iwentys.Features.Students.Models;
-using Iwentys.Features.Students.Services;
+using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.Study.Models.Students;
+using Iwentys.Features.Study.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Study
@@ -22,7 +22,7 @@ namespace Iwentys.Endpoint.Controllers.Study
         [HttpGet("profile")]
         public async Task<ActionResult<List<StudentInfoDto>>> Get()
         {
-            List<StudentInfoDto> students = await _studentService.GetAsync();
+            List<StudentInfoDto> students = await _studentService.Get();
             return Ok(students);
         }
 
@@ -30,7 +30,7 @@ namespace Iwentys.Endpoint.Controllers.Study
         public async Task<ActionResult<StudentInfoDto>> GetSelf()
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            StudentInfoDto result  = await _studentService.GetAsync(user.Id);
+            StudentInfoDto result  = await _studentService.Get(user.Id);
             return Ok(result);
         }
 
@@ -38,7 +38,7 @@ namespace Iwentys.Endpoint.Controllers.Study
         [HttpGet("profile/{id}")]
         public async Task<ActionResult<StudentInfoDto>> Get(int id)
         {
-            StudentInfoDto student = await _studentService.GetAsync(id);
+            StudentInfoDto student = await _studentService.Get(id);
             return Ok(student);
         }
 
@@ -46,7 +46,7 @@ namespace Iwentys.Endpoint.Controllers.Study
         public async Task<ActionResult<StudentInfoDto>> Update([FromBody] StudentUpdateRequestDto studentUpdateRequestDto)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            StudentInfoDto student = await _studentService.AddGithubUsernameAsync(user.Id, studentUpdateRequestDto.GithubUsername);
+            StudentInfoDto student = await _studentService.AddGithubUsername(user.Id, studentUpdateRequestDto.GithubUsername);
             return Ok(student);
         }
     }

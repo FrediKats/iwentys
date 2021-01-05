@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Iwentys.Features.AccountManagement\Iwentys.Features.AccountManagement.csproj" />
+    <ProjectReference Include="..\Iwentys.Features.Raids\Iwentys.Features.Raids.csproj" />
+  </ItemGroup>
+
+</Project>

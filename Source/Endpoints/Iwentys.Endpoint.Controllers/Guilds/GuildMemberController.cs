@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Endpoint.Controllers.Tools;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Services;
-using Iwentys.Features.Students.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Guilds
@@ -23,22 +23,21 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         public async Task<ActionResult<GuildProfileDto>> Enter(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(await _guildMemberService.EnterGuildAsync(user, guildId));
+            return Ok(await _guildMemberService.EnterGuild(user, guildId));
         }
 
         [HttpPut("{guildId}/request")]
         public async Task<ActionResult<GuildProfileDto>> SendRequest(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(await _guildMemberService.RequestGuildAsync(user, guildId));
+            return Ok(await _guildMemberService.RequestGuild(user, guildId));
         }
 
-        //TODO: leave can be without guild id
         [HttpPut("{guildId}/leave")]
         public async Task<ActionResult> Leave(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            await _guildMemberService.LeaveGuildAsync(user, guildId);
+            await _guildMemberService.LeaveGuild(user, guildId);
             return Ok();
         }
 
@@ -76,7 +75,7 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         public async Task<IActionResult> KickGuildMember(int guildId, int memberId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            await _guildMemberService.KickGuildMemberAsync(user, guildId, memberId);
+            await _guildMemberService.KickGuildMember(user, guildId, memberId);
             return Ok();
         }
 
