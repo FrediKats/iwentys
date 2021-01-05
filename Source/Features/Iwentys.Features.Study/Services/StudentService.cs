@@ -61,7 +61,7 @@ namespace Iwentys.Features.Study.Services
 
             //TODO: implement github access validation
             //throw new NotImplementedException("Need to validate github credentials");
-            Student user = await _studentRepository.FindByIdAsync(id);
+            Student user = await _studentRepository.GetById(id);
             user.GithubUsername = githubUsername;
             _studentRepository.Update(user);
 

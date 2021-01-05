@@ -65,6 +65,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
 
             //TODO: looks like hack
             SubjectAssignment subjectAssignment = null;
+                //TODO: check if count == 0
             foreach (GroupSubject groupSubject in groupSubjects.Take(1))
             {
                 subjectAssignment = SubjectAssignment.Create(iwentysUser, groupSubject, arguments);

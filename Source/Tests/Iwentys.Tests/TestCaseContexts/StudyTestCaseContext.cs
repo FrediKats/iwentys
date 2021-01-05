@@ -45,6 +45,7 @@ namespace Iwentys.Tests.TestCaseContexts
             };
 
             _context.UnitOfWork.GetRepository<Subject>().InsertAsync(subject).Wait();
+            _context.UnitOfWork.CommitAsync().Wait();
             return subject;
         }
 
@@ -57,6 +58,7 @@ namespace Iwentys.Tests.TestCaseContexts
                 StudySemester = StudySemester.Y21H1
             };
             _context.UnitOfWork.GetRepository<GroupSubject>().InsertAsync(groupSubject).Wait();
+            _context.UnitOfWork.CommitAsync().Wait();
             return groupSubject;
         }
 
