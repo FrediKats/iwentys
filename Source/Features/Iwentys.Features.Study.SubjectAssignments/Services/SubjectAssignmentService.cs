@@ -102,7 +102,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
         }
 
 
-        public async Task SendSubmit(AuthorizedUser user, int subjectAssignmentId, SubjectAssignmentSubmitCreateArguments arguments)
+        public async Task<SubjectAssignmentSubmitDto> SendSubmit(AuthorizedUser user, int subjectAssignmentId, SubjectAssignmentSubmitCreateArguments arguments)
         {
             SubjectAssignment subjectAssignment = await _subjectAssignmentRepository.GetById(subjectAssignmentId);
 
@@ -110,6 +110,12 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
 
             await _subjectAssignmentSubmitRepository.InsertAsync(subjectAssignmentSubmit);
             await _unitOfWork.CommitAsync();
+
+            return await _subjectAssignmentSubmitRepository
+                .Get()
+                .Where(sas => sas.Id == subjectAssignmentSubmit.Id)
+                .Select(sas => new SubjectAssignmentSubmitDto(sas))
+                .SingleAsync();
         }
 
         public async Task<SubjectAssignmentSubmitDto> GetSubjectAssignmentSubmit(AuthorizedUser user, int subjectAssignmentSubmitId)

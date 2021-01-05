@@ -33,7 +33,22 @@ namespace Iwentys.Tests.Features.Study
             GroupSubject groupSubject = testCaseContext.StudyTestCaseContext.WithGroupSubject(studyGroup, subject);
             SubjectAssignmentDto subjectAssignment = testCaseContext.StudyTestCaseContext.WithSubjectAssignment(admin, groupSubject);
 
-            testCaseContext.StudyTestCaseContext.WithSubjectAssignmentSubmit(student, subjectAssignment);
+            SubjectAssignmentSubmitDto subjectAssignmentSubmit = testCaseContext.StudyTestCaseContext.WithSubjectAssignmentSubmit(student, subjectAssignment);
+        }
+
+        [Test]
+        public void SendSubjectAssignemntSubmitFeedback_StateShouldChange()
+        {
+            TestCaseContext testCaseContext = TestCaseContext.Case();
+            AuthorizedUser admin = testCaseContext.AccountManagementTestCaseContext.WithUser(true);
+            GroupProfileResponseDto studyGroup = testCaseContext.StudyTestCaseContext.WithStudyGroup();
+            AuthorizedUser student = testCaseContext.StudyTestCaseContext.WithNewStudent(studyGroup);
+            Subject subject = testCaseContext.StudyTestCaseContext.WithSubject();
+            GroupSubject groupSubject = testCaseContext.StudyTestCaseContext.WithGroupSubject(studyGroup, subject);
+            SubjectAssignmentDto subjectAssignment = testCaseContext.StudyTestCaseContext.WithSubjectAssignment(admin, groupSubject);
+            SubjectAssignmentSubmitDto subjectAssignmentSubmit = testCaseContext.StudyTestCaseContext.WithSubjectAssignmentSubmit(student, subjectAssignment);
+
+            testCaseContext.StudyTestCaseContext.WithSubjectAssignmentSubmitFeedback(admin, subjectAssignmentSubmit);
         }
     }
 }

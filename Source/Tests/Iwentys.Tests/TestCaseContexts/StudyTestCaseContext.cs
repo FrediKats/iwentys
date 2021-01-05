@@ -4,6 +4,7 @@ using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Enums;
 using Iwentys.Features.Study.Models;
+using Iwentys.Features.Study.SubjectAssignments.Enums;
 using Iwentys.Features.Study.SubjectAssignments.Models;
 using Iwentys.Tests.Tools;
 
@@ -71,14 +72,25 @@ namespace Iwentys.Tests.TestCaseContexts
             return _context.SubjectAssignmentService.CreateSubjectAssignment(user, groupSubject.SubjectId, subjectAssignmentCreateArguments).Result;
         }
 
-        public void WithSubjectAssignmentSubmit(AuthorizedUser user, SubjectAssignmentDto assignment)
+        public SubjectAssignmentSubmitDto WithSubjectAssignmentSubmit(AuthorizedUser user, SubjectAssignmentDto assignment)
         {
             var subjectAssignmentCreateArguments = new SubjectAssignmentSubmitCreateArguments
             {
                 StudentDescription = new Faker().Lorem.Word(),
             };
 
-            _context.SubjectAssignmentService.SendSubmit(user, assignment.Id, subjectAssignmentCreateArguments).Wait();
+            return _context.SubjectAssignmentService.SendSubmit(user, assignment.Id, subjectAssignmentCreateArguments).Result;
+        }
+
+        public void WithSubjectAssignmentSubmitFeedback(AuthorizedUser user, SubjectAssignmentSubmitDto submit, FeedbackType feedbackType = FeedbackType.Approve)
+        {
+            var subjectAssignmentCreateArguments = new SubjectAssignmentSubmitFeedbackArguments
+            {
+                Comment = new Faker().Lorem.Word(),
+                FeedbackType = feedbackType
+            };
+
+            _context.SubjectAssignmentService.SendFeedback(user, submit.Id, subjectAssignmentCreateArguments).Wait();
         }
 
         public AuthorizedUser WithNewStudent(GroupProfileResponseDto studyGroup)
