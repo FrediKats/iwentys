@@ -55,7 +55,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
 
         //TODO: here must be subject id and we need to resolve group subject
         //TODO: OR list of group subject ids
-        public async Task CreateSubjectAssignment(AuthorizedUser user, int subjectId, SubjectAssignmentCreateArguments arguments)
+        public async Task<SubjectAssignmentDto> CreateSubjectAssignment(AuthorizedUser user, int subjectId, SubjectAssignmentCreateArguments arguments)
         {
             IwentysUser iwentysUser = await _iwentysUserRepository.GetById(user.Id);
             List<GroupSubject> groupSubjects = await _groupSubjectRepository
@@ -64,13 +64,19 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
                 .ToListAsync();
 
             //TODO: looks like hack
+            SubjectAssignment subjectAssignment = null;
             foreach (GroupSubject groupSubject in groupSubjects.Take(1))
             {
-                var subjectAssignment = SubjectAssignment.Create(iwentysUser, groupSubject, arguments);
+                subjectAssignment = SubjectAssignment.Create(iwentysUser, groupSubject, arguments);
                 await _subjectAssignmentRepository.InsertAsync(subjectAssignment);
             }
 
             await _unitOfWork.CommitAsync();
+            return await _subjectAssignmentRepository
+                .Get()
+                .Where(sa => sa.Id == subjectAssignment.Id)
+                .Select(SubjectAssignmentDto.FromEntity)
+                .SingleAsync();
         }
 
         //TODO: add search arguments

@@ -59,8 +59,7 @@ namespace Iwentys.Tests.TestCaseContexts
             return groupSubject;
         }
 
-        //TODO: return smth
-        public void WithSubjectAssignment(AuthorizedUser user, GroupSubject groupSubject)
+        public SubjectAssignmentDto WithSubjectAssignment(AuthorizedUser user, GroupSubject groupSubject)
         {
             var subjectAssignmentCreateArguments = new SubjectAssignmentCreateArguments
             {
@@ -69,7 +68,17 @@ namespace Iwentys.Tests.TestCaseContexts
                 Link = new Faker().Lorem.Word(),
             };
 
-            _context.SubjectAssignmentService.CreateSubjectAssignment(user, groupSubject.SubjectId, subjectAssignmentCreateArguments).Wait();
+            return _context.SubjectAssignmentService.CreateSubjectAssignment(user, groupSubject.SubjectId, subjectAssignmentCreateArguments).Result;
+        }
+
+        public void WithSubjectAssignmentSubmit(AuthorizedUser user, SubjectAssignmentDto assignment)
+        {
+            var subjectAssignmentCreateArguments = new SubjectAssignmentSubmitCreateArguments
+            {
+                StudentDescription = new Faker().Lorem.Word(),
+            };
+
+            _context.SubjectAssignmentService.SendSubmit(user, assignment.Id, subjectAssignmentCreateArguments).Wait();
         }
 
         public AuthorizedUser WithNewStudent(GroupProfileResponseDto studyGroup)
