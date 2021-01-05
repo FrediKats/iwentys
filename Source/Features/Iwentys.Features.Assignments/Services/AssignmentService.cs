@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.Study.Domain;
@@ -17,6 +18,7 @@ namespace Iwentys.Features.Assignments.Services
         private readonly IGenericRepository<Assignment> _assignmentRepository;
         private readonly IGenericRepository<StudentAssignment> _studentAssignmentRepository;
         private readonly IGenericRepository<Student> _studentRepository;
+        private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
 
         private readonly IUnitOfWork _unitOfWork;
 
@@ -24,24 +26,25 @@ namespace Iwentys.Features.Assignments.Services
         {
             _unitOfWork = unitOfWork;
             _studentRepository = _unitOfWork.GetRepository<Student>();
+            _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
             _assignmentRepository = _unitOfWork.GetRepository<Assignment>();
             _studentAssignmentRepository = _unitOfWork.GetRepository<StudentAssignment>();
         }
 
         public async Task<AssignmentInfoDto> Create(AuthorizedUser user, AssignmentCreateArguments assignmentCreateArguments)
         {
-            Student author = await _studentRepository.GetById(user.Id);
+            IwentysUser author = await _iwentysUserRepository.GetById(user.Id);
             StudentAssignment assignment;
 
-            if (assignmentCreateArguments.ForStudyGroup)
+            if (!assignmentCreateArguments.ForStudyGroup)
             {
                 assignment = StudentAssignment.Create(author, assignmentCreateArguments);
                 await _studentAssignmentRepository.InsertAsync(assignment);
             }
             else
             {
-                GroupAdminUser groupAdmin = author.EnsureIsGroupAdmin();
-                List<StudentAssignment> studentAssignmentEntities = StudentAssignment.CreateForGroup(groupAdmin, assignmentCreateArguments);
+                Student groupAdmin = await _studentRepository.GetById(user.Id);
+                List<StudentAssignment> studentAssignmentEntities = StudentAssignment.CreateForGroup(groupAdmin.EnsureIsGroupAdmin(), assignmentCreateArguments);
                 await _studentAssignmentRepository.InsertAsync(studentAssignmentEntities);
                 assignment = studentAssignmentEntities.First(sa => sa.StudentId == user.Id);
             }
@@ -50,7 +53,7 @@ namespace Iwentys.Features.Assignments.Services
             return new AssignmentInfoDto(assignment);
         }
 
-        public async Task<List<AssignmentInfoDto>> GetUserAssignments(AuthorizedUser user)
+        public async Task<List<AssignmentInfoDto>> GetStudentAssignment(AuthorizedUser user)
         {
             return await _studentAssignmentRepository
                 .Get()
@@ -59,10 +62,13 @@ namespace Iwentys.Features.Assignments.Services
                 .ToListAsync();
         }
 
-        public async Task<AssignmentInfoDto> Get(int assignmentId)
+        public async Task<AssignmentInfoDto> GetStudentAssignment(AuthorizedUser user, int assignmentId)
         {
-            StudentAssignment studentAssignment = await _studentAssignmentRepository.GetById(assignmentId);
-            return new AssignmentInfoDto(studentAssignment);
+            return await _studentAssignmentRepository
+                .Get()
+                .Where(sa => sa.AssignmentId == assignmentId && sa.StudentId == user.Id)
+                .Select(AssignmentInfoDto.FromStudentEntity)
+                .SingleOrDefaultAsync();
         }
 
         public async Task Complete(AuthorizedUser user, int assignmentId)

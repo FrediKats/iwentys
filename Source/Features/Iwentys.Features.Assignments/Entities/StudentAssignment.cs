@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
+using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.Study.Domain;
 using Iwentys.Features.Study.Entities;
@@ -19,7 +20,7 @@ namespace Iwentys.Features.Assignments.Entities
         public int StudentId { get; init; }
         public virtual Student Student { get; init; }
 
-        public static StudentAssignment Create(Student author, AssignmentCreateArguments createArguments)
+        public static StudentAssignment Create(IwentysUser author, AssignmentCreateArguments createArguments)
         {
             var assignmentEntity = Assignment.Create(author, createArguments);
             var studentAssignmentEntity = new StudentAssignment

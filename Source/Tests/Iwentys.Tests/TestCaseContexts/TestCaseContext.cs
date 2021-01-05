@@ -4,6 +4,7 @@ using Iwentys.Database.Tools;
 using Iwentys.Features.AccountManagement.Services;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Achievements.Services;
+using Iwentys.Features.Assignments.Services;
 using Iwentys.Features.Companies.Services;
 using Iwentys.Features.Economy.Services;
 using Iwentys.Features.Gamification.Services;
@@ -46,6 +47,7 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly KarmaService KarmaService;
         public readonly ProjectReviewService ProjectReviewService;
         public readonly SubjectAssignmentService SubjectAssignmentService;
+        public readonly AssignmentService AssignmentService;
 
         public readonly TributeTestCaseContext TributeTestCaseContext;
         public readonly GithubTestCaseContext GithubTestCaseContext;
@@ -57,6 +59,7 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly GamificationTestCaseContext GamificationTestCaseContext;
         public readonly NewsfeedTestCaseContext NewsfeedTestCaseContext;
         public readonly GuildTestCaseContext GuildTestCaseContext;
+        public readonly AssignmentTestCaseContext AssignmentTestCaseContext;
 
         public static TestCaseContext Case() => new TestCaseContext();
 
@@ -86,6 +89,7 @@ namespace Iwentys.Tests.TestCaseContexts
             KarmaService = new KarmaService(UnitOfWork);
             ProjectReviewService = new ProjectReviewService(UnitOfWork);
             SubjectAssignmentService = new SubjectAssignmentService(UnitOfWork);
+            AssignmentService = new AssignmentService(UnitOfWork);
 
             TributeTestCaseContext = new TributeTestCaseContext(this);
             GithubTestCaseContext = new GithubTestCaseContext(this);
@@ -97,6 +101,7 @@ namespace Iwentys.Tests.TestCaseContexts
             GamificationTestCaseContext = new GamificationTestCaseContext(this);
             NewsfeedTestCaseContext = new NewsfeedTestCaseContext(this);
             GuildTestCaseContext = new GuildTestCaseContext(this);
+            AssignmentTestCaseContext = new AssignmentTestCaseContext(this);
         }
         
         public static class Constants

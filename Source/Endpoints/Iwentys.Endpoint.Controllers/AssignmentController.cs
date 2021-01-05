@@ -23,7 +23,7 @@ namespace Iwentys.Endpoint.Controllers
         public async Task<ActionResult<List<AssignmentInfoDto>>> Get()
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            List<AssignmentInfoDto> assignments = await _assignmentService.GetUserAssignments(user);
+            List<AssignmentInfoDto> assignments = await _assignmentService.GetStudentAssignment(user);
             return Ok(assignments);
         }
 
