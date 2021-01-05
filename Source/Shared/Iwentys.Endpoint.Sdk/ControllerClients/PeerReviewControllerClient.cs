@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Flurl.Http;
@@ -19,7 +19,7 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
         public async Task<List<ProjectReviewRequestInfoDto>> Get()
         {
             return await new FlurlClient(Client)
-                .Request("api/peer-review/requests")
+                .Request("api/peer-review/requests/all/")
                 .GetJsonAsync<List<ProjectReviewRequestInfoDto>>();
         }
 

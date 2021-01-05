@@ -72,8 +72,11 @@ namespace Iwentys.Features.PeerReview.Services
 
             await _projectReviewFeedbackRepository.InsertAsync(projectReviewFeedback);
             await _unitOfWork.CommitAsync();
-
-            return new ProjectReviewFeedbackInfoDto(projectReviewFeedback);
+            return await _projectReviewFeedbackRepository
+                .Get()
+                .Where(f => f.Id == projectReviewFeedback.Id)
+                .Select(ProjectReviewFeedbackInfoDto.FromEntity)
+                .SingleAsync();
         }
 
         public async Task FinishReview(AuthorizedUser authorizedUser, int reviewRequestId)

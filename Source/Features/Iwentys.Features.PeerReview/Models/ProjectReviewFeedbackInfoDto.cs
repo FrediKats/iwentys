@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using Iwentys.Features.AccountManagement.Models;
 using Iwentys.Features.PeerReview.Entities;
 using Iwentys.Features.PeerReview.Enums;
@@ -26,5 +27,15 @@ namespace Iwentys.Features.PeerReview.Models
         public ProjectReviewFeedbackInfoDto()
         {
         }
+
+        public static Expression<Func<ProjectReviewFeedback, ProjectReviewFeedbackInfoDto>> FromEntity =>
+            entity => new ProjectReviewFeedbackInfoDto
+            {
+                Id = entity.Id,
+                Description = entity.Description,
+                CreationTimeUtc = entity.CreationTimeUtc,
+                Summary = entity.Summary,
+                Author = new IwentysUserInfoDto(entity.Author),
+            };
     }
 }

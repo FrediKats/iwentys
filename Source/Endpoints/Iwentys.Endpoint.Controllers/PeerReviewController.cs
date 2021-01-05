@@ -20,7 +20,8 @@ namespace Iwentys.Endpoint.Controllers
             _projectReviewService = projectReviewService;
         }
 
-        [HttpGet("requests")]
+        [HttpGet("requests/all/")]
+        [Produces("application/json")]
         public async Task<ActionResult<List<ProjectReviewRequestInfoDto>>> Get()
         {
             List<ProjectReviewRequestInfoDto> result = await _projectReviewService.GetRequests();
