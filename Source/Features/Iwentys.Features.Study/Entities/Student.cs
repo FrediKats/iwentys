@@ -32,11 +32,7 @@ namespace Iwentys.Features.Study.Entities
 
         public static Student CreateFromIsu(int id, string firstName, string middleName, string secondName)
         {
-            return new Student(id, firstName, middleName, secondName)
-            {
-                //TODO: it's not work any more, meh
-                //GroupId = -1
-            };
+            return new Student(id, firstName, middleName, secondName);
         }
     }
 }

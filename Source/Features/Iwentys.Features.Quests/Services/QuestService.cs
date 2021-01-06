@@ -85,9 +85,10 @@ namespace Iwentys.Features.Quests.Services
 
             await _questRepository.InsertAsync(quest);
             _studentRepository.Update(student);
-            await _unitOfWork.CommitAsync();
 
             await _achievementProvider.Achieve(AchievementList.QuestCreator, user.Id);
+            await _unitOfWork.CommitAsync();
+
             return await Get(quest.Id);
         }
 

@@ -67,7 +67,6 @@ namespace Iwentys.Features.GithubIntegration.Services
                 .ToListAsync();
         }
 
-        //TODO: rework but not now. Probably perf problems
         //TODO: remove old repo that is not exist in githubRepositories
         public async Task ForceRescanUserRepositories(GithubUser githubUser)
         {

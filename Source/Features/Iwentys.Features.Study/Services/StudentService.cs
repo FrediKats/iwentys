@@ -51,26 +51,7 @@ namespace Iwentys.Features.Study.Services
 
             return new StudentInfoDto(student);
         }
-
-        //TODO: move to IwentysUser
-        public async Task<StudentInfoDto> AddGithubUsername(int id, string githubUsername)
-        {
-            bool isUsernameUsed = await _studentRepository.Get().AnyAsync(s => s.GithubUsername == githubUsername);
-            if (isUsernameUsed)
-                throw InnerLogicException.StudentExceptions.GithubAlreadyUser(githubUsername);
-
-            //TODO: implement github access validation
-            //throw new NotImplementedException("Need to validate github credentials");
-            Student user = await _studentRepository.GetById(id);
-            user.GithubUsername = githubUsername;
-            _studentRepository.Update(user);
-
-            await _achievementProvider.Achieve(AchievementList.AddGithubAchievement, user.Id);
-            await _unitOfWork.CommitAsync();
-
-            return new StudentInfoDto(await _studentRepository.FindByIdAsync(id));
-        }
-
+        
         public async Task<StudentInfoDto> RemoveGithubUsername(int id, string githubUsername)
         {
             Student user = await _studentRepository.FindByIdAsync(id);

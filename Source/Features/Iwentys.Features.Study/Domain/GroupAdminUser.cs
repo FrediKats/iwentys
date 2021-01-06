@@ -7,6 +7,9 @@ namespace Iwentys.Features.Study.Domain
     {
         public GroupAdminUser(Student student, StudyGroup studyGroup)
         {
+            if (student.GroupMember?.Group is null)
+                throw new InnerLogicException("Student without group");
+
             if (student.Id != studyGroup.GroupAdminId)
                 throw InnerLogicException.NotEnoughPermissionFor(student.Id);
 
@@ -18,11 +21,8 @@ namespace Iwentys.Features.Study.Domain
 
     public static class GroupAdminUserExtensions
     {
-        //TODO: refactor
         public static GroupAdminUser EnsureIsGroupAdmin(this Student profile)
         {
-            if (profile.GroupMember?.Group is null)
-                throw new InnerLogicException("Student without group");
             return new GroupAdminUser(profile, profile.GroupMember?.Group);
         }
     }

@@ -57,6 +57,8 @@ namespace Iwentys.Features.Guilds.Entities
 
         public void MakeMentor(GuildCreator creator)
         {
+            if (MemberType != GuildMemberType.Member)
+                throw new InnerLogicException("Cant make mentor");
             MemberType = GuildMemberType.Mentor;
         }
 

@@ -15,7 +15,6 @@ namespace Iwentys.Endpoint.Server
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>()
-                        //TODO: return this updates
                         //.ConfigureServices(s => s.AddHostedService<MarkUpdateBackgroundService>())
                         //.ConfigureServices(s => s.AddHostedService<GithubUpdateBackgroundService>())
                         ;

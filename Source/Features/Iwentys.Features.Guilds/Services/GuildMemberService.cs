@@ -177,7 +177,6 @@ namespace Iwentys.Features.Guilds.Services
             var guildMemberEntity = _guildMemberRepository.GetStudentMembership(creator.Id);
             var guildCreator = await studentCreator.EnsureIsCreator(_guildRepository, guildMemberEntity.GuildId);
             
-            //TODO: check member state
             var studentMembership = _guildMemberRepository.GetStudentMembership(userForPromotion);
             studentMembership.MakeMentor(guildCreator);
 

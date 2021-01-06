@@ -41,8 +41,6 @@ namespace Iwentys.Features.Newsfeeds.Services
         {
             var author = await _iwentysUserRepository.GetById(authorizedUser.Id);
             Subject subject = await _subjectRepository.GetById(subjectId);
-            //TODO: fix
-            //StudyGroup studyGroup = author.GroupMember?.Group;
 
             var newsfeedEntity = SubjectNewsfeed.Create(createViewModel, author, subject, null);
 

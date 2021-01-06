@@ -23,10 +23,6 @@ namespace Iwentys.Endpoint.Client.Pages.Students
             {
                 await ClientHolder.Student.Update(new StudentUpdateRequestDto(_githubUsername));
             }
-            else
-            {
-                //TODO: alert?
-            }
         }
     }
 }

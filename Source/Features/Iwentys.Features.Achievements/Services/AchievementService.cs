@@ -10,6 +10,7 @@ namespace Iwentys.Features.Achievements.Services
 {
     public class AchievementService
     {
+        private readonly IGenericRepository<Achievement> _achievementRepository;
         private readonly IGenericRepository<GuildAchievement> _guildAchievementRepository;
         private readonly IGenericRepository<StudentAchievement> _studentAchievementRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -17,8 +18,18 @@ namespace Iwentys.Features.Achievements.Services
         public AchievementService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+
+            _achievementRepository = _unitOfWork.GetRepository<Achievement>();
             _guildAchievementRepository = _unitOfWork.GetRepository<GuildAchievement>();
             _studentAchievementRepository = _unitOfWork.GetRepository<StudentAchievement>();
+        }
+
+        public async Task<List<AchievementInfoDto>> Get()
+        {
+            return await _achievementRepository
+                .Get()
+                .Select(AchievementInfoDto.FromEntity)
+                .ToListAsync();
         }
 
         public async Task<List<AchievementInfoDto>> GetForStudent(int studentId)
@@ -38,7 +49,5 @@ namespace Iwentys.Features.Achievements.Services
                 .Select(AchievementInfoDto.FromGuildAchievement)
                 .ToListAsync();
         }
-
-        //TODO: implement getting all achievement
     }
 }

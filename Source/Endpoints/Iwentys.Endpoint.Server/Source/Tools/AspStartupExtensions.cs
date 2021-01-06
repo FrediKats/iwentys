@@ -50,7 +50,7 @@ namespace Iwentys.Endpoint.Server.Source.Tools
 
         public static IServiceCollection AddIwentysDatabase(this IServiceCollection services)
         {
-            //TODO: replace with normal db
+            //FYI: need to replace with normal db after release
             //services.AddDbContext<IwentysDbContext>(o => o.UseSqlite("Data Source=Iwentys.db"));
             services
                 .AddDbContext<IwentysDbContext>(o => o
@@ -61,7 +61,7 @@ namespace Iwentys.Endpoint.Server.Source.Tools
 
         public static IServiceCollection AddIwentysServices(this IServiceCollection services)
         {
-            //TODO: replace
+            //FYI: replace after release
             services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();
             //services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
             services.AddScoped<DatabaseAccessor>();
@@ -129,7 +129,7 @@ namespace Iwentys.Endpoint.Server.Source.Tools
             return services;
         }
 
-        //TODO: Temp fix for CORS
+        //FYI: Need to rework CORS after release
         public static IServiceCollection AddIwentysCorsHack(this IServiceCollection services)
         {
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>

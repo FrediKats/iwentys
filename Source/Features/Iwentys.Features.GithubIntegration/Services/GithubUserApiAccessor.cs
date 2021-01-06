@@ -149,7 +149,6 @@ namespace Iwentys.Features.GithubIntegration.Services
             return oldGithubUser;
         }
 
-        //TODO: wrap with domain entity?
         private async Task<IwentysUser> EnsureStudentWithGithub(int studentId)
         {
             IwentysUser student = await _userRepository.FindByIdAsync(studentId);

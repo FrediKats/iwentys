@@ -73,6 +73,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
                 throw new InnerLogicException("No team in tournament");
 
             await _achievementProvider.AchieveForGuild(AchievementList.Tournaments.TournamentWinner, winner.GuildId);
+            await _unitOfWork.CommitAsync();
         }
 
         private int CountGuildRating(Guild guild)
