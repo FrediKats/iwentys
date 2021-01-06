@@ -79,10 +79,9 @@ namespace Iwentys.Features.Guilds.Services
         //TODO: ensure project belong to user
         public async Task<GuildTestTaskInfoResponse> Submit(AuthorizedUser user, int guildId, string projectOwner, string projectName)
         {
+            //TODO: Add exception message (Test task was not started)
             GuildTestTaskSolution testTaskSolution = await _guildTestTaskSolutionRepository
-                                                 .Get()
-                                                 .SingleOrDefaultAsync(t => t.AuthorId == user.Id && t.GuildId == guildId)
-                                             ?? throw new EntityNotFoundException("Test task was not started");
+                .GetSingle(t => t.AuthorId == user.Id && t.GuildId == guildId);
 
             if (testTaskSolution.GetState() == GuildTestTaskState.Completed)
                 throw new InnerLogicException("Task already completed");
@@ -100,9 +99,8 @@ namespace Iwentys.Features.Guilds.Services
             IwentysUser review = await _userRepository.FindByIdAsync(user.Id);
             await review.EnsureIsGuildMentor(_guildRepositoryNew, guildId);
 
-            GuildTestTaskSolution testTask = _guildTestTaskSolutionRepository
-                .Get()
-                .SingleOrDefault(t => t.AuthorId == taskSolveOwnerId && t.GuildId == guildId) ?? throw new EntityNotFoundException("Test task was not started");
+            GuildTestTaskSolution testTask = await _guildTestTaskSolutionRepository
+                    .GetSingle(t => t.AuthorId == user.Id && t.GuildId == guildId);
 
             if (testTask.GetState() != GuildTestTaskState.Submitted)
                 throw new InnerLogicException("Task must be submitted");

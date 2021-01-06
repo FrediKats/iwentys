@@ -39,7 +39,7 @@ namespace Iwentys.Features.Gamification.Services
             if (searchParametersDto.CourseId is null && searchParametersDto.GroupId is null ||
                 searchParametersDto.CourseId is not null && searchParametersDto.GroupId is not null)
             {
-                throw new IwentysException("One of StudySearchParametersDto fields: CourseId or GroupId should be null");
+                throw new IwentysExecutionException("One of StudySearchParametersDto fields: CourseId or GroupId should be null");
             }
 
             List<SubjectActivity> result = _subjectActivityRepository.GetStudentActivities(searchParametersDto).ToList();

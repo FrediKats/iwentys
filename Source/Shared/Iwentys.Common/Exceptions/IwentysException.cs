@@ -1,18 +1,25 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace Iwentys.Common.Exceptions
 {
     public class IwentysException : Exception
     {
+        public IwentysException() : base()
+        {
+        }
+
         public IwentysException(string message) : base(message)
         {
         }
 
-        public IwentysException()
+        public IwentysException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        public IwentysException(string message, Exception innerException) : base(message, innerException)
+        protected IwentysException(
+            SerializationInfo info,
+            StreamingContext context) : base(info, context)
         {
         }
     }
