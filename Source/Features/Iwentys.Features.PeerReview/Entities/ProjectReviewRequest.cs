@@ -42,7 +42,7 @@ namespace Iwentys.Features.PeerReview.Entities
         public ProjectReviewFeedback CreateFeedback(AuthorizedUser author, ReviewFeedbackCreateArguments createArguments)
         {
             if (State == ProjectReviewState.Finished)
-                throw new InnerLogicException("Request already finished");
+                throw InnerLogicException.PeerReviewExceptions.ReviewAlreadyClosed(Id);
 
             LastUpdateTimeUtc = DateTime.UtcNow;
             
@@ -64,7 +64,7 @@ namespace Iwentys.Features.PeerReview.Entities
             }
 
             if (State == ProjectReviewState.Finished)
-                throw new InnerLogicException("Request already finished");
+                throw InnerLogicException.PeerReviewExceptions.ReviewAlreadyClosed(Id);
 
             State = ProjectReviewState.Finished;
         }

@@ -55,7 +55,7 @@ namespace Iwentys.Features.Quests.Entities
                 throw InnerLogicException.NotEnoughPermissionFor(author.Id);
 
             if (State != QuestState.Active)
-                throw new InnerLogicException("Quest is not active");
+                throw InnerLogicException.QuestExceptions.IsNotActive();
 
             State = QuestState.Revoked;
             author.BarsPoints += Price;
@@ -67,7 +67,7 @@ namespace Iwentys.Features.Quests.Entities
                 throw InnerLogicException.QuestExceptions.AuthorCanRespondToQuest(Id, responseAuthor.Id);
             
             if (State != QuestState.Active || IsOutdated)
-                throw new InnerLogicException("Quest is not active");
+                throw InnerLogicException.QuestExceptions.IsNotActive();
 
             return QuestResponse.New(Id, responseAuthor, arguments);
         }

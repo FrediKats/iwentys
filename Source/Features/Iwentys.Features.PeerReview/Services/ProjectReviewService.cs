@@ -55,7 +55,7 @@ namespace Iwentys.Features.PeerReview.Services
             GithubProject githubProject = await _projectRepository.GetById(createArguments.ProjectId);
             var alreadyAddedToReview = _projectReviewRequestRepository.Get().Any(rr => rr.ProjectId == githubProject.Id);
             if (alreadyAddedToReview)
-                throw new InnerLogicException("Project already added");
+                throw InnerLogicException.PeerReviewExceptions.ProjectAlreadyOnReview(githubProject.Id);
 
             var projectReviewRequest = ProjectReviewRequest.Create(author, githubProject, createArguments);
 

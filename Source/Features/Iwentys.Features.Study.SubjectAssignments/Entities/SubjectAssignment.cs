@@ -46,7 +46,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Entities
         {
             var canCreateSubmit = Subject.GroupSubjects.Any(gs => gs.StudyGroup.Students.Any(s => s.StudentId == user.Id));
             if (!canCreateSubmit)
-                throw new InnerLogicException("Do not from group");
+                throw InnerLogicException.SubjectAssignmentException.StudentIsNotAssignedToSubject(user.Id, Id);
             
             return new SubjectAssignmentSubmit
             {

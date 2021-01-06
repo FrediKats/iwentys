@@ -10,7 +10,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Domain
         public SubjectTeacher(GroupSubject subject, IwentysUser teacher)
         {
             if (!IsTeacher(subject, teacher))
-                throw new InnerLogicException("Is not teacher");
+                throw InnerLogicException.StudyExceptions.UserIsNotTeacher(teacher.Id);
             
             User = teacher;
         }
@@ -18,7 +18,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Domain
         public SubjectTeacher(Subject subject, IwentysUser teacher)
         {
             if (!IsTeacher(subject, teacher))
-                throw new InnerLogicException("Is not teacher");
+                throw InnerLogicException.StudyExceptions.UserIsNotTeacher(teacher.Id);
 
             User = teacher;
         }

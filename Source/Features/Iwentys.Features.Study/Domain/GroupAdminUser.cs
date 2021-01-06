@@ -8,10 +8,10 @@ namespace Iwentys.Features.Study.Domain
         public GroupAdminUser(Student student, StudyGroup studyGroup)
         {
             if (student.GroupMember?.Group is null)
-                throw new InnerLogicException("Student without group");
+                throw InnerLogicException.StudyExceptions.UserIsNotGroupAdmin(student.Id);
 
             if (student.Id != studyGroup.GroupAdminId)
-                throw InnerLogicException.NotEnoughPermissionFor(student.Id);
+                throw InnerLogicException.StudyExceptions.UserIsNotGroupAdmin(student.Id);
 
             Student = student;
         }
