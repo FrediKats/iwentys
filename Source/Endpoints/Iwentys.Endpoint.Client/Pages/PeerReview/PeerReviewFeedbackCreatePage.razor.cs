@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Features.PeerReview.Enums;
 using Iwentys.Features.PeerReview.Models;
@@ -7,8 +9,12 @@ namespace Iwentys.Endpoint.Client.Pages.PeerReview
 {
     public partial class PeerReviewFeedbackCreatePage
     {
+        private readonly List<ReviewFeedbackSummary> _feedbackSummaries = Enum.GetValues<ReviewFeedbackSummary>().ToList();
+
         public ProjectReviewRequestInfoDto _request;
+
         private string _description;
+        private ReviewFeedbackSummary _selectedSummaries = ReviewFeedbackSummary.LooksGoodToMe;
 
         protected override async Task OnInitializedAsync()
         {
@@ -23,8 +29,7 @@ namespace Iwentys.Endpoint.Client.Pages.PeerReview
             var arguments = new ReviewFeedbackCreateArguments
             {
                 Description = _description,
-                //TODO: select
-                Summary = ReviewFeedbackSummary.LooksGoodToMe
+                Summary = _selectedSummaries
             };
 
             await ClientHolder.PeerReview.SendReviewFeedback(ReviewRequestId, arguments);

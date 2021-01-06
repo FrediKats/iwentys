@@ -16,6 +16,7 @@
 <p>
     <MatTextField @bind-Value="@_description" Label="Description" Class="input-element"></MatTextField>
 </p>
+<MatSelectItem @bind-Value=@_selectedSummaries Items=@_feedbackSummaries></MatSelectItem>
 <MatButton OnClick=@(async () => await CreateFeedback())>Create</MatButton>
 
 @code {
