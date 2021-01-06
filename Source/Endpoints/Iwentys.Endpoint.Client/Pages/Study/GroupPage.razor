@@ -1,6 +1,7 @@
 ﻿@page "/group/profile/{GroupName}"
 @using Iwentys.Features.Study.Entities
 @using Iwentys.Features.Study.Enums
+@using Iwentys.Features.Study.Models
 @using Iwentys.Features.Study.Models.Students
 
 @inherits DependencyInjectionPage
@@ -34,7 +35,7 @@
         <div class="col-md-6 d-flex flex-column">
             <MatH6>Subjects</MatH6>
             <MatNavMenu>
-                @foreach (Subject subject in _groupProfile.Subjects)
+                @foreach (SubjectProfileDto subject in _groupProfile.Subjects)
                 {
                     <MatNavItem Href=@LinkToSubjectProfile(subject)>
                         @subject.Name

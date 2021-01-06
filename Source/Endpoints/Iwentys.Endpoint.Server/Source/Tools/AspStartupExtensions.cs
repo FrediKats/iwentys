@@ -5,6 +5,7 @@ using Iwentys.Database.Tools;
 using Iwentys.Endpoint.Server.Source.IdentityAuth;
 using Iwentys.Endpoint.Server.Source.Options;
 using Iwentys.Endpoint.Server.Source.Tokens;
+using Iwentys.Features.AccountManagement;
 using Iwentys.Features.Achievements;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Assignments;
@@ -66,8 +67,8 @@ namespace Iwentys.Endpoint.Server.Source.Tools
             //services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
             services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();
-            
-            
+
+            services.AddIwentysAAccountManagementFeatureServices();
             services.AddIwentysAchievementFeatureServices();
             services.AddIwentysAssignmentFeatureServices();
             services.AddIwentysCompanyFeatureServices();
