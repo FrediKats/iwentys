@@ -5,6 +5,7 @@ using Iwentys.Common.Databases;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Study.Entities;
+using Iwentys.Features.Study.SubjectAssignments.Domain;
 using Iwentys.Features.Study.SubjectAssignments.Entities;
 using Iwentys.Features.Study.SubjectAssignments.Models;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
         private readonly IGenericRepository<SubjectAssignmentSubmit> _subjectAssignmentSubmitRepository;
         private readonly IGenericRepository<GroupSubjectAssignment> _groupSubjectAssignmentRepository;
         private readonly IGenericRepository<GroupSubject> _groupSubjectRepository;
+        private readonly IGenericRepository<Subject> _subjectRepository;
 
         public SubjectAssignmentService(IUnitOfWork unitOfWork)
         {
@@ -30,6 +32,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
             _subjectAssignmentSubmitRepository = _unitOfWork.GetRepository<SubjectAssignmentSubmit>();
             _groupSubjectAssignmentRepository = _unitOfWork.GetRepository<GroupSubjectAssignment>();
             _groupSubjectRepository = _unitOfWork.GetRepository<GroupSubject>();
+            _subjectRepository = _unitOfWork.GetRepository<Subject>();
         }
 
         //TODO: if user is not teacher - filter submits
@@ -57,7 +60,10 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
         //TODO: OR list of group subject ids
         public async Task<SubjectAssignmentDto> CreateSubjectAssignment(AuthorizedUser user, int subjectId, SubjectAssignmentCreateArguments arguments)
         {
+            Subject subject = await _subjectRepository.GetById(subjectId);
             IwentysUser iwentysUser = await _iwentysUserRepository.GetById(user.Id);
+            SubjectTeacher teacher = iwentysUser.EnsureIsTeacher(subject);
+
             List<GroupSubject> groupSubjects = await _groupSubjectRepository
                 .Get()
                 .Where(gs => gs.SubjectId == subjectId)
@@ -68,7 +74,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
                 //TODO: check if count == 0
             foreach (GroupSubject groupSubject in groupSubjects.Take(1))
             {
-                subjectAssignment = SubjectAssignment.Create(iwentysUser, groupSubject, arguments);
+                subjectAssignment = SubjectAssignment.Create(teacher, groupSubject, arguments);
                 await _subjectAssignmentRepository.InsertAsync(subjectAssignment);
             }
 
@@ -117,13 +123,13 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
                 .SingleAsync();
         }
 
-        //TODO: check permission
-        public async Task SendFeedback(AuthorizedUser user, int subjectAssignmentSubmitId, SubjectAssignmentSubmitFeedbackArguments assignment)
+        public async Task SendFeedback(AuthorizedUser user, int subjectAssignmentSubmitId, SubjectAssignmentSubmitFeedbackArguments createArguments)
         {
             SubjectAssignmentSubmit subjectAssignmentSubmit = await _subjectAssignmentSubmitRepository.GetById(subjectAssignmentSubmitId);
             IwentysUser iwentysUser = await _iwentysUserRepository.GetById(user.Id);
+            SubjectTeacher teacher = iwentysUser.EnsureIsTeacher(subjectAssignmentSubmit.SubjectAssignment.Subject);
 
-            subjectAssignmentSubmit.ApplyFeedback(iwentysUser, assignment);
+            subjectAssignmentSubmit.ApplyFeedback(teacher, createArguments);
 
             _subjectAssignmentSubmitRepository.Update(subjectAssignmentSubmit);
             await _unitOfWork.CommitAsync();

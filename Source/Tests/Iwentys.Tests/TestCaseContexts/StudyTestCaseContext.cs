@@ -49,13 +49,14 @@ namespace Iwentys.Tests.TestCaseContexts
             return subject;
         }
 
-        public GroupSubject WithGroupSubject(GroupProfileResponseDto studyGroup, Subject subject)
+        public GroupSubject WithGroupSubject(GroupProfileResponseDto studyGroup, Subject subject, AuthorizedUser teacher = null)
         {
             var groupSubject = new GroupSubject
             {
                 StudyGroupId = studyGroup.Id,
                 SubjectId = subject.Id,
-                StudySemester = StudySemester.Y21H1
+                StudySemester = StudySemester.Y21H1,
+                LectorTeacherId = teacher?.Id
             };
             _context.UnitOfWork.GetRepository<GroupSubject>().InsertAsync(groupSubject).Wait();
             _context.UnitOfWork.CommitAsync().Wait();

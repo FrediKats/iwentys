@@ -4,6 +4,7 @@ using Iwentys.Common.Exceptions;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Study.Entities;
+using Iwentys.Features.Study.SubjectAssignments.Domain;
 using Iwentys.Features.Study.SubjectAssignments.Models;
 
 namespace Iwentys.Features.Study.SubjectAssignments.Entities
@@ -23,23 +24,20 @@ namespace Iwentys.Features.Study.SubjectAssignments.Entities
         public DateTime? DeadlineTimeUtc { get; set; }
 
         public int AuthorId { get; set; }
-        public IwentysUser Author { get; set; }
+        public virtual IwentysUser Author { get; set; }
 
         public virtual ICollection<SubjectAssignmentSubmit> SubjectAssignmentSubmits { get; set; }
         public virtual ICollection<GroupSubjectAssignment> GroupSubjectAssignments { get; set; }
 
-        public static SubjectAssignment Create(IwentysUser user, GroupSubject groupSubject, SubjectAssignmentCreateArguments arguments)
+        public static SubjectAssignment Create(SubjectTeacher teacher, GroupSubject groupSubject, SubjectAssignmentCreateArguments arguments)
         {
-            if (groupSubject.LectorTeacherId != user.Id && groupSubject.PracticeTeacherId != user.Id && !user.IsAdmin)
-                throw new InnerLogicException("User is not group teacher");
-
             return new SubjectAssignment
             {
                 SubjectId = groupSubject.SubjectId,
                 Title = arguments.Title,
                 Description = arguments.Description,
                 Link = arguments.Link,
-                AuthorId = user.Id
+                AuthorId = teacher.User.Id
             };
         }
 

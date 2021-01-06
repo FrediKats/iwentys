@@ -1,6 +1,7 @@
 ﻿using System;
 using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Study.Entities;
+using Iwentys.Features.Study.SubjectAssignments.Domain;
 using Iwentys.Features.Study.SubjectAssignments.Enums;
 using Iwentys.Features.Study.SubjectAssignments.Models;
 
@@ -23,10 +24,8 @@ namespace Iwentys.Features.Study.SubjectAssignments.Entities
         public DateTime? RejectTimeUtc { get; set; }
         public string Comment { get; set; }
 
-        public void ApplyFeedback(IwentysUser teacher, SubjectAssignmentSubmitFeedbackArguments arguments)
+        public void ApplyFeedback(SubjectTeacher teacher, SubjectAssignmentSubmitFeedbackArguments arguments)
         {
-            //TODO: validate that is teacher
-
             switch (arguments.FeedbackType)
             {
                 case FeedbackType.Approve:
@@ -40,14 +39,14 @@ namespace Iwentys.Features.Study.SubjectAssignments.Entities
             }
         }
 
-        private void Approve(IwentysUser teacher, SubjectAssignmentSubmitFeedbackArguments arguments)
+        private void Approve(SubjectTeacher teacher, SubjectAssignmentSubmitFeedbackArguments arguments)
         {
             RejectTimeUtc = null;
             ApproveTimeUtc = DateTime.UtcNow;
             Comment = arguments.Comment;
         }
 
-        private void Reject(IwentysUser teacher, SubjectAssignmentSubmitFeedbackArguments arguments)
+        private void Reject(SubjectTeacher teacher, SubjectAssignmentSubmitFeedbackArguments arguments)
         {
             ApproveTimeUtc = null;
             RejectTimeUtc = DateTime.UtcNow;
