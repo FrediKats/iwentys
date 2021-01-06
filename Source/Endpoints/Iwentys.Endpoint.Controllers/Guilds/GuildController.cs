@@ -67,7 +67,6 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         [HttpDelete("{guildId}/pinned/{repositoryId}")]
         public async Task<ActionResult> DeletePinnedProject(int guildId, long repositoryId)
         {
-            //TODO: Need to rework all links between GithubRepository, Student project and PinnedRepository
             AuthorizedUser user = this.TryAuthWithToken();
             await _guildService.UnpinProject(user, guildId, repositoryId);
             return Ok();
