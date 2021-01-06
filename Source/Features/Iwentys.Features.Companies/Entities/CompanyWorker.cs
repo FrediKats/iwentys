@@ -18,6 +18,8 @@ namespace Iwentys.Features.Companies.Entities
         public int? ApprovedById { get; private set; }
         public virtual IwentysUser ApprovedBy { get; private set; }
 
+        public static Expression<Func<CompanyWorker, bool>> IsRequested => worker => worker.Type == CompanyWorkerType.Requested;
+
         public static CompanyWorker NewRequest(Company company, IwentysUser worker)
         {
             return new CompanyWorker
@@ -27,13 +29,11 @@ namespace Iwentys.Features.Companies.Entities
                 Type = CompanyWorkerType.Requested
             };
         }
-        
+
         public void Approve(SystemAdminUser systemAdminUser)
         {
             ApprovedById = systemAdminUser.User.Id;
             Type = CompanyWorkerType.Accepted;
         }
-        
-        public static Expression<Func<CompanyWorker, bool>> IsRequested => worker => worker.Type == CompanyWorkerType.Requested;
     }
 }

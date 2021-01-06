@@ -7,10 +7,10 @@ namespace Iwentys.Features.Guilds.Services
 {
     public class GuildRecruitmentService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        
-        private readonly IGenericRepository<Guild> _guildRepository;
         private readonly IGenericRepository<GuildRecruitmentMember> _guildRecruitmentMemberRepository;
+
+        private readonly IGenericRepository<Guild> _guildRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public GuildRecruitmentService(IUnitOfWork unitOfWork)
         {
@@ -22,9 +22,9 @@ namespace Iwentys.Features.Guilds.Services
         public async Task<GuildRecruitment> Create(int guildId, int memberId, string description)
         {
             Guild guild = await _guildRepository.FindByIdAsync(guildId);
-            var creator = guild.Members.Find(m => m.MemberId == memberId) ?? throw EntityNotFoundException.Create(typeof(GuildMember), memberId);
+            GuildMember? creator = guild.Members.Find(m => m.MemberId == memberId) ?? throw EntityNotFoundException.Create(typeof(GuildMember), memberId);
 
-            GuildRecruitment recruitment = new GuildRecruitment
+            var recruitment = new GuildRecruitment
             {
                 Description = description,
                 GuildId = guild.Id

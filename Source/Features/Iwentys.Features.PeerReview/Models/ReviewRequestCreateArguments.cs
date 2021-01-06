@@ -4,6 +4,5 @@
     {
         public long ProjectId { get; set; }
         public string Description { get; set; }
-        
     }
 }

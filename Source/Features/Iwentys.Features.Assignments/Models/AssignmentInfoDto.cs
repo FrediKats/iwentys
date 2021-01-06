@@ -46,7 +46,7 @@ namespace Iwentys.Features.Assignments.Models
                 CreationTimeUtc = entity.Assignment.CreationTimeUtc,
                 DeadlineTimeUtc = entity.Assignment.DeadlineTimeUtc,
                 Creator = new IwentysUserInfoDto(entity.Assignment.Author),
-                IsCompeted = entity.IsCompleted,
+                IsCompeted = entity.IsCompleted
             };
 
         public int Id { get; init; }

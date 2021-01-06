@@ -24,52 +24,50 @@ using Iwentys.Tests.Tools;
 
 namespace Iwentys.Tests.TestCaseContexts
 {
-    public partial class TestCaseContext
+    public class TestCaseContext
     {
         //TODO: make private
         public readonly IwentysDbContext _context;
-        public readonly IUnitOfWork UnitOfWork;
+        public readonly AccountManagementTestCaseContext AccountManagementTestCaseContext;
+        public readonly AchievementService AchievementService;
+        public readonly AssignmentService AssignmentService;
+        public readonly AssignmentTestCaseContext AssignmentTestCaseContext;
+        public readonly BarsPointTransactionLogService BarsPointTransactionLogService;
+        public readonly CompanyService CompanyService;
+        public readonly CompanyTestCaseContext CompanyTestCaseContext;
+        public readonly GamificationTestCaseContext GamificationTestCaseContext;
+        public readonly GithubIntegrationService GithubIntegrationService;
+        public readonly GithubTestCaseContext GithubTestCaseContext;
+        public readonly GuildMemberService GuildMemberService;
+        public readonly GuildService GuildService;
+        public readonly GuildTestCaseContext GuildTestCaseContext;
+        public readonly GuildTestTaskService GuildTestTaskService;
+        public readonly GuildTributeService GuildTributeServiceService;
+        public readonly InterestTagService InterestTagService;
 
         public readonly IwentysUserService IwentysUserService;
-        public readonly StudentService StudentService;
-        public readonly GuildService GuildService;
-        public readonly GuildMemberService GuildMemberService;
-        public readonly GuildTributeService GuildTributeServiceService;
-        public readonly TournamentService TournamentService;
-        public readonly CompanyService CompanyService;
-        public readonly QuestService QuestService;
-        public readonly GithubIntegrationService GithubIntegrationService;
-        public readonly BarsPointTransactionLogService BarsPointTransactionLogService;
-        public readonly NewsfeedService NewsfeedService;
-        public readonly InterestTagService InterestTagService;
-        public readonly AchievementService AchievementService;
-        public readonly StudyGroupService StudyGroupService;
-        public readonly GuildTestTaskService GuildTestTaskService;
         public readonly KarmaService KarmaService;
+        public readonly NewsfeedService NewsfeedService;
+        public readonly NewsfeedTestCaseContext NewsfeedTestCaseContext;
+        public readonly PeerReviewTestCaseContext PeerReviewTestCaseContext;
         public readonly ProjectReviewService ProjectReviewService;
-        public readonly SubjectAssignmentService SubjectAssignmentService;
-        public readonly AssignmentService AssignmentService;
+        public readonly QuestService QuestService;
+        public readonly QuestTestCaseContext QuestTestCaseContext;
         public readonly RaidService RaidService;
+        public readonly StudentService StudentService;
+        public readonly StudyGroupService StudyGroupService;
+        public readonly StudyTestCaseContext StudyTestCaseContext;
+        public readonly SubjectAssignmentService SubjectAssignmentService;
+        public readonly TournamentService TournamentService;
 
         public readonly TributeTestCaseContext TributeTestCaseContext;
-        public readonly GithubTestCaseContext GithubTestCaseContext;
-        public readonly AccountManagementTestCaseContext AccountManagementTestCaseContext;
-        public readonly StudyTestCaseContext StudyTestCaseContext;
-        public readonly QuestTestCaseContext QuestTestCaseContext;
-        public readonly CompanyTestCaseContext CompanyTestCaseContext;
-        public readonly PeerReviewTestCaseContext PeerReviewTestCaseContext;
-        public readonly GamificationTestCaseContext GamificationTestCaseContext;
-        public readonly NewsfeedTestCaseContext NewsfeedTestCaseContext;
-        public readonly GuildTestCaseContext GuildTestCaseContext;
-        public readonly AssignmentTestCaseContext AssignmentTestCaseContext;
-
-        public static TestCaseContext Case() => new TestCaseContext();
+        public readonly IUnitOfWork UnitOfWork;
 
         public TestCaseContext()
         {
             _context = TestDatabaseProvider.GetDatabaseContext();
             UnitOfWork = new UnitOfWork<IwentysDbContext>(_context);
-            
+
             var achievementProvider = new AchievementProvider(UnitOfWork);
             var githubApiAccessor = new DummyGithubApiAccessor();
 
@@ -106,7 +104,12 @@ namespace Iwentys.Tests.TestCaseContexts
             GuildTestCaseContext = new GuildTestCaseContext(this);
             AssignmentTestCaseContext = new AssignmentTestCaseContext(this);
         }
-        
+
+        public static TestCaseContext Case()
+        {
+            return new TestCaseContext();
+        }
+
         public static class Constants
         {
             public const string GithubUsername = "GhUser";

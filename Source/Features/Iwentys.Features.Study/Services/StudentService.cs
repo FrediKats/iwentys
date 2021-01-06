@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Study.Entities;
@@ -12,10 +11,10 @@ namespace Iwentys.Features.Study.Services
 {
     public class StudentService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        
-        private readonly IGenericRepository<Student> _studentRepository;
         private readonly AchievementProvider _achievementProvider;
+
+        private readonly IGenericRepository<Student> _studentRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public StudentService(IUnitOfWork unitOfWork, AchievementProvider achievementProvider)
         {
@@ -51,7 +50,7 @@ namespace Iwentys.Features.Study.Services
 
             return new StudentInfoDto(student);
         }
-        
+
         public async Task<StudentInfoDto> RemoveGithubUsername(int id, string githubUsername)
         {
             Student user = await _studentRepository.FindByIdAsync(id);

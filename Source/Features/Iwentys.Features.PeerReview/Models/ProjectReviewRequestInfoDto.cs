@@ -10,14 +10,6 @@ namespace Iwentys.Features.PeerReview.Models
 {
     public class ProjectReviewRequestInfoDto
     {
-        public int Id { get; set; }
-        public string Description { get; set; }
-        public ProjectReviewState State { get; set; }
-        public DateTime CreationTimeUtc { get; set; }
-
-        public GithubRepositoryInfoDto Project { get; set; }
-        public ICollection<ProjectReviewFeedbackInfoDto> ReviewFeedbacks { get; set; }
-
         public ProjectReviewRequestInfoDto(ProjectReviewRequest reviewRequest) : this()
         {
             Id = reviewRequest.Id;
@@ -31,6 +23,14 @@ namespace Iwentys.Features.PeerReview.Models
         public ProjectReviewRequestInfoDto()
         {
         }
+
+        public int Id { get; set; }
+        public string Description { get; set; }
+        public ProjectReviewState State { get; set; }
+        public DateTime CreationTimeUtc { get; set; }
+
+        public GithubRepositoryInfoDto Project { get; set; }
+        public ICollection<ProjectReviewFeedbackInfoDto> ReviewFeedbacks { get; set; }
 
         public static Expression<Func<ProjectReviewRequest, ProjectReviewRequestInfoDto>> FromEntity =>
             entity => new ProjectReviewRequestInfoDto
@@ -46,9 +46,9 @@ namespace Iwentys.Features.PeerReview.Models
                     Name = entity.Project.Name,
                     Description = entity.Project.Description,
                     Url = entity.Project.FullUrl,
-                    StarCount = entity.Project.StarCount,
+                    StarCount = entity.Project.StarCount
                 },
-                ReviewFeedbacks = entity.ReviewFeedbacks.Select(rf => new ProjectReviewFeedbackInfoDto(rf)).ToList(),
+                ReviewFeedbacks = entity.ReviewFeedbacks.Select(rf => new ProjectReviewFeedbackInfoDto(rf)).ToList()
             };
     }
 }

@@ -15,12 +15,12 @@ namespace Iwentys.Features.PeerReview.Services
 {
     public class ProjectReviewService
     {
+        private readonly IGenericRepository<GithubProject> _projectRepository;
+        private readonly IGenericRepository<ProjectReviewFeedback> _projectReviewFeedbackRepository;
+        private readonly IGenericRepository<ProjectReviewRequest> _projectReviewRequestRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IGenericRepository<IwentysUser> _userRepository;
-        private readonly IGenericRepository<ProjectReviewRequest> _projectReviewRequestRepository;
-        private readonly IGenericRepository<ProjectReviewFeedback> _projectReviewFeedbackRepository;
-        private readonly IGenericRepository<GithubProject> _projectRepository;
 
         public ProjectReviewService(IUnitOfWork unitOfWork)
         {
@@ -90,7 +90,7 @@ namespace Iwentys.Features.PeerReview.Services
 
             projectReviewRequest.FinishReview(user);
 
-             _projectReviewRequestRepository.Update(projectReviewRequest);
+            _projectReviewRequestRepository.Update(projectReviewRequest);
             await _unitOfWork.CommitAsync();
         }
     }

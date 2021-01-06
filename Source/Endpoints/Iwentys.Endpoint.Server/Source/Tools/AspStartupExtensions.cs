@@ -65,7 +65,6 @@ namespace Iwentys.Endpoint.Server.Source.Tools
             //FYI: replace after release
             services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();
             //services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
-            services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();
 
             services.AddIwentysAAccountManagementFeatureServices();

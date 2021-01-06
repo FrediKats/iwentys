@@ -19,6 +19,9 @@ namespace Iwentys.Features.Study.Entities
         public virtual List<StudyGroupMember> Students { get; set; }
         public virtual List<GroupSubject> GroupSubjects { get; set; }
 
-        public static Expression<Func<StudyGroup, bool>> IsMatch(GroupName groupName) => studyGroup => studyGroup.GroupName == groupName.Name;
+        public static Expression<Func<StudyGroup, bool>> IsMatch(GroupName groupName)
+        {
+            return studyGroup => studyGroup.GroupName == groupName.Name;
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace Iwentys.Tests.TestCaseContexts
         //TODO: return smth
         public void WithSubjectNews(SubjectProfileDto subjectProfile, AuthorizedUser creator)
         {
-            var createViewModel = new NewsfeedCreateViewModel()
+            var createViewModel = new NewsfeedCreateViewModel
             {
                 Title = RandomProvider.Faker.Lorem.Word(),
                 Content = RandomProvider.Faker.Lorem.Sentence()

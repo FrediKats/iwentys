@@ -6,19 +6,6 @@ namespace Iwentys.Features.Achievements.Domain
 {
     public static class AchievementList
     {
-        public static class Tournaments
-        {
-            public static readonly Achievement TournamentWinner;
-
-            static Tournaments()
-            {
-                TournamentWinner = Register(
-                    "Tournament winner",
-                    "Lorem",
-                    "https://img.icons8.com/windows/96/000000/open-pokeball.png");
-            }
-        }
-
         public static readonly Achievement AddGithubAchievement;
         public static readonly Achievement BetaTester;
         public static readonly Achievement QuestCreator;
@@ -70,6 +57,19 @@ namespace Iwentys.Features.Achievements.Domain
 
             Achievements.Add(achievement);
             return achievement;
+        }
+
+        public static class Tournaments
+        {
+            public static readonly Achievement TournamentWinner;
+
+            static Tournaments()
+            {
+                TournamentWinner = Register(
+                    "Tournament winner",
+                    "Lorem",
+                    "https://img.icons8.com/windows/96/000000/open-pokeball.png");
+            }
         }
     }
 }

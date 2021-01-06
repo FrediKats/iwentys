@@ -1,11 +1,10 @@
-﻿using Iwentys.Features.Quests.Entities;
-using Iwentys.Features.Quests.Enums;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Features.AccountManagement.Models;
+using Iwentys.Features.Quests.Entities;
+using Iwentys.Features.Quests.Enums;
 
 namespace Iwentys.Features.Quests.Models
 {
@@ -30,7 +29,7 @@ namespace Iwentys.Features.Quests.Models
         public QuestInfoDto()
         {
         }
-        
+
         public int Id { get; init; }
         public string Title { get; init; }
         public string Description { get; init; }

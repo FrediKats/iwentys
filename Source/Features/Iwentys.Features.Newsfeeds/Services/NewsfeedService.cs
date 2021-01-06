@@ -15,10 +15,9 @@ namespace Iwentys.Features.Newsfeeds.Services
 {
     public class NewsfeedService
     {
-        private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
-
         private readonly IGenericRepository<GuildNewsfeed> _guildNewsfeedRepository;
         private readonly IGenericRepository<Guild> _guildRepository;
+        private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
 
         private readonly IGenericRepository<Student> _studentRepository;
         private readonly IGenericRepository<SubjectNewsfeed> _subjectNewsfeedRepository;
@@ -39,7 +38,7 @@ namespace Iwentys.Features.Newsfeeds.Services
 
         public async Task CreateSubjectNewsfeed(NewsfeedCreateViewModel createViewModel, AuthorizedUser authorizedUser, int subjectId)
         {
-            var author = await _iwentysUserRepository.GetById(authorizedUser.Id);
+            IwentysUser author = await _iwentysUserRepository.GetById(authorizedUser.Id);
             Subject subject = await _subjectRepository.GetById(subjectId);
 
             var newsfeedEntity = SubjectNewsfeed.Create(createViewModel, author, subject, null);

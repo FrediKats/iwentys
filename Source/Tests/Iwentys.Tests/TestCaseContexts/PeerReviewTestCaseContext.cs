@@ -22,7 +22,7 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public ProjectReviewFeedbackInfoDto WithReviewFeedback(AuthorizedUser user, ProjectReviewRequestInfoDto request)
         {
-            ProjectReviewFeedbackInfoDto feedback = _context.ProjectReviewService.SendReviewFeedback(user, request.Id, new ReviewFeedbackCreateArguments() {Summary = ReviewFeedbackSummary.LooksGoodToMe}).Result;
+            ProjectReviewFeedbackInfoDto feedback = _context.ProjectReviewService.SendReviewFeedback(user, request.Id, new ReviewFeedbackCreateArguments {Summary = ReviewFeedbackSummary.LooksGoodToMe}).Result;
             return feedback;
         }
     }

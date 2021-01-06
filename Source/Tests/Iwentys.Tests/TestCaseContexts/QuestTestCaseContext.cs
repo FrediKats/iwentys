@@ -21,7 +21,7 @@ namespace Iwentys.Tests.TestCaseContexts
                 price,
                 DateTime.UtcNow.AddDays(1));
 
-            var quest = _context.QuestService.Create(user, request).Result;
+            QuestInfoDto quest = _context.QuestService.Create(user, request).Result;
 
             return quest;
         }

@@ -16,7 +16,7 @@ namespace Iwentys.Tests.Features.Gamification
             TestCaseContext testCase = TestCaseContext.Case();
             AuthorizedUser user = testCase.AccountManagementTestCaseContext.WithUser(true);
             InterestTagDto tag = testCase.GamificationTestCaseContext.WithInterestTag();
-            
+
             testCase.GamificationTestCaseContext.WithUserInterestTag(tag, user);
 
             List<InterestTagDto> tags = testCase.InterestTagService.GetUserTags(user.Id).Result;

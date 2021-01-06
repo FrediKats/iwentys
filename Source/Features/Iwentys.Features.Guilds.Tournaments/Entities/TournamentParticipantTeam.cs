@@ -7,7 +7,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Entities
     public class TournamentParticipantTeam
     {
         public int Id { get; init; }
-        
+
         public int TournamentId { get; init; }
         public virtual Tournament Tournament { get; init; }
 

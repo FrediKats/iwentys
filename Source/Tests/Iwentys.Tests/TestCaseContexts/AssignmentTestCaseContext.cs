@@ -19,7 +19,7 @@ namespace Iwentys.Tests.TestCaseContexts
             var createArguments = new AssignmentCreateArguments
             {
                 Title = faker.Lorem.Word(),
-                Description = faker.Lorem.Word(),
+                Description = faker.Lorem.Word()
             };
 
             return _context.AssignmentService.Create(user, createArguments).Result;

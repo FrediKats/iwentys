@@ -10,7 +10,7 @@
         public StudentUpdateRequestDto()
         {
         }
-        
+
         public string GithubUsername { get; init; }
     }
 }

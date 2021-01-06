@@ -13,6 +13,23 @@ namespace Iwentys.Features.Study.SubjectAssignments.Models
             Rejected
         }
 
+        public SubjectAssignmentSubmitDto(SubjectAssignmentSubmit submit) : this()
+        {
+            Id = submit.Id;
+            Student = new StudentInfoDto(submit.Student);
+            StudentDescription = submit.StudentDescription;
+            SubmitTimeUtc = submit.SubmitTimeUtc;
+            SubjectAssignmentId = submit.SubjectAssignmentId;
+            SubjectAssignmentTitle = submit.SubjectAssignment.Title;
+            ApproveTimeUtc = submit.ApproveTimeUtc;
+            RejectTimeUtc = submit.RejectTimeUtc;
+            Comment = submit.Comment;
+        }
+
+        public SubjectAssignmentSubmitDto()
+        {
+        }
+
         public int Id { get; set; }
         public StudentInfoDto Student { get; set; }
         public string StudentDescription { get; set; }
@@ -31,23 +48,6 @@ namespace Iwentys.Features.Study.SubjectAssignments.Models
             if (ApproveTimeUtc is not null)
                 return AssignmentSubmitState.Approved;
             return AssignmentSubmitState.Open;
-        }
-
-        public SubjectAssignmentSubmitDto(SubjectAssignmentSubmit submit) : this()
-        {
-            Id = submit.Id;
-            Student = new StudentInfoDto(submit.Student);
-            StudentDescription = submit.StudentDescription;
-            SubmitTimeUtc = submit.SubmitTimeUtc;
-            SubjectAssignmentId = submit.SubjectAssignmentId;
-            SubjectAssignmentTitle = submit.SubjectAssignment.Title;
-            ApproveTimeUtc = submit.ApproveTimeUtc;
-            RejectTimeUtc = submit.RejectTimeUtc;
-            Comment = submit.Comment;
-        }
-
-        public SubjectAssignmentSubmitDto()
-        {
         }
     }
 }

@@ -17,14 +17,6 @@ namespace Iwentys.Tests.Features.Guilds
     [TestFixture]
     public class UserMembershipStateTest
     {
-        private Guild _guild;
-        private GuildDomain _guildDomain;
-
-        private IwentysUser _student;
-
-        private Mock<IGenericRepository<IwentysUser>> _studentRepository;
-        private Mock<GithubIntegrationService> _githubUserDataService;
-
         // User without guild
         //      is not in blocked list
         //      have not send request to this guild
@@ -34,17 +26,17 @@ namespace Iwentys.Tests.Features.Guilds
         [SetUp]
         public void SetUp()
         {
-            _student = new IwentysUser()
+            _student = new IwentysUser
             {
                 Id = 1,
                 LastOnlineTime = DateTime.MinValue.ToUniversalTime(),
                 GithubUsername = string.Empty
             };
 
-            _guild = new Guild()
+            _guild = new Guild
             {
                 Id = 1,
-                Members = new List<GuildMember>()
+                Members = new List<GuildMember>
                 {
                     new GuildMember(1, 1, GuildMemberType.Creator)
                 },
@@ -62,8 +54,8 @@ namespace Iwentys.Tests.Features.Guilds
             //    .Setup(a => a.GetRepository(It.IsAny<String>(), It.IsAny<String>()))
             //    .Returns(default(GithubRepositoryInfoDto));
             _githubUserDataService
-                .Setup(a => a.User.GetGithubUser(It.IsAny<String>(), It.IsAny<bool>()))
-                .Returns(Task.FromResult(new GithubUser { ContributionFullInfo = new ContributionFullInfo { RawActivity = new ActivityInfo() { Contributions = new List<ContributionsInfo>(), Years = new List<YearActivityInfo>() } } }));
+                .Setup(a => a.User.GetGithubUser(It.IsAny<string>(), It.IsAny<bool>()))
+                .Returns(Task.FromResult(new GithubUser {ContributionFullInfo = new ContributionFullInfo {RawActivity = new ActivityInfo {Contributions = new List<ContributionsInfo>(), Years = new List<YearActivityInfo>()}}}));
 
             //_guildRepository = new Mock<GuildRepository>();
             //_guildRepository
@@ -77,11 +69,19 @@ namespace Iwentys.Tests.Features.Guilds
 
             _studentRepository = new Mock<IGenericRepository<IwentysUser>>();
             _studentRepository
-                .Setup(r => r.FindByIdAsync(It.IsAny<Int32>()))
+                .Setup(r => r.FindByIdAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(_student));
 
             _guildDomain = new GuildDomain(_guild, _githubUserDataService.Object, _studentRepository.Object, null);
         }
+
+        private Guild _guild;
+        private GuildDomain _guildDomain;
+
+        private IwentysUser _student;
+
+        private Mock<IGenericRepository<IwentysUser>> _studentRepository;
+        private Mock<GithubIntegrationService> _githubUserDataService;
 
         [Test]
         [Ignore("NSE")]

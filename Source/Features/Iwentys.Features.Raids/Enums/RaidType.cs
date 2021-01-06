@@ -4,6 +4,6 @@
     {
         PublicLecture = 1,
         Hackathon,
-        Courses,
+        Courses
     }
 }

@@ -30,6 +30,14 @@ namespace Iwentys.Features.Quests.Entities
 
         public bool IsOutdated => Deadline < DateTime.UtcNow;
 
+        public static Expression<Func<Quest, bool>> IsActive =>
+            q => q.State == QuestState.Active
+                 && (q.Deadline == null || q.Deadline > DateTime.UtcNow);
+
+        public static Expression<Func<Quest, bool>> IsArchived =>
+            q => q.State == QuestState.Completed
+                 && q.Deadline > DateTime.UtcNow;
+
         public static Quest New(IwentysUser student, CreateQuestRequest createQuest)
         {
             if (student.BarsPoints < createQuest.Price)
@@ -65,7 +73,7 @@ namespace Iwentys.Features.Quests.Entities
         {
             if (AuthorId == responseAuthor.Id)
                 throw InnerLogicException.QuestExceptions.AuthorCanRespondToQuest(Id, responseAuthor.Id);
-            
+
             if (State != QuestState.Active || IsOutdated)
                 throw InnerLogicException.QuestExceptions.IsNotActive();
 
@@ -83,17 +91,11 @@ namespace Iwentys.Features.Quests.Entities
             State = QuestState.Completed;
             ExecutorId = executor.Id;
         }
-        
-        public static Expression<Func<Quest, bool>> IsActive =>
-            q => q.State == QuestState.Active
-                 && (q.Deadline == null || q.Deadline > DateTime.UtcNow);
-        
-        public static Expression<Func<Quest, bool>> IsArchived =>
-            q => q.State == QuestState.Completed
-                 && q.Deadline > DateTime.UtcNow;
 
-        public static Expression<Func<Quest, bool>> IsCompletedBy(AuthorizedUser user) =>
-            q => q.State == QuestState.Completed 
-                 && q.Responses.Any(r => r.StudentId == user.Id);
+        public static Expression<Func<Quest, bool>> IsCompletedBy(AuthorizedUser user)
+        {
+            return q => q.State == QuestState.Completed
+                        && q.Responses.Any(r => r.StudentId == user.Id);
+        }
     }
 }

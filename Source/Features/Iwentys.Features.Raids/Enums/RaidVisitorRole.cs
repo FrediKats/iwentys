@@ -4,6 +4,6 @@
     {
         Pending = 1,
         Approved,
-        Manager,
+        Manager
     }
 }

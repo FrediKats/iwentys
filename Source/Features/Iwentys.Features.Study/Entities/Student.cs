@@ -6,10 +6,6 @@ namespace Iwentys.Features.Study.Entities
 {
     public class Student : IwentysUser
     {
-        public StudentType Type { get; init; }
-        public virtual StudyGroupMember GroupMember { get; set; }
-
-
         public Student()
         {
         }
@@ -24,6 +20,9 @@ namespace Iwentys.Features.Study.Entities
             LastOnlineTime = DateTime.UtcNow;
             GuildLeftTime = DateTime.MinValue;
         }
+
+        public StudentType Type { get; init; }
+        public virtual StudyGroupMember GroupMember { get; set; }
 
         public static Student CreateFromIsu(int id, string firstName, string secondName)
         {

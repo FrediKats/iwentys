@@ -19,11 +19,9 @@ namespace Iwentys.Features.Guilds.Domain
 {
     public class GuildDomain
     {
-        public Guild Profile { get; }
-
         private readonly GithubIntegrationService _githubIntegrationService;
-        private readonly IGenericRepository<IwentysUser> _userRepository;
         private readonly IGenericRepository<GuildMember> _guildMemberRepositoryNew;
+        private readonly IGenericRepository<IwentysUser> _userRepository;
 
         public GuildDomain(
             Guild profile,
@@ -37,12 +35,14 @@ namespace Iwentys.Features.Guilds.Domain
             _guildMemberRepositoryNew = guildMemberRepositoryNew;
         }
 
+        public Guild Profile { get; }
+
         public async Task<ExtendedGuildProfileWithMemberDataDto> ToExtendedGuildProfileDto(int? userId = null)
         {
             var info = new ExtendedGuildProfileWithMemberDataDto(Profile)
             {
                 Leader = Profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new IwentysUserInfoDto(s)),
-                PinnedRepositories = Profile.PinnedProjects.SelectToList(p => new GithubRepositoryInfoDto(p.Project)),
+                PinnedRepositories = Profile.PinnedProjects.SelectToList(p => new GithubRepositoryInfoDto(p.Project))
             };
 
             if (userId is not null)
@@ -54,10 +54,10 @@ namespace Iwentys.Features.Guilds.Domain
         public async Task<List<GuildMemberImpactDto>> GetMemberImpacts()
         {
             //TODO: move to SQL
-            List<GuildMemberImpactDto> result = new List<GuildMemberImpactDto>();
-            foreach (var member in Profile.Members)
+            var result = new List<GuildMemberImpactDto>();
+            foreach (GuildMember member in Profile.Members)
             {
-                var contributionFullInfo = await _githubIntegrationService.User.FindUserContributionOrEmpty(member.Member);
+                ContributionFullInfo contributionFullInfo = await _githubIntegrationService.User.FindUserContributionOrEmpty(member.Member);
                 result.Add(new GuildMemberImpactDto(new IwentysUserInfoDto(member.Member), member.MemberType, contributionFullInfo));
             }
 
@@ -70,7 +70,7 @@ namespace Iwentys.Features.Guilds.Domain
             return new GuildMemberLeaderBoardDto(members);
         }
 
-        public async Task<UserMembershipState> GetUserMembershipState(Int32 userId)
+        public async Task<UserMembershipState> GetUserMembershipState(int userId)
         {
             IwentysUser user = await _userRepository.GetById(userId);
             Guild userGuild = _guildMemberRepositoryNew.ReadForStudent(user.Id);

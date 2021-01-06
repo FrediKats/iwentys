@@ -21,7 +21,7 @@ namespace Iwentys.Features.Guilds.Entities
 
         public int GuildId { get; init; }
         public virtual Guild Guild { get; init; }
-        
+
         public int AuthorId { get; init; }
         public virtual IwentysUser Author { get; init; }
 
@@ -30,10 +30,12 @@ namespace Iwentys.Features.Guilds.Entities
 
         public int? ReviewerId { get; set; }
         public virtual IwentysUser Reviewer { get; set; }
-        
+
         public DateTime StartTimeUtc { get; init; }
         public DateTime? SubmitTimeUtc { get; set; }
         public DateTime? CompleteTimeUtc { get; set; }
+
+        public static Expression<Func<GuildTestTaskSolution, bool>> IsNotCompleted => entity => entity.CompleteTimeUtc != null;
 
         public static GuildTestTaskSolution Create(Guild guild, IwentysUser author)
         {
@@ -44,8 +46,6 @@ namespace Iwentys.Features.Guilds.Entities
                 StartTimeUtc = DateTime.UtcNow
             };
         }
-
-        public static Expression<Func<GuildTestTaskSolution, bool>> IsNotCompleted => entity => entity.CompleteTimeUtc != null;
 
         public void SendSubmit(long projectId)
         {

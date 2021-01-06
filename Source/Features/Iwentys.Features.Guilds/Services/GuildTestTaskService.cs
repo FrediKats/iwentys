@@ -25,9 +25,9 @@ namespace Iwentys.Features.Guilds.Services
         private readonly IGenericRepository<GuildMember> _guildMemberRepository;
         private readonly IGenericRepository<Guild> _guildRepositoryNew;
         private readonly IGenericRepository<GuildTestTaskSolution> _guildTestTaskSolutionRepository;
-        private readonly IGenericRepository<IwentysUser> _userRepository;
 
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IGenericRepository<IwentysUser> _userRepository;
 
 
         public GuildTestTaskService(AchievementProvider achievementProvider, IUnitOfWork unitOfWork, GithubIntegrationService githubIntegrationService)
@@ -100,7 +100,7 @@ namespace Iwentys.Features.Guilds.Services
             await review.EnsureIsGuildMentor(_guildRepositoryNew, guildId);
 
             GuildTestTaskSolution testTask = await _guildTestTaskSolutionRepository
-                    .GetSingle(t => t.AuthorId == user.Id && t.GuildId == guildId);
+                .GetSingle(t => t.AuthorId == user.Id && t.GuildId == guildId);
 
             if (testTask.GetState() != GuildTestTaskState.Submitted)
                 throw new InnerLogicException("Task must be submitted");

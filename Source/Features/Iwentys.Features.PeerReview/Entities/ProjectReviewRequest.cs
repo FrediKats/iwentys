@@ -24,10 +24,7 @@ namespace Iwentys.Features.PeerReview.Entities
 
         public static ProjectReviewRequest Create(AuthorizedUser author, GithubProject githubProject, ReviewRequestCreateArguments createArguments)
         {
-            if (githubProject.OwnerUserId != author.Id)
-            {
-                throw new InnerLogicException("Project do not belong to user");
-            }
+            if (githubProject.OwnerUserId != author.Id) throw new InnerLogicException("Project do not belong to user");
 
             return new ProjectReviewRequest
             {
@@ -45,7 +42,7 @@ namespace Iwentys.Features.PeerReview.Entities
                 throw InnerLogicException.PeerReviewExceptions.ReviewAlreadyClosed(Id);
 
             LastUpdateTimeUtc = DateTime.UtcNow;
-            
+
             return new ProjectReviewFeedback
             {
                 AuthorId = author.Id,
@@ -58,10 +55,7 @@ namespace Iwentys.Features.PeerReview.Entities
 
         public void FinishReview(IwentysUser user)
         {
-            if (user.Id != Project.OwnerUserId && !user.IsAdmin)
-            {
-                throw InnerLogicException.NotEnoughPermissionFor(user.Id);
-            }
+            if (user.Id != Project.OwnerUserId && !user.IsAdmin) throw InnerLogicException.NotEnoughPermissionFor(user.Id);
 
             if (State == ProjectReviewState.Finished)
                 throw InnerLogicException.PeerReviewExceptions.ReviewAlreadyClosed(Id);

@@ -11,7 +11,7 @@ namespace Iwentys.Features.Study.Models
         {
         }
 
-        public StudentActivityInfoDto(List<SubjectActivityInfoResponseDto> activity) :this()
+        public StudentActivityInfoDto(List<SubjectActivityInfoResponseDto> activity) : this()
         {
             Activity = activity;
         }

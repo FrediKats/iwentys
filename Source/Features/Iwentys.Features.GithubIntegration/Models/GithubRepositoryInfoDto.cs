@@ -7,13 +7,13 @@ namespace Iwentys.Features.GithubIntegration.Models
     public record GithubRepositoryInfoDto
     {
         public GithubRepositoryInfoDto(GithubProject entity)
-        : this(
-            entity.Id,
-            entity.Owner,
-            entity.Name,
-            entity.Description,
-            entity.FullUrl,
-            entity.StarCount)
+            : this(
+                entity.Id,
+                entity.Owner,
+                entity.Name,
+                entity.Description,
+                entity.FullUrl,
+                entity.StarCount)
         {
         }
 
@@ -39,7 +39,7 @@ namespace Iwentys.Features.GithubIntegration.Models
                 Name = githubProject.Name,
                 Description = githubProject.Description,
                 Url = githubProject.FullUrl,
-                StarCount = githubProject.StarCount,
+                StarCount = githubProject.StarCount
             };
 
         public long Id { get; init; }
@@ -49,6 +49,9 @@ namespace Iwentys.Features.GithubIntegration.Models
         public string Url { get; init; }
         public int StarCount { get; init; }
 
-        public string GithubLikeTitle() => $"{Owner}/{Name}";
+        public string GithubLikeTitle()
+        {
+            return $"{Owner}/{Name}";
+        }
     }
 }

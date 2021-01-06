@@ -40,10 +40,7 @@ namespace Iwentys.Features.Raids.Entities
 
         public RaidVisitor RegisterVisitor(IwentysUser visitor)
         {
-            if (RaidType == RaidType.PublicLecture)
-            {
-                return RaidVisitor.CreateForLecture(Id, visitor.Id);
-            }
+            if (RaidType == RaidType.PublicLecture) return RaidVisitor.CreateForLecture(Id, visitor.Id);
 
             return RaidVisitor.CreateRequest(Id, visitor.Id);
         }

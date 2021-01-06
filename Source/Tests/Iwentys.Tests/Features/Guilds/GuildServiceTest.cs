@@ -19,23 +19,23 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public async Task CreateGuild_ShouldReturnCreatorAsMember()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
 
-            var guildMemberLeaderBoardDto = await context.GuildService.GetGuildMemberLeaderBoard(guild.Id);
-            bool isExist = guildMemberLeaderBoardDto.MembersImpact.Any(_ => _.StudentInfoDto.Id == user.Id);
+            GuildMemberLeaderBoardDto guildMemberLeaderBoardDto = await context.GuildService.GetGuildMemberLeaderBoard(guild.Id);
+            var isExist = guildMemberLeaderBoardDto.MembersImpact.Any(_ => _.StudentInfoDto.Id == user.Id);
             Assert.IsTrue(isExist);
         }
 
         [Test]
         public async Task CreateGuild_GuildStateIsPending()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
 
-            var createdGuild = await context.GuildService.Get(guild.Id, null);
+            ExtendedGuildProfileWithMemberDataDto createdGuild = await context.GuildService.Get(guild.Id, null);
 
             Assert.AreEqual(GuildType.Pending, createdGuild.GuildType);
         }
@@ -43,13 +43,13 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public async Task ApproveCreatedRepo_GuildStateIsCreated()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             AuthorizedUser admin = context.AccountManagementTestCaseContext.WithUser(true);
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
 
             await context.GuildService.ApproveGuildCreating(admin, guild.Id);
-            var createdGuild = await context.GuildService.Get(guild.Id, null);
+            ExtendedGuildProfileWithMemberDataDto createdGuild = await context.GuildService.Get(guild.Id, null);
 
             Assert.AreEqual(GuildType.Created, createdGuild.GuildType);
         }
@@ -57,7 +57,7 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public void CreateTwoGuildForUser_ErrorUserAlreadyInGuild()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             AuthorizedUser admin = context.AccountManagementTestCaseContext.WithUser(true);
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
@@ -69,7 +69,7 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public void GetGuildRequests_ForGuildEditorAndNoRequestsToGuild_EmptyGildMembersArray()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             AuthorizedUser admin = context.AccountManagementTestCaseContext.WithUser(true);
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
@@ -83,7 +83,7 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public void GetGuildRequests_ForNotGuildMember_ThrowInnerLogicException()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             AuthorizedUser student = context.AccountManagementTestCaseContext.WithUser();
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
@@ -94,7 +94,7 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public void GetGuildRequests_ForGuildMemberWithoutEditorPermissions_ThrowInnerLogicException()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
             AuthorizedUser member = context.GuildTestCaseContext.WithGuildMember(guild, user);
@@ -105,7 +105,7 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public void GetGuildRequests_ForGuildEditor_GildMembersArrayWithRequestStatus()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
             AuthorizedUser member = context.GuildTestCaseContext.WithGuildRequest(guild);
@@ -121,7 +121,7 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public void GetGuildBlocked_ForGuildEditor_GildMembersArrayWithBlockedStatus()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
             AuthorizedUser member = context.GuildTestCaseContext.WithGuildBlocked(guild, user);
@@ -137,15 +137,15 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public async Task BlockGuildMember_AddUserToBlockedListAndKickFromGuild()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
             AuthorizedUser member = context.GuildTestCaseContext.WithGuildMember(guild, user);
 
             await context.GuildMemberService.BlockGuildMember(user, guild.Id, member.Id);
             GuildMember[] blocked = await context.GuildMemberService.GetGuildBlocked(user, guild.Id);
-            
-            var memberGuild = context.GuildService.FindStudentGuild(member.Id);
+
+            GuildProfileDto memberGuild = context.GuildService.FindStudentGuild(member.Id);
 
             Assert.That(blocked.Find(m => m.MemberId == member.Id), Is.Not.Null);
             Assert.That(memberGuild, Is.Null);
@@ -154,7 +154,7 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public void BlockGuildMember_BlockCreator_ThrowsInnerLogicException()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
 
@@ -164,7 +164,7 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public void BlockGuildMember_BlockNotGuildMember_ThrowsInnerLogicException()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
             AuthorizedUser student = context.AccountManagementTestCaseContext.WithUser();
@@ -175,7 +175,7 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public void BlockGuildMember_BlockMentorByMentor_ThrowsInnerLogicException()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
             AuthorizedUser mentor = context.GuildTestCaseContext.WithGuildMentor(guild);
@@ -187,7 +187,7 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public async Task KickGuildMember_KickMemberFromGuild()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
             AuthorizedUser member = context.GuildTestCaseContext.WithGuildMember(guild, user);
@@ -201,19 +201,19 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public void KickGuildMember_KickMentorByMentor_ThrowsInnerLogicException()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
             AuthorizedUser mentor = context.GuildTestCaseContext.WithGuildMentor(guild);
             AuthorizedUser anotherMentor = context.GuildTestCaseContext.WithGuildMentor(guild);
 
-            Assert.ThrowsAsync<InnerLogicException>(() =>  context.GuildMemberService.KickGuildMember(mentor, guild.Id, anotherMentor.Id));
+            Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.KickGuildMember(mentor, guild.Id, anotherMentor.Id));
         }
 
         [Test]
         public async Task UnblockStudent_RemoveStudentFromListOfBlocked()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
             AuthorizedUser student = context.GuildTestCaseContext.WithGuildBlocked(guild, user);
@@ -227,7 +227,7 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public void UnblockStudent_NotBlockedInGuild_ThrowsInnerLogicException()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
             AuthorizedUser student = context.AccountManagementTestCaseContext.WithUser();
@@ -238,15 +238,15 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public async Task AcceptRequest_RemoveFromRequestListAndAddToMembers()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
 
             AuthorizedUser student = context.GuildTestCaseContext.WithGuildRequest(guild);
 
             await context.GuildMemberService.AcceptRequest(user, guild.Id, student.Id);
-            var guildMemberLeaderBoardDto = await context.GuildService.GetGuildMemberLeaderBoard(guild.Id);
-            var member = guildMemberLeaderBoardDto.MembersImpact.Find(m => m.StudentInfoDto.Id == student.Id);
+            GuildMemberLeaderBoardDto guildMemberLeaderBoardDto = await context.GuildService.GetGuildMemberLeaderBoard(guild.Id);
+            GuildMemberImpactDto? member = guildMemberLeaderBoardDto.MembersImpact.Find(m => m.StudentInfoDto.Id == student.Id);
             GuildMember[] requests = await context.GuildMemberService.GetGuildRequests(user, guild.Id);
 
             Assert.IsNotNull(member);
@@ -257,7 +257,7 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public void AcceptRequest_ForStudentWithoutRequest_ThrowsInnerLogicException()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
             AuthorizedUser student = context.AccountManagementTestCaseContext.WithUser();
@@ -268,14 +268,14 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public async Task RejectRequest_RemoveFromRequestList()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
             AuthorizedUser student = context.GuildTestCaseContext.WithGuildRequest(guild);
 
             await context.GuildMemberService.RejectRequest(user, guild.Id, student.Id);
-            var guildMemberLeaderBoardDto = await context.GuildService.GetGuildMemberLeaderBoard(guild.Id);
-            var member = guildMemberLeaderBoardDto.MembersImpact.Find(m => m.StudentInfoDto.Id == student.Id);
+            GuildMemberLeaderBoardDto guildMemberLeaderBoardDto = await context.GuildService.GetGuildMemberLeaderBoard(guild.Id);
+            GuildMemberImpactDto? member = guildMemberLeaderBoardDto.MembersImpact.Find(m => m.StudentInfoDto.Id == student.Id);
             GuildMember[] requests = await context.GuildMemberService.GetGuildRequests(user, guild.Id);
 
             Assert.That(member, Is.Null);
@@ -285,7 +285,7 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public void RejectRequest_ForStudentWithoutRequest_ThrowsInnerLogicException()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
 
@@ -297,21 +297,21 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public async Task UpdateGuild_UpdateHiringPolicyToClose_CloseGuild()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
             AuthorizedUser student = context.GuildTestCaseContext.WithGuildRequest(guild);
 
             await context.GuildService.Update(user, GuildUpdateRequestDto.ForPolicyUpdate(guild.Id, GuildHiringPolicy.Close));
 
-            var guildEntity = await context.GuildService.Get(guild.Id, null);
+            ExtendedGuildProfileWithMemberDataDto guildEntity = await context.GuildService.Get(guild.Id, null);
             Assert.That(guildEntity.HiringPolicy, Is.EqualTo(GuildHiringPolicy.Close));
         }
 
         [Test]
         public async Task UpdateGuild_UpdateHiringPolicyToOpen_SwitchRequestsToMembers()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
             AuthorizedUser student = context.GuildTestCaseContext.WithGuildRequest(guild);
@@ -319,22 +319,21 @@ namespace Iwentys.Tests.Features.Guilds
             await context.GuildService.Update(user, GuildUpdateRequestDto.ForPolicyUpdate(guild.Id, GuildHiringPolicy.Close));
             await context.GuildService.Update(user, GuildUpdateRequestDto.ForPolicyUpdate(guild.Id, GuildHiringPolicy.Open));
 
-            var guildMemberLeaderBoardDto = await context.GuildService.GetGuildMemberLeaderBoard(guild.Id);
-            var newMember = guildMemberLeaderBoardDto.MembersImpact.Find(m => m.StudentInfoDto.Id == student.Id);
+            GuildMemberLeaderBoardDto guildMemberLeaderBoardDto = await context.GuildService.GetGuildMemberLeaderBoard(guild.Id);
+            GuildMemberImpactDto? newMember = guildMemberLeaderBoardDto.MembersImpact.Find(m => m.StudentInfoDto.Id == student.Id);
             Assert.IsNotNull(newMember);
             Assert.That(newMember.MemberType, Is.EqualTo(GuildMemberType.Member));
         }
 
         [Test]
-
         public void GetGuildMemberLeaderBoard()
         {
-            var context = TestCaseContext.Case();
+            TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             GithubUser userData = context.GithubTestCaseContext.WithGithubAccount(user);
 
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
-            var leaderboard = context.GuildService.GetGuildMemberLeaderBoard(guild.Id).Result;
+            GuildMemberLeaderBoardDto leaderboard = context.GuildService.GetGuildMemberLeaderBoard(guild.Id).Result;
 
             Assert.That(leaderboard.MembersImpact.Single().TotalRate,
                 Is.EqualTo(userData.ContributionFullInfo?.Total ?? 0));

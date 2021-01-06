@@ -4,8 +4,8 @@ namespace Iwentys.Features.GithubIntegration.Services
 {
     public class GithubIntegrationService
     {
-        public readonly GithubUserApiAccessor User;
         public readonly GithubRepositoryApiAccessor Repository;
+        public readonly GithubUserApiAccessor User;
 
         public GithubIntegrationService(IGithubApiAccessor githubApiAccessor, IUnitOfWork unitOfWork)
         {

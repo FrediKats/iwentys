@@ -27,7 +27,7 @@ namespace Iwentys.Features.Gamification.Models
         public StudyLeaderboardRowDto()
         {
         }
-        
+
         public StudentInfoDto Student { get; init; }
         public double Activity { get; init; }
 

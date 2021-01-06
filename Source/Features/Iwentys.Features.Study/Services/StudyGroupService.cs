@@ -7,19 +7,17 @@ using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Study.Domain;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
-using Iwentys.Features.Study.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Study.Services
 {
     public class StudyGroupService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        
         private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
         private readonly IGenericRepository<Student> _studentRepository;
-        private readonly IGenericRepository<StudyGroup> _studyGroupRepository;
         private readonly IGenericRepository<StudyGroupMember> _studyGroupMemberRepository;
+        private readonly IGenericRepository<StudyGroup> _studyGroupRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public StudyGroupService(IUnitOfWork unitOfWork)
         {
@@ -68,7 +66,7 @@ namespace Iwentys.Features.Study.Services
 
         public async Task MakeGroupAdmin(AuthorizedUser initiator, int newGroupAdminId)
         {
-            var initiatorProfile = await _iwentysUserRepository.GetById(initiator.Id);
+            IwentysUser initiatorProfile = await _iwentysUserRepository.GetById(initiator.Id);
             SystemAdminUser admin = initiatorProfile.EnsureIsAdmin();
             Student newGroupAdminProfile = await _studentRepository.GetById(newGroupAdminId);
 

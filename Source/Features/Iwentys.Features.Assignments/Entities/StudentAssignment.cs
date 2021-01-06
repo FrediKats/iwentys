@@ -61,7 +61,7 @@ namespace Iwentys.Features.Assignments.Entities
         {
             if (!IsCompleted)
                 throw InnerLogicException.AssignmentExceptions.IsNotCompleted(AssignmentId);
-            
+
             IsCompleted = false;
             LastUpdateTimeUtc = DateTime.UtcNow;
         }

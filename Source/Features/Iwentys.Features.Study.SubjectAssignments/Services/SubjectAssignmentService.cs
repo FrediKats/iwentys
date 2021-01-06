@@ -14,14 +14,14 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
 {
     public class SubjectAssignmentService
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IGenericRepository<GroupSubjectAssignment> _groupSubjectAssignmentRepository;
+        private readonly IGenericRepository<GroupSubject> _groupSubjectRepository;
 
         private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
         private readonly IGenericRepository<SubjectAssignment> _subjectAssignmentRepository;
         private readonly IGenericRepository<SubjectAssignmentSubmit> _subjectAssignmentSubmitRepository;
-        private readonly IGenericRepository<GroupSubjectAssignment> _groupSubjectAssignmentRepository;
-        private readonly IGenericRepository<GroupSubject> _groupSubjectRepository;
         private readonly IGenericRepository<Subject> _subjectRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public SubjectAssignmentService(IUnitOfWork unitOfWork)
         {
@@ -46,7 +46,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
                 .Select(SubjectAssignmentDto.FromEntity)
                 .ToListAsync();
         }
-        
+
         public async Task<List<SubjectAssignmentDto>> GetSubjectAssignmentForSubject(AuthorizedUser user, int subjectId)
         {
             return await _subjectAssignmentRepository
@@ -85,7 +85,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
             return await _subjectAssignmentSubmitRepository
                 .Get()
                 .Where(sas => sas.SubjectAssignment.SubjectId == searchArguments.SubjectId)
-                .WhereIf(searchArguments.StudentId,sas => sas.StudentId == searchArguments.StudentId)
+                .WhereIf(searchArguments.StudentId, sas => sas.StudentId == searchArguments.StudentId)
                 .Select(sas => new SubjectAssignmentSubmitDto(sas))
                 .ToListAsync();
         }

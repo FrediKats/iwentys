@@ -17,7 +17,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Models
         public string Description { get; set; }
         public string Link { get; set; }
         public IwentysUserInfoDto Author { get; set; }
-        
+
         public List<SubjectAssignmentSubmitDto> Submits { get; set; }
 
         public static Expression<Func<SubjectAssignment, SubjectAssignmentDto>> FromEntity =>

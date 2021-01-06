@@ -18,7 +18,7 @@ namespace Iwentys.Tests.TestCaseContexts
         {
             var tagEntity = new InterestTag
             {
-                Title = RandomProvider.Faker.Lorem.Word(),
+                Title = RandomProvider.Faker.Lorem.Word()
             };
 
             tagEntity = _context.UnitOfWork.GetRepository<InterestTag>().InsertAsync(tagEntity).Result;

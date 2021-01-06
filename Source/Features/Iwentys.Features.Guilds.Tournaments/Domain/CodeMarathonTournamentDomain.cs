@@ -5,6 +5,7 @@ using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Achievements.Domain;
+using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
@@ -18,12 +19,12 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
     public class CodeMarathonTournamentDomain : ITournamentDomain
     {
         private readonly AchievementProvider _achievementProvider;
+        private readonly GithubIntegrationService _githubIntegrationService;
 
         private readonly Tournament _tournament;
-        private readonly GithubIntegrationService _githubIntegrationService;
-        private readonly IUnitOfWork _unitOfWork;
 
         private readonly IGenericRepository<TournamentTeamMember> _tournamentTeamMemberRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
 
         public CodeMarathonTournamentDomain(
@@ -62,7 +63,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
             if (_tournament.IsActive)
                 throw new InnerLogicException("Tournament not finished");
 
-            var winner = await _unitOfWork.GetRepository<TournamentParticipantTeam>()
+            TournamentParticipantTeam winner = await _unitOfWork.GetRepository<TournamentParticipantTeam>()
                 .Get()
                 .Where(team => team.TournamentId == _tournament.Id)
                 .OrderByDescending(t => t.Members.Sum(m => m.Points))
@@ -76,17 +77,6 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
             await _unitOfWork.CommitAsync();
         }
 
-        private int CountGuildRating(Guild guild)
-        {
-            var domain = new GuildDomain(guild, _githubIntegrationService, _unitOfWork.GetRepository<IwentysUser>(), _unitOfWork.GetRepository<GuildMember>());
-            //TODO: remove result
-            List<GuildMemberImpactDto> users = domain.GetMemberImpacts().Result;
-            
-            return users
-                .Select(userData => userData.Contribution.GetActivityForPeriod(_tournament.StartTime, _tournament.EndTime))
-                .Sum();
-        }
-        
         public async Task UpdateResult()
         {
             //TODO: skip with warning instead of exception?
@@ -102,12 +92,23 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
 
             foreach (TournamentTeamMember member in members)
             {
-                var contributionFullInfo = await _githubIntegrationService.User.FindUserContributionOrEmpty(member.Member);
+                ContributionFullInfo contributionFullInfo = await _githubIntegrationService.User.FindUserContributionOrEmpty(member.Member);
                 member.Points = contributionFullInfo.GetActivityForPeriod(_tournament.StartTime, _tournament.EndTime);
             }
 
             _tournamentTeamMemberRepository.Update(members);
             await _unitOfWork.CommitAsync();
+        }
+
+        private int CountGuildRating(Guild guild)
+        {
+            var domain = new GuildDomain(guild, _githubIntegrationService, _unitOfWork.GetRepository<IwentysUser>(), _unitOfWork.GetRepository<GuildMember>());
+            //TODO: remove result
+            List<GuildMemberImpactDto> users = domain.GetMemberImpacts().Result;
+
+            return users
+                .Select(userData => userData.Contribution.GetActivityForPeriod(_tournament.StartTime, _tournament.EndTime))
+                .Sum();
         }
     }
 }

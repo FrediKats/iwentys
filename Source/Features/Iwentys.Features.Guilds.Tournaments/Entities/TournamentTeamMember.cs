@@ -12,4 +12,4 @@ namespace Iwentys.Features.Guilds.Tournaments.Entities
 
         public int Points { get; set; }
     }
-} 
+}

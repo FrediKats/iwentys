@@ -18,7 +18,6 @@ namespace Iwentys.Database.Tools
 
         public TContext Context { get; }
 
-
         public IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : class
         {
             return (GenericRepository<TEntity>)GetOrAddRepository(typeof(TEntity), new GenericRepository<TEntity>(Context));

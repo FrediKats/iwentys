@@ -6,7 +6,6 @@ namespace Iwentys.Features.Voting
     {
         public static IServiceCollection AddIwentysVotingFeatureServices(this IServiceCollection services)
         {
-
             return services;
         }
     }

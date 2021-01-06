@@ -18,7 +18,7 @@ namespace Iwentys.Features.Study.Models
         public SubjectActivityInfoResponseDto()
         {
         }
-        
+
         public string SubjectTitle { get; set; }
         public double Points { get; set; }
     }

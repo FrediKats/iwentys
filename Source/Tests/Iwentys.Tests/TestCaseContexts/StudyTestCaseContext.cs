@@ -21,7 +21,7 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public GroupProfileResponseDto WithStudyGroup()
         {
-            var studyGroup = new StudyGroup()
+            var studyGroup = new StudyGroup
             {
                 GroupName = new Faker().Lorem.Word()
             };
@@ -69,7 +69,7 @@ namespace Iwentys.Tests.TestCaseContexts
             {
                 Title = new Faker().Lorem.Word(),
                 Description = new Faker().Lorem.Word(),
-                Link = new Faker().Lorem.Word(),
+                Link = new Faker().Lorem.Word()
             };
 
             return _context.SubjectAssignmentService.CreateSubjectAssignment(user, groupSubject.SubjectId, subjectAssignmentCreateArguments).Result;
@@ -79,7 +79,7 @@ namespace Iwentys.Tests.TestCaseContexts
         {
             var subjectAssignmentCreateArguments = new SubjectAssignmentSubmitCreateArguments
             {
-                StudentDescription = new Faker().Lorem.Word(),
+                StudentDescription = new Faker().Lorem.Word()
             };
 
             return _context.SubjectAssignmentService.SendSubmit(user, assignment.Id, subjectAssignmentCreateArguments).Result;
@@ -98,19 +98,19 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public AuthorizedUser WithNewStudent(GroupProfileResponseDto studyGroup)
         {
-            int id = RandomProvider.Random.Next(999999);
+            var id = RandomProvider.Random.Next(999999);
 
             var userInfo = new Student
             {
                 Id = id,
                 GithubUsername = $"{TestCaseContext.Constants.GithubUsername}{id}",
-                BarsPoints = 1000,
+                BarsPoints = 1000
             };
 
             _context.UnitOfWork.GetRepository<Student>().InsertAsync(userInfo).Wait();
             _context.UnitOfWork.GetRepository<StudyGroupMember>().InsertAsync(new StudyGroupMember {StudentId = userInfo.Id, GroupId = studyGroup.Id}).Wait();
             _context.UnitOfWork.CommitAsync().Wait();
-            var user = AuthorizedUser.DebugAuth(userInfo.Id);
+            AuthorizedUser user = AuthorizedUser.DebugAuth(userInfo.Id);
             return user;
         }
     }

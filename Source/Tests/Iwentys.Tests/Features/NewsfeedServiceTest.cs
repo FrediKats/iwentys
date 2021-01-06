@@ -17,7 +17,7 @@ namespace Iwentys.Tests.Features
             TestCaseContext testCase = TestCaseContext.Case();
             AuthorizedUser admin = testCase.AccountManagementTestCaseContext.WithUser(true);
             SubjectProfileDto subject = testCase.NewsfeedTestCaseContext.WithSubject();
-            
+
             testCase.NewsfeedTestCaseContext.WithSubjectNews(subject, admin);
         }
     }

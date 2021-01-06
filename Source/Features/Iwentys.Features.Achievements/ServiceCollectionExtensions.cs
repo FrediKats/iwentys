@@ -1,5 +1,4 @@
 ﻿using Iwentys.Features.Achievements.Services;
-
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Iwentys.Features.Achievements

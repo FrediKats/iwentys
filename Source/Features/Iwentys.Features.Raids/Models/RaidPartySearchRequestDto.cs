@@ -5,9 +5,6 @@ namespace Iwentys.Features.Raids.Models
 {
     public class RaidPartySearchRequestDto
     {
-        public IwentysUserInfoDto Author { get; set; }
-        public string Description { get; set; }
-
         public RaidPartySearchRequestDto(RaidPartySearchRequest request) : this()
         {
             Author = new IwentysUserInfoDto(request.Author);
@@ -16,7 +13,9 @@ namespace Iwentys.Features.Raids.Models
 
         public RaidPartySearchRequestDto()
         {
-            
         }
+
+        public IwentysUserInfoDto Author { get; set; }
+        public string Description { get; set; }
     }
 }

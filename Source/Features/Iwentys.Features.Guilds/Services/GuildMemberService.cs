@@ -16,13 +16,12 @@ namespace Iwentys.Features.Guilds.Services
 {
     public class GuildMemberService
     {
+        private readonly GithubIntegrationService _githubIntegrationService;
+        private readonly IGenericRepository<GuildMember> _guildMemberRepository;
+        private readonly IGenericRepository<Guild> _guildRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IGenericRepository<IwentysUser> _userRepository;
-        private readonly IGenericRepository<Guild> _guildRepository;
-        private readonly IGenericRepository<GuildMember> _guildMemberRepository;
-
-        private readonly GithubIntegrationService _githubIntegrationService;
 
         public GuildMemberService(GithubIntegrationService githubIntegrationService, IUnitOfWork unitOfWork)
         {
@@ -75,7 +74,7 @@ namespace Iwentys.Features.Guilds.Services
             //    .Where(t => t.GuildId == guildId)
             //    .Where(t => t.ProjectEntity.AuthorId == user.Id)
             //    .SingleOrDefault(t => t.State == TributeState.Active);
-            
+
             //if (userTribute is not null)
             //    await _guildTributeRepository.DeleteAsync(userTribute.ProjectId);
 
@@ -174,10 +173,10 @@ namespace Iwentys.Features.Guilds.Services
         public async Task PromoteToMentor(AuthorizedUser creator, int userForPromotion)
         {
             IwentysUser studentCreator = await _userRepository.GetById(creator.Id);
-            var guildMemberEntity = _guildMemberRepository.GetStudentMembership(creator.Id);
-            var guildCreator = await studentCreator.EnsureIsCreator(_guildRepository, guildMemberEntity.GuildId);
-            
-            var studentMembership = _guildMemberRepository.GetStudentMembership(userForPromotion);
+            GuildMember guildMemberEntity = _guildMemberRepository.GetStudentMembership(creator.Id);
+            GuildCreator guildCreator = await studentCreator.EnsureIsCreator(_guildRepository, guildMemberEntity.GuildId);
+
+            GuildMember studentMembership = _guildMemberRepository.GetStudentMembership(userForPromotion);
             studentMembership.MakeMentor(guildCreator);
 
             _guildMemberRepository.Update(studentMembership);

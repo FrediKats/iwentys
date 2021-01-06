@@ -4,9 +4,6 @@ namespace Iwentys.Features.Study.Models
 {
     public record SubjectProfileDto
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-
         public SubjectProfileDto(Subject entity) : this(entity.Id, entity.Name)
         {
         }
@@ -20,5 +17,8 @@ namespace Iwentys.Features.Study.Models
         public SubjectProfileDto()
         {
         }
+
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

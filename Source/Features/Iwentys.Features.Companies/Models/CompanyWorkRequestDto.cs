@@ -20,7 +20,7 @@ namespace Iwentys.Features.Companies.Models
         //TODO: it is not work
         public static Expression<Func<CompanyWorker, CompanyWorkRequestDto>> FromEntity =>
             entity => new CompanyWorkRequestDto(new CompanyInfoDto(entity.Company), entity.Worker);
-        
+
         public CompanyInfoDto Company { get; init; }
         public IwentysUser Worker { get; init; }
     }

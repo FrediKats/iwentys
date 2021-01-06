@@ -12,12 +12,11 @@ namespace Iwentys.Features.Raids.Services
 {
     public class RaidService
     {
-        private readonly IUnitOfWork _unitOfWork;
-
         private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
+        private readonly IGenericRepository<RaidPartySearchRequest> _raidPartySearchRequestRepository;
         private readonly IGenericRepository<Raid> _raidRepository;
         private readonly IGenericRepository<RaidVisitor> _raidVisitorRepository;
-        private readonly IGenericRepository<RaidPartySearchRequest> _raidPartySearchRequestRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public RaidService(IUnitOfWork unitOfWork)
         {
@@ -64,7 +63,7 @@ namespace Iwentys.Features.Raids.Services
 
         public async Task RegisterOnRaid(AuthorizedUser user, int raidId)
         {
-            var student = await _iwentysUserRepository.GetById(user.Id);
+            IwentysUser student = await _iwentysUserRepository.GetById(user.Id);
             Raid raid = await _raidRepository.GetById(raidId);
 
             RaidVisitor visitor = raid.RegisterVisitor(student);
@@ -101,7 +100,7 @@ namespace Iwentys.Features.Raids.Services
 
         public async Task CreatePartySearchRequest(AuthorizedUser user, int raidId, RaidPartySearchRequestArguments arguments)
         {
-            var student = await _iwentysUserRepository.GetById(user.Id);
+            IwentysUser student = await _iwentysUserRepository.GetById(user.Id);
             Raid raid = await _raidRepository.GetById(raidId);
             RaidVisitor visitor = await _raidVisitorRepository
                 .Get()

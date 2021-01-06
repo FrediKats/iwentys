@@ -31,12 +31,12 @@ namespace Iwentys.Features.AccountManagement.Services
 
         public async Task<IwentysUserInfoDto> AddGithubUsername(int id, string githubUsername)
         {
-            bool isUsernameUsed = await _userRepository.Get().AnyAsync(s => s.GithubUsername == githubUsername);
+            var isUsernameUsed = await _userRepository.Get().AnyAsync(s => s.GithubUsername == githubUsername);
             if (isUsernameUsed)
                 throw InnerLogicException.StudentExceptions.GithubAlreadyUser(githubUsername);
 
             //throw new NotImplementedException("Need to validate github credentials");
-            var user = await _userRepository.GetById(id);
+            IwentysUser user = await _userRepository.GetById(id);
             user.GithubUsername = githubUsername;
             _userRepository.Update(user);
 

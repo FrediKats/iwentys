@@ -1,16 +1,14 @@
-﻿using Iwentys.Features.Study.Enums;
-
-namespace Iwentys.Features.Study.Models.Students
+﻿namespace Iwentys.Features.Study.Models.Students
 {
     public record StudentCreateArgumentsDto
     {
-        public StudentCreateArgumentsDto(int id, string firstName, string middleName, string secondName, string @group, string githubUsername, int barsPoints)
+        public StudentCreateArgumentsDto(int id, string firstName, string middleName, string secondName, string group, string githubUsername, int barsPoints)
         {
             Id = id;
             FirstName = firstName;
             MiddleName = middleName;
             SecondName = secondName;
-            Group = @group;
+            Group = group;
             GithubUsername = githubUsername;
             BarsPoints = barsPoints;
         }
@@ -18,7 +16,7 @@ namespace Iwentys.Features.Study.Models.Students
         public StudentCreateArgumentsDto()
         {
         }
-        
+
         public int Id { get; init; }
         public string FirstName { get; init; }
         public string MiddleName { get; init; }

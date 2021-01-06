@@ -4,11 +4,6 @@ namespace Iwentys.Features.Guilds.Models
 {
     public record GuildUpdateRequestDto
     {
-        public static GuildUpdateRequestDto ForPolicyUpdate(int guildId, GuildHiringPolicy hiringPolicy)
-        {
-            return new GuildUpdateRequestDto(guildId, null, null, null, hiringPolicy);
-        }
-
         public GuildUpdateRequestDto(int id, string bio, string logoUrl, string testTaskLink, GuildHiringPolicy? hiringPolicy)
         {
             Id = id;
@@ -27,5 +22,10 @@ namespace Iwentys.Features.Guilds.Models
         public string LogoUrl { get; init; }
         public string TestTaskLink { get; init; }
         public GuildHiringPolicy? HiringPolicy { get; init; }
+
+        public static GuildUpdateRequestDto ForPolicyUpdate(int guildId, GuildHiringPolicy hiringPolicy)
+        {
+            return new GuildUpdateRequestDto(guildId, null, null, null, hiringPolicy);
+        }
     }
 }

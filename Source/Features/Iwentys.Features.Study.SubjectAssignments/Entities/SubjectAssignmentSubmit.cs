@@ -1,5 +1,4 @@
 ﻿using System;
-using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.SubjectAssignments.Domain;
 using Iwentys.Features.Study.SubjectAssignments.Enums;

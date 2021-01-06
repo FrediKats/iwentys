@@ -16,7 +16,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Models
 
         public static TournamentTeamInfoDto Create(TournamentParticipantTeam team)
         {
-            return new TournamentTeamInfoDto()
+            return new TournamentTeamInfoDto
             {
                 Id = team.Id,
                 TeamName = team.Guild.Title,

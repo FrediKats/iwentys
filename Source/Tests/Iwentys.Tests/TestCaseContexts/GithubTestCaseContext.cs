@@ -38,7 +38,7 @@ namespace Iwentys.Tests.TestCaseContexts
             var newGithubUser = new GithubUser
             {
                 IwentysUserId = iwentysUser.Id,
-                Username = iwentysUser.GithubUsername,
+                Username = iwentysUser.GithubUsername
             };
             _context.UnitOfWork.GetRepository<GithubUser>().InsertAsync(newGithubUser).Wait();
             _context.UnitOfWork.CommitAsync().Wait();
