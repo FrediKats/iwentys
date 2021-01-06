@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
@@ -29,11 +30,11 @@ namespace Iwentys.Features.Study.SubjectAssignments.Entities
         public virtual ICollection<SubjectAssignmentSubmit> SubjectAssignmentSubmits { get; set; }
         public virtual ICollection<GroupSubjectAssignment> GroupSubjectAssignments { get; set; }
 
-        public static SubjectAssignment Create(SubjectTeacher teacher, GroupSubject groupSubject, SubjectAssignmentCreateArguments arguments)
+        public static SubjectAssignment Create(SubjectTeacher teacher, Subject subject, SubjectAssignmentCreateArguments arguments)
         {
             return new SubjectAssignment
             {
-                SubjectId = groupSubject.SubjectId,
+                SubjectId = subject.Id,
                 Title = arguments.Title,
                 Description = arguments.Description,
                 Link = arguments.Link,
@@ -43,7 +44,10 @@ namespace Iwentys.Features.Study.SubjectAssignments.Entities
 
         public SubjectAssignmentSubmit CreateSubmit(AuthorizedUser user, SubjectAssignmentSubmitCreateArguments arguments)
         {
-            //TODO: ensure user is from this group
+            var canCreateSubmit = Subject.GroupSubjects.Any(gs => gs.StudyGroup.Students.Any(s => s.StudentId == user.Id));
+            if (!canCreateSubmit)
+                throw new InnerLogicException("Do not from group");
+            
             return new SubjectAssignmentSubmit
             {
                 StudentId = user.Id,

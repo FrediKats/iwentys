@@ -64,19 +64,8 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
             IwentysUser iwentysUser = await _iwentysUserRepository.GetById(user.Id);
             SubjectTeacher teacher = iwentysUser.EnsureIsTeacher(subject);
 
-            List<GroupSubject> groupSubjects = await _groupSubjectRepository
-                .Get()
-                .Where(gs => gs.SubjectId == subjectId)
-                .ToListAsync();
-
-            //TODO: looks like hack
-            SubjectAssignment subjectAssignment = null;
-                //TODO: check if count == 0
-            foreach (GroupSubject groupSubject in groupSubjects.Take(1))
-            {
-                subjectAssignment = SubjectAssignment.Create(teacher, groupSubject, arguments);
-                await _subjectAssignmentRepository.InsertAsync(subjectAssignment);
-            }
+            var subjectAssignment = SubjectAssignment.Create(teacher, subject, arguments);
+            await _subjectAssignmentRepository.InsertAsync(subjectAssignment);
 
             await _unitOfWork.CommitAsync();
             return await _subjectAssignmentRepository
@@ -86,10 +75,13 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
                 .SingleAsync();
         }
 
-        //TODO: filter for student
         //TODO: add pagination
         public async Task<List<SubjectAssignmentSubmitDto>> SearchSubjectAssignmentSubmits(AuthorizedUser user, SubjectAssignmentSubmitSearchArguments searchArguments)
         {
+            Subject subject = await _subjectRepository.GetById(searchArguments.SubjectId);
+            IwentysUser iwentysUser = await _iwentysUserRepository.GetById(user.Id);
+            SubjectTeacher teacher = iwentysUser.EnsureIsTeacher(subject);
+
             return await _subjectAssignmentSubmitRepository
                 .Get()
                 .Where(sas => sas.SubjectAssignment.SubjectId == searchArguments.SubjectId)
