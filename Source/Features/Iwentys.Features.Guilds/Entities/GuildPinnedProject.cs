@@ -1,4 +1,5 @@
-﻿using Iwentys.Features.GithubIntegration.Models;
+﻿using Iwentys.Features.GithubIntegration.Entities;
+using Iwentys.Features.GithubIntegration.Models;
 
 namespace Iwentys.Features.Guilds.Entities
 {
@@ -11,18 +12,16 @@ namespace Iwentys.Features.Guilds.Entities
         public int GuildId { get; init; }
 
         //TODO: here must be just libk to github project
-        public string RepositoryOwner { get; init; }
-        public string RepositoryName { get; init; }
-
-
+        public long ProjectId { get; set; }
+        public virtual GithubProject Project { get; set; }
+        
         public static GuildPinnedProject Create(int guildId, GithubRepositoryInfoDto repositoryInfoDto)
         {
             return new GuildPinnedProject
             {
                 Id = repositoryInfoDto.Id,
                 GuildId = guildId,
-                RepositoryName = repositoryInfoDto.Name,
-                RepositoryOwner = repositoryInfoDto.Owner
+                ProjectId = repositoryInfoDto.Id,
             };
         }
     }

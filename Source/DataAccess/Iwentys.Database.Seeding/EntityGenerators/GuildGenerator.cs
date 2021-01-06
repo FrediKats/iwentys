@@ -44,9 +44,10 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 GuildMembers.AddRange(members);
                 usedCount += 10;
 
-                PinnedProjects.AddRange(pinnedFaker
-                    .RuleFor(p => p.GuildId, guild.Id)
-                    .Generate(5));
+                //TODO: fix pinned project generation
+                //PinnedProjects.AddRange(pinnedFaker
+                //    .RuleFor(p => p.GuildId, guild.Id)
+                //    .Generate(5));
 
                 foreach (var member in members.Where(m => m.MemberType == GuildMemberType.Member))
                 {

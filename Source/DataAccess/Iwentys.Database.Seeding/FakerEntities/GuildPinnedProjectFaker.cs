@@ -1,16 +1,24 @@
 ﻿using Bogus;
+using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Entities;
 
 namespace Iwentys.Database.Seeding.FakerEntities
 {
-    public class GuildPinnedProjectFaker : Faker<GuildPinnedProject>
+    public class GuildPinnedProjectFaker
     {
+        private readonly Faker _faker = new Faker();
+
         public GuildPinnedProjectFaker()
         {
-            this
-                .RuleFor(g => g.Id, f => f.IndexFaker + 1)
-                .RuleFor(gp => gp.RepositoryOwner, f => f.Company.CompanyName())
-                .RuleFor(gp => gp.RepositoryName, f => f.Company.CompanyName());
+        }
+
+        public GuildPinnedProject CreatePinnedProject(GithubProject project, int? id)
+        {
+            return new GuildPinnedProject()
+            {
+                Id = id ?? _faker.IndexFaker + 1,
+                ProjectId = project.Id
+            };
         }
     }
 }

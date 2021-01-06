@@ -8,6 +8,7 @@ using Iwentys.Common.Tools;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.AccountManagement.Models;
+using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
@@ -41,8 +42,7 @@ namespace Iwentys.Features.Guilds.Domain
             var info = new ExtendedGuildProfileWithMemberDataDto(Profile)
             {
                 Leader = Profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new IwentysUserInfoDto(s)),
-                //TODO: Make method in Github service for getting projects for guild
-                PinnedRepositories = Profile.PinnedProjects.SelectToList(p => _githubIntegrationService.Repository.GetRepository(p.RepositoryOwner, p.RepositoryName).Result),
+                PinnedRepositories = Profile.PinnedProjects.SelectToList(p => new GithubRepositoryInfoDto(p.Project)),
             };
 
             if (userId is not null)
