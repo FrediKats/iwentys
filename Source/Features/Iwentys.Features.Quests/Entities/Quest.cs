@@ -61,7 +61,7 @@ namespace Iwentys.Features.Quests.Entities
             author.BarsPoints += Price;
         }
 
-        public QuestResponse CreateResponse(AuthorizedUser responseAuthor)
+        public QuestResponse CreateResponse(AuthorizedUser responseAuthor, QuestResponseCreateArguments arguments)
         {
             if (AuthorId == responseAuthor.Id)
                 throw InnerLogicException.QuestExceptions.AuthorCanRespondToQuest(Id, responseAuthor.Id);
@@ -69,7 +69,7 @@ namespace Iwentys.Features.Quests.Entities
             if (State != QuestState.Active || IsOutdated)
                 throw new InnerLogicException("Quest is not active");
 
-            return QuestResponse.New(Id, responseAuthor);
+            return QuestResponse.New(Id, responseAuthor, arguments);
         }
 
         public void MakeCompleted(AuthorizedUser author, IwentysUser executor)

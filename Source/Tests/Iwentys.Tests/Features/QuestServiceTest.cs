@@ -47,7 +47,7 @@ namespace Iwentys.Tests.Features
             IwentysUserInfoDto questExecuteAccount = await testCase.IwentysUserService.Get(questExecutor.Id);
             int executorPointsCount = questExecuteAccount.BarsPoints;
 
-            await testCase.QuestService.SendResponse(questExecutor, quest.Id);
+            await testCase.QuestService.SendResponse(questExecutor, quest.Id, new QuestResponseCreateArguments());
             await testCase.QuestService.Complete(questCreator, quest.Id, questExecutor.Id);
 
             questExecuteAccount = await testCase.IwentysUserService.Get(questExecutor.Id);

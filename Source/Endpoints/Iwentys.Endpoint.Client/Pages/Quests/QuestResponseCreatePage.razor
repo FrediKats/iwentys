@@ -13,6 +13,10 @@
         <MatBody1>
             @_quest.Description
         </MatBody1>
+
+        <p>
+            <MatTextField @bind-Value="@_description" Label="Description" Class="input-element"></MatTextField>
+        </p>
         <MatButton OnClick="@SendResponse">Send response</MatButton>
     }
 </div>

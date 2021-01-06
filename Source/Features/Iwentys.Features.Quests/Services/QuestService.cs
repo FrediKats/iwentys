@@ -92,11 +92,11 @@ namespace Iwentys.Features.Quests.Services
             return await Get(quest.Id);
         }
 
-        public async Task<QuestInfoDto> SendResponse(AuthorizedUser user, int questId)
+        public async Task<QuestInfoDto> SendResponse(AuthorizedUser user, int questId, QuestResponseCreateArguments arguments)
         {
             Quest quest = await _questRepository.FindByIdAsync(questId);
 
-            QuestResponse questResponseEntity = quest.CreateResponse(user);
+            QuestResponse questResponseEntity = quest.CreateResponse(user, arguments);
 
             await _questResponseRepository.InsertAsync(questResponseEntity);
             await _unitOfWork.CommitAsync();
