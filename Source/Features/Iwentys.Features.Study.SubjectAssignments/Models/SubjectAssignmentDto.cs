@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Iwentys.Features.AccountManagement.Models;
 using Iwentys.Features.Study.SubjectAssignments.Entities;
 
 namespace Iwentys.Features.Study.SubjectAssignments.Models
@@ -15,7 +16,8 @@ namespace Iwentys.Features.Study.SubjectAssignments.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public string Link { get; set; }
-
+        public IwentysUserInfoDto Author { get; set; }
+        
         public List<SubjectAssignmentSubmitDto> Submits { get; set; }
 
         public static Expression<Func<SubjectAssignment, SubjectAssignmentDto>> FromEntity =>
@@ -25,6 +27,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Models
                 Title = entity.Title,
                 Description = entity.Description,
                 Link = entity.Link,
+                Author = new IwentysUserInfoDto(entity.Author),
                 Submits = entity.SubjectAssignmentSubmits.Select(s => new SubjectAssignmentSubmitDto(s)).ToList()
             };
     }

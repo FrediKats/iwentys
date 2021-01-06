@@ -17,7 +17,6 @@ namespace Iwentys.Database.Seeding.FakerEntities
             return new GuildPinnedProject()
             {
                 Id = id ?? _faker.IndexFaker + 1,
-                ProjectId = project.Id
             };
         }
     }

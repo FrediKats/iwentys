@@ -35,13 +35,11 @@ namespace Iwentys.Features.AccountManagement.Services
             if (isUsernameUsed)
                 throw InnerLogicException.StudentExceptions.GithubAlreadyUser(githubUsername);
 
-            //TODO: implement github access validation
             //throw new NotImplementedException("Need to validate github credentials");
             var user = await _userRepository.GetById(id);
             user.GithubUsername = githubUsername;
             _userRepository.Update(user);
 
-            //TODO: implement eventing without direct reference
             //await _achievementProvider.Achieve(AchievementList.AddGithubAchievement, user.Id);
             await _unitOfWork.CommitAsync();
 

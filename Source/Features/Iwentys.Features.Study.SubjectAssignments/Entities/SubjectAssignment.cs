@@ -18,13 +18,13 @@ namespace Iwentys.Features.Study.SubjectAssignments.Entities
         public string Title { get; set; }
         public string Description { get; set; }
         public string Link { get; set; }
-
         public DateTime CreationTimeUtc { get; set; }
         public DateTime LastUpdateTimeUtc { get; set; }
-        public DateTime DeadlineTimeUtc { get; set; }
-        //TODO: add author
+        public DateTime? DeadlineTimeUtc { get; set; }
 
-        //TODO: move to GroupSubjectAssignment?
+        public int AuthorId { get; set; }
+        public IwentysUser Author { get; set; }
+
         public virtual ICollection<SubjectAssignmentSubmit> SubjectAssignmentSubmits { get; set; }
         public virtual ICollection<GroupSubjectAssignment> GroupSubjectAssignments { get; set; }
 
@@ -38,7 +38,8 @@ namespace Iwentys.Features.Study.SubjectAssignments.Entities
                 SubjectId = groupSubject.SubjectId,
                 Title = arguments.Title,
                 Description = arguments.Description,
-                Link = arguments.Link
+                Link = arguments.Link,
+                AuthorId = user.Id
             };
         }
 

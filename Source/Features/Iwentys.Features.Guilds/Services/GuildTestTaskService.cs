@@ -17,7 +17,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Services
 {
-    //TODO: rename entities and verbs
     public class GuildTestTaskService
     {
         private readonly AchievementProvider _achievementProvider;
@@ -26,7 +25,7 @@ namespace Iwentys.Features.Guilds.Services
         private readonly IGenericRepository<GuildMember> _guildMemberRepository;
         private readonly IGenericRepository<Guild> _guildRepositoryNew;
         private readonly IGenericRepository<GuildTestTaskSolution> _guildTestTaskSolutionRepository;
-        private readonly IGenericRepository<IwentysUser> _studentRepository;
+        private readonly IGenericRepository<IwentysUser> _userRepository;
 
         private readonly IUnitOfWork _unitOfWork;
 
@@ -34,10 +33,10 @@ namespace Iwentys.Features.Guilds.Services
         public GuildTestTaskService(AchievementProvider achievementProvider, IUnitOfWork unitOfWork, GithubIntegrationService githubIntegrationService)
         {
             _achievementProvider = achievementProvider;
+            _githubIntegrationService = githubIntegrationService;
 
             _unitOfWork = unitOfWork;
-            _githubIntegrationService = githubIntegrationService;
-            _studentRepository = _unitOfWork.GetRepository<IwentysUser>();
+            _userRepository = _unitOfWork.GetRepository<IwentysUser>();
             _guildRepositoryNew = _unitOfWork.GetRepository<Guild>();
             _guildMemberRepository = _unitOfWork.GetRepository<GuildMember>();
             _guildTestTaskSolutionRepository = _unitOfWork.GetRepository<GuildTestTaskSolution>();
@@ -52,14 +51,13 @@ namespace Iwentys.Features.Guilds.Services
                 .ToListAsync();
         }
 
-        //TODO: sync with peer-review feature
         public async Task<GuildTestTaskInfoResponse> Accept(AuthorizedUser user, int guildId)
         {
             Guild authorGuild = _guildMemberRepository.ReadForStudent(user.Id);
             if (authorGuild is null || authorGuild.Id != guildId)
                 throw InnerLogicException.GuildExceptions.IsNotGuildMember(user.Id, guildId);
 
-            IwentysUser author = await _studentRepository.FindByIdAsync(user.Id);
+            IwentysUser author = await _userRepository.FindByIdAsync(user.Id);
 
             GuildTestTaskSolution existedTestTaskSolution = await _guildTestTaskSolutionRepository
                 .Get()
@@ -99,7 +97,7 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task<GuildTestTaskInfoResponse> Complete(AuthorizedUser user, int guildId, int taskSolveOwnerId)
         {
-            IwentysUser review = await _studentRepository.FindByIdAsync(user.Id);
+            IwentysUser review = await _userRepository.FindByIdAsync(user.Id);
             await review.EnsureIsGuildMentor(_guildRepositoryNew, guildId);
 
             GuildTestTaskSolution testTask = _guildTestTaskSolutionRepository

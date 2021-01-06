@@ -23,8 +23,6 @@ namespace Iwentys.Features.Study.SubjectAssignments.Entities
         public DateTime? RejectTimeUtc { get; set; }
         public string Comment { get; set; }
 
-
-        //TODO: add info about submit: comments, link to project
         public void ApplyFeedback(IwentysUser teacher, SubjectAssignmentSubmitFeedbackArguments arguments)
         {
             //TODO: validate that is teacher
