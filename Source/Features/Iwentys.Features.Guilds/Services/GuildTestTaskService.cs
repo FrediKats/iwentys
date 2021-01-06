@@ -100,7 +100,7 @@ namespace Iwentys.Features.Guilds.Services
             await review.EnsureIsGuildMentor(_guildRepositoryNew, guildId);
 
             GuildTestTaskSolution testTask = await _guildTestTaskSolutionRepository
-                .GetSingle(t => t.AuthorId == user.Id && t.GuildId == guildId);
+                .GetSingle(t => t.AuthorId == taskSolveOwnerId && t.GuildId == guildId);
 
             if (testTask.GetState() != GuildTestTaskState.Submitted)
                 throw new InnerLogicException("Task must be submitted");
