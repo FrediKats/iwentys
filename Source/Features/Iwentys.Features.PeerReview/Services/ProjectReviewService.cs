@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
+using Iwentys.Common.Exceptions;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.GithubIntegration.Entities;
@@ -51,9 +52,12 @@ namespace Iwentys.Features.PeerReview.Services
 
         public async Task<ProjectReviewRequestInfoDto> CreateReviewRequest(AuthorizedUser author, ReviewRequestCreateArguments createArguments)
         {
-            //TODO: ensure project was not been added to review before
+            GithubProject githubProject = await _projectRepository.GetById(createArguments.ProjectId);
+            var alreadyAddedToReview = _projectReviewRequestRepository.Get().Any(rr => rr.ProjectId == githubProject.Id);
+            if (alreadyAddedToReview)
+                throw new InnerLogicException("Project already added");
 
-            var projectReviewRequest = ProjectReviewRequest.Create(author, createArguments);
+            var projectReviewRequest = ProjectReviewRequest.Create(author, githubProject, createArguments);
 
             await _projectReviewRequestRepository.InsertAsync(projectReviewRequest);
             await _unitOfWork.CommitAsync();

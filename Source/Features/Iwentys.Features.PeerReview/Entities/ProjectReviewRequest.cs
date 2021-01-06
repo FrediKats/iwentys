@@ -22,22 +22,25 @@ namespace Iwentys.Features.PeerReview.Entities
 
         public virtual ICollection<ProjectReviewFeedback> ReviewFeedbacks { get; set; }
 
-        public static ProjectReviewRequest Create(AuthorizedUser author, ReviewRequestCreateArguments createArguments)
+        public static ProjectReviewRequest Create(AuthorizedUser author, GithubProject githubProject, ReviewRequestCreateArguments createArguments)
         {
-            //TODO: ensure project belong to author
+            if (githubProject.OwnerUserId != author.Id)
+            {
+                throw new InnerLogicException("Project do not belong to user");
+            }
+
             return new ProjectReviewRequest
             {
                 Description = createArguments.Description,
                 State = ProjectReviewState.Requested,
                 CreationTimeUtc = DateTime.UtcNow,
                 LastUpdateTimeUtc = DateTime.UtcNow,
-                ProjectId = createArguments.ProjectId
+                ProjectId = githubProject.Id
             };
         }
 
         public ProjectReviewFeedback CreateFeedback(AuthorizedUser author, ReviewFeedbackCreateArguments createArguments)
         {
-            //TODO: validate state
             if (State == ProjectReviewState.Finished)
                 throw new InnerLogicException("Request already finished");
 
