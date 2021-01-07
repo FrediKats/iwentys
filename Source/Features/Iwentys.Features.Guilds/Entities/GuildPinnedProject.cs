@@ -8,7 +8,8 @@ namespace Iwentys.Features.Guilds.Entities
     {
         public long Id { get; init; }
 
-        [ForeignKey(nameof(Id))] public virtual GithubProject Project { get; set; }
+        [ForeignKey(nameof(Id))]
+        public virtual GithubProject Project { get; set; }
 
         public virtual Guild Guild { get; init; }
         public int GuildId { get; init; }

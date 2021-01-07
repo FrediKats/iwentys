@@ -1,5 +1,4 @@
 ﻿using Bogus;
-using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Entities;
 
 namespace Iwentys.Database.Seeding.FakerEntities
@@ -12,11 +11,12 @@ namespace Iwentys.Database.Seeding.FakerEntities
         {
         }
 
-        public GuildPinnedProject CreatePinnedProject(GithubProject project, int? id)
+        public GuildPinnedProject CreatePinnedProject(int guildId)
         {
             return new GuildPinnedProject()
             {
-                Id = id ?? _faker.IndexFaker + 1,
+                Id = GithubRepositoryFaker.Instance.GetId(),
+                GuildId = guildId
             };
         }
     }
