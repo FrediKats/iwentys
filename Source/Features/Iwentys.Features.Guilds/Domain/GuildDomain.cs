@@ -56,7 +56,7 @@ namespace Iwentys.Features.Guilds.Domain
 
         public async Task<List<GuildMemberImpactDto>> GetMemberImpacts()
         {
-            //TODO: move to SQL
+            //FYI: optimization is need
             var result = new List<GuildMemberImpactDto>();
             foreach (GuildMember member in Profile.Members)
             {
@@ -113,7 +113,7 @@ namespace Iwentys.Features.Guilds.Domain
             return UserMembershipState.Blocked;
         }
 
-        //TODO: use in daemon
+        //FYI: need to use in daemon
         //public GuildDomain UpdateGuildFromGithub()
         //{
         //    Organization organizationInfo = _apiAccessor.FindOrganizationInfo(Profile.Title);

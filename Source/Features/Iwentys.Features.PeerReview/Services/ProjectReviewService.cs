@@ -42,7 +42,6 @@ namespace Iwentys.Features.PeerReview.Services
 
         public async Task<List<GithubRepositoryInfoDto>> GetAvailableForReviewProject(AuthorizedUser user)
         {
-            //TODO: filter project that already on review
             return await _projectRepository
                 .Get()
                 .Where(p => p.OwnerUserId == user.Id)

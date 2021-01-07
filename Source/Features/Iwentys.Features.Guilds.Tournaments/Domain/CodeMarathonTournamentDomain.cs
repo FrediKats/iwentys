@@ -26,7 +26,6 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
         private readonly IGenericRepository<TournamentTeamMember> _tournamentTeamMemberRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-
         public CodeMarathonTournamentDomain(
             Tournament tournament,
             GithubIntegrationService githubIntegrationService,
@@ -61,7 +60,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
         public async Task RewardWinners()
         {
             if (_tournament.IsActive)
-                throw new InnerLogicException("Tournament not finished");
+                throw InnerLogicException.TournamentException.IsNotFinished(_tournament.Id);
 
             TournamentParticipantTeam winner = await _unitOfWork.GetRepository<TournamentParticipantTeam>()
                 .Get()
@@ -69,9 +68,8 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
                 .OrderByDescending(t => t.Members.Sum(m => m.Points))
                 .FirstOrDefaultAsync();
 
-            //TODO: it's not ok
             if (winner is null)
-                throw new InnerLogicException("No team in tournament");
+                throw InnerLogicException.TournamentException.NoTeamRegistered(_tournament.Id);
 
             await _achievementProvider.AchieveForGuild(AchievementList.Tournaments.TournamentWinner, winner.GuildId);
             await _unitOfWork.CommitAsync();
@@ -79,9 +77,8 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
 
         public async Task UpdateResult()
         {
-            //TODO: skip with warning instead of exception?
             if (!_tournament.IsActive)
-                throw new InnerLogicException("Tournament end already");
+                throw InnerLogicException.TournamentException.AlreadyFinished(_tournament.Id);
 
             List<TournamentTeamMember> members = await _unitOfWork.GetRepository<TournamentParticipantTeam>()
                 .Get()

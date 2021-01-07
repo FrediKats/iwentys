@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Guilds
 {
-    [Route("api/[controller]")]
+    [Route("api/guild")]
     [ApiController]
     public class GuildController : ControllerBase
     {

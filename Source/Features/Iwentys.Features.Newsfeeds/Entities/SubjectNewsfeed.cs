@@ -1,7 +1,5 @@
 ﻿using System;
-using Iwentys.Common.Exceptions;
 using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Newsfeeds.Models;
 using Iwentys.Features.Study.Domain;
 using Iwentys.Features.Study.Entities;

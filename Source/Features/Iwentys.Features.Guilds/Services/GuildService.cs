@@ -79,7 +79,6 @@ namespace Iwentys.Features.Guilds.Services
 
         public List<GuildProfileDto> GetOverview(int skippedCount, int takenCount)
         {
-            //TODO: add order
             return _guildRepository
                 .Get()
                 .Skip(skippedCount)

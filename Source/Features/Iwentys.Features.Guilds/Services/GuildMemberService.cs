@@ -75,7 +75,6 @@ namespace Iwentys.Features.Guilds.Services
             if (studentGuild is null || studentGuild.Id != guildId)
                 throw InnerLogicException.GuildExceptions.IsNotGuildMember(user.Id, guildId);
 
-            //TODO: do smth?
             //TributeEntity userTribute = _guildTributeRepository.Get()
             //    .Where(t => t.GuildId == guildId)
             //    .Where(t => t.ProjectEntity.AuthorId == user.Id)
