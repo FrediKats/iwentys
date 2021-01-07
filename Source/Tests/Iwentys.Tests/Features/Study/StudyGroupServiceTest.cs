@@ -29,9 +29,9 @@ namespace Iwentys.Tests.Features.Study
             GroupProfileResponseDto studyGroup = testCase.StudyTestCaseContext.WithStudyGroup();
             AuthorizedUser newGroupAdmin = testCase.StudyTestCaseContext.WithNewStudent(studyGroup);
 
-            await testCase.StudyGroupService.MakeGroupAdmin(admin, newGroupAdmin.Id);
+            await testCase.StudyService.MakeGroupAdmin(admin, newGroupAdmin.Id);
 
-            studyGroup = await testCase.StudyGroupService.GetStudentGroup(newGroupAdmin.Id);
+            studyGroup = await testCase.StudyService.GetStudentStudyGroup(newGroupAdmin.Id);
             Assert.AreEqual(studyGroup.GroupAdmin.Id, newGroupAdmin.Id);
         }
 
@@ -43,7 +43,7 @@ namespace Iwentys.Tests.Features.Study
             GroupProfileResponseDto studyGroup = testCase.StudyTestCaseContext.WithStudyGroup();
             AuthorizedUser newGroupAdmin = testCase.StudyTestCaseContext.WithNewStudent(studyGroup);
 
-            Assert.ThrowsAsync<InnerLogicException>(() => testCase.StudyGroupService.MakeGroupAdmin(commonUser, newGroupAdmin.Id));
+            Assert.ThrowsAsync<InnerLogicException>(() => testCase.StudyService.MakeGroupAdmin(commonUser, newGroupAdmin.Id));
         }
     }
 }

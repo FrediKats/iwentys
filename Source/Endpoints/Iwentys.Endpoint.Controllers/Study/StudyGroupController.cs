@@ -12,31 +12,31 @@ namespace Iwentys.Endpoint.Controllers.Study
     [ApiController]
     public class StudyGroupController : ControllerBase
     {
-        private readonly StudyGroupService _studyGroupService;
+        private readonly StudyService _studyService;
 
-        public StudyGroupController(StudyGroupService studyGroupService)
+        public StudyGroupController(StudyService studyService)
         {
-            _studyGroupService = studyGroupService;
+            _studyService = studyService;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<GroupProfileResponseDto>>> GetAllGroups([FromQuery] int? courseId)
         {
-            List<GroupProfileResponseDto> result = await _studyGroupService.GetStudyGroupsForDto(courseId);
+            List<GroupProfileResponseDto> result = await _studyService.GetStudyGroupsForDto(courseId);
             return Ok(result);
         }
 
         [HttpGet("by-name/{groupName}")]
         public async Task<ActionResult<GroupProfileResponseDto>> Get([FromRoute] string groupName)
         {
-            GroupProfileResponseDto result = await _studyGroupService.Get(groupName);
+            GroupProfileResponseDto result = await _studyService.GetStudyGroup(groupName);
             return Ok(result);
         }
 
         [HttpGet("by-student/{studentId}")]
         public async Task<ActionResult<GroupProfileResponseDto>> GetStudentGroup(int studentId)
         {
-            GroupProfileResponseDto result = await _studyGroupService.GetStudentGroup(studentId);
+            GroupProfileResponseDto result = await _studyService.GetStudentStudyGroup(studentId);
             if (result is null)
                 return NotFound();
             
@@ -47,7 +47,7 @@ namespace Iwentys.Endpoint.Controllers.Study
         public async Task<ActionResult> MakeGroupAdmin(int newGroupAdminId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            await _studyGroupService.MakeGroupAdmin(authorizedUser, newGroupAdminId);
+            await _studyService.MakeGroupAdmin(authorizedUser, newGroupAdminId);
             return Ok();
         }
     }

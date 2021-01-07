@@ -54,7 +54,7 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly QuestTestCaseContext QuestTestCaseContext;
         public readonly RaidService RaidService;
         public readonly StudentService StudentService;
-        public readonly StudyGroupService StudyGroupService;
+        public readonly StudyService StudyService;
         public readonly StudyTestCaseContext StudyTestCaseContext;
         public readonly SubjectAssignmentService SubjectAssignmentService;
         public readonly TournamentService TournamentService;
@@ -83,7 +83,7 @@ namespace Iwentys.Tests.TestCaseContexts
             NewsfeedService = new NewsfeedService(UnitOfWork);
             InterestTagService = new InterestTagService(UnitOfWork);
             AchievementService = new AchievementService(UnitOfWork);
-            StudyGroupService = new StudyGroupService(UnitOfWork);
+            StudyService = new StudyService(UnitOfWork);
             GuildTestTaskService = new GuildTestTaskService(achievementProvider, UnitOfWork, GithubIntegrationService);
             KarmaService = new KarmaService(UnitOfWork);
             ProjectReviewService = new ProjectReviewService(UnitOfWork);

@@ -11,15 +11,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Study.Services
 {
-    public class StudyGroupService
+    public class StudyService
     {
         private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
         private readonly IGenericRepository<Student> _studentRepository;
         private readonly IGenericRepository<StudyGroupMember> _studyGroupMemberRepository;
         private readonly IGenericRepository<StudyGroup> _studyGroupRepository;
+        private readonly IGenericRepository<StudyCourse> _studyCourseRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public StudyGroupService(IUnitOfWork unitOfWork)
+        public StudyService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
 
@@ -27,9 +28,18 @@ namespace Iwentys.Features.Study.Services
             _studentRepository = _unitOfWork.GetRepository<Student>();
             _studyGroupRepository = _unitOfWork.GetRepository<StudyGroup>();
             _studyGroupMemberRepository = _unitOfWork.GetRepository<StudyGroupMember>();
+            _studyCourseRepository = _unitOfWork.GetRepository<StudyCourse>();
         }
 
-        public async Task<GroupProfileResponseDto> Get(string groupName)
+        public async Task<List<StudyCourseInfoDto>> GetStudyCourses()
+        {
+            return await _studyCourseRepository
+                .Get()
+                .Select(StudyCourseInfoDto.FromEntity)
+                .ToListAsync();
+        }
+
+        public async Task<GroupProfileResponseDto> GetStudyGroup(string groupName)
         {
             var name = new GroupName(groupName);
             List<GroupProfileResponseDto> result = await _studyGroupRepository
@@ -52,7 +62,7 @@ namespace Iwentys.Features.Study.Services
             return result;
         }
 
-        public async Task<GroupProfileResponseDto> GetStudentGroup(int studentId)
+        public async Task<GroupProfileResponseDto> GetStudentStudyGroup(int studentId)
         {
             Student student = await _studentRepository.GetById(studentId);
 
