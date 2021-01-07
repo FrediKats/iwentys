@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Endpoint.Controllers.Tools;
 using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Models.Recruitment;
 using Iwentys.Features.Guilds.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -20,10 +19,10 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         }
 
         [HttpPost("{guildId}/")]
-        public async Task<ActionResult<GuildRecruitment>> Create([FromRoute] int guildId, [FromBody] GuildRecruitmentCreateArguments createArguments)
+        public async Task<ActionResult<GuildRecruitmentInfoDto>> Create([FromRoute] int guildId, [FromBody] GuildRecruitmentCreateArguments createArguments)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            GuildRecruitment recruitment = await _guildRecruitmentService.Create(guildId, user, createArguments);
+            GuildRecruitmentInfoDto recruitment = await _guildRecruitmentService.Create(guildId, user, createArguments);
             return Ok(recruitment);
         }
     }
