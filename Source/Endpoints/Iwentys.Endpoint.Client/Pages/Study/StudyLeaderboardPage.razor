@@ -12,9 +12,8 @@
         <div class="container-fluid d-flex flex-column">
             @foreach (StudyLeaderboardRowDto studentProfile in _studentProfiles)
             {
-
                 <a href=@LinkToProfile(studentProfile)>
-                    <div class="d-flex flex-row dark-elevation-01 student-rating-row">
+                    <div class="d-flex flex-row dark-elevation-01 student-rating-row justify-content-center">
                         <div class="col-md-2">
                             <img src=@studentProfile.Student.AvatarUrl class="student-logo" />
                         </div>
