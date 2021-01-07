@@ -10,9 +10,5 @@ namespace Iwentys.Features.AccountManagement.Entities
         public DateTime LastOnlineTime { get; set; }
         public int BarsPoints { get; set; }
         public string AvatarUrl { get; set; }
-
-
-        //TODO: REMOVE ASAP
-        public DateTime GuildLeftTime { get; set; }
     }
 }

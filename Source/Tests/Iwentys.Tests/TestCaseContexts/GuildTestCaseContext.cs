@@ -34,6 +34,7 @@ namespace Iwentys.Tests.TestCaseContexts
         public AuthorizedUser WithGuildMentor(GuildProfileDto guild)
         {
             //TODO: make method for promoting to guild editor/mentor
+            //TODO: remove direct call to DbContext
             AuthorizedUser user = _context.AccountManagementTestCaseContext.WithUser();
             _context._context.GuildMembers.Add(new GuildMember(guild.Id, user.Id, GuildMemberType.Mentor));
             _context._context.SaveChanges();

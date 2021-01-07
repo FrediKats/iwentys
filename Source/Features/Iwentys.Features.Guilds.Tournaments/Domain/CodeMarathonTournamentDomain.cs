@@ -102,7 +102,11 @@ namespace Iwentys.Features.Guilds.Tournaments.Domain
 
         private int CountGuildRating(Guild guild)
         {
-            var domain = new GuildDomain(guild, _githubIntegrationService, _unitOfWork.GetRepository<IwentysUser>(), _unitOfWork.GetRepository<GuildMember>());
+            var domain = new GuildDomain(guild,
+                _githubIntegrationService,
+                _unitOfWork.GetRepository<IwentysUser>(),
+                _unitOfWork.GetRepository<GuildMember>(),
+                _unitOfWork.GetRepository<GuildLastLeave>());
             //TODO: remove result
             List<GuildMemberImpactDto> users = domain.GetMemberImpacts().Result;
 

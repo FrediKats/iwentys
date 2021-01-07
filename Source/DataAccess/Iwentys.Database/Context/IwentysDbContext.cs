@@ -62,6 +62,7 @@ namespace Iwentys.Database.Context
         #region Guilds
         public DbSet<Guild> Guilds { get; set; }
         public DbSet<GuildMember> GuildMembers { get; set; }
+        public DbSet<GuildLastLeave> GuildLastLeaves { get; set; }
         public DbSet<GuildPinnedProject> GuildPinnedProjects { get; set; }
         public DbSet<GuildTestTaskSolution> GuildTestTaskSolvingInfos { get; set; }
         public DbSet<GuildRecruitment> GuildRecruitment { get; set; }

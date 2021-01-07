@@ -41,9 +41,9 @@ namespace Iwentys.Features.Guilds.Entities
                              || member.MemberType == GuildMemberType.Member;
         }
 
-        public void MarkBlocked()
+        public void MarkBlocked(GuildLastLeave guildLastLeave)
         {
-            Member.GuildLeftTime = DateTime.UtcNow;
+            guildLastLeave.UpdateLeave();
             MemberType = GuildMemberType.Blocked;
         }
 
@@ -62,11 +62,13 @@ namespace Iwentys.Features.Guilds.Entities
             MemberType = GuildMemberType.Mentor;
         }
 
-        public void Remove(GuildMentor guildMentor, IGenericRepository<GuildMember> guildMemberRepository)
+        public void Remove(GuildMentor guildMentor, IGenericRepository<GuildMember> guildMemberRepository, GuildLastLeave guildLastLeave)
         {
             if (MemberType == GuildMemberType.Creator)
                 throw InnerLogicException.GuildExceptions.CreatorCannotLeave(MemberId, GuildId);
 
+            //TODO: do not remove, mark as deleted
+            guildLastLeave.UpdateLeave();
             guildMemberRepository.Delete(this);
         }
     }

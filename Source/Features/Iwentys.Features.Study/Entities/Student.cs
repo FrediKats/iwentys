@@ -18,7 +18,6 @@ namespace Iwentys.Features.Study.Entities
             SecondName = secondName;
             CreationTime = DateTime.UtcNow;
             LastOnlineTime = DateTime.UtcNow;
-            GuildLeftTime = DateTime.MinValue;
         }
 
         public StudentType Type { get; init; }

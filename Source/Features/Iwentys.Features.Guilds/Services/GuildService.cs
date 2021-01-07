@@ -23,6 +23,7 @@ namespace Iwentys.Features.Guilds.Services
         private readonly IGenericRepository<GuildPinnedProject> _guildPinnedProjectRepository;
         private readonly IGenericRepository<Guild> _guildRepository;
         private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
+        private readonly IGenericRepository<GuildLastLeave> _guildLastLeaveRepository;
 
         private readonly IUnitOfWork _unitOfWork;
 
@@ -35,6 +36,7 @@ namespace Iwentys.Features.Guilds.Services
             _guildRepository = _unitOfWork.GetRepository<Guild>();
             _guildMemberRepository = _unitOfWork.GetRepository<GuildMember>();
             _guildPinnedProjectRepository = _unitOfWork.GetRepository<GuildPinnedProject>();
+            _guildLastLeaveRepository = _unitOfWork.GetRepository<GuildLastLeave>();
         }
 
         public async Task<GuildProfileShortInfoDto> Create(AuthorizedUser authorizedUser, GuildCreateRequestDto arguments)
@@ -90,7 +92,7 @@ namespace Iwentys.Features.Guilds.Services
         {
             Guild guild = await _guildRepository.GetById(id);
 
-            return await new GuildDomain(guild, _githubIntegrationService, _iwentysUserRepository, _guildMemberRepository)
+            return await new GuildDomain(guild, _githubIntegrationService, _iwentysUserRepository, _guildMemberRepository, _guildLastLeaveRepository)
                 .ToExtendedGuildProfileDto(userId);
         }
 
@@ -127,7 +129,7 @@ namespace Iwentys.Features.Guilds.Services
         public async Task<GuildMemberLeaderBoardDto> GetGuildMemberLeaderBoard(int guildId)
         {
             Guild guild = await _guildRepository.GetById(guildId);
-            var domain = new GuildDomain(guild, _githubIntegrationService, _iwentysUserRepository, _guildMemberRepository);
+            var domain = new GuildDomain(guild, _githubIntegrationService, _iwentysUserRepository, _guildMemberRepository, _guildLastLeaveRepository);
             return await domain.GetMemberDashboard();
         }
     }

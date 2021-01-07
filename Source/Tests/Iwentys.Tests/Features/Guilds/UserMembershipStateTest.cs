@@ -72,7 +72,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .Setup(r => r.FindByIdAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(_student));
 
-            _guildDomain = new GuildDomain(_guild, _githubUserDataService.Object, _studentRepository.Object, null);
+            _guildDomain = new GuildDomain(_guild, _githubUserDataService.Object, _studentRepository.Object, null, null);
         }
 
         private Guild _guild;
@@ -159,7 +159,7 @@ namespace Iwentys.Tests.Features.Guilds
         [Ignore("NSE")]
         public void GetGuild_ForUserWhichLeftGuild23hoursAgo_UserMembershipStateIsBlocked()
         {
-            _student.GuildLeftTime = DateTime.UtcNow.AddHours(-23);
+            //_student.GuildLeftTime = DateTime.UtcNow.AddHours(-23);
 
             Assert.That(_guildDomain.GetUserMembershipState(1).Result, Is.EqualTo(UserMembershipState.Blocked));
         }

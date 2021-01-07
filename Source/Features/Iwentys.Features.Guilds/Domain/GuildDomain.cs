@@ -22,17 +22,20 @@ namespace Iwentys.Features.Guilds.Domain
         private readonly GithubIntegrationService _githubIntegrationService;
         private readonly IGenericRepository<GuildMember> _guildMemberRepositoryNew;
         private readonly IGenericRepository<IwentysUser> _userRepository;
+        private readonly IGenericRepository<GuildLastLeave> _guildLastLeaveRepository;
 
         public GuildDomain(
             Guild profile,
             GithubIntegrationService githubIntegrationService,
             IGenericRepository<IwentysUser> studentRepository,
-            IGenericRepository<GuildMember> guildMemberRepositoryNew)
+            IGenericRepository<GuildMember> guildMemberRepositoryNew,
+            IGenericRepository<GuildLastLeave> guildLastLeaveRepository)
         {
             Profile = profile;
             _githubIntegrationService = githubIntegrationService;
             _userRepository = studentRepository;
             _guildMemberRepositoryNew = guildMemberRepositoryNew;
+            _guildLastLeaveRepository = guildLastLeaveRepository;
         }
 
         public Guild Profile { get; }
@@ -75,6 +78,7 @@ namespace Iwentys.Features.Guilds.Domain
             IwentysUser user = await _userRepository.GetById(userId);
             Guild userGuild = _guildMemberRepositoryNew.ReadForStudent(user.Id);
             GuildMemberType? userStatusInGuild = Profile.Members.Find(m => m.Member.Id == user.Id)?.MemberType;
+            GuildLastLeave guildLastLeave = await GuildLastLeave.Get(user, _guildLastLeaveRepository);
 
             if (userStatusInGuild == GuildMemberType.Blocked)
                 return UserMembershipState.Blocked;
@@ -97,7 +101,7 @@ namespace Iwentys.Features.Guilds.Domain
 
             if (userGuild is null &&
                 userStatusInGuild != GuildMemberType.Requested &&
-                DateTime.UtcNow < user.GuildLeftTime.AddHours(24))
+                guildLastLeave.IsLeaveRestrictExpired())
                 return UserMembershipState.Blocked;
 
             if (userGuild is null && Profile.HiringPolicy == GuildHiringPolicy.Open)
