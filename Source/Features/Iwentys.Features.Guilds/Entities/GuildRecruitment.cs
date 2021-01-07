@@ -11,7 +11,7 @@ namespace Iwentys.Features.Guilds.Entities
         public int Id { get; init; }
 
         public int AuthorId { get; set; }
-        public IwentysUser Author { get; set; }
+        public virtual IwentysUser Author { get; set; }
 
         public int GuildId { get; init; }
         public virtual Guild Guild { get; init; }
