@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Iwentys.Features.AccountManagement.Entities;
+using Iwentys.Features.AccountManagement.Models;
 using Iwentys.Features.Companies.Entities;
 
 namespace Iwentys.Features.Companies.Models
 {
     public record CompanyWorkRequestDto
     {
-        public CompanyWorkRequestDto(CompanyInfoDto company, IwentysUser worker)
+        public CompanyWorkRequestDto(CompanyInfoDto company, IwentysUserInfoDto worker)
         {
             Company = company;
             Worker = worker;
@@ -17,11 +17,18 @@ namespace Iwentys.Features.Companies.Models
         {
         }
 
-        //TODO: it is not work
         public static Expression<Func<CompanyWorker, CompanyWorkRequestDto>> FromEntity =>
-            entity => new CompanyWorkRequestDto(new CompanyInfoDto(entity.Company), entity.Worker);
+            entity => new CompanyWorkRequestDto
+            {
+                Company = new CompanyInfoDto
+                {
+                    Id = entity.Company.Id,
+                    Name = entity.Company.Name
+                },
+                Worker = new IwentysUserInfoDto(entity.Worker)
+            };
 
         public CompanyInfoDto Company { get; init; }
-        public IwentysUser Worker { get; init; }
+        public IwentysUserInfoDto Worker { get; init; }
     }
 }
