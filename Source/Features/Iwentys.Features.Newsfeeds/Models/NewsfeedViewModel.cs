@@ -38,5 +38,17 @@ namespace Iwentys.Features.Newsfeeds.Models
                     SourceLink = entity.Newsfeed.SourceLink,
                     Author = new IwentysUserInfoDto(entity.Newsfeed.Author)
                 };
+
+        public static Expression<Func<Newsfeed, NewsfeedViewModel>> FromEntity =>
+            entity =>
+                new NewsfeedViewModel
+                {
+                    Id = entity.Id,
+                    Title = entity.Title,
+                    Content = entity.Content,
+                    CreationTimeUtc = entity.CreationTimeUtc,
+                    SourceLink = entity.SourceLink,
+                    Author = new IwentysUserInfoDto(entity.Author)
+                };
     }
 }

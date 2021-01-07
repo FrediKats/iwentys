@@ -17,11 +17,11 @@ namespace Iwentys.Features.Newsfeeds.Services
     public class NewsfeedService
     {
         private readonly IGenericRepository<GuildNewsfeed> _guildNewsfeedRepository;
+        private readonly IGenericRepository<SubjectNewsfeed> _subjectNewsfeedRepository;
+        private readonly IGenericRepository<Newsfeed> _newsfeedRepository;
         private readonly IGenericRepository<Guild> _guildRepository;
         private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
-
         private readonly IGenericRepository<Student> _studentRepository;
-        private readonly IGenericRepository<SubjectNewsfeed> _subjectNewsfeedRepository;
         private readonly IGenericRepository<Subject> _subjectRepository;
         private readonly IUnitOfWork _unitOfWork;
 
@@ -34,10 +34,11 @@ namespace Iwentys.Features.Newsfeeds.Services
             _guildRepository = _unitOfWork.GetRepository<Guild>();
             _subjectNewsfeedRepository = _unitOfWork.GetRepository<SubjectNewsfeed>();
             _guildNewsfeedRepository = _unitOfWork.GetRepository<GuildNewsfeed>();
+            _newsfeedRepository = _unitOfWork.GetRepository<Newsfeed>();
             _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
         }
 
-        public async Task CreateSubjectNewsfeed(NewsfeedCreateViewModel createViewModel, AuthorizedUser authorizedUser, int subjectId)
+        public async Task<NewsfeedViewModel> CreateSubjectNewsfeed(NewsfeedCreateViewModel createViewModel, AuthorizedUser authorizedUser, int subjectId)
         {
             IwentysUser author = await _iwentysUserRepository.GetById(authorizedUser.Id);
             Subject subject = await _subjectRepository.GetById(subjectId);
@@ -55,9 +56,11 @@ namespace Iwentys.Features.Newsfeeds.Services
 
             await _subjectNewsfeedRepository.InsertAsync(newsfeedEntity);
             await _unitOfWork.CommitAsync();
+
+            return await Get(newsfeedEntity.NewsfeedId);
         }
 
-        public async Task CreateGuildNewsfeed(NewsfeedCreateViewModel createViewModel, AuthorizedUser authorizedUser, int guildId)
+        public async Task<NewsfeedViewModel> CreateGuildNewsfeed(NewsfeedCreateViewModel createViewModel, AuthorizedUser authorizedUser, int guildId)
         {
             Student author = await _studentRepository.GetById(authorizedUser.Id);
             Guild subject = await _guildRepository.GetById(guildId);
@@ -67,6 +70,8 @@ namespace Iwentys.Features.Newsfeeds.Services
 
             await _guildNewsfeedRepository.InsertAsync(newsfeedEntity);
             await _unitOfWork.CommitAsync();
+
+            return await Get(newsfeedEntity.NewsfeedId);
         }
 
         public async Task<List<NewsfeedViewModel>> GetSubjectNewsfeeds(int subjectId)
@@ -84,6 +89,15 @@ namespace Iwentys.Features.Newsfeeds.Services
                 .Where(gn => gn.GuildId == guildId)
                 .Select(NewsfeedViewModel.FromGuildEntity)
                 .ToListAsync();
+        }
+
+        public async Task<NewsfeedViewModel> Get(int newsfeedId)
+        {
+            return await _newsfeedRepository
+                .Get()
+                .Where(n => n.Id == newsfeedId)
+                .Select(NewsfeedViewModel.FromEntity)
+                .SingleAsync();
         }
     }
 }

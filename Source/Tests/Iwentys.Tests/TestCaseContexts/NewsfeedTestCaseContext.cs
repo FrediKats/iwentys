@@ -27,8 +27,7 @@ namespace Iwentys.Tests.TestCaseContexts
             return new SubjectProfileDto(subject);
         }
 
-        //TODO: return smth
-        public void WithSubjectNews(SubjectProfileDto subjectProfile, AuthorizedUser creator)
+        public NewsfeedViewModel WithSubjectNews(SubjectProfileDto subjectProfile, AuthorizedUser creator)
         {
             var createViewModel = new NewsfeedCreateViewModel
             {
@@ -36,7 +35,8 @@ namespace Iwentys.Tests.TestCaseContexts
                 Content = RandomProvider.Faker.Lorem.Sentence()
             };
 
-            _context.NewsfeedService.CreateSubjectNewsfeed(createViewModel, creator, subjectProfile.Id).Wait();
+            NewsfeedViewModel newsfeedViewModel = _context.NewsfeedService.CreateSubjectNewsfeed(createViewModel, creator, subjectProfile.Id).Result;
+            return newsfeedViewModel;
         }
     }
 }
