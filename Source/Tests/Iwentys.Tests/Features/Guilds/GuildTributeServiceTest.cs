@@ -20,7 +20,7 @@ namespace Iwentys.Tests.Features.Guilds
             AuthorizedUser student = context.AccountManagementTestCaseContext.WithUser();
             AuthorizedUser admin = context.AccountManagementTestCaseContext.WithUser(true);
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(student);
-            AuthorizedUser mentor = context.GuildTestCaseContext.WithGuildMentor(guild);
+            AuthorizedUser mentor = context.GuildTestCaseContext.WithGuildMentor(guild, student);
 
             context.GithubTestCaseContext.WithGithubAccount(student);
             GithubProject project = context.GithubTestCaseContext.WithStudentProject(student);
@@ -39,7 +39,7 @@ namespace Iwentys.Tests.Features.Guilds
             AuthorizedUser student = context.AccountManagementTestCaseContext.WithUser();
             AuthorizedUser admin = context.AccountManagementTestCaseContext.WithUser(true);
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(student);
-            AuthorizedUser mentor = context.GuildTestCaseContext.WithGuildMentor(guild);
+            AuthorizedUser mentor = context.GuildTestCaseContext.WithGuildMentor(guild, student);
 
             context.GithubTestCaseContext.WithGithubAccount(student);
             GithubProject project = context.GithubTestCaseContext.WithStudentProject(student);
@@ -61,7 +61,7 @@ namespace Iwentys.Tests.Features.Guilds
             AuthorizedUser student = context.AccountManagementTestCaseContext.WithUser();
             AuthorizedUser admin = context.AccountManagementTestCaseContext.WithUser(true);
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(student);
-            AuthorizedUser mentor = context.GuildTestCaseContext.WithGuildMentor(guild);
+            AuthorizedUser mentor = context.GuildTestCaseContext.WithGuildMentor(guild, student);
 
             context.GithubTestCaseContext.WithGithubAccount(student);
             GithubProject project = context.GithubTestCaseContext.WithStudentProject(student);

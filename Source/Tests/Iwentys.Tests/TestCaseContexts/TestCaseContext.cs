@@ -26,8 +26,7 @@ namespace Iwentys.Tests.TestCaseContexts
 {
     public class TestCaseContext
     {
-        //TODO: make private
-        public readonly IwentysDbContext _context;
+        private readonly IwentysDbContext _context;
         public readonly AccountManagementTestCaseContext AccountManagementTestCaseContext;
         public readonly AchievementService AchievementService;
         public readonly AssignmentService AssignmentService;

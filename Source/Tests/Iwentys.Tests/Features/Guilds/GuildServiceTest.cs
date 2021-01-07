@@ -178,8 +178,8 @@ namespace Iwentys.Tests.Features.Guilds
             TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
-            AuthorizedUser mentor = context.GuildTestCaseContext.WithGuildMentor(guild);
-            AuthorizedUser anotherMentor = context.GuildTestCaseContext.WithGuildMentor(guild);
+            AuthorizedUser mentor = context.GuildTestCaseContext.WithGuildMentor(guild, user);
+            AuthorizedUser anotherMentor = context.GuildTestCaseContext.WithGuildMentor(guild, user);
 
             Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.BlockGuildMember(mentor, guild.Id, anotherMentor.Id));
         }
@@ -204,8 +204,8 @@ namespace Iwentys.Tests.Features.Guilds
             TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
             ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
-            AuthorizedUser mentor = context.GuildTestCaseContext.WithGuildMentor(guild);
-            AuthorizedUser anotherMentor = context.GuildTestCaseContext.WithGuildMentor(guild);
+            AuthorizedUser mentor = context.GuildTestCaseContext.WithGuildMentor(guild, user);
+            AuthorizedUser anotherMentor = context.GuildTestCaseContext.WithGuildMentor(guild, user);
 
             Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.KickGuildMember(mentor, guild.Id, anotherMentor.Id));
         }

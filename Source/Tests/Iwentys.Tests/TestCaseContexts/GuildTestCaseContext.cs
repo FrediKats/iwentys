@@ -31,13 +31,14 @@ namespace Iwentys.Tests.TestCaseContexts
             return user;
         }
 
-        public AuthorizedUser WithGuildMentor(GuildProfileDto guild)
+        public AuthorizedUser WithGuildMentor(GuildProfileDto guild, AuthorizedUser guildEditor)
         {
-            //TODO: make method for promoting to guild editor/mentor
-            //TODO: remove direct call to DbContext
             AuthorizedUser user = _context.AccountManagementTestCaseContext.WithUser();
-            _context._context.GuildMembers.Add(new GuildMember(guild.Id, user.Id, GuildMemberType.Mentor));
-            _context._context.SaveChanges();
+
+            _context.GuildMemberService.RequestGuild(user, guild.Id).Wait();
+            _context.GuildMemberService.AcceptRequest(guildEditor, guild.Id, user.Id).Wait();
+            _context.GuildMemberService.PromoteToMentor(guildEditor, user.Id).Wait();
+
             return user;
         }
 
