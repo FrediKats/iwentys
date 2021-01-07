@@ -8,6 +8,7 @@ using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Newsfeeds.Entities;
 using Iwentys.Features.Newsfeeds.Models;
+using Iwentys.Features.Study.Domain;
 using Iwentys.Features.Study.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,7 +42,16 @@ namespace Iwentys.Features.Newsfeeds.Services
             IwentysUser author = await _iwentysUserRepository.GetById(authorizedUser.Id);
             Subject subject = await _subjectRepository.GetById(subjectId);
 
-            var newsfeedEntity = SubjectNewsfeed.Create(createViewModel, author, subject, null);
+            SubjectNewsfeed newsfeedEntity;
+            if (author.CheckIsAdmin(out SystemAdminUser admin))
+            {
+                newsfeedEntity = SubjectNewsfeed.Create(createViewModel, admin, subject);
+            }
+            else
+            {
+                Student student = await _studentRepository.GetById(author.Id);
+                newsfeedEntity = SubjectNewsfeed.Create(createViewModel, student.EnsureIsGroupAdmin(), subject);
+            }
 
             await _subjectNewsfeedRepository.InsertAsync(newsfeedEntity);
             await _unitOfWork.CommitAsync();
