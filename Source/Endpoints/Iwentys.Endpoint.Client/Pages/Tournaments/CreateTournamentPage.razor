@@ -2,25 +2,23 @@
 
 @inherits DependencyInjectionPage
 
-<h3>CreateTournamentPage</h3>
+<h3>Create tournament</h3>
 <div class="container-fluid d-flex flex-row">
-    <div class="col-md-6 d-flex flex-column dark-elevation-01">
-        <h5>Create assignment</h5>
-
+    <div class="col-md-6 d-flex input-form-component dark-elevation-01">
         <p>
-            <MatTextField @bind-Value="@_name" Label="Title" Class="input-element"></MatTextField>
+            <MatTextField @bind-Value="@_name" Label="Title" Class="input-element" FullWidth="true"></MatTextField>
         </p>
 
         <p>
-            <MatTextField @bind-Value="@_description" Label="Description" Class="input-element"></MatTextField>
+            <MatTextField @bind-Value="@_description" Label="Description" Class="input-element" FullWidth="true"></MatTextField>
         </p>
 
         <p>
-            <MatDatePicker @bind-Value="@_startTime" Class="input-element" Label="Start time"></MatDatePicker>
+            <MatDatePicker @bind-Value="@_startTime" Class="input-element" Label="Start time" FullWidth="true"></MatDatePicker>
         </p>
 
         <p>
-            <MatDatePicker @bind-Value="@_endTime" Class="input-element" Label="End time"></MatDatePicker>
+            <MatDatePicker @bind-Value="@_endTime" Class="input-element" Label="End time" FullWidth="true"></MatDatePicker>
         </p>
 
         <MatButton OnClick="@(async () => await Create())" class="dark-elevation-04">Create</MatButton>

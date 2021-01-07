@@ -2,15 +2,15 @@
 
 @inherits DependencyInjectionPage
 
-<div class="col-md-6 d-flex flex-column dark-elevation-01">
+<div class="col-md-6 d-flex input-form-component dark-elevation-01">
     <h5>Create assignment</h5>
 
     <p>
-        <MatTextField @bind-Value="@_title" Label="Title" Class="input-element"></MatTextField>
+        <MatTextField @bind-Value="@_title" Label="Title" Class="input-element" FullWidth="true"></MatTextField>
     </p>
 
     <p>
-        <MatTextField @bind-Value="@_description" Label="Description" Class="input-element"></MatTextField>
+        <MatTextField @bind-Value="@_description" Label="Description" Class="input-element" FullWidth="true"></MatTextField>
     </p>
 
     <MatButton OnClick="@ExecuteCreateNewsfeed" class="dark-elevation-04">Create</MatButton>

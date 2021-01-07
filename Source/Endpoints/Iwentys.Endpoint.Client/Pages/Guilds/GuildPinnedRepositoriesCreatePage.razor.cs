@@ -3,7 +3,7 @@ using Iwentys.Features.Guilds.Models;
 
 namespace Iwentys.Endpoint.Client.Pages.Guilds
 {
-    public partial class PinnedRepositoryCreatePage
+    public partial class GuildPinnedRepositoriesCreatePage
     {
         private string _owner;
         private string _repositoryName;
