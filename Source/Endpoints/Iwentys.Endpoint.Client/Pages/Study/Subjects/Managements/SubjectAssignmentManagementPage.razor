@@ -7,8 +7,13 @@
 <h3>SubjectAssignmentManagementPage</h3>
 
 <div>
-    <h5>Subject assignment</h5>
-    <MatButton Link=@LinkToSubjectAssignmentCreate()>Create</MatButton>
+    <div class="d-flex flex-row align-self-center">
+        <h5>Subject assignment</h5>
+        <MatButton Link=@LinkToSubjectAssignmentCreate()>
+            <span class="oi oi-plus" title="add" aria-hidden="true"></span>
+        </MatButton>
+    </div>
+
     <MatButton Link=@LinkToSubjectAssignmentSubmitJournal()>Submits</MatButton>
     @if (_subjectAssignments is not null)
     {

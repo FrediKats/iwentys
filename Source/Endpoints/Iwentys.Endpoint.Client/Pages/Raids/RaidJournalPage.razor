@@ -3,8 +3,12 @@
 @using Iwentys.Features.Raids.Models
 @inherits DependencyInjectionPage
 
-<h3>RaidJournalPage</h3>
-<MatButton Link="/raids/create">Create new raid</MatButton>
+<div class="d-flex flex-row align-self-center">
+    <h3>RaidJournalPage</h3>
+    <MatButton Link="/raids/create">
+        <span class="oi oi-plus" title="add" aria-hidden="true"></span>
+    </MatButton>
+</div>
 
 <div class="container-fluid d-flex">
     <div class="d-flex flex-column">
