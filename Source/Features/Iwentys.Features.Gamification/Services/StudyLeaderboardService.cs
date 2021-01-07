@@ -36,8 +36,7 @@ namespace Iwentys.Features.Gamification.Services
 
         public List<StudyLeaderboardRowDto> GetStudentsRatings(StudySearchParametersDto searchParametersDto)
         {
-            if (searchParametersDto.CourseId is null && searchParametersDto.GroupId is null ||
-                searchParametersDto.CourseId is not null && searchParametersDto.GroupId is not null)
+            if (searchParametersDto.CourseId is null && searchParametersDto.GroupId is null)
                 throw new IwentysExecutionException("One of StudySearchParametersDto fields: CourseId or GroupId should be null");
 
             List<SubjectActivity> result = _subjectActivityRepository.GetStudentActivities(searchParametersDto).ToList();

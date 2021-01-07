@@ -7,11 +7,10 @@ namespace Iwentys.Endpoint.Client.Pages.Study
 {
     public partial class StudyLeaderboardPage
     {
-        //TODO: hack need to implement selection
-        private int _courseId = 4;
-
         private List<StudyCourseInfoDto> _studyCourses;
-        private StudyCourseInfoDto _selectedCourse;
+        private List<GroupProfileResponseDto> _groups;
+
+        public StudyCourseInfoDto _selectedCourse;
         private IReadOnlyList<StudyLeaderboardRowDto> _studentProfiles;
 
         private string LinkToProfile(StudyLeaderboardRowDto rowDto) => $"student/profile/{rowDto.Student.Id}";
@@ -19,13 +18,19 @@ namespace Iwentys.Endpoint.Client.Pages.Study
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            //_studentProfiles = await ClientHolder.StudyLeaderboard.GetStudyRating(_courseId);
             _studyCourses = await ClientHolder.StudyCourse.Get();
         }
 
         private async Task OnCurseSelected(StudyCourseInfoDto value)
         {
+            _selectedCourse = value;
             _studentProfiles = await ClientHolder.StudyLeaderboard.GetStudyRating(value.CourseId);
+            _groups = await ClientHolder.StudyGroup.GetCourseGroups(value.CourseId);
+        }
+
+        private async Task OnGroupSelect(GroupProfileResponseDto value)
+        {
+            _studentProfiles = await ClientHolder.StudyLeaderboard.GetStudyRating(_selectedCourse.CourseId, value.Id);
         }
     }
 }

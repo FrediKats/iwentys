@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Flurl.Http;
@@ -30,6 +31,14 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
             return new FlurlClient(Client)
                 .Request("api/StudyGroup/promote-admin", newGroupAdminId)
                 .GetAsync();
+        }
+
+        public async Task<List<GroupProfileResponseDto>> GetCourseGroups(int courseId)
+        {
+            return await new FlurlClient(Client)
+                .Request("api/StudyGroup")
+                .SetQueryParam("courseId", courseId)
+                .GetJsonAsync<List<GroupProfileResponseDto>>();
         }
     }
 }

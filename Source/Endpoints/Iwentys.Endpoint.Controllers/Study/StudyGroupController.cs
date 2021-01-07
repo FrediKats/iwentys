@@ -20,7 +20,7 @@ namespace Iwentys.Endpoint.Controllers.Study
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<GroupProfileResponseDto>>> GetAllGroups([FromQuery] int? courseId)
+        public async Task<ActionResult<List<GroupProfileResponseDto>>> GetCourseGroups([FromQuery] int? courseId)
         {
             List<GroupProfileResponseDto> result = await _studyService.GetStudyGroupsForDto(courseId);
             return Ok(result);

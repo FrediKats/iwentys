@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using Flurl.Http;
 using Iwentys.Common.Tools;
 using Iwentys.Features.Gamification.Entities;
 using Iwentys.Features.Gamification.Models;
@@ -18,9 +19,13 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
 
         public HttpClient Client { get; }
 
-        public Task<List<StudyLeaderboardRowDto>> GetStudyRating(int courseId)
+        public Task<List<StudyLeaderboardRowDto>> GetStudyRating(int courseId, int? groupId = null)
         {
-            return Client.GetFromJsonAsync<List<StudyLeaderboardRowDto>>($"api/leaderboard/study?courseId={courseId}");
+            return new FlurlClient(Client)
+                .Request("api/leaderboard/study")
+                .SetQueryParam("courseId", courseId)
+                .SetQueryParam("groupId", groupId)
+                .GetJsonAsync<List<StudyLeaderboardRowDto>>();
         }
 
         public Task CourseRatingForceRefresh(int courseId)

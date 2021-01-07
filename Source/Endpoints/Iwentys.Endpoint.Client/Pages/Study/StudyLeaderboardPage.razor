@@ -45,6 +45,17 @@
                     </MatSelectItem>
                 </p>
             }
+
+            @if (_groups is not null)
+            {
+                <p>
+                    <MatSelectItem Items="@_groups" Class="input-element" FullWidth="true" TValue="GroupProfileResponseDto" ValueChanged="@(OnGroupSelect)">
+                        <ItemTemplate>
+                            <span>@context?.GroupName</span>
+                        </ItemTemplate>
+                    </MatSelectItem>
+                </p>
+            }
         </div>
     </div>
 
