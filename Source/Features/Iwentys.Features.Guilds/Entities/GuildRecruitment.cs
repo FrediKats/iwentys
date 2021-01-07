@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using Iwentys.Features.AccountManagement.Entities;
+using Iwentys.Features.Guilds.Domain;
+using Iwentys.Features.Guilds.Models.Recruitment;
 
 namespace Iwentys.Features.Guilds.Entities
 {
@@ -6,10 +9,23 @@ namespace Iwentys.Features.Guilds.Entities
     {
         public int Id { get; init; }
 
+        public int AuthorId { get; set; }
+        public IwentysUser Author { get; set; }
+
         public int GuildId { get; init; }
         public virtual Guild Guild { get; init; }
 
         public string Description { get; init; }
         public virtual List<GuildRecruitmentMember> RecruitmentMembers { get; init; }
+
+        public static GuildRecruitment Create(GuildMentor mentor, Guild guild, GuildRecruitmentCreateArguments createArguments)
+        {
+            return new GuildRecruitment
+            {
+                GuildId = guild.Id,
+                AuthorId = mentor.User.Id,
+                Description = createArguments.Description
+            };
+        }
     }
 }
