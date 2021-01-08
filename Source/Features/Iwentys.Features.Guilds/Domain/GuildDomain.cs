@@ -50,12 +50,6 @@ namespace Iwentys.Features.Guilds.Domain
             return result;
         }
 
-        public async Task<GuildMemberLeaderBoardDto> GetMemberDashboard()
-        {
-            List<GuildMemberImpactDto> members = await GetMemberImpacts();
-            return new GuildMemberLeaderBoardDto(members);
-        }
-
         public async Task<UserMembershipState> GetUserMembershipState(int userId)
         {
             IwentysUser user = await _userRepository.GetById(userId);

@@ -33,6 +33,7 @@ namespace Iwentys.Features.Guilds.Entities
         public virtual IwentysUser Member { get; init; }
 
         public GuildMemberType MemberType { get; private set; }
+        public int MemberImpact { get; set; }
 
         public static Expression<Func<GuildMember, bool>> IsMember()
         {

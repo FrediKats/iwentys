@@ -3,6 +3,8 @@ using System.Linq;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
+using Iwentys.Features.AccountManagement.Models;
+using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Models;
@@ -58,6 +60,11 @@ namespace Iwentys.Features.Guilds.Entities
                 throw new InnerLogicException("Guild already approved");
 
             GuildType = GuildType.Created;
+        }
+
+        public List<GuildMemberImpactDto> GetImpact()
+        {
+            return Members.Select(member => new GuildMemberImpactDto(member)).ToList();
         }
     }
 }

@@ -130,8 +130,24 @@ namespace Iwentys.Features.Guilds.Services
         public async Task<GuildMemberLeaderBoardDto> GetGuildMemberLeaderBoard(int guildId)
         {
             Guild guild = await _guildRepository.GetById(guildId);
-            var domain = new GuildDomain(guild, _githubIntegrationService, _iwentysUserRepository, _guildMemberRepository, _guildLastLeaveRepository);
-            return await domain.GetMemberDashboard();
+            return new GuildMemberLeaderBoardDto(guild.GetImpact());
+        }
+
+        public async Task UpdateGuildMemberImpact()
+        {
+            List<GuildMember> guildMembers = await _guildMemberRepository
+                .Get()
+                .Where(GuildMember.IsMember())
+                .ToListAsync();
+
+            foreach (GuildMember member in guildMembers)
+            {
+                ContributionFullInfo contributionFullInfo = await _githubIntegrationService.User.FindUserContributionOrEmpty(member.Member);
+                member.MemberImpact = contributionFullInfo.Total;
+            }
+
+            _guildMemberRepository.Update(guildMembers);
+            await _unitOfWork.CommitAsync();
         }
     }
 }
