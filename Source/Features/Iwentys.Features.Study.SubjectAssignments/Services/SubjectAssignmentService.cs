@@ -49,6 +49,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
 
         public async Task<List<SubjectAssignmentDto>> GetSubjectAssignmentForSubject(AuthorizedUser user, int subjectId)
         {
+            //TODO: it is not work?
             return await _subjectAssignmentRepository
                 .Get()
                 .Where(sa => sa.SubjectId == subjectId)
@@ -75,19 +76,21 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
                 .SingleAsync();
         }
 
-        //TODO: add pagination
         public async Task<List<SubjectAssignmentSubmitDto>> SearchSubjectAssignmentSubmits(AuthorizedUser user, SubjectAssignmentSubmitSearchArguments searchArguments)
         {
             Subject subject = await _subjectRepository.GetById(searchArguments.SubjectId);
             IwentysUser iwentysUser = await _iwentysUserRepository.GetById(user.Id);
             SubjectTeacher teacher = iwentysUser.EnsureIsTeacher(subject);
 
-            return await _subjectAssignmentSubmitRepository
-                .Get()
-                .Where(sas => sas.SubjectAssignment.SubjectId == searchArguments.SubjectId)
-                .WhereIf(searchArguments.StudentId, sas => sas.StudentId == searchArguments.StudentId)
-                .Select(sas => new SubjectAssignmentSubmitDto(sas))
-                .ToListAsync();
+            return await SearchSubjectAssignmentSubmits(searchArguments);
+        }
+
+        public async Task<List<SubjectAssignmentSubmitDto>> GetStudentSubjectAssignmentSubmits(AuthorizedUser user, SubjectAssignmentSubmitSearchArguments searchArguments)
+        {
+            Subject subject = await _subjectRepository.GetById(searchArguments.SubjectId);
+            IwentysUser iwentysUser = await _iwentysUserRepository.GetById(user.Id);
+
+            return await SearchSubjectAssignmentSubmits(searchArguments);
         }
 
         public async Task<SubjectAssignmentSubmitDto> SendSubmit(AuthorizedUser user, int subjectAssignmentId, SubjectAssignmentSubmitCreateArguments arguments)
@@ -125,6 +128,17 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
 
             _subjectAssignmentSubmitRepository.Update(subjectAssignmentSubmit);
             await _unitOfWork.CommitAsync();
+        }
+
+        //TODO: add pagination
+        private async Task<List<SubjectAssignmentSubmitDto>> SearchSubjectAssignmentSubmits(SubjectAssignmentSubmitSearchArguments searchArguments)
+        {
+            return await _subjectAssignmentSubmitRepository
+                .Get()
+                .Where(sas => sas.SubjectAssignment.SubjectId == searchArguments.SubjectId)
+                .WhereIf(searchArguments.StudentId, sas => sas.StudentId == searchArguments.StudentId)
+                .Select(sas => new SubjectAssignmentSubmitDto(sas))
+                .ToListAsync();
         }
     }
 }

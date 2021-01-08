@@ -47,12 +47,20 @@ namespace Iwentys.Endpoint.Controllers.Study
         public async Task<ActionResult<List<SubjectAssignmentSubmitDto>>> GetStudentSubjectAssignmentSubmits(int subjectId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            List<SubjectAssignmentSubmitDto> submits = await _subjectAssignmentService.SearchSubjectAssignmentSubmits(authorizedUser, new SubjectAssignmentSubmitSearchArguments
+            List<SubjectAssignmentSubmitDto> submits = await _subjectAssignmentService.GetStudentSubjectAssignmentSubmits(authorizedUser, new SubjectAssignmentSubmitSearchArguments
             {
                 SubjectId = subjectId,
                 StudentId = authorizedUser.Id
             });
             return Ok(submits);
+        }
+
+        [HttpPost("{subjectId}/assignments/{subjectAssignmentId}/submits")]
+        public async Task<ActionResult<SubjectAssignmentSubmitDto>> SendSubmit(int subjectId, int subjectAssignmentId, SubjectAssignmentSubmitCreateArguments arguments)
+        {
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            SubjectAssignmentSubmitDto result = await _subjectAssignmentService.SendSubmit(authorizedUser, subjectAssignmentId, arguments);
+            return Ok(result);
         }
 
         #region Teacher only method
