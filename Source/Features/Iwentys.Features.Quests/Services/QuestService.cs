@@ -131,5 +131,16 @@ namespace Iwentys.Features.Quests.Services
 
             return await Get(questId);
         }
+
+        public async Task<List<QuestRatingRow>> GetQuestExecutorRating()
+        {
+            List<QuestRatingRow> result = await _questRepository
+                .Get()
+                .Where(Quest.IsActive)
+                .GroupBy(q => q.ExecutorId)
+                .Select(g => new QuestRatingRow {UserId = g.Key.Value, Marks = g.Select(q => q.ExecutorMark).ToList()})
+                .ToListAsync();
+            return result;
+        }
     }
 }

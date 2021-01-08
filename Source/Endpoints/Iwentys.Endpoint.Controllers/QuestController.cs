@@ -89,5 +89,12 @@ namespace Iwentys.Endpoint.Controllers
             QuestInfoDto quest = await _questService.Revoke(author, questId);
             return Ok(quest);
         }
+
+        [HttpGet("executor-rating")]
+        public async Task<ActionResult<List<QuestRatingRow>>> GetQuestExecutorRating()
+        {
+            List<QuestRatingRow> result = await _questService.GetQuestExecutorRating();
+            return result;
+        }
     }
 }

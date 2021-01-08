@@ -66,5 +66,12 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
         {
             await Client.GetAsync($"/api/quests/{questId}/revoke");
         }
+
+        public async Task<List<QuestRatingRow>> GetQuestExecutorRating()
+        {
+            return await new FlurlClient(Client)
+                .Request($"/api/quests/executor-rating")
+                .GetJsonAsync<List<QuestRatingRow>>();
+        }
     }
 }
