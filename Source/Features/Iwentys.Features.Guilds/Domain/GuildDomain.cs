@@ -40,16 +40,13 @@ namespace Iwentys.Features.Guilds.Domain
 
         public Guild Profile { get; }
 
-        public async Task<ExtendedGuildProfileWithMemberDataDto> ToExtendedGuildProfileDto(int? userId = null)
+        public async Task<ExtendedGuildProfileWithMemberDataDto> ToExtendedGuildProfileDto()
         {
             var info = new ExtendedGuildProfileWithMemberDataDto(Profile)
             {
                 Leader = Profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new IwentysUserInfoDto(s)),
                 PinnedRepositories = Profile.PinnedProjects.SelectToList(p => new GithubRepositoryInfoDto(p.Project))
             };
-
-            if (userId is not null)
-                info.UserMembershipState = await GetUserMembershipState(userId.Value);
 
             return info;
         }

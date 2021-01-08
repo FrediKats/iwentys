@@ -181,7 +181,13 @@ namespace Iwentys.Features.Guilds.Services
         public async Task<ExtendedGuildProfileWithMemberDataDto> Get(int id, int? userId)
         {
             Guild guild = await _guildRepository.GetById(id);
-            return await CreateDomain(guild).ToExtendedGuildProfileDto(userId);
+            return await CreateDomain(guild).ToExtendedGuildProfileDto();
+        }
+
+        public async Task<UserMembershipState> GetUserMembership(AuthorizedUser creator, int guildId)
+        {
+            Guild guild = await _guildRepository.GetById(guildId);
+            return await CreateDomain(guild).GetUserMembershipState(creator.Id);
         }
 
         public async Task PromoteToMentor(AuthorizedUser creator, int userForPromotion)

@@ -92,7 +92,7 @@ namespace Iwentys.Features.Guilds.Services
             Guild guild = await _guildRepository.GetById(id);
 
             return await new GuildDomain(guild, _githubIntegrationService, _iwentysUserRepository, _guildMemberRepository, _guildLastLeaveRepository)
-                .ToExtendedGuildProfileDto(userId);
+                .ToExtendedGuildProfileDto();
         }
 
         public GuildProfileDto FindStudentGuild(int userId)

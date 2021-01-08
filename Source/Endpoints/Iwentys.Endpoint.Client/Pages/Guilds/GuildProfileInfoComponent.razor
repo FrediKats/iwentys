@@ -15,7 +15,7 @@
 
     <MatButton Link="@EditProfileLink()">Редактировать</MatButton>
     <MatButton Link=@TributeJournalLink()>Трибьюты</MatButton>
-    @if(SelectedGuildProfile?.UserMembershipState == UserMembershipState.Entered)
+    @if (_membership is not null && _membership == UserMembershipState.Entered)
     {
         <MatButton OnClick=@LeaveGuild>Ливнуть</MatButton>
     }
