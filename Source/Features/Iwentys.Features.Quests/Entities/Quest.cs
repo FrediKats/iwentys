@@ -25,6 +25,7 @@ namespace Iwentys.Features.Quests.Entities
 
         public int? ExecutorId { get; private set; }
         public virtual IwentysUser Executor { get; private set; }
+        public int ExecutorMark { get; set; }
 
         public virtual ICollection<QuestResponse> Responses { get; init; }
 
@@ -80,7 +81,7 @@ namespace Iwentys.Features.Quests.Entities
             return QuestResponse.New(Id, responseAuthor, arguments);
         }
 
-        public void MakeCompleted(AuthorizedUser author, IwentysUser executor)
+        public void MakeCompleted(AuthorizedUser author, IwentysUser executor, QuestCompleteArguments arguments)
         {
             if (AuthorId != author.Id)
                 throw InnerLogicException.NotEnoughPermissionFor(author.Id);
@@ -90,6 +91,7 @@ namespace Iwentys.Features.Quests.Entities
 
             State = QuestState.Completed;
             ExecutorId = executor.Id;
+            ExecutorMark = arguments.UserId;
         }
 
         public static Expression<Func<Quest, bool>> IsCompletedBy(AuthorizedUser user)

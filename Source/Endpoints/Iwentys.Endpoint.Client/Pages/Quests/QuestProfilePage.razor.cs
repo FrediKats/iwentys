@@ -16,7 +16,14 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
 
         private async Task AcceptQuestResponse(QuestResponseInfoDto questResponse)
         {
-            await ClientHolder.Quest.Complete(_quest.Id, questResponse.Student.Id);
+            var arguments = new QuestCompleteArguments
+            {
+                UserId = questResponse.Student.Id,
+                //TODO: implement selecting mark
+                Mark = 5
+            };
+
+            await ClientHolder.Quest.Complete(_quest.Id, arguments);
         }
     }
 }

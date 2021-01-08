@@ -55,12 +55,11 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
             return await response.GetJsonAsync<QuestInfoDto>();
         }
 
-        public async Task Complete(int questId, int userId)
+        public async Task Complete(int questId, QuestCompleteArguments arguments)
         {
             await new FlurlClient(Client)
                 .Request($"/api/quests/{questId}/complete")
-                .SetQueryParam("userId", userId)
-                .PutAsync();
+                .PutJsonAsync(arguments);
         }
 
         public async Task Revoke(int questId)

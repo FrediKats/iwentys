@@ -103,16 +103,16 @@ namespace Iwentys.Features.Quests.Services
             return await Get(questId);
         }
 
-        public async Task<QuestInfoDto> Complete(AuthorizedUser author, int questId, int userId)
+        public async Task<QuestInfoDto> Complete(AuthorizedUser author, int questId, QuestCompleteArguments arguments)
         {
-            Quest quest = await _questRepository.FindByIdAsync(questId);
-            IwentysUser executor = await _studentRepository.FindByIdAsync(userId);
+            Quest quest = await _questRepository.GetById(questId);
+            IwentysUser executor = await _studentRepository.GetById(arguments.UserId);
 
-            quest.MakeCompleted(author, executor);
+            quest.MakeCompleted(author, executor, arguments);
 
             _questRepository.Update(quest);
-            await _pointTransactionLogService.TransferFromSystem(userId, quest.Price);
-            await _achievementProvider.Achieve(AchievementList.QuestComplete, userId);
+            await _pointTransactionLogService.TransferFromSystem(executor.Id, quest.Price);
+            await _achievementProvider.Achieve(AchievementList.QuestComplete, executor.Id);
             await _unitOfWork.CommitAsync();
 
             return await Get(questId);

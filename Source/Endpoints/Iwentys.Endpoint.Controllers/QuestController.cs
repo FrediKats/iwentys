@@ -75,10 +75,10 @@ namespace Iwentys.Endpoint.Controllers
         }
 
         [HttpPut("{questId}/complete")]
-        public async Task<ActionResult<QuestInfoDto>> Complete([FromRoute]int questId, [FromQuery] int userId)
+        public async Task<ActionResult<QuestInfoDto>> Complete([FromRoute]int questId, [FromBody] QuestCompleteArguments arguments)
         {
-            AuthorizedUser author = this.TryAuthWithToken();
-            QuestInfoDto quest = await _questService.Complete(author, questId, userId);
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            QuestInfoDto quest = await _questService.Complete(authorizedUser, questId, arguments);
             return Ok(quest);
         }
 

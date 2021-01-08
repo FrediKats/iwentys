@@ -48,7 +48,7 @@ namespace Iwentys.Tests.Features
             var executorPointsCount = questExecuteAccount.BarsPoints;
 
             await testCase.QuestService.SendResponse(questExecutor, quest.Id, new QuestResponseCreateArguments());
-            await testCase.QuestService.Complete(questCreator, quest.Id, questExecutor.Id);
+            await testCase.QuestService.Complete(questCreator, quest.Id, new QuestCompleteArguments() {UserId = questExecutor.Id , Mark = 5});
 
             questExecuteAccount = await testCase.IwentysUserService.Get(questExecutor.Id);
             Assert.AreEqual(executorPointsCount + quest.Price, questExecuteAccount.BarsPoints);
