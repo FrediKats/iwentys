@@ -85,6 +85,7 @@ namespace Iwentys.Database.Context
 
         #region PeerReview
         public DbSet<ProjectReviewRequest> ProjectReviewRequests { get; set; }
+        public DbSet<ProjectReviewRequestInvite> ProjectReviewRequestInvites { get; set; }
         #endregion
 
         #region Quests
@@ -153,6 +154,7 @@ namespace Iwentys.Database.Context
             modelBuilder.Entity<RaidPartySearchRequest>().HasKey(rv => new {rv.RaidId, rv.AuthorId});
             modelBuilder.Entity<CourseLeaderboardRow>().HasKey(clr => new {clr.CourseId, clr.Position});
             modelBuilder.Entity<StudyGroupMember>().HasKey(sgm => new { sgm.GroupId, sgm.StudentId});
+            modelBuilder.Entity<ProjectReviewRequestInvite>().HasKey(rri => new { rri.ReviewRequestId, rri.ReviewerId});
         }
 
         private static void SetUniqKey(ModelBuilder modelBuilder)

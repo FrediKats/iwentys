@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.AccountManagement.Domain;
@@ -24,11 +25,13 @@ namespace Iwentys.Features.PeerReview.Entities
         public long ProjectId { get; set; }
         public virtual GithubProject Project { get; set; }
 
+        public virtual ICollection<ProjectReviewRequestInvite> ProjectReviewRequestInvites { get; set; }
         public virtual ICollection<ProjectReviewFeedback> ReviewFeedbacks { get; set; }
 
         public static Expression<Func<ProjectReviewRequest, bool>> IsVisibleTo(AuthorizedUser user) =>
             request => request.Visibility == ProjectReviewVisibility.Open
-            || request.AuthorId == user.Id;
+            || request.AuthorId == user.Id
+            || request.ProjectReviewRequestInvites.Any(rri => rri.ReviewerId == user.Id);
 
         public static ProjectReviewRequest Create(AuthorizedUser author, GithubProject githubProject, ReviewRequestCreateArguments createArguments)
         {
@@ -71,6 +74,21 @@ namespace Iwentys.Features.PeerReview.Entities
                 throw InnerLogicException.PeerReviewExceptions.ReviewAlreadyClosed(Id);
 
             State = ProjectReviewState.Finished;
+        }
+
+        public ProjectReviewRequestInvite InviteToReview(IwentysUser requestAuthor, IwentysUser invitedUser)
+        {
+            if (Visibility == ProjectReviewVisibility.Open)
+                throw new InnerLogicException("Request is open.");
+
+            if (AuthorId != requestAuthor.Id)
+                throw new InnerLogicException("User is not author.");
+
+            return new ProjectReviewRequestInvite
+            {
+                ReviewRequestId = Id,
+                ReviewerId = invitedUser.Id
+            };
         }
     }
 }

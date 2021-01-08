@@ -18,6 +18,7 @@ namespace Iwentys.Features.PeerReview.Services
         private readonly IGenericRepository<GithubProject> _projectRepository;
         private readonly IGenericRepository<ProjectReviewFeedback> _projectReviewFeedbackRepository;
         private readonly IGenericRepository<ProjectReviewRequest> _projectReviewRequestRepository;
+        private readonly IGenericRepository<ProjectReviewRequestInvite> _projectReviewRequestInviteRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IGenericRepository<IwentysUser> _userRepository;
@@ -30,6 +31,7 @@ namespace Iwentys.Features.PeerReview.Services
             _projectReviewRequestRepository = _unitOfWork.GetRepository<ProjectReviewRequest>();
             _projectReviewFeedbackRepository = _unitOfWork.GetRepository<ProjectReviewFeedback>();
             _projectRepository = _unitOfWork.GetRepository<GithubProject>();
+            _projectReviewRequestInviteRepository = _unitOfWork.GetRepository<ProjectReviewRequestInvite>();
         }
 
         public async Task<List<ProjectReviewRequestInfoDto>> GetRequests(AuthorizedUser user)
@@ -91,6 +93,18 @@ namespace Iwentys.Features.PeerReview.Services
             projectReviewRequest.FinishReview(user);
 
             _projectReviewRequestRepository.Update(projectReviewRequest);
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task InviteToReview(AuthorizedUser requestAuthor, int reviewRequestId, int reviewToInviteId)
+        {
+            IwentysUser user = await _userRepository.GetById(requestAuthor.Id);
+            ProjectReviewRequest projectReviewRequest = await _projectReviewRequestRepository.GetById(reviewRequestId);
+            IwentysUser reviewToInvite = await _userRepository.GetById(reviewToInviteId);
+
+            ProjectReviewRequestInvite projectReviewRequestInvite = projectReviewRequest.InviteToReview(user, reviewToInvite);
+
+            await _projectReviewRequestInviteRepository.InsertAsync(projectReviewRequestInvite);
             await _unitOfWork.CommitAsync();
         }
     }
