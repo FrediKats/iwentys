@@ -27,19 +27,9 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
             return Client.GetFromJsonAsync<List<SubjectAssignmentDto>>($"api/subject-assignment/for-subject/{subjectId}");
         }
 
-        public Task CreateSubjectAssignment(int subjectId, SubjectAssignmentCreateArguments arguments)
-        {
-            return new FlurlClient(Client)
-                .Request($"api/subject-assignment/{subjectId}")
-                .PostJsonAsync(arguments);
-        }
+        
 
-        public Task<List<SubjectAssignmentSubmitDto>> GetSubjectAssignmentSubmits(int subjectId)
-        {
-            return new FlurlClient(Client)
-                .Request($"api/subject-assignment/{subjectId}/submits")
-                .GetJsonAsync<List<SubjectAssignmentSubmitDto>>();
-        }
+        
 
         public Task<List<SubjectAssignmentSubmitDto>> GetSubjectAssignmentSubmits(int subjectId, int studentId)
         {
@@ -56,11 +46,29 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
                 .GetJsonAsync<SubjectAssignmentSubmitDto>();
         }
 
+        #region Teacher only method
+
+        public Task CreateSubjectAssignment(int subjectId, SubjectAssignmentCreateArguments arguments)
+        {
+            return new FlurlClient(Client)
+                .Request($"api/subject-assignment/management/{subjectId}")
+                .PostJsonAsync(arguments);
+        }
+
+        public Task<List<SubjectAssignmentSubmitDto>> GetSubjectAssignmentSubmits(int subjectId)
+        {
+            return new FlurlClient(Client)
+                .Request($"api/subject-assignment/management/{subjectId}/submits")
+                .GetJsonAsync<List<SubjectAssignmentSubmitDto>>();
+        }
+
         public Task SendFeedback(int subjectId, int subjectAssignmentSubmitId, SubjectAssignmentSubmitFeedbackArguments arguments)
         {
             return new FlurlClient(Client)
-                .Request($"api/subject-assignment/{subjectId}/submits/{subjectAssignmentSubmitId}")
-                .PostJsonAsync(arguments);
+                .Request($"api/subject-assignment/management/{subjectId}/submits/{subjectAssignmentSubmitId}")
+                .PutJsonAsync(arguments);
         }
+
+        #endregion
     }
 }

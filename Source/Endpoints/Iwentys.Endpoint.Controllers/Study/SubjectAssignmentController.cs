@@ -35,7 +35,17 @@ namespace Iwentys.Endpoint.Controllers.Study
             return Ok(result);
         }
 
-        [HttpPost("{subjectId}")]
+        [HttpGet("{subjectId}/submits/{subjectAssignmentSubmitId}")]
+        public async Task<ActionResult<SubjectAssignmentSubmitDto>> GetSubjectAssignmentSubmit(int subjectId, int subjectAssignmentSubmitId)
+        {
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            SubjectAssignmentSubmitDto result = await _subjectAssignmentService.GetSubjectAssignmentSubmit(authorizedUser, subjectAssignmentSubmitId);
+            return Ok(result);
+        }
+
+        #region Teacher only method
+
+        [HttpPost("management/{subjectId}")]
         public async Task<ActionResult> CreateSubjectAssignment(int subjectId, SubjectAssignmentCreateArguments arguments)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
@@ -43,7 +53,7 @@ namespace Iwentys.Endpoint.Controllers.Study
             return Ok();
         }
 
-        [HttpGet("{subjectId}/submits")]
+        [HttpGet("management/{subjectId}/submits")]
         public async Task<ActionResult<List<SubjectAssignmentSubmitDto>>> GetSubjectAssignmentSubmits(int subjectId, [FromQuery] int? studentId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
@@ -55,20 +65,14 @@ namespace Iwentys.Endpoint.Controllers.Study
             return Ok(submits);
         }
 
-        [HttpGet("{subjectId}/submits/{subjectAssignmentSubmitId}")]
-        public async Task<ActionResult<SubjectAssignmentSubmitDto>> GetSubjectAssignmentSubmit(int subjectId, int subjectAssignmentSubmitId)
-        {
-            AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            SubjectAssignmentSubmitDto result = await _subjectAssignmentService.GetSubjectAssignmentSubmit(authorizedUser, subjectAssignmentSubmitId);
-            return Ok(result);
-        }
-
-        [HttpPost("{subjectId}/submits/{subjectAssignmentSubmitId}")]
+        [HttpPut("management/{subjectId}/submits/{subjectAssignmentSubmitId}")]
         public async Task<ActionResult> SendFeedback(int subjectId, int subjectAssignmentSubmitId, [FromBody] SubjectAssignmentSubmitFeedbackArguments arguments)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             await _subjectAssignmentService.SendFeedback(authorizedUser, subjectAssignmentSubmitId, arguments);
             return Ok();
         }
+
+        #endregion
     }
 }

@@ -43,7 +43,7 @@ namespace Iwentys.Features.Guilds.Models
         public List<GithubRepositoryInfoDto> PinnedRepositories { get; set; }
         public List<int> GuildRatingList { get; set; }
 
-        public int GuildRating => GuildRatingList.Sum();
+        public int GuildRating => GuildRatingList?.Sum() ?? 0;
 
         public string Format()
         {
