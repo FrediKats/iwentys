@@ -43,6 +43,18 @@ namespace Iwentys.Endpoint.Controllers.Study
             return Ok(result);
         }
 
+        [HttpGet("{subjectId}/submits")]
+        public async Task<ActionResult<List<SubjectAssignmentSubmitDto>>> GetStudentSubjectAssignmentSubmits(int subjectId)
+        {
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            List<SubjectAssignmentSubmitDto> submits = await _subjectAssignmentService.SearchSubjectAssignmentSubmits(authorizedUser, new SubjectAssignmentSubmitSearchArguments
+            {
+                SubjectId = subjectId,
+                StudentId = authorizedUser.Id
+            });
+            return Ok(submits);
+        }
+
         #region Teacher only method
 
         [HttpPost("management/{subjectId}")]
@@ -54,7 +66,7 @@ namespace Iwentys.Endpoint.Controllers.Study
         }
 
         [HttpGet("management/{subjectId}/submits")]
-        public async Task<ActionResult<List<SubjectAssignmentSubmitDto>>> GetSubjectAssignmentSubmits(int subjectId, [FromQuery] int? studentId)
+        public async Task<ActionResult<List<SubjectAssignmentSubmitDto>>> SearchSubjectAssignmentSubmits(int subjectId, [FromQuery] int? studentId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             List<SubjectAssignmentSubmitDto> submits = await _subjectAssignmentService.SearchSubjectAssignmentSubmits(authorizedUser, new SubjectAssignmentSubmitSearchArguments

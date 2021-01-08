@@ -17,7 +17,7 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Public
 
             _self = await ClientHolder.Student.GetSelf();
             _subjectAssignments = await ClientHolder.SubjectAssignment.GetSubjectAssignmentForSubject(SubjectId);
-            _subjectAssignmentSubmits = await ClientHolder.SubjectAssignment.GetSubjectAssignmentSubmits(SubjectId, _self.Id);
+            _subjectAssignmentSubmits = await ClientHolder.SubjectAssignment.GetStudentSubjectAssignmentSubmits(SubjectId);
         }
     }
 }

@@ -27,23 +27,18 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
             return Client.GetFromJsonAsync<List<SubjectAssignmentDto>>($"api/subject-assignment/for-subject/{subjectId}");
         }
 
-        
-
-        
-
-        public Task<List<SubjectAssignmentSubmitDto>> GetSubjectAssignmentSubmits(int subjectId, int studentId)
-        {
-            return new FlurlClient(Client)
-                .Request($"api/subject-assignment/{subjectId}/submits")
-                .SetQueryParam("studentId", studentId)
-                .GetJsonAsync<List<SubjectAssignmentSubmitDto>>();
-        }
-
         public Task<SubjectAssignmentSubmitDto> GetSubjectAssignmentSubmit(int subjectId, int subjectAssignmentSubmitId)
         {
             return new FlurlClient(Client)
                 .Request($"api/subject-assignment/{subjectId}/submits/{subjectAssignmentSubmitId}")
                 .GetJsonAsync<SubjectAssignmentSubmitDto>();
+        }
+
+        public Task<List<SubjectAssignmentSubmitDto>> GetStudentSubjectAssignmentSubmits(int subjectId)
+        {
+            return new FlurlClient(Client)
+                .Request($"api/subject-assignment/{subjectId}/submits")
+                .GetJsonAsync<List<SubjectAssignmentSubmitDto>>();
         }
 
         #region Teacher only method
@@ -55,10 +50,11 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Study
                 .PostJsonAsync(arguments);
         }
 
-        public Task<List<SubjectAssignmentSubmitDto>> GetSubjectAssignmentSubmits(int subjectId)
+        public Task<List<SubjectAssignmentSubmitDto>> SearchSubjectAssignmentSubmits(int subjectId, int? studentId = null)
         {
             return new FlurlClient(Client)
                 .Request($"api/subject-assignment/management/{subjectId}/submits")
+                .SetQueryParam("studentId", studentId)
                 .GetJsonAsync<List<SubjectAssignmentSubmitDto>>();
         }
 
