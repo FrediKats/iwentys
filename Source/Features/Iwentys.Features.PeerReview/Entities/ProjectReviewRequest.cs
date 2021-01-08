@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
@@ -16,11 +17,18 @@ namespace Iwentys.Features.PeerReview.Entities
         public ProjectReviewState State { get; set; }
         public DateTime CreationTimeUtc { get; set; }
         public DateTime LastUpdateTimeUtc { get; set; }
+        public ProjectReviewVisibility Visibility { get; set; }
+        public int AuthorId { get; set; }
+        public virtual IwentysUser Author { get; set; }
 
         public long ProjectId { get; set; }
         public virtual GithubProject Project { get; set; }
 
         public virtual ICollection<ProjectReviewFeedback> ReviewFeedbacks { get; set; }
+
+        public static Expression<Func<ProjectReviewRequest, bool>> IsVisibleTo(AuthorizedUser user) =>
+            request => request.Visibility == ProjectReviewVisibility.Open
+            || request.AuthorId == user.Id;
 
         public static ProjectReviewRequest Create(AuthorizedUser author, GithubProject githubProject, ReviewRequestCreateArguments createArguments)
         {
@@ -32,7 +40,9 @@ namespace Iwentys.Features.PeerReview.Entities
                 State = ProjectReviewState.Requested,
                 CreationTimeUtc = DateTime.UtcNow,
                 LastUpdateTimeUtc = DateTime.UtcNow,
-                ProjectId = githubProject.Id
+                Visibility = createArguments.Visibility,
+                ProjectId = githubProject.Id,
+                AuthorId = author.Id
             };
         }
 
@@ -55,7 +65,7 @@ namespace Iwentys.Features.PeerReview.Entities
 
         public void FinishReview(IwentysUser user)
         {
-            if (user.Id != Project.OwnerUserId && !user.IsAdmin) throw InnerLogicException.NotEnoughPermissionFor(user.Id);
+            if (user.Id != AuthorId && !user.IsAdmin) throw InnerLogicException.NotEnoughPermissionFor(user.Id);
 
             if (State == ProjectReviewState.Finished)
                 throw InnerLogicException.PeerReviewExceptions.ReviewAlreadyClosed(Id);

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Features.GithubIntegration.Models;
+using Iwentys.Features.PeerReview.Enums;
 using Iwentys.Features.PeerReview.Models;
 
 namespace Iwentys.Endpoint.Client.Pages.PeerReview
@@ -25,7 +26,8 @@ namespace Iwentys.Endpoint.Client.Pages.PeerReview
             var arguments = new ReviewRequestCreateArguments
             {
                 ProjectId = _selectedProject.Id,
-                Description = _description
+                Description = _description,
+                Visibility = ProjectReviewVisibility.Open
             };
 
             await ClientHolder.PeerReview.CreateReviewRequest(arguments);

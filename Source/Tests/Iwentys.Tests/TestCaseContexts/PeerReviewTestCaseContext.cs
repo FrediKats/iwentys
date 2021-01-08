@@ -16,7 +16,8 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public ProjectReviewRequestInfoDto WithReviewRequest(AuthorizedUser user, GithubProject githubProject)
         {
-            ProjectReviewRequestInfoDto reviewRequest = _context.ProjectReviewService.CreateReviewRequest(user, new ReviewRequestCreateArguments {ProjectId = githubProject.Id}).Result;
+            var createArguments = new ReviewRequestCreateArguments { ProjectId = githubProject.Id, Visibility = ProjectReviewVisibility.Open};
+            ProjectReviewRequestInfoDto reviewRequest = _context.ProjectReviewService.CreateReviewRequest(user, createArguments).Result;
             return reviewRequest;
         }
 

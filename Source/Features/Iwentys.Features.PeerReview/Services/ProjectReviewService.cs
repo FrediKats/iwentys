@@ -32,10 +32,11 @@ namespace Iwentys.Features.PeerReview.Services
             _projectRepository = _unitOfWork.GetRepository<GithubProject>();
         }
 
-        public async Task<List<ProjectReviewRequestInfoDto>> GetRequests()
+        public async Task<List<ProjectReviewRequestInfoDto>> GetRequests(AuthorizedUser user)
         {
             return await _projectReviewRequestRepository
                 .Get()
+                .Where(ProjectReviewRequest.IsVisibleTo(user))
                 .Select(ProjectReviewRequestInfoDto.FromEntity)
                 .ToListAsync();
         }
