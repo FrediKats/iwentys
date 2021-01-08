@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Enums;
+using Iwentys.Features.PeerReview.Entities;
+using Iwentys.Features.PeerReview.Enums;
+using Iwentys.Features.PeerReview.Models;
+using Iwentys.Features.PeerReview.Services;
 
 namespace Iwentys.Features.Guilds.Entities
 {
@@ -25,8 +31,9 @@ namespace Iwentys.Features.Guilds.Entities
         public int AuthorId { get; init; }
         public virtual IwentysUser Author { get; init; }
 
-        public long? ProjectId { get; set; }
-        public virtual GithubProject Project { get; set; }
+
+        public int? ProjectReviewRequestId { get; set; }
+        public virtual ProjectReviewRequest ProjectReviewRequest { get; set; }
 
         public int? ReviewerId { get; set; }
         public virtual IwentysUser Reviewer { get; set; }
@@ -47,9 +54,9 @@ namespace Iwentys.Features.Guilds.Entities
             };
         }
 
-        public void SendSubmit(long projectId)
+        public void SendSubmit(AuthorizedUser author, ProjectReviewRequestInfoDto reviewRequest)
         {
-            ProjectId = projectId;
+            ProjectReviewRequestId = reviewRequest.Id;
             SubmitTimeUtc = DateTime.UtcNow;
         }
 

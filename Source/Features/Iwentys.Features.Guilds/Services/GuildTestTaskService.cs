@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
@@ -13,6 +14,9 @@ using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Repositories;
+using Iwentys.Features.PeerReview.Enums;
+using Iwentys.Features.PeerReview.Models;
+using Iwentys.Features.PeerReview.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Services
@@ -23,21 +27,24 @@ namespace Iwentys.Features.Guilds.Services
         private readonly GithubIntegrationService _githubIntegrationService;
 
         private readonly IGenericRepository<GuildMember> _guildMemberRepository;
-        private readonly IGenericRepository<Guild> _guildRepositoryNew;
+        private readonly IGenericRepository<Guild> _guildRepository;
         private readonly IGenericRepository<GuildTestTaskSolution> _guildTestTaskSolutionRepository;
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IGenericRepository<IwentysUser> _userRepository;
 
+        private readonly ProjectReviewService _projectReviewService;
 
-        public GuildTestTaskService(AchievementProvider achievementProvider, IUnitOfWork unitOfWork, GithubIntegrationService githubIntegrationService)
+
+        public GuildTestTaskService(AchievementProvider achievementProvider, IUnitOfWork unitOfWork, GithubIntegrationService githubIntegrationService, ProjectReviewService projectReviewService)
         {
             _achievementProvider = achievementProvider;
             _githubIntegrationService = githubIntegrationService;
+            _projectReviewService = projectReviewService;
 
             _unitOfWork = unitOfWork;
             _userRepository = _unitOfWork.GetRepository<IwentysUser>();
-            _guildRepositoryNew = _unitOfWork.GetRepository<Guild>();
+            _guildRepository = _unitOfWork.GetRepository<Guild>();
             _guildMemberRepository = _unitOfWork.GetRepository<GuildMember>();
             _guildTestTaskSolutionRepository = _unitOfWork.GetRepository<GuildTestTaskSolution>();
         }
@@ -86,8 +93,30 @@ namespace Iwentys.Features.Guilds.Services
             if (testTaskSolution.GetState() == GuildTestTaskState.Completed)
                 throw new InnerLogicException("Task already completed");
 
+            Guild guild = await _guildRepository.GetById(guildId);
             GithubRepositoryInfoDto githubRepositoryInfoDto = await _githubIntegrationService.Repository.GetRepository(projectOwner, projectName);
-            testTaskSolution.SendSubmit(githubRepositoryInfoDto.Id);
+            var createArguments = new ReviewRequestCreateArguments
+            {
+                ProjectId = githubRepositoryInfoDto.Id,
+                Description = "Guild test task review",
+                Visibility = ProjectReviewVisibility.Closed
+            };
+
+            //TODO: here we call .Commit and... it's not okay
+            ProjectReviewRequestInfoDto reviewRequest = await _projectReviewService.CreateReviewRequest(user, createArguments);
+
+            foreach (GuildMember member in guild.Members)
+            {
+                if (member.MemberId == user.Id)
+                    continue;
+
+                if (!member.MemberType.IsMentor())
+                    continue;
+
+                await _projectReviewService.InviteToReview(user, reviewRequest.Id, member.MemberId);
+            }
+
+            testTaskSolution.SendSubmit(user, reviewRequest);
 
             _guildTestTaskSolutionRepository.Update(testTaskSolution);
             await _unitOfWork.CommitAsync();
@@ -97,7 +126,7 @@ namespace Iwentys.Features.Guilds.Services
         public async Task<GuildTestTaskInfoResponse> Complete(AuthorizedUser user, int guildId, int taskSolveOwnerId)
         {
             IwentysUser review = await _userRepository.FindByIdAsync(user.Id);
-            await review.EnsureIsGuildMentor(_guildRepositoryNew, guildId);
+            await review.EnsureIsGuildMentor(_guildRepository, guildId);
 
             GuildTestTaskSolution testTask = await _guildTestTaskSolutionRepository
                 .GetSingle(t => t.AuthorId == taskSolveOwnerId && t.GuildId == guildId);
