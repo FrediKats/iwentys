@@ -54,5 +54,6 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
 
         private string LinkToQuestProfilePage(QuestInfoDto quest) => $"/quest/profile/{quest.Id}";
         private string LinkToQuestResponsePage(QuestInfoDto quest) => $"/quest/response/{quest.Id}";
+        private string LinkToRating() => $"quests/rating/";
     }
 }

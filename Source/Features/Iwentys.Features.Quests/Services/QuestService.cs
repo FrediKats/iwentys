@@ -4,9 +4,11 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
+using Iwentys.Features.AccountManagement.Models;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Economy.Services;
 using Iwentys.Features.Quests.Entities;
+using Iwentys.Features.Quests.Enums;
 using Iwentys.Features.Quests.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +22,7 @@ namespace Iwentys.Features.Quests.Services
         private readonly IGenericRepository<Quest> _questRepository;
         private readonly IGenericRepository<QuestResponse> _questResponseRepository;
 
-        private readonly IGenericRepository<IwentysUser> _studentRepository;
+        private readonly IGenericRepository<IwentysUser> _userRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         public QuestService(AchievementProvider achievementProvider, BarsPointTransactionLogService pointTransactionLogService, IUnitOfWork unitOfWork)
@@ -29,7 +31,7 @@ namespace Iwentys.Features.Quests.Services
             _pointTransactionLogService = pointTransactionLogService;
             _unitOfWork = unitOfWork;
 
-            _studentRepository = _unitOfWork.GetRepository<IwentysUser>();
+            _userRepository = _unitOfWork.GetRepository<IwentysUser>();
             _questRepository = _unitOfWork.GetRepository<Quest>();
             _questResponseRepository = _unitOfWork.GetRepository<QuestResponse>();
         }
@@ -80,11 +82,11 @@ namespace Iwentys.Features.Quests.Services
 
         public async Task<QuestInfoDto> Create(AuthorizedUser user, CreateQuestRequest createQuest)
         {
-            IwentysUser student = await _studentRepository.FindByIdAsync(user.Id);
+            IwentysUser student = await _userRepository.FindByIdAsync(user.Id);
             var quest = Quest.New(student, createQuest);
 
             await _questRepository.InsertAsync(quest);
-            _studentRepository.Update(student);
+            _userRepository.Update(student);
 
             await _achievementProvider.Achieve(AchievementList.QuestCreator, user.Id);
             await _unitOfWork.CommitAsync();
@@ -106,7 +108,7 @@ namespace Iwentys.Features.Quests.Services
         public async Task<QuestInfoDto> Complete(AuthorizedUser author, int questId, QuestCompleteArguments arguments)
         {
             Quest quest = await _questRepository.GetById(questId);
-            IwentysUser executor = await _studentRepository.GetById(arguments.UserId);
+            IwentysUser executor = await _userRepository.GetById(arguments.UserId);
 
             quest.MakeCompleted(author, executor, arguments);
 
@@ -120,12 +122,12 @@ namespace Iwentys.Features.Quests.Services
 
         public async Task<QuestInfoDto> Revoke(AuthorizedUser user, int questId)
         {
-            IwentysUser author = await _studentRepository.FindByIdAsync(user.Id);
+            IwentysUser author = await _userRepository.FindByIdAsync(user.Id);
             Quest quest = await _questRepository.FindByIdAsync(questId);
 
             quest.Revoke(author);
 
-            _studentRepository.Update(author);
+            _userRepository.Update(author);
             _questRepository.Update(quest);
             await _unitOfWork.CommitAsync();
 
@@ -134,12 +136,18 @@ namespace Iwentys.Features.Quests.Services
 
         public async Task<List<QuestRatingRow>> GetQuestExecutorRating()
         {
-            List<QuestRatingRow> result = await _questRepository
+            List<QuestRatingRow> result = _questRepository
                 .Get()
-                .Where(Quest.IsActive)
-                .GroupBy(q => q.ExecutorId)
-                .Select(g => new QuestRatingRow {UserId = g.Key.Value, Marks = g.Select(q => q.ExecutorMark).ToList()})
-                .ToListAsync();
+                .Where(q => q.State == QuestState.Completed)
+                .AsEnumerable()
+                .GroupBy(q => q.ExecutorId, q => q.ExecutorMark)
+                .Select(g => new QuestRatingRow { UserId = g.Key.Value, Marks = g.ToList() })
+                .ToList();
+
+            List<IwentysUser> users = await _userRepository.Get().ToListAsync();
+            //TODO: hack
+            result.ForEach(r => { r.User = new IwentysUserInfoDto(users.First(u => u.Id == r.UserId));});
+
             return result;
         }
     }
