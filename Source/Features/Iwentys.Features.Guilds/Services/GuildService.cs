@@ -12,6 +12,7 @@ using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Services
 {
@@ -87,12 +88,13 @@ namespace Iwentys.Features.Guilds.Services
                 .ToList();
         }
 
-        public async Task<ExtendedGuildProfileWithMemberDataDto> Get(int id, int? userId)
+        public async Task<GuildProfileDto> Get(int id)
         {
-            Guild guild = await _guildRepository.GetById(id);
-
-            return await new GuildDomain(guild, _githubIntegrationService, _iwentysUserRepository, _guildMemberRepository, _guildLastLeaveRepository)
-                .ToExtendedGuildProfileDto();
+            return await _guildRepository
+                .Get()
+                .Where(g => g.Id == id)
+                .Select(GuildProfileDto.FromEntity)
+                .SingleAsync();
         }
 
         public GuildProfileDto FindStudentGuild(int userId)

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
-using Iwentys.Common.Tools;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.AccountManagement.Models;
@@ -39,17 +36,6 @@ namespace Iwentys.Features.Guilds.Domain
         }
 
         public Guild Profile { get; }
-
-        public async Task<ExtendedGuildProfileWithMemberDataDto> ToExtendedGuildProfileDto()
-        {
-            var info = new ExtendedGuildProfileWithMemberDataDto(Profile)
-            {
-                Leader = Profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new IwentysUserInfoDto(s)),
-                PinnedRepositories = Profile.PinnedProjects.SelectToList(p => new GithubRepositoryInfoDto(p.Project))
-            };
-
-            return info;
-        }
 
         public async Task<List<GuildMemberImpactDto>> GetMemberImpacts()
         {

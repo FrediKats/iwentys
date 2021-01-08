@@ -11,6 +11,7 @@ using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Services
 {
@@ -24,12 +25,14 @@ namespace Iwentys.Features.Guilds.Services
 
         private readonly IUnitOfWork _unitOfWork;
 
+        private readonly GuildService _guildService;
 
-        public GuildMemberService(GithubIntegrationService githubIntegrationService, IUnitOfWork unitOfWork)
+        public GuildMemberService(GithubIntegrationService githubIntegrationService, IUnitOfWork unitOfWork, GuildService guildService)
         {
             _githubIntegrationService = githubIntegrationService;
 
             _unitOfWork = unitOfWork;
+            _guildService = guildService;
             _userRepository = _unitOfWork.GetRepository<IwentysUser>();
             _guildRepository = _unitOfWork.GetRepository<Guild>();
             _guildMemberRepository = _unitOfWork.GetRepository<GuildMember>();
@@ -48,7 +51,7 @@ namespace Iwentys.Features.Guilds.Services
             await _guildMemberRepository.InsertAsync(guildMemberEntity);
             await _unitOfWork.CommitAsync();
 
-            return await Get(guildId, user.Id);
+            return await _guildService.Get(guildId);
         }
 
         public async Task<GuildProfileDto> RequestGuild(AuthorizedUser user, int guildId)
@@ -63,7 +66,7 @@ namespace Iwentys.Features.Guilds.Services
             await _guildMemberRepository.InsertAsync(guildMemberEntity);
             await _unitOfWork.CommitAsync();
 
-            return await Get(guildId, user.Id);
+            return await _guildService.Get(guildId);
         }
 
         public async Task LeaveGuild(AuthorizedUser user, int guildId)
@@ -177,13 +180,7 @@ namespace Iwentys.Features.Guilds.Services
 
             await RemoveMember(guildId, iwentysUser, guildLastLeave);
         }
-
-        public async Task<ExtendedGuildProfileWithMemberDataDto> Get(int id, int? userId)
-        {
-            Guild guild = await _guildRepository.GetById(id);
-            return await CreateDomain(guild).ToExtendedGuildProfileDto();
-        }
-
+        
         public async Task<UserMembershipState> GetUserMembership(AuthorizedUser creator, int guildId)
         {
             Guild guild = await _guildRepository.GetById(guildId);

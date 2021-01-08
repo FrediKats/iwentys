@@ -23,7 +23,7 @@
 
 @code {
     [Parameter]
-    public ExtendedGuildProfileWithMemberDataDto SelectedGuildProfile { get; set; }
+    public GuildProfileDto SelectedGuildProfile { get; set; }
 
     private string EditProfileLink() => $"guild/profile/{SelectedGuildProfile.Id}/edit";
     private string LeaderProfileLink() => $"student/profile/{SelectedGuildProfile.Leader.Id}";

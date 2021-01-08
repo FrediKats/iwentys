@@ -19,7 +19,7 @@ namespace Iwentys.Tests.Features.Guilds
             TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser student = context.AccountManagementTestCaseContext.WithUser();
             AuthorizedUser admin = context.AccountManagementTestCaseContext.WithUser(true);
-            ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(student);
+            GuildProfileDto guild = context.GuildTestCaseContext.WithGuild(student);
             AuthorizedUser mentor = context.GuildTestCaseContext.WithGuildMentor(guild, student);
 
             context.GithubTestCaseContext.WithGithubAccount(student);
@@ -38,7 +38,7 @@ namespace Iwentys.Tests.Features.Guilds
             TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser student = context.AccountManagementTestCaseContext.WithUser();
             AuthorizedUser admin = context.AccountManagementTestCaseContext.WithUser(true);
-            ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(student);
+            GuildProfileDto guild = context.GuildTestCaseContext.WithGuild(student);
             AuthorizedUser mentor = context.GuildTestCaseContext.WithGuildMentor(guild, student);
 
             context.GithubTestCaseContext.WithGithubAccount(student);
@@ -60,7 +60,7 @@ namespace Iwentys.Tests.Features.Guilds
             TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser student = context.AccountManagementTestCaseContext.WithUser();
             AuthorizedUser admin = context.AccountManagementTestCaseContext.WithUser(true);
-            ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(student);
+            GuildProfileDto guild = context.GuildTestCaseContext.WithGuild(student);
             AuthorizedUser mentor = context.GuildTestCaseContext.WithGuildMentor(guild, student);
 
             context.GithubTestCaseContext.WithGithubAccount(student);

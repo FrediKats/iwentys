@@ -14,12 +14,12 @@ namespace Iwentys.Tests.TestCaseContexts
             _context = context;
         }
 
-        public ExtendedGuildProfileWithMemberDataDto WithGuild(AuthorizedUser user)
+        public GuildProfileDto WithGuild(AuthorizedUser user)
         {
             var guildCreateRequest = new GuildCreateRequestDto(null, null, null, GuildHiringPolicy.Close);
 
             GuildProfileShortInfoDto guild = _context.GuildService.Create(user, guildCreateRequest).Result;
-            ExtendedGuildProfileWithMemberDataDto guildProfile = _context.GuildService.Get(guild.Id, user.Id).Result;
+            GuildProfileDto guildProfile = _context.GuildService.Get(guild.Id).Result;
             return guildProfile;
         }
 

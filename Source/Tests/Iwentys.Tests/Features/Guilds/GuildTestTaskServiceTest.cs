@@ -18,7 +18,7 @@ namespace Iwentys.Tests.Features.Guilds
         {
             TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
-            ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
+            GuildProfileDto guild = context.GuildTestCaseContext.WithGuild(user);
             AuthorizedUser guildNewcomer = context.GuildTestCaseContext.WithGuildMember(guild, user);
 
             await context.GuildTestTaskService.Accept(guildNewcomer, guild.Id);
@@ -32,7 +32,7 @@ namespace Iwentys.Tests.Features.Guilds
         {
             TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
-            ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
+            GuildProfileDto guild = context.GuildTestCaseContext.WithGuild(user);
             AuthorizedUser guildNewcomer = context.GuildTestCaseContext.WithGuildMember(guild, user);
 
             context.GithubTestCaseContext.WithGithubAccount(guildNewcomer);
@@ -52,7 +52,7 @@ namespace Iwentys.Tests.Features.Guilds
         {
             TestCaseContext context = TestCaseContext.Case();
             AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
-            ExtendedGuildProfileWithMemberDataDto guild = context.GuildTestCaseContext.WithGuild(user);
+            GuildProfileDto guild = context.GuildTestCaseContext.WithGuild(user);
             AuthorizedUser guildNewcomer = context.GuildTestCaseContext.WithGuildMember(guild, user);
 
             context.GithubTestCaseContext.WithGithubAccount(guildNewcomer);

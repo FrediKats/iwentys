@@ -32,7 +32,7 @@
 @code {
 
     [Parameter]
-    public ExtendedGuildProfileWithMemberDataDto GuildProfile { get; set; }
+    public GuildProfileDto GuildProfile { get; set; }
 
     private string LinkToPinCreating => $"guild/{GuildProfile.Id}/create-pinned";
 }

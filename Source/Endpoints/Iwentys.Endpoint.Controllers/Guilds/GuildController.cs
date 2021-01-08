@@ -41,10 +41,10 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ExtendedGuildProfileWithMemberDataDto>> Get(int id)
+        public async Task<ActionResult<GuildProfileDto>> Get(int id)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(await _guildService.Get(id, user.Id));
+            return Ok(await _guildService.Get(id));
         }
 
         [HttpGet("for-member")]
