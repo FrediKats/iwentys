@@ -5,38 +5,46 @@
 
 @inherits DependencyInjectionPage
 
-<div class="col-md-6 d-flex flex-column">
-    <h3>Quest profile</h3>
-
+<div class="d-flex col-6 input-form-component">
     @if (_quest is not null)
     {
-        <MatHeadline6>
-            @_quest.Title (@_quest.Price)
-        </MatHeadline6>
+        <MatHeadline3>
+            @_quest.Title
+        </MatHeadline3>
         <MatBody1>
-            @_quest.Description
+            Price: @_quest.Price
+        </MatBody1>
+        <MatBody1>
+            Description: @_quest.Description
         </MatBody1>
 
         @switch (_quest.State)
         {
             case QuestState.Active:
-                <div>
-                    <h5>Quest responses</h5>
+                <h5>Responses</h5>
+                <div class="justify-content-center">
                     @foreach (QuestResponseInfoDto questResponse in _quest.ResponseInfos)
                     {
-                        <MatCard>
-                            <MatCardContent>
-                                <MatHeadline6>
-                                    @questResponse.Student.GetFullName()
-                                </MatHeadline6>
-                                <MatBody2>
-                                    @questResponse.ResponseTime
-                                </MatBody2>
-                            </MatCardContent>
-                            <MatCardActions>
-                                <MatButton OnClick=@(async () => await AcceptQuestResponse(questResponse))>Accept</MatButton>
-                            </MatCardActions>
-                        </MatCard>
+                        <div class="card-list-element">
+                            <MatCard>
+                                <MatCardContent>
+                                    <div class="card-list-element-content">
+                                        <MatHeadline6>
+                                            @questResponse.Student.GetFullName()
+                                        </MatHeadline6>
+                                        <MatBody2>
+                                            @questResponse.Description
+                                        </MatBody2>
+                                        <MatBody2>
+                                            @questResponse.ResponseTime
+                                        </MatBody2>
+                                    </div>
+                                </MatCardContent>
+                                <MatCardActions>
+                                    <MatButton OnClick=@(async () => await AcceptQuestResponse(questResponse))>Accept</MatButton>
+                                </MatCardActions>
+                            </MatCard>
+                        </div>
                     }
                 </div>
                 break;

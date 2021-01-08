@@ -10,6 +10,7 @@ namespace Iwentys.Features.Quests.Models
         {
             Student = new IwentysUserInfoDto(questResponse.Student);
             ResponseTime = questResponse.ResponseTime;
+            Description = questResponse.Description;
         }
 
         public QuestResponseInfoDto()
@@ -18,5 +19,6 @@ namespace Iwentys.Features.Quests.Models
 
         public IwentysUserInfoDto Student { get; set; }
         public DateTime ResponseTime { get; set; }
+        public string Description { get; set; }
     }
 }

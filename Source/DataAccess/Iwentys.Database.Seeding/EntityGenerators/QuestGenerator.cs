@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Bogus;
 using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Features.Quests.Entities;
 using Iwentys.Features.Study.Entities;
@@ -29,7 +30,8 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                     {
                         QuestId = quest.Id,
                         StudentId = student.Id,
-                        ResponseTime = DateTime.UtcNow.AddDays(1)
+                        ResponseTime = DateTime.UtcNow.AddDays(1),
+                        Description = new Faker().Lorem.Paragraph()
                     });
                 }
             }
