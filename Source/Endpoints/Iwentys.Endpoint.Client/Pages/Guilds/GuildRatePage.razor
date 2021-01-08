@@ -5,7 +5,9 @@
 
 <div class="text-center">
     <h3>Рейтинг Гильдий</h3>
-
+    <MatButton OnClick="@ForceUpdate">
+        Force update
+    </MatButton>
     @if (_guildProfiles is not null)
     {
         <div class="container-fluid d-flex flex-column">
@@ -19,7 +21,7 @@
                             </div>
 
                             <div class="col-md-8">
-                                <h4>@guild.Title</h4>
+                                <h4>@guild.Title (Rate: @guild.GuildRating)</h4>
 
                                 <p>Some bio @guild.Bio</p>
                             </div>

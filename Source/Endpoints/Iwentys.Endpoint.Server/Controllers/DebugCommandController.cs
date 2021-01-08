@@ -11,7 +11,7 @@ using StackExchange.Exceptional;
 
 namespace Iwentys.Endpoint.Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/DebugCommand")]
     [ApiController]
     public class DebugCommandController : ControllerBase
     {

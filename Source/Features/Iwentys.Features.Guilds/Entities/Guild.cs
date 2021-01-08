@@ -3,8 +3,6 @@ using System.Linq;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
-using Iwentys.Features.AccountManagement.Models;
-using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Models;

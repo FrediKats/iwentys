@@ -85,6 +85,8 @@ namespace Iwentys.Features.Guilds.Services
                 .Skip(skippedCount)
                 .Take(takenCount)
                 .Select(GuildProfileDto.FromEntity)
+                .ToList()
+                .OrderByDescending(g => g.GuildRating)
                 .ToList();
         }
 

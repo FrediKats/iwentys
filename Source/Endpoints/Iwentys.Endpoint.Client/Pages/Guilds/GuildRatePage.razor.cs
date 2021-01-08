@@ -15,5 +15,11 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
             await base.OnInitializedAsync();
             _guildProfiles = await ClientHolder.Guild.GetOverview();
         }
+
+        private async Task ForceUpdate()
+        {
+            await ClientHolder.Github.Client.GetAsync("api/DebugCommand/update-guild-impact");
+            _guildProfiles = await ClientHolder.Guild.GetOverview();
+        }
     }
 }

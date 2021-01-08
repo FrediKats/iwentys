@@ -34,13 +34,16 @@ namespace Iwentys.Features.Guilds.Models
                 GuildType = entity.GuildType,
                 Leader = new IwentysUserInfoDto(entity.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member),
                 TestTasks = entity.TestTasks.Select(testTask => GuildTestTaskInfoResponse.Wrap(testTask)).ToList(),
-                PinnedRepositories = entity.PinnedProjects.Select(p => new GithubRepositoryInfoDto(p.Project)).ToList()
-
+                PinnedRepositories = entity.PinnedProjects.Select(p => new GithubRepositoryInfoDto(p.Project)).ToList(),
+                GuildRatingList = entity.Members.Select(m => m.MemberImpact).ToList()
             };
 
         public IwentysUserInfoDto Leader { get; set; }
         public List<GuildTestTaskInfoResponse> TestTasks { get; set; }
         public List<GithubRepositoryInfoDto> PinnedRepositories { get; set; }
+        public List<int> GuildRatingList { get; set; }
+
+        public int GuildRating => GuildRatingList.Sum();
 
         public string Format()
         {
