@@ -24,9 +24,9 @@ namespace Iwentys.Features.Study.SubjectAssignments.Models
             entity => new SubjectAssignmentDto
             {
                 Id = entity.Id,
-                Title = entity.Title,
-                Description = entity.Description,
-                Link = entity.Link,
+                Title = entity.Assignment.Title,
+                Description = entity.Assignment.Description,
+                Link = entity.Assignment.Link,
                 Author = new IwentysUserInfoDto(entity.Author),
                 Submits = entity.SubjectAssignmentSubmits.Select(s => new SubjectAssignmentSubmitDto(s)).ToList()
             };

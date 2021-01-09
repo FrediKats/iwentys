@@ -12,7 +12,7 @@ namespace Iwentys.Features.Assignments.Entities
     public class StudentAssignment
     {
         public bool IsCompleted { get; private set; }
-        public DateTime LastUpdateTimeUtc { get; private set; }
+        public DateTime LastUpdateTimeUtc { get; set; }
 
         public int AssignmentId { get; init; }
         public virtual Assignment Assignment { get; init; }

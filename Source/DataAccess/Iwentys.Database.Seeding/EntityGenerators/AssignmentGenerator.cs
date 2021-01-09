@@ -12,25 +12,33 @@ namespace Iwentys.Database.Seeding.EntityGenerators
         public List<Assignment> Assignments { get; set; }
         public List<StudentAssignment> StudentAssignments { get; set; }
 
+        private AssignmentCreateRequestFaker _assignmentCreateRequestFaker;
+        private Faker _faker;
+
         public AssignmentGenerator(List<Student> students)
         {
-            var faker = new Faker();
-            var assignmentCreateRequestFaker = new AssignmentCreateRequestFaker();
+            _faker = new Faker();
+            _assignmentCreateRequestFaker = new AssignmentCreateRequestFaker();
 
             Assignments = new List<Assignment>();
             StudentAssignments = new List<StudentAssignment>();
             foreach (Student student in students)
             {
-                var assignmentEntity = Assignment.Create(student, assignmentCreateRequestFaker.Generate());
-                
-                assignmentEntity.Id = 1 + faker.IndexVariable++;
-                Assignments.Add(assignmentEntity);
+                Assignment assignment = GenerateAssignment(student);
+                Assignments.Add(assignment);
                 StudentAssignments.Add(new StudentAssignment
                 {
-                    AssignmentId = assignmentEntity.Id,
+                    AssignmentId = assignment.Id,
                     StudentId = student.Id,
                 });
             }
+        }
+
+        public Assignment GenerateAssignment(Student author)
+        {
+            var assignment = Assignment.Create(author, _assignmentCreateRequestFaker.Generate());
+            assignment.Id = 1 + _faker.IndexVariable++;
+            return assignment;
         }
 
         public void Seed(ModelBuilder modelBuilder)

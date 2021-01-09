@@ -12,6 +12,7 @@ namespace Iwentys.Features.Assignments.Entities
         public int Id { get; set; }
         public string Title { get; init; }
         public string Description { get; init; }
+        public string Link { get; set; }
         public DateTime CreationTimeUtc { get; init; }
         public DateTime? DeadlineTimeUtc { get; init; }
 

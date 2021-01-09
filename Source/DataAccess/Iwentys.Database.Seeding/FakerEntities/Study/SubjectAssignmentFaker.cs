@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Study.SubjectAssignments.Entities;
 
 namespace Iwentys.Database.Seeding.FakerEntities.Study
@@ -9,15 +10,13 @@ namespace Iwentys.Database.Seeding.FakerEntities.Study
 
         private readonly Faker _faker = new Faker();
 
-        public SubjectAssignment Create(int subjectId)
+        public SubjectAssignment Create(int subjectId, Assignment assignment)
         {
             return new SubjectAssignment
             {
                 Id = _faker.IndexVariable++ + 1,
-                Title = _faker.Hacker.IngVerb(),
-                Description = _faker.Lorem.Paragraph(),
+                AssignmentId = assignment.Id,
                 SubjectId = subjectId,
-                Link = _faker.Internet.Url()
             };
         }
     }
