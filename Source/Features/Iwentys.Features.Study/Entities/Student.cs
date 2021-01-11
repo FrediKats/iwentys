@@ -22,7 +22,8 @@ namespace Iwentys.Features.Study.Entities
         }
 
         public StudentType Type { get; init; }
-        public virtual StudyGroupMember GroupMember { get; set; }
+        public int GroupId { get; set; }
+        public virtual StudyGroup Group { get; set; }
 
         public static Student CreateFromIsu(int id, string firstName, string secondName)
         {
@@ -42,7 +43,8 @@ namespace Iwentys.Features.Study.Entities
                 GithubUsername = createArguments.GithubUsername,
                 BarsPoints = createArguments.BarsPoints,
                 AvatarUrl = createArguments.AvatarUrl,
-                Type = createArguments.Type
+                Type = createArguments.Type,
+                GroupId = createArguments.GroupId
             };
         }
     }

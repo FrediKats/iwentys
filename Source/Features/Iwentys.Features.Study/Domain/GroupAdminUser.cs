@@ -7,7 +7,7 @@ namespace Iwentys.Features.Study.Domain
     {
         public GroupAdminUser(Student student, StudyGroup studyGroup)
         {
-            if (student.GroupMember?.Group is null)
+            if (student.Group is null)
                 throw InnerLogicException.StudyExceptions.UserIsNotGroupAdmin(student.Id);
 
             if (student.Id != studyGroup.GroupAdminId)
@@ -23,7 +23,7 @@ namespace Iwentys.Features.Study.Domain
     {
         public static GroupAdminUser EnsureIsGroupAdmin(this Student profile)
         {
-            return new GroupAdminUser(profile, profile.GroupMember?.Group);
+            return new GroupAdminUser(profile, profile.Group);
         }
     }
 }

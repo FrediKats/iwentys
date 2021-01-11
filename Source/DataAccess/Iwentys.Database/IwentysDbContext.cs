@@ -152,7 +152,6 @@ namespace Iwentys.Database
 
         #region IStudyDbContext
         public DbSet<Student> Students { get; set; }
-        public DbSet<StudyGroupMember> StudyGroupMembers { get; set; }
         public DbSet<StudyGroup> StudyGroups { get; set; }
         public DbSet<StudyProgram> StudyPrograms { get; set; }
         public DbSet<Subject> Subjects { get; set; }

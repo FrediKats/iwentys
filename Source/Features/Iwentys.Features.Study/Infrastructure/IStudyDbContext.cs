@@ -6,7 +6,6 @@ namespace Iwentys.Features.Study.Infrastructure
     public interface IStudyDbContext
     {
         public DbSet<Student> Students { get; set; }
-        public DbSet<StudyGroupMember> StudyGroupMembers { get; set; }
         public DbSet<StudyGroup> StudyGroups { get; set; }
         public DbSet<StudyProgram> StudyPrograms { get; set; }
         public DbSet<Subject> Subjects { get; set; }
@@ -20,7 +19,6 @@ namespace Iwentys.Features.Study.Infrastructure
         public static void OnStudyModelCreating(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<SubjectActivity>().HasKey(s => new { s.GroupSubjectId, s.StudentId });
-            modelBuilder.Entity<StudyGroupMember>().HasKey(sgm => new { sgm.GroupId, sgm.StudentId });
         }
     }
 }

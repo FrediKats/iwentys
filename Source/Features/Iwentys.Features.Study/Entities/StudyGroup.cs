@@ -16,7 +16,7 @@ namespace Iwentys.Features.Study.Entities
         //FYI: looks like hack
         public int? GroupAdminId { get; set; }
 
-        public virtual List<StudyGroupMember> Students { get; set; }
+        public virtual List<Student> Students { get; set; }
         public virtual List<GroupSubject> GroupSubjects { get; set; }
 
         public static Expression<Func<StudyGroup, bool>> IsMatch(GroupName groupName)

@@ -19,7 +19,7 @@ namespace Iwentys.Features.Study.Repositories
         {
             var query =
                 from sa in dbContext.SubjectActivities
-                join sg in dbContext.StudyGroups on sa.Student.GroupMember.GroupId equals sg.Id
+                join sg in dbContext.StudyGroups on sa.Student.GroupId equals sg.Id
                 join gs in dbContext.GroupSubjects on sa.GroupSubjectId equals gs.Id
                 select new { SubjectActivities = sa, StudyGroups = sg, GroupSubjects = gs };
 

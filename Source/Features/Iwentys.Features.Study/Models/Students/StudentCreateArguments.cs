@@ -5,11 +5,12 @@ namespace Iwentys.Features.Study.Models.Students
 {
     public class StudentCreateArguments : IwentysUserCreateArguments
     {
-        public StudentCreateArguments(int? id, string firstName, string middleName, string secondName, bool isAdmin, string githubUsername, int barsPoints, string avatarUrl, StudentType type, string group)
+        public StudentCreateArguments(int? id, string firstName, string middleName, string secondName, bool isAdmin, string githubUsername, int barsPoints, string avatarUrl, StudentType type, string group, int groupId)
             : base(id, firstName, middleName, secondName, isAdmin, githubUsername, barsPoints, avatarUrl)
         {
             Type = type;
             Group = group;
+            GroupId = groupId;
         }
 
         public StudentCreateArguments()
@@ -18,5 +19,6 @@ namespace Iwentys.Features.Study.Models.Students
 
         public StudentType Type { get; init; }
         public string Group { get; init; }
+        public int GroupId { get; set; }
     }
 }

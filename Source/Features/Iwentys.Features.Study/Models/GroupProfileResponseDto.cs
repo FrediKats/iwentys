@@ -23,7 +23,7 @@ namespace Iwentys.Features.Study.Models
                 Id = entity.Id,
                 GroupName = entity.GroupName,
                 GroupAdminId = entity.GroupAdminId,
-                Students = entity.Students.Select(s => new StudentInfoDto(s.Student)).ToList(),
+                Students = entity.Students.Select(s => new StudentInfoDto(s)).ToList(),
                 Subjects = entity.GroupSubjects.Select(gs => new SubjectProfileDto(gs.Subject)).ToList()
             };
     }

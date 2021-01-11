@@ -15,7 +15,6 @@ namespace Iwentys.Features.Study.Services
     {
         private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
         private readonly IGenericRepository<Student> _studentRepository;
-        private readonly IGenericRepository<StudyGroupMember> _studyGroupMemberRepository;
         private readonly IGenericRepository<StudyGroup> _studyGroupRepository;
         private readonly IGenericRepository<StudyCourse> _studyCourseRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -27,7 +26,6 @@ namespace Iwentys.Features.Study.Services
             _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
             _studentRepository = _unitOfWork.GetRepository<Student>();
             _studyGroupRepository = _unitOfWork.GetRepository<StudyGroup>();
-            _studyGroupMemberRepository = _unitOfWork.GetRepository<StudyGroupMember>();
             _studyCourseRepository = _unitOfWork.GetRepository<StudyCourse>();
         }
 
@@ -66,9 +64,9 @@ namespace Iwentys.Features.Study.Services
         {
             Student student = await _studentRepository.GetById(studentId);
 
-            return await _studyGroupMemberRepository
+            return await _studentRepository
                 .Get()
-                .Where(sgm => sgm.StudentId == studentId)
+                .Where(sgm => sgm.Id == studentId)
                 .Select(sgm => sgm.Group)
                 .Select(GroupProfileResponseDto.FromEntity)
                 .SingleOrDefaultAsync();
@@ -80,7 +78,7 @@ namespace Iwentys.Features.Study.Services
             SystemAdminUser admin = initiatorProfile.EnsureIsAdmin();
             Student newGroupAdminProfile = await _studentRepository.GetById(newGroupAdminId);
 
-            StudyGroup studyGroup = newGroupAdminProfile.GroupMember.Group;
+            StudyGroup studyGroup = newGroupAdminProfile.Group;
 
             studyGroup.GroupAdminId = newGroupAdminProfile.Id;
 

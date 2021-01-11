@@ -101,12 +101,10 @@ namespace Iwentys.Tests.TestCaseContexts
         {
             StudentCreateArguments createArguments = UsersFaker.Instance.Students.Generate();
             createArguments.Id = UsersFaker.Instance.GetIdentifier();
+            createArguments.GroupId = studyGroup.Id;
 
             StudentInfoDto studentInfoDto = _context.StudentService.Create(createArguments).Result;
 
-            //TODO: add argument to create arguments
-            _context.UnitOfWork.GetRepository<StudyGroupMember>().InsertAsync(new StudyGroupMember {StudentId = studentInfoDto.Id, GroupId = studyGroup.Id}).Wait();
-            _context.UnitOfWork.CommitAsync().Wait();
             AuthorizedUser user = AuthorizedUser.DebugAuth(studentInfoDto.Id);
             return user;
         }

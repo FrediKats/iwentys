@@ -75,7 +75,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
             IwentysUser iwentysUser = await _iwentysUserRepository.GetById(user.Id);
             SubjectTeacher teacher = iwentysUser.EnsureIsTeacher(subject);
 
-            List<StudyGroupMember> members = await _groupSubjectRepository
+            List<Student> members = await _groupSubjectRepository
                 .Get()
                 .Where(gs => gs.SubjectId == subjectId)
                 .Select(gs => gs.StudyGroup)
@@ -95,7 +95,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
             await _assignmentRepository.InsertAsync(assignment);
             List<StudentAssignment> studentAssignments = members.SelectToList(s => new StudentAssignment
             {
-                StudentId = s.StudentId,
+                StudentId = s.Id,
                 Assignment = assignment,
                 LastUpdateTimeUtc = DateTime.UtcNow
             });
