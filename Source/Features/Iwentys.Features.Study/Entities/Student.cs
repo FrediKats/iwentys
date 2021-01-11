@@ -34,14 +34,15 @@ namespace Iwentys.Features.Study.Entities
             return new Student(id, firstName, middleName, secondName);
         }
 
-        public static Student CreateFromIsu(StudentCreateArguments createArguments)
+        public static Student Create(StudentCreateArguments createArguments)
         {
             return new Student(id: createArguments.Id ?? 0, firstName: createArguments.FirstName, middleName: createArguments.MiddleName, secondName: createArguments.SecondName)
             {
                 IsAdmin = createArguments.IsAdmin,
                 GithubUsername = createArguments.GithubUsername,
                 BarsPoints = createArguments.BarsPoints,
-                AvatarUrl = createArguments.AvatarUrl
+                AvatarUrl = createArguments.AvatarUrl,
+                Type = createArguments.Type
             };
         }
     }

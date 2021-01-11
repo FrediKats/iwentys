@@ -2,7 +2,7 @@
 {
     public class UniversitySystemUserCreateArguments
     {
-        private UniversitySystemUserCreateArguments()
+        public UniversitySystemUserCreateArguments()
         {
         }
 
@@ -14,7 +14,7 @@
             SecondName = secondName;
         }
 
-        public int? Id { get; init; }
+        public int? Id { get; set; }
 
         public string FirstName { get; init; }
         public string MiddleName { get; init; }

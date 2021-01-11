@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Bogus;
+using Iwentys.Common.Tools;
 using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Database.Seeding.Tools;
 using Iwentys.Features.Study.Entities;
@@ -15,9 +16,12 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 
         public StudentGenerator(List<StudyGroup> studyGroups)
         {
-            var faker = new StudentFaker();
             StudyGroupMembers = new List<StudyGroupMember>();
-            Students = faker.Generate(StudentCount);
+            Students = UsersFaker.Instance.Students
+                .Generate(StudentCount)
+                .SelectToList(Student.Create);
+            Students.ForEach(s => s.Id = UsersFaker.Instance.GetIdentifier());
+
             Students.Add(new Student
             {
                 Id = 228617,

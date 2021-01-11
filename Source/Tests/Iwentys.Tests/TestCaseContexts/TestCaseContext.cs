@@ -70,7 +70,7 @@ namespace Iwentys.Tests.TestCaseContexts
             var githubApiAccessor = new DummyGithubApiAccessor();
 
             IwentysUserService = new IwentysUserService(UnitOfWork);
-            StudentService = new StudentService(UnitOfWork, achievementProvider);
+            StudentService = new StudentService(UnitOfWork);
             GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, UnitOfWork);
             GuildService = new GuildService(GithubIntegrationService, UnitOfWork);
             GuildMemberService = new GuildMemberService(GithubIntegrationService, UnitOfWork, GuildService);

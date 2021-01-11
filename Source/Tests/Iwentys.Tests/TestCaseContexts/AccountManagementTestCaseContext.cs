@@ -1,6 +1,6 @@
 ﻿using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.AccountManagement.Entities;
+using Iwentys.Features.AccountManagement.Models;
 
 namespace Iwentys.Tests.TestCaseContexts
 {
@@ -15,18 +15,12 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public AuthorizedUser WithUser(bool isAdmin = false)
         {
-            var id = UniversitySystemUserFaker.Instance.GetIdentifier();
-            var user = new IwentysUser
-            {
-                Id = id,
-                GithubUsername = $"{TestCaseContext.Constants.GithubUsername}{id}",
-                BarsPoints = 1000,
-                IsAdmin = isAdmin
-            };
+            IwentysUserCreateArguments createArguments = UsersFaker.Instance.IwentysUsers.Generate();
+            createArguments.IsAdmin = isAdmin;
+            createArguments.Id = UsersFaker.Instance.GetIdentifier();
 
-            _context.UnitOfWork.GetRepository<IwentysUser>().InsertAsync(user).Wait();
-            _context.UnitOfWork.CommitAsync().Wait();
-            return AuthorizedUser.DebugAuth(user.Id);
+            IwentysUserInfoDto iwentysUserInfoDto = _context.IwentysUserService.Create(createArguments).Result;
+            return AuthorizedUser.DebugAuth(iwentysUserInfoDto.Id);
         }
     }
 }

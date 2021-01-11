@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Tools;
-using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models.Students;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +13,7 @@ namespace Iwentys.Features.Study.Services
         private readonly IGenericRepository<Student> _studentRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public StudentService(IUnitOfWork unitOfWork, AchievementProvider achievementProvider)
+        public StudentService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _studentRepository = _unitOfWork.GetRepository<Student>();
@@ -50,7 +49,11 @@ namespace Iwentys.Features.Study.Services
 
         public async Task<StudentInfoDto> Create(StudentCreateArguments createArguments)
         {
-            Student student = await _studentRepository.GetById(id);
+            var student = Student.Create(createArguments);
+
+            await _studentRepository.InsertAsync(student);
+            await _unitOfWork.CommitAsync();
+
             return new StudentInfoDto(student);
         }
 

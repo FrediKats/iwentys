@@ -6,7 +6,7 @@ namespace Iwentys.Features.AccountManagement.Entities
     public class UniversitySystemUser
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Id { get; init; }
+        public int Id { get; set; }
 
         public string FirstName { get; init; }
         public string MiddleName { get; init; }

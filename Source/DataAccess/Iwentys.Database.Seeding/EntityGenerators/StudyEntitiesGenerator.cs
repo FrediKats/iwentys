@@ -26,7 +26,11 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 
         public StudyEntitiesGenerator()
         {
-            Teachers = UniversitySystemUserFaker.Instance.Generate(TeacherCount);
+            Teachers = UsersFaker.Instance.UniversitySystemUsers
+                .Generate(TeacherCount)
+                .SelectToList(UniversitySystemUser.Create);
+            Teachers.ForEach(t => t.Id = UsersFaker.Instance.GetIdentifier());
+
             Subjects = SubjectFaker.Instance.Generate(SubjectCount);
             StudyPrograms = new List<StudyProgram> { new StudyProgram { Id = 1, Name = "ИС" } };
             StudyCourses = new List<StudyCourse>
