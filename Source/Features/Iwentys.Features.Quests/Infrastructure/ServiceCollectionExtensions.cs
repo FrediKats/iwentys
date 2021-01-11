@@ -1,7 +1,7 @@
 ﻿using Iwentys.Features.Quests.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Features.Quests
+namespace Iwentys.Features.Quests.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {

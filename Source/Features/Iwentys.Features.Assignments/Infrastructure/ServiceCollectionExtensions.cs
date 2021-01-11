@@ -1,7 +1,7 @@
 ﻿using Iwentys.Features.Assignments.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Features.Assignments
+namespace Iwentys.Features.Assignments.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {

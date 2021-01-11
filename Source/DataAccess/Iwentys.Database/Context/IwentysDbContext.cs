@@ -2,39 +2,76 @@ using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Database.Seeding;
 using Iwentys.Features.AccountManagement.Entities;
+using Iwentys.Features.AccountManagement.Infrastructure;
 using Iwentys.Features.Achievements.Entities;
+using Iwentys.Features.Achievements.Infrastructure;
 using Iwentys.Features.Assignments.Entities;
+using Iwentys.Features.Assignments.Infrastructure;
 using Iwentys.Features.Companies.Entities;
+using Iwentys.Features.Companies.Infrastructure;
 using Iwentys.Features.Economy.Entities;
+using Iwentys.Features.Economy.Infrastructure;
 using Iwentys.Features.Gamification.Entities;
+using Iwentys.Features.Gamification.Infrastructure;
 using Iwentys.Features.GithubIntegration.Entities;
+using Iwentys.Features.GithubIntegration.Infrastructure;
 using Iwentys.Features.Guilds.Entities;
+using Iwentys.Features.Guilds.Infrastructure;
 using Iwentys.Features.Guilds.Tournaments.Entities;
+using Iwentys.Features.Guilds.Tournaments.Infrastructure;
 using Iwentys.Features.Guilds.Tributes.Entities;
+using Iwentys.Features.Guilds.Tributes.Infrastructure;
 using Iwentys.Features.InterestTags.Entities;
+using Iwentys.Features.InterestTags.Infrastructure;
 using Iwentys.Features.Newsfeeds.Entities;
+using Iwentys.Features.Newsfeeds.Infrastructure;
 using Iwentys.Features.PeerReview.Entities;
+using Iwentys.Features.PeerReview.Infrastructure;
 using Iwentys.Features.Quests.Entities;
+using Iwentys.Features.Quests.Infrastructure;
 using Iwentys.Features.Raids.Entities;
+using Iwentys.Features.Raids.Infrastructure;
 using Iwentys.Features.Study.Entities;
+using Iwentys.Features.Study.Infrastructure;
 using Iwentys.Features.Study.SubjectAssignments.Entities;
+using Iwentys.Features.Study.SubjectAssignments.Infrastructure;
+using Iwentys.Features.Voting.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Iwentys.Database.Context
 {
-    public class IwentysDbContext : DbContext
+    public class IwentysDbContext : DbContext,
+        IAccountManagementDbContext,
+        IAchievementDbContext,
+        IAssignmentsDbContext,
+        ICompaniesDbContext,
+        IEconomyDbContext,
+        IGamificationDbContext,
+        IGithubIntegrationDbContext,
+        IGuildsDbContext,
+        IGuildsTournamentsDbContext,
+        ITributesDbContext,
+        IInterestTagsDbContext,
+        INewsfeedsDbContext,
+        IPeerReviewDbContext,
+        IQuestsDbContext,
+        IRaidsDbContext,
+        IStudyDbContext,
+        IStudySubjectAssignmentsDbContext,
+        IVotingDbContext
+
     {
         public IwentysDbContext(DbContextOptions<IwentysDbContext> options) : base(options)
         {
         }
 
-        #region Account management
+        #region IAccountManagementDbContext
         public DbSet<UniversitySystemUser> UniversitySystemUsers { get; set; }
         public DbSet<IwentysUser> IwentysUsers { get; set; }
         #endregion
 
-        #region Achievement
+        #region IAchievementDbContext
         public DbSet<Achievement> Achievements { get; set; }
         public DbSet<StudentAchievement> StudentAchievements { get; set; }
         public DbSet<GuildAchievement> GuildAchievements { get; set; }
@@ -45,21 +82,26 @@ namespace Iwentys.Database.Context
         public DbSet<StudentAssignment> StudentAssignments { get; set; }
         #endregion
 
-        #region Companies
+        #region ICompaniesDbContext
         public DbSet<Company> Companies { get; set; }
         public DbSet<CompanyWorker> CompanyWorkers { get; set; }
         #endregion
 
+        #region IEconomyDbContext
         public DbSet<BarsPointTransaction> BarsPointTransactionLogs { get; set; }
+        #endregion
 
-        #region Gamification
-        public DbSet<InterestTag> InterestTags { get; set; }
-        public DbSet<UserInterestTag> UserInterestTags { get; set; }
+        #region IGamificationDbContext
         public DbSet<KarmaUpVote> KarmaUpVotes { get; set; }
         public DbSet<CourseLeaderboardRow> CourseLeaderboardRows { get; set; }
         #endregion
 
-        #region Guilds
+        #region IGithubIntegrationDbContext
+        public DbSet<GithubProject> StudentProjects { get; set; }
+        public DbSet<GithubUser> GithubUsersData { get; set; }
+        #endregion
+
+        #region IGuildsDbContext
         public DbSet<Guild> Guilds { get; set; }
         public DbSet<GuildMember> GuildMembers { get; set; }
         public DbSet<GuildLastLeave> GuildLastLeaves { get; set; }
@@ -67,45 +109,48 @@ namespace Iwentys.Database.Context
         public DbSet<GuildTestTaskSolution> GuildTestTaskSolvingInfos { get; set; }
         public DbSet<GuildRecruitment> GuildRecruitment { get; set; }
         public DbSet<GuildRecruitmentMember> GuildRecruitmentMembers { get; set; }
-        public DbSet<Tribute> Tributes { get; set; }
         #endregion
 
-        #region Guild.Tournaments
+        #region IGuildsTournamentsDbContext
         public DbSet<Tournament> Tournaments { get; set; }
         public DbSet<TournamentParticipantTeam> TournamentParticipantTeams { get; set; }
         public DbSet<TournamentTeamMember> TournamentTeamMembers { get; set; }
         public DbSet<CodeMarathonTournament> CodeMarathonTournaments { get; set; }
         #endregion
 
-        #region Newsfeed
+        #region ITributesDbContext
+        public DbSet<Tribute> Tributes { get; set; }
+        #endregion
+
+        #region IInterestTagsDbContext
+        public DbSet<InterestTag> InterestTags { get; set; }
+        public DbSet<UserInterestTag> UserInterestTags { get; set; }
+        public DbSet<RaidInterestTag> RaidInterestTags { get; set; }
+        #endregion
+
+        #region INewsfeedsDbContext
         public DbSet<Newsfeed> Newsfeeds { get; set; }
         public DbSet<SubjectNewsfeed> SubjectNewsfeeds { get; set; }
         public DbSet<GuildNewsfeed> GuildNewsfeeds { get; set; }
         #endregion
 
-        #region PeerReview
+        #region IPeerReviewDbContext
         public DbSet<ProjectReviewRequest> ProjectReviewRequests { get; set; }
         public DbSet<ProjectReviewRequestInvite> ProjectReviewRequestInvites { get; set; }
         #endregion
 
-        #region Quests
+        #region IQuestsDbContext
         public DbSet<Quest> Quests { get; set; }
         public DbSet<QuestResponse> QuestResponses { get; set; }
         #endregion
 
-        #region Raids
+        #region IRaidsDbContext
         public DbSet<Raid> Raids { get; set; }
         public DbSet<RaidVisitor> RaidVisitors { get; set; }
-        public DbSet<RaidInterestTag> RaidInterestTags { get; set; }
         public DbSet<RaidPartySearchRequest> PartySearchRequests { get; set; }
         #endregion
 
-        #region Github integration
-        public DbSet<GithubProject> StudentProjects { get; set; }
-        public DbSet<GithubUser> GithubUsersData { get; set; }
-        #endregion
-
-        #region Study
+        #region IStudyDbContext
         public DbSet<Student> Students { get; set; }
         public DbSet<StudyGroupMember> StudyGroupMembers { get; set; }
         public DbSet<StudyGroup> StudyGroups { get; set; }
@@ -116,7 +161,7 @@ namespace Iwentys.Database.Context
         public DbSet<StudyCourse> StudyCourses { get; set; }
         #endregion
 
-        #region Study.Assignments
+        #region IStudySubjectAssignmentsDbContext
         public DbSet<GroupSubjectAssignment> GroupSubjectAssignments { get; set; }
         public DbSet<SubjectAssignment> SubjectAssignments { get; set; }
         public DbSet<SubjectAssignmentSubmit> SubjectAssignmentSubmits { get; set; }
@@ -124,45 +169,29 @@ namespace Iwentys.Database.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            SetCompositeKeys(modelBuilder);
-            SetUniqKey(modelBuilder);
+            modelBuilder.OnAccountManagementModelCreating();
+            modelBuilder.OnAchievementModelCreating();
+            modelBuilder.OnAssignmentsModelCreating();
+            modelBuilder.OnCompaniesModelCreating();
+            modelBuilder.OnEconomyModelCreating();
+            modelBuilder.OnGamificationModelCreating();
+            modelBuilder.OnGithubIntegrationModelCreating();
+            modelBuilder.OnGuildsModelCreating();
+            modelBuilder.OnGuildsTournamentsModelCreating();
+            modelBuilder.OnTributesModelCreating();
+            modelBuilder.OnInterestTagsModelCreating();
+            modelBuilder.OnNewsfeedsModelCreating();
+            modelBuilder.OnPeerReviewModelCreating();
+            modelBuilder.OnQuestsModelCreating();
+            modelBuilder.OnRaidsModelCreating();
+            modelBuilder.OnStudyModelCreating();
+            modelBuilder.OnStudySubjectAssignmentsModelCreating();
+            modelBuilder.OnVotingModelCreating();
+
             RemoveCascadeDeleting(modelBuilder);
             Seeding(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
-        }
-
-        private static void SetCompositeKeys(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<GuildMember>().HasKey(g => new {g.GuildId, g.MemberId});
-            modelBuilder.Entity<CompanyWorker>().HasKey(g => new {g.CompanyId, g.WorkerId});
-            modelBuilder.Entity<SubjectActivity>().HasKey(s => new {s.GroupSubjectId, s.StudentId});
-            modelBuilder.Entity<GroupSubjectAssignment>().HasKey(gsa => new {gsa.GroupId, gsa .SubjectAssignmentId});
-            modelBuilder.Entity<StudentAchievement>().HasKey(a => new {a.AchievementId, a.StudentId});
-            modelBuilder.Entity<GuildAchievement>().HasKey(a => new {a.AchievementId, a.GuildId});
-            modelBuilder.Entity<QuestResponse>().HasKey(a => new {a.QuestId, a.StudentId});
-            modelBuilder.Entity<GuildTestTaskSolution>().HasKey(a => new {a.GuildId, StudentId = a.AuthorId});
-            modelBuilder.Entity<StudentAssignment>().HasKey(a => new {a.AssignmentId, a.StudentId});
-            modelBuilder.Entity<GuildRecruitmentMember>().HasKey(g => new {g.GuildRecruitmentId, g.MemberId});
-            modelBuilder.Entity<SubjectNewsfeed>().HasKey(g => new {g.SubjectId, g.NewsfeedId});
-            modelBuilder.Entity<GuildNewsfeed>().HasKey(g => new {g.GuildId, g.NewsfeedId});
-            modelBuilder.Entity<UserInterestTag>().HasKey(g => new {StudentId = g.UserId, g.InterestTagId});
-            modelBuilder.Entity<TournamentTeamMember>().HasKey(g => new {g.TeamId, g.MemberId});
-            modelBuilder.Entity<KarmaUpVote>().HasKey(g => new {g.AuthorId, g.TargetId});
-            modelBuilder.Entity<RaidVisitor>().HasKey(rv => new {rv.RaidId, rv.VisitorId});
-            modelBuilder.Entity<RaidInterestTag>().HasKey(rv => new {rv.RaidId, rv.InterestTagId});
-            modelBuilder.Entity<RaidPartySearchRequest>().HasKey(rv => new {rv.RaidId, rv.AuthorId});
-            modelBuilder.Entity<CourseLeaderboardRow>().HasKey(clr => new {clr.CourseId, clr.Position});
-            modelBuilder.Entity<StudyGroupMember>().HasKey(sgm => new { sgm.GroupId, sgm.StudentId});
-            modelBuilder.Entity<ProjectReviewRequestInvite>().HasKey(rri => new { rri.ReviewRequestId, rri.ReviewerId});
-        }
-
-        private static void SetUniqKey(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Guild>().HasIndex(g => g.Title).IsUnique();
-
-            modelBuilder.Entity<GuildMember>().HasIndex(g => g.MemberId).IsUnique();
-            modelBuilder.Entity<CompanyWorker>().HasIndex(g => g.WorkerId).IsUnique();
         }
 
         private static void Seeding(ModelBuilder modelBuilder)

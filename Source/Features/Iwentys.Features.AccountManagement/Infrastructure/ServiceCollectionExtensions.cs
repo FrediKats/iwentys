@@ -1,7 +1,7 @@
 ﻿using Iwentys.Features.AccountManagement.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Features.AccountManagement
+namespace Iwentys.Features.AccountManagement.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {

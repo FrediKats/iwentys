@@ -1,7 +1,7 @@
 ﻿using Iwentys.Features.Newsfeeds.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Features.Newsfeeds
+namespace Iwentys.Features.Newsfeeds.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {

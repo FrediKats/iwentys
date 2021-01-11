@@ -1,7 +1,7 @@
 ﻿using Iwentys.Features.Economy.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Features.Economy
+namespace Iwentys.Features.Economy.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {

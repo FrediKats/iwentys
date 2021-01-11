@@ -1,7 +1,7 @@
 ﻿using Iwentys.Features.Gamification.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Features.Gamification
+namespace Iwentys.Features.Gamification.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {

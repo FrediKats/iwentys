@@ -1,7 +1,7 @@
 ﻿using Iwentys.Features.Raids.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Features.Raids
+namespace Iwentys.Features.Raids.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {

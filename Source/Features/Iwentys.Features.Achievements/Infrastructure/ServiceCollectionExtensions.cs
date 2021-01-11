@@ -1,7 +1,7 @@
 ﻿using Iwentys.Features.Achievements.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Features.Achievements
+namespace Iwentys.Features.Achievements.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {

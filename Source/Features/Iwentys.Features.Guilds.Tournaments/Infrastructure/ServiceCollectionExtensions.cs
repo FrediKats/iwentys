@@ -1,7 +1,7 @@
 ﻿using Iwentys.Features.Guilds.Tournaments.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Features.Guilds.Tournaments
+namespace Iwentys.Features.Guilds.Tournaments.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {
