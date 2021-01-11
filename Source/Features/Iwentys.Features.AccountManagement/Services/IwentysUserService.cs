@@ -12,11 +12,13 @@ namespace Iwentys.Features.AccountManagement.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
+        private readonly IGenericRepository<UniversitySystemUser> _universitySystemUserRepository;
         private readonly IGenericRepository<IwentysUser> _userRepository;
 
         public IwentysUserService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+            _universitySystemUserRepository = _unitOfWork.GetRepository<UniversitySystemUser>();
             _userRepository = _unitOfWork.GetRepository<IwentysUser>();
         }
 
@@ -27,6 +29,26 @@ namespace Iwentys.Features.AccountManagement.Services
                 .Where(u => u.Id == id)
                 .Select(u => new IwentysUserInfoDto(u))
                 .SingleAsync();
+        }
+
+        public async Task<UniversitySystemUserInfoDto> Create(UniversitySystemUserCreateArguments createArguments)
+        {
+            var iwentysUser = UniversitySystemUser.Create(createArguments);
+
+            await _universitySystemUserRepository.InsertAsync(iwentysUser);
+            await _unitOfWork.CommitAsync();
+
+            return new UniversitySystemUserInfoDto(iwentysUser);
+        }
+
+        public async Task<IwentysUserInfoDto> Create(IwentysUserCreateArguments createArguments)
+        {
+            var iwentysUser = IwentysUser.Create(createArguments);
+
+            await _userRepository.InsertAsync(iwentysUser);
+            await _unitOfWork.CommitAsync();
+
+            return new IwentysUserInfoDto(iwentysUser);
         }
 
         public async Task<IwentysUserInfoDto> AddGithubUsername(int id, string githubUsername)

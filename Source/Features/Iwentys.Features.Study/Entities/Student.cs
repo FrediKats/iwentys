@@ -1,6 +1,7 @@
 ﻿using System;
 using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Study.Enums;
+using Iwentys.Features.Study.Models.Students;
 
 namespace Iwentys.Features.Study.Entities
 {
@@ -31,6 +32,17 @@ namespace Iwentys.Features.Study.Entities
         public static Student CreateFromIsu(int id, string firstName, string middleName, string secondName)
         {
             return new Student(id, firstName, middleName, secondName);
+        }
+
+        public static Student CreateFromIsu(StudentCreateArguments createArguments)
+        {
+            return new Student(id: createArguments.Id ?? 0, firstName: createArguments.FirstName, middleName: createArguments.MiddleName, secondName: createArguments.SecondName)
+            {
+                IsAdmin = createArguments.IsAdmin,
+                GithubUsername = createArguments.GithubUsername,
+                BarsPoints = createArguments.BarsPoints,
+                AvatarUrl = createArguments.AvatarUrl
+            };
         }
     }
 }

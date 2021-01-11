@@ -1,4 +1,5 @@
 ﻿using System;
+using Iwentys.Features.AccountManagement.Models;
 
 namespace Iwentys.Features.AccountManagement.Entities
 {
@@ -10,5 +11,20 @@ namespace Iwentys.Features.AccountManagement.Entities
         public DateTime LastOnlineTime { get; set; }
         public int BarsPoints { get; set; }
         public string AvatarUrl { get; set; }
+
+        public static IwentysUser Create(IwentysUserCreateArguments createArguments)
+        {
+            return new IwentysUser
+            {
+                IsAdmin = createArguments.IsAdmin,
+                GithubUsername = createArguments.GithubUsername,
+                BarsPoints = createArguments.BarsPoints,
+                AvatarUrl = createArguments.AvatarUrl,
+                Id = createArguments.Id ?? 0,
+                FirstName = createArguments.FirstName,
+                MiddleName = createArguments.MiddleName,
+                SecondName = createArguments.SecondName
+            };
+        }
     }
 }

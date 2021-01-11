@@ -11,15 +11,12 @@ namespace Iwentys.Features.Study.Services
 {
     public class StudentService
     {
-        private readonly AchievementProvider _achievementProvider;
-
         private readonly IGenericRepository<Student> _studentRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         public StudentService(IUnitOfWork unitOfWork, AchievementProvider achievementProvider)
         {
             _unitOfWork = unitOfWork;
-            _achievementProvider = achievementProvider;
             _studentRepository = _unitOfWork.GetRepository<Student>();
         }
 
@@ -48,6 +45,12 @@ namespace Iwentys.Features.Study.Services
                 student = await _studentRepository.FindByIdAsync(newStudent.Id);
             }
 
+            return new StudentInfoDto(student);
+        }
+
+        public async Task<StudentInfoDto> Create(StudentCreateArguments createArguments)
+        {
+            Student student = await _studentRepository.GetById(id);
             return new StudentInfoDto(student);
         }
 
