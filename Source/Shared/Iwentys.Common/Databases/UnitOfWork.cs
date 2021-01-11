@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Common.Databases;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Database.Tools
+namespace Iwentys.Common.Databases
 {
     public class UnitOfWork<TContext> : IUnitOfWork
         where TContext : DbContext

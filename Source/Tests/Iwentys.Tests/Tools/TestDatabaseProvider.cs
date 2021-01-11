@@ -1,5 +1,5 @@
 ﻿using System;
-using Iwentys.Database.Context;
+using Iwentys.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Tests.Tools

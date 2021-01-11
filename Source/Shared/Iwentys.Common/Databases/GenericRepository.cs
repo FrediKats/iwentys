@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Common.Databases;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Iwentys.Database.Tools
+namespace Iwentys.Common.Databases
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {

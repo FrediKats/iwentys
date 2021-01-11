@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
-using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.PeerReview.Entities;
-using Iwentys.Features.PeerReview.Enums;
 using Iwentys.Features.PeerReview.Models;
-using Iwentys.Features.PeerReview.Services;
 
 namespace Iwentys.Features.Guilds.Entities
 {

@@ -33,7 +33,6 @@ namespace Iwentys.Features.Guilds.Entities
         public void UpdateLeave()
         {
             GuildLeftTime = DateTime.UtcNow;
-            ;
         }
 
         public bool IsLeaveRestrictExpired()

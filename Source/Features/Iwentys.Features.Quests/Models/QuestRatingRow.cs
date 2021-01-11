@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Models;
 
 namespace Iwentys.Features.Quests.Models

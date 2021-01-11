@@ -39,7 +39,7 @@ using Iwentys.Features.Voting.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Iwentys.Database.Context
+namespace Iwentys.Database
 {
     public class IwentysDbContext : DbContext,
         IAccountManagementDbContext,
