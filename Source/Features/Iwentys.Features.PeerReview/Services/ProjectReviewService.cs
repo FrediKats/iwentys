@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
+using Iwentys.Common.Tools;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.GithubIntegration.Entities;
@@ -44,10 +45,15 @@ namespace Iwentys.Features.PeerReview.Services
         }
 
         public async Task<List<GithubRepositoryInfoDto>> GetAvailableForReviewProject(AuthorizedUser user)
-        {
+         {
+            var userProjects = _projectReviewRequestRepository
+                .Get()
+                .Where(k => k.AuthorId == user.Id)
+                .SelectToHashSet(k => k.ProjectId);
+
             return await _projectRepository
                 .Get()
-                .Where(p => p.OwnerUserId == user.Id)
+                .Where(p => p.OwnerUserId == user.Id && !userProjects.Contains(p.Id))
                 .Select(GithubRepositoryInfoDto.FromEntity)
                 .ToListAsync();
         }

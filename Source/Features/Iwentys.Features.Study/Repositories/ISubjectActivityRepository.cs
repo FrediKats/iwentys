@@ -8,11 +8,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Study.Repositories
 {
-    public interface ISubjectActivityRepository
-    {
-        IReadOnlyCollection<SubjectActivity> GetStudentActivities(StudySearchParametersDto searchParametersDto);
-    }
-
     public static class StudyDbContextExtensions
     {
         public static IReadOnlyCollection<SubjectActivity> GetStudentActivities(this IStudyDbContext dbContext, StudySearchParametersDto searchParametersDto)

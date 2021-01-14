@@ -15,5 +15,11 @@ namespace Iwentys.Common.Tools
         {
             return source.Select(morphism).ToList();
         }
+
+        public static HashSet<TResult> SelectToHashSet<T, TResult>(this IEnumerable<T> source, Func<T, TResult> morphism)
+            where TResult : IComparable<TResult>
+        {
+            return source.Select(morphism).ToHashSet();
+        }
     }
 }

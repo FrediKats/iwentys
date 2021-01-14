@@ -74,5 +74,21 @@ namespace Iwentys.Tests.Features.PeerReview
             reviewRequest = testCase.ProjectReviewService.GetRequests(user).Result.First(r => r.Id == reviewRequest.Id);
             Assert.AreEqual(ProjectReviewState.Finished, reviewRequest.State);
         }
+
+        [Test]
+        public async Task GetAvailableProjectForReview_NoActiveRequestProjects()
+        {
+            TestCaseContext testCase = TestCaseContext.Case();
+            AuthorizedUser user = testCase.AccountManagementTestCaseContext.WithUser();
+            AuthorizedUser reviewer = testCase.AccountManagementTestCaseContext.WithUser();
+            GithubUser githubUser = testCase.GithubTestCaseContext.WithGithubAccount(user);
+            GithubProject studentProject = testCase.GithubTestCaseContext.WithStudentProject(user);
+
+            ProjectReviewRequestInfoDto reviewRequest = testCase.PeerReviewTestCaseContext.WithReviewRequest(user, studentProject);
+
+            var projects = await testCase.ProjectReviewService.GetAvailableForReviewProject(user);
+
+            Assert.IsEmpty(projects);
+        }
     }
 }

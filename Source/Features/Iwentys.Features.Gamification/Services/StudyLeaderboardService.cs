@@ -7,6 +7,7 @@ using Iwentys.Features.Gamification.Entities;
 using Iwentys.Features.Gamification.Models;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Study.Entities;
+using Iwentys.Features.Study.Infrastructure;
 using Iwentys.Features.Study.Models;
 using Iwentys.Features.Study.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -18,16 +19,16 @@ namespace Iwentys.Features.Gamification.Services
         private readonly IGenericRepository<CourseLeaderboardRow> _courseLeaderboardRowRepository;
 
         private readonly GithubIntegrationService _githubIntegrationService;
+        private readonly IStudyDbContext _dbContext;
 
         private readonly IGenericRepository<StudyGroup> _studyGroupRepository;
-        private readonly ISubjectActivityRepository _subjectActivityRepository;
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public StudyLeaderboardService(GithubIntegrationService githubIntegrationService, ISubjectActivityRepository subjectActivityRepository, IUnitOfWork unitOfWork)
+        public StudyLeaderboardService(GithubIntegrationService githubIntegrationService, IStudyDbContext dbContext, IUnitOfWork unitOfWork)
         {
             _githubIntegrationService = githubIntegrationService;
-            _subjectActivityRepository = subjectActivityRepository;
+            _dbContext = dbContext;
 
             _unitOfWork = unitOfWork;
             _courseLeaderboardRowRepository = _unitOfWork.GetRepository<CourseLeaderboardRow>();
@@ -39,7 +40,7 @@ namespace Iwentys.Features.Gamification.Services
             if (searchParametersDto.CourseId is null && searchParametersDto.GroupId is null)
                 throw new IwentysExecutionException("One of StudySearchParametersDto fields: CourseId or GroupId should be null");
 
-            List<SubjectActivity> result = _subjectActivityRepository.GetStudentActivities(searchParametersDto).ToList();
+            List<SubjectActivity> result = _dbContext.GetStudentActivities(searchParametersDto).ToList();
 
             return result
                 .GroupBy(r => r.StudentId)
@@ -59,7 +60,7 @@ namespace Iwentys.Features.Gamification.Services
 
             _courseLeaderboardRowRepository.Delete(oldRows);
 
-            List<SubjectActivity> result = _subjectActivityRepository.GetStudentActivities(new StudySearchParametersDto {CourseId = courseId}).ToList();
+            List<SubjectActivity> result = _dbContext.GetStudentActivities(new StudySearchParametersDto {CourseId = courseId}).ToList();
             List<CourseLeaderboardRow> newRows = CourseLeaderboardRow.Create(courseId, result);
 
             await _courseLeaderboardRowRepository.InsertAsync(newRows);
