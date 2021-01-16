@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Bogus;
 using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Features.AccountManagement.Domain;
@@ -70,7 +71,8 @@ namespace Iwentys.Tests.TestCaseContexts
             {
                 Title = new Faker().Lorem.Word(),
                 Description = new Faker().Lorem.Word(),
-                Link = new Faker().Lorem.Word()
+                Link = new Faker().Lorem.Word(),
+                DeadlineUtc = DateTime.UtcNow.AddDays(1)
             };
 
             return _context.SubjectAssignmentService.CreateSubjectAssignment(user, groupSubject.SubjectId, subjectAssignmentCreateArguments).Result;

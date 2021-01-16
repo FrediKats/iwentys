@@ -86,7 +86,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
             {
                 Title = arguments.Title,
                 Description = arguments.Description,
-                Deadline = null,
+                Deadline = arguments.DeadlineUtc,
                 SubjectId = subjectId,
                 Link = arguments.Link
             };
