@@ -61,7 +61,7 @@ namespace Iwentys.Features.Gamification.Services
             _courseLeaderboardRowRepository.Delete(oldRows);
 
             List<SubjectActivity> result = _dbContext.GetStudentActivities(new StudySearchParametersDto {CourseId = courseId}).ToList();
-            List<CourseLeaderboardRow> newRows = CourseLeaderboardRow.Create(courseId, result);
+            List<CourseLeaderboardRow> newRows = CourseLeaderboardRow.Create(courseId, result, oldRows);
 
             await _courseLeaderboardRowRepository.InsertAsync(newRows);
             await _unitOfWork.CommitAsync();
