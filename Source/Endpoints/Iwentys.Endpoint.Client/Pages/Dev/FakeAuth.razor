@@ -7,9 +7,13 @@
 @inject IAuthService AuthService
 @inject ILocalStorageService LocalStorage
 
-<MatTextField Value="@Token" Label="Token"></MatTextField>
-<MatTextField @bind-Value="@UserId" Label="UserId"></MatTextField>
-<MatButton @onclick="@Update">Update</MatButton>
+<div class="container-fluid d-flex flex-row">
+    <div class="col-md-4 d-flex input-form-component dark-elevation-01">
+        <MatBody1>Токены: @Token</MatBody1>
+        <MatTextField @bind-Value="@UserId" Label="User id"></MatTextField>
+        <MatButton @onclick="@Update">Update</MatButton>
+    </div>
+</div>
 
 @code {
 
@@ -19,7 +23,7 @@
     protected override async Task OnInitializedAsync()
     {
         var savedToken = await LocalStorage.GetItemAsync<string>("authToken");
-        Token = string.IsNullOrEmpty(savedToken) ? "no token" : savedToken;
+        Token = string.IsNullOrEmpty(savedToken) ? "No token" : savedToken;
     }
 
     private async Task Update()
