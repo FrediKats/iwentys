@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
-using Iwentys.Common.Tools;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.AccountManagement.Models;
+using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
@@ -18,63 +16,46 @@ namespace Iwentys.Features.Guilds.Domain
 {
     public class GuildDomain
     {
-        public Guild Profile { get; }
-
         private readonly GithubIntegrationService _githubIntegrationService;
-        private readonly IGenericRepository<IwentysUser> _userRepository;
         private readonly IGenericRepository<GuildMember> _guildMemberRepositoryNew;
+        private readonly IGenericRepository<IwentysUser> _userRepository;
+        private readonly IGenericRepository<GuildLastLeave> _guildLastLeaveRepository;
 
         public GuildDomain(
             Guild profile,
             GithubIntegrationService githubIntegrationService,
             IGenericRepository<IwentysUser> studentRepository,
-            IGenericRepository<GuildMember> guildMemberRepositoryNew)
+            IGenericRepository<GuildMember> guildMemberRepositoryNew,
+            IGenericRepository<GuildLastLeave> guildLastLeaveRepository)
         {
             Profile = profile;
             _githubIntegrationService = githubIntegrationService;
             _userRepository = studentRepository;
             _guildMemberRepositoryNew = guildMemberRepositoryNew;
+            _guildLastLeaveRepository = guildLastLeaveRepository;
         }
 
-        public async Task<ExtendedGuildProfileWithMemberDataDto> ToExtendedGuildProfileDto(int? userId = null)
-        {
-            var info = new ExtendedGuildProfileWithMemberDataDto(Profile)
-            {
-                Leader = Profile.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new IwentysUserInfoDto(s)),
-                //TODO: Make method in Github service for getting projects for guild
-                PinnedRepositories = Profile.PinnedProjects.SelectToList(p => _githubIntegrationService.Repository.GetRepository(p.RepositoryOwner, p.RepositoryName).Result),
-            };
-
-            if (userId is not null)
-                info.UserMembershipState = await GetUserMembershipState(userId.Value);
-
-            return info;
-        }
+        public Guild Profile { get; }
 
         public async Task<List<GuildMemberImpactDto>> GetMemberImpacts()
         {
-            //TODO: move to SQL
-            List<GuildMemberImpactDto> result = new List<GuildMemberImpactDto>();
-            foreach (var member in Profile.Members)
+            //FYI: optimization is need
+            var result = new List<GuildMemberImpactDto>();
+            foreach (GuildMember member in Profile.Members)
             {
-                var contributionFullInfo = await _githubIntegrationService.User.FindUserContributionOrEmpty(member.Member);
+                ContributionFullInfo contributionFullInfo = await _githubIntegrationService.User.FindUserContributionOrEmpty(member.Member);
                 result.Add(new GuildMemberImpactDto(new IwentysUserInfoDto(member.Member), member.MemberType, contributionFullInfo));
             }
 
             return result;
         }
 
-        public async Task<GuildMemberLeaderBoardDto> GetMemberDashboard()
-        {
-            List<GuildMemberImpactDto> members = await GetMemberImpacts();
-            return new GuildMemberLeaderBoardDto(members);
-        }
-
-        public async Task<UserMembershipState> GetUserMembershipState(Int32 userId)
+        public async Task<UserMembershipState> GetUserMembershipState(int userId)
         {
             IwentysUser user = await _userRepository.GetById(userId);
             Guild userGuild = _guildMemberRepositoryNew.ReadForStudent(user.Id);
             GuildMemberType? userStatusInGuild = Profile.Members.Find(m => m.Member.Id == user.Id)?.MemberType;
+            GuildLastLeave guildLastLeave = await GuildLastLeave.Get(user, _guildLastLeaveRepository);
 
             if (userStatusInGuild == GuildMemberType.Blocked)
                 return UserMembershipState.Blocked;
@@ -97,7 +78,7 @@ namespace Iwentys.Features.Guilds.Domain
 
             if (userGuild is null &&
                 userStatusInGuild != GuildMemberType.Requested &&
-                DateTime.UtcNow < user.GuildLeftTime.AddHours(24))
+                guildLastLeave.IsLeaveRestrictExpired())
                 return UserMembershipState.Blocked;
 
             if (userGuild is null && Profile.HiringPolicy == GuildHiringPolicy.Open)
@@ -109,7 +90,7 @@ namespace Iwentys.Features.Guilds.Domain
             return UserMembershipState.Blocked;
         }
 
-        //TODO: use in daemon
+        //FYI: need to use in daemon
         //public GuildDomain UpdateGuildFromGithub()
         //{
         //    Organization organizationInfo = _apiAccessor.FindOrganizationInfo(Profile.Title);

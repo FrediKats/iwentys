@@ -37,7 +37,7 @@ namespace Iwentys.Features.Raids.Entities
         public void Approve()
         {
             if (Role != RaidVisitorRole.Pending)
-                throw new InnerLogicException("Invalid state");
+                throw InnerLogicException.RaidExceptions.RequestIsNotActual(RaidId, VisitorId);
 
             Role = RaidVisitorRole.Approved;
         }

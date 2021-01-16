@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Iwentys.Features.AccountManagement.Models;
 using Iwentys.Features.Study.SubjectAssignments.Entities;
 
 namespace Iwentys.Features.Study.SubjectAssignments.Models
@@ -15,6 +16,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public string Link { get; set; }
+        public IwentysUserInfoDto Author { get; set; }
 
         public List<SubjectAssignmentSubmitDto> Submits { get; set; }
 
@@ -22,9 +24,10 @@ namespace Iwentys.Features.Study.SubjectAssignments.Models
             entity => new SubjectAssignmentDto
             {
                 Id = entity.Id,
-                Title = entity.Title,
-                Description = entity.Description,
-                Link = entity.Link,
+                Title = entity.Assignment.Title,
+                Description = entity.Assignment.Description,
+                Link = entity.Assignment.Link,
+                Author = new IwentysUserInfoDto(entity.Author),
                 Submits = entity.SubjectAssignmentSubmits.Select(s => new SubjectAssignmentSubmitDto(s)).ToList()
             };
     }

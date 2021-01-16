@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
+using Iwentys.Common.Exceptions;
+using Iwentys.Common.Tools;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.GithubIntegration.Entities;
@@ -14,12 +16,13 @@ namespace Iwentys.Features.PeerReview.Services
 {
     public class ProjectReviewService
     {
+        private readonly IGenericRepository<GithubProject> _projectRepository;
+        private readonly IGenericRepository<ProjectReviewFeedback> _projectReviewFeedbackRepository;
+        private readonly IGenericRepository<ProjectReviewRequest> _projectReviewRequestRepository;
+        private readonly IGenericRepository<ProjectReviewRequestInvite> _projectReviewRequestInviteRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IGenericRepository<IwentysUser> _userRepository;
-        private readonly IGenericRepository<ProjectReviewRequest> _projectReviewRequestRepository;
-        private readonly IGenericRepository<ProjectReviewFeedback> _projectReviewFeedbackRepository;
-        private readonly IGenericRepository<GithubProject> _projectRepository;
 
         public ProjectReviewService(IUnitOfWork unitOfWork)
         {
@@ -29,31 +32,40 @@ namespace Iwentys.Features.PeerReview.Services
             _projectReviewRequestRepository = _unitOfWork.GetRepository<ProjectReviewRequest>();
             _projectReviewFeedbackRepository = _unitOfWork.GetRepository<ProjectReviewFeedback>();
             _projectRepository = _unitOfWork.GetRepository<GithubProject>();
+            _projectReviewRequestInviteRepository = _unitOfWork.GetRepository<ProjectReviewRequestInvite>();
         }
 
-        public async Task<List<ProjectReviewRequestInfoDto>> GetRequests()
+        public async Task<List<ProjectReviewRequestInfoDto>> GetRequests(AuthorizedUser user)
         {
             return await _projectReviewRequestRepository
                 .Get()
+                .Where(ProjectReviewRequest.IsVisibleTo(user))
                 .Select(ProjectReviewRequestInfoDto.FromEntity)
                 .ToListAsync();
         }
 
         public async Task<List<GithubRepositoryInfoDto>> GetAvailableForReviewProject(AuthorizedUser user)
-        {
-            //TODO: filter project that already on review
+         {
+            var userProjects = _projectReviewRequestRepository
+                .Get()
+                .Where(k => k.AuthorId == user.Id)
+                .SelectToHashSet(k => k.ProjectId);
+
             return await _projectRepository
                 .Get()
-                .Where(p => p.OwnerUserId == user.Id)
+                .Where(p => p.OwnerUserId == user.Id && !userProjects.Contains(p.Id))
                 .Select(GithubRepositoryInfoDto.FromEntity)
                 .ToListAsync();
         }
 
         public async Task<ProjectReviewRequestInfoDto> CreateReviewRequest(AuthorizedUser author, ReviewRequestCreateArguments createArguments)
         {
-            //TODO: ensure project was not been added to review before
+            GithubProject githubProject = await _projectRepository.GetById(createArguments.ProjectId);
+            var alreadyAddedToReview = _projectReviewRequestRepository.Get().Any(rr => rr.ProjectId == githubProject.Id);
+            if (alreadyAddedToReview)
+                throw InnerLogicException.PeerReviewExceptions.ProjectAlreadyOnReview(githubProject.Id);
 
-            var projectReviewRequest = ProjectReviewRequest.Create(author, createArguments);
+            var projectReviewRequest = ProjectReviewRequest.Create(author, githubProject, createArguments);
 
             await _projectReviewRequestRepository.InsertAsync(projectReviewRequest);
             await _unitOfWork.CommitAsync();
@@ -86,7 +98,19 @@ namespace Iwentys.Features.PeerReview.Services
 
             projectReviewRequest.FinishReview(user);
 
-             _projectReviewRequestRepository.Update(projectReviewRequest);
+            _projectReviewRequestRepository.Update(projectReviewRequest);
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task InviteToReview(AuthorizedUser requestAuthor, int reviewRequestId, int reviewToInviteId)
+        {
+            IwentysUser user = await _userRepository.GetById(requestAuthor.Id);
+            ProjectReviewRequest projectReviewRequest = await _projectReviewRequestRepository.GetById(reviewRequestId);
+            IwentysUser reviewToInvite = await _userRepository.GetById(reviewToInviteId);
+
+            ProjectReviewRequestInvite projectReviewRequestInvite = projectReviewRequest.InviteToReview(user, reviewToInvite);
+
+            await _projectReviewRequestInviteRepository.InsertAsync(projectReviewRequestInvite);
             await _unitOfWork.CommitAsync();
         }
     }

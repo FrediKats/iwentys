@@ -27,9 +27,9 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
                 .GetJsonAsync<List<GuildProfileDto>>();
         }
 
-        public Task<ExtendedGuildProfileWithMemberDataDto> Get(int id)
+        public Task<GuildProfileDto> Get(int id)
         {
-            return Client.FindFromJsonAsync<ExtendedGuildProfileWithMemberDataDto>($"/api/guild/{id}");
+            return Client.FindFromJsonAsync<GuildProfileDto>($"/api/guild/{id}");
         }
 
         public Task<GuildProfileDto> GetForMember(int memberId)

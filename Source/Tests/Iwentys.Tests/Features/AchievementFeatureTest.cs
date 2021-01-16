@@ -13,13 +13,14 @@ namespace Iwentys.Tests.Features
     public class AchievementFeatureTest
     {
         [Test]
+        [Ignore("Need to implement eventing system")]
         public async Task CreateGuild_ShouldReturnCreatorAsMember()
         {
             TestCaseContext testCase = TestCaseContext.Case();
             GroupProfileResponseDto studyGroup = testCase.StudyTestCaseContext.WithStudyGroup();
             AuthorizedUser user = testCase.StudyTestCaseContext.WithNewStudent(studyGroup);
 
-            await testCase.StudentService.AddGithubUsername(user.Id, "username");
+            await testCase.IwentysUserService.AddGithubUsername(user.Id, "username");
             AchievementInfoDto studentAchievementEntity = (await testCase
                     .AchievementService
                     .GetForStudent(user.Id))

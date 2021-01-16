@@ -1,28 +1,27 @@
 ﻿using Iwentys.Common.Databases;
-using Iwentys.Database.Context;
-using Iwentys.Database.Repositories.Study;
-using Iwentys.Database.Tools;
+using Iwentys.Database;
 using Iwentys.Endpoint.Server.Source.IdentityAuth;
 using Iwentys.Endpoint.Server.Source.Options;
 using Iwentys.Endpoint.Server.Source.Tokens;
-using Iwentys.Features.Achievements;
+using Iwentys.Features.AccountManagement.Infrastructure;
 using Iwentys.Features.Achievements.Domain;
-using Iwentys.Features.Assignments;
-using Iwentys.Features.Companies;
-using Iwentys.Features.Economy;
-using Iwentys.Features.Gamification;
+using Iwentys.Features.Achievements.Infrastructure;
+using Iwentys.Features.Assignments.Infrastructure;
+using Iwentys.Features.Companies.Infrastructure;
+using Iwentys.Features.Economy.Infrastructure;
+using Iwentys.Features.Gamification.Infrastructure;
 using Iwentys.Features.GithubIntegration;
-using Iwentys.Features.Guilds;
-using Iwentys.Features.Guilds.Tournaments;
-using Iwentys.Features.Guilds.Tributes;
-using Iwentys.Features.Newsfeeds;
-using Iwentys.Features.PeerReview;
-using Iwentys.Features.Quests;
-using Iwentys.Features.Raids;
-using Iwentys.Features.Study;
-using Iwentys.Features.Study.Repositories;
-using Iwentys.Features.Study.SubjectAssignments;
-using Iwentys.Features.Voting;
+using Iwentys.Features.GithubIntegration.Infrastructure;
+using Iwentys.Features.Guilds.Infrastructure;
+using Iwentys.Features.Guilds.Tournaments.Infrastructure;
+using Iwentys.Features.Guilds.Tributes.Infrastructure;
+using Iwentys.Features.Newsfeeds.Infrastructure;
+using Iwentys.Features.PeerReview.Infrastructure;
+using Iwentys.Features.Quests.Infrastructure;
+using Iwentys.Features.Raids.Infrastructure;
+using Iwentys.Features.Study.Infrastructure;
+using Iwentys.Features.Study.SubjectAssignments.Infrastructure;
+using Iwentys.Features.Voting.Infrastructure;
 using Iwentys.Integrations.GithubIntegration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
@@ -50,7 +49,7 @@ namespace Iwentys.Endpoint.Server.Source.Tools
 
         public static IServiceCollection AddIwentysDatabase(this IServiceCollection services)
         {
-            //TODO: replace with normal db
+            //FYI: need to replace with normal db after release
             //services.AddDbContext<IwentysDbContext>(o => o.UseSqlite("Data Source=Iwentys.db"));
             services
                 .AddDbContext<IwentysDbContext>(o => o
@@ -61,13 +60,12 @@ namespace Iwentys.Endpoint.Server.Source.Tools
 
         public static IServiceCollection AddIwentysServices(this IServiceCollection services)
         {
-            //TODO: replace
+            //FYI: replace after release
             services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();
             //services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
-            services.AddScoped<DatabaseAccessor>();
             services.AddScoped<AchievementProvider>();
-            
-            
+
+            services.AddIwentysAAccountManagementFeatureServices();
             services.AddIwentysAchievementFeatureServices();
             services.AddIwentysAssignmentFeatureServices();
             services.AddIwentysCompanyFeatureServices();
@@ -83,7 +81,7 @@ namespace Iwentys.Endpoint.Server.Source.Tools
             services.AddIwentysPeerReviewFeatureServices();
             services.AddIwentysQuestFeatureServices();
             
-            services.AddScoped<ISubjectActivityRepository, SubjectActivityRepository>();
+            services.AddScoped<IStudyDbContext, IwentysDbContext>();
             services.AddIwentysStudyFeatureServices();
             services.AddIwentysSubjectAssignmentFeatureServices();
 
@@ -129,7 +127,7 @@ namespace Iwentys.Endpoint.Server.Source.Tools
             return services;
         }
 
-        //TODO: Temp fix for CORS
+        //FYI: Need to rework CORS after release
         public static IServiceCollection AddIwentysCorsHack(this IServiceCollection services)
         {
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Endpoint.Server.Source.BackgroundServices;
 using Iwentys.Endpoint.Server.Source.Options;
+using Iwentys.Features.Guilds.Services;
 using Iwentys.Features.Study.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -10,7 +11,7 @@ using StackExchange.Exceptional;
 
 namespace Iwentys.Endpoint.Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/DebugCommand")]
     [ApiController]
     public class DebugCommandController : ControllerBase
     {
@@ -18,12 +19,14 @@ namespace Iwentys.Endpoint.Server.Controllers
         private readonly ILogger<DebugCommandController> _logger;
         private readonly IUnitOfWork _unitOfWork;
 
+        private readonly GuildService _guildService;
 
-        public DebugCommandController(ILogger<DebugCommandController> logger, IUnitOfWork unitOfWork, TokenApplicationOptions tokenApplicationOptions)
+        public DebugCommandController(ILogger<DebugCommandController> logger, IUnitOfWork unitOfWork, TokenApplicationOptions tokenApplicationOptions, GuildService guildService)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
-            
+            _guildService = guildService;
+
             _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(_logger, tokenApplicationOptions.GoogleServiceToken, _unitOfWork);
         }
 
@@ -47,6 +50,13 @@ namespace Iwentys.Endpoint.Server.Controllers
             }
 
             await _markGoogleTableUpdateService.UpdateSubjectActivityForGroup(groupSubjectData);
+            return Ok();
+        }
+
+        [HttpGet("update-guild-impact")]
+        public async Task<ActionResult> UpdateGuildImpact()
+        {
+            await _guildService.UpdateGuildMemberImpact();
             return Ok();
         }
 

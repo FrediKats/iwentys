@@ -1,15 +1,12 @@
 ﻿using System;
 using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Study.Enums;
+using Iwentys.Features.Study.Models.Students;
 
 namespace Iwentys.Features.Study.Entities
 {
     public class Student : IwentysUser
     {
-        public StudentType Type { get; init; }
-        public virtual StudyGroupMember GroupMember { get; set; }
-
-
         public Student()
         {
         }
@@ -22,8 +19,11 @@ namespace Iwentys.Features.Study.Entities
             SecondName = secondName;
             CreationTime = DateTime.UtcNow;
             LastOnlineTime = DateTime.UtcNow;
-            GuildLeftTime = DateTime.MinValue;
         }
+
+        public StudentType Type { get; init; }
+        public int GroupId { get; set; }
+        public virtual StudyGroup Group { get; set; }
 
         public static Student CreateFromIsu(int id, string firstName, string secondName)
         {
@@ -32,10 +32,19 @@ namespace Iwentys.Features.Study.Entities
 
         public static Student CreateFromIsu(int id, string firstName, string middleName, string secondName)
         {
-            return new Student(id, firstName, middleName, secondName)
+            return new Student(id, firstName, middleName, secondName);
+        }
+
+        public static Student Create(StudentCreateArguments createArguments)
+        {
+            return new Student(id: createArguments.Id ?? 0, firstName: createArguments.FirstName, middleName: createArguments.MiddleName, secondName: createArguments.SecondName)
             {
-                //TODO: it's not work any more, meh
-                //GroupId = -1
+                IsAdmin = createArguments.IsAdmin,
+                GithubUsername = createArguments.GithubUsername,
+                BarsPoints = createArguments.BarsPoints,
+                AvatarUrl = createArguments.AvatarUrl,
+                Type = createArguments.Type,
+                GroupId = createArguments.GroupId
             };
         }
     }

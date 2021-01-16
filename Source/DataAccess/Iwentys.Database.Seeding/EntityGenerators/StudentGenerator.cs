@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Bogus;
+using Iwentys.Common.Tools;
 using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Database.Seeding.Tools;
 using Iwentys.Features.Study.Entities;
@@ -15,9 +16,11 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 
         public StudentGenerator(List<StudyGroup> studyGroups)
         {
-            var faker = new StudentFaker();
-            StudyGroupMembers = new List<StudyGroupMember>();
-            Students = faker.Generate(StudentCount);
+            Students = UsersFaker.Instance.Students
+                .Generate(StudentCount)
+                .SelectToList(Student.Create);
+            Students.ForEach(s => s.Id = UsersFaker.Instance.GetIdentifier());
+
             Students.Add(new Student
             {
                 Id = 228617,
@@ -34,10 +37,10 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 
             foreach (Student student in Students)
             {
-                StudyGroupMembers.Add(new StudyGroupMember {StudentId = student.Id, GroupId = RandomExtensions.Instance.PickRandom(studyGroups).Id });
+                student.GroupId = RandomExtensions.Instance.PickRandom(studyGroups).Id;
             }
 
-            StudyGroupMembers
+            Students
                 .GroupBy(s => s.GroupId)
                 .Select(g => g.FirstOrDefault())
                 .Where(s => s is not null)
@@ -45,20 +48,17 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 .ForEach(s =>
                 {
                     StudyGroup studyGroup = studyGroups.First();
-                    studyGroup.GroupAdminId = s.StudentId;
+                    studyGroup.GroupAdminId = s.Id;
                 });
 
-            StudyGroupMember studyGroupMember = StudyGroupMembers.First(sgm => sgm.StudentId == 228617);
-            studyGroupMember.GroupId = studyGroups.First(g => g.GroupName.Contains("3505")).Id;
+            Students.First(sgm => sgm.Id == 228617).GroupId = studyGroups.First(g => g.GroupName.Contains("3505")).Id;
         }
 
         public List<Student> Students { get; set; }
-        public List<StudyGroupMember> StudyGroupMembers { get; set; }
 
         public void Seed(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Student>().HasData(Students);
-            modelBuilder.Entity<StudyGroupMember>().HasData(StudyGroupMembers);
         }
     }
 }

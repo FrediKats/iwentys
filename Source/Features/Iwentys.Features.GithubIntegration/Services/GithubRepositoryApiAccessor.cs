@@ -11,9 +11,9 @@ namespace Iwentys.Features.GithubIntegration.Services
     public class GithubRepositoryApiAccessor
     {
         private readonly IGithubApiAccessor _githubApiAccessor;
-        private readonly IUnitOfWork _unitOfWork;
 
         private readonly IGenericRepository<GithubProject> _studentProjectRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public readonly GithubUserApiAccessor UserApiApiAccessor;
 
@@ -55,10 +55,7 @@ namespace Iwentys.Features.GithubIntegration.Services
         {
             GithubUser githubUser = await UserApiApiAccessor.GetGithubUser(username, useCache);
 
-            if (!useCache)
-            {
-                await ForceRescanUserRepositories(githubUser);
-            }
+            if (!useCache) await ForceRescanUserRepositories(githubUser);
 
             return await _studentProjectRepository
                 .Get()
@@ -67,7 +64,6 @@ namespace Iwentys.Features.GithubIntegration.Services
                 .ToListAsync();
         }
 
-        //TODO: rework but not now. Probably perf problems
         //TODO: remove old repo that is not exist in githubRepositories
         public async Task ForceRescanUserRepositories(GithubUser githubUser)
         {

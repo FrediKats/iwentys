@@ -8,13 +8,6 @@ namespace Iwentys.Features.PeerReview.Models
 {
     public class ProjectReviewFeedbackInfoDto
     {
-        public int Id { get; set; }
-        public string Description { get; set; }
-        public DateTime CreationTimeUtc { get; set; }
-        public ReviewFeedbackSummary Summary { get; set; }
-
-        public IwentysUserInfoDto Author { get; set; }
-
         public ProjectReviewFeedbackInfoDto(ProjectReviewFeedback reviewFeedback) : this()
         {
             Id = reviewFeedback.Id;
@@ -28,6 +21,13 @@ namespace Iwentys.Features.PeerReview.Models
         {
         }
 
+        public int Id { get; set; }
+        public string Description { get; set; }
+        public DateTime CreationTimeUtc { get; set; }
+        public ReviewFeedbackSummary Summary { get; set; }
+
+        public IwentysUserInfoDto Author { get; set; }
+
         public static Expression<Func<ProjectReviewFeedback, ProjectReviewFeedbackInfoDto>> FromEntity =>
             entity => new ProjectReviewFeedbackInfoDto
             {
@@ -35,7 +35,7 @@ namespace Iwentys.Features.PeerReview.Models
                 Description = entity.Description,
                 CreationTimeUtc = entity.CreationTimeUtc,
                 Summary = entity.Summary,
-                Author = new IwentysUserInfoDto(entity.Author),
+                Author = new IwentysUserInfoDto(entity.Author)
             };
     }
 }

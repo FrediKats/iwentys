@@ -66,20 +66,19 @@ namespace Iwentys.Endpoint.Controllers
             return Ok(quest);
         }
 
-        //TODO: send other info about response
-        [HttpGet("{questId}/send-response")]
-        public async Task<ActionResult<QuestInfoDto>> SendResponse(int questId)
+        [HttpPost("{questId}/send-response")]
+        public async Task<ActionResult<QuestInfoDto>> SendResponse(int questId, [FromBody] QuestResponseCreateArguments arguments)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            QuestInfoDto quest = await _questService.SendResponse(user, questId);
+            QuestInfoDto quest = await _questService.SendResponse(user, questId, arguments);
             return Ok(quest);
         }
 
         [HttpPut("{questId}/complete")]
-        public async Task<ActionResult<QuestInfoDto>> Complete([FromRoute]int questId, [FromQuery] int userId)
+        public async Task<ActionResult<QuestInfoDto>> Complete([FromRoute]int questId, [FromBody] QuestCompleteArguments arguments)
         {
-            AuthorizedUser author = this.TryAuthWithToken();
-            QuestInfoDto quest = await _questService.Complete(author, questId, userId);
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            QuestInfoDto quest = await _questService.Complete(authorizedUser, questId, arguments);
             return Ok(quest);
         }
 
@@ -89,6 +88,13 @@ namespace Iwentys.Endpoint.Controllers
             AuthorizedUser author = this.TryAuthWithToken();
             QuestInfoDto quest = await _questService.Revoke(author, questId);
             return Ok(quest);
+        }
+
+        [HttpGet("executor-rating")]
+        public async Task<ActionResult<List<QuestRatingRow>>> GetQuestExecutorRating()
+        {
+            List<QuestRatingRow> result = await _questService.GetQuestExecutorRating();
+            return result;
         }
     }
 }

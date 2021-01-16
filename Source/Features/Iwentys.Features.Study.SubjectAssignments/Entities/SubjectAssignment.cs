@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Iwentys.Common.Exceptions;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
+using Iwentys.Features.Assignments.Entities;
 using Iwentys.Features.Study.Entities;
+using Iwentys.Features.Study.SubjectAssignments.Domain;
 using Iwentys.Features.Study.SubjectAssignments.Models;
 
 namespace Iwentys.Features.Study.SubjectAssignments.Entities
@@ -15,36 +18,35 @@ namespace Iwentys.Features.Study.SubjectAssignments.Entities
         public int SubjectId { get; set; }
         public virtual Subject Subject { get; set; }
 
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string Link { get; set; }
+        public int AssignmentId { get; set; }
+        public virtual Assignment Assignment { get; set; }
 
         public DateTime CreationTimeUtc { get; set; }
         public DateTime LastUpdateTimeUtc { get; set; }
-        public DateTime DeadlineTimeUtc { get; set; }
-        //TODO: add author
+        public DateTime? DeadlineTimeUtc { get; set; }
 
-        //TODO: move to GroupSubjectAssignment?
+        public int AuthorId { get; set; }
+        public virtual IwentysUser Author { get; set; }
+
         public virtual ICollection<SubjectAssignmentSubmit> SubjectAssignmentSubmits { get; set; }
         public virtual ICollection<GroupSubjectAssignment> GroupSubjectAssignments { get; set; }
 
-        public static SubjectAssignment Create(IwentysUser user, GroupSubject groupSubject, SubjectAssignmentCreateArguments arguments)
+        public static SubjectAssignment Create(SubjectTeacher teacher, Subject subject, Assignment assignment)
         {
-            if (groupSubject.LectorTeacherId != user.Id && groupSubject.PracticeTeacherId != user.Id && !user.IsAdmin)
-                throw new InnerLogicException("User is not group teacher");
-
             return new SubjectAssignment
             {
-                SubjectId = groupSubject.SubjectId,
-                Title = arguments.Title,
-                Description = arguments.Description,
-                Link = arguments.Link
+                AssignmentId = assignment.Id,
+                SubjectId = subject.Id,
+                AuthorId = teacher.User.Id
             };
         }
 
         public SubjectAssignmentSubmit CreateSubmit(AuthorizedUser user, SubjectAssignmentSubmitCreateArguments arguments)
         {
-            //TODO: ensure user is from this group
+            var canCreateSubmit = Subject.GroupSubjects.Any(gs => gs.StudyGroup.Students.Any(s => s.Id == user.Id));
+            if (!canCreateSubmit)
+                throw InnerLogicException.SubjectAssignmentException.StudentIsNotAssignedToSubject(user.Id, Id);
+
             return new SubjectAssignmentSubmit
             {
                 StudentId = user.Id,

@@ -16,7 +16,7 @@ namespace Iwentys.Tests.Features
             TestCaseContext testCase = TestCaseContext.Case();
             GroupProfileResponseDto studyGroup = testCase.StudyTestCaseContext.WithStudyGroup();
             AuthorizedUser student = testCase.StudyTestCaseContext.WithNewStudent(studyGroup);
-            
+
             AssignmentInfoDto assignmentInfoDto = testCase.AssignmentTestCaseContext.WithAssignment(student);
 
             Assert.IsNotNull(assignmentInfoDto);

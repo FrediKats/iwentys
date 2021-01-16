@@ -13,11 +13,11 @@ namespace Iwentys.Features.GithubIntegration.Services
     public class GithubUserApiAccessor
     {
         private readonly IGithubApiAccessor _githubApiAccessor;
+        private readonly IGenericRepository<GithubUser> _githubUserRepository;
+        private readonly IGenericRepository<GithubProject> _studentProjectRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IGenericRepository<IwentysUser> _userRepository;
-        private readonly IGenericRepository<GithubProject> _studentProjectRepository;
-        private readonly IGenericRepository<GithubUser> _githubUserRepository;
 
         public GithubUserApiAccessor(IGithubApiAccessor githubApiAccessor, IUnitOfWork unitOfWork)
         {
@@ -149,7 +149,6 @@ namespace Iwentys.Features.GithubIntegration.Services
             return oldGithubUser;
         }
 
-        //TODO: wrap with domain entity?
         private async Task<IwentysUser> EnsureStudentWithGithub(int studentId)
         {
             IwentysUser student = await _userRepository.FindByIdAsync(studentId);

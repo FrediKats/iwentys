@@ -10,7 +10,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
 {
     public partial class GuildProfilePage
     {
-        private ExtendedGuildProfileWithMemberDataDto _guild;
+        private GuildProfileDto _guild;
         private GuildMemberLeaderBoardDto _memberLeaderBoard;
         private List<NewsfeedViewModel> _newsfeeds;
         private List<AchievementInfoDto> _achievements;

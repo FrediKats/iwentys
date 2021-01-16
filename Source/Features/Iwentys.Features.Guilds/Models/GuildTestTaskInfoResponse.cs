@@ -10,7 +10,7 @@ namespace Iwentys.Features.Guilds.Models
         public int StudentId { get; set; }
         public DateTime StartTimeUtc { get; set; }
         public DateTime? SubmitTimeUtc { get; set; }
-        public long? ProjectId { get; set; }
+        public int? ProjectReviewRequestId { get; set; }
         public DateTime? CompleteTimeUtc { get; set; }
 
         public GuildTestTaskState TestTaskState { get; set; }
@@ -22,7 +22,7 @@ namespace Iwentys.Features.Guilds.Models
                     StudentId = testTask.AuthorId,
                     StartTimeUtc = testTask.StartTimeUtc,
                     SubmitTimeUtc = testTask.SubmitTimeUtc,
-                    ProjectId = testTask.ProjectId,
+                    ProjectReviewRequestId = testTask.ProjectReviewRequestId,
                     CompleteTimeUtc = testTask.CompleteTimeUtc,
                     TestTaskState = testTask.GetState()
                 };
@@ -35,7 +35,7 @@ namespace Iwentys.Features.Guilds.Models
                 StudentId = testTask.AuthorId,
                 StartTimeUtc = testTask.StartTimeUtc,
                 SubmitTimeUtc = testTask.SubmitTimeUtc,
-                ProjectId = testTask.ProjectId,
+                ProjectReviewRequestId = testTask.ProjectReviewRequestId,
                 CompleteTimeUtc = testTask.CompleteTimeUtc,
                 TestTaskState = testTask.GetState()
             };

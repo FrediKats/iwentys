@@ -11,17 +11,17 @@ namespace Iwentys.Database.Seeding.EntityGenerators
     {
         public List<SubjectActivity> SubjectActivityEntities { get; set; }
 
-        public SubjectActivityGenerator(List<GroupSubject> groupSubjects, List<Student> students, List<StudyGroupMember> studyGroupMembers)
+        public SubjectActivityGenerator(List<GroupSubject> groupSubjects, List<Student> students)
         {
             SubjectActivityEntities = new List<SubjectActivity>();
-            foreach (StudyGroupMember studyGroupMember in studyGroupMembers)
+            foreach (var student in students)
             {
-                foreach (GroupSubject groupSubjectEntity in groupSubjects.Where(gs => gs.StudyGroupId == studyGroupMember.GroupId))
+                foreach (GroupSubject groupSubjectEntity in groupSubjects.Where(gs => gs.StudyGroupId == student.GroupId))
                 {
                     SubjectActivityEntities.Add(new SubjectActivity
                     {
                         GroupSubjectId = groupSubjectEntity.Id,
-                        StudentId = studyGroupMember.StudentId,
+                        StudentId = student.Id,
                         Points = RandomExtensions.Instance.Random.Double() * 100
                     });
                 }

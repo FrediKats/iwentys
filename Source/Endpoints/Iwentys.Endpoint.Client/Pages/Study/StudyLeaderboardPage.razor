@@ -1,34 +1,61 @@
 ﻿@page "/leaderboard/study/"
 @using Blazored.LocalStorage
 @using Iwentys.Features.Gamification.Models
+@using Iwentys.Features.Study.Models;
 
 @inherits DependencyInjectionPage
 
 <div class="text-center">
     <h3>Рейтинг студентов</h3>
 
-    @if (_studentProfiles is not null)
-    {
+    <div class="container-fluid d-flex flex-row">
         <div class="container-fluid d-flex flex-column">
-            @foreach (StudyLeaderboardRowDto studentProfile in _studentProfiles)
+            @if (_studentProfiles is not null)
             {
+                @foreach (StudyLeaderboardRowDto studentProfile in _studentProfiles)
+                {
+                    <a href=@LinkToProfile(studentProfile)>
+                        <div class="d-flex flex-row dark-elevation-01 student-rating-row justify-content-center">
+                            <div class="col-md-2">
+                                <img src=@studentProfile.Student.AvatarUrl class="student-logo" />
+                            </div>
 
-                <a href=@LinkToProfile(studentProfile)>
-                    <div class="d-flex flex-row dark-elevation-01 student-rating-row">
-                        <div class="col-md-2">
-                            <img src=@studentProfile.Student.AvatarUrl class="student-logo" />
-                        </div>
+                            <div class="col-md-8">
+                                <h4>@studentProfile.Student.GetFullName()</h4>
+                            </div>
 
-                        <div class="col-md-8">
-                            <h4>@studentProfile.Student.GetFullName()</h4>
+                            <div class="col-md-2">
+                                <p>@studentProfile.Activity.ToString("F2")</p>
+                            </div>
                         </div>
-
-                        <div class="col-md-2">
-                            <p>@studentProfile.Activity.ToString("F2")</p>
-                        </div>
-                    </div>
-                </a>
+                    </a>
+                }
             }
         </div>
-    }
+
+        <div class="container-fluid d-flex flex-column">
+            @if (_studyCourses is not null)
+            {
+                <p>
+                    <MatSelectItem Items="@_studyCourses" Class="input-element" FullWidth="true" TValue="StudyCourseInfoDto" ValueChanged="@(OnCurseSelected)">
+                        <ItemTemplate>
+                            <span>@context?.CourseTitle</span>
+                        </ItemTemplate>
+                    </MatSelectItem>
+                </p>
+            }
+
+            @if (_groups is not null)
+            {
+                <p>
+                    <MatSelectItem Items="@_groups" Class="input-element" FullWidth="true" TValue="GroupProfileResponseDto" ValueChanged="@(OnGroupSelect)">
+                        <ItemTemplate>
+                            <span>@context?.GroupName</span>
+                        </ItemTemplate>
+                    </MatSelectItem>
+                </p>
+            }
+        </div>
+    </div>
+
 </div>

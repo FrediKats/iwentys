@@ -1,5 +1,4 @@
-﻿@using Blazored.LocalStorage
-@using Iwentys.Features.Guilds.Enums
+﻿@using Iwentys.Features.Guilds.Enums
 @using Iwentys.Features.Guilds.Models
 
 @inherits DependencyInjectionPage
@@ -36,5 +35,5 @@
 
 @code {
     [Parameter]
-    public ExtendedGuildProfileWithMemberDataDto GuildProfile { get; set; }
+    public GuildProfileDto GuildProfile { get; set; }
 }

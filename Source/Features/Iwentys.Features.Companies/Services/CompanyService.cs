@@ -39,7 +39,8 @@ namespace Iwentys.Features.Companies.Services
 
         public async Task<CompanyInfoDto> Get(int id)
         {
-            return new CompanyInfoDto(await _companyRepository.FindByIdAsync(id));
+            Company company = await _companyRepository.GetById(id);
+            return new CompanyInfoDto(company);
         }
 
         public async Task<List<CompanyWorkRequestDto>> GetCompanyWorkRequest()
@@ -53,8 +54,8 @@ namespace Iwentys.Features.Companies.Services
 
         public async Task RequestAdding(int companyId, int userId)
         {
-            Company company = await _companyRepository.FindByIdAsync(companyId);
-            IwentysUser profile = await _studentRepository.FindByIdAsync(userId);
+            Company company = await _companyRepository.GetById(companyId);
+            IwentysUser profile = await _studentRepository.GetById(userId);
 
             List<CompanyWorker> workerRequests = await _companyWorkerRepository.Get().Where(CompanyWorker.IsRequested).ToListAsync();
             if (workerRequests.Any(r => r.WorkerId == profile.Id))
@@ -76,13 +77,15 @@ namespace Iwentys.Features.Companies.Services
             await _unitOfWork.CommitAsync();
         }
 
-        //TODO: rework
-        public async Task<Company> Create(Company company)
+        public async Task<CompanyInfoDto> Create(AuthorizedUser initiator, CompanyCreateArguments createArguments)
         {
+            IwentysUser creator = await _iwentysUserRepository.GetById(initiator.Id);
+            var company = Company.Create(creator.EnsureIsAdmin(), createArguments);
+
             await _companyRepository.InsertAsync(company);
             await _unitOfWork.CommitAsync();
 
-            return company;
+            return await Get(company.Id);
         }
     }
 }

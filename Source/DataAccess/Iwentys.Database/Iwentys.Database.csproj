@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\.editorconfig" Link=".editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="LanguageExt.Core" Version="3.4.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.1">
@@ -23,6 +19,7 @@
     <ProjectReference Include="..\..\Features\Iwentys.Features.Gamification\Iwentys.Features.Gamification.csproj" />
     <ProjectReference Include="..\..\Features\Iwentys.Features.InterestTags\Iwentys.Features.InterestTags.csproj" />
     <ProjectReference Include="..\..\Features\Iwentys.Features.PeerReview\Iwentys.Features.PeerReview.csproj" />
+    <ProjectReference Include="..\..\Features\Iwentys.Features.Voting\Iwentys.Features.Voting.csproj" />
     <ProjectReference Include="..\..\Shared\Iwentys.Common\Iwentys.Common.csproj" />
     <ProjectReference Include="..\Iwentys.Database.Seeding\Iwentys.Database.Seeding.csproj" />
   </ItemGroup>

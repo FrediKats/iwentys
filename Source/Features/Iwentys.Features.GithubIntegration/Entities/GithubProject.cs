@@ -26,7 +26,7 @@ namespace Iwentys.Features.GithubIntegration.Entities
         public string Description { get; set; }
         public int StarCount { get; set; }
 
-        public int OwnerUserId { get; set; }
+        public int? OwnerUserId { get; set; }
         public virtual IwentysUser OwnerUser { get; set; }
     }
 }

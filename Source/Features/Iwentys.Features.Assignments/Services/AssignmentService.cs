@@ -16,9 +16,9 @@ namespace Iwentys.Features.Assignments.Services
     public class AssignmentService
     {
         private readonly IGenericRepository<Assignment> _assignmentRepository;
+        private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
         private readonly IGenericRepository<StudentAssignment> _studentAssignmentRepository;
         private readonly IGenericRepository<Student> _studentRepository;
-        private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
 
         private readonly IUnitOfWork _unitOfWork;
 

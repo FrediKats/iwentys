@@ -1,6 +1,5 @@
 using Iwentys.Common.Databases;
-using Iwentys.Database.Context;
-using Iwentys.Database.Tools;
+using Iwentys.Database;
 using Iwentys.Features.AccountManagement.Services;
 using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Achievements.Services;
@@ -24,60 +23,57 @@ using Iwentys.Tests.Tools;
 
 namespace Iwentys.Tests.TestCaseContexts
 {
-    public partial class TestCaseContext
+    public class TestCaseContext
     {
-        //TODO: make private
-        public readonly IwentysDbContext _context;
-        public readonly IUnitOfWork UnitOfWork;
+        private readonly IwentysDbContext _context;
+        public readonly AccountManagementTestCaseContext AccountManagementTestCaseContext;
+        public readonly AchievementService AchievementService;
+        public readonly AssignmentService AssignmentService;
+        public readonly AssignmentTestCaseContext AssignmentTestCaseContext;
+        public readonly BarsPointTransactionLogService BarsPointTransactionLogService;
+        public readonly CompanyService CompanyService;
+        public readonly CompanyTestCaseContext CompanyTestCaseContext;
+        public readonly GamificationTestCaseContext GamificationTestCaseContext;
+        public readonly GithubIntegrationService GithubIntegrationService;
+        public readonly GithubTestCaseContext GithubTestCaseContext;
+        public readonly GuildMemberService GuildMemberService;
+        public readonly GuildService GuildService;
+        public readonly GuildTestCaseContext GuildTestCaseContext;
+        public readonly GuildTestTaskService GuildTestTaskService;
+        public readonly GuildTributeService GuildTributeServiceService;
+        public readonly InterestTagService InterestTagService;
 
         public readonly IwentysUserService IwentysUserService;
-        public readonly StudentService StudentService;
-        public readonly GuildService GuildService;
-        public readonly GuildMemberService GuildMemberService;
-        public readonly GuildTributeService GuildTributeServiceService;
-        public readonly TournamentService TournamentService;
-        public readonly CompanyService CompanyService;
-        public readonly QuestService QuestService;
-        public readonly GithubIntegrationService GithubIntegrationService;
-        public readonly BarsPointTransactionLogService BarsPointTransactionLogService;
-        public readonly NewsfeedService NewsfeedService;
-        public readonly InterestTagService InterestTagService;
-        public readonly AchievementService AchievementService;
-        public readonly StudyGroupService StudyGroupService;
-        public readonly GuildTestTaskService GuildTestTaskService;
         public readonly KarmaService KarmaService;
+        public readonly NewsfeedService NewsfeedService;
+        public readonly NewsfeedTestCaseContext NewsfeedTestCaseContext;
+        public readonly PeerReviewTestCaseContext PeerReviewTestCaseContext;
         public readonly ProjectReviewService ProjectReviewService;
-        public readonly SubjectAssignmentService SubjectAssignmentService;
-        public readonly AssignmentService AssignmentService;
+        public readonly QuestService QuestService;
+        public readonly QuestTestCaseContext QuestTestCaseContext;
         public readonly RaidService RaidService;
+        public readonly StudentService StudentService;
+        public readonly StudyService StudyService;
+        public readonly StudyTestCaseContext StudyTestCaseContext;
+        public readonly SubjectAssignmentService SubjectAssignmentService;
+        public readonly TournamentService TournamentService;
 
         public readonly TributeTestCaseContext TributeTestCaseContext;
-        public readonly GithubTestCaseContext GithubTestCaseContext;
-        public readonly AccountManagementTestCaseContext AccountManagementTestCaseContext;
-        public readonly StudyTestCaseContext StudyTestCaseContext;
-        public readonly QuestTestCaseContext QuestTestCaseContext;
-        public readonly CompanyTestCaseContext CompanyTestCaseContext;
-        public readonly PeerReviewTestCaseContext PeerReviewTestCaseContext;
-        public readonly GamificationTestCaseContext GamificationTestCaseContext;
-        public readonly NewsfeedTestCaseContext NewsfeedTestCaseContext;
-        public readonly GuildTestCaseContext GuildTestCaseContext;
-        public readonly AssignmentTestCaseContext AssignmentTestCaseContext;
-
-        public static TestCaseContext Case() => new TestCaseContext();
+        public readonly IUnitOfWork UnitOfWork;
 
         public TestCaseContext()
         {
             _context = TestDatabaseProvider.GetDatabaseContext();
             UnitOfWork = new UnitOfWork<IwentysDbContext>(_context);
-            
+
             var achievementProvider = new AchievementProvider(UnitOfWork);
             var githubApiAccessor = new DummyGithubApiAccessor();
 
             IwentysUserService = new IwentysUserService(UnitOfWork);
-            StudentService = new StudentService(UnitOfWork, achievementProvider);
+            StudentService = new StudentService(UnitOfWork);
             GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, UnitOfWork);
             GuildService = new GuildService(GithubIntegrationService, UnitOfWork);
-            GuildMemberService = new GuildMemberService(GithubIntegrationService, UnitOfWork);
+            GuildMemberService = new GuildMemberService(GithubIntegrationService, UnitOfWork, GuildService);
             GuildTributeServiceService = new GuildTributeService(UnitOfWork, GithubIntegrationService);
             TournamentService = new TournamentService(GithubIntegrationService, UnitOfWork, achievementProvider);
             CompanyService = new CompanyService(UnitOfWork);
@@ -86,10 +82,10 @@ namespace Iwentys.Tests.TestCaseContexts
             NewsfeedService = new NewsfeedService(UnitOfWork);
             InterestTagService = new InterestTagService(UnitOfWork);
             AchievementService = new AchievementService(UnitOfWork);
-            StudyGroupService = new StudyGroupService(UnitOfWork);
-            GuildTestTaskService = new GuildTestTaskService(achievementProvider, UnitOfWork, GithubIntegrationService);
+            StudyService = new StudyService(UnitOfWork);
             KarmaService = new KarmaService(UnitOfWork);
             ProjectReviewService = new ProjectReviewService(UnitOfWork);
+            GuildTestTaskService = new GuildTestTaskService(achievementProvider, UnitOfWork, GithubIntegrationService, ProjectReviewService);
             SubjectAssignmentService = new SubjectAssignmentService(UnitOfWork);
             AssignmentService = new AssignmentService(UnitOfWork);
             RaidService = new RaidService(UnitOfWork);
@@ -106,7 +102,12 @@ namespace Iwentys.Tests.TestCaseContexts
             GuildTestCaseContext = new GuildTestCaseContext(this);
             AssignmentTestCaseContext = new AssignmentTestCaseContext(this);
         }
-        
+
+        public static TestCaseContext Case()
+        {
+            return new TestCaseContext();
+        }
+
         public static class Constants
         {
             public const string GithubUsername = "GhUser";

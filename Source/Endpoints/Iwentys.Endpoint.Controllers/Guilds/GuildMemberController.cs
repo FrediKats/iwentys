@@ -2,6 +2,7 @@
 using Iwentys.Endpoint.Controllers.Tools;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Guilds.Entities;
+using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -85,6 +86,14 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             AuthorizedUser user = this.TryAuthWithToken();
             await _guildMemberService.PromoteToMentor(user, memberId);
             return Ok();
+        }
+
+        [HttpGet("{guildId}/membership")]
+        public async Task<ActionResult<UserMembershipState>> GetUserMembership(int guildId)
+        {
+            AuthorizedUser user = this.TryAuthWithToken();
+            UserMembershipState result = await _guildMemberService.GetUserMembership(user, guildId);
+            return Ok(result);
         }
 
         [HttpPut("{guildId}/request/{studentId}/accept")]

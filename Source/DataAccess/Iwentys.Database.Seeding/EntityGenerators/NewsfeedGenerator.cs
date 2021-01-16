@@ -16,7 +16,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 
         public NewsfeedGenerator(List<Student> students, List<Guild> guilds, List<Subject> subjects)
         {
-            var faker = new NewsfeedFaker(students.First().Id);
+            var faker = NewsfeedFaker.Instance.CreateNewsfeedFaker(students.First().Id);
 
             Newsfeeds = new List<Newsfeed>();
 

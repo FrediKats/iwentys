@@ -12,7 +12,7 @@ namespace Iwentys.Features.Assignments.Entities
     public class StudentAssignment
     {
         public bool IsCompleted { get; private set; }
-        public DateTime LastUpdateTimeUtc { get; private set; }
+        public DateTime LastUpdateTimeUtc { get; set; }
 
         public int AssignmentId { get; init; }
         public virtual Assignment Assignment { get; init; }
@@ -36,11 +36,11 @@ namespace Iwentys.Features.Assignments.Entities
         public static List<StudentAssignment> CreateForGroup(GroupAdminUser groupAdmin, AssignmentCreateArguments createArguments)
         {
             var assignment = Assignment.Create(groupAdmin.Student, createArguments);
-            List<StudyGroupMember> groupMembers = groupAdmin.Student.GroupMember.Group.Students;
+            List<Student> groupMembers = groupAdmin.Student.Group.Students;
 
             List<StudentAssignment> studentAssignments = groupMembers.SelectToList(s => new StudentAssignment
             {
-                StudentId = s.StudentId,
+                StudentId = s.Id,
                 Assignment = assignment,
                 LastUpdateTimeUtc = DateTime.UtcNow
             });
@@ -61,7 +61,7 @@ namespace Iwentys.Features.Assignments.Entities
         {
             if (!IsCompleted)
                 throw InnerLogicException.AssignmentExceptions.IsNotCompleted(AssignmentId);
-            
+
             IsCompleted = false;
             LastUpdateTimeUtc = DateTime.UtcNow;
         }

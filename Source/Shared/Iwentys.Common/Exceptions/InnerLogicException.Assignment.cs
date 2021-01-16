@@ -18,6 +18,6 @@
             {
                 return new InnerLogicException($"Assignment {assignmentId} is not completed");
             }
-        } 
+        }
     }
 }

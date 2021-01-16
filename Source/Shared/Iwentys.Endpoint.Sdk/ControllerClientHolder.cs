@@ -4,7 +4,7 @@ using Iwentys.Endpoint.Sdk.ControllerClients.Gamification;
 using Iwentys.Endpoint.Sdk.ControllerClients.Guilds;
 using Iwentys.Endpoint.Sdk.ControllerClients.Study;
 
-namespace Iwentys.Endpoint.Client.Tools
+namespace Iwentys.Endpoint.Sdk
 {
     public class ControllerClientHolder
     {
@@ -16,6 +16,7 @@ namespace Iwentys.Endpoint.Client.Tools
         public StudyGroupControllerClient StudyGroup { get; }
         public StudyLeaderboardControllerClient StudyLeaderboard { get; }
         public SubjectAssignmentControllerClient SubjectAssignment { get; }
+        public StudyCourseControllerClient StudyCourse { get; }
 
         public GuildControllerClient Guild { get; }
         public GuildMemberControllerClient GuildMember { get; }
@@ -47,6 +48,7 @@ namespace Iwentys.Endpoint.Client.Tools
             StudyGroup = new StudyGroupControllerClient(httpClient);
             StudyLeaderboard = new StudyLeaderboardControllerClient(httpClient);
             SubjectAssignment = new SubjectAssignmentControllerClient(httpClient);
+            StudyCourse = new StudyCourseControllerClient(httpClient);
 
             Guild = new GuildControllerClient(httpClient);
             GuildMember = new GuildMemberControllerClient(httpClient);

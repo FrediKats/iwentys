@@ -18,14 +18,12 @@ namespace Iwentys.Features.Achievements.Domain
             _studentAchievementRepository = _unitOfWork.GetRepository<StudentAchievement>();
         }
 
-        //TODO: probably we need to remove commit
         public async Task Achieve(Achievement achievement, int studentId)
         {
             if (_studentAchievementRepository.Get().Any(s => s.AchievementId == achievement.Id && s.StudentId == studentId))
                 return;
 
             await _studentAchievementRepository.InsertAsync(StudentAchievement.Create(studentId, achievement.Id));
-            await _unitOfWork.CommitAsync();
         }
 
         public async Task AchieveForGuild(Achievement achievement, int guildId)
@@ -34,7 +32,6 @@ namespace Iwentys.Features.Achievements.Domain
                 return;
 
             await _guildAchievementRepository.InsertAsync(GuildAchievement.Create(guildId, achievement.Id));
-            await _unitOfWork.CommitAsync();
         }
     }
 }

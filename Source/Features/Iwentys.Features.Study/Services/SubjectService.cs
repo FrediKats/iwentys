@@ -10,10 +10,10 @@ namespace Iwentys.Features.Study.Services
 {
     public class SubjectService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        
-        private readonly IGenericRepository<Subject> _subjectRepository;
         private readonly IGenericRepository<GroupSubject> _groupSubjectRepository;
+
+        private readonly IGenericRepository<Subject> _subjectRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public SubjectService(IUnitOfWork unitOfWork)
         {
@@ -30,7 +30,6 @@ namespace Iwentys.Features.Study.Services
                 .ToListAsync();
 
             return subjects.SelectToList(entity => new SubjectProfileDto(entity));
-
         }
 
         public async Task<SubjectProfileDto> Get(int id)

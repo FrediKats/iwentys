@@ -34,7 +34,6 @@ namespace Iwentys.Endpoint.Controllers.Study
             return Ok(subject);
         }
 
-        //TODO: rename?
         [HttpGet("search/for-group")]
         public async Task<ActionResult<List<SubjectProfileDto>>> GetGroupSubjects(int groupId)
         {

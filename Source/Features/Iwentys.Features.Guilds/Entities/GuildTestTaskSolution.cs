@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
-using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Enums;
+using Iwentys.Features.PeerReview.Entities;
+using Iwentys.Features.PeerReview.Models;
 
 namespace Iwentys.Features.Guilds.Entities
 {
@@ -21,19 +23,22 @@ namespace Iwentys.Features.Guilds.Entities
 
         public int GuildId { get; init; }
         public virtual Guild Guild { get; init; }
-        
+
         public int AuthorId { get; init; }
         public virtual IwentysUser Author { get; init; }
 
-        public long? ProjectId { get; set; }
-        public virtual GithubProject Project { get; set; }
+
+        public int? ProjectReviewRequestId { get; set; }
+        public virtual ProjectReviewRequest ProjectReviewRequest { get; set; }
 
         public int? ReviewerId { get; set; }
         public virtual IwentysUser Reviewer { get; set; }
-        
+
         public DateTime StartTimeUtc { get; init; }
         public DateTime? SubmitTimeUtc { get; set; }
         public DateTime? CompleteTimeUtc { get; set; }
+
+        public static Expression<Func<GuildTestTaskSolution, bool>> IsNotCompleted => entity => entity.CompleteTimeUtc != null;
 
         public static GuildTestTaskSolution Create(Guild guild, IwentysUser author)
         {
@@ -45,11 +50,9 @@ namespace Iwentys.Features.Guilds.Entities
             };
         }
 
-        public static Expression<Func<GuildTestTaskSolution, bool>> IsNotCompleted => entity => entity.CompleteTimeUtc != null;
-
-        public void SendSubmit(long projectId)
+        public void SendSubmit(AuthorizedUser author, ProjectReviewRequestInfoDto reviewRequest)
         {
-            ProjectId = projectId;
+            ProjectReviewRequestId = reviewRequest.Id;
             SubmitTimeUtc = DateTime.UtcNow;
         }
 

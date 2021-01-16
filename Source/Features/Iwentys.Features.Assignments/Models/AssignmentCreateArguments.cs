@@ -22,5 +22,6 @@ namespace Iwentys.Features.Assignments.Models
         public int? SubjectId { get; init; }
         public DateTime? Deadline { get; init; }
         public bool ForStudyGroup { get; init; }
+        public string Link { get; set; }
     }
 }

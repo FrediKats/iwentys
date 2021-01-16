@@ -15,18 +15,19 @@
                 <MatBody2>@_tribute.Project.Description</MatBody2>
                 <MatBody2>@_tribute.Project.Url</MatBody2>
             </p>
+            <div class="input-form-component">
+                <p>
+                    <MatTextField @bind-Value="@_comment" Label="Comment" Class="input-element" FullWidth="true"></MatTextField>
+                </p>
 
-            <p>
-                <MatTextField @bind-Value="@_comment" Label="Comment" Class="input-element"></MatTextField>
-            </p>
+                <p>
+                    <MatTextField @bind-Value="@_difficultLevel" Label="Difficult" Class="input-element" FullWidth="true"></MatTextField>
+                </p>
 
-            <p>
-                <MatTextField @bind-Value="@_difficultLevel" Label="Difficult" Class="input-element"></MatTextField>
-            </p>
-
-            <p>
-                <MatTextField @bind-Value="@_mark" Label="Mark" Class="input-element"></MatTextField>
-            </p>
+                <p>
+                    <MatTextField @bind-Value="@_mark" Label="Mark" Class="input-element" FullWidth="true"></MatTextField>
+                </p>
+            </div>
 
             <MatButton OnClick="@(async () => await CreateResponse())" class="dark-elevation-04">Create</MatButton>
         }

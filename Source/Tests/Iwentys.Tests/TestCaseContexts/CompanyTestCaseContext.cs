@@ -1,5 +1,5 @@
-﻿using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.Companies.Entities;
+﻿using Bogus;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Companies.Models;
 
 namespace Iwentys.Tests.TestCaseContexts
@@ -13,11 +13,15 @@ namespace Iwentys.Tests.TestCaseContexts
             _context = context;
         }
 
-        public CompanyInfoDto WithCompany()
+        public CompanyInfoDto WithCompany(AuthorizedUser initiator)
         {
-            var company = new Company();
-            company = _context.CompanyService.Create(company).Result;
-            return new CompanyInfoDto(company);
+            CompanyCreateArguments createArguments = new CompanyCreateArguments
+            {
+                Name = new Faker().Lorem.Word()
+            };
+
+            var company = _context.CompanyService.Create(initiator, createArguments).Result;
+            return company;
         }
 
         public AuthorizedUser WithCompanyWorker(CompanyInfoDto companyInfo)

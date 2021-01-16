@@ -11,9 +11,8 @@ namespace Iwentys.Features.InterestTags.Services
 {
     public class InterestTagService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        
         private readonly IGenericRepository<InterestTag> _interestTagRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IGenericRepository<UserInterestTag> _userInterestTagRepository;
 
         public InterestTagService(IUnitOfWork unitOfWork)
@@ -47,7 +46,7 @@ namespace Iwentys.Features.InterestTags.Services
 
         public async Task RemoveUserTag(int userId, int tagId)
         {
-            _userInterestTagRepository.Delete(new UserInterestTag { UserId = userId, InterestTagId = tagId });
+            _userInterestTagRepository.Delete(new UserInterestTag {UserId = userId, InterestTagId = tagId});
             await _unitOfWork.CommitAsync();
         }
     }

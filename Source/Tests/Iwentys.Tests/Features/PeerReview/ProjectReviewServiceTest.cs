@@ -37,7 +37,7 @@ namespace Iwentys.Tests.Features.PeerReview
 
             ProjectReviewRequestInfoDto reviewRequest = testCase.PeerReviewTestCaseContext.WithReviewRequest(user, studentProject);
 
-            List<ProjectReviewRequestInfoDto> reviewRequests = await testCase.ProjectReviewService.GetRequests();
+            List<ProjectReviewRequestInfoDto> reviewRequests = await testCase.ProjectReviewService.GetRequests(user);
             Assert.IsTrue(reviewRequests.Any(rr => rr.Project.Id == reviewRequest.Project.Id));
         }
 
@@ -53,7 +53,7 @@ namespace Iwentys.Tests.Features.PeerReview
             ProjectReviewRequestInfoDto reviewRequest = testCase.PeerReviewTestCaseContext.WithReviewRequest(user, studentProject);
             ProjectReviewFeedbackInfoDto feedback = testCase.PeerReviewTestCaseContext.WithReviewFeedback(reviewer, reviewRequest);
 
-            reviewRequest = testCase.ProjectReviewService.GetRequests().Result.First(r => r.Id == reviewRequest.Id);
+            reviewRequest = testCase.ProjectReviewService.GetRequests(user).Result.First(r => r.Id == reviewRequest.Id);
 
             Assert.IsTrue(reviewRequest.ReviewFeedbacks.Any(rf => rf.Id == feedback.Id));
         }
@@ -71,8 +71,24 @@ namespace Iwentys.Tests.Features.PeerReview
 
             await testCase.ProjectReviewService.FinishReview(user, reviewRequest.Id);
 
-            reviewRequest = testCase.ProjectReviewService.GetRequests().Result.First(r => r.Id == reviewRequest.Id);
+            reviewRequest = testCase.ProjectReviewService.GetRequests(user).Result.First(r => r.Id == reviewRequest.Id);
             Assert.AreEqual(ProjectReviewState.Finished, reviewRequest.State);
+        }
+
+        [Test]
+        public async Task GetAvailableProjectForReview_NoActiveRequestProjects()
+        {
+            TestCaseContext testCase = TestCaseContext.Case();
+            AuthorizedUser user = testCase.AccountManagementTestCaseContext.WithUser();
+            AuthorizedUser reviewer = testCase.AccountManagementTestCaseContext.WithUser();
+            GithubUser githubUser = testCase.GithubTestCaseContext.WithGithubAccount(user);
+            GithubProject studentProject = testCase.GithubTestCaseContext.WithStudentProject(user);
+
+            ProjectReviewRequestInfoDto reviewRequest = testCase.PeerReviewTestCaseContext.WithReviewRequest(user, studentProject);
+
+            var projects = await testCase.ProjectReviewService.GetAvailableForReviewProject(user);
+
+            Assert.IsEmpty(projects);
         }
     }
 }

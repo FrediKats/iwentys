@@ -59,5 +59,10 @@ namespace Iwentys.Features.Guilds.Entities
 
             GuildType = GuildType.Created;
         }
+
+        public List<GuildMemberImpactDto> GetImpact()
+        {
+            return Members.Select(member => new GuildMemberImpactDto(member)).ToList();
+        }
     }
 }

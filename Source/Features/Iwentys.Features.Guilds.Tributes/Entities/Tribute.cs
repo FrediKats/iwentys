@@ -54,9 +54,8 @@ namespace Iwentys.Features.Guilds.Tributes.Entities
             if (allTributes.Any(t => t.ProjectId == project.Id))
                 throw InnerLogicException.TributeExceptions.ProjectAlreadyUsed(project.Id);
 
-            //TODO: fix NRE t.Project.AuthorId
-            //if (allTributes.Any(t => t.State == TributeState.Active && t.Project.AuthorId == student.Id))
-            //    throw InnerLogicException.Tribute.UserAlreadyHaveTribute(student.Id);
+            if (allTributes.Any(t => t.State == TributeState.Active && t.Project.OwnerUserId == student.Id))
+                throw InnerLogicException.TributeExceptions.UserAlreadyHaveTribute(student.Id);
 
             var tribute = new Tribute(guild, project);
             return tribute;

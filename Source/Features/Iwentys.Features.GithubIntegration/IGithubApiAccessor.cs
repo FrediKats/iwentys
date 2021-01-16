@@ -12,8 +12,9 @@ namespace Iwentys.Features.GithubIntegration
         Task<GithubUserInfoDto> GetGithubUser(string githubUsername);
 
         Task<ContributionFullInfo> GetUserActivity(string githubUsername);
+
         Task<int> GetUserActivity(string githubUsername, DateTime from, DateTime to);
-        //TODO: fix
+        //FYI: this must be implemented after https://github.com/octokit/octokit.net/pull/2239
         //Organization FindOrganizationInfo(string organizationName);
     }
 }

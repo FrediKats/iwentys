@@ -16,13 +16,14 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public ProjectReviewRequestInfoDto WithReviewRequest(AuthorizedUser user, GithubProject githubProject)
         {
-            ProjectReviewRequestInfoDto reviewRequest = _context.ProjectReviewService.CreateReviewRequest(user, new ReviewRequestCreateArguments {ProjectId = githubProject.Id}).Result;
+            var createArguments = new ReviewRequestCreateArguments { ProjectId = githubProject.Id, Visibility = ProjectReviewVisibility.Open};
+            ProjectReviewRequestInfoDto reviewRequest = _context.ProjectReviewService.CreateReviewRequest(user, createArguments).Result;
             return reviewRequest;
         }
 
         public ProjectReviewFeedbackInfoDto WithReviewFeedback(AuthorizedUser user, ProjectReviewRequestInfoDto request)
         {
-            ProjectReviewFeedbackInfoDto feedback = _context.ProjectReviewService.SendReviewFeedback(user, request.Id, new ReviewFeedbackCreateArguments() {Summary = ReviewFeedbackSummary.LooksGoodToMe}).Result;
+            ProjectReviewFeedbackInfoDto feedback = _context.ProjectReviewService.SendReviewFeedback(user, request.Id, new ReviewFeedbackCreateArguments {Summary = ReviewFeedbackSummary.LooksGoodToMe}).Result;
             return feedback;
         }
     }

@@ -3,41 +3,38 @@
 @inherits DependencyInjectionPage
 
 <div class="container-fluid d-flex flex-row">
-    <div class="col-md-3 d-flex flex-column dark-elevation-01">
+    <div class="col-md-3 d-flex flex-column">
         <MatButton>Все задачи</MatButton>
         <MatButton>Персональные задачи</MatButton>
         <MatButton>Календарь</MatButton>
     </div>
 
-    <div class="col-md-6 d-flex flex-column dark-elevation-01">
+    <div class="col-md-4 d-flex input-form-component dark-elevation-01">
         <h5>Create assignment</h5>
 
         <p>
-            <MatTextField @bind-Value="@_title" Label="Title" Class="input-element"></MatTextField>
+            <MatTextField @bind-Value="@_title" Label="Title" Class="input-element" FullWidth="true"></MatTextField>
         </p>
 
         <p>
-            <MatTextField @bind-Value="@_description" Label="Description" Class="input-element"></MatTextField>
+            <MatTextField @bind-Value="@_description" Label="Description" Class="input-element" FullWidth="true"></MatTextField>
         </p>
 
         <p>
-            <MatDatePicker @bind-Value="@_deadline" Class="input-element"></MatDatePicker>
-            <MatButton OnClick="@(_ => { _deadline = null;})">
-                Clean
-            </MatButton>
+            <MatDatePicker @bind-Value="@_deadline" Class="input-element" FullWidth="true"></MatDatePicker>
         </p>
 
         @if (IsUserAdmin())
         {
             <div>
-                <MatCheckbox @bind-Value="@_forGroup" Label="For group"></MatCheckbox>
+                <MatCheckbox @bind-Value="@_forGroup" Label="For group" FullWidth="true"></MatCheckbox>
             </div>
         }
 
         @if (_subjects is not null)
         {
             <p>
-                <MatSelectItem @bind-Value="@_selectedSubject" Items="@_subjects" Class="input-element">
+                <MatSelectItem @bind-Value="@_selectedSubject" Items="@_subjects" Class="input-element" FullWidth="true">
                     <ItemTemplate>
                         <span>@context?.Name</span>
                     </ItemTemplate>

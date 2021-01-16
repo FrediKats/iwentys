@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using Iwentys.Endpoint.Client.Tools;
+using Iwentys.Endpoint.Sdk;
 using Microsoft.AspNetCore.Components;
 
 namespace Iwentys.Endpoint.Client.Shared

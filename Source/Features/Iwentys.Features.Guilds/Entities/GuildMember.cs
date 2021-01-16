@@ -33,6 +33,7 @@ namespace Iwentys.Features.Guilds.Entities
         public virtual IwentysUser Member { get; init; }
 
         public GuildMemberType MemberType { get; private set; }
+        public int MemberImpact { get; set; }
 
         public static Expression<Func<GuildMember, bool>> IsMember()
         {
@@ -41,9 +42,9 @@ namespace Iwentys.Features.Guilds.Entities
                              || member.MemberType == GuildMemberType.Member;
         }
 
-        public void MarkBlocked()
+        public void MarkBlocked(GuildLastLeave guildLastLeave)
         {
-            Member.GuildLeftTime = DateTime.UtcNow;
+            guildLastLeave.UpdateLeave();
             MemberType = GuildMemberType.Blocked;
         }
 
@@ -57,14 +58,18 @@ namespace Iwentys.Features.Guilds.Entities
 
         public void MakeMentor(GuildCreator creator)
         {
+            if (MemberType != GuildMemberType.Member)
+                throw new InnerLogicException("Cant make mentor");
             MemberType = GuildMemberType.Mentor;
         }
 
-        public void Remove(GuildMentor guildMentor, IGenericRepository<GuildMember> guildMemberRepository)
+        public void Remove(GuildMentor guildMentor, IGenericRepository<GuildMember> guildMemberRepository, GuildLastLeave guildLastLeave)
         {
             if (MemberType == GuildMemberType.Creator)
                 throw InnerLogicException.GuildExceptions.CreatorCannotLeave(MemberId, GuildId);
 
+            //TODO: do not remove, mark as deleted
+            guildLastLeave.UpdateLeave();
             guildMemberRepository.Delete(this);
         }
     }

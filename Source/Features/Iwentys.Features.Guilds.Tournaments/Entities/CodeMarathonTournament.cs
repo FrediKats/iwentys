@@ -8,9 +8,9 @@ namespace Iwentys.Features.Guilds.Tournaments.Entities
     public class CodeMarathonTournament
     {
         public int Id { get; set; }
-        [ForeignKey(nameof(Id))]
-        public virtual Tournament Tournament { get; init; }
-        
+
+        [ForeignKey(nameof(Id))] public virtual Tournament Tournament { get; init; }
+
         public CodeMarathonAllowedMembersType MembersType { get; init; }
         public CodeMarathonAllowedActivityType ActivityType { get; init; }
 

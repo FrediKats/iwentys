@@ -9,8 +9,8 @@ namespace Iwentys.Features.Study.Services
 {
     public class SubjectActivityService
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IGenericRepository<SubjectActivity> _subjectActivityRepositoryNew;
+        private readonly IUnitOfWork _unitOfWork;
 
         public SubjectActivityService(IUnitOfWork unitOfWork)
         {

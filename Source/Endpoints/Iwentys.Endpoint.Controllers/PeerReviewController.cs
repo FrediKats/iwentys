@@ -24,7 +24,8 @@ namespace Iwentys.Endpoint.Controllers
         [Produces("application/json")]
         public async Task<ActionResult<List<ProjectReviewRequestInfoDto>>> Get()
         {
-            List<ProjectReviewRequestInfoDto> result = await _projectReviewService.GetRequests();
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            List<ProjectReviewRequestInfoDto> result = await _projectReviewService.GetRequests(authorizedUser);
             return Ok(result);
         }
 

@@ -6,17 +6,16 @@ using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Gamification.Entities;
 using Iwentys.Features.Gamification.Models;
-using Iwentys.Features.Study.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Gamification.Services
 {
     public class KarmaService
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IGenericRepository<KarmaUpVote> _karmaRepository;
 
         private readonly IGenericRepository<IwentysUser> _studentRepository;
-        private readonly IGenericRepository<KarmaUpVote> _karmaRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public KarmaService(IUnitOfWork unitOfWork)
         {

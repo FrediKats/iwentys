@@ -12,6 +12,7 @@ using Iwentys.Features.Guilds.Domain;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Services
 {
@@ -23,6 +24,7 @@ namespace Iwentys.Features.Guilds.Services
         private readonly IGenericRepository<GuildPinnedProject> _guildPinnedProjectRepository;
         private readonly IGenericRepository<Guild> _guildRepository;
         private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
+        private readonly IGenericRepository<GuildLastLeave> _guildLastLeaveRepository;
 
         private readonly IUnitOfWork _unitOfWork;
 
@@ -35,6 +37,7 @@ namespace Iwentys.Features.Guilds.Services
             _guildRepository = _unitOfWork.GetRepository<Guild>();
             _guildMemberRepository = _unitOfWork.GetRepository<GuildMember>();
             _guildPinnedProjectRepository = _unitOfWork.GetRepository<GuildPinnedProject>();
+            _guildLastLeaveRepository = _unitOfWork.GetRepository<GuildLastLeave>();
         }
 
         public async Task<GuildProfileShortInfoDto> Create(AuthorizedUser authorizedUser, GuildCreateRequestDto arguments)
@@ -77,21 +80,23 @@ namespace Iwentys.Features.Guilds.Services
 
         public List<GuildProfileDto> GetOverview(int skippedCount, int takenCount)
         {
-            //TODO: add order
             return _guildRepository
                 .Get()
                 .Skip(skippedCount)
                 .Take(takenCount)
                 .Select(GuildProfileDto.FromEntity)
+                .ToList()
+                .OrderByDescending(g => g.GuildRating)
                 .ToList();
         }
 
-        public async Task<ExtendedGuildProfileWithMemberDataDto> Get(int id, int? userId)
+        public async Task<GuildProfileDto> Get(int id)
         {
-            Guild guild = await _guildRepository.GetById(id);
-
-            return await new GuildDomain(guild, _githubIntegrationService, _iwentysUserRepository, _guildMemberRepository)
-                .ToExtendedGuildProfileDto(userId);
+            return await _guildRepository
+                .Get()
+                .Where(g => g.Id == id)
+                .Select(GuildProfileDto.FromEntity)
+                .SingleAsync();
         }
 
         public GuildProfileDto FindStudentGuild(int userId)
@@ -127,8 +132,24 @@ namespace Iwentys.Features.Guilds.Services
         public async Task<GuildMemberLeaderBoardDto> GetGuildMemberLeaderBoard(int guildId)
         {
             Guild guild = await _guildRepository.GetById(guildId);
-            var domain = new GuildDomain(guild, _githubIntegrationService, _iwentysUserRepository, _guildMemberRepository);
-            return await domain.GetMemberDashboard();
+            return new GuildMemberLeaderBoardDto(guild.GetImpact());
+        }
+
+        public async Task UpdateGuildMemberImpact()
+        {
+            List<GuildMember> guildMembers = await _guildMemberRepository
+                .Get()
+                .Where(GuildMember.IsMember())
+                .ToListAsync();
+
+            foreach (GuildMember member in guildMembers)
+            {
+                ContributionFullInfo contributionFullInfo = await _githubIntegrationService.User.FindUserContributionOrEmpty(member.Member);
+                member.MemberImpact = contributionFullInfo.Total;
+            }
+
+            _guildMemberRepository.Update(guildMembers);
+            await _unitOfWork.CommitAsync();
         }
     }
 }

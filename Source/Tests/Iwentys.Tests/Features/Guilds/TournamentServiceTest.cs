@@ -32,12 +32,12 @@ namespace Iwentys.Tests.Features.Guilds
             TestCaseContext testCase = TestCaseContext
                 .Case();
             AuthorizedUser admin = testCase.AccountManagementTestCaseContext.WithUser(true);
-            ExtendedGuildProfileWithMemberDataDto guild = testCase.GuildTestCaseContext.WithGuild(admin);
+            GuildProfileDto guild = testCase.GuildTestCaseContext.WithGuild(admin);
 
             TournamentInfoResponse tournament = await testCase.TournamentService.CreateCodeMarathon(admin, TournamentFaker.Instance.NewCodeMarathon());
             await testCase.TournamentService.RegisterToTournament(admin, tournament.Id);
             tournament = await testCase.TournamentService.Get(tournament.Id);
-            
+
             Assert.That(tournament.Teams.Any(t => t.TeamName == guild.Title));
         }
 
@@ -47,7 +47,7 @@ namespace Iwentys.Tests.Features.Guilds
             TestCaseContext testCase = TestCaseContext
                 .Case();
             AuthorizedUser admin = testCase.AccountManagementTestCaseContext.WithUser(true);
-            ExtendedGuildProfileWithMemberDataDto guild = testCase.GuildTestCaseContext.WithGuild(admin);
+            GuildProfileDto guild = testCase.GuildTestCaseContext.WithGuild(admin);
 
             TournamentInfoResponse tournament = await testCase.TournamentService.CreateCodeMarathon(admin, TournamentFaker.Instance.NewCodeMarathon());
 

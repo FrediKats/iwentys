@@ -11,6 +11,7 @@ namespace Iwentys.Common.Exceptions
             {
                 return new InnerLogicException($"Test task for {guildId} guild from {userId} user already existed");
             }
+
             public static InnerLogicException IsNotGuildMember(int studentId, int? guildId)
             {
                 return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, GuildExceptionMessages.IsNotGuildMember, studentId, guildId));

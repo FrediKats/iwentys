@@ -15,7 +15,7 @@ namespace Iwentys.Features.Quests.Models
         public CreateQuestRequest()
         {
         }
-        
+
         public string Title { get; init; }
         public string Description { get; init; }
         public int Price { get; init; }

@@ -18,7 +18,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Entities
         public DateTime EndTime { get; init; }
         public TournamentType Type { get; init; }
         public bool FinishedManually { get; private set; }
-        
+
         public int AuthorId { get; init; }
         public virtual IwentysUser Author { get; init; }
         public virtual ICollection<TournamentParticipantTeam> Teams { get; init; }

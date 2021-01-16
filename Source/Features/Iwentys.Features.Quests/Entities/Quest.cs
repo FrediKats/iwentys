@@ -25,10 +25,19 @@ namespace Iwentys.Features.Quests.Entities
 
         public int? ExecutorId { get; private set; }
         public virtual IwentysUser Executor { get; private set; }
+        public int ExecutorMark { get; set; }
 
         public virtual ICollection<QuestResponse> Responses { get; init; }
 
         public bool IsOutdated => Deadline < DateTime.UtcNow;
+
+        public static Expression<Func<Quest, bool>> IsActive =>
+            q => q.State == QuestState.Active
+                 && (q.Deadline == null || q.Deadline > DateTime.UtcNow);
+
+        public static Expression<Func<Quest, bool>> IsArchived =>
+            q => q.State == QuestState.Completed
+                 && q.Deadline > DateTime.UtcNow;
 
         public static Quest New(IwentysUser student, CreateQuestRequest createQuest)
         {
@@ -55,24 +64,24 @@ namespace Iwentys.Features.Quests.Entities
                 throw InnerLogicException.NotEnoughPermissionFor(author.Id);
 
             if (State != QuestState.Active)
-                throw new InnerLogicException("Quest is not active");
+                throw InnerLogicException.QuestExceptions.IsNotActive();
 
             State = QuestState.Revoked;
             author.BarsPoints += Price;
         }
 
-        public QuestResponse CreateResponse(AuthorizedUser responseAuthor)
+        public QuestResponse CreateResponse(AuthorizedUser responseAuthor, QuestResponseCreateArguments arguments)
         {
             if (AuthorId == responseAuthor.Id)
                 throw InnerLogicException.QuestExceptions.AuthorCanRespondToQuest(Id, responseAuthor.Id);
-            
-            if (State != QuestState.Active || IsOutdated)
-                throw new InnerLogicException("Quest is not active");
 
-            return QuestResponse.New(Id, responseAuthor);
+            if (State != QuestState.Active || IsOutdated)
+                throw InnerLogicException.QuestExceptions.IsNotActive();
+
+            return QuestResponse.New(Id, responseAuthor, arguments);
         }
 
-        public void MakeCompleted(AuthorizedUser author, IwentysUser executor)
+        public void MakeCompleted(AuthorizedUser author, IwentysUser executor, QuestCompleteArguments arguments)
         {
             if (AuthorId != author.Id)
                 throw InnerLogicException.NotEnoughPermissionFor(author.Id);
@@ -82,18 +91,13 @@ namespace Iwentys.Features.Quests.Entities
 
             State = QuestState.Completed;
             ExecutorId = executor.Id;
+            ExecutorMark = arguments.UserId;
         }
-        
-        public static Expression<Func<Quest, bool>> IsActive =>
-            q => q.State == QuestState.Active
-                 && (q.Deadline == null || q.Deadline > DateTime.UtcNow);
-        
-        public static Expression<Func<Quest, bool>> IsArchived =>
-            q => q.State == QuestState.Completed
-                 && q.Deadline > DateTime.UtcNow;
 
-        public static Expression<Func<Quest, bool>> IsCompletedBy(AuthorizedUser user) =>
-            q => q.State == QuestState.Completed 
-                 && q.Responses.Any(r => r.StudentId == user.Id);
+        public static Expression<Func<Quest, bool>> IsCompletedBy(AuthorizedUser user)
+        {
+            return q => q.State == QuestState.Completed
+                        && q.Responses.Any(r => r.StudentId == user.Id);
+        }
     }
 }

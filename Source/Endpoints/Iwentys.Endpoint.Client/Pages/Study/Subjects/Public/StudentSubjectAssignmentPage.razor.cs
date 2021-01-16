@@ -16,9 +16,10 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Public
             await base.OnInitializedAsync();
 
             _self = await ClientHolder.Student.GetSelf();
-            //TODO: ensure user is teacher for this subject
             _subjectAssignments = await ClientHolder.SubjectAssignment.GetSubjectAssignmentForSubject(SubjectId);
-            _subjectAssignmentSubmits = await ClientHolder.SubjectAssignment.GetSubjectAssignmentSubmits(SubjectId, _self.Id);
+            _subjectAssignmentSubmits = await ClientHolder.SubjectAssignment.GetStudentSubjectAssignmentSubmits(SubjectId);
         }
+
+        private string LinkToCreateSubmit() => $"/subject/{SubjectId}/assignments/create-submit";
     }
 }

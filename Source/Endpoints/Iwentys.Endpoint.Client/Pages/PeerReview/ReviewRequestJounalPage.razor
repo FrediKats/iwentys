@@ -7,8 +7,13 @@
 <h3>ReviewRequestJounalPage</h3>
 
 <div>
-    <h5>Review requests</h5>
-    <MatButton Link=@LinkToReviewRequestCreatePage()>Create request</MatButton>
+    <div class="d-flex flex-row align-self-center align-baseline">
+        <h5>Review requests</h5>
+        <MatButton Link=@LinkToReviewRequestCreatePage()>
+            <span class="oi oi-plus" title="add" aria-hidden="true"></span>
+        </MatButton>
+    </div>
+
     @if (_projectReviewRequests is not null)
     {
         <div>

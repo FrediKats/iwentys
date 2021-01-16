@@ -2,19 +2,28 @@
 
 @inherits DependencyInjectionPage
 
-<div class="col-md-6 d-flex flex-column">
-    <h3>QuestResponseCreatePage</h3>
+<div class="d-flex col-6 justify-content-between">
+    <div class="d-flex input-form-component">
+        <h3>Send quest response</h3>
+        @if (_quest is not null)
+        {
+            <MatHeadline6>
+                @_quest.Title
+            </MatHeadline6>
+            <MatBody1>
+                Price: @_quest.Price
+            </MatBody1>
+            <MatBody1>
+                Description: @_quest.Description
+            </MatBody1>
 
-    @if (_quest is not null)
-    {
-        <MatHeadline6>
-            @_quest.Title (@_quest.Price)
-        </MatHeadline6>
-        <MatBody1>
-            @_quest.Description
-        </MatBody1>
-        <MatButton OnClick="@SendResponse">Send response</MatButton>
-    }
+            <p>
+                <MatTextField @bind-Value="@_description" Label="Description" Class="input-element" FullWidth="true"></MatTextField>
+            </p>
+            <MatButton OnClick="@SendResponse">Send response</MatButton>
+        }
+    </div>
+    
 </div>
 
 @code {

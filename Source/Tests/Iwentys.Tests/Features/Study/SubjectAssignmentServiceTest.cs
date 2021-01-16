@@ -17,7 +17,7 @@ namespace Iwentys.Tests.Features.Study
             AuthorizedUser admin = testCaseContext.AccountManagementTestCaseContext.WithUser(true);
             GroupProfileResponseDto studyGroup = testCaseContext.StudyTestCaseContext.WithStudyGroup();
             Subject subject = testCaseContext.StudyTestCaseContext.WithSubject();
-            GroupSubject groupSubject = testCaseContext.StudyTestCaseContext.WithGroupSubject(studyGroup, subject);
+            GroupSubject groupSubject = testCaseContext.StudyTestCaseContext.WithGroupSubject(studyGroup, subject, admin);
 
             SubjectAssignmentDto subjectAssignment = testCaseContext.StudyTestCaseContext.WithSubjectAssignment(admin, groupSubject);
         }
@@ -30,21 +30,21 @@ namespace Iwentys.Tests.Features.Study
             GroupProfileResponseDto studyGroup = testCaseContext.StudyTestCaseContext.WithStudyGroup();
             AuthorizedUser student = testCaseContext.StudyTestCaseContext.WithNewStudent(studyGroup);
             Subject subject = testCaseContext.StudyTestCaseContext.WithSubject();
-            GroupSubject groupSubject = testCaseContext.StudyTestCaseContext.WithGroupSubject(studyGroup, subject);
+            GroupSubject groupSubject = testCaseContext.StudyTestCaseContext.WithGroupSubject(studyGroup, subject, admin);
             SubjectAssignmentDto subjectAssignment = testCaseContext.StudyTestCaseContext.WithSubjectAssignment(admin, groupSubject);
 
             SubjectAssignmentSubmitDto subjectAssignmentSubmit = testCaseContext.StudyTestCaseContext.WithSubjectAssignmentSubmit(student, subjectAssignment);
         }
 
         [Test]
-        public void SendSubjectAssignemntSubmitFeedback_StateShouldChange()
+        public void SendSubjectAssignmentSubmitFeedback_StateShouldChange()
         {
             TestCaseContext testCaseContext = TestCaseContext.Case();
             AuthorizedUser admin = testCaseContext.AccountManagementTestCaseContext.WithUser(true);
             GroupProfileResponseDto studyGroup = testCaseContext.StudyTestCaseContext.WithStudyGroup();
             AuthorizedUser student = testCaseContext.StudyTestCaseContext.WithNewStudent(studyGroup);
             Subject subject = testCaseContext.StudyTestCaseContext.WithSubject();
-            GroupSubject groupSubject = testCaseContext.StudyTestCaseContext.WithGroupSubject(studyGroup, subject);
+            GroupSubject groupSubject = testCaseContext.StudyTestCaseContext.WithGroupSubject(studyGroup, subject, admin);
             SubjectAssignmentDto subjectAssignment = testCaseContext.StudyTestCaseContext.WithSubjectAssignment(admin, groupSubject);
             SubjectAssignmentSubmitDto subjectAssignmentSubmit = testCaseContext.StudyTestCaseContext.WithSubjectAssignmentSubmit(student, subjectAssignment);
 

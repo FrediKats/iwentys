@@ -14,7 +14,7 @@
         public GithubUserInfoDto()
         {
         }
-        
+
         public int Id { get; init; }
         public string Name { get; init; }
         public string AvatarUrl { get; init; }

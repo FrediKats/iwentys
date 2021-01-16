@@ -1,5 +1,4 @@
 ﻿using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
 using Iwentys.Features.Guilds.Models;
 
@@ -14,12 +13,12 @@ namespace Iwentys.Tests.TestCaseContexts
             _context = context;
         }
 
-        public ExtendedGuildProfileWithMemberDataDto WithGuild(AuthorizedUser user)
+        public GuildProfileDto WithGuild(AuthorizedUser user)
         {
             var guildCreateRequest = new GuildCreateRequestDto(null, null, null, GuildHiringPolicy.Close);
 
             GuildProfileShortInfoDto guild = _context.GuildService.Create(user, guildCreateRequest).Result;
-            ExtendedGuildProfileWithMemberDataDto guildProfile = _context.GuildService.Get(guild.Id, user.Id).Result;
+            GuildProfileDto guildProfile = _context.GuildService.Get(guild.Id).Result;
             return guildProfile;
         }
 
@@ -31,12 +30,14 @@ namespace Iwentys.Tests.TestCaseContexts
             return user;
         }
 
-        public AuthorizedUser WithGuildMentor(GuildProfileDto guild)
+        public AuthorizedUser WithGuildMentor(GuildProfileDto guild, AuthorizedUser guildEditor)
         {
-            //TODO: make method for promoting to guild editor/mentor
             AuthorizedUser user = _context.AccountManagementTestCaseContext.WithUser();
-            _context._context.GuildMembers.Add(new GuildMember(guild.Id, user.Id, GuildMemberType.Mentor));
-            _context._context.SaveChanges();
+
+            _context.GuildMemberService.RequestGuild(user, guild.Id).Wait();
+            _context.GuildMemberService.AcceptRequest(guildEditor, guild.Id, user.Id).Wait();
+            _context.GuildMemberService.PromoteToMentor(guildEditor, user.Id).Wait();
+
             return user;
         }
 

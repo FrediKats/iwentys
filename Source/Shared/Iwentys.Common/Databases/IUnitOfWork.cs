@@ -4,7 +4,8 @@ namespace Iwentys.Common.Databases
 {
     public interface IUnitOfWork
     {
-        IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : class;
+        IGenericRepository<TEntity> GetRepository<TEntity>()
+            where TEntity : class;
 
         Task<int> CommitAsync();
     }

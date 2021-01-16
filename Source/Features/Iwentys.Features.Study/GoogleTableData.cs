@@ -33,6 +33,9 @@ namespace Iwentys.Features.Study
         public List<string> NameColumnsList { get; set; }
         public string ScoreColumn { get; set; }
 
-        public string Serialize() => JsonSerializer.Serialize(this);
+        public string Serialize()
+        {
+            return JsonSerializer.Serialize(this);
+        }
     }
 }

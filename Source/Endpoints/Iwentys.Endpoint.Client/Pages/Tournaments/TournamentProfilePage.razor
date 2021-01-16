@@ -4,33 +4,35 @@
 
 @inherits DependencyInjectionPage
 
-<h3>TournamentProfilePage</h3>
-
 @if (_tournament is not null)
 {
-    <div class="container-fluid d-flex flex-row">
-        <div class="col-md-6 d-flex flex-column">
-            <MatH6>Teams</MatH6>
-            <MatList>
-                @foreach (TournamentTeamInfoDto team in _tournament.Teams)
-                {
-                    <MatListItem>
-                        @team.TeamName (@team.Points)
-                    </MatListItem>
-                }
-            </MatList>
-            <MatButton OnClick=@(async () => await RegisterToTournament())>Register guild</MatButton>
-        </div>
+    <h3>@_tournament.Name</h3>
 
-        <div class="col-md-6 d-flex flex-column">
-            <MatH6>Info</MatH6>
-            <span>
-                <p>@_tournament.Name</p>
-                <p>@_tournament.Description</p>
-                <p>Start time: @_tournament.StartTime</p>
-                <p>End time: @_tournament.EndTime</p>
-            </span>
-            <MatButton OnClick=@(async () => await ForceUpdate())>Update results</MatButton>
+    <div class="container-fluid d-flex flex-row">
+        <div class="profile-element dark-elevation-01">
+            <div class="col-md-6 d-flex flex-column">
+                <MatH6>Teams</MatH6>
+                <MatList>
+                    @foreach (TournamentTeamInfoDto team in _tournament.Teams)
+                    {
+                        <MatListItem>
+                            @team.TeamName (@team.Points)
+                        </MatListItem>
+                    }
+                </MatList>
+                <MatButton OnClick=@(async () => await RegisterToTournament())>Register guild</MatButton>
+            </div>
+        </div>
+        <div class="profile-element dark-elevation-01">
+            <div class="col-md-6 d-flex flex-column">
+                <MatH6>Info</MatH6>
+                <span>
+                    <p>@_tournament.Description</p>
+                    <p>Start time: @_tournament.StartTime</p>
+                    <p>End time: @_tournament.EndTime</p>
+                </span>
+                <MatButton OnClick=@(async () => await ForceUpdate())>Update results</MatButton>
+            </div>
         </div>
     </div>
 }

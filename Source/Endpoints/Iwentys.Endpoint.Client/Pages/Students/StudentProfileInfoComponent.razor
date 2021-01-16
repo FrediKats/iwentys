@@ -36,16 +36,25 @@
 
             @if (_userKarmaStatistic is not null)
             {
-                <MatBody1>Карма: @_userKarmaStatistic.Karma</MatBody1>
-                @if (IsCanSendKarma())
-                {
-                    <MatButton OnClick=@(async () => await SendKarma())>+Karma</MatButton>
-                }
+                <div class="d-flex flex-row align-self-center align-baseline">
+                    <MatBody1>Карма: @_userKarmaStatistic.Karma</MatBody1>
 
-                @if (IsCanRemoveKarma())
-                {
-                    <MatButton OnClick=@(async () => await RemoveKarma())>-Karma</MatButton>
-                }
+                    @if (IsCanSendKarma())
+                    {
+                        <MatButton OnClick=@(async () => await SendKarma())>
+                            <span class="oi oi-plus" title="add" aria-hidden="true"></span>
+                        </MatButton>
+                    }
+
+                    @if (IsCanRemoveKarma())
+                    {
+                        <MatButton OnClick=@(async () => await RemoveKarma())>
+                            <span class="oi oi-minus" title="remove" aria-hidden="true"></span>
+                        </MatButton>
+                    }
+
+                </div>
+
             }
         </div>
     </div>

@@ -1,5 +1,4 @@
-﻿@using Blazored.LocalStorage
-@using Iwentys.Features.Guilds.Enums
+﻿@using Iwentys.Features.Guilds.Enums
 @using Iwentys.Features.Guilds.Models
 
 @namespace Iwentys.Endpoint.Client.Pages.Guilds
@@ -10,12 +9,12 @@
     <img src=@SelectedGuildProfile.ImmageUrl class="guild-logo" />
 
     <MatHeadline4>@SelectedGuildProfile.Title</MatHeadline4>
-    <MatButton Link="@LeaderProfileLink()">Лидер: @SelectedGuildProfile.Leader.GetFullName()</MatButton>
     <MatBody1>@SelectedGuildProfile.Bio</MatBody1>
+    <MatBody1>Лидер: <NavLink href=@LeaderProfileLink()>@SelectedGuildProfile.Leader.GetFullName()</NavLink></MatBody1>
 
     <MatButton Link="@EditProfileLink()">Редактировать</MatButton>
     <MatButton Link=@TributeJournalLink()>Трибьюты</MatButton>
-    @if(SelectedGuildProfile?.UserMembershipState == UserMembershipState.Entered)
+    @if (_membership is not null && _membership == UserMembershipState.Entered)
     {
         <MatButton OnClick=@LeaveGuild>Ливнуть</MatButton>
     }
@@ -23,7 +22,7 @@
 
 @code {
     [Parameter]
-    public ExtendedGuildProfileWithMemberDataDto SelectedGuildProfile { get; set; }
+    public GuildProfileDto SelectedGuildProfile { get; set; }
 
     private string EditProfileLink() => $"guild/profile/{SelectedGuildProfile.Id}/edit";
     private string LeaderProfileLink() => $"student/profile/{SelectedGuildProfile.Leader.Id}";

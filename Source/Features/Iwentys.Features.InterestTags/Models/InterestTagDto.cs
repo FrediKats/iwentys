@@ -6,9 +6,6 @@ namespace Iwentys.Features.InterestTags.Models
 {
     public class InterestTagDto
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-
         public InterestTagDto(InterestTag interestTag) : this()
         {
             Id = interestTag.Id;
@@ -18,6 +15,9 @@ namespace Iwentys.Features.InterestTags.Models
         public InterestTagDto()
         {
         }
+
+        public int Id { get; set; }
+        public string Title { get; set; }
 
         public static Expression<Func<InterestTag, InterestTagDto>> FromEntity =>
             entity => new InterestTagDto

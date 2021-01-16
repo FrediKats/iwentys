@@ -21,7 +21,8 @@ namespace Iwentys.Common.Exceptions
             return new InnerLogicException($"Not enough user permission for user {userId}");
         }
 
-        public static InnerLogicException NotSupportedEnumValue<T>(T value) where T : Enum
+        public static InnerLogicException NotSupportedEnumValue<T>(T value)
+            where T : Enum
         {
             return new InnerLogicException($"Unsupported [{value.GetType()}] type: {value}");
         }

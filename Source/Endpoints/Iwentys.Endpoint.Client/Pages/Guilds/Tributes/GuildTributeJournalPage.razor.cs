@@ -7,7 +7,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds.Tributes
 {
     public partial class GuildTributeJournalPage
     {
-        private ExtendedGuildProfileWithMemberDataDto _guild;
+        private GuildProfileDto _guild;
         private List<TributeInfoResponse> _tributes;
 
         protected override async Task OnInitializedAsync()

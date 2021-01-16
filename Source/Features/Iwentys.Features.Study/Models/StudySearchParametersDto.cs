@@ -4,12 +4,6 @@ namespace Iwentys.Features.Study.Models
 {
     public record StudySearchParametersDto
     {
-
-        public static StudySearchParametersDto ForGroup(int groupId)
-        {
-            return new StudySearchParametersDto(groupId, null, null, null, 0, 20);
-        }
-
         public StudySearchParametersDto(int? groupId, int? subjectId, int? courseId, StudySemester? studySemester, int skip, int take)
             : this()
         {
@@ -31,5 +25,10 @@ namespace Iwentys.Features.Study.Models
         public StudySemester? StudySemester { get; init; }
         public int Skip { get; init; }
         public int Take { get; init; }
+
+        public static StudySearchParametersDto ForGroup(int groupId)
+        {
+            return new StudySearchParametersDto(groupId, null, null, null, 0, 20);
+        }
     }
 }

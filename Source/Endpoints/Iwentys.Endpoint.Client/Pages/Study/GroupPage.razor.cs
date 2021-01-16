@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
 using Iwentys.Features.Study.Models.Students;
 
@@ -16,7 +15,7 @@ namespace Iwentys.Endpoint.Client.Pages.Study
         }
 
         private string LinkToStudentProfile(StudentInfoDto student) => $"student/profile/{student.Id}";
-        private string LinkToSubjectProfile(Subject subject) => $"subject/{subject.Id}/profile";
+        private string LinkToSubjectProfile(SubjectProfileDto subject) => $"subject/{subject.Id}/profile";
 
         private StudentInfoDto GroupAdmin => _groupProfile?.GroupAdmin;
     }

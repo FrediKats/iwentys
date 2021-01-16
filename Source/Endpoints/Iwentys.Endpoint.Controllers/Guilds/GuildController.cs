@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Guilds
 {
-    [Route("api/[controller]")]
+    [Route("api/guild")]
     [ApiController]
     public class GuildController : ControllerBase
     {
@@ -41,10 +41,10 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ExtendedGuildProfileWithMemberDataDto>> Get(int id)
+        public async Task<ActionResult<GuildProfileDto>> Get(int id)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(await _guildService.Get(id, user.Id));
+            return Ok(await _guildService.Get(id));
         }
 
         [HttpGet("for-member")]
@@ -67,7 +67,6 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         [HttpDelete("{guildId}/pinned/{repositoryId}")]
         public async Task<ActionResult> DeletePinnedProject(int guildId, long repositoryId)
         {
-            //TODO: Need to rework all links between GithubRepository, Student project and PinnedRepository
             AuthorizedUser user = this.TryAuthWithToken();
             await _guildService.UnpinProject(user, guildId, repositoryId);
             return Ok();

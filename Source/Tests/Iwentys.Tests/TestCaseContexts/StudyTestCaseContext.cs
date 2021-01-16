@@ -1,12 +1,14 @@
 ﻿using System.Linq;
 using Bogus;
+using Iwentys.Database.Seeding.FakerEntities;
+using Iwentys.Database.Seeding.FakerEntities.Study;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Enums;
 using Iwentys.Features.Study.Models;
+using Iwentys.Features.Study.Models.Students;
 using Iwentys.Features.Study.SubjectAssignments.Enums;
 using Iwentys.Features.Study.SubjectAssignments.Models;
-using Iwentys.Tests.Tools;
 
 namespace Iwentys.Tests.TestCaseContexts
 {
@@ -21,7 +23,7 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public GroupProfileResponseDto WithStudyGroup()
         {
-            var studyGroup = new StudyGroup()
+            var studyGroup = new StudyGroup
             {
                 GroupName = new Faker().Lorem.Word()
             };
@@ -49,13 +51,14 @@ namespace Iwentys.Tests.TestCaseContexts
             return subject;
         }
 
-        public GroupSubject WithGroupSubject(GroupProfileResponseDto studyGroup, Subject subject)
+        public GroupSubject WithGroupSubject(GroupProfileResponseDto studyGroup, Subject subject, AuthorizedUser teacher = null)
         {
             var groupSubject = new GroupSubject
             {
                 StudyGroupId = studyGroup.Id,
                 SubjectId = subject.Id,
-                StudySemester = StudySemester.Y21H1
+                StudySemester = StudySemester.Y21H1,
+                LectorTeacherId = teacher?.Id
             };
             _context.UnitOfWork.GetRepository<GroupSubject>().InsertAsync(groupSubject).Wait();
             _context.UnitOfWork.CommitAsync().Wait();
@@ -64,52 +67,28 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public SubjectAssignmentDto WithSubjectAssignment(AuthorizedUser user, GroupSubject groupSubject)
         {
-            var subjectAssignmentCreateArguments = new SubjectAssignmentCreateArguments
-            {
-                Title = new Faker().Lorem.Word(),
-                Description = new Faker().Lorem.Word(),
-                Link = new Faker().Lorem.Word(),
-            };
-
-            return _context.SubjectAssignmentService.CreateSubjectAssignment(user, groupSubject.SubjectId, subjectAssignmentCreateArguments).Result;
+            return _context.SubjectAssignmentService.CreateSubjectAssignment(user, groupSubject.SubjectId, SubjectAssignmentFaker.Instance.CreateSubjectAssignmentCreateArguments()).Result;
         }
 
         public SubjectAssignmentSubmitDto WithSubjectAssignmentSubmit(AuthorizedUser user, SubjectAssignmentDto assignment)
         {
-            var subjectAssignmentCreateArguments = new SubjectAssignmentSubmitCreateArguments
-            {
-                StudentDescription = new Faker().Lorem.Word(),
-            };
-
-            return _context.SubjectAssignmentService.SendSubmit(user, assignment.Id, subjectAssignmentCreateArguments).Result;
+            return _context.SubjectAssignmentService.SendSubmit(user, assignment.Id, SubjectAssignmentFaker.Instance.CreateSubjectAssignmentSubmitCreateArguments()).Result;
         }
 
         public void WithSubjectAssignmentSubmitFeedback(AuthorizedUser user, SubjectAssignmentSubmitDto submit, FeedbackType feedbackType = FeedbackType.Approve)
         {
-            var subjectAssignmentCreateArguments = new SubjectAssignmentSubmitFeedbackArguments
-            {
-                Comment = new Faker().Lorem.Word(),
-                FeedbackType = feedbackType
-            };
-
-            _context.SubjectAssignmentService.SendFeedback(user, submit.Id, subjectAssignmentCreateArguments).Wait();
+            _context.SubjectAssignmentService.SendFeedback(user, submit.Id, SubjectAssignmentFaker.Instance.CreateFeedback(feedbackType)).Wait();
         }
 
         public AuthorizedUser WithNewStudent(GroupProfileResponseDto studyGroup)
         {
-            int id = RandomProvider.Random.Next(999999);
+            StudentCreateArguments createArguments = UsersFaker.Instance.Students.Generate();
+            createArguments.Id = UsersFaker.Instance.GetIdentifier();
+            createArguments.GroupId = studyGroup.Id;
 
-            var userInfo = new Student
-            {
-                Id = id,
-                GithubUsername = $"{TestCaseContext.Constants.GithubUsername}{id}",
-                BarsPoints = 1000,
-            };
+            StudentInfoDto studentInfoDto = _context.StudentService.Create(createArguments).Result;
 
-            _context.UnitOfWork.GetRepository<Student>().InsertAsync(userInfo).Wait();
-            _context.UnitOfWork.GetRepository<StudyGroupMember>().InsertAsync(new StudyGroupMember {StudentId = userInfo.Id, GroupId = studyGroup.Id}).Wait();
-            _context.UnitOfWork.CommitAsync().Wait();
-            var user = AuthorizedUser.DebugAuth(userInfo.Id);
+            AuthorizedUser user = AuthorizedUser.DebugAuth(studentInfoDto.Id);
             return user;
         }
     }

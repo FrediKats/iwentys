@@ -11,9 +11,7 @@ namespace Iwentys.Integrations.GithubIntegration
     {
         public Task<GithubRepositoryInfoDto> GetRepository(string username, string repositoryName)
         {
-            var result = new GithubRepositoryInfoDto(171717, username, repositoryName, "No desc", null, 0);
-            //TODO: It hack. Need to implement this methods for test propose
-            return Task.FromResult(result);
+            return Task.FromResult<GithubRepositoryInfoDto>(default);
         }
 
         public Task<List<GithubRepositoryInfoDto>> GetUserRepositories(string username)
@@ -23,14 +21,12 @@ namespace Iwentys.Integrations.GithubIntegration
 
         public Task<GithubUserInfoDto> GetGithubUser(string githubUsername)
         {
-            var result = new GithubUserInfoDto(171717, githubUsername, null, "No bio", null);
-            return Task.FromResult(result);
+            return Task.FromResult<GithubUserInfoDto>(default);
         }
 
         public Task<ContributionFullInfo> GetUserActivity(string githubUsername)
         {
-            var result = new ContributionFullInfo { RawActivity = new ActivityInfo() { Contributions = new List<ContributionsInfo>(), Years = new List<YearActivityInfo>() } };
-            return Task.FromResult(result);
+            return Task.FromResult<ContributionFullInfo>(default);
         }
 
         public Task<int> GetUserActivity(string githubUsername, DateTime from, DateTime to)

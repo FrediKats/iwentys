@@ -13,13 +13,13 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Managements
         {
             await base.OnInitializedAsync();
 
-            _subjectAssignmentSubmits = await ClientHolder.SubjectAssignment.GetSubjectAssignmentSubmits(SubjectId);
+            _subjectAssignmentSubmits = await ClientHolder.SubjectAssignment.SearchSubjectAssignmentSubmits(SubjectId);
         }
 
         private void NavigateToSubmitPage(object row)
         {
             if (row is not SubjectAssignmentSubmitDto submit)
-                throw new IwentysException("Something goes wrong.");
+                throw new IwentysExecutionException("Something goes wrong.");
 
             NavigationManager.NavigateTo($"/subject/{SubjectId}/management/assignments/submits/{submit.Id}");
         }

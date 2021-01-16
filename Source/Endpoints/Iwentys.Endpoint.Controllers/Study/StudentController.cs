@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Iwentys.Endpoint.Controllers.Tools;
 using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.AccountManagement.Models;
+using Iwentys.Features.AccountManagement.Services;
 using Iwentys.Features.Study.Models.Students;
 using Iwentys.Features.Study.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +15,12 @@ namespace Iwentys.Endpoint.Controllers.Study
     public class StudentController : ControllerBase
     {
         private readonly StudentService _studentService;
+        private readonly IwentysUserService _userService;
 
-        public StudentController(StudentService studentService)
+        public StudentController(StudentService studentService, IwentysUserService userService)
         {
             _studentService = studentService;
+            _userService = userService;
         }
 
         [HttpGet("profile")]
@@ -43,11 +47,11 @@ namespace Iwentys.Endpoint.Controllers.Study
         }
 
         [HttpPut]
-        public async Task<ActionResult<StudentInfoDto>> Update([FromBody] StudentUpdateRequestDto studentUpdateRequestDto)
+        public async Task<ActionResult<IwentysUserInfoDto>> Update([FromBody] StudentUpdateRequestDto studentUpdateRequestDto)
         {
-            AuthorizedUser user = this.TryAuthWithToken();
-            StudentInfoDto student = await _studentService.AddGithubUsername(user.Id, studentUpdateRequestDto.GithubUsername);
-            return Ok(student);
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            IwentysUserInfoDto result = await _userService.AddGithubUsername(authorizedUser.Id, studentUpdateRequestDto.GithubUsername);
+            return Ok(result);
         }
     }
 }

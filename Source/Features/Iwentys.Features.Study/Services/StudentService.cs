@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
-using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models.Students;
 using Microsoft.EntityFrameworkCore;
@@ -12,15 +10,12 @@ namespace Iwentys.Features.Study.Services
 {
     public class StudentService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        
         private readonly IGenericRepository<Student> _studentRepository;
-        private readonly AchievementProvider _achievementProvider;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public StudentService(IUnitOfWork unitOfWork, AchievementProvider achievementProvider)
+        public StudentService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _achievementProvider = achievementProvider;
             _studentRepository = _unitOfWork.GetRepository<Student>();
         }
 
@@ -52,23 +47,14 @@ namespace Iwentys.Features.Study.Services
             return new StudentInfoDto(student);
         }
 
-        //TODO: move to IwentysUser
-        public async Task<StudentInfoDto> AddGithubUsername(int id, string githubUsername)
+        public async Task<StudentInfoDto> Create(StudentCreateArguments createArguments)
         {
-            bool isUsernameUsed = await _studentRepository.Get().AnyAsync(s => s.GithubUsername == githubUsername);
-            if (isUsernameUsed)
-                throw InnerLogicException.StudentExceptions.GithubAlreadyUser(githubUsername);
+            var student = Student.Create(createArguments);
 
-            //TODO: implement github access validation
-            //throw new NotImplementedException("Need to validate github credentials");
-            Student user = await _studentRepository.GetById(id);
-            user.GithubUsername = githubUsername;
-            _studentRepository.Update(user);
-
-            await _achievementProvider.Achieve(AchievementList.AddGithubAchievement, user.Id);
+            await _studentRepository.InsertAsync(student);
             await _unitOfWork.CommitAsync();
 
-            return new StudentInfoDto(await _studentRepository.FindByIdAsync(id));
+            return new StudentInfoDto(student);
         }
 
         public async Task<StudentInfoDto> RemoveGithubUsername(int id, string githubUsername)

@@ -3,14 +3,21 @@ using Iwentys.Features.Guilds.Entities;
 
 namespace Iwentys.Database.Seeding.FakerEntities
 {
-    public class GuildPinnedProjectFaker : Faker<GuildPinnedProject>
+    public class GuildPinnedProjectFaker
     {
+        private readonly Faker _faker = new Faker();
+
         public GuildPinnedProjectFaker()
         {
-            this
-                .RuleFor(g => g.Id, f => f.IndexFaker + 1)
-                .RuleFor(gp => gp.RepositoryOwner, f => f.Company.CompanyName())
-                .RuleFor(gp => gp.RepositoryName, f => f.Company.CompanyName());
+        }
+
+        public GuildPinnedProject CreatePinnedProject(int guildId)
+        {
+            return new GuildPinnedProject()
+            {
+                Id = GithubRepositoryFaker.Instance.GetId(),
+                GuildId = guildId
+            };
         }
     }
 }

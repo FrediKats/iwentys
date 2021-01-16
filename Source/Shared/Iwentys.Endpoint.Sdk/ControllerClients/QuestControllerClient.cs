@@ -46,22 +46,32 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients
             await Client.PostAsJsonAsync("/api/quests", createQuest);
         }
 
-        public async Task<QuestInfoDto> SendResponse(int questId)
+        public async Task<QuestInfoDto> SendResponse(int questId, QuestResponseCreateArguments arguments)
         {
-            return await Client.GetFromJsonAsync<QuestInfoDto>($"/api/quests/{questId}/send-response");
+            IFlurlResponse response = await new FlurlClient(Client)
+                .Request($"/api/quests/{questId}/send-response")
+                .PostJsonAsync(arguments);
+
+            return await response.GetJsonAsync<QuestInfoDto>();
         }
 
-        public async Task Complete(int questId, int userId)
+        public async Task Complete(int questId, QuestCompleteArguments arguments)
         {
             await new FlurlClient(Client)
                 .Request($"/api/quests/{questId}/complete")
-                .SetQueryParam("userId", userId)
-                .PutAsync();
+                .PutJsonAsync(arguments);
         }
 
         public async Task Revoke(int questId)
         {
             await Client.GetAsync($"/api/quests/{questId}/revoke");
+        }
+
+        public async Task<List<QuestRatingRow>> GetQuestExecutorRating()
+        {
+            return await new FlurlClient(Client)
+                .Request($"/api/quests/executor-rating")
+                .GetJsonAsync<List<QuestRatingRow>>();
         }
     }
 }

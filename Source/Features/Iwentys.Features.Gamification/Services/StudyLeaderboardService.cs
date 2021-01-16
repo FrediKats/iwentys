@@ -7,6 +7,7 @@ using Iwentys.Features.Gamification.Entities;
 using Iwentys.Features.Gamification.Models;
 using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Study.Entities;
+using Iwentys.Features.Study.Infrastructure;
 using Iwentys.Features.Study.Models;
 using Iwentys.Features.Study.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -15,20 +16,20 @@ namespace Iwentys.Features.Gamification.Services
 {
     public class StudyLeaderboardService
     {
-        private readonly IUnitOfWork _unitOfWork;
-
-        private readonly IGenericRepository<StudyGroup> _studyGroupRepository;
         private readonly IGenericRepository<CourseLeaderboardRow> _courseLeaderboardRowRepository;
 
         private readonly GithubIntegrationService _githubIntegrationService;
-        private readonly ISubjectActivityRepository _subjectActivityRepository;
-        
+        private readonly IStudyDbContext _dbContext;
 
-        public StudyLeaderboardService(GithubIntegrationService githubIntegrationService, ISubjectActivityRepository subjectActivityRepository, IUnitOfWork unitOfWork)
+        private readonly IGenericRepository<StudyGroup> _studyGroupRepository;
+        private readonly IUnitOfWork _unitOfWork;
+
+
+        public StudyLeaderboardService(GithubIntegrationService githubIntegrationService, IStudyDbContext dbContext, IUnitOfWork unitOfWork)
         {
             _githubIntegrationService = githubIntegrationService;
-            _subjectActivityRepository = subjectActivityRepository;
-            
+            _dbContext = dbContext;
+
             _unitOfWork = unitOfWork;
             _courseLeaderboardRowRepository = _unitOfWork.GetRepository<CourseLeaderboardRow>();
             _studyGroupRepository = _unitOfWork.GetRepository<StudyGroup>();
@@ -36,13 +37,10 @@ namespace Iwentys.Features.Gamification.Services
 
         public List<StudyLeaderboardRowDto> GetStudentsRatings(StudySearchParametersDto searchParametersDto)
         {
-            if (searchParametersDto.CourseId is null && searchParametersDto.GroupId is null ||
-                searchParametersDto.CourseId is not null && searchParametersDto.GroupId is not null)
-            {
-                throw new IwentysException("One of StudySearchParametersDto fields: CourseId or GroupId should be null");
-            }
+            if (searchParametersDto.CourseId is null && searchParametersDto.GroupId is null)
+                throw new IwentysExecutionException("One of StudySearchParametersDto fields: CourseId or GroupId should be null");
 
-            List<SubjectActivity> result = _subjectActivityRepository.GetStudentActivities(searchParametersDto).ToList();
+            List<SubjectActivity> result = _dbContext.GetStudentActivities(searchParametersDto).ToList();
 
             return result
                 .GroupBy(r => r.StudentId)
@@ -62,8 +60,8 @@ namespace Iwentys.Features.Gamification.Services
 
             _courseLeaderboardRowRepository.Delete(oldRows);
 
-            List<SubjectActivity> result = _subjectActivityRepository.GetStudentActivities(new StudySearchParametersDto {CourseId = courseId}).ToList();
-            List<CourseLeaderboardRow> newRows = CourseLeaderboardRow.Create(courseId, result);
+            List<SubjectActivity> result = _dbContext.GetStudentActivities(new StudySearchParametersDto {CourseId = courseId}).ToList();
+            List<CourseLeaderboardRow> newRows = CourseLeaderboardRow.Create(courseId, result, oldRows);
 
             await _courseLeaderboardRowRepository.InsertAsync(newRows);
             await _unitOfWork.CommitAsync();
@@ -82,7 +80,6 @@ namespace Iwentys.Features.Gamification.Services
             return _studyGroupRepository.Get()
                 .WhereIf(courseId, q => q.StudyCourseId == courseId)
                 .SelectMany(g => g.Students)
-                .Select(s => s.Student)
                 .AsEnumerable()
                 .Select(s => new StudyLeaderboardRowDto(s, _githubIntegrationService.User.GetGithubUser(s.GithubUsername).Result?.ContributionFullInfo.Total ?? 0))
                 .OrderBy(a => a.Activity)

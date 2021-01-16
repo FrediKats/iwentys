@@ -13,21 +13,9 @@ namespace Iwentys.Features.Study.Models
         public string GroupName { get; init; }
         public int? GroupAdminId { get; set; }
         public List<StudentInfoDto> Students { get; set; }
-        public List<Subject> Subjects { get; init; }
+        public List<SubjectProfileDto> Subjects { get; init; }
 
         public StudentInfoDto GroupAdmin => GroupAdminId is null ? null : Students.Find(s => s.Id == GroupAdminId);
-
-        public GroupProfileResponseDto(int id, string groupName, StudentInfoDto groupAdmin, List<StudentInfoDto> students, List<Subject> subjects) :this()
-        {
-            Id = id;
-            GroupName = groupName;
-            Students = students;
-            Subjects = subjects;
-        }
-
-        public GroupProfileResponseDto()
-        {
-        }
 
         public static Expression<Func<StudyGroup, GroupProfileResponseDto>> FromEntity =>
             entity => new GroupProfileResponseDto
@@ -35,8 +23,8 @@ namespace Iwentys.Features.Study.Models
                 Id = entity.Id,
                 GroupName = entity.GroupName,
                 GroupAdminId = entity.GroupAdminId,
-                Students = entity.Students.Select(s => new StudentInfoDto(s.Student)).ToList(),
-                Subjects = entity.GroupSubjects.Select(gs => gs.Subject).ToList(),
+                Students = entity.Students.Select(s => new StudentInfoDto(s)).ToList(),
+                Subjects = entity.GroupSubjects.Select(gs => new SubjectProfileDto(gs.Subject)).ToList()
             };
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Flurl.Http;
+using Iwentys.Features.Guilds.Enums;
 
 namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
 {
@@ -32,6 +33,13 @@ namespace Iwentys.Endpoint.Sdk.ControllerClients.Guilds
             await new FlurlClient(Client)
                 .Request($"/api/guild/{guildId}/member/{memberId}/promote")
                 .PutAsync();
+        }
+
+        public async Task<UserMembershipState> GetUserMembership(int guildId)
+        {
+            return await new FlurlClient(Client)
+                .Request($"/api/guild/{guildId}/membership")
+                .GetJsonAsync<UserMembershipState>();
         }
     }
 }

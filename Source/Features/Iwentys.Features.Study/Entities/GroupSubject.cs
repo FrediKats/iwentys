@@ -28,6 +28,7 @@ namespace Iwentys.Features.Study.Entities
 
 
         public string SerializedGoogleTableConfig { get; set; }
+
         public Result<GoogleTableData> TryGetGoogleTableDataConfig()
         {
             if (SerializedGoogleTableConfig is null)
@@ -44,7 +45,7 @@ namespace Iwentys.Features.Study.Entities
             }
         }
     }
-    
+
     public static class GroupSubjectExtensions
     {
         public static IQueryable<Subject> SearchSubjects(this IQueryable<GroupSubject> query, StudySearchParametersDto searchParametersDto)

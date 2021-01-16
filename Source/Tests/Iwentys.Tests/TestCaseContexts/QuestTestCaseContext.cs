@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Quests.Models;
 
@@ -15,15 +15,7 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public QuestInfoDto WithQuest(AuthorizedUser user, int price)
         {
-            var request = new CreateQuestRequest(
-                "Some quest",
-                "Some desc",
-                price,
-                DateTime.UtcNow.AddDays(1));
-
-            var quest = _context.QuestService.Create(user, request).Result;
-
-            return quest;
+            return _context.QuestService.Create(user, QuestFaker.Instance.CreateQuestRequest(price)).Result;
         }
     }
 }
