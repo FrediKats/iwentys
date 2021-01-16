@@ -20,7 +20,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
         {
             Student author = students.First();
 
-            Quest = new QuestFaker(author.Id).Generate(QuestCount);
+            Quest = QuestFaker.Instance.CreateQuestFaker(author.Id).Generate(QuestCount);
 
             foreach (Quest quest in Quest)
             {

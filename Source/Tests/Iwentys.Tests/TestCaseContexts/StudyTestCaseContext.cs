@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Bogus;
 using Iwentys.Database.Seeding.FakerEntities;
+using Iwentys.Database.Seeding.FakerEntities.Study;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Enums;
@@ -67,36 +67,17 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public SubjectAssignmentDto WithSubjectAssignment(AuthorizedUser user, GroupSubject groupSubject)
         {
-            var subjectAssignmentCreateArguments = new SubjectAssignmentCreateArguments
-            {
-                Title = new Faker().Lorem.Word(),
-                Description = new Faker().Lorem.Word(),
-                Link = new Faker().Lorem.Word(),
-                DeadlineUtc = DateTime.UtcNow.AddDays(1)
-            };
-
-            return _context.SubjectAssignmentService.CreateSubjectAssignment(user, groupSubject.SubjectId, subjectAssignmentCreateArguments).Result;
+            return _context.SubjectAssignmentService.CreateSubjectAssignment(user, groupSubject.SubjectId, SubjectAssignmentFaker.Instance.CreateSubjectAssignmentCreateArguments()).Result;
         }
 
         public SubjectAssignmentSubmitDto WithSubjectAssignmentSubmit(AuthorizedUser user, SubjectAssignmentDto assignment)
         {
-            var subjectAssignmentCreateArguments = new SubjectAssignmentSubmitCreateArguments
-            {
-                StudentDescription = new Faker().Lorem.Word()
-            };
-
-            return _context.SubjectAssignmentService.SendSubmit(user, assignment.Id, subjectAssignmentCreateArguments).Result;
+            return _context.SubjectAssignmentService.SendSubmit(user, assignment.Id, SubjectAssignmentFaker.Instance.CreateSubjectAssignmentSubmitCreateArguments()).Result;
         }
 
         public void WithSubjectAssignmentSubmitFeedback(AuthorizedUser user, SubjectAssignmentSubmitDto submit, FeedbackType feedbackType = FeedbackType.Approve)
         {
-            var subjectAssignmentCreateArguments = new SubjectAssignmentSubmitFeedbackArguments
-            {
-                Comment = new Faker().Lorem.Word(),
-                FeedbackType = feedbackType
-            };
-
-            _context.SubjectAssignmentService.SendFeedback(user, submit.Id, subjectAssignmentCreateArguments).Wait();
+            _context.SubjectAssignmentService.SendFeedback(user, submit.Id, SubjectAssignmentFaker.Instance.CreateFeedback(feedbackType)).Wait();
         }
 
         public AuthorizedUser WithNewStudent(GroupProfileResponseDto studyGroup)

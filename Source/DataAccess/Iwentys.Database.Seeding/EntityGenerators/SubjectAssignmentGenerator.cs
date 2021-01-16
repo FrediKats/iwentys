@@ -40,7 +40,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 
                 foreach (Student student in students)
                 {
-                    SubjectAssignmentSubmits.Add(SubjectAssignmentSubmitFaker.Instance.Create(sa.Id, student.Id));
+                    SubjectAssignmentSubmits.Add(SubjectAssignmentFaker.Instance.CreateSubjectAssignmentSubmit(sa.Id, student.Id));
                 }
             }
         }

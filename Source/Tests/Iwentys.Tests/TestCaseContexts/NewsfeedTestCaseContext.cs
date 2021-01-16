@@ -1,4 +1,5 @@
-﻿using Iwentys.Features.AccountManagement.Domain;
+﻿using Iwentys.Database.Seeding.FakerEntities;
+using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.Newsfeeds.Models;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.Models;
@@ -29,12 +30,7 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public NewsfeedViewModel WithSubjectNews(SubjectProfileDto subjectProfile, AuthorizedUser creator)
         {
-            var createViewModel = new NewsfeedCreateViewModel
-            {
-                Title = RandomProvider.Faker.Lorem.Word(),
-                Content = RandomProvider.Faker.Lorem.Sentence()
-            };
-
+            NewsfeedCreateViewModel createViewModel = NewsfeedFaker.Instance.GenerateNewsfeedCreateViewModel();
             NewsfeedViewModel newsfeedViewModel = _context.NewsfeedService.CreateSubjectNewsfeed(createViewModel, creator, subjectProfile.Id).Result;
             return newsfeedViewModel;
         }
