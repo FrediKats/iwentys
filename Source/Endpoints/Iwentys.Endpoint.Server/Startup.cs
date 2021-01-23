@@ -34,7 +34,6 @@ namespace Iwentys.Endpoint.Server
                 settings.Store.ApplicationName = "Samples.AspNetCore";
             });
             
-            //TODO: fix
             services.AddControllersWithViews();/*.AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));*/
             services.AddSwaggerGen();
             services.AddRazorPages();

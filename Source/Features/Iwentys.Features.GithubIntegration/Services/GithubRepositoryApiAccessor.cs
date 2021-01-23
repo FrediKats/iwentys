@@ -64,7 +64,6 @@ namespace Iwentys.Features.GithubIntegration.Services
                 .ToListAsync();
         }
 
-        //TODO: remove old repo that is not exist in githubRepositories
         public async Task ForceRescanUserRepositories(GithubUser githubUser)
         {
             List<GithubRepositoryInfoDto> githubRepositories = await _githubApiAccessor.GetUserRepositories(githubUser.Username);

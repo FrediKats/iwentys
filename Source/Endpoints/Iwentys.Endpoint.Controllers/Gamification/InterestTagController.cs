@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Features.Gamification.Models;
-using Iwentys.Features.Gamification.Services;
 using Iwentys.Features.InterestTags.Models;
 using Iwentys.Features.InterestTags.Services;
 using Microsoft.AspNetCore.Mvc;
