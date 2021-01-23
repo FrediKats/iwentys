@@ -17,13 +17,6 @@ namespace Iwentys.Database.Seeding.EntityGenerators
         private const int SubjectCount = 8;
         private const StudySemester CurrentSemester = StudySemester.Y20H1;
 
-        public List<StudyCourse> StudyCourses { get; set; }
-        public List<StudyProgram> StudyPrograms { get; set; }
-        public List<Subject> Subjects { get; set; }
-        public List<GroupSubject> GroupSubjects { get; set; }
-        public List<StudyGroup> StudyGroups { get; set; }
-        public List<UniversitySystemUser> Teachers { get; set; }
-
         public StudyEntitiesGenerator()
         {
             Teachers = UsersFaker.Instance.UniversitySystemUsers
@@ -32,7 +25,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             Teachers.ForEach(t => t.Id = UsersFaker.Instance.GetIdentifier());
 
             Subjects = SubjectFaker.Instance.Generate(SubjectCount);
-            StudyPrograms = new List<StudyProgram> { new StudyProgram { Id = 1, Name = "ИС" } };
+            StudyPrograms = new List<StudyProgram> {new StudyProgram {Id = 1, Name = "ИС"}};
             StudyCourses = new List<StudyCourse>
             {
                 Create.IsCourse(StudentGraduationYear.Y20),
@@ -46,9 +39,25 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             GroupSubjects = new List<GroupSubject>();
 
             foreach (Subject subject in Subjects)
-                foreach (StudyGroup studyGroup in StudyGroups)
-                    GroupSubjects.Add(CreateGroupSubjectEntity(studyGroup, subject));
+            foreach (StudyGroup studyGroup in StudyGroups)
+                GroupSubjects.Add(CreateGroupSubjectEntity(studyGroup, subject));
+        }
 
+        public List<StudyCourse> StudyCourses { get; set; }
+        public List<StudyProgram> StudyPrograms { get; set; }
+        public List<Subject> Subjects { get; set; }
+        public List<GroupSubject> GroupSubjects { get; set; }
+        public List<StudyGroup> StudyGroups { get; set; }
+        public List<UniversitySystemUser> Teachers { get; set; }
+
+        public void Seed(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<StudyProgram>().HasData(StudyPrograms);
+            modelBuilder.Entity<StudyCourse>().HasData(StudyCourses);
+            modelBuilder.Entity<StudyGroup>().HasData(StudyGroups);
+            modelBuilder.Entity<UniversitySystemUser>().HasData(Teachers);
+            modelBuilder.Entity<Subject>().HasData(Subjects);
+            modelBuilder.Entity<GroupSubject>().HasData(GroupSubjects);
         }
 
         private GroupSubject CreateGroupSubjectEntity(StudyGroup group, Subject subject)
@@ -106,16 +115,6 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                     StudyProgramId = 1
                 };
             }
-        }
-
-        public void Seed(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<StudyProgram>().HasData(StudyPrograms);
-            modelBuilder.Entity<StudyCourse>().HasData(StudyCourses);
-            modelBuilder.Entity<StudyGroup>().HasData(StudyGroups);
-            modelBuilder.Entity<UniversitySystemUser>().HasData(Teachers);
-            modelBuilder.Entity<Subject>().HasData(Subjects);
-            modelBuilder.Entity<GroupSubject>().HasData(GroupSubjects);
         }
     }
 }

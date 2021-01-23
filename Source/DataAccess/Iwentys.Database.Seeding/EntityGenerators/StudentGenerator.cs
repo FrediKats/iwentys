@@ -19,6 +19,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             Students = UsersFaker.Instance.Students
                 .Generate(StudentCount)
                 .SelectToList(Student.Create);
+
             Students.ForEach(s => s.Id = UsersFaker.Instance.GetIdentifier());
 
             Students.Add(new Student
@@ -35,10 +36,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 AvatarUrl = new Faker().Image.PicsumUrl()
             });
 
-            foreach (Student student in Students)
-            {
-                student.GroupId = RandomExtensions.Instance.PickRandom(studyGroups).Id;
-            }
+            foreach (Student student in Students) student.GroupId = RandomExtensions.Instance.PickRandom(studyGroups).Id;
 
             Students
                 .GroupBy(s => s.GroupId)

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Database.Seeding.FakerEntities;
+using Bogus;
+using Iwentys.Database.Seeding.FakerEntities.Guilds;
 using Iwentys.Features.GithubIntegration.Entities;
 using Iwentys.Features.Guilds.Entities;
 using Iwentys.Features.Guilds.Enums;
@@ -13,51 +14,49 @@ namespace Iwentys.Database.Seeding.EntityGenerators
     public class GuildGenerator : IEntityGenerator
     {
         private const int GuildCount = 5;
-
-        public List<Guild> Guilds { get; }
-        public List<GuildMember> GuildMembers { get; }
-        public List<GuildPinnedProject> PinnedProjects { get; }
-        public List<Tribute> TributeEntities { get; }
+        private const int GuildMemberCount = 10;
+        private const int GuildPinnedProjectCount = 5;
 
         public GuildGenerator(List<Student> students, List<GithubProject> githubProjects)
         {
-            var guildFaker = new GuildFaker();
-            var pinnedFaker = new GuildPinnedProjectFaker();
+            Faker<Guild> guildFaker = GuildFaker.Instance.CreateGuildFaker();
 
             Guilds = guildFaker.Generate(GuildCount);
             GuildMembers = new List<GuildMember>();
             PinnedProjects = new List<GuildPinnedProject>();
             TributeEntities = new List<Tribute>();
-            
-            int usedCount = 0;
+
+            var usedCount = 0;
             foreach (Guild guild in Guilds)
             {
                 var creator = new GuildMember(guild, students[usedCount], GuildMemberType.Creator);
                 GuildMembers.Add(creator);
                 usedCount++;
-                
+
                 List<GuildMember> members = students
                     .Skip(usedCount)
-                    .Take(10)
+                    .Take(GuildMemberCount)
                     .Select(s => new GuildMember(guild, s, GuildMemberType.Member))
                     .ToList();
                 GuildMembers.AddRange(members);
-                usedCount += 10;
+                usedCount += GuildMemberCount;
 
-                for (int i = 0; i < 5; i++)
-                {
-                    PinnedProjects.Add(pinnedFaker.CreatePinnedProject(guild.Id));
-                }
+                for (var i = 0; i < GuildPinnedProjectCount; i++) PinnedProjects.Add(GuildFaker.Instance.CreateGuildPinnedProject(guild.Id));
 
-                foreach (var member in members.Where(m => m.MemberType == GuildMemberType.Member))
+                foreach (GuildMember member in members.Where(m => m.MemberType == GuildMemberType.Member))
                 {
-                    var student = students.First(s => s.Id == member.MemberId);
-                    var githubProjectEntity = githubProjects.First(p => p.Owner == student.GithubUsername);
+                    Student student = students.First(s => s.Id == member.MemberId);
+                    GithubProject githubProjectEntity = githubProjects.First(p => p.Owner == student.GithubUsername);
                     var tributeEntity = Tribute.Create(guild, student, githubProjectEntity, new List<Tribute>());
                     TributeEntities.Add(tributeEntity);
                 }
             }
         }
+
+        public List<Guild> Guilds { get; }
+        public List<GuildMember> GuildMembers { get; }
+        public List<GuildPinnedProject> PinnedProjects { get; }
+        public List<Tribute> TributeEntities { get; }
 
         public void Seed(ModelBuilder modelBuilder)
         {

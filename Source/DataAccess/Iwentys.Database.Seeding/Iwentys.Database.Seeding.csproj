@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="FakerEntities\Guilds\" />
     <Folder Include="FakerEntities\Raids\" />
   </ItemGroup>
 

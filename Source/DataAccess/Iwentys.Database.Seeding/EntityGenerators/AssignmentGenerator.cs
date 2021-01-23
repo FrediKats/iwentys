@@ -9,10 +9,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 {
     public class AssignmentGenerator : IEntityGenerator
     {
-        public List<Assignment> Assignments { get; set; }
-        public List<StudentAssignment> StudentAssignments { get; set; }
-
-        private Faker _faker;
+        private readonly Faker _faker;
 
         public AssignmentGenerator(List<Student> students)
         {
@@ -27,9 +24,18 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 StudentAssignments.Add(new StudentAssignment
                 {
                     AssignmentId = assignment.Id,
-                    StudentId = student.Id,
+                    StudentId = student.Id
                 });
             }
+        }
+
+        public List<Assignment> Assignments { get; set; }
+        public List<StudentAssignment> StudentAssignments { get; set; }
+
+        public void Seed(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Assignment>().HasData(Assignments);
+            modelBuilder.Entity<StudentAssignment>().HasData(StudentAssignments);
         }
 
         public Assignment GenerateAssignment(Student author)
@@ -37,12 +43,6 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             var assignment = Assignment.Create(author, AssignmentFaker.Instance.CreateAssignmentCreateArguments());
             assignment.Id = 1 + _faker.IndexVariable++;
             return assignment;
-        }
-
-        public void Seed(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Assignment>().HasData(Assignments);
-            modelBuilder.Entity<StudentAssignment>().HasData(StudentAssignments);
         }
     }
 }

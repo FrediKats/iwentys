@@ -11,9 +11,6 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 {
     public class AchievementGenerator : IEntityGenerator
     {
-        public List<GuildAchievement> GuildAchievementModels { get; set; }
-        public List<StudentAchievement> StudentAchievementModels { get; set; }
-
         public AchievementGenerator(List<Student> students, List<Guild> guilds)
         {
             StudentAchievementModels = students
@@ -32,6 +29,9 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                     GettingTimeUtc = DateTime.UtcNow
                 }).ToList();
         }
+
+        public List<GuildAchievement> GuildAchievementModels { get; set; }
+        public List<StudentAchievement> StudentAchievementModels { get; set; }
 
         public void Seed(ModelBuilder modelBuilder)
         {

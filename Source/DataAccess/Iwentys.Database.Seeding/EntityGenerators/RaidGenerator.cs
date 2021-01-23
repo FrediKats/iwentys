@@ -26,9 +26,9 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 
             foreach (Student student in students.Take(10))
             {
-                var visitor = raid.RegisterVisitor(student);
+                RaidVisitor visitor = raid.RegisterVisitor(student);
                 RaidVisitors.Add(visitor);
-                PartySearchRequests.Add(raid.CreatePartySearchRequest(visitor, new RaidPartySearchRequestArguments() {Description = "Need to add some text"}));
+                PartySearchRequests.Add(raid.CreatePartySearchRequest(visitor, new RaidPartySearchRequestArguments {Description = "Need to add some text"}));
             }
         }
 

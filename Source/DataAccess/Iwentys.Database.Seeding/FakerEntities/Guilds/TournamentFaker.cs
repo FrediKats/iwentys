@@ -13,7 +13,7 @@ namespace Iwentys.Database.Seeding.FakerEntities.Guilds
 
         public CreateCodeMarathonTournamentArguments NewCodeMarathon()
         {
-            return new CreateCodeMarathonTournamentArguments()
+            return new CreateCodeMarathonTournamentArguments
             {
                 ActivityType = CodeMarathonAllowedActivityType.All,
                 MembersType = CodeMarathonAllowedMembersType.All,

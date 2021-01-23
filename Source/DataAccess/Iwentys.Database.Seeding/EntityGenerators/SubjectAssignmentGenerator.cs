@@ -10,10 +10,6 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 {
     public class SubjectAssignmentGenerator : IEntityGenerator
     {
-        public List<SubjectAssignment> SubjectAssignments { get; set; }
-        public List<GroupSubjectAssignment> GroupSubjectAssignments { get; set; }
-        public List<SubjectAssignmentSubmit> SubjectAssignmentSubmits { get; set; }
-
         public SubjectAssignmentGenerator(
             List<Student> students,
             List<StudyGroup> groups,
@@ -24,7 +20,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             GroupSubjectAssignments = new List<GroupSubjectAssignment>();
             SubjectAssignmentSubmits = new List<SubjectAssignmentSubmit>();
 
-            var author = students.First();
+            Student author = students.First();
 
             foreach (Subject subject in subjects)
             {
@@ -33,17 +29,15 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 SubjectAssignment sa = SubjectAssignmentFaker.Instance.Create(subject.Id, assignment);
                 SubjectAssignments.Add(sa);
 
-                foreach (StudyGroup studyGroup in groups)
-                {
-                    GroupSubjectAssignments.Add(new GroupSubjectAssignment { GroupId = studyGroup.Id, SubjectAssignmentId = sa.Id });
-                }
+                foreach (StudyGroup studyGroup in groups) GroupSubjectAssignments.Add(new GroupSubjectAssignment {GroupId = studyGroup.Id, SubjectAssignmentId = sa.Id});
 
-                foreach (Student student in students)
-                {
-                    SubjectAssignmentSubmits.Add(SubjectAssignmentFaker.Instance.CreateSubjectAssignmentSubmit(sa.Id, student.Id));
-                }
+                foreach (Student student in students) SubjectAssignmentSubmits.Add(SubjectAssignmentFaker.Instance.CreateSubjectAssignmentSubmit(sa.Id, student.Id));
             }
         }
+
+        public List<SubjectAssignment> SubjectAssignments { get; set; }
+        public List<GroupSubjectAssignment> GroupSubjectAssignments { get; set; }
+        public List<SubjectAssignmentSubmit> SubjectAssignmentSubmits { get; set; }
 
         public void Seed(ModelBuilder modelBuilder)
         {

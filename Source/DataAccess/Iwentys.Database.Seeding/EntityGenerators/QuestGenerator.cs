@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Bogus;
 using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Features.Quests.Entities;
 using Iwentys.Features.Study.Entities;
@@ -12,9 +10,7 @@ namespace Iwentys.Database.Seeding.EntityGenerators
     public class QuestGenerator : IEntityGenerator
     {
         private const int QuestCount = 10;
-        
-        public List<Quest> Quest { get; }
-        public List<QuestResponse> QuestResponse { get; } = new List<QuestResponse>();
+        private const int QuestResponseCount = 5;
 
         public QuestGenerator(List<Student> students)
         {
@@ -23,19 +19,12 @@ namespace Iwentys.Database.Seeding.EntityGenerators
             Quest = QuestFaker.Instance.CreateQuestFaker(author.Id).Generate(QuestCount);
 
             foreach (Quest quest in Quest)
-            {
-                foreach (Student student in students.Take(5))
-                {
-                    QuestResponse.Add(new QuestResponse()
-                    {
-                        QuestId = quest.Id,
-                        StudentId = student.Id,
-                        ResponseTime = DateTime.UtcNow.AddDays(1),
-                        Description = new Faker().Lorem.Paragraph()
-                    });
-                }
-            }
+            foreach (Student student in students.Take(QuestResponseCount))
+                QuestResponse.Add(QuestFaker.Instance.CreateQuestResponse(quest.Id, student.Id));
         }
+
+        public List<Quest> Quest { get; }
+        public List<QuestResponse> QuestResponse { get; } = new List<QuestResponse>();
 
         public void Seed(ModelBuilder modelBuilder)
         {

@@ -24,7 +24,7 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public TributeInfoResponse CompleteTribute(AuthorizedUser mentor, TributeInfoResponse tribute)
         {
-            return _context.GuildTributeServiceService.CompleteTribute(mentor, GuildTributeFaker.Instance.NewTributeCompleteRequest(tribute.Project.Id)).Result;
+            return _context.GuildTributeServiceService.CompleteTribute(mentor, GuildFaker.Instance.NewTributeCompleteRequest(tribute.Project.Id)).Result;
         }
     }
 }

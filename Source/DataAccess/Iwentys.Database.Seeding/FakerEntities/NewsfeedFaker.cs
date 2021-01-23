@@ -11,6 +11,11 @@ namespace Iwentys.Database.Seeding.FakerEntities
 
         private readonly Faker _faker = new Faker();
 
+        public Newsfeed CreateNewsfeed(int authorId)
+        {
+            return CreateNewsfeedFaker(authorId).Generate();
+        }
+
         public Faker<Newsfeed> CreateNewsfeedFaker(int authorId)
         {
             return new Faker<Newsfeed>()

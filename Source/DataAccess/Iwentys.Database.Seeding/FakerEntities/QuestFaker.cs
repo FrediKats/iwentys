@@ -31,5 +31,16 @@ namespace Iwentys.Database.Seeding.FakerEntities
                 price,
                 DateTime.UtcNow.AddDays(1));
         }
+
+        public QuestResponse CreateQuestResponse(int questId, int studentId)
+        {
+            return new QuestResponse
+            {
+                QuestId = questId,
+                StudentId = studentId,
+                ResponseTime = DateTime.UtcNow.AddDays(1),
+                Description = new Faker().Lorem.Paragraph()
+            };
+        }
     }
 }
