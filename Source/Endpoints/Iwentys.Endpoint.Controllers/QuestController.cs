@@ -22,7 +22,6 @@ namespace Iwentys.Endpoint.Controllers
         [HttpGet("{questId}")]
         public async Task<ActionResult<QuestInfoDto>> Get(int questId)
         {
-            AuthorizedUser user = this.TryAuthWithToken();
             QuestInfoDto quests = await _questService.Get(questId);
             return Ok(quests);
         }

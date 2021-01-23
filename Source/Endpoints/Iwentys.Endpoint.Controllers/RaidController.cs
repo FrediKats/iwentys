@@ -30,7 +30,6 @@ namespace Iwentys.Endpoint.Controllers
         [HttpGet("profile")]
         public async Task<ActionResult<List<RaidProfileDto>>> Get()
         {
-            AuthorizedUser user = this.TryAuthWithToken();
             List<RaidProfileDto> result = await _raidService.Get(); 
             return Ok(result);
         }

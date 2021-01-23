@@ -7,7 +7,6 @@ using Iwentys.Common.Tools;
 using Iwentys.Features.AccountManagement.Domain;
 using Iwentys.Features.AccountManagement.Entities;
 using Iwentys.Features.Assignments.Entities;
-using Iwentys.Features.Assignments.Models;
 using Iwentys.Features.Study.Entities;
 using Iwentys.Features.Study.SubjectAssignments.Domain;
 using Iwentys.Features.Study.SubjectAssignments.Entities;
@@ -27,7 +26,6 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
         private readonly IGenericRepository<SubjectAssignment> _subjectAssignmentRepository;
         private readonly IGenericRepository<SubjectAssignmentSubmit> _subjectAssignmentSubmitRepository;
         private readonly IGenericRepository<Subject> _subjectRepository;
-        private readonly IGenericRepository<Student> _studentRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         public SubjectAssignmentService(IUnitOfWork unitOfWork)
@@ -40,7 +38,6 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
             _groupSubjectAssignmentRepository = _unitOfWork.GetRepository<GroupSubjectAssignment>();
             _groupSubjectRepository = _unitOfWork.GetRepository<GroupSubject>();
             _subjectRepository = _unitOfWork.GetRepository<Subject>();
-            _studentRepository = _unitOfWork.GetRepository<Student>();
             _assignmentRepository = _unitOfWork.GetRepository<Assignment>();
             _studentAssignmentRepository = _unitOfWork.GetRepository<StudentAssignment>();
         }
@@ -72,28 +69,18 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
         public async Task<SubjectAssignmentDto> CreateSubjectAssignment(AuthorizedUser user, int subjectId, SubjectAssignmentCreateArguments arguments)
         {
             Subject subject = await _subjectRepository.GetById(subjectId);
-            IwentysUser iwentysUser = await _iwentysUserRepository.GetById(user.Id);
-            SubjectTeacher teacher = iwentysUser.EnsureIsTeacher(subject);
-
-            List<Student> members = await _groupSubjectRepository
+            IwentysUser creator = await _iwentysUserRepository.GetById(user.Id);
+            SubjectTeacher teacher = creator.EnsureIsTeacher(subject);
+            List<Student> groupMember = await _groupSubjectRepository
                 .Get()
                 .Where(gs => gs.SubjectId == subjectId)
                 .Select(gs => gs.StudyGroup)
                 .SelectMany(g => g.Students)
                 .ToListAsync();
 
-            var assignmentCreateArguments = new AssignmentCreateArguments
-            {
-                Title = arguments.Title,
-                Description = arguments.Description,
-                DeadlineTimeUtc = arguments.DeadlineUtc,
-                SubjectId = subjectId,
-                Link = arguments.Link
-            };
-
-            var assignment = Assignment.Create(iwentysUser, assignmentCreateArguments);
+            var assignment = Assignment.Create(creator, arguments.ConvertToAssignmentCreateArguments(subjectId));
             await _assignmentRepository.InsertAsync(assignment);
-            List<StudentAssignment> studentAssignments = members.SelectToList(s => new StudentAssignment
+            List<StudentAssignment> studentAssignments = groupMember.SelectToList(s => new StudentAssignment
             {
                 StudentId = s.Id,
                 Assignment = assignment,
@@ -117,7 +104,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
         {
             Subject subject = await _subjectRepository.GetById(searchArguments.SubjectId);
             IwentysUser iwentysUser = await _iwentysUserRepository.GetById(user.Id);
-            SubjectTeacher teacher = iwentysUser.EnsureIsTeacher(subject);
+            iwentysUser.EnsureIsTeacher(subject);
 
             return await SearchSubjectAssignmentSubmits(searchArguments);
         }
@@ -167,7 +154,6 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
             await _unitOfWork.CommitAsync();
         }
 
-        //TODO: add pagination
         private async Task<List<SubjectAssignmentSubmitDto>> SearchSubjectAssignmentSubmits(SubjectAssignmentSubmitSearchArguments searchArguments)
         {
             return await _subjectAssignmentSubmitRepository

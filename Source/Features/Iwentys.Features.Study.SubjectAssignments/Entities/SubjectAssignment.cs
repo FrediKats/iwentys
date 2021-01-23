@@ -35,7 +35,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Entities
         {
             return new SubjectAssignment
             {
-                AssignmentId = assignment.Id,
+                Assignment = assignment,
                 SubjectId = subject.Id,
                 AuthorId = teacher.User.Id
             };

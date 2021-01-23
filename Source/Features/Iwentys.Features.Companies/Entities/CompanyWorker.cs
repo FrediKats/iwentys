@@ -16,7 +16,7 @@ namespace Iwentys.Features.Companies.Entities
 
         public CompanyWorkerType Type { get; private set; }
         public int? ApprovedById { get; private set; }
-        public virtual IwentysUser ApprovedBy { get; private set; }
+        public virtual IwentysUser ApprovedBy { get; init; }
 
         public static Expression<Func<CompanyWorker, bool>> IsRequested => worker => worker.Type == CompanyWorkerType.Requested;
 

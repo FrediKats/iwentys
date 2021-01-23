@@ -21,7 +21,6 @@ namespace Iwentys.Endpoint.Controllers.Gamification
         [HttpGet("{studentId}")]
         public async Task<ActionResult<KarmaStatistic>> GetUserKarmaStatistic(int studentId)
         {
-            AuthorizedUser authorizedUser = this.TryAuthWithToken();
             KarmaStatistic karmaStatistic = await _karmaService.GetStatistic(studentId);
             return Ok(karmaStatistic);
         }
