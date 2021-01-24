@@ -1,10 +1,14 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+
+using Blazor.Extensions.Logging;
+
 using Blazored.LocalStorage;
 using Iwentys.Endpoint.Client.Tools;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Iwentys.Endpoint.Client
 {
@@ -24,6 +28,12 @@ namespace Iwentys.Endpoint.Client
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("Iwentys.Endpoint.ServerAPI"));
 
             builder.Services.AddApiAuthorization();
+
+            builder.Services.AddLogging(b => b
+                .AddBrowserConsole()
+                .SetMinimumLevel(LogLevel.Trace)
+            );
+
 
             return builder.Build().RunAsync();
         }

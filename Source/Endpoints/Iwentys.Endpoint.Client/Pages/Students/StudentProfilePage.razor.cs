@@ -15,6 +15,7 @@ using Iwentys.Features.Gamification.Entities;
 using Iwentys.Features.GithubIntegration.Models;
 using Iwentys.Features.Study.Models;
 using Iwentys.Features.Study.Models.Students;
+using Microsoft.Extensions.Logging;
 
 namespace Iwentys.Endpoint.Client.Pages.Students
 {
@@ -35,6 +36,8 @@ namespace Iwentys.Endpoint.Client.Pages.Students
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
+
+            Logger.LogTrace("Load student profile");
             
             if (StudentId is null)
             {

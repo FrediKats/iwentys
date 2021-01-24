@@ -1,8 +1,10 @@
 ﻿@using Blazored.LocalStorage
+@using Microsoft.Extensions.Logging
 
 @inject HttpClient _httpClient
 @inject ILocalStorageService _localStorage
 @inject NavigationManager _navigationManagerClient
+@inject ILogger<DependencyInjectionPage> _logger
 
 @code {
 
