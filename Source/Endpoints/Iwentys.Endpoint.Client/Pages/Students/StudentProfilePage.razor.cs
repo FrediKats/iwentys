@@ -21,6 +21,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
 {
     public partial class StudentProfilePage
     {
+        private bool _isSelf;
         private StudentInfoDto _studentFullProfile;
         private List<AchievementInfoDto> _achievements;
         private List<CodingActivityInfoResponse> _codingActivityInfo;
@@ -38,14 +39,16 @@ namespace Iwentys.Endpoint.Client.Pages.Students
             await base.OnInitializedAsync();
 
             Logger.LogTrace("Load student profile");
-            
+
             if (StudentId is null)
             {
                 _studentFullProfile = await ClientHolder.Student.GetSelf();
+                _isSelf = true;
             }
             else
             {
                 _studentFullProfile = await ClientHolder.Student.Get(StudentId.Value);
+                _isSelf = false;
             }
 
             _codingActivityInfo = await ClientHolder.Github.Get(_studentFullProfile.Id);

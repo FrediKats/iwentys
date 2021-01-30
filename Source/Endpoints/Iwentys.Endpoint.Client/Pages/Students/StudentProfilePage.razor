@@ -16,7 +16,10 @@
                         <MatHeadline6>Top-@_leaderboardRow.Position</MatHeadline6>
                     </div>
                 }
-                <MatButton Link="/student/profile/edit">Edit</MatButton>
+                @if (_isSelf)
+                {
+                    <MatButton Link="/student/profile/edit">Edit</MatButton>
+                }
             </div>
 
             <div class="profile-element dark-elevation-01">
