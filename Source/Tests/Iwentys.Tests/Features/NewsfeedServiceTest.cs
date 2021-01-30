@@ -1,4 +1,6 @@
-﻿using Iwentys.Features.AccountManagement.Domain;
+﻿using System.Threading.Tasks;
+using Iwentys.Features.AccountManagement.Domain;
+using Iwentys.Features.Newsfeeds.Models;
 using Iwentys.Features.Study.Models;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
@@ -9,16 +11,16 @@ namespace Iwentys.Tests.Features
     public class NewsfeedServiceTest
     {
         [Test]
-        public void CreateSubjectNews_Ok()
+        public async Task CreateSubjectNews_Ok()
         {
-            //GroupProfileResponseDto studyGroup = testCase.StudyTestCaseContext.WithStudyGroup();
-            //AuthorizedUser student = testCase.StudyTestCaseContext.WithNewStudent(studyGroup);
-
             TestCaseContext testCase = TestCaseContext.Case();
             AuthorizedUser admin = testCase.AccountManagementTestCaseContext.WithUser(true);
             SubjectProfileDto subject = testCase.NewsfeedTestCaseContext.WithSubject();
 
-            testCase.NewsfeedTestCaseContext.WithSubjectNews(subject, admin);
+            NewsfeedViewModel createdNewsfeed = testCase.NewsfeedTestCaseContext.WithSubjectNews(subject, admin);
+            NewsfeedViewModel newsfeedFromService = await testCase.NewsfeedService.Get(createdNewsfeed.Id);
+
+            Assert.AreEqual(createdNewsfeed.Content, newsfeedFromService.Content);
         }
     }
 }

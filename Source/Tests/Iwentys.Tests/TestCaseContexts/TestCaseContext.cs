@@ -71,6 +71,7 @@ namespace Iwentys.Tests.TestCaseContexts
             var achievementProvider = new AchievementProvider(UnitOfWork);
             var githubApiAccessor = new DummyGithubApiAccessor();
 
+            //TODO: use DI (AspStartupExtensions)
             IwentysUserService = new IwentysUserService(UnitOfWork);
             StudentService = new StudentService(UnitOfWork);
             GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, UnitOfWork);
@@ -109,11 +110,6 @@ namespace Iwentys.Tests.TestCaseContexts
         public static TestCaseContext Case()
         {
             return new TestCaseContext();
-        }
-
-        public static class Constants
-        {
-            public const string GithubUsername = "GhUser";
         }
     }
 }
