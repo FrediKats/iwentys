@@ -10,6 +10,7 @@ namespace Iwentys.Endpoint.Controllers
 {
     [Route("api/assignments")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "Assignments")]
     public class AssignmentController : ControllerBase
     {
         private readonly AssignmentService _assignmentService;

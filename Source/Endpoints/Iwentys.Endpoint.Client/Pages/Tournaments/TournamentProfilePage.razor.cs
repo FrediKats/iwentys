@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Features.Guilds.Tournaments.Models;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Tournaments
 {
@@ -11,19 +11,19 @@ namespace Iwentys.Endpoint.Client.Pages.Tournaments
         {
             await base.OnInitializedAsync();
 
-            _tournament = await ClientHolder.Tournament.Get(TournamentId);
+            _tournament = await ClientHolder.ApiTournamentsGetAsync(TournamentId);
         }
 
         private async Task RegisterToTournament()
         {
-            await ClientHolder.Tournament.RegisterToTournament(_tournament.Id);
-            _tournament = await ClientHolder.Tournament.Get(TournamentId);
+            await ClientHolder.ApiTournamentsRegisterAsync(_tournament.Id);
+            _tournament = await ClientHolder.ApiTournamentsGetAsync(TournamentId);
         }
 
         private async Task ForceUpdate()
         {
-            await ClientHolder.Tournament.ForceUpdate(_tournament.Id);
-            _tournament = await ClientHolder.Tournament.Get(TournamentId);
+            await ClientHolder.ApiTournamentsForceUpdateAsync(_tournament.Id);
+            _tournament = await ClientHolder.ApiTournamentsGetAsync(TournamentId);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Features.Guilds.Enums;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Guilds
 {
@@ -11,7 +11,8 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
         {
             await base.OnInitializedAsync();
 
-            _membership = await ClientHolder.GuildMember.GetUserMembership(SelectedGuildProfile.Id);
+            //TODO: null value handling
+            _membership = await ClientHolder.ApiGuildMembershipAsync(SelectedGuildProfile.Id);
         }
 
         private async Task LeaveGuild()

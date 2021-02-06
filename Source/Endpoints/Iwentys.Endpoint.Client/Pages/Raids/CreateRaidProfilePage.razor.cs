@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Iwentys.Features.Raids.Models;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Raids
 {
@@ -13,7 +13,7 @@ namespace Iwentys.Endpoint.Client.Pages.Raids
 
         private async Task Create()
         {
-            await ClientHolder.Raid.Create(new RaidCreateArguments
+            await ClientHolder.ApiRaidsProfilePostAsync(new RaidCreateArguments
             {
                 Title = _name,
                 Description = _description,

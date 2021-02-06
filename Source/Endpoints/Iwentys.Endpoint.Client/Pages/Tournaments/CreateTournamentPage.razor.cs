@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Iwentys.Features.Guilds.Tournaments.Enums;
-using Iwentys.Features.Guilds.Tournaments.Models;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Tournaments
 {
@@ -26,7 +25,7 @@ namespace Iwentys.Endpoint.Client.Pages.Tournaments
                 MembersType = CodeMarathonAllowedMembersType.All,
             };
 
-            await ClientHolder.Tournament.CreateCodeMarathon(tournamentArguments);
+            await ClientHolder.ApiTournamentsCodeMarathonAsync(tournamentArguments);
         }
     }
 }

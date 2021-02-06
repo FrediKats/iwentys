@@ -1,8 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Features.Gamification.Models;
-using Iwentys.Features.Guilds.Models;
-using Iwentys.Features.Study.Models;
-using Iwentys.Features.Study.Models.Students;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Students
 {
@@ -17,10 +14,10 @@ namespace Iwentys.Endpoint.Client.Pages.Students
         {
             await base.OnInitializedAsync();
 
-            _guild = await ClientHolder.Guild.GetForMember(StudentProfile.Id);
+            _self = await ClientHolder.ApiStudentSelfAsync();
+            _guild = await ClientHolder.ApiGuildForMemberAsync(StudentProfile.Id);
             _group = await ClientHolder.StudyGroup.FindStudentGroup(StudentProfile.Id);
-            _self = await ClientHolder.Student.GetSelf();
-            _userKarmaStatistic = await ClientHolder.Karma.GetUserKarmaStatistic(StudentProfile.Id);
+            _userKarmaStatistic = await ClientHolder.ApiKarmaGetAsync(StudentProfile.Id);
         }
 
         private string LinkToGuild => $"guild/profile/{_guild.Id}";
@@ -40,8 +37,8 @@ namespace Iwentys.Endpoint.Client.Pages.Students
 
         private async Task SendKarma()
         {
-             await ClientHolder.Karma.SendUserKarma(StudentProfile.Id);
-            _userKarmaStatistic = await ClientHolder.Karma.GetUserKarmaStatistic(StudentProfile.Id);
+             await ClientHolder.ApiKarmaPutAsync(StudentProfile.Id);
+            _userKarmaStatistic = await ClientHolder.ApiKarmaGetAsync(StudentProfile.Id);
         }
 
         private bool IsCanRemoveKarma()
@@ -53,8 +50,8 @@ namespace Iwentys.Endpoint.Client.Pages.Students
 
         private async Task RemoveKarma()
         {
-            await ClientHolder.Karma.RemoveUserKarma(StudentProfile.Id);
-            _userKarmaStatistic = await ClientHolder.Karma.GetUserKarmaStatistic(StudentProfile.Id);
+            await ClientHolder.ApiKarmaDeleteAsync(StudentProfile.Id);
+            _userKarmaStatistic = await ClientHolder.ApiKarmaGetAsync(StudentProfile.Id);
         }
     }
 }

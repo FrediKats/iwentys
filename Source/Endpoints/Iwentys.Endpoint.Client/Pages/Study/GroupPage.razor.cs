@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Features.Study.Models;
-using Iwentys.Features.Study.Models.Students;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Study
 {

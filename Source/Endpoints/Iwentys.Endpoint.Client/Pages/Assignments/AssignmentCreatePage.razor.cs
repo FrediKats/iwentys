@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Features.Assignments.Models;
-using Iwentys.Features.Study.Models;
-using Iwentys.Features.Study.Models.Students;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Assignments
 {
@@ -23,11 +21,12 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
         {
             await base.OnInitializedAsync();
 
-            _currentStudent = await ClientHolder.Student.GetSelf();
+            _currentStudent = await ClientHolder.ApiStudentSelfAsync();
             _studyGroup = await ClientHolder.StudyGroup.FindStudentGroup(_currentStudent.Id);
             if (_studyGroup is not null)
             {
-                List<SubjectProfileDto> subject = await ClientHolder.Subject.GetGroupSubjects(_studyGroup.Id);
+                List<SubjectProfileDto> subject = new List<SubjectProfileDto>();
+                subject.AddRange(await ClientHolder.ApiSubjectSearchForGroupAsync(_studyGroup.Id))
 
                 //FYI: this value is used in selector
                 subject.Insert(0, null);
@@ -37,8 +36,16 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
 
         private async Task ExecuteAssignmentCreation()
         {
-            var createArguments = new AssignmentCreateArguments(_title, _description, _selectedSubject?.Id, _deadline, _forGroup);
-            await ClientHolder.Assignment.Create(createArguments);
+            var createArguments = new AssignmentCreateArguments
+            {
+                Title = _title,
+                DeadlineTimeUtc = _deadline,
+                Description = _description,
+                ForStudyGroup = _forGroup,
+                Link = null,
+                SubjectId = _selectedSubject?.Id
+            };
+            await ClientHolder.ApiAssignmentsPostAsync(createArguments);
             NavigationManager.NavigateTo("/assignment");
         }
 

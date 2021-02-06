@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using Iwentys.Endpoint.Client.Tools;
-using Iwentys.Endpoint.Sdk;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
 
@@ -15,12 +14,13 @@ namespace Iwentys.Endpoint.Client.Shared
         public NavigationManager NavigationManager => _navigationManagerClient;
         public ILogger Logger => _logger;
 
-        public ControllerClientHolder ClientHolder { get; set; }
+        public Iwentys.Sdk.Client ClientHolder { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             HttpClient httpClient = await _httpClient.TrySetHeader(_localStorage);
-            ClientHolder = new ControllerClientHolder(httpClient);
+            ClientHolder = new Iwentys.Sdk.Client(httpClient.BaseAddress.AbsoluteUri, httpClient);
+            //ClientHolder = new ControllerClientHolder(httpClient);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Iwentys.Features.Guilds.Tournaments.Models;
+﻿using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Tournaments
 {

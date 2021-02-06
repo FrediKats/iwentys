@@ -1,10 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Features.Achievements.Models;
-using Iwentys.Features.Guilds.Models;
-using Iwentys.Features.Guilds.Tournaments.Models;
-using Iwentys.Features.Guilds.Tributes.Models;
-using Iwentys.Features.Newsfeeds.Models;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Guilds
 {
@@ -12,8 +8,8 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
     {
         private GuildProfileDto _guild;
         private GuildMemberLeaderBoardDto _memberLeaderBoard;
-        private List<NewsfeedViewModel> _newsfeeds;
-        private List<AchievementInfoDto> _achievements;
+        private ICollection<NewsfeedViewModel> _newsfeeds;
+        private ICollection<AchievementInfoDto> _achievements;
         private TributeInfoResponse _activeTribute;
         private TournamentInfoResponse _activeTournament;
         
@@ -22,7 +18,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
             await base.OnInitializedAsync();
 
             _guild = await ClientHolder.Guild.Get(GuildId);
-            _newsfeeds = await ClientHolder.Newsfeed.GetForGuild(GuildId);
+            _newsfeeds = await ClientHolder.ApiNewsfeedGuildGetAsync(GuildId);
             _memberLeaderBoard = await ClientHolder.Guild.GetGuildMemberLeaderBoard(_guild.Id);
             _activeTribute = await ClientHolder.GuildTribute.FindStudentActiveTribute();
             _activeTournament = await ClientHolder.Tournament.FindGuildActiveTournament(_guild.Id);

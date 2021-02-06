@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Iwentys.Database;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
@@ -34,7 +35,7 @@ namespace Iwentys.Endpoint.Server
                 settings.Store.ApplicationName = "Samples.AspNetCore";
             });
             
-            services.AddControllersWithViews();/*.AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));*/
+            services.AddControllersWithViews().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
             services.AddSwaggerGen();
             services.AddRazorPages();
 

@@ -8,6 +8,7 @@ namespace Iwentys.Endpoint.Controllers
 {
     [Route("api/achievements")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "Achievements")]
     public class AchievementController : ControllerBase
     {
         private readonly AchievementService _achievementService;
