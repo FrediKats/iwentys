@@ -16,22 +16,22 @@
                     <MatHeadline6>
                         @_submit.Student.GetFullName()
                     </MatHeadline6>
-                    @switch (_submit.GetState())
+                    @switch (_submit.State)
                     {
-                        case SubjectAssignmentSubmitDto.AssignmentSubmitState.Open:
+                        case AssignmentSubmitState.Open:
                             break;
-                        case SubjectAssignmentSubmitDto.AssignmentSubmitState.Approved:
+                        case AssignmentSubmitState.Approved:
                             <MatBody2>
                                 Approved (@_submit.ApproveTimeUtc)
                             </MatBody2>
                             break;
-                        case SubjectAssignmentSubmitDto.AssignmentSubmitState.Rejected:
+                        case AssignmentSubmitState.Rejected:
                             <MatBody2>
                                 Rejected (@_submit.RejectTimeUtc)
                             </MatBody2>
                             break;
                         default:
-                            throw new ArgumentOutOfRangeException(nameof(SubjectAssignmentSubmitDto.AssignmentSubmitState), "Unsupported assignment state");
+                            throw new ArgumentOutOfRangeException(nameof(AssignmentSubmitState), "Unsupported assignment state");
                     }
                 </div>
             </MatCardContent>

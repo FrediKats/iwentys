@@ -18,6 +18,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Models
             ApproveTimeUtc = submit.ApproveTimeUtc;
             RejectTimeUtc = submit.RejectTimeUtc;
             Comment = submit.Comment;
+            State = GetState();
         }
 
         public SubjectAssignmentSubmitDto()
@@ -34,6 +35,8 @@ namespace Iwentys.Features.Study.SubjectAssignments.Models
         public DateTime? ApproveTimeUtc { get; set; }
         public DateTime? RejectTimeUtc { get; set; }
         public string Comment { get; set; }
+        public AssignmentSubmitState State { get; set; }
+
 
         public AssignmentSubmitState GetState()
         {

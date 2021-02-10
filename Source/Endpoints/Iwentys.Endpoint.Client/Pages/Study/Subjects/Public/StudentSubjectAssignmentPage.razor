@@ -45,7 +45,7 @@
                             <MatHeadline6>
                                 Submit for [@submit.SubjectAssignmentTitle]
                             </MatHeadline6>
-                            @switch (submit.GetState())
+                            @switch (submit.State)
                             {
                                 case AssignmentSubmitState.Open:
                                     break;
@@ -60,7 +60,7 @@
                                     </MatBody2>
                                     break;
                                 default:
-                                    throw new ArgumentOutOfRangeException(nameof(SubjectAssignmentSubmitDto.AssignmentSubmitState), "Unsupported assignment state");
+                                    throw new ArgumentOutOfRangeException(nameof(AssignmentSubmitState), "Unsupported assignment state");
                             }
                         </div>
                     </MatCardContent>

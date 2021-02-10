@@ -24,7 +24,8 @@ namespace Iwentys.Endpoint.Client.Tools
 
         public async Task Login(int userId)
         {
-            IwentysAuthResponse iwentysAuthResponse = await new AuthControllerClient(_httpClient).Login(userId);
+            var client = new Iwentys.Sdk.Client(_httpClient.BaseAddress.AbsoluteUri, _httpClient);
+            IwentysAuthResponse iwentysAuthResponse = await client.ApiIsuauthLoginAsync(userId);
             await _localStorage.SetItemAsync("authToken", iwentysAuthResponse.Token);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", iwentysAuthResponse.Token);
         }

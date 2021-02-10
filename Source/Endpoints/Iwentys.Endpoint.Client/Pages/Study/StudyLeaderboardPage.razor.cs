@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Sdk;
 
@@ -6,8 +7,8 @@ namespace Iwentys.Endpoint.Client.Pages.Study
 {
     public partial class StudyLeaderboardPage
     {
-        private ICollection<StudyCourseInfoDto> _studyCourses;
-        private ICollection<GroupProfileResponseDto> _groups;
+        private List<StudyCourseInfoDto> _studyCourses;
+        private List<GroupProfileResponseDto> _groups;
 
         public StudyCourseInfoDto _selectedCourse;
         private ICollection<StudyLeaderboardRowDto> _studentProfiles;
@@ -17,14 +18,14 @@ namespace Iwentys.Endpoint.Client.Pages.Study
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            _studyCourses = await ClientHolder.ApiStudyCoursesAsync();
+            _studyCourses = (await ClientHolder.ApiStudyCoursesAsync()).ToList();
         }
 
         private async Task OnCurseSelected(StudyCourseInfoDto value)
         {
             _selectedCourse = value;
             _studentProfiles = await ClientHolder.ApiLeaderboardStudyAsync(null, value.CourseId, null, null, null, null);
-            _groups = await ClientHolder.ApiStudygroupAsync(value.CourseId);
+            _groups = (await ClientHolder.ApiStudygroupAsync(value.CourseId)).ToList();
         }
 
         private async Task OnGroupSelect(GroupProfileResponseDto value)
