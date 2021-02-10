@@ -16,7 +16,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
 
             _self = await ClientHolder.ApiStudentSelfAsync();
             _guild = await ClientHolder.ApiGuildForMemberAsync(StudentProfile.Id);
-            _group = await ClientHolder.StudyGroup.FindStudentGroup(StudentProfile.Id);
+            _group = await ClientHolder.ApiStudygroupByStudentAsync(StudentProfile.Id);
             _userKarmaStatistic = await ClientHolder.ApiKarmaGetAsync(StudentProfile.Id);
         }
 
@@ -25,7 +25,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
 
         private Task MakeGroupAdmin()
         {
-            return ClientHolder.StudyGroup.MakeGroupAdmin(StudentProfile.Id);
+            return ClientHolder.ApiStudygroupPromoteAdminAsync(StudentProfile.Id);
         }
 
         private bool IsCanSendKarma()

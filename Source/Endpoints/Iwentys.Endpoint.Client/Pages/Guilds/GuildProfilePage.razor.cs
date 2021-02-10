@@ -17,12 +17,12 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
         {
             await base.OnInitializedAsync();
 
-            _guild = await ClientHolder.Guild.Get(GuildId);
+            _guild = await ClientHolder.ApiGuildGetAsync(GuildId);
             _newsfeeds = await ClientHolder.ApiNewsfeedGuildGetAsync(GuildId);
-            _memberLeaderBoard = await ClientHolder.Guild.GetGuildMemberLeaderBoard(_guild.Id);
-            _activeTribute = await ClientHolder.GuildTribute.FindStudentActiveTribute();
-            _activeTournament = await ClientHolder.Tournament.FindGuildActiveTournament(_guild.Id);
-            _achievements = await ClientHolder.Achievement.GetForGuild(GuildId);
+            _memberLeaderBoard = await ClientHolder.ApiGuildMemberLeaderboardAsync(_guild.Id);
+            _activeTribute = await ClientHolder.ApiGuildTributeGetForStudentActiveAsync();
+            _activeTournament = await ClientHolder.ApiTournamentsForGuildAsync(_guild.Id);
+            _achievements = await ClientHolder.ApiAchievementsGuildsAsync(GuildId);
         }
 
         private string LinkToCreateNewsfeedPage()

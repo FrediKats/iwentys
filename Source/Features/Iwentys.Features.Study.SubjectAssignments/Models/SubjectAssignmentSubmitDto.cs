@@ -1,18 +1,12 @@
 ﻿using System;
 using Iwentys.Features.Study.Models.Students;
 using Iwentys.Features.Study.SubjectAssignments.Entities;
+using Iwentys.Features.Study.SubjectAssignments.Enums;
 
 namespace Iwentys.Features.Study.SubjectAssignments.Models
 {
     public class SubjectAssignmentSubmitDto
     {
-        public enum AssignmentSubmitState
-        {
-            Open,
-            Approved,
-            Rejected
-        }
-
         public SubjectAssignmentSubmitDto(SubjectAssignmentSubmit submit) : this()
         {
             Id = submit.Id;

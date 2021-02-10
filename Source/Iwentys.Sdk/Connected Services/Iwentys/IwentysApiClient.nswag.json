@@ -5,264 +5,6 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/achievements/students/{studentId}": {
-      "get": {
-        "tags": [
-          "Achievement"
-        ],
-        "operationId": "studentsAll",
-        "parameters": [
-          {
-            "name": "studentId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AchievementInfoDto"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AchievementInfoDto"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AchievementInfoDto"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/achievements/guilds/{guildId}": {
-      "get": {
-        "tags": [
-          "Achievement"
-        ],
-        "operationId": "guilds",
-        "parameters": [
-          {
-            "name": "guildId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AchievementInfoDto"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AchievementInfoDto"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AchievementInfoDto"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/assignments": {
-      "get": {
-        "tags": [
-          "Assignment"
-        ],
-        "operationId": "assignmentsAll",
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AssignmentInfoDto"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AssignmentInfoDto"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AssignmentInfoDto"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Assignment"
-        ],
-        "operationId": "assignments",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AssignmentCreateArguments"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AssignmentCreateArguments"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AssignmentCreateArguments"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AssignmentInfoDto"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AssignmentInfoDto"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AssignmentInfoDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/assignments/{assignmentId}/complete": {
-      "get": {
-        "tags": [
-          "Assignment"
-        ],
-        "operationId": "complete",
-        "parameters": [
-          {
-            "name": "assignmentId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/assignments/{assignmentId}/undo": {
-      "get": {
-        "tags": [
-          "Assignment"
-        ],
-        "operationId": "undo",
-        "parameters": [
-          {
-            "name": "assignmentId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/assignments/{assignmentId}/delete": {
-      "get": {
-        "tags": [
-          "Assignment"
-        ],
-        "operationId": "delete",
-        "parameters": [
-          {
-            "name": "assignmentId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
     "/api/companies": {
       "get": {
         "tags": [
@@ -1539,7 +1281,7 @@
         "tags": [
           "GuildTestTaskService"
         ],
-        "operationId": "complete2",
+        "operationId": "complete",
         "parameters": [
           {
             "name": "guildId",
@@ -1844,7 +1586,7 @@
         "tags": [
           "GuildTribute"
         ],
-        "operationId": "complete3",
+        "operationId": "complete2",
         "requestBody": {
           "content": {
             "application/json": {
@@ -3258,7 +3000,7 @@
         "tags": [
           "Quest"
         ],
-        "operationId": "complete4",
+        "operationId": "complete3",
         "parameters": [
           {
             "name": "questId",
@@ -4769,33 +4511,6 @@
   },
   "components": {
     "schemas": {
-      "AchievementInfoDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "gettingTimeUtc": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "imageUrl": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
       "IwentysUserInfoDto": {
         "type": "object",
         "additionalProperties": false,
@@ -4836,320 +4551,6 @@
             "format": "int32"
           },
           "avatarUrl": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "StudySemester": {
-        "type": "string",
-        "enum": [
-          "Y19H2",
-          "Y20H1",
-          "Y20H2",
-          "Y21H1"
-        ]
-      },
-      "StudentGraduationYear": {
-        "type": "string",
-        "enum": [
-          "Undefined",
-          "Y20",
-          "Y21",
-          "Y22",
-          "Y23",
-          "Y24"
-        ]
-      },
-      "StudyProgram": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "StudyCourse": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "graduationYear": {
-            "$ref": "#/components/schemas/StudentGraduationYear"
-          },
-          "studyProgramId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "studyProgram": {
-            "$ref": "#/components/schemas/StudyProgram"
-          }
-        }
-      },
-      "StudentType": {
-        "type": "string",
-        "enum": [
-          "OtherOrUndefined",
-          "Budgetary",
-          "Contract"
-        ]
-      },
-      "Student": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "firstName": {
-            "type": "string",
-            "nullable": true
-          },
-          "middleName": {
-            "type": "string",
-            "nullable": true
-          },
-          "secondName": {
-            "type": "string",
-            "nullable": true
-          },
-          "isAdmin": {
-            "type": "boolean"
-          },
-          "githubUsername": {
-            "type": "string",
-            "nullable": true
-          },
-          "creationTime": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "lastOnlineTime": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "barsPoints": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "avatarUrl": {
-            "type": "string",
-            "nullable": true
-          },
-          "type": {
-            "$ref": "#/components/schemas/StudentType"
-          },
-          "groupId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "group": {
-            "$ref": "#/components/schemas/StudyGroup"
-          }
-        }
-      },
-      "StudyGroup": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "groupName": {
-            "type": "string",
-            "nullable": true
-          },
-          "studyCourseId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "studyCourse": {
-            "$ref": "#/components/schemas/StudyCourse"
-          },
-          "groupAdminId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "students": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/Student"
-            }
-          },
-          "groupSubjects": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/GroupSubject"
-            }
-          }
-        }
-      },
-      "UniversitySystemUser": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "firstName": {
-            "type": "string",
-            "nullable": true
-          },
-          "middleName": {
-            "type": "string",
-            "nullable": true
-          },
-          "secondName": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "GroupSubject": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "subjectId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "subject": {
-            "$ref": "#/components/schemas/Subject"
-          },
-          "studySemester": {
-            "$ref": "#/components/schemas/StudySemester"
-          },
-          "studyGroupId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "studyGroup": {
-            "$ref": "#/components/schemas/StudyGroup"
-          },
-          "lectorTeacherId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "lectorTeacher": {
-            "$ref": "#/components/schemas/UniversitySystemUser"
-          },
-          "practiceTeacherId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "practiceTeacher": {
-            "$ref": "#/components/schemas/UniversitySystemUser"
-          },
-          "serializedGoogleTableConfig": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "Subject": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "groupSubjects": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/GroupSubject"
-            }
-          }
-        }
-      },
-      "AssignmentInfoDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "creationTimeUtc": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "deadlineTimeUtc": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "creator": {
-            "$ref": "#/components/schemas/IwentysUserInfoDto"
-          },
-          "subject": {
-            "$ref": "#/components/schemas/Subject"
-          },
-          "isCompeted": {
-            "type": "boolean"
-          }
-        }
-      },
-      "AssignmentCreateArguments": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "subjectId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "deadlineTimeUtc": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "forStudyGroup": {
-            "type": "boolean"
-          },
-          "link": {
             "type": "string",
             "nullable": true
           }
@@ -6124,6 +5525,23 @@
             }
           }
         }
+      },
+      "StudySemester": {
+        "type": "string",
+        "enum": [
+          "Y19H2",
+          "Y20H1",
+          "Y20H2",
+          "Y21H1"
+        ]
+      },
+      "StudentType": {
+        "type": "string",
+        "enum": [
+          "OtherOrUndefined",
+          "Budgetary",
+          "Contract"
+        ]
       },
       "StudentInfoDto": {
         "type": "object",

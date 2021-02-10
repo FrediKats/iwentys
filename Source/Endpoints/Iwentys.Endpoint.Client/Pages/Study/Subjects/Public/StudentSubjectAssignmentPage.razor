@@ -1,6 +1,5 @@
 ﻿@page "/subject/{SubjectId:int}/assignments"
 
-@using Iwentys.Features.Study.SubjectAssignments.Models
 @using Iwentys.Sdk
 @inherits DependencyInjectionPage
 
@@ -48,14 +47,14 @@
                             </MatHeadline6>
                             @switch (submit.GetState())
                             {
-                                case SubjectAssignmentSubmitDto.AssignmentSubmitState.Open:
+                                case AssignmentSubmitState.Open:
                                     break;
-                                case SubjectAssignmentSubmitDto.AssignmentSubmitState.Approved:
+                                case AssignmentSubmitState.Approved:
                                     <MatBody2>
                                         Approved (@submit.ApproveTimeUtc)
                                     </MatBody2>
                                     break;
-                                case SubjectAssignmentSubmitDto.AssignmentSubmitState.Rejected:
+                                case AssignmentSubmitState.Rejected:
                                     <MatBody2>
                                         Rejected (@submit.RejectTimeUtc)
                                     </MatBody2>

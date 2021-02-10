@@ -17,7 +17,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
 
         private async Task LeaveGuild()
         {
-            await ClientHolder.GuildMember.Leave(SelectedGuildProfile.Id);
+            await ClientHolder.ApiGuildLeaveAsync(SelectedGuildProfile.Id);
             NavigationManager.NavigateTo("/assignment");
         }
     }

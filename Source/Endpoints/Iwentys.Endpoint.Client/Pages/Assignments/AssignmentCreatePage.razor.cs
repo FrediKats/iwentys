@@ -22,11 +22,11 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
             await base.OnInitializedAsync();
 
             _currentStudent = await ClientHolder.ApiStudentSelfAsync();
-            _studyGroup = await ClientHolder.StudyGroup.FindStudentGroup(_currentStudent.Id);
+            _studyGroup = await ClientHolder.ApiStudygroupByStudentAsync(_currentStudent.Id);
             if (_studyGroup is not null)
             {
                 List<SubjectProfileDto> subject = new List<SubjectProfileDto>();
-                subject.AddRange(await ClientHolder.ApiSubjectSearchForGroupAsync(_studyGroup.Id))
+                subject.AddRange(await ClientHolder.ApiSubjectSearchForGroupAsync(_studyGroup.Id));
 
                 //FYI: this value is used in selector
                 subject.Insert(0, null);

@@ -24,7 +24,7 @@ namespace Iwentys.Endpoint.Client.Pages.Study
         {
             _selectedCourse = value;
             _studentProfiles = await ClientHolder.ApiLeaderboardStudyAsync(null, value.CourseId, null, null, null, null);
-            _groups = await ClientHolder.StudyGroup.GetCourseGroups(value.CourseId);
+            _groups = await ClientHolder.ApiStudygroupAsync(value.CourseId);
         }
 
         private async Task OnGroupSelect(GroupProfileResponseDto value)
