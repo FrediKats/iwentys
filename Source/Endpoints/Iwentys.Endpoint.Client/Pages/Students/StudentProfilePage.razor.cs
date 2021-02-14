@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,11 +11,7 @@ using ChartJs.Blazor.ChartJS.LineChart;
 using ChartJs.Blazor.ChartJS.PieChart;
 using ChartJs.Blazor.Charts;
 using ChartJs.Blazor.Util;
-using Iwentys.Features.Achievements.Models;
-using Iwentys.Features.Gamification.Entities;
-using Iwentys.Features.GithubIntegration.Models;
-using Iwentys.Features.Study.Models;
-using Iwentys.Features.Study.Models.Students;
+using Iwentys.Sdk;
 using Microsoft.Extensions.Logging;
 
 namespace Iwentys.Endpoint.Client.Pages.Students
@@ -23,8 +20,8 @@ namespace Iwentys.Endpoint.Client.Pages.Students
     {
         private bool _isSelf;
         private StudentInfoDto _studentFullProfile;
-        private List<AchievementInfoDto> _achievements;
-        private List<CodingActivityInfoResponse> _codingActivityInfo;
+        private ICollection<AchievementInfoDto> _achievements;
+        private ICollection<CodingActivityInfoResponse> _codingActivityInfo;
         private StudentActivityInfoDto _studentActivity;
         private CourseLeaderboardRow _leaderboardRow;
 
@@ -42,25 +39,33 @@ namespace Iwentys.Endpoint.Client.Pages.Students
 
             if (StudentId is null)
             {
-                _studentFullProfile = await ClientHolder.Student.GetSelf();
+                _studentFullProfile = await ClientHolder.ApiStudentSelfAsync();
                 _isSelf = true;
             }
             else
             {
-                _studentFullProfile = await ClientHolder.Student.Get(StudentId.Value);
+                _studentFullProfile = await ClientHolder.ApiStudentProfileGetAsync(StudentId.Value);
                 _isSelf = false;
             }
 
-            _codingActivityInfo = await ClientHolder.Github.Get(_studentFullProfile.Id);
+            _codingActivityInfo = await ClientHolder.ApiGithubStudentAsync(_studentFullProfile.Id);
             if (_codingActivityInfo is not null)
                 InitGithubChart();
 
-            _studentActivity = await ClientHolder.StudyLeaderboard.GetStudentActivity(_studentFullProfile.Id);
+            _studentActivity = await ClientHolder.ApiLeaderboardActivityAsync(_studentFullProfile.Id);
             if (_studentActivity is not null)
                 InitStudyChart();
 
-            _achievements = await ClientHolder.Achievement.GetForStudent(_studentFullProfile.Id);
-            _leaderboardRow = await ClientHolder.StudyLeaderboard.FindStudentLeaderboardPosition(_studentFullProfile.Id);
+            _achievements = await ClientHolder.ApiAchievementsStudentsAsync(_studentFullProfile.Id);
+            try
+            {
+                _leaderboardRow = await ClientHolder.ApiLeaderboardStudentPositionAsync(_studentFullProfile.Id);
+            }
+            catch (Exception e)
+            {
+                //TODO: remove this hack. Implement logic for handling 404 or null value
+                Logger.Log(LogLevel.Error, e, "Failed to get student rating position.");
+            }
         }
 
         private void InitGithubChart()

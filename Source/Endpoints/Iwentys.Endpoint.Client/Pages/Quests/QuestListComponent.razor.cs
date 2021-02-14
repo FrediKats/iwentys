@@ -1,5 +1,4 @@
-﻿using Iwentys.Features.AccountManagement.Models;
-using Iwentys.Features.Quests.Models;
+﻿using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Quests
 {

@@ -6,68 +6,68 @@ using Iwentys.Endpoint.Sdk.ControllerClients.Study;
 
 namespace Iwentys.Endpoint.Sdk
 {
-    public class ControllerClientHolder
-    {
-        public AssignmentControllerClient Assignment { get; }
+    //public class ControllerClientHolder
+    //{
+    //    public AssignmentControllerClient Assignment { get; }
 
-        public StudentControllerClient Student { get; }
+    //    public StudentControllerClient Student { get; }
 
-        public SubjectControllerClient Subject{ get; }
-        public StudyGroupControllerClient StudyGroup { get; }
-        public StudyLeaderboardControllerClient StudyLeaderboard { get; }
-        public SubjectAssignmentControllerClient SubjectAssignment { get; }
-        public StudyCourseControllerClient StudyCourse { get; }
+    //    public SubjectControllerClient Subject{ get; }
+    //    public StudyGroupControllerClient StudyGroup { get; }
+    //    public StudyLeaderboardControllerClient StudyLeaderboard { get; }
+    //    public SubjectAssignmentControllerClient SubjectAssignment { get; }
+    //    public StudyCourseControllerClient StudyCourse { get; }
 
-        public GuildControllerClient Guild { get; }
-        public GuildMemberControllerClient GuildMember { get; }
-        public GuildTributeControllerClient GuildTribute { get; }
-        public TournamentControllerClient Tournament { get; }
+    //    public GuildControllerClient Guild { get; }
+    //    public GuildMemberControllerClient GuildMember { get; }
+    //    public GuildTributeControllerClient GuildTribute { get; }
+    //    public TournamentControllerClient Tournament { get; }
 
-        public NewsfeedControllerClient Newsfeed { get; }
+    //    public NewsfeedControllerClient Newsfeed { get; }
 
-        public GithubControllerClient Github { get; }
+    //    public GithubControllerClient Github { get; }
 
-        public AchievementControllerClient Achievement { get; }
+    //    public AchievementControllerClient Achievement { get; }
 
-        public KarmaControllerClient Karma { get; }
+    //    public KarmaControllerClient Karma { get; }
 
-        public QuestControllerClient Quest { get; }
+    //    public QuestControllerClient Quest { get; }
 
-        public RaidControllerClient Raid { get; }
+    //    public RaidControllerClient Raid { get; }
 
-        public PeerReviewControllerClient PeerReview { get; }
+    //    public PeerReviewControllerClient PeerReview { get; }
 
 
-        public ControllerClientHolder(HttpClient httpClient)
-        {
-            Assignment = new AssignmentControllerClient(httpClient);
+    //    public ControllerClientHolder(HttpClient httpClient)
+    //    {
+    //        Assignment = new AssignmentControllerClient(httpClient);
 
-            Student = new StudentControllerClient(httpClient);
+    //        Student = new StudentControllerClient(httpClient);
 
-            Subject = new SubjectControllerClient(httpClient);
-            StudyGroup = new StudyGroupControllerClient(httpClient);
-            StudyLeaderboard = new StudyLeaderboardControllerClient(httpClient);
-            SubjectAssignment = new SubjectAssignmentControllerClient(httpClient);
-            StudyCourse = new StudyCourseControllerClient(httpClient);
+    //        Subject = new SubjectControllerClient(httpClient);
+    //        StudyGroup = new StudyGroupControllerClient(httpClient);
+    //        StudyLeaderboard = new StudyLeaderboardControllerClient(httpClient);
+    //        SubjectAssignment = new SubjectAssignmentControllerClient(httpClient);
+    //        StudyCourse = new StudyCourseControllerClient(httpClient);
 
-            Guild = new GuildControllerClient(httpClient);
-            GuildMember = new GuildMemberControllerClient(httpClient);
-            GuildTribute = new GuildTributeControllerClient(httpClient);
-            Tournament = new TournamentControllerClient(httpClient);
+    //        Guild = new GuildControllerClient(httpClient);
+    //        GuildMember = new GuildMemberControllerClient(httpClient);
+    //        GuildTribute = new GuildTributeControllerClient(httpClient);
+    //        Tournament = new TournamentControllerClient(httpClient);
 
-            Newsfeed = new NewsfeedControllerClient(httpClient);
+    //        Newsfeed = new NewsfeedControllerClient(httpClient);
 
-            Github = new GithubControllerClient(httpClient);
+    //        Github = new GithubControllerClient(httpClient);
 
-            Achievement = new AchievementControllerClient(httpClient);
+    //        Achievement = new AchievementControllerClient(httpClient);
 
-            Karma = new KarmaControllerClient(httpClient);
+    //        Karma = new KarmaControllerClient(httpClient);
 
-            Quest = new QuestControllerClient(httpClient);
+    //        Quest = new QuestControllerClient(httpClient);
 
-            Raid = new RaidControllerClient(httpClient);
+    //        Raid = new RaidControllerClient(httpClient);
 
-            PeerReview = new PeerReviewControllerClient(httpClient);
-        }
-    }
+    //        PeerReview = new PeerReviewControllerClient(httpClient);
+    //    }
+    //}
 }

@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Features.Study.SubjectAssignments.Enums;
-using Iwentys.Features.Study.SubjectAssignments.Models;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Managements
 {
@@ -12,29 +11,29 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Managements
         {
             await base.OnInitializedAsync();
 
-            _submit = await ClientHolder.SubjectAssignment.GetSubjectAssignmentSubmit(SubjectId, SubmitId);
+            _submit = await ClientHolder.ApiSubjectAssignmentSubmitsGetAsync(SubjectId, SubmitId);
         }
 
         private async Task Approve(SubjectAssignmentSubmitDto submit)
         {
-            await ClientHolder.SubjectAssignment.SendFeedback(SubjectId, submit.Id, new SubjectAssignmentSubmitFeedbackArguments
+            await ClientHolder.ApiSubjectAssignmentManagementSubmitsPutAsync(SubjectId, submit.Id, new SubjectAssignmentSubmitFeedbackArguments
             {
                 Comment = "Smth",
                 FeedbackType = FeedbackType.Approve
             });
 
-            _submit = await ClientHolder.SubjectAssignment.GetSubjectAssignmentSubmit(SubjectId, SubmitId);
+            _submit = await ClientHolder.ApiSubjectAssignmentSubmitsGetAsync(SubjectId, SubmitId);
         }
 
         private async Task Reject(SubjectAssignmentSubmitDto submit)
         {
-            await ClientHolder.SubjectAssignment.SendFeedback(SubjectId, submit.Id, new SubjectAssignmentSubmitFeedbackArguments
+            await ClientHolder.ApiSubjectAssignmentManagementSubmitsPutAsync(SubjectId, submit.Id, new SubjectAssignmentSubmitFeedbackArguments
             {
                 Comment = "Smth",
                 FeedbackType = FeedbackType.Reject
             });
 
-            _submit = await ClientHolder.SubjectAssignment.GetSubjectAssignmentSubmit(SubjectId, SubmitId);
+            _submit = await ClientHolder.ApiSubjectAssignmentSubmitsGetAsync(SubjectId, SubmitId);
         }
     }
 }

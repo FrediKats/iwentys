@@ -1,36 +1,36 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Features.Assignments.Models;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Assignments
 {
     public partial class AssignmentPage
     {
-        private List<AssignmentInfoDto> _assignment;
+        private ICollection<AssignmentInfoDto> _assignment;
 
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
 
-            _assignment = await ClientHolder.Assignment.Get();
+            _assignment = await ClientHolder.ApiAssignmentsGetAsync();
         }
 
         private async Task MakeCompleted(int assignmentId)
         {
-            await ClientHolder.Assignment.Complete(assignmentId);
-            _assignment = await ClientHolder.Assignment.Get();
+            await ClientHolder.ApiAssignmentsCompleteAsync(assignmentId);
+            _assignment = await ClientHolder.ApiAssignmentsGetAsync();
         }
 
         private async Task MakeUncompleted(int assignmentId)
         {
-            await ClientHolder.Assignment.Undo(assignmentId);
-            _assignment = await ClientHolder.Assignment.Get();
+            await ClientHolder.ApiAssignmentsUndoAsync(assignmentId);
+            _assignment = await ClientHolder.ApiAssignmentsGetAsync();
         }
 
         private async Task Delete(int assignmentId)
         {
-            await ClientHolder.Assignment.Delete(assignmentId);
-            _assignment = await ClientHolder.Assignment.Get();
+            await ClientHolder.ApiAssignmentsDeleteAsync(assignmentId);
+            _assignment = await ClientHolder.ApiAssignmentsGetAsync();
         }
     }
 }

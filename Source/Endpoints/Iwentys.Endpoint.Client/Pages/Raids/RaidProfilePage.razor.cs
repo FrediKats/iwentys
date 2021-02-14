@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Features.Raids.Models;
-using Iwentys.Features.Study.Models.Students;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Raids
 {
@@ -13,20 +12,20 @@ namespace Iwentys.Endpoint.Client.Pages.Raids
         {
             await base.OnInitializedAsync();
 
-            _raid = await ClientHolder.Raid.Get(RaidId);
-            _self = await ClientHolder.Student.GetSelf();
+            _raid = await ClientHolder.ApiRaidsProfileGetAsync(RaidId);
+            _self = await ClientHolder.ApiStudentSelfAsync();
         }
 
         private async Task RegisterOnRaid()
         {
-            await ClientHolder.Raid.RegisterOnRaid(_raid.Id);
-            _raid = await ClientHolder.Raid.Get(RaidId);
+            await ClientHolder.ApiRaidsProfileRegisterAsync(_raid.Id);
+            _raid = await ClientHolder.ApiRaidsProfileGetAsync(RaidId);
         }
 
         private async Task UnRegisterOnRaid()
         {
-            await ClientHolder.Raid.UnRegisterOnRaid(_raid.Id);
-            _raid = await ClientHolder.Raid.Get(RaidId);
+            await ClientHolder.ApiRaidsProfileUnregisterAsync(_raid.Id);
+            _raid = await ClientHolder.ApiRaidsProfileGetAsync(RaidId);
         }
 
         private bool CanRegisterOnRaid()

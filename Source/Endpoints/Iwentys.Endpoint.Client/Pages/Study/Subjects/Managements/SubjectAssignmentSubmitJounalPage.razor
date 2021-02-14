@@ -1,6 +1,6 @@
 ﻿@page "/subject/{SubjectId:int}/management/assignments/submits"
 
-@using Iwentys.Features.Study.SubjectAssignments.Models
+@using Iwentys.Sdk.Extensions
 @inherits DependencyInjectionPage
 
 <h3>SubjectAssignmentSubmitJounalPage (double click works fine!)</h3>
@@ -24,7 +24,7 @@
                 <td>@context.SubjectAssignmentTitle</td>
                 <td>@context.Student.GetFullName()</td>
                 <td>@context.SubmitTimeUtc</td>
-                <td>@context.GetState()</td>
+                <td>@context.State</td>
                 <td>@context.ApproveTimeUtc</td>
                 <td>@context.RejectTimeUtc</td>
             </MatTableRow>
