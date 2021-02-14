@@ -1,9 +1,9 @@
-{
+﻿{
   "runtime": "NetCore21",
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
-      "url": "D:\\coding\\kysect\\iwentys\\Source\\Iwentys.Sdk\\OpenAPIs\\swag.json",
+      "url": "D:\\coding\\kysect\\iwentys\\Source\\Shared\\Iwentys.Sdk\\OpenAPIs\\swag.json",
       "output": "IwentysApiClient.nswag.json",
       "newLineBehavior": "Auto"
     }
@@ -56,7 +56,7 @@
       "generateResponseClasses": true,
       "responseClass": "SwaggerResponse",
       "namespace": "Iwentys.Sdk",
-      "requiredPropertiesMustBeDefined": false,
+      "requiredPropertiesMustBeDefined": true,
       "dateType": "System.DateTimeOffset",
       "jsonConverters": null,
       "anyType": "object",
@@ -83,8 +83,8 @@
       "inlineNamedTuples": true,
       "inlineNamedAny": false,
       "generateDtoTypes": true,
-      "generateOptionalPropertiesAsNullable": true,
-      "generateNullableReferenceTypes": true,
+      "generateOptionalPropertiesAsNullable": false,
+      "generateNullableReferenceTypes": false,
       "templateDirectory": null,
       "typeNameGeneratorType": null,
       "propertyNameGeneratorType": null,
