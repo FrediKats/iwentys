@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Iwentys.Sdk;
+using Microsoft.Extensions.Logging;
 
 namespace Iwentys.Endpoint.Client.Pages.Students
 {
@@ -15,8 +17,27 @@ namespace Iwentys.Endpoint.Client.Pages.Students
             await base.OnInitializedAsync();
 
             _self = await ClientHolder.ApiStudentSelfAsync();
-            _guild = await ClientHolder.ApiGuildForMemberAsync(StudentProfile.Id);
-            _group = await ClientHolder.ApiStudygroupByStudentAsync(StudentProfile.Id);
+
+            try
+            {
+                _guild = await ClientHolder.ApiGuildForMemberAsync(StudentProfile.Id);
+            }
+            catch (Exception e)
+            {
+                //TODO: remove this hack. Implement logic for handling 404 or null value
+                Logger.Log(LogLevel.Error, e, "Failed to fetch data.");
+            }
+
+            try
+            {
+                _group = await ClientHolder.ApiStudygroupByStudentAsync(StudentProfile.Id);
+            }
+            catch (Exception e)
+            {
+                //TODO: remove this hack. Implement logic for handling 404 or null value
+                Logger.Log(LogLevel.Error, e, "Failed to fetch data.");
+            }
+
             _userKarmaStatistic = await ClientHolder.ApiKarmaGetAsync(StudentProfile.Id);
         }
 

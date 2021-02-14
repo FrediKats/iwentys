@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Sdk;
+using Microsoft.Extensions.Logging;
 
 namespace Iwentys.Endpoint.Client.Pages.Guilds
 {
@@ -21,8 +23,27 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
             _guild = await ClientHolder.ApiGuildGetAsync(GuildId);
             _newsfeeds = (await ClientHolder.ApiNewsfeedGuildGetAsync(GuildId)).ToList();
             _memberLeaderBoard = await ClientHolder.ApiGuildMemberLeaderboardAsync(_guild.Id);
-            _activeTribute = await ClientHolder.ApiGuildTributeGetForStudentActiveAsync();
-            _activeTournament = await ClientHolder.ApiTournamentsForGuildAsync(_guild.Id);
+
+            try
+            {
+                _activeTribute = await ClientHolder.ApiGuildTributeGetForStudentActiveAsync();
+            }
+            catch (Exception e)
+            {
+                //TODO: remove this hack. Implement logic for handling 404 or null value
+                Logger.Log(LogLevel.Error, e, "Failed to fetch data.");
+            }
+
+            try
+            {
+                _activeTournament = await ClientHolder.ApiTournamentsForGuildAsync(_guild.Id);
+            }
+            catch (Exception e)
+            {
+                Logger.Log(LogLevel.Error, e, "Failed to fetch data.");
+            }
+
+            
             _achievements = (await ClientHolder.ApiAchievementsGuildsAsync(GuildId)).ToList();
         }
 

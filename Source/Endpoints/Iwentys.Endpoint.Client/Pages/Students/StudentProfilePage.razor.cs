@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,7 +57,15 @@ namespace Iwentys.Endpoint.Client.Pages.Students
                 InitStudyChart();
 
             _achievements = await ClientHolder.ApiAchievementsStudentsAsync(_studentFullProfile.Id);
-            _leaderboardRow = await ClientHolder.ApiLeaderboardStudentPositionAsync(_studentFullProfile.Id);
+            try
+            {
+                _leaderboardRow = await ClientHolder.ApiLeaderboardStudentPositionAsync(_studentFullProfile.Id);
+            }
+            catch (Exception e)
+            {
+                //TODO: remove this hack. Implement logic for handling 404 or null value
+                Logger.Log(LogLevel.Error, e, "Failed to get student rating position.");
+            }
         }
 
         private void InitGithubChart()
