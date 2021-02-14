@@ -1,4 +1,4 @@
-﻿{
+{
   "runtime": "NetCore21",
   "defaultVariables": null,
   "documentGenerator": {
@@ -56,7 +56,7 @@
       "generateResponseClasses": true,
       "responseClass": "SwaggerResponse",
       "namespace": "Iwentys.Sdk",
-      "requiredPropertiesMustBeDefined": true,
+      "requiredPropertiesMustBeDefined": false,
       "dateType": "System.DateTimeOffset",
       "jsonConverters": null,
       "anyType": "object",
@@ -83,8 +83,8 @@
       "inlineNamedTuples": true,
       "inlineNamedAny": false,
       "generateDtoTypes": true,
-      "generateOptionalPropertiesAsNullable": false,
-      "generateNullableReferenceTypes": false,
+      "generateOptionalPropertiesAsNullable": true,
+      "generateNullableReferenceTypes": true,
       "templateDirectory": null,
       "typeNameGeneratorType": null,
       "propertyNameGeneratorType": null,
