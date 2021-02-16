@@ -13,8 +13,8 @@ namespace Iwentys.Features.Guilds.Entities
     {
         public int Id { get; init; }
         public string Title { get; init; }
-        public string Bio { get; private set; }
-        public string ImageUrl { get; private set; }
+        public string Bio { get; set; }
+        public string ImageUrl { get; set; }
         public string TestTaskLink { get; private set; }
 
         public GuildHiringPolicy HiringPolicy { get; set; }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Models;
-using Octokit;
 
 namespace Iwentys.Integrations.GithubIntegration
 {
@@ -34,7 +33,7 @@ namespace Iwentys.Integrations.GithubIntegration
             return Task.FromResult(0);
         }
 
-        public Organization FindOrganizationInfo(string organizationName)
+        public OrganizationInfoDto FindOrganizationInfo(string organizationName)
         {
             return default;
         }
