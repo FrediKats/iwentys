@@ -68,6 +68,7 @@ namespace Iwentys.Database
 
         #region IAccountManagementDbContext
         public DbSet<UniversitySystemUser> UniversitySystemUsers { get; set; }
+        public DbSet<UniversitySystemUserCredential> UniversitySystemUserCredentials { get; set; }
         public DbSet<IwentysUser> IwentysUsers { get; set; }
         #endregion
 
