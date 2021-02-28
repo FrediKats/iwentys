@@ -31,7 +31,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
             catch (Exception e)
             {
                 //TODO: remove this hack. Implement logic for handling 404 or null value
-                Logger.Log(LogLevel.Error, e, "Failed to fetch data.");
+                _logger.Log(LogLevel.Error, e, "Failed to fetch member tribute.");
             }
 
             try
@@ -40,7 +40,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
             }
             catch (Exception e)
             {
-                Logger.Log(LogLevel.Error, e, "Failed to fetch data.");
+                _logger.Log(LogLevel.Error, e, $"Failed to fetch active tournament. GuildId: {_guild.Id}");
             }
 
             

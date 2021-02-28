@@ -35,7 +35,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
         {
             await base.OnInitializedAsync();
 
-            Logger.LogTrace("Load student profile");
+            _logger.LogTrace("Load student profile");
 
             if (StudentId is null)
             {
@@ -64,7 +64,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
             catch (Exception e)
             {
                 //TODO: remove this hack. Implement logic for handling 404 or null value
-                Logger.Log(LogLevel.Error, e, "Failed to get student rating position.");
+                _logger.Log(LogLevel.Error, e, "Failed to get student rating position.");
             }
         }
 

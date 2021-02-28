@@ -1,8 +1,10 @@
 ﻿@page "/tournaments/profile/{TournamentId:int}"
 
 @using Iwentys.Sdk
+@using Microsoft.Extensions.Logging
 
 @inherits DependencyInjectionPage
+@inject ILogger<TournamentProfilePage> _logger
 
 @if (_tournament is not null)
 {

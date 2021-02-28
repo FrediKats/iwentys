@@ -25,7 +25,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
             catch (Exception e)
             {
                 //TODO: remove this hack. Implement logic for handling 404 or null value
-                Logger.Log(LogLevel.Error, e, "Failed to fetch data.");
+                _logger.Log(LogLevel.Error, e, "Failed to fetch data.");
             }
 
             try
@@ -35,7 +35,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
             catch (Exception e)
             {
                 //TODO: remove this hack. Implement logic for handling 404 or null value
-                Logger.Log(LogLevel.Error, e, "Failed to fetch data.");
+                _logger.Log(LogLevel.Error, e, "Failed to fetch data.");
             }
 
             _userKarmaStatistic = await ClientHolder.ApiKarmaGetAsync(StudentProfile.Id);

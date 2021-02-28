@@ -31,9 +31,8 @@ namespace Iwentys.Endpoint.Client
 
             builder.Services.AddLogging(b => b
                 .AddBrowserConsole()
-                .SetMinimumLevel(LogLevel.Trace)
+                .SetMinimumLevel(LogLevel.Information)
             );
-
 
             return builder.Build().RunAsync();
         }

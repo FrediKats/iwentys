@@ -2,7 +2,9 @@
 
 @using Iwentys.Sdk
 @using Iwentys.Sdk.Extensions
+@using Microsoft.Extensions.Logging
 @inherits DependencyInjectionPage
+@inject ILogger<StudentProfileInfoComponent> _logger
 
 @if (StudentProfile is not null)
 {

@@ -1,8 +1,11 @@
 ﻿@page "/student/profile/{StudentId:int?}"
 @using Iwentys.Endpoint.Client.CustomComponents
 @using ChartJs.Blazor.Charts
+@using Microsoft.Extensions.Logging
 
 @inherits DependencyInjectionPage
+
+@inject ILogger<StudentProfilePage> _logger
 
 @if (_studentFullProfile is not null)
 {
