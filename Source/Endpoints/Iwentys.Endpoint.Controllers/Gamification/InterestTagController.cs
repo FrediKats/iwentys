@@ -17,28 +17,28 @@ namespace Iwentys.Endpoint.Controllers.Gamification
             _interestTagService = interestTagService;
         }
 
-        [HttpGet]
+        [HttpGet("get-all")]
         public async Task<ActionResult<List<InterestTagDto>>> GetAllTags()
         {
             List<InterestTagDto> result = await _interestTagService.GetAllTags();
             return Ok(result);
         }
 
-        [HttpGet("students/{studentId}")]
+        [HttpGet("get-students")]
         public async Task<ActionResult<List<InterestTagDto>>> GetStudentTags(int studentId)
         {
             List<InterestTagDto> result = await _interestTagService.GetUserTags(studentId);
             return result;
         }
 
-        [HttpGet("students/{studentId}/add/{tagId}")]
+        [HttpGet("add-students")]
         public async Task<ActionResult> AddStudentTag(int studentId, int tagId)
         {
             await _interestTagService.AddUserTag(studentId, tagId);
             return Ok();
         }
         
-        [HttpGet("students/{studentId}/remove/{tagId}")]
+        [HttpGet("remove-students")]
         public async Task<ActionResult> RemoveStudentTag(int studentId, int tagId)
         {
             await _interestTagService.RemoveUserTag(studentId, tagId);
