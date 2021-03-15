@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Gamification
 {
-    [Route("api/tags")]
+    [Route("api/InterestTag")]
     [ApiController]
     public class InterestTagController : ControllerBase
     {
@@ -17,29 +17,29 @@ namespace Iwentys.Endpoint.Controllers.Gamification
             _interestTagService = interestTagService;
         }
 
-        [HttpGet("get-all")]
-        public async Task<ActionResult<List<InterestTagDto>>> GetAllTags()
+        [HttpGet(nameof(Get))]
+        public async Task<ActionResult<List<InterestTagDto>>> Get()
         {
             List<InterestTagDto> result = await _interestTagService.GetAllTags();
             return Ok(result);
         }
 
-        [HttpGet("get-students")]
-        public async Task<ActionResult<List<InterestTagDto>>> GetStudentTags(int studentId)
+        [HttpGet(nameof(GetByStudentId))]
+        public async Task<ActionResult<List<InterestTagDto>>> GetByStudentId(int studentId)
         {
             List<InterestTagDto> result = await _interestTagService.GetUserTags(studentId);
             return result;
         }
 
-        [HttpGet("add-students")]
-        public async Task<ActionResult> AddStudentTag(int studentId, int tagId)
+        [HttpGet(nameof(Add))]
+        public async Task<ActionResult> Add(int studentId, int tagId)
         {
             await _interestTagService.AddUserTag(studentId, tagId);
             return Ok();
         }
         
-        [HttpGet("remove-students")]
-        public async Task<ActionResult> RemoveStudentTag(int studentId, int tagId)
+        [HttpGet(nameof(Remove))]
+        public async Task<ActionResult> Remove(int studentId, int tagId)
         {
             await _interestTagService.RemoveUserTag(studentId, tagId);
             return Ok();
