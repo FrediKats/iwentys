@@ -12,7 +12,7 @@ namespace Iwentys.Endpoint.Client.Pages.Tournaments
         {
             await base.OnInitializedAsync();
 
-            _tournaments = await ClientHolder.ApiTournamentsGetAsync();
+            _tournaments = await TournamentClient.GetAsync();
         }
     }
 }

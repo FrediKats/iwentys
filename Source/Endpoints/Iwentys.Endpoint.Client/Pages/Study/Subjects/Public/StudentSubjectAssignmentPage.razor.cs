@@ -14,9 +14,9 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Public
         {
             await base.OnInitializedAsync();
 
-            _self = await ClientHolder.ApiStudentSelfAsync();
-            _subjectAssignments = await ClientHolder.ApiSubjectAssignmentForSubjectAsync(SubjectId);
-            _subjectAssignmentSubmits = await ClientHolder.ApiSubjectAssignmentSubmitsGetAsync(SubjectId);
+            _self = await StudentClient.GetSelfAsync();
+            _subjectAssignments = await SubjectAssignmentClient.GetBySubjectIdAsync(SubjectId);
+            _subjectAssignmentSubmits = await SubjectAssignmentSubmitClient.GetBySubjectIdAsync(SubjectId);
         }
 
         private string LinkToCreateSubmit() => $"/subject/{SubjectId}/assignments/create-submit";

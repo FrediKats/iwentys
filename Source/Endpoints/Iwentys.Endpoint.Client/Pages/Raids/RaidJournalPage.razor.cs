@@ -11,7 +11,7 @@ namespace Iwentys.Endpoint.Client.Pages.Raids
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            _raids = await ClientHolder.ApiRaidsProfileGetAsync();
+            _raids = await RaidClient.GetGetAsync();
         }
 
         private string LinkToRaidProfile(RaidProfileDto raid) => $"/raids/profile/{raid.Id}";

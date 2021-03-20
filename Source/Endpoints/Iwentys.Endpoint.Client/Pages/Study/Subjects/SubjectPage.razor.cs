@@ -14,9 +14,9 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects
         {
             await base.OnInitializedAsync();
 
-            _subjectProfile = await ClientHolder.ApiSubjectProfileAsync(SubjectId);
-            _newsfeeds = await ClientHolder.ApiNewsfeedSubjectGetAsync(SubjectId);
-            _subjectAssignments = await ClientHolder.ApiSubjectAssignmentForSubjectAsync(SubjectId);
+            _subjectProfile = await SubjectClient.GetByIdAsync(SubjectId);
+            _newsfeeds = await NewsfeedClient.GetBySubjectIdAsync(SubjectId);
+            _subjectAssignments = await SubjectAssignmentClient.GetBySubjectIdAsync(SubjectId);
         }
         
         private string LinkToCreateNewsfeedPage() => $"/newsfeed/create-subject/{SubjectId}";

@@ -23,14 +23,14 @@ namespace Iwentys.Endpoint.Controllers.Study
             _userService = userService;
         }
 
-        [HttpGet("profile")]
+        [HttpGet(nameof(Get))]
         public async Task<ActionResult<List<StudentInfoDto>>> Get()
         {
             List<StudentInfoDto> students = await _studentService.Get();
             return Ok(students);
         }
 
-        [HttpGet("self")]
+        [HttpGet(nameof(GetSelf))]
         public async Task<ActionResult<StudentInfoDto>> GetSelf()
         {
             AuthorizedUser user = this.TryAuthWithToken();
@@ -39,15 +39,15 @@ namespace Iwentys.Endpoint.Controllers.Study
         }
 
 
-        [HttpGet("profile/{id}")]
-        public async Task<ActionResult<StudentInfoDto>> Get(int id)
+        [HttpGet(nameof(GetById))]
+        public async Task<ActionResult<StudentInfoDto>> GetById(int id)
         {
             StudentInfoDto student = await _studentService.Get(id);
             return Ok(student);
         }
 
-        [HttpPut]
-        public async Task<ActionResult<IwentysUserInfoDto>> Update([FromBody] StudentUpdateRequestDto studentUpdateRequestDto)
+        [HttpPut(nameof(UpdateProfile))]
+        public async Task<ActionResult<IwentysUserInfoDto>> UpdateProfile([FromBody] StudentUpdateRequestDto studentUpdateRequestDto)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             IwentysUserInfoDto result = await _userService.AddGithubUsername(authorizedUser.Id, studentUpdateRequestDto.GithubUsername);

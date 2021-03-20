@@ -10,7 +10,7 @@ namespace Iwentys.Endpoint.Client.Pages.Newsfeeds
 
         private async Task ExecuteCreateNewsfeed()
         {
-            await ClientHolder.ApiNewsfeedSubjectPostAsync(SubjectId, new NewsfeedCreateViewModel
+            await NewsfeedClient.CreateSubjectNewsfeedAsync(SubjectId, new NewsfeedCreateViewModel
             {
                 Title = _title,
                 Content = _description

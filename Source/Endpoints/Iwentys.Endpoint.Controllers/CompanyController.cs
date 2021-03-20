@@ -17,15 +17,15 @@ namespace Iwentys.Endpoint.Controllers
             _companyService = companyService;
         }
 
-        [HttpGet]
+        [HttpGet(nameof(Get))]
         public async Task<ActionResult<List<CompanyInfoDto>>> Get()
         {
             List<CompanyInfoDto> companies = await _companyService.Get();
             return Ok(companies);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CompanyInfoDto>> Get(int id)
+        [HttpGet(nameof(GetById))]
+        public async Task<ActionResult<CompanyInfoDto>> GetById(int id)
         {
             CompanyInfoDto company = await _companyService.Get(id);
             return Ok(company);

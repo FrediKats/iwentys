@@ -13,13 +13,13 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            _guildProfiles = await ClientHolder.ApiGuildGetAsync(null, null);
+            _guildProfiles = await GuildClient.GetRankedAsync(null, null);
         }
 
         private async Task ForceUpdate()
         {
-            await ClientHolder.ApiDebugcommandUpdateGuildImpactAsync();
-            _guildProfiles = await ClientHolder.ApiGuildGetAsync(null, null);
+            await DebugCommandClient.UpdateGuildImpactAsync();
+            _guildProfiles = await GuildClient.GetRankedAsync(null, null);
         }
     }
 }

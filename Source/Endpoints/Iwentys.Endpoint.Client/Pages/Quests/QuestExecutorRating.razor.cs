@@ -11,7 +11,7 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            _questExecutorRating = await ClientHolder.ApiQuestsExecutorRatingAsync();
+            _questExecutorRating = await QuestClient.GetQuestExecutorRatingAsync();
         }
 
         private string LinkToProfile(IwentysUserInfoDto user) => $"student/profile/{user.Id}";

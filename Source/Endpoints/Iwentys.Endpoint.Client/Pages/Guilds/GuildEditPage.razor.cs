@@ -8,7 +8,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
         {
             await base.OnInitializedAsync();
 
-            _guild = await ClientHolder.ApiGuildGetAsync(GuildId);
+            _guild = await GuildClient.GetAsync(GuildId);
         }
     }
 }

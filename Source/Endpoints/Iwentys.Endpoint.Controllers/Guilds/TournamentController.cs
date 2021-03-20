@@ -19,22 +19,22 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             _tournamentService = tournamentService;
         }
 
-        [HttpGet]
+        [HttpGet(nameof(Get))]
         public async Task<ActionResult<List<TournamentInfoResponse>>> Get()
         {
             List<TournamentInfoResponse> tournaments = await _tournamentService.Get();
             return Ok(tournaments);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<TournamentInfoResponse>> Get(int id)
+        [HttpGet(nameof(GetById))]
+        public async Task<ActionResult<TournamentInfoResponse>> GetById(int id)
         {
             TournamentInfoResponse tournament = await _tournamentService.Get(id);
             return Ok(tournament);
         }
 
-        [HttpGet("for-guild")]
-        public async Task<ActionResult<TournamentInfoResponse>> FindGuildActiveTournament(int guildId)
+        [HttpGet(nameof(FindActiveByGuildId))]
+        public async Task<ActionResult<TournamentInfoResponse>> FindActiveByGuildId(int guildId)
         {
             TournamentInfoResponse tournament = await _tournamentService.FindGuildActiveTournament(guildId);
             if (tournament is null)
@@ -43,7 +43,7 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             return Ok(tournament);
         }
 
-        [HttpPost("code-marathon")]
+        [HttpPost(nameof(CreateCodeMarathon))]
         public async Task<ActionResult<TournamentInfoResponse>> CreateCodeMarathon([FromBody] CreateCodeMarathonTournamentArguments arguments)
         {
             AuthorizedUser user = this.TryAuthWithToken();
@@ -51,7 +51,7 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             return Ok(tournamentInfoResponse);
         }
 
-        [HttpPut("{tournamentId}/register")]
+        [HttpPut(nameof(RegisterToTournament))]
         public async Task<ActionResult> RegisterToTournament(int tournamentId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
@@ -59,7 +59,8 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             return Ok();
         }
 
-        [HttpGet("{tournamentId}/force-update")]
+        //TODO: move to debug controller?
+        [HttpGet(nameof(ForceUpdate))]
         public async Task ForceUpdate(int tournamentId)
         {
             await _tournamentService.UpdateResult(tournamentId);

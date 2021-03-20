@@ -13,7 +13,7 @@ namespace Iwentys.Endpoint.Client.Pages.Raids
 
         private async Task Create()
         {
-            await ClientHolder.ApiRaidsProfilePostAsync(new RaidCreateArguments
+            await RaidClient.CreateAsync(new RaidCreateArguments
             {
                 Title = _name,
                 Description = _description,

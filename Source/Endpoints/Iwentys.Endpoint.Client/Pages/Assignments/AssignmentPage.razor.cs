@@ -12,25 +12,25 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
         {
             await base.OnInitializedAsync();
 
-            _assignment = await ClientHolder.ApiAssignmentsGetAsync();
+            _assignment = await AssignmentClient.GetAsync();
         }
 
         private async Task MakeCompleted(int assignmentId)
         {
-            await ClientHolder.ApiAssignmentsCompleteAsync(assignmentId);
-            _assignment = await ClientHolder.ApiAssignmentsGetAsync();
+            await AssignmentClient.CompleteAsync(assignmentId);
+            _assignment = await AssignmentClient.GetAsync();
         }
 
         private async Task MakeUncompleted(int assignmentId)
         {
-            await ClientHolder.ApiAssignmentsUndoAsync(assignmentId);
-            _assignment = await ClientHolder.ApiAssignmentsGetAsync();
+            await AssignmentClient.UndoAsync(assignmentId);
+            _assignment = await AssignmentClient.GetAsync();
         }
 
         private async Task Delete(int assignmentId)
         {
-            await ClientHolder.ApiAssignmentsDeleteAsync(assignmentId);
-            _assignment = await ClientHolder.ApiAssignmentsGetAsync();
+            await AssignmentClient.DeleteAsync(assignmentId);
+            _assignment = await AssignmentClient.GetAsync();
         }
     }
 }

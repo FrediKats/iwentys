@@ -12,12 +12,12 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
             await base.OnInitializedAsync();
 
             //TODO: null value handling
-            _membership = await ClientHolder.ApiGuildMembershipAsync(SelectedGuildProfile.Id);
+            _membership = await GuildMembershipClient.GetSelfMembershipAsync(SelectedGuildProfile.Id);
         }
 
         private async Task LeaveGuild()
         {
-            await ClientHolder.ApiGuildLeaveAsync(SelectedGuildProfile.Id);
+            await GuildMembershipClient.LeaveAsync(SelectedGuildProfile.Id);
             NavigationManager.NavigateTo("/assignment");
         }
     }

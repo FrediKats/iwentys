@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Guilds.Tributes
@@ -15,7 +14,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds.Tributes
         {
             await base.OnInitializedAsync();
 
-            _tribute = await ClientHolder.ApiGuildTributeAsync(TributeId);
+            _tribute = await GuildTributeClient.GuildTributeAsync(TributeId);
         }
         
         private async Task CreateResponse()
@@ -28,7 +27,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds.Tributes
                 TributeId = TributeId
             };
             
-            await ClientHolder.ApiGuildTributeCompleteAsync(tributeCompleteRequest);
+            await GuildTributeClient.CompleteAsync(tributeCompleteRequest);
             NavigationManager.NavigateTo($"/guild/{GuildId}/tribute");
         }
     }

@@ -16,8 +16,8 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Public
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            _self = await ClientHolder.ApiStudentSelfAsync();
-            _subjectAssignments = (await ClientHolder.ApiSubjectAssignmentForSubjectAsync(SubjectId)).ToList();
+            _self = await StudentClient.GetSelfAsync();
+            _subjectAssignments = (await SubjectAssignmentClient.GetBySubjectIdAsync(SubjectId)).ToList();
         }
 
         public async Task SendSubmit()
@@ -27,7 +27,7 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Public
                 StudentDescription = _description
             };
 
-            SubjectAssignmentSubmitDto submit = await ClientHolder.ApiSubjectAssignmentAssignmentsSubmitsAsync(SubjectId, _selectedSubject.Id, createArguments);
+            SubjectAssignmentSubmitDto submit = await SubjectAssignmentSubmitClient.SendSubmitAsync(SubjectId, _selectedSubject.Id, createArguments);
 
         }
     }

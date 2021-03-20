@@ -12,21 +12,21 @@ namespace Iwentys.Endpoint.Client.Pages.Tournaments
         {
             await base.OnInitializedAsync();
 
-            _tournament = await ClientHolder.ApiTournamentsGetAsync(TournamentId);
+            _tournament = await TournamentClient.GetByIdAsync(TournamentId);
         }
 
         private async Task RegisterToTournament()
         {
-            await ClientHolder.ApiTournamentsRegisterAsync(_tournament.Id);
-            _tournament = await ClientHolder.ApiTournamentsGetAsync(TournamentId);
+            await TournamentClient.RegisterToTournamentAsync(_tournament.Id);
+            _tournament = await TournamentClient.GetByIdAsync(TournamentId);
             //TODO: notification about successful registration
         }
 
         private async Task ForceUpdate()
         {
             _logger.LogWarning($"Force tournament update. Id: {_tournament.Id}");
-            await ClientHolder.ApiTournamentsForceUpdateAsync(_tournament.Id);
-            _tournament = await ClientHolder.ApiTournamentsGetAsync(TournamentId);
+            await TournamentClient.ForceUpdateAsync(_tournament.Id);
+            _tournament = await TournamentClient.GetByIdAsync(TournamentId);
         }
     }
 }

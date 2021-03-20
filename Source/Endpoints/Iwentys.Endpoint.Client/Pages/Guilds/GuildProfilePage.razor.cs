@@ -20,13 +20,13 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
         {
             await base.OnInitializedAsync();
 
-            _guild = await ClientHolder.ApiGuildGetAsync(GuildId);
-            _newsfeeds = (await ClientHolder.ApiNewsfeedGuildGetAsync(GuildId)).ToList();
-            _memberLeaderBoard = await ClientHolder.ApiGuildMemberLeaderboardAsync(_guild.Id);
+            _guild = await GuildClient.GetAsync(GuildId);
+            _newsfeeds = (await NewsfeedClient.GetByGuildIdAsync(GuildId)).ToList();
+            _memberLeaderBoard = await GuildClient.GetGuildMemberLeaderBoardAsync(_guild.Id);
 
             try
             {
-                _activeTribute = await ClientHolder.ApiGuildTributeGetForStudentActiveAsync();
+                _activeTribute = await GuildTributeClient.FindStudentActiveTributeAsync();
             }
             catch (Exception e)
             {
@@ -36,7 +36,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
 
             try
             {
-                _activeTournament = await ClientHolder.ApiTournamentsForGuildAsync(_guild.Id);
+                _activeTournament = await TournamentClient.FindActiveByGuildIdAsync(_guild.Id);
             }
             catch (Exception e)
             {
@@ -44,7 +44,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
             }
 
             
-            _achievements = (await ClientHolder.ApiAchievementsGuildsAsync(GuildId)).ToList();
+            _achievements = (await AchievementClient.GetByGuildIdAsync(GuildId)).ToList();
         }
 
         private string LinkToCreateNewsfeedPage()

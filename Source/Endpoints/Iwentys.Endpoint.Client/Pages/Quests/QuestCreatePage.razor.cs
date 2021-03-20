@@ -13,7 +13,7 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
 
         private async Task SendCreateRequest()
         {
-            await ClientHolder.ApiQuestsPostAsync(new CreateQuestRequest
+            await QuestClient.CreateAsync(new CreateQuestRequest
             {
                 Title = _title,
                 Deadline = _deadline,

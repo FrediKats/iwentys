@@ -13,25 +13,25 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
         {
             await base.OnInitializedAsync();
 
-            _currentStudent = await ClientHolder.ApiStudentSelfAsync();
+            _currentStudent = await StudentClient.GetSelfAsync();
             await SelectActive();
         }
         
         private async Task SelectActive()
         {
-            _selectedQuest = await ClientHolder.ApiQuestsActiveAsync();
+            _selectedQuest = await QuestClient.GetActiveAsync();
             StateHasChanged();
         }
 
         private async Task SelectCreated()
         {
-            _selectedQuest = await ClientHolder.ApiQuestsCreatedAsync();
+            _selectedQuest = await QuestClient.GetCreatedByUserAsync();
             StateHasChanged();
         }
 
         private async Task SelectArchived()
         {
-            _selectedQuest = await ClientHolder.ApiQuestsArchivedAsync();
+            _selectedQuest = await QuestClient.GetArchivedAsync();
             StateHasChanged();
         }
 
@@ -47,7 +47,7 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
 
         private async Task RevokeQuest(QuestInfoDto quest)
         {
-            await ClientHolder.ApiQuestsRevokeAsync(quest.Id);
+            await QuestClient.RevokeAsync(quest.Id);
         }
 
         private string LinkToQuestProfilePage(QuestInfoDto quest) => $"/quest/profile/{quest.Id}";

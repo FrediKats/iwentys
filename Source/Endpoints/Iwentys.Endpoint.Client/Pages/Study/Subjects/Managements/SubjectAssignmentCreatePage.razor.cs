@@ -17,7 +17,7 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Managements
                 Description = _description
             };
 
-            await ClientHolder.ApiSubjectAssignmentManagementAsync(SubjectId, arguments);
+            await SubjectAssignmentClient.CreateAsync(SubjectId, arguments);
             NavigationManager.NavigateTo($"/subject/{SubjectId}/management/assignments");
         }
     }

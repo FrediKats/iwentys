@@ -6,8 +6,8 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
     {
         public async Task RemovePin(long repositoryId)
         {
-            await ClientHolder.ApiGuildPinnedDeleteAsync(GuildProfile.Id, repositoryId);
-            GuildProfile = await ClientHolder.ApiGuildGetAsync(GuildProfile.Id);
+            await GuildClient.DeletePinnedProjectAsync(GuildProfile.Id, repositoryId);
+            GuildProfile = await GuildClient.GetAsync(GuildProfile.Id);
         }
     }
 }

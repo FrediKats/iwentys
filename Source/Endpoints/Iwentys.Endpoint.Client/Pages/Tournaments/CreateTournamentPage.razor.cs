@@ -25,7 +25,7 @@ namespace Iwentys.Endpoint.Client.Pages.Tournaments
                 MembersType = CodeMarathonAllowedMembersType.All,
             };
 
-            await ClientHolder.ApiTournamentsCodeMarathonAsync(tournamentArguments);
+            await TournamentClient.CreateCodeMarathonAsync(tournamentArguments);
         }
     }
 }

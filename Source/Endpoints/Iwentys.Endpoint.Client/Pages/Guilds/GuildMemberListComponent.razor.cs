@@ -11,17 +11,17 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
         {
             await base.OnInitializedAsync();
             
-            _leaderBoard = await ClientHolder.ApiGuildMemberLeaderboardAsync(GuildProfile.Id);
+            _leaderBoard = await GuildClient.GetGuildMemberLeaderBoardAsync(GuildProfile.Id);
         }
 
         private async Task KickMember(int memberId)
         {
-            await ClientHolder.ApiGuildMemberKickAsync(GuildProfile.Id, memberId);
+            await GuildMembershipClient.KickMemberAsync(GuildProfile.Id, memberId);
         }
 
         private async Task PromoteToMentor(int memberId)
         {
-            await ClientHolder.ApiGuildMemberPromoteAsync(GuildProfile.Id, memberId);
+            await GuildMembershipClient.PromoteToMentorAsync(GuildProfile.Id, memberId);
         }
     }
 }

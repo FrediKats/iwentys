@@ -4,7 +4,7 @@
   "documentGenerator": {
     "fromDocument": {
       "url": "D:\\coding\\kysect\\iwentys\\Source\\Shared\\Iwentys.Sdk\\OpenAPIs\\swag.json",
-      "output": "IwentysApiClient.nswag.json",
+      "output": "OpenAPI.nswag.json",
       "newLineBehavior": "Auto"
     }
   },
@@ -41,7 +41,7 @@
       "serializeTypeInformation": false,
       "queryNullValue": "",
       "className": "{controller}Client",
-      "operationGenerationMode": "MultipleClientsFromFirstTagAndPathSegments",
+      "operationGenerationMode": "MultipleClientsFromPathSegments",
       "additionalNamespaceUsages": [],
       "additionalContractNamespaceUsages": [],
       "generateOptionalParameters": false,
@@ -92,7 +92,7 @@
       "enumNameGeneratorType": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "IwentysApiClient.cs",
+      "output": "OpenAPI.cs",
       "newLineBehavior": "Auto"
     }
   }

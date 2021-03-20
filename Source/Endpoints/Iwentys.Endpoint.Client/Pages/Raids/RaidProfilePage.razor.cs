@@ -12,20 +12,20 @@ namespace Iwentys.Endpoint.Client.Pages.Raids
         {
             await base.OnInitializedAsync();
 
-            _raid = await ClientHolder.ApiRaidsProfileGetAsync(RaidId);
-            _self = await ClientHolder.ApiStudentSelfAsync();
+            _raid = await RaidClient.GetGetAsync(RaidId);
+            _self = await StudentClient.GetSelfAsync();
         }
 
         private async Task RegisterOnRaid()
         {
-            await ClientHolder.ApiRaidsProfileRegisterAsync(_raid.Id);
-            _raid = await ClientHolder.ApiRaidsProfileGetAsync(RaidId);
+            await RaidClient.RegisterAsync(_raid.Id);
+            _raid = await RaidClient.GetGetAsync(RaidId);
         }
 
         private async Task UnRegisterOnRaid()
         {
-            await ClientHolder.ApiRaidsProfileUnregisterAsync(_raid.Id);
-            _raid = await ClientHolder.ApiRaidsProfileGetAsync(RaidId);
+            await RaidClient.UnregisterAsync(_raid.Id);
+            _raid = await RaidClient.GetGetAsync(RaidId);
         }
 
         private bool CanRegisterOnRaid()

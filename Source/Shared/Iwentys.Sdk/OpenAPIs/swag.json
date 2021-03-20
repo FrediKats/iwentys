@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/achievements/students/{studentId}": {
+    "/api/achievements/GetByStudentId": {
       "get": {
         "tags": [
           "Achievement"
@@ -13,8 +13,7 @@
         "parameters": [
           {
             "name": "studentId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -54,7 +53,7 @@
         }
       }
     },
-    "/api/achievements/guilds/{guildId}": {
+    "/api/achievements/GetByGuildId": {
       "get": {
         "tags": [
           "Achievement"
@@ -62,8 +61,7 @@
         "parameters": [
           {
             "name": "guildId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -103,7 +101,7 @@
         }
       }
     },
-    "/api/assignments": {
+    "/api/assignments/Get": {
       "get": {
         "tags": [
           "Assignment"
@@ -139,7 +137,9 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/assignments/Create": {
       "post": {
         "tags": [
           "Assignment"
@@ -187,7 +187,7 @@
         }
       }
     },
-    "/api/assignments/{assignmentId}/complete": {
+    "/api/assignments/Complete": {
       "get": {
         "tags": [
           "Assignment"
@@ -195,8 +195,7 @@
         "parameters": [
           {
             "name": "assignmentId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -210,7 +209,7 @@
         }
       }
     },
-    "/api/assignments/{assignmentId}/undo": {
+    "/api/assignments/Undo": {
       "get": {
         "tags": [
           "Assignment"
@@ -218,8 +217,7 @@
         "parameters": [
           {
             "name": "assignmentId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -233,7 +231,7 @@
         }
       }
     },
-    "/api/assignments/{assignmentId}/delete": {
+    "/api/assignments/Delete": {
       "get": {
         "tags": [
           "Assignment"
@@ -241,8 +239,7 @@
         "parameters": [
           {
             "name": "assignmentId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -256,7 +253,7 @@
         }
       }
     },
-    "/api/companies": {
+    "/api/companies/Get": {
       "get": {
         "tags": [
           "Company"
@@ -294,7 +291,7 @@
         }
       }
     },
-    "/api/companies/{id}": {
+    "/api/companies/GetById": {
       "get": {
         "tags": [
           "Company"
@@ -302,8 +299,7 @@
         "parameters": [
           {
             "name": "id",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -407,7 +403,7 @@
         }
       }
     },
-    "/api/Github/student/{studentId}": {
+    "/api/Github/GetByStudentId": {
       "get": {
         "tags": [
           "Github"
@@ -415,8 +411,7 @@
         "parameters": [
           {
             "name": "studentId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -456,7 +451,7 @@
         }
       }
     },
-    "/api/Github/student/{studentId}/repository": {
+    "/api/Github/GetRepositoriesByStudentId": {
       "get": {
         "tags": [
           "Github"
@@ -464,8 +459,7 @@
         "parameters": [
           {
             "name": "studentId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -505,7 +499,7 @@
         }
       }
     },
-    "/api/guild": {
+    "/api/guild/Create": {
       "post": {
         "tags": [
           "Guild"
@@ -551,7 +545,9 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/guild/Update": {
       "put": {
         "tags": [
           "Guild"
@@ -597,7 +593,9 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/guild/GetRanked": {
       "get": {
         "tags": [
           "Guild"
@@ -655,7 +653,7 @@
         }
       }
     },
-    "/api/guild/{id}": {
+    "/api/guild/Get": {
       "get": {
         "tags": [
           "Guild"
@@ -663,8 +661,7 @@
         "parameters": [
           {
             "name": "id",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -695,7 +692,7 @@
         }
       }
     },
-    "/api/guild/for-member": {
+    "/api/guild/GetByMemberId": {
       "get": {
         "tags": [
           "Guild"
@@ -734,7 +731,7 @@
         }
       }
     },
-    "/api/guild/{guildId}/pinned": {
+    "/api/guild/AddPinnedProject": {
       "post": {
         "tags": [
           "Guild"
@@ -742,8 +739,7 @@
         "parameters": [
           {
             "name": "guildId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -793,7 +789,7 @@
         }
       }
     },
-    "/api/guild/{guildId}/pinned/{repositoryId}": {
+    "/api/guild/DeletePinnedProject": {
       "delete": {
         "tags": [
           "Guild"
@@ -801,8 +797,7 @@
         "parameters": [
           {
             "name": "guildId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -810,8 +805,7 @@
           },
           {
             "name": "repositoryId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -825,7 +819,7 @@
         }
       }
     },
-    "/api/guild/{guildId}/member-leaderboard": {
+    "/api/guild/GetGuildMemberLeaderBoard": {
       "get": {
         "tags": [
           "Guild"
@@ -833,8 +827,7 @@
         "parameters": [
           {
             "name": "guildId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -865,16 +858,15 @@
         }
       }
     },
-    "/api/guild/{guildId}/enter": {
+    "/api/GuildMembership/Enter": {
       "put": {
         "tags": [
-          "GuildMember"
+          "GuildMembership"
         ],
         "parameters": [
           {
             "name": "guildId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -905,16 +897,15 @@
         }
       }
     },
-    "/api/guild/{guildId}/request": {
+    "/api/GuildMembership/SendRequest": {
       "put": {
         "tags": [
-          "GuildMember"
+          "GuildMembership"
         ],
         "parameters": [
           {
             "name": "guildId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -938,53 +929,6 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GuildProfileDto"
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "GuildMember"
-        ],
-        "parameters": [
-          {
-            "name": "guildId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GuildMember"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GuildMember"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GuildMember"
-                  }
                 }
               }
             }
@@ -992,16 +936,15 @@
         }
       }
     },
-    "/api/guild/{guildId}/leave": {
+    "/api/GuildMembership/Leave": {
       "put": {
         "tags": [
-          "GuildMember"
+          "GuildMembership"
         ],
         "parameters": [
           {
             "name": "guildId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1015,16 +958,15 @@
         }
       }
     },
-    "/api/guild/{guildId}/blocked": {
+    "/api/GuildMembership/GetRequests": {
       "get": {
         "tags": [
-          "GuildMember"
+          "GuildMembership"
         ],
         "parameters": [
           {
             "name": "guildId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1064,16 +1006,63 @@
         }
       }
     },
-    "/api/guild/{guildId}/member/{memberId}/block": {
-      "put": {
+    "/api/GuildMembership/GetBlocked": {
+      "get": {
         "tags": [
-          "GuildMember"
+          "GuildMembership"
         ],
         "parameters": [
           {
             "name": "guildId",
-            "in": "path",
-            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GuildMember"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GuildMember"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GuildMember"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/GuildMembership/BlockMember": {
+      "put": {
+        "tags": [
+          "GuildMembership"
+        ],
+        "parameters": [
+          {
+            "name": "guildId",
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1081,8 +1070,7 @@
           },
           {
             "name": "memberId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1096,16 +1084,15 @@
         }
       }
     },
-    "/api/guild/{guildId}/blocked/{studentId}/unblock": {
+    "/api/GuildMembership/UnblockMember": {
       "put": {
         "tags": [
-          "GuildMember"
+          "GuildMembership"
         ],
         "parameters": [
           {
             "name": "guildId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1113,8 +1100,7 @@
           },
           {
             "name": "studentId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1128,16 +1114,15 @@
         }
       }
     },
-    "/api/guild/{guildId}/member/{memberId}/kick": {
+    "/api/GuildMembership/KickMember": {
       "put": {
         "tags": [
-          "GuildMember"
+          "GuildMembership"
         ],
         "parameters": [
           {
             "name": "guildId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1145,8 +1130,7 @@
           },
           {
             "name": "memberId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1160,16 +1144,15 @@
         }
       }
     },
-    "/api/guild/{guildId}/member/{memberId}/promote": {
+    "/api/GuildMembership/PromoteToMentor": {
       "put": {
         "tags": [
-          "GuildMember"
+          "GuildMembership"
         ],
         "parameters": [
           {
             "name": "guildId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1177,8 +1160,7 @@
           },
           {
             "name": "memberId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1192,16 +1174,15 @@
         }
       }
     },
-    "/api/guild/{guildId}/membership": {
+    "/api/GuildMembership/GetSelfMembership": {
       "get": {
         "tags": [
-          "GuildMember"
+          "GuildMembership"
         ],
         "parameters": [
           {
             "name": "guildId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1232,16 +1213,15 @@
         }
       }
     },
-    "/api/guild/{guildId}/request/{studentId}/accept": {
+    "/api/GuildMembership/AcceptRequest": {
       "put": {
         "tags": [
-          "GuildMember"
+          "GuildMembership"
         ],
         "parameters": [
           {
             "name": "guildId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1249,8 +1229,7 @@
           },
           {
             "name": "studentId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1264,16 +1243,15 @@
         }
       }
     },
-    "/api/guild/{guildId}/request/{studentId}/reject": {
+    "/api/GuildMembership/RejectRequest": {
       "put": {
         "tags": [
-          "GuildMember"
+          "GuildMembership"
         ],
         "parameters": [
           {
             "name": "guildId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1281,8 +1259,7 @@
           },
           {
             "name": "studentId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1296,7 +1273,7 @@
         }
       }
     },
-    "/api/guild/recruitment/{guildId}": {
+    "/api/GuildRecruitment/Create": {
       "post": {
         "tags": [
           "GuildRecruitment"
@@ -1355,7 +1332,7 @@
         }
       }
     },
-    "/api/guild/test-task": {
+    "/api/GuildTestTask/GetByGuildId": {
       "get": {
         "tags": [
           "GuildTestTaskService"
@@ -1403,7 +1380,7 @@
         }
       }
     },
-    "/api/guild/test-task/accept": {
+    "/api/GuildTestTask/Accept": {
       "put": {
         "tags": [
           "GuildTestTaskService"
@@ -1442,7 +1419,7 @@
         }
       }
     },
-    "/api/guild/test-task/submit": {
+    "/api/GuildTestTask/Submit": {
       "put": {
         "tags": [
           "GuildTestTaskService"
@@ -1497,7 +1474,7 @@
         }
       }
     },
-    "/api/guild/test-task/complete": {
+    "/api/GuildTestTask/Complete": {
       "put": {
         "tags": [
           "GuildTestTaskService"
@@ -1544,7 +1521,7 @@
         }
       }
     },
-    "/api/guild/tribute/{tributeId}": {
+    "/api/GuildTribute": {
       "get": {
         "tags": [
           "GuildTribute"
@@ -1552,8 +1529,7 @@
         "parameters": [
           {
             "name": "tributeId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1584,7 +1560,7 @@
         }
       }
     },
-    "/api/guild/tribute/pending": {
+    "/api/GuildTribute/GetPendingTributes": {
       "get": {
         "tags": [
           "GuildTribute"
@@ -1622,7 +1598,7 @@
         }
       }
     },
-    "/api/guild/tribute/get-for-student": {
+    "/api/GuildTribute/GetStudentTributeResult": {
       "get": {
         "tags": [
           "GuildTribute"
@@ -1660,7 +1636,7 @@
         }
       }
     },
-    "/api/guild/tribute/get-for-guild": {
+    "/api/GuildTribute/GetByGuildId": {
       "get": {
         "tags": [
           "GuildTribute"
@@ -1708,7 +1684,7 @@
         }
       }
     },
-    "/api/guild/tribute/create": {
+    "/api/GuildTribute/Create": {
       "post": {
         "tags": [
           "GuildTribute"
@@ -1756,7 +1732,7 @@
         }
       }
     },
-    "/api/guild/tribute/cancel": {
+    "/api/GuildTribute/Cancel": {
       "put": {
         "tags": [
           "GuildTribute"
@@ -1795,7 +1771,7 @@
         }
       }
     },
-    "/api/guild/tribute/complete": {
+    "/api/GuildTribute/Complete": {
       "put": {
         "tags": [
           "GuildTribute"
@@ -1843,7 +1819,7 @@
         }
       }
     },
-    "/api/guild/tribute/get-for-student/active": {
+    "/api/GuildTribute/FindStudentActiveTribute": {
       "get": {
         "tags": [
           "GuildTribute"
@@ -1872,7 +1848,7 @@
         }
       }
     },
-    "/api/tags": {
+    "/api/InterestTag/Get": {
       "get": {
         "tags": [
           "InterestTag"
@@ -1910,7 +1886,7 @@
         }
       }
     },
-    "/api/tags/students/{studentId}": {
+    "/api/InterestTag/GetByStudentId": {
       "get": {
         "tags": [
           "InterestTag"
@@ -1918,8 +1894,7 @@
         "parameters": [
           {
             "name": "studentId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1959,7 +1934,7 @@
         }
       }
     },
-    "/api/tags/students/{studentId}/add/{tagId}": {
+    "/api/InterestTag/Add": {
       "get": {
         "tags": [
           "InterestTag"
@@ -1967,8 +1942,7 @@
         "parameters": [
           {
             "name": "studentId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1976,8 +1950,7 @@
           },
           {
             "name": "tagId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1991,7 +1964,7 @@
         }
       }
     },
-    "/api/tags/students/{studentId}/remove/{tagId}": {
+    "/api/InterestTag/Remove": {
       "get": {
         "tags": [
           "InterestTag"
@@ -1999,8 +1972,7 @@
         "parameters": [
           {
             "name": "studentId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2008,8 +1980,7 @@
           },
           {
             "name": "tagId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2063,6 +2034,54 @@
       }
     },
     "/api/IsuAuth/login/{userId}": {
+      "get": {
+        "tags": [
+          "IsuAuth"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IwentysAuthResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IwentysAuthResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IwentysAuthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/IsuAuth/login-with-itip/{userId}": {
       "get": {
         "tags": [
           "IsuAuth"
@@ -2174,7 +2193,7 @@
         }
       }
     },
-    "/api/karma/{studentId}": {
+    "/api/karma/GetStatistic": {
       "get": {
         "tags": [
           "Karma"
@@ -2182,8 +2201,7 @@
         "parameters": [
           {
             "name": "studentId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2212,7 +2230,9 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/karma/Send": {
       "put": {
         "tags": [
           "Karma"
@@ -2220,8 +2240,7 @@
         "parameters": [
           {
             "name": "studentId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2233,7 +2252,9 @@
             "description": "Success"
           }
         }
-      },
+      }
+    },
+    "/api/karma/Revoke": {
       "delete": {
         "tags": [
           "Karma"
@@ -2241,8 +2262,7 @@
         "parameters": [
           {
             "name": "studentId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2516,7 +2536,7 @@
         }
       }
     },
-    "/api/Newsfeed/subject/{subjectId}": {
+    "/api/Newsfeed/CreateSubjectNewsfeed": {
       "post": {
         "tags": [
           "Newsfeed"
@@ -2524,8 +2544,7 @@
         "parameters": [
           {
             "name": "subjectId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2556,7 +2575,50 @@
             "description": "Success"
           }
         }
-      },
+      }
+    },
+    "/api/Newsfeed/CreateGuildNewsfeed": {
+      "post": {
+        "tags": [
+          "Newsfeed"
+        ],
+        "parameters": [
+          {
+            "name": "subjectId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewsfeedCreateViewModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewsfeedCreateViewModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewsfeedCreateViewModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Newsfeed/GetBySubjectId": {
       "get": {
         "tags": [
           "Newsfeed"
@@ -2564,8 +2626,7 @@
         "parameters": [
           {
             "name": "subjectId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2605,49 +2666,7 @@
         }
       }
     },
-    "/api/Newsfeed/guild/{subjectId}": {
-      "post": {
-        "tags": [
-          "Newsfeed"
-        ],
-        "parameters": [
-          {
-            "name": "subjectId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewsfeedCreateViewModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewsfeedCreateViewModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewsfeedCreateViewModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Newsfeed/guild/{guildId}": {
+    "/api/Newsfeed/GetByGuildId": {
       "get": {
         "tags": [
           "Newsfeed"
@@ -2655,8 +2674,7 @@
         "parameters": [
           {
             "name": "guildId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2728,7 +2746,23 @@
           "200": {
             "description": "Success",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProjectReviewRequestInfoDto"
+                  }
+                }
+              },
               "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProjectReviewRequestInfoDto"
+                  }
+                }
+              },
+              "text/json": {
                 "schema": {
                   "type": "array",
                   "items": {
@@ -2741,7 +2775,7 @@
         }
       }
     },
-    "/api/peer-review/requests/available-projects": {
+    "/api/peer-review/GetAvailableForReviewProject": {
       "get": {
         "tags": [
           "PeerReview"
@@ -2779,7 +2813,7 @@
         }
       }
     },
-    "/api/peer-review/requests": {
+    "/api/peer-review/CreateReviewRequest": {
       "post": {
         "tags": [
           "PeerReview"
@@ -2810,7 +2844,7 @@
         }
       }
     },
-    "/api/peer-review/requests/{reviewRequestId}/feedback": {
+    "/api/peer-review/SendReviewFeedback": {
       "post": {
         "tags": [
           "PeerReview"
@@ -2818,8 +2852,7 @@
         "parameters": [
           {
             "name": "reviewRequestId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2852,7 +2885,7 @@
         }
       }
     },
-    "/api/peer-review/requests/{reviewRequestId}/finish": {
+    "/api/peer-review/FinishReview": {
       "post": {
         "tags": [
           "PeerReview"
@@ -2860,8 +2893,7 @@
         "parameters": [
           {
             "name": "reviewRequestId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2875,7 +2907,7 @@
         }
       }
     },
-    "/api/quests/{questId}": {
+    "/api/quests/GetById": {
       "get": {
         "tags": [
           "Quest"
@@ -2883,8 +2915,7 @@
         "parameters": [
           {
             "name": "questId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2915,7 +2946,7 @@
         }
       }
     },
-    "/api/quests/created": {
+    "/api/quests/GetCreatedByUser": {
       "get": {
         "tags": [
           "Quest"
@@ -2953,7 +2984,7 @@
         }
       }
     },
-    "/api/quests/completed": {
+    "/api/quests/GetCompletedByUser": {
       "get": {
         "tags": [
           "Quest"
@@ -2991,7 +3022,7 @@
         }
       }
     },
-    "/api/quests/active": {
+    "/api/quests/GetActive": {
       "get": {
         "tags": [
           "Quest"
@@ -3029,7 +3060,7 @@
         }
       }
     },
-    "/api/quests/archived": {
+    "/api/quests/GetArchived": {
       "get": {
         "tags": [
           "Quest"
@@ -3067,7 +3098,7 @@
         }
       }
     },
-    "/api/quests": {
+    "/api/quests/Create": {
       "post": {
         "tags": [
           "Quest"
@@ -3115,7 +3146,7 @@
         }
       }
     },
-    "/api/quests/{questId}/send-response": {
+    "/api/quests/SendResponse": {
       "post": {
         "tags": [
           "Quest"
@@ -3123,8 +3154,7 @@
         "parameters": [
           {
             "name": "questId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -3174,7 +3204,7 @@
         }
       }
     },
-    "/api/quests/{questId}/complete": {
+    "/api/quests/Complete": {
       "put": {
         "tags": [
           "Quest"
@@ -3233,7 +3263,7 @@
         }
       }
     },
-    "/api/quests/{questId}/revoke": {
+    "/api/quests/Revoke": {
       "get": {
         "tags": [
           "Quest"
@@ -3241,8 +3271,7 @@
         "parameters": [
           {
             "name": "questId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -3273,7 +3302,7 @@
         }
       }
     },
-    "/api/quests/executor-rating": {
+    "/api/quests/GetQuestExecutorRating": {
       "get": {
         "tags": [
           "Quest"
@@ -3311,7 +3340,7 @@
         }
       }
     },
-    "/api/raids/profile": {
+    "/api/raids/profile/create": {
       "post": {
         "tags": [
           "Raid"
@@ -3340,7 +3369,9 @@
             "description": "Success"
           }
         }
-      },
+      }
+    },
+    "/api/raids/profile/get": {
       "get": {
         "tags": [
           "Raid"
@@ -3378,7 +3409,7 @@
         }
       }
     },
-    "/api/raids/profile/{raidId}": {
+    "/api/raids/profile/{raidId}/get": {
       "get": {
         "tags": [
           "Raid"
@@ -3496,7 +3527,7 @@
         }
       }
     },
-    "/api/Schedule/today/{group}": {
+    "/api/schedule/today/{group}": {
       "get": {
         "tags": [
           "Schedule"
@@ -3513,22 +3544,22 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Success",
+          "default": {
+            "description": "Error",
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ScheduleItemModel"
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ScheduleItemModel"
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ScheduleItemModel"
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -3536,7 +3567,7 @@
         }
       }
     },
-    "/api/Student/profile": {
+    "/api/Student/Get": {
       "get": {
         "tags": [
           "Student"
@@ -3574,7 +3605,7 @@
         }
       }
     },
-    "/api/Student/self": {
+    "/api/Student/GetSelf": {
       "get": {
         "tags": [
           "Student"
@@ -3603,7 +3634,7 @@
         }
       }
     },
-    "/api/Student/profile/{id}": {
+    "/api/Student/GetById": {
       "get": {
         "tags": [
           "Student"
@@ -3611,8 +3642,7 @@
         "parameters": [
           {
             "name": "id",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -3643,7 +3673,7 @@
         }
       }
     },
-    "/api/Student": {
+    "/api/Student/UpdateProfile": {
       "put": {
         "tags": [
           "Student"
@@ -3729,7 +3759,7 @@
         }
       }
     },
-    "/api/StudyGroup": {
+    "/api/StudyGroup/GetByCourseId": {
       "get": {
         "tags": [
           "StudyGroup"
@@ -3778,7 +3808,7 @@
         }
       }
     },
-    "/api/StudyGroup/by-name/{groupName}": {
+    "/api/StudyGroup/GetByGroupName": {
       "get": {
         "tags": [
           "StudyGroup"
@@ -3818,7 +3848,7 @@
         }
       }
     },
-    "/api/StudyGroup/by-student/{studentId}": {
+    "/api/StudyGroup/GetByStudentId": {
       "get": {
         "tags": [
           "StudyGroup"
@@ -3826,8 +3856,7 @@
         "parameters": [
           {
             "name": "studentId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -3858,7 +3887,7 @@
         }
       }
     },
-    "/api/StudyGroup/promote-admin/{newGroupAdminId}": {
+    "/api/StudyGroup/MakeGroupAdmin": {
       "get": {
         "tags": [
           "StudyGroup"
@@ -3866,8 +3895,7 @@
         "parameters": [
           {
             "name": "newGroupAdminId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -3881,7 +3909,7 @@
         }
       }
     },
-    "/api/Subject/search": {
+    "/api/Subject/Get": {
       "get": {
         "tags": [
           "Subject"
@@ -3937,7 +3965,7 @@
         }
       }
     },
-    "/api/Subject/profile/{subjectId}": {
+    "/api/Subject/GetById": {
       "get": {
         "tags": [
           "Subject"
@@ -3977,7 +4005,7 @@
         }
       }
     },
-    "/api/Subject/search/for-group": {
+    "/api/Subject/GetByGroupId": {
       "get": {
         "tags": [
           "Subject"
@@ -4025,7 +4053,7 @@
         }
       }
     },
-    "/api/subject-assignment/for-group/{groupId}": {
+    "/api/subject-assignment/GetByGroupId": {
       "get": {
         "tags": [
           "SubjectAssignment"
@@ -4033,8 +4061,7 @@
         "parameters": [
           {
             "name": "groupId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -4074,7 +4101,7 @@
         }
       }
     },
-    "/api/subject-assignment/for-subject/{subjectId}": {
+    "/api/subject-assignment/GetBySubjectId": {
       "get": {
         "tags": [
           "SubjectAssignment"
@@ -4082,8 +4109,7 @@
         "parameters": [
           {
             "name": "subjectId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -4123,105 +4149,7 @@
         }
       }
     },
-    "/api/subject-assignment/{subjectId}/submits/{subjectAssignmentSubmitId}": {
-      "get": {
-        "tags": [
-          "SubjectAssignment"
-        ],
-        "parameters": [
-          {
-            "name": "subjectId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "subjectAssignmentSubmitId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/SubjectAssignmentSubmitDto"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SubjectAssignmentSubmitDto"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SubjectAssignmentSubmitDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/subject-assignment/{subjectId}/submits": {
-      "get": {
-        "tags": [
-          "SubjectAssignment"
-        ],
-        "parameters": [
-          {
-            "name": "subjectId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/SubjectAssignmentSubmitDto"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/SubjectAssignmentSubmitDto"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/SubjectAssignmentSubmitDto"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/subject-assignment/{subjectId}/assignments/{subjectAssignmentId}/submits": {
+    "/api/subject-assignment/Create": {
       "post": {
         "tags": [
           "SubjectAssignment"
@@ -4229,76 +4157,7 @@
         "parameters": [
           {
             "name": "subjectId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "subjectAssignmentId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SubjectAssignmentSubmitCreateArguments"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SubjectAssignmentSubmitCreateArguments"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/SubjectAssignmentSubmitCreateArguments"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/SubjectAssignmentSubmitDto"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SubjectAssignmentSubmitDto"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SubjectAssignmentSubmitDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/subject-assignment/management/{subjectId}": {
-      "post": {
-        "tags": [
-          "SubjectAssignment"
-        ],
-        "parameters": [
-          {
-            "name": "subjectId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -4331,16 +4190,176 @@
         }
       }
     },
-    "/api/subject-assignment/management/{subjectId}/submits": {
+    "/api/SubjectAssignmentSubmit/GetById": {
       "get": {
         "tags": [
-          "SubjectAssignment"
+          "SubjectAssignmentSubmit"
         ],
         "parameters": [
           {
             "name": "subjectId",
-            "in": "path",
-            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "subjectAssignmentSubmitId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubjectAssignmentSubmitDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubjectAssignmentSubmitDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubjectAssignmentSubmitDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SubjectAssignmentSubmit/GetBySubjectId": {
+      "get": {
+        "tags": [
+          "SubjectAssignmentSubmit"
+        ],
+        "parameters": [
+          {
+            "name": "subjectId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SubjectAssignmentSubmitDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SubjectAssignmentSubmitDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SubjectAssignmentSubmitDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SubjectAssignmentSubmit/SendSubmit": {
+      "post": {
+        "tags": [
+          "SubjectAssignmentSubmit"
+        ],
+        "parameters": [
+          {
+            "name": "subjectId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "subjectAssignmentId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubjectAssignmentSubmitCreateArguments"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubjectAssignmentSubmitCreateArguments"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubjectAssignmentSubmitCreateArguments"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubjectAssignmentSubmitDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubjectAssignmentSubmitDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubjectAssignmentSubmitDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SubjectAssignmentSubmit/SearchSubjectAssignmentSubmits": {
+      "get": {
+        "tags": [
+          "SubjectAssignmentSubmit"
+        ],
+        "parameters": [
+          {
+            "name": "subjectId",
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -4389,16 +4408,15 @@
         }
       }
     },
-    "/api/subject-assignment/management/{subjectId}/submits/{subjectAssignmentSubmitId}": {
+    "/api/SubjectAssignmentSubmit/SendFeedback": {
       "put": {
         "tags": [
-          "SubjectAssignment"
+          "SubjectAssignmentSubmit"
         ],
         "parameters": [
           {
             "name": "subjectId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -4406,8 +4424,7 @@
           },
           {
             "name": "subjectAssignmentSubmitId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -4440,7 +4457,7 @@
         }
       }
     },
-    "/api/tournaments": {
+    "/api/tournaments/Get": {
       "get": {
         "tags": [
           "Tournament"
@@ -4478,7 +4495,7 @@
         }
       }
     },
-    "/api/tournaments/{id}": {
+    "/api/tournaments/GetById": {
       "get": {
         "tags": [
           "Tournament"
@@ -4486,8 +4503,7 @@
         "parameters": [
           {
             "name": "id",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -4518,7 +4534,7 @@
         }
       }
     },
-    "/api/tournaments/for-guild": {
+    "/api/tournaments/FindActiveByGuildId": {
       "get": {
         "tags": [
           "Tournament"
@@ -4557,7 +4573,7 @@
         }
       }
     },
-    "/api/tournaments/code-marathon": {
+    "/api/tournaments/CreateCodeMarathon": {
       "post": {
         "tags": [
           "Tournament"
@@ -4605,7 +4621,7 @@
         }
       }
     },
-    "/api/tournaments/{tournamentId}/register": {
+    "/api/tournaments/RegisterToTournament": {
       "put": {
         "tags": [
           "Tournament"
@@ -4613,8 +4629,7 @@
         "parameters": [
           {
             "name": "tournamentId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -4628,7 +4643,7 @@
         }
       }
     },
-    "/api/tournaments/{tournamentId}/force-update": {
+    "/api/tournaments/ForceUpdate": {
       "get": {
         "tags": [
           "Tournament"
@@ -4636,8 +4651,7 @@
         "parameters": [
           {
             "name": "tournamentId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -5739,13 +5753,11 @@
           },
           "bio": {
             "type": "string",
-            "nullable": true,
-            "readOnly": true
+            "nullable": true
           },
           "imageUrl": {
             "type": "string",
-            "nullable": true,
-            "readOnly": true
+            "nullable": true
           },
           "testTaskLink": {
             "type": "string",
@@ -6494,104 +6506,32 @@
         },
         "additionalProperties": false
       },
-      "DataDayType": {
-        "enum": [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday"
-        ],
-        "type": "string"
-      },
-      "DataWeekType": {
-        "enum": [
-          "Both",
-          "Even",
-          "Odd"
-        ],
-        "type": "string"
-      },
-      "ScheduleItemModel": {
+      "ProblemDetails": {
         "type": "object",
         "properties": {
-          "dataDay": {
-            "$ref": "#/components/schemas/DataDayType"
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
           },
           "status": {
-            "type": "string",
-            "nullable": true
-          },
-          "dataWeek": {
-            "$ref": "#/components/schemas/DataWeekType"
-          },
-          "group": {
-            "type": "string",
-            "nullable": true
-          },
-          "subjectTime": {
-            "type": "string",
-            "nullable": true
-          },
-          "sortp": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "room": {
-            "type": "string",
-            "nullable": true
-          },
-          "place": {
-            "type": "string",
-            "nullable": true
-          },
-          "subjectTitle": {
-            "type": "string",
-            "nullable": true
-          },
-          "note": {
-            "type": "string",
-            "nullable": true
-          },
-          "teacher": {
-            "type": "string",
-            "nullable": true
-          },
-          "pid": {
             "type": "integer",
             "format": "int32",
             "nullable": true
           },
-          "bldId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "cathedraBunId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "facultyBunId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "course": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "startTime": {
+          "detail": {
             "type": "string",
             "nullable": true
           },
-          "endTime": {
+          "instance": {
             "type": "string",
             "nullable": true
           }
         },
-        "additionalProperties": false
+        "additionalProperties": {}
       },
       "StudentUpdateRequestDto": {
         "type": "object",
@@ -6757,16 +6697,6 @@
         },
         "additionalProperties": false
       },
-      "SubjectAssignmentSubmitCreateArguments": {
-        "type": "object",
-        "properties": {
-          "studentDescription": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "SubjectAssignmentCreateArguments": {
         "type": "object",
         "properties": {
@@ -6785,6 +6715,16 @@
           "deadlineUtc": {
             "type": "string",
             "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SubjectAssignmentSubmitCreateArguments": {
+        "type": "object",
+        "properties": {
+          "studentDescription": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

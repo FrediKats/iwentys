@@ -13,8 +13,8 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds.Tributes
         {
             await base.OnInitializedAsync();
             
-            _guild = await ClientHolder.ApiGuildGetAsync(GuildId);
-            _tributes = await ClientHolder.ApiGuildTributeGetForGuildAsync(GuildId);
+            _guild = await GuildClient.GetAsync(GuildId);
+            _tributes = await GuildTributeClient.GetByGuildIdAsync(GuildId);
         }
     }
 }

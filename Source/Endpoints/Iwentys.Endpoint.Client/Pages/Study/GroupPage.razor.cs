@@ -10,7 +10,7 @@ namespace Iwentys.Endpoint.Client.Pages.Study
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            _groupProfile = await ClientHolder.ApiStudygroupByNameAsync(GroupName);
+            _groupProfile = await StudyGroupClient.GetByGroupNameAsync(GroupName);
         }
 
         private string LinkToStudentProfile(StudentInfoDto student) => $"student/profile/{student.Id}";

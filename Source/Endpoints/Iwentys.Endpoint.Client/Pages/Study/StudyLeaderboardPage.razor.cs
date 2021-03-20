@@ -18,19 +18,19 @@ namespace Iwentys.Endpoint.Client.Pages.Study
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            _studyCourses = (await ClientHolder.ApiStudyCoursesAsync()).ToList();
+            _studyCourses = (await StudyCourseClient.StudyCoursesAsync()).ToList();
         }
 
         private async Task OnCurseSelected(StudyCourseInfoDto value)
         {
             _selectedCourse = value;
-            _studentProfiles = await ClientHolder.ApiLeaderboardStudyAsync(null, value.CourseId, null, null, null, null);
-            _groups = (await ClientHolder.ApiStudygroupAsync(value.CourseId)).ToList();
+            _studentProfiles = await LeaderboardClient.StudyAsync(null, value.CourseId, null, null, null, null);
+            _groups = (await StudyGroupClient.GetByCourseIdAsync(value.CourseId)).ToList();
         }
 
         private async Task OnGroupSelect(GroupProfileResponseDto value)
         {
-            _studentProfiles = await ClientHolder.ApiLeaderboardStudyAsync(null, _selectedCourse.CourseId, value.Id, null, null, null);
+            _studentProfiles = await LeaderboardClient.StudyAsync(null, _selectedCourse.CourseId, value.Id, null, null, null);
         }
     }
 }

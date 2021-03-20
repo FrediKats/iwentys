@@ -12,7 +12,7 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Managements
         {
             await base.OnInitializedAsync();
 
-            _subjectAssignments = await ClientHolder.ApiSubjectAssignmentForSubjectAsync(SubjectId);
+            _subjectAssignments = await SubjectAssignmentClient.GetBySubjectIdAsync(SubjectId);
         }
 
         private string LinkToSubjectAssignmentCreate() => $"/subject/{SubjectId}/management/assignments/create";

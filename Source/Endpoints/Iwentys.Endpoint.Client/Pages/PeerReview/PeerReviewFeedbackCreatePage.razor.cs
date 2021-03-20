@@ -19,7 +19,7 @@ namespace Iwentys.Endpoint.Client.Pages.PeerReview
         {
             await base.OnInitializedAsync();
 
-            ICollection<ProjectReviewRequestInfoDto> requests = await ClientHolder.ApiPeerReviewRequestsAllAsync();
+            ICollection<ProjectReviewRequestInfoDto> requests = await PeerReviewClient.AllAsync();
             _request = requests.First(r => r.Id == ReviewRequestId);
         }
 
@@ -31,7 +31,7 @@ namespace Iwentys.Endpoint.Client.Pages.PeerReview
                 Summary = _selectedSummaries
             };
 
-            await ClientHolder.ApiPeerReviewRequestsFeedbackAsync(ReviewRequestId, arguments);
+            await PeerReviewClient.SendReviewFeedbackAsync(ReviewRequestId, arguments);
             NavigationManager.NavigateTo("/peer-review");
         }
     }

@@ -11,7 +11,7 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
         {
             await base.OnInitializedAsync();
 
-            _quest = await ClientHolder.ApiQuestsGetAsync(QuestId);
+            _quest = await QuestClient.GetByIdAsync(QuestId);
         }
 
         private async Task AcceptQuestResponse(QuestResponseInfoDto questResponse)
@@ -23,7 +23,7 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
                 Mark = 5
             };
 
-            await ClientHolder.ApiQuestsCompleteAsync(_quest.Id, arguments);
+            await QuestClient.CompleteAsync(_quest.Id, arguments);
         }
     }
 }

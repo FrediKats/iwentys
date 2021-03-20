@@ -19,7 +19,7 @@ namespace Iwentys.Endpoint.Controllers
             _assignmentService = assignmentService;
         }
 
-        [HttpGet]
+        [HttpGet(nameof(Get))]
         public async Task<ActionResult<List<AssignmentInfoDto>>> Get()
         {
             AuthorizedUser user = this.TryAuthWithToken();
@@ -27,7 +27,7 @@ namespace Iwentys.Endpoint.Controllers
             return Ok(assignments);
         }
 
-        [HttpPost]
+        [HttpPost(nameof(Create))]
         public async Task<ActionResult<AssignmentInfoDto>> Create([FromBody] AssignmentCreateArguments assignmentCreateArguments)
         {
             AuthorizedUser user = this.TryAuthWithToken();
@@ -35,7 +35,7 @@ namespace Iwentys.Endpoint.Controllers
             return Ok(assignment);
         }
 
-        [HttpGet("{assignmentId}/complete")]
+        [HttpGet(nameof(Complete))]
         public async Task<ActionResult> Complete(int assignmentId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
@@ -43,7 +43,7 @@ namespace Iwentys.Endpoint.Controllers
             return Ok();
         }
 
-        [HttpGet("{assignmentId}/undo")]
+        [HttpGet(nameof(Undo))]
         public async Task<ActionResult> Undo(int assignmentId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
@@ -51,7 +51,7 @@ namespace Iwentys.Endpoint.Controllers
             return Ok();
         }
 
-        [HttpGet("{assignmentId}/delete")]
+        [HttpGet(nameof(Delete))]
         public async Task<ActionResult> Delete(int assignmentId)
         {
             AuthorizedUser user = this.TryAuthWithToken();

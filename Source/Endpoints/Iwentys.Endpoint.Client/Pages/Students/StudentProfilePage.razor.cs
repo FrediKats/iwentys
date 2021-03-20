@@ -39,27 +39,27 @@ namespace Iwentys.Endpoint.Client.Pages.Students
 
             if (StudentId is null)
             {
-                _studentFullProfile = await ClientHolder.ApiStudentSelfAsync();
+                _studentFullProfile = await StudentClient.GetSelfAsync();
                 _isSelf = true;
             }
             else
             {
-                _studentFullProfile = await ClientHolder.ApiStudentProfileGetAsync(StudentId.Value);
+                _studentFullProfile = await StudentClient.GetByIdAsync(StudentId.Value);
                 _isSelf = false;
             }
 
-            _codingActivityInfo = await ClientHolder.ApiGithubStudentAsync(_studentFullProfile.Id);
+            _codingActivityInfo = await GithubClient.GetByStudentIdAsync(_studentFullProfile.Id);
             if (_codingActivityInfo is not null)
                 InitGithubChart();
 
-            _studentActivity = await ClientHolder.ApiLeaderboardActivityAsync(_studentFullProfile.Id);
+            _studentActivity = await LeaderboardClient.ActivityAsync(_studentFullProfile.Id);
             if (_studentActivity is not null)
                 InitStudyChart();
 
-            _achievements = await ClientHolder.ApiAchievementsStudentsAsync(_studentFullProfile.Id);
+            _achievements = await AchievementClient.GetByStudentIdAsync(_studentFullProfile.Id);
             try
             {
-                _leaderboardRow = await ClientHolder.ApiLeaderboardStudentPositionAsync(_studentFullProfile.Id);
+                _leaderboardRow = await LeaderboardClient.StudentPositionAsync(_studentFullProfile.Id);
             }
             catch (Exception e)
             {

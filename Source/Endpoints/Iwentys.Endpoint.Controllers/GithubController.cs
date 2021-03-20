@@ -19,8 +19,8 @@ namespace Iwentys.Endpoint.Controllers
             _githubIntegrationService = githubIntegrationService;
         }
 
-        [HttpGet("student/{studentId}")]
-        public async Task<ActionResult<List<CodingActivityInfoResponse>>> GetForStudent(int studentId)
+        [HttpGet(nameof(GetByStudentId))]
+        public async Task<ActionResult<List<CodingActivityInfoResponse>>> GetByStudentId(int studentId)
         {
             GithubUser result = await _githubIntegrationService.User.FindGithubUser(studentId);
 
@@ -30,8 +30,8 @@ namespace Iwentys.Endpoint.Controllers
             return result.ContributionFullInfo.PerMonthActivity().SelectToList(CodingActivityInfoResponse.Wrap);
         }
 
-        [HttpGet("student/{studentId}/repository")]
-        public async Task<ActionResult<IReadOnlyList<GithubRepositoryInfoDto>>> GetStudentRepositories(int studentId)
+        [HttpGet(nameof(GetRepositoriesByStudentId))]
+        public async Task<ActionResult<IReadOnlyList<GithubRepositoryInfoDto>>> GetRepositoriesByStudentId(int studentId)
         {
             IReadOnlyList<GithubRepositoryInfoDto> result = await _githubIntegrationService.Repository.GetStudentRepositories(studentId);
             return Ok(result);

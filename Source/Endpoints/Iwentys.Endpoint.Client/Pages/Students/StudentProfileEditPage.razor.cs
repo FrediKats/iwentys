@@ -13,7 +13,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
         {
             await base.OnInitializedAsync();
 
-            _studentFullProfile = await ClientHolder.ApiStudentSelfAsync();
+            _studentFullProfile = await StudentClient.GetSelfAsync();
             _githubUsername = _studentFullProfile.GithubUsername;
         }
 
@@ -21,7 +21,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
         {
             if (_githubUsername is not null && _studentFullProfile.GithubUsername != _githubUsername)
             {
-                await ClientHolder.ApiStudentAsync(new StudentUpdateRequestDto {GithubUsername = _githubUsername });
+                await StudentClient.UpdateProfileAsync(new StudentUpdateRequestDto {GithubUsername = _githubUsername });
             }
         }
     }

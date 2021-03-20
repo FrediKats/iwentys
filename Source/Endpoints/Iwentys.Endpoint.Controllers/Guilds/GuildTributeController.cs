@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Guilds
 {
-    [Route("api/guild/tribute")]
+    [Route("api/GuildTribute")]
     [ApiController]
     public class GuildTributeController : ControllerBase
     {
@@ -20,7 +20,7 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             _guildService = guildService;
         }
 
-        [HttpGet("{tributeId}")]
+        [HttpGet()]
         public ActionResult<TributeInfoResponse> Get(int tributeId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
@@ -28,51 +28,51 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             return Ok(result);
         }
 
-        [HttpGet("pending")]
+        [HttpGet(nameof(GetPendingTributes))]
         public ActionResult<List<TributeInfoResponse>> GetPendingTributes()
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildService.GetPendingTributes(user));
         }
 
-        [HttpGet("get-for-student")]
+        [HttpGet(nameof(GetStudentTributeResult))]
         public ActionResult<List<TributeInfoResponse>> GetStudentTributeResult()
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(_guildService.GetStudentTributeResult(user));
         }
 
-        [HttpGet("get-for-guild")]
-        public ActionResult<List<TributeInfoResponse>> GetGuildTribute(int guildId)
+        [HttpGet(nameof(GetByGuildId))]
+        public ActionResult<List<TributeInfoResponse>> GetByGuildId(int guildId)
         {
             return Ok(_guildService.GetGuildTributes(guildId));
         }
 
-        [HttpPost("create")]
-        public async Task<ActionResult<TributeInfoResponse>> SendTribute([FromBody] CreateProjectRequestDto createProject)
+        [HttpPost(nameof(Create))]
+        public async Task<ActionResult<TributeInfoResponse>> Create([FromBody] CreateProjectRequestDto createProject)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             TributeInfoResponse tributes = await _guildService.CreateTribute(user, createProject);
             return Ok(tributes);
         }
 
-        [HttpPut("cancel")]
-        public async Task<ActionResult<TributeInfoResponse>> CancelTribute(long tributeId)
+        [HttpPut(nameof(Cancel))]
+        public async Task<ActionResult<TributeInfoResponse>> Cancel(long tributeId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             TributeInfoResponse tributes = await _guildService.CancelTribute(user, tributeId);
             return Ok(tributes);
         }
 
-        [HttpPut("complete")]
-        public async Task<ActionResult<TributeInfoResponse>> CompleteTribute([FromBody] TributeCompleteRequest tributeCompleteRequest)
+        [HttpPut(nameof(Complete))]
+        public async Task<ActionResult<TributeInfoResponse>> Complete([FromBody] TributeCompleteRequest tributeCompleteRequest)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             TributeInfoResponse tributes = await _guildService.CompleteTribute(user, tributeCompleteRequest);
             return Ok(tributes);
         }
 
-        [HttpGet("get-for-student/active")]
+        [HttpGet(nameof(FindStudentActiveTribute))]
         public async Task<ActionResult<TributeInfoResponse>> FindStudentActiveTribute()
         {
             AuthorizedUser user = this.TryAuthWithToken();
