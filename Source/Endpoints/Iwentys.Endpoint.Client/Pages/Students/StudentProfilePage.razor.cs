@@ -136,20 +136,32 @@ namespace Iwentys.Endpoint.Client.Pages.Students
                 }
             };
 
+            var colors = new[]
+            {
+                "#003f5c",
+                "#2f4b7c",
+                "#665191",
+                "#a05195",
+                "#d45087",
+                "#f95d6a",
+                "#ff7c43",
+                "#ffa600",
+            };
+
             var pieSet = new PieDataset
             {
-                BackgroundColor = new[] { ColorUtil.RandomColorString(), ColorUtil.RandomColorString(), ColorUtil.RandomColorString(), ColorUtil.RandomColorString() },
+                BackgroundColor = colors,
                 BorderWidth = 0,
-                HoverBackgroundColor = ColorUtil.RandomColorString(),
-                HoverBorderColor = ColorUtil.RandomColorString(),
+                HoverBackgroundColor = "#ffa600",
                 HoverBorderWidth = 1,
                 BorderColor = "#ffffff",
             };
 
             if (_studentActivity is not null)
             {
-                pieSet.Data.AddRange(_studentActivity.Activity.Select(sa => sa.Points));
-                _studyChartConfig.Data.Labels.AddRange(_studentActivity.Activity.Select(sa => sa.SubjectTitle));
+                var data = _studentActivity.Activity.OrderBy(sa => sa.Points).ToList();
+                pieSet.Data.AddRange(data.Select(sa => sa.Points));
+                _studyChartConfig.Data.Labels.AddRange(data.Select(sa => sa.SubjectTitle));
             }
 
             _studyChartConfig.Data.Datasets.Add(pieSet);
