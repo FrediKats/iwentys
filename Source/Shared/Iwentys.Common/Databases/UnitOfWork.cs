@@ -24,6 +24,7 @@ namespace Iwentys.Common.Databases
 
         public async Task<int> CommitAsync()
         {
+            Context.EnsureAutoHistory();
             return await Context.SaveChangesAsync();
         }
 

@@ -169,6 +169,8 @@ namespace Iwentys.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.EnableAutoHistory(null);
+
             modelBuilder.OnAccountManagementModelCreating();
             modelBuilder.OnAchievementModelCreating();
             modelBuilder.OnAssignmentsModelCreating();
