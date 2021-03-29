@@ -2,14 +2,13 @@
 
 @namespace Iwentys.Endpoint.Client.CustomComponents
 
-<div Class="text-center">
-    <MatHeadline5>Ачивки</MatHeadline5>
+<div class="text-center">
     <div class="container-fluid d-flex flex-row">
         @foreach (AchievementInfoDto achievement in Achievements)
         {
             <div class="d-flex flex-column achievement-item">
-                <img src="@achievement.ImageUrl" />
-                <MatHeadline6>@achievement.Title</MatHeadline6>
+                <img class="achievement-item-icon" src="@achievement.ImageUrl" />
+                <MatBody2>@achievement.Title</MatBody2>
             </div>
         }
     </div>
