@@ -17,7 +17,9 @@
             <div class="container-fluid d-flex flex-column">
                 @foreach (TournamentInfoResponse tournament in _tournaments)
                 {
-                    <TournamentInfoComponent Tournament=@tournament></TournamentInfoComponent>
+                    <div class="card-list-element">
+                        <TournamentInfoComponent Tournament=@tournament></TournamentInfoComponent>
+                    </div>
                 }
             </div>
         }
