@@ -9,6 +9,7 @@ using Iwentys.Endpoint.Client.Tools;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using VxFormGenerator.Settings.Bootstrap;
 
 namespace Iwentys.Endpoint.Client
 {
@@ -22,6 +23,7 @@ namespace Iwentys.Endpoint.Client
             builder.Services.AddHttpClient("Iwentys.Endpoint.ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
 
             builder.Services.AddBlazoredLocalStorage();
+            builder.Services.AddVxFormGenerator();
             //builder.Services.AddAuthorizationCore();
             builder.Services.AddScoped<IAuthService, AuthService>();
 
