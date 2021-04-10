@@ -43,32 +43,32 @@ namespace Iwentys.Endpoint.Client.Shared
         protected override async Task OnInitializedAsync()
         {
             HttpClient httpClient = await _httpClient.TrySetHeader(_localStorage);
-            AchievementClient = new AchievementClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            AssignmentClient = new AssignmentClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            CompanyClient = new CompanyClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            DebugCommandClient = new DebugCommandClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            GithubClient = new GithubClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            GuildClient = new GuildClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            GuildMembershipClient = new GuildMembershipClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            GuildRecruitmentClient = new GuildRecruitmentClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            GuildTestTaskServiceClient = new GuildTestTaskServiceClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            GuildTributeClient = new GuildTributeClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            InterestTagClient = new InterestTagClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            IsuAuthClient = new IsuAuthClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            KarmaClient = new KarmaClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            LeaderboardClient = new LeaderboardClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            NewsfeedClient = new NewsfeedClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            PeerReviewClient = new PeerReviewClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            QuestClient = new QuestClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            RaidClient = new RaidClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            ScheduleClient = new ScheduleClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            StudentClient = new StudentClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            StudyCourseClient = new StudyCourseClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            StudyGroupClient = new StudyGroupClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            SubjectClient = new SubjectClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            SubjectAssignmentClient = new SubjectAssignmentClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            SubjectAssignmentSubmitClient = new SubjectAssignmentSubmitClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
-            TournamentClient = new TournamentClient(httpClient.BaseAddress.AbsoluteUri, httpClient);
+            AchievementClient = new AchievementClient(httpClient);
+            AssignmentClient = new AssignmentClient(httpClient);
+            CompanyClient = new CompanyClient(httpClient);
+            DebugCommandClient = new DebugCommandClient(httpClient);
+            GithubClient = new GithubClient(httpClient);
+            GuildClient = new GuildClient(httpClient);
+            GuildMembershipClient = new GuildMembershipClient(httpClient);
+            GuildRecruitmentClient = new GuildRecruitmentClient(httpClient);
+            GuildTestTaskServiceClient = new GuildTestTaskServiceClient(httpClient);
+            GuildTributeClient = new GuildTributeClient(httpClient);
+            InterestTagClient = new InterestTagClient(httpClient);
+            IsuAuthClient = new IsuAuthClient(httpClient);
+            KarmaClient = new KarmaClient(httpClient);
+            LeaderboardClient = new LeaderboardClient(httpClient);
+            NewsfeedClient = new NewsfeedClient(httpClient);
+            PeerReviewClient = new PeerReviewClient(httpClient);
+            QuestClient = new QuestClient(httpClient);
+            RaidClient = new RaidClient(httpClient);
+            ScheduleClient = new ScheduleClient(httpClient);
+            StudentClient = new StudentClient(httpClient);
+            StudyCourseClient = new StudyCourseClient(httpClient);
+            StudyGroupClient = new StudyGroupClient(httpClient);
+            SubjectClient = new SubjectClient(httpClient);
+            SubjectAssignmentClient = new SubjectAssignmentClient(httpClient);
+            SubjectAssignmentSubmitClient = new SubjectAssignmentSubmitClient(httpClient);
+            TournamentClient = new TournamentClient(httpClient);
         }
     }
 }

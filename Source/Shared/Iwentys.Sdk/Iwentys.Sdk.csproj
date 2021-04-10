@@ -16,4 +16,9 @@
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ApiClients\" />
+    <Folder Include="Connected Services\" />
+  </ItemGroup>
+
 </Project>
