@@ -25,7 +25,7 @@ namespace Iwentys.Features.Achievements.Domain
             BetaTester = Register(
                 "TP tester",
                 "Lorem",
-                "https://img.icons8.com/windows/96/000000/open-pokeball.png");
+                "https://img.icons8.com/fluent-systems-regular/96/000000/bug.png");
 
             QuestCreator = Register(
                 "Quest creator",
