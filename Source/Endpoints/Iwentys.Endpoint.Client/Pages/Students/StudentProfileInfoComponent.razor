@@ -24,10 +24,11 @@
                 @if (StudentProfile.Id != _group.Id)
                 {
                     <MatBody1>Группа: <NavLink href=@LinkToGroupProfile>@_group.GroupName</NavLink></MatBody1>
-                    @if (_self?.IsAdmin == true)
-                    {
-                        <MatButton OnClick=@(async () => await MakeGroupAdmin())>Make admin</MatButton>
-                    }
+                    @*TODO: Need to add view for management admins*@
+                    //@if (_self?.IsAdmin == true)
+                    //{
+                    //    <MatButton OnClick=@(async () => await MakeGroupAdmin())>Make admin</MatButton>
+                    //}
                 }
             }
 

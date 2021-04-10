@@ -9,7 +9,7 @@
         <MatButton OnClick=@(async () => await SelectActive())>Active</MatButton>
         <MatButton OnClick=@(async () => await SelectCreated())>Created</MatButton>
         <MatButton OnClick=@(async () => await SelectArchived())>Archive</MatButton>
-        <MatButton Link=@LinkToRating()>Rating</MatButton>
+        <MatButton Disabled="true" Link=@LinkToRating()>Rating</MatButton>
         <MatButton Link="/quest/create">Добавить квест</MatButton>
     </div>
 
