@@ -18,24 +18,23 @@ namespace Iwentys.Endpoint.Controllers.Gamification
             _karmaService = karmaService;
         }
 
-        [HttpGet("{studentId}")]
-        public async Task<ActionResult<KarmaStatistic>> GetUserKarmaStatistic(int studentId)
+        [HttpGet(nameof(GetStatistic))]
+        public async Task<ActionResult<KarmaStatistic>> GetStatistic(int studentId)
         {
-            AuthorizedUser authorizedUser = this.TryAuthWithToken();
             KarmaStatistic karmaStatistic = await _karmaService.GetStatistic(studentId);
             return Ok(karmaStatistic);
         }
 
-        [HttpPut("{studentId}")]
-        public async Task<ActionResult> PutUserKarmaStatistic(int studentId)
+        [HttpPut(nameof(Send))]
+        public async Task<ActionResult> Send(int studentId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             await _karmaService.UpVote(authorizedUser, studentId);
             return Ok();
         }
 
-        [HttpDelete("{studentId}")]
-        public async Task<ActionResult> DeleteUserKarmaStatistic(int studentId)
+        [HttpDelete(nameof(Revoke))]
+        public async Task<ActionResult> Revoke(int studentId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             await _karmaService.RemoveUpVote(authorizedUser, studentId);

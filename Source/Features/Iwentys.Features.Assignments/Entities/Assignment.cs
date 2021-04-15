@@ -31,7 +31,7 @@ namespace Iwentys.Features.Assignments.Entities
                 Title = createArguments.Title,
                 Description = createArguments.Description,
                 CreationTimeUtc = DateTime.UtcNow,
-                DeadlineTimeUtc = createArguments.Deadline,
+                DeadlineTimeUtc = createArguments.DeadlineTimeUtc,
                 AuthorId = author.Id,
                 SubjectId = createArguments.SubjectId
             };

@@ -19,7 +19,7 @@ namespace Iwentys.Endpoint.Controllers
             _newsfeedService = newsfeedService;
         }
 
-        [HttpPost("subject/{subjectId}")]
+        [HttpPost(nameof(CreateSubjectNewsfeed))]
         public async Task<ActionResult> CreateSubjectNewsfeed(NewsfeedCreateViewModel createViewModel, int subjectId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
@@ -27,7 +27,7 @@ namespace Iwentys.Endpoint.Controllers
             return Ok();
         }
 
-        [HttpPost("guild/{subjectId}")]
+        [HttpPost(nameof(CreateGuildNewsfeed))]
         public async Task<ActionResult> CreateGuildNewsfeed(NewsfeedCreateViewModel createViewModel, int subjectId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
@@ -35,14 +35,14 @@ namespace Iwentys.Endpoint.Controllers
             return Ok();
         }
 
-        [HttpGet("subject/{subjectId}")]
-        public async Task<ActionResult<List<NewsfeedViewModel>>> GetForSubject(int subjectId)
+        [HttpGet(nameof(GetBySubjectId))]
+        public async Task<ActionResult<List<NewsfeedViewModel>>> GetBySubjectId(int subjectId)
         {
             return Ok(await _newsfeedService.GetSubjectNewsfeeds(subjectId));
         }
 
-        [HttpGet("guild/{guildId}")]
-        public async Task<ActionResult<List<NewsfeedViewModel>>> GetForGuild(int guildId)
+        [HttpGet(nameof(GetByGuildId))]
+        public async Task<ActionResult<List<NewsfeedViewModel>>> GetByGuildId(int guildId)
         {
             return Ok(await _newsfeedService.GetGuildNewsfeeds(guildId));
         }

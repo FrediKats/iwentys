@@ -9,32 +9,32 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Guilds
 {
-    [Route("api/guild")]
+    [Route("api/GuildMembership")]
     [ApiController]
-    public class GuildMemberController : ControllerBase
+    public class GuildMembershipController : ControllerBase
     {
         private readonly GuildMemberService _guildMemberService;
 
-        public GuildMemberController(GuildMemberService guildMemberService)
+        public GuildMembershipController(GuildMemberService guildMemberService)
         {
             _guildMemberService = guildMemberService;
         }
         
-        [HttpPut("{guildId}/enter")]
+        [HttpPut(nameof(Enter))]
         public async Task<ActionResult<GuildProfileDto>> Enter(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(await _guildMemberService.EnterGuild(user, guildId));
         }
 
-        [HttpPut("{guildId}/request")]
+        [HttpPut(nameof(SendRequest))]
         public async Task<ActionResult<GuildProfileDto>> SendRequest(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(await _guildMemberService.RequestGuild(user, guildId));
         }
 
-        [HttpPut("{guildId}/leave")]
+        [HttpPut(nameof(Leave))]
         public async Task<ActionResult> Leave(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
@@ -42,45 +42,45 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             return Ok();
         }
 
-        [HttpGet("{guildId}/request")]
-        public async Task<ActionResult<GuildMember[]>> GetGuildRequests(int guildId)
+        [HttpGet(nameof(GetRequests))]
+        public async Task<ActionResult<GuildMember[]>> GetRequests(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(await _guildMemberService.GetGuildRequests(user, guildId));
         }
 
-        [HttpGet("{guildId}/blocked")]
-        public async Task<ActionResult<GuildMember[]>> GetGuildBlocked(int guildId)
+        [HttpGet(nameof(GetBlocked))]
+        public async Task<ActionResult<GuildMember[]>> GetBlocked(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(await _guildMemberService.GetGuildBlocked(user, guildId));
         }
 
-        [HttpPut("{guildId}/member/{memberId}/block")]
-        public async Task<IActionResult> BlockGuildMember(int guildId, int memberId)
+        [HttpPut(nameof(BlockMember))]
+        public async Task<IActionResult> BlockMember(int guildId, int memberId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             await _guildMemberService.BlockGuildMember(user, guildId, memberId);
             return Ok();
         }
 
-        [HttpPut("{guildId}/blocked/{studentId}/unblock")]
-        public async Task<IActionResult> UnblockGuildMember(int guildId, int studentId)
+        [HttpPut(nameof(UnblockMember))]
+        public async Task<IActionResult> UnblockMember(int guildId, int studentId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             await _guildMemberService.UnblockStudent(user, guildId, studentId);
             return Ok();
         }
 
-        [HttpPut("{guildId}/member/{memberId}/kick")]
-        public async Task<IActionResult> KickGuildMember(int guildId, int memberId)
+        [HttpPut(nameof(KickMember))]
+        public async Task<IActionResult> KickMember(int guildId, int memberId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             await _guildMemberService.KickGuildMember(user, guildId, memberId);
             return Ok();
         }
 
-        [HttpPut("{guildId}/member/{memberId}/promote")]
+        [HttpPut(nameof(PromoteToMentor))]
         public async Task<IActionResult> PromoteToMentor(int guildId, int memberId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
@@ -88,15 +88,15 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             return Ok();
         }
 
-        [HttpGet("{guildId}/membership")]
-        public async Task<ActionResult<UserMembershipState>> GetUserMembership(int guildId)
+        [HttpGet(nameof(GetSelfMembership))]
+        public async Task<ActionResult<UserMembershipState>> GetSelfMembership(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             UserMembershipState result = await _guildMemberService.GetUserMembership(user, guildId);
             return Ok(result);
         }
 
-        [HttpPut("{guildId}/request/{studentId}/accept")]
+        [HttpPut(nameof(AcceptRequest))]
         public async Task<IActionResult> AcceptRequest(int guildId, int studentId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
@@ -104,7 +104,7 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             return Ok();
         }
 
-        [HttpPut("{guildId}/request/{studentId}/reject")]
+        [HttpPut(nameof(RejectRequest))]
         public async Task<IActionResult> RejectRequest(int guildId, int studentId)
         {
             AuthorizedUser user = this.TryAuthWithToken();

@@ -19,22 +19,22 @@ namespace Iwentys.Endpoint.Controllers.Study
             _studyService = studyService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<GroupProfileResponseDto>>> GetCourseGroups([FromQuery] int? courseId)
+        [HttpGet(nameof(GetByCourseId))]
+        public async Task<ActionResult<List<GroupProfileResponseDto>>> GetByCourseId([FromQuery] int? courseId)
         {
             List<GroupProfileResponseDto> result = await _studyService.GetStudyGroupsForDto(courseId);
             return Ok(result);
         }
 
-        [HttpGet("by-name/{groupName}")]
-        public async Task<ActionResult<GroupProfileResponseDto>> Get([FromRoute] string groupName)
+        [HttpGet(nameof(GetByGroupName))]
+        public async Task<ActionResult<GroupProfileResponseDto>> GetByGroupName(string groupName)
         {
             GroupProfileResponseDto result = await _studyService.GetStudyGroup(groupName);
             return Ok(result);
         }
 
-        [HttpGet("by-student/{studentId}")]
-        public async Task<ActionResult<GroupProfileResponseDto>> GetStudentGroup(int studentId)
+        [HttpGet(nameof(GetByStudentId))]
+        public async Task<ActionResult<GroupProfileResponseDto>> GetByStudentId(int studentId)
         {
             GroupProfileResponseDto result = await _studyService.GetStudentStudyGroup(studentId);
             if (result is null)
@@ -43,7 +43,7 @@ namespace Iwentys.Endpoint.Controllers.Study
             return Ok(result);
         }
 
-        [HttpGet("promote-admin/{newGroupAdminId}")]
+        [HttpGet(nameof(MakeGroupAdmin))]
         public async Task<ActionResult> MakeGroupAdmin(int newGroupAdminId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();

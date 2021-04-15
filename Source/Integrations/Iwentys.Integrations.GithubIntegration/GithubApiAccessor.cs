@@ -75,10 +75,14 @@ namespace Iwentys.Integrations.GithubIntegration
             return activity.GetActivityForPeriod(from, to);
         }
 
-        public Organization FindOrganizationInfo(string organizationName)
+        public OrganizationInfoDto FindOrganizationInfo(string organizationName)
         {
             Organization organization = _client.Organization.Get(organizationName).Result;
-            return organization;
+            return new OrganizationInfoDto()
+            {
+                Name = organization.Name,
+                Description = organization.Description
+            };
         }
     }
 }

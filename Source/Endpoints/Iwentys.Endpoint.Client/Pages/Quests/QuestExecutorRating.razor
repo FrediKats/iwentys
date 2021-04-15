@@ -1,6 +1,7 @@
 ﻿@page "/quests/rating/"
 
-@using Iwentys.Features.Quests.Models
+@using Iwentys.Sdk
+@using Iwentys.Sdk.Extensions
 @inherits DependencyInjectionPage
 
 
@@ -13,9 +14,7 @@
             {
                 @foreach (QuestRatingRow executorRow in _questExecutorRating)
                 {
-                    //TODO: implement link
-                    @*<a href=@LinkToProfile(studentProfile)>*@
-                    <a>
+                    <a href=@LinkToProfile(executorRow.User)>
                         <div class="d-flex flex-row dark-elevation-01 student-rating-row justify-content-center">
                             <div class="col-md-2">
                                 <img src=@executorRow.User.AvatarUrl class="student-logo" />
@@ -26,7 +25,7 @@
                             </div>
 
                             <div class="col-md-2">
-                                <p>@executorRow.CalculateRating()</p>
+                                <p>@executorRow.Marks.Sum()</p>
                             </div>
                         </div>
                     </a>

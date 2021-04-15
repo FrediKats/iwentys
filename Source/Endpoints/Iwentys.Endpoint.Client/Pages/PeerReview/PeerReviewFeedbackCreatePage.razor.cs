@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Features.PeerReview.Enums;
-using Iwentys.Features.PeerReview.Models;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.PeerReview
 {
@@ -20,8 +19,8 @@ namespace Iwentys.Endpoint.Client.Pages.PeerReview
         {
             await base.OnInitializedAsync();
 
-            List<ProjectReviewRequestInfoDto> requests = await ClientHolder.PeerReview.Get();
-            _request = requests.Find(r => r.Id == ReviewRequestId);
+            ICollection<ProjectReviewRequestInfoDto> requests = await PeerReviewClient.AllAsync();
+            _request = requests.First(r => r.Id == ReviewRequestId);
         }
 
         private async Task CreateFeedback()
@@ -32,7 +31,7 @@ namespace Iwentys.Endpoint.Client.Pages.PeerReview
                 Summary = _selectedSummaries
             };
 
-            await ClientHolder.PeerReview.SendReviewFeedback(ReviewRequestId, arguments);
+            await PeerReviewClient.SendReviewFeedbackAsync(ReviewRequestId, arguments);
             NavigationManager.NavigateTo("/peer-review");
         }
     }

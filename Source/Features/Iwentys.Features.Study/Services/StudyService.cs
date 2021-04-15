@@ -62,8 +62,6 @@ namespace Iwentys.Features.Study.Services
 
         public async Task<GroupProfileResponseDto> GetStudentStudyGroup(int studentId)
         {
-            Student student = await _studentRepository.GetById(studentId);
-
             return await _studentRepository
                 .Get()
                 .Where(sgm => sgm.Id == studentId)

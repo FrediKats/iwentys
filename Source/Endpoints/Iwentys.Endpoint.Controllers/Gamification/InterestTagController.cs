@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Features.Gamification.Models;
-using Iwentys.Features.Gamification.Services;
 using Iwentys.Features.InterestTags.Models;
 using Iwentys.Features.InterestTags.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Gamification
 {
-    [Route("api/tags")]
+    [Route("api/InterestTag")]
     [ApiController]
     public class InterestTagController : ControllerBase
     {
@@ -19,29 +17,29 @@ namespace Iwentys.Endpoint.Controllers.Gamification
             _interestTagService = interestTagService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<InterestTagDto>>> GetAllTags()
+        [HttpGet(nameof(Get))]
+        public async Task<ActionResult<List<InterestTagDto>>> Get()
         {
             List<InterestTagDto> result = await _interestTagService.GetAllTags();
             return Ok(result);
         }
 
-        [HttpGet("students/{studentId}")]
-        public async Task<ActionResult<List<InterestTagDto>>> GetStudentTags(int studentId)
+        [HttpGet(nameof(GetByStudentId))]
+        public async Task<ActionResult<List<InterestTagDto>>> GetByStudentId(int studentId)
         {
             List<InterestTagDto> result = await _interestTagService.GetUserTags(studentId);
             return result;
         }
 
-        [HttpGet("students/{studentId}/add/{tagId}")]
-        public async Task<ActionResult> AddStudentTag(int studentId, int tagId)
+        [HttpGet(nameof(Add))]
+        public async Task<ActionResult> Add(int studentId, int tagId)
         {
             await _interestTagService.AddUserTag(studentId, tagId);
             return Ok();
         }
         
-        [HttpGet("students/{studentId}/remove/{tagId}")]
-        public async Task<ActionResult> RemoveStudentTag(int studentId, int tagId)
+        [HttpGet(nameof(Remove))]
+        public async Task<ActionResult> Remove(int studentId, int tagId)
         {
             await _interestTagService.RemoveUserTag(studentId, tagId);
             return Ok();

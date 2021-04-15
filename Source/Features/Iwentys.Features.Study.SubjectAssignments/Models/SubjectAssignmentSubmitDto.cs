@@ -1,18 +1,12 @@
 ﻿using System;
 using Iwentys.Features.Study.Models.Students;
 using Iwentys.Features.Study.SubjectAssignments.Entities;
+using Iwentys.Features.Study.SubjectAssignments.Enums;
 
 namespace Iwentys.Features.Study.SubjectAssignments.Models
 {
     public class SubjectAssignmentSubmitDto
     {
-        public enum AssignmentSubmitState
-        {
-            Open,
-            Approved,
-            Rejected
-        }
-
         public SubjectAssignmentSubmitDto(SubjectAssignmentSubmit submit) : this()
         {
             Id = submit.Id;
@@ -24,6 +18,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Models
             ApproveTimeUtc = submit.ApproveTimeUtc;
             RejectTimeUtc = submit.RejectTimeUtc;
             Comment = submit.Comment;
+            State = GetState();
         }
 
         public SubjectAssignmentSubmitDto()
@@ -40,6 +35,8 @@ namespace Iwentys.Features.Study.SubjectAssignments.Models
         public DateTime? ApproveTimeUtc { get; set; }
         public DateTime? RejectTimeUtc { get; set; }
         public string Comment { get; set; }
+        public AssignmentSubmitState State { get; set; }
+
 
         public AssignmentSubmitState GetState()
         {

@@ -1,8 +1,11 @@
 ﻿@page "/student/profile/{StudentId:int?}"
 @using Iwentys.Endpoint.Client.CustomComponents
 @using ChartJs.Blazor.Charts
+@using Microsoft.Extensions.Logging
 
 @inherits DependencyInjectionPage
+
+@inject ILogger<StudentProfilePage> _logger
 
 @if (_studentFullProfile is not null)
 {
@@ -16,7 +19,10 @@
                         <MatHeadline6>Top-@_leaderboardRow.Position</MatHeadline6>
                     </div>
                 }
-                <MatButton Link="/student/profile/edit">Edit</MatButton>
+                @if (_isSelf)
+                {
+                    <MatButton Link="/student/profile/edit">Edit</MatButton>
+                }
             </div>
 
             <div class="profile-element dark-elevation-01">

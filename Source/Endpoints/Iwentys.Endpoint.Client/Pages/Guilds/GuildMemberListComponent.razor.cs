@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Features.Guilds.Models;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Guilds
 {
@@ -11,17 +11,17 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
         {
             await base.OnInitializedAsync();
             
-            _leaderBoard = await ClientHolder.Guild.GetGuildMemberLeaderBoard(GuildProfile.Id);
+            _leaderBoard = await GuildClient.GetGuildMemberLeaderBoardAsync(GuildProfile.Id);
         }
 
         private async Task KickMember(int memberId)
         {
-            await ClientHolder.GuildMember.KickGuildMember(GuildProfile.Id, memberId);
+            await GuildMembershipClient.KickMemberAsync(GuildProfile.Id, memberId);
         }
 
         private async Task PromoteToMentor(int memberId)
         {
-            await ClientHolder.GuildMember.PromoteToMentor(GuildProfile.Id, memberId);
+            await GuildMembershipClient.PromoteToMentorAsync(GuildProfile.Id, memberId);
         }
     }
 }

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Guilds
 {
-    [Route("api/guild/recruitment")]
+    [Route("api/GuildRecruitment")]
     [ApiController]
     public class GuildRecruitmentController : ControllerBase
     {
@@ -18,7 +18,7 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             _guildRecruitmentService = guildRecruitmentService;
         }
 
-        [HttpPost("{guildId}/")]
+        [HttpPost(nameof(Create))]
         public async Task<ActionResult<GuildRecruitmentInfoDto>> Create([FromRoute] int guildId, [FromBody] GuildRecruitmentCreateArguments createArguments)
         {
             AuthorizedUser user = this.TryAuthWithToken();

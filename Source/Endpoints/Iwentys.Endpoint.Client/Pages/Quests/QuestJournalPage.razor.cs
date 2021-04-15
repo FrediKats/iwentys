@@ -1,39 +1,37 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Features.Quests.Enums;
-using Iwentys.Features.Quests.Models;
-using Iwentys.Features.Study.Models.Students;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Quests
 {
     public partial class QuestJournalPage
     {
-        private IReadOnlyList<QuestInfoDto> _selectedQuest;
+        private ICollection<QuestInfoDto> _selectedQuest;
         private StudentInfoDto _currentStudent;
 
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
 
-            _currentStudent = await ClientHolder.Student.GetSelf();
+            _currentStudent = await StudentClient.GetSelfAsync();
             await SelectActive();
         }
         
         private async Task SelectActive()
         {
-            _selectedQuest = await ClientHolder.Quest.GetActive();
+            _selectedQuest = await QuestClient.GetActiveAsync();
             StateHasChanged();
         }
 
         private async Task SelectCreated()
         {
-            _selectedQuest = await ClientHolder.Quest.GetCreatedByUser();
+            _selectedQuest = await QuestClient.GetCreatedByUserAsync();
             StateHasChanged();
         }
 
         private async Task SelectArchived()
         {
-            _selectedQuest = await ClientHolder.Quest.GetArchived();
+            _selectedQuest = await QuestClient.GetArchivedAsync();
             StateHasChanged();
         }
 
@@ -49,7 +47,7 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
 
         private async Task RevokeQuest(QuestInfoDto quest)
         {
-            await ClientHolder.Quest.Revoke(quest.Id);
+            await QuestClient.RevokeAsync(quest.Id);
         }
 
         private string LinkToQuestProfilePage(QuestInfoDto quest) => $"/quest/profile/{quest.Id}";

@@ -11,10 +11,15 @@ namespace Iwentys.Database.Seeding.FakerEntities
 
         private readonly Faker _faker = new Faker();
 
+        public Newsfeed CreateNewsfeed(int authorId)
+        {
+            return CreateNewsfeedFaker(authorId).Generate();
+        }
+
         public Faker<Newsfeed> CreateNewsfeedFaker(int authorId)
         {
             return new Faker<Newsfeed>()
-                .RuleFor(n => n.Id, f => f.IndexFaker + 1)
+                .RuleFor(n => n.Id, _ => _faker.IndexVariable++ + 1)
                 .RuleFor(n => n.AuthorId, authorId)
                 .RuleFor(n => n.Title, f => f.Lorem.Slug())
                 .RuleFor(n => n.Content, f => f.Lorem.Paragraph())

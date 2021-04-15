@@ -1,6 +1,6 @@
 ﻿@page "/tournaments"
 
-@using Iwentys.Features.Guilds.Tournaments.Models
+@using Iwentys.Sdk
 @inherits DependencyInjectionPage
 
 <div class="d-flex flex-row align-self-center align-baseline">
@@ -17,7 +17,9 @@
             <div class="container-fluid d-flex flex-column">
                 @foreach (TournamentInfoResponse tournament in _tournaments)
                 {
-                    <TournamentInfoComponent Tournament=@tournament></TournamentInfoComponent>
+                    <div class="card-list-element">
+                        <TournamentInfoComponent Tournament=@tournament></TournamentInfoComponent>
+                    </div>
                 }
             </div>
         }

@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Features.GithubIntegration.Models;
-using Iwentys.Features.PeerReview.Enums;
-using Iwentys.Features.PeerReview.Models;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.PeerReview
 {
@@ -16,7 +14,8 @@ namespace Iwentys.Endpoint.Client.Pages.PeerReview
         {
             await base.OnInitializedAsync();
 
-            _availableForReviewProject = await ClientHolder.PeerReview.GetAvailableForReviewProject();
+            _availableForReviewProject = new List<GithubRepositoryInfoDto>();
+            _availableForReviewProject.AddRange(await PeerReviewClient.GetAvailableForReviewProjectAsync());
             //FYI: this value is used in selector
             _availableForReviewProject.Insert(0, null);
         }
@@ -30,7 +29,7 @@ namespace Iwentys.Endpoint.Client.Pages.PeerReview
                 Visibility = ProjectReviewVisibility.Open
             };
 
-            await ClientHolder.PeerReview.CreateReviewRequest(arguments);
+            await PeerReviewClient.CreateReviewRequestAsync(arguments);
             NavigationManager.NavigateTo("/peer-review");
         }
     }

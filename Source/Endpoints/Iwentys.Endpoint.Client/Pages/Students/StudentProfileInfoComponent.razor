@@ -1,8 +1,10 @@
 ﻿@namespace Iwentys.Endpoint.Client.Pages.Students
 
-@using Iwentys.Features.Study.Models.Students
-@using Iwentys.Features.Study.Enums
+@using Iwentys.Sdk
+@using Iwentys.Sdk.Extensions
+@using Microsoft.Extensions.Logging
 @inherits DependencyInjectionPage
+@inject ILogger<StudentProfileInfoComponent> _logger
 
 @if (StudentProfile is not null)
 {
@@ -22,10 +24,11 @@
                 @if (StudentProfile.Id != _group.Id)
                 {
                     <MatBody1>Группа: <NavLink href=@LinkToGroupProfile>@_group.GroupName</NavLink></MatBody1>
-                    @if (_self?.IsAdmin == true)
-                    {
-                        <MatButton OnClick=@(async () => await MakeGroupAdmin())>Make admin</MatButton>
-                    }
+                    @*TODO: Need to add view for management admins*@
+                    //@if (_self?.IsAdmin == true)
+                    //{
+                    //    <MatButton OnClick=@(async () => await MakeGroupAdmin())>Make admin</MatButton>
+                    //}
                 }
             }
 

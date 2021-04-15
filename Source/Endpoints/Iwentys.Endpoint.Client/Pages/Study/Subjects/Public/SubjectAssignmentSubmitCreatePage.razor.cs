@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Features.Study.Models.Students;
-using Iwentys.Features.Study.SubjectAssignments.Models;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Public
 {
@@ -16,8 +16,8 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Public
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            _self = await ClientHolder.Student.GetSelf();
-            _subjectAssignments = await ClientHolder.SubjectAssignment.GetSubjectAssignmentForSubject(SubjectId);
+            _self = await StudentClient.GetSelfAsync();
+            _subjectAssignments = (await SubjectAssignmentClient.GetBySubjectIdAsync(SubjectId)).ToList();
         }
 
         public async Task SendSubmit()
@@ -27,7 +27,7 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Public
                 StudentDescription = _description
             };
 
-            SubjectAssignmentSubmitDto submit = await ClientHolder.SubjectAssignment.SendSubmit(SubjectId, _selectedSubject.Id, createArguments);
+            SubjectAssignmentSubmitDto submit = await SubjectAssignmentSubmitClient.SendSubmitAsync(SubjectId, _selectedSubject.Id, createArguments);
 
         }
     }

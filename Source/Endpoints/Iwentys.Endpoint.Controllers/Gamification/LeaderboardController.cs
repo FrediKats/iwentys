@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers.Gamification
 {
+    //TODO: refactor naming
     [Route("api/leaderboard")]
     [ApiController]
     public class LeaderboardController : ControllerBase

@@ -9,16 +9,11 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 {
     public class AssignmentGenerator : IEntityGenerator
     {
-        public List<Assignment> Assignments { get; set; }
-        public List<StudentAssignment> StudentAssignments { get; set; }
-
-        private AssignmentCreateRequestFaker _assignmentCreateRequestFaker;
-        private Faker _faker;
+        private readonly Faker _faker;
 
         public AssignmentGenerator(List<Student> students)
         {
             _faker = new Faker();
-            _assignmentCreateRequestFaker = new AssignmentCreateRequestFaker();
 
             Assignments = new List<Assignment>();
             StudentAssignments = new List<StudentAssignment>();
@@ -29,22 +24,25 @@ namespace Iwentys.Database.Seeding.EntityGenerators
                 StudentAssignments.Add(new StudentAssignment
                 {
                     AssignmentId = assignment.Id,
-                    StudentId = student.Id,
+                    StudentId = student.Id
                 });
             }
         }
 
-        public Assignment GenerateAssignment(Student author)
-        {
-            var assignment = Assignment.Create(author, _assignmentCreateRequestFaker.Generate());
-            assignment.Id = 1 + _faker.IndexVariable++;
-            return assignment;
-        }
+        public List<Assignment> Assignments { get; set; }
+        public List<StudentAssignment> StudentAssignments { get; set; }
 
         public void Seed(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Assignment>().HasData(Assignments);
             modelBuilder.Entity<StudentAssignment>().HasData(StudentAssignments);
+        }
+
+        public Assignment GenerateAssignment(Student author)
+        {
+            var assignment = Assignment.Create(author, AssignmentFaker.Instance.CreateAssignmentCreateArguments());
+            assignment.Id = 1 + _faker.IndexVariable++;
+            return assignment;
         }
     }
 }

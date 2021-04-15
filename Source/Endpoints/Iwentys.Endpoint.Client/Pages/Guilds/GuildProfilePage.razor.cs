@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Features.Achievements.Models;
-using Iwentys.Features.Guilds.Models;
-using Iwentys.Features.Guilds.Tournaments.Models;
-using Iwentys.Features.Guilds.Tributes.Models;
-using Iwentys.Features.Newsfeeds.Models;
+using Iwentys.Sdk;
+using Microsoft.Extensions.Logging;
 
 namespace Iwentys.Endpoint.Client.Pages.Guilds
 {
@@ -21,12 +20,31 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
         {
             await base.OnInitializedAsync();
 
-            _guild = await ClientHolder.Guild.Get(GuildId);
-            _newsfeeds = await ClientHolder.Newsfeed.GetForGuild(GuildId);
-            _memberLeaderBoard = await ClientHolder.Guild.GetGuildMemberLeaderBoard(_guild.Id);
-            _activeTribute = await ClientHolder.GuildTribute.FindStudentActiveTribute();
-            _activeTournament = await ClientHolder.Tournament.FindGuildActiveTournament(_guild.Id);
-            _achievements = await ClientHolder.Achievement.GetForGuild(GuildId);
+            _guild = await GuildClient.GetAsync(GuildId);
+            _newsfeeds = (await NewsfeedClient.GetByGuildIdAsync(GuildId)).ToList();
+            _memberLeaderBoard = await GuildClient.GetGuildMemberLeaderBoardAsync(_guild.Id);
+
+            try
+            {
+                _activeTribute = await GuildTributeClient.FindStudentActiveTributeAsync();
+            }
+            catch (Exception e)
+            {
+                //TODO: remove this hack. Implement logic for handling 404 or null value
+                _logger.Log(LogLevel.Error, e, "Failed to fetch member tribute.");
+            }
+
+            try
+            {
+                _activeTournament = await TournamentClient.FindActiveByGuildIdAsync(_guild.Id);
+            }
+            catch (Exception e)
+            {
+                _logger.Log(LogLevel.Error, e, $"Failed to fetch active tournament. GuildId: {_guild.Id}");
+            }
+
+            
+            _achievements = (await AchievementClient.GetByGuildIdAsync(GuildId)).ToList();
         }
 
         private string LinkToCreateNewsfeedPage()

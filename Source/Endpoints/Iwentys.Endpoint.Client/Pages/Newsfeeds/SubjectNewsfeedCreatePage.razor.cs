@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Features.Newsfeeds.Models;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Newsfeeds
 {
@@ -10,7 +10,7 @@ namespace Iwentys.Endpoint.Client.Pages.Newsfeeds
 
         private async Task ExecuteCreateNewsfeed()
         {
-            await ClientHolder.Newsfeed.CreateSubjectNewsfeed(SubjectId, new NewsfeedCreateViewModel
+            await NewsfeedClient.CreateSubjectNewsfeedAsync(SubjectId, new NewsfeedCreateViewModel
             {
                 Title = _title,
                 Content = _description

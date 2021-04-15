@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Iwentys.Features.Study.SubjectAssignments.Models;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Managements
 {
@@ -17,7 +17,7 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Managements
                 Description = _description
             };
 
-            await ClientHolder.SubjectAssignment.CreateSubjectAssignment(SubjectId, arguments);
+            await SubjectAssignmentClient.CreateAsync(SubjectId, arguments);
             NavigationManager.NavigateTo($"/subject/{SubjectId}/management/assignments");
         }
     }

@@ -20,35 +20,34 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             _guildService = guildService;
         }
 
-        [HttpPost]
+        [HttpPost(nameof(Create))]
         public async Task<ActionResult<GuildProfileShortInfoDto>> Create([FromBody] GuildCreateRequestDto arguments)
         {
             AuthorizedUser creator = this.TryAuthWithToken();
             return Ok(await _guildService.Create(creator, arguments));
         }
 
-        [HttpPut]
+        [HttpPut(nameof(Update))]
         public async Task<ActionResult<GuildProfileShortInfoDto>> Update([FromBody] GuildUpdateRequestDto arguments)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(await _guildService.Update(user, arguments));
         }
 
-        [HttpGet]
-        public ActionResult<List<GuildProfileDto>> GetOverview([FromQuery] int skip = 0, [FromQuery] int take = 20)
+        [HttpGet(nameof(GetRanked))]
+        public ActionResult<List<GuildProfileDto>> GetRanked([FromQuery] int skip = 0, [FromQuery] int take = 20)
         {
             return Ok(_guildService.GetOverview(skip, take));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet(nameof(Get))]
         public async Task<ActionResult<GuildProfileDto>> Get(int id)
         {
-            AuthorizedUser user = this.TryAuthWithToken();
             return Ok(await _guildService.Get(id));
         }
 
-        [HttpGet("for-member")]
-        public ActionResult<GuildProfileDto> GetForMember(int memberId)
+        [HttpGet(nameof(GetByMemberId))]
+        public ActionResult<GuildProfileDto> GetByMemberId(int memberId)
         {
             GuildProfileDto result = _guildService.FindStudentGuild(memberId);
             if (result is null)
@@ -57,14 +56,14 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             return Ok(result);
         }
 
-        [HttpPost("{guildId}/pinned")]
-        public async Task<ActionResult<GithubRepositoryInfoDto>> AddPinnedProject([FromRoute] int guildId, [FromBody] CreateProjectRequestDto createProject)
+        [HttpPost(nameof(AddPinnedProject))]
+        public async Task<ActionResult<GithubRepositoryInfoDto>> AddPinnedProject(int guildId, [FromBody] CreateProjectRequestDto createProject)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             return Ok(await _guildService.AddPinnedRepository(user, guildId, createProject.Owner, createProject.RepositoryName));
         }
 
-        [HttpDelete("{guildId}/pinned/{repositoryId}")]
+        [HttpDelete(nameof(DeletePinnedProject))]
         public async Task<ActionResult> DeletePinnedProject(int guildId, long repositoryId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
@@ -72,7 +71,7 @@ namespace Iwentys.Endpoint.Controllers.Guilds
             return Ok();
         }
 
-        [HttpGet("{guildId}/member-leaderboard")]
+        [HttpGet(nameof(GetGuildMemberLeaderBoard))]
         public async Task<ActionResult<GuildMemberLeaderBoardDto>> GetGuildMemberLeaderBoard(int guildId)
         {
             return Ok(await _guildService.GetGuildMemberLeaderBoard(guildId));

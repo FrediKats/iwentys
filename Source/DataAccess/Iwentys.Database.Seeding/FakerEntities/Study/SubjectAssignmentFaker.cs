@@ -19,7 +19,7 @@ namespace Iwentys.Database.Seeding.FakerEntities.Study
             {
                 Id = _faker.IndexVariable++ + 1,
                 AssignmentId = assignment.Id,
-                SubjectId = subjectId,
+                SubjectId = subjectId
             };
         }
 

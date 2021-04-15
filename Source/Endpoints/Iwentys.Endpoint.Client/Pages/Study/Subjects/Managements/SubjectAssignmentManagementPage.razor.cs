@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Features.Study.SubjectAssignments.Models;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Managements
 {
     public partial class SubjectAssignmentManagementPage
     {
-        private List<SubjectAssignmentDto> _subjectAssignments;
+        private ICollection<SubjectAssignmentDto> _subjectAssignments;
 
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
 
-            _subjectAssignments = await ClientHolder.SubjectAssignment.GetSubjectAssignmentForSubject(SubjectId);
+            _subjectAssignments = await SubjectAssignmentClient.GetBySubjectIdAsync(SubjectId);
         }
 
         private string LinkToSubjectAssignmentCreate() => $"/subject/{SubjectId}/management/assignments/create";

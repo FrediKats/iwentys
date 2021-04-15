@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,19 +11,17 @@ using ChartJs.Blazor.ChartJS.LineChart;
 using ChartJs.Blazor.ChartJS.PieChart;
 using ChartJs.Blazor.Charts;
 using ChartJs.Blazor.Util;
-using Iwentys.Features.Achievements.Models;
-using Iwentys.Features.Gamification.Entities;
-using Iwentys.Features.GithubIntegration.Models;
-using Iwentys.Features.Study.Models;
-using Iwentys.Features.Study.Models.Students;
+using Iwentys.Sdk;
+using Microsoft.Extensions.Logging;
 
 namespace Iwentys.Endpoint.Client.Pages.Students
 {
     public partial class StudentProfilePage
     {
+        private bool _isSelf;
         private StudentInfoDto _studentFullProfile;
-        private List<AchievementInfoDto> _achievements;
-        private List<CodingActivityInfoResponse> _codingActivityInfo;
+        private ICollection<AchievementInfoDto> _achievements;
+        private ICollection<CodingActivityInfoResponse> _codingActivityInfo;
         private StudentActivityInfoDto _studentActivity;
         private CourseLeaderboardRow _leaderboardRow;
 
@@ -35,26 +34,38 @@ namespace Iwentys.Endpoint.Client.Pages.Students
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            
+
+            _logger.LogTrace("Load student profile");
+
             if (StudentId is null)
             {
-                _studentFullProfile = await ClientHolder.Student.GetSelf();
+                _studentFullProfile = await StudentClient.GetSelfAsync();
+                _isSelf = true;
             }
             else
             {
-                _studentFullProfile = await ClientHolder.Student.Get(StudentId.Value);
+                _studentFullProfile = await StudentClient.GetByIdAsync(StudentId.Value);
+                _isSelf = false;
             }
 
-            _codingActivityInfo = await ClientHolder.Github.Get(_studentFullProfile.Id);
+            _codingActivityInfo = await GithubClient.GetByStudentIdAsync(_studentFullProfile.Id);
             if (_codingActivityInfo is not null)
                 InitGithubChart();
 
-            _studentActivity = await ClientHolder.StudyLeaderboard.GetStudentActivity(_studentFullProfile.Id);
+            _studentActivity = await LeaderboardClient.ActivityAsync(_studentFullProfile.Id);
             if (_studentActivity is not null)
                 InitStudyChart();
 
-            _achievements = await ClientHolder.Achievement.GetForStudent(_studentFullProfile.Id);
-            _leaderboardRow = await ClientHolder.StudyLeaderboard.FindStudentLeaderboardPosition(_studentFullProfile.Id);
+            _achievements = await AchievementClient.GetByStudentIdAsync(_studentFullProfile.Id);
+            try
+            {
+                _leaderboardRow = await LeaderboardClient.StudentPositionAsync(_studentFullProfile.Id);
+            }
+            catch (Exception e)
+            {
+                //TODO: remove this hack. Implement logic for handling 404 or null value
+                _logger.Log(LogLevel.Error, e, "Failed to get student rating position.");
+            }
         }
 
         private void InitGithubChart()
@@ -125,20 +136,32 @@ namespace Iwentys.Endpoint.Client.Pages.Students
                 }
             };
 
+            var colors = new[]
+            {
+                "#003f5c",
+                "#2f4b7c",
+                "#665191",
+                "#a05195",
+                "#d45087",
+                "#f95d6a",
+                "#ff7c43",
+                "#ffa600",
+            };
+
             var pieSet = new PieDataset
             {
-                BackgroundColor = new[] { ColorUtil.RandomColorString(), ColorUtil.RandomColorString(), ColorUtil.RandomColorString(), ColorUtil.RandomColorString() },
+                BackgroundColor = colors,
                 BorderWidth = 0,
-                HoverBackgroundColor = ColorUtil.RandomColorString(),
-                HoverBorderColor = ColorUtil.RandomColorString(),
+                HoverBackgroundColor = "#ffa600",
                 HoverBorderWidth = 1,
                 BorderColor = "#ffffff",
             };
 
             if (_studentActivity is not null)
             {
-                pieSet.Data.AddRange(_studentActivity.Activity.Select(sa => sa.Points));
-                _studyChartConfig.Data.Labels.AddRange(_studentActivity.Activity.Select(sa => sa.SubjectTitle));
+                var data = _studentActivity.Activity.OrderBy(sa => sa.Points).ToList();
+                pieSet.Data.AddRange(data.Select(sa => sa.Points));
+                _studyChartConfig.Data.Labels.AddRange(data.Select(sa => sa.SubjectTitle));
             }
 
             _studyChartConfig.Data.Datasets.Add(pieSet);

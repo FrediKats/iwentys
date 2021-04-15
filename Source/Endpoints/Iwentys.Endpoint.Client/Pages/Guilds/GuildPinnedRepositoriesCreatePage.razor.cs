@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Features.Guilds.Models;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Guilds
 {
@@ -10,7 +10,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
 
         private async Task AddPin()
         {
-            await ClientHolder.Guild.AddPinnedProject(GuildId, new CreateProjectRequestDto(_owner, _repositoryName));
+            await GuildClient.AddPinnedProjectAsync(GuildId, new CreateProjectRequestDto {Owner = _owner, RepositoryName = _repositoryName});
             NavigationManager.NavigateTo($"/guild/profile/{GuildId}");
         }
     }

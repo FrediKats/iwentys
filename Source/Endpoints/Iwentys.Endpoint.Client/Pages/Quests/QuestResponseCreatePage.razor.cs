@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Features.Quests.Models;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Quests
 {
@@ -13,12 +13,12 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
         {
             await base.OnInitializedAsync();
             
-            _quest = await ClientHolder.Quest.Get(QuestId);
+            _quest = await QuestClient.GetByIdAsync(QuestId);
         }
 
         private async Task SendResponse()
         {
-            await ClientHolder.Quest.SendResponse(_quest.Id, new QuestResponseCreateArguments() {Description = _description });
+            await QuestClient.SendResponseAsync(_quest.Id, new QuestResponseCreateArguments() {Description = _description });
         }
     }
 }

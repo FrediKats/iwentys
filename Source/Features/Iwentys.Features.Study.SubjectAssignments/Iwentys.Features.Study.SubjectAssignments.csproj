@@ -9,8 +9,4 @@
     <ProjectReference Include="..\Iwentys.Features.Study\Iwentys.Features.Study.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Enums\" />
-  </ItemGroup>
-
 </Project>

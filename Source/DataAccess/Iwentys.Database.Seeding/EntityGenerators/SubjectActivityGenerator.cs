@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
 using Iwentys.Database.Seeding.Tools;
 using Iwentys.Features.Study.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -9,24 +8,20 @@ namespace Iwentys.Database.Seeding.EntityGenerators
 {
     public class SubjectActivityGenerator : IEntityGenerator
     {
-        public List<SubjectActivity> SubjectActivityEntities { get; set; }
-
         public SubjectActivityGenerator(List<GroupSubject> groupSubjects, List<Student> students)
         {
             SubjectActivityEntities = new List<SubjectActivity>();
-            foreach (var student in students)
-            {
-                foreach (GroupSubject groupSubjectEntity in groupSubjects.Where(gs => gs.StudyGroupId == student.GroupId))
+            foreach (Student student in students)
+            foreach (GroupSubject groupSubjectEntity in groupSubjects.Where(gs => gs.StudyGroupId == student.GroupId))
+                SubjectActivityEntities.Add(new SubjectActivity
                 {
-                    SubjectActivityEntities.Add(new SubjectActivity
-                    {
-                        GroupSubjectId = groupSubjectEntity.Id,
-                        StudentId = student.Id,
-                        Points = RandomExtensions.Instance.Random.Double() * 100
-                    });
-                }
-            }
+                    GroupSubjectId = groupSubjectEntity.Id,
+                    StudentId = student.Id,
+                    Points = RandomExtensions.Instance.Random.Double() * 100
+                });
         }
+
+        public List<SubjectActivity> SubjectActivityEntities { get; set; }
 
         public void Seed(ModelBuilder modelBuilder)
         {

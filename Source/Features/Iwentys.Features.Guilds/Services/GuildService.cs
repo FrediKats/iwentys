@@ -151,5 +151,18 @@ namespace Iwentys.Features.Guilds.Services
             _guildMemberRepository.Update(guildMembers);
             await _unitOfWork.CommitAsync();
         }
+
+        public void UpdateGuildFromGithub(Guild guild)
+        {
+            OrganizationInfoDto organizationInfo = _githubIntegrationService.FindOrganizationInfo(guild.Title);
+            if (organizationInfo is not null)
+            {
+                //TODO: need to fix after https://github.com/octokit/octokit.net/pull/2239
+
+                guild.Bio = organizationInfo.Description;
+                guild.ImageUrl = organizationInfo.ImageUrl;
+                _guildRepository.Update(guild);
+            }
+        }
     }
 }

@@ -5,11 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bogus" Version="32.0.2" />
+    <PackageReference Include="Bogus" Version="33.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="FakerEntities\Guilds\" />
     <Folder Include="FakerEntities\Raids\" />
   </ItemGroup>
 

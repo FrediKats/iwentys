@@ -8,6 +8,7 @@ namespace Iwentys.Features.Guilds.Repositories
 {
     public static class GuildRepositoryExtensions
     {
+        //TODO: ensure that we do not call .Members after .SingleOrDefault
         public static Guild ReadForStudent(this IGenericRepository<GuildMember> repository, int studentId)
         {
             return repository

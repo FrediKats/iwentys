@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Iwentys.Features.Quests.Models;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Quests
 {
@@ -13,7 +13,13 @@ namespace Iwentys.Endpoint.Client.Pages.Quests
 
         private async Task SendCreateRequest()
         {
-            await ClientHolder.Quest.Create(new CreateQuestRequest(_title, _description, _price, _deadline));
+            await QuestClient.CreateAsync(new CreateQuestRequest
+            {
+                Title = _title,
+                Deadline = _deadline,
+                Description = _description,
+                Price = _price
+            });
         }
     }
 }

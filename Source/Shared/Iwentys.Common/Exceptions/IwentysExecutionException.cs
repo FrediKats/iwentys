@@ -6,7 +6,7 @@ namespace Iwentys.Common.Exceptions
     [Serializable]
     public class IwentysExecutionException : IwentysException
     {
-        public IwentysExecutionException() : base()
+        public IwentysExecutionException()
         {
         }
 

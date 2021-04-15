@@ -32,7 +32,7 @@ namespace Iwentys.Features.Guilds.Tournaments.Models
                     Teams = tournamentEntity.Teams.Select(t => TournamentTeamInfoDto.Create(t))
                 };
 
-        //TODO: HACK
+        //FYI: HACK
         public TournamentInfoResponse OrderByRate()
         {
             Teams = Teams.OrderByDescending(t => t.Points).ToList();

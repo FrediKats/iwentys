@@ -68,6 +68,7 @@ namespace Iwentys.Database
 
         #region IAccountManagementDbContext
         public DbSet<UniversitySystemUser> UniversitySystemUsers { get; set; }
+        public DbSet<UniversitySystemUserCredential> UniversitySystemUserCredentials { get; set; }
         public DbSet<IwentysUser> IwentysUsers { get; set; }
         #endregion
 
@@ -168,6 +169,8 @@ namespace Iwentys.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.EnableAutoHistory(null);
+
             modelBuilder.OnAccountManagementModelCreating();
             modelBuilder.OnAchievementModelCreating();
             modelBuilder.OnAssignmentsModelCreating();

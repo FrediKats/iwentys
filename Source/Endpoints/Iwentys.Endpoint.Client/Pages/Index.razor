@@ -1,8 +1,42 @@
 ﻿@page "/"
 
+@using Blazored.LocalStorage
+@using Iwentys.Endpoint.Client.Tools
+
+@inject HttpClient Http
+@inject IAuthService AuthService
+@inject ILocalStorageService LocalStorage
+
 <h1>Hello, world!</h1>
 
 Welcome to Iwentys.
-
 <br />
-<MatButton Link="/dev/fakeauth">Set debug user before other action</MatButton>
+
+<MatBody2>
+    Авторизация на данный момент выключена и для использования функционала завязанного на пользователя стоит выполнить фейковую авторизацию. Лучше использовать для этого well-known id, например 228617
+</MatBody2>
+
+@*TODO: Remove before release*@
+<div class="container-fluid d-flex flex-row">
+    <div class="col-md-4 d-flex input-form-component dark-elevation-01">
+        <MatTextField @bind-Value="@UserId" Label="User id"></MatTextField>
+        <MatButton @onclick="@Update">Продолжить с этим id</MatButton>
+    </div>
+</div>
+
+@code {
+
+    public int UserId { get; set; } = 1;
+    public string Token { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var savedToken = await LocalStorage.GetItemAsync<string>("authToken");
+        Token = string.IsNullOrEmpty(savedToken) ? "No token" : savedToken;
+    }
+
+    private async Task Update()
+    {
+        await AuthService.Login(UserId);
+    }
+}

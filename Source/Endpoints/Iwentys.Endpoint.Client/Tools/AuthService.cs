@@ -2,8 +2,7 @@
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
-using Iwentys.Common.Transferable;
-using Iwentys.Endpoint.Sdk.ControllerClients;
+using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Tools
 {
@@ -25,7 +24,8 @@ namespace Iwentys.Endpoint.Client.Tools
 
         public async Task Login(int userId)
         {
-            IwentysAuthResponse iwentysAuthResponse = await new AuthControllerClient(_httpClient).Login(userId);
+            var client = new Iwentys.Sdk.IsuAuthClient(_httpClient);
+            IwentysAuthResponse iwentysAuthResponse = await client.LoginOrCreateAsync(userId);
             await _localStorage.SetItemAsync("authToken", iwentysAuthResponse.Token);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", iwentysAuthResponse.Token);
         }

@@ -21,7 +21,6 @@ namespace Iwentys.Endpoint.Controllers
         }
 
         [HttpGet("requests/all/")]
-        [Produces("application/json")]
         public async Task<ActionResult<List<ProjectReviewRequestInfoDto>>> Get()
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
@@ -29,7 +28,7 @@ namespace Iwentys.Endpoint.Controllers
             return Ok(result);
         }
 
-        [HttpGet("requests/available-projects")]
+        [HttpGet(nameof(GetAvailableForReviewProject))]
         public async Task<ActionResult<List<GithubRepositoryInfoDto>>> GetAvailableForReviewProject()
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
@@ -37,7 +36,7 @@ namespace Iwentys.Endpoint.Controllers
             return Ok(projects);
         }
 
-        [HttpPost("requests")]
+        [HttpPost(nameof(CreateReviewRequest))]
         public async Task<ActionResult> CreateReviewRequest([FromBody] ReviewRequestCreateArguments createArguments)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
@@ -45,7 +44,7 @@ namespace Iwentys.Endpoint.Controllers
             return Ok();
         }
 
-        [HttpPost("requests/{reviewRequestId}/feedback")]
+        [HttpPost(nameof(SendReviewFeedback))]
         public async Task<ActionResult> SendReviewFeedback(int reviewRequestId, [FromBody] ReviewFeedbackCreateArguments createArguments)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
@@ -53,7 +52,7 @@ namespace Iwentys.Endpoint.Controllers
             return Ok();
         }
 
-        [HttpPost("requests/{reviewRequestId}/finish")]
+        [HttpPost(nameof(FinishReview))]
         public async Task<ActionResult> FinishReview(int reviewRequestId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();

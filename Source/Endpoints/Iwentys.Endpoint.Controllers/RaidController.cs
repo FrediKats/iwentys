@@ -19,7 +19,7 @@ namespace Iwentys.Endpoint.Controllers
             _raidService = raidService;
         }
 
-        [HttpPost("profile")]
+        [HttpPost("profile/create")]
         public async Task<ActionResult> Create([FromBody]RaidCreateArguments arguments)
         {
             AuthorizedUser user = this.TryAuthWithToken();
@@ -27,15 +27,14 @@ namespace Iwentys.Endpoint.Controllers
             return Ok();
         }
 
-        [HttpGet("profile")]
+        [HttpGet("profile/get")]
         public async Task<ActionResult<List<RaidProfileDto>>> Get()
         {
-            AuthorizedUser user = this.TryAuthWithToken();
             List<RaidProfileDto> result = await _raidService.Get(); 
             return Ok(result);
         }
 
-        [HttpGet("profile/{raidId}")]
+        [HttpGet("profile/{raidId}/get")]
         public async Task<ActionResult<RaidProfileDto>> Get(int raidId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
@@ -51,7 +50,7 @@ namespace Iwentys.Endpoint.Controllers
             return Ok();
         }
 
-        [HttpPut("profile/{raidId}/unregister")]
+        [HttpPut("profile/{raidId:int}/unregister")]
         public async Task<ActionResult> UnRegisterOnRaid(int raidId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
@@ -59,7 +58,7 @@ namespace Iwentys.Endpoint.Controllers
             return Ok();
         }
 
-        [HttpPut("profile/{raidId}/registration/{visitorId}/approve")]
+        [HttpPut("profile/{raidId:int}/registration/{visitorId:int}/approve")]
         public async Task<ActionResult> ApproveRegistration(int raidId, int visitorId)
         {
             AuthorizedUser user = this.TryAuthWithToken();

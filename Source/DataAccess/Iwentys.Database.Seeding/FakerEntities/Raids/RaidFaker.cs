@@ -7,10 +7,10 @@ namespace Iwentys.Database.Seeding.FakerEntities.Raids
     public class RaidFaker
     {
         private readonly Faker _faker = new Faker();
-        
+
         public RaidCreateArguments CreateRaidCreateArguments()
         {
-            return new RaidCreateArguments()
+            return new RaidCreateArguments
             {
                 Title = _faker.Commerce.ProductName(),
                 Description = _faker.Lorem.Paragraph(),

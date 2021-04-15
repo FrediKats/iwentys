@@ -26,6 +26,7 @@ namespace Iwentys.Tests.TestCaseContexts
     public class TestCaseContext
     {
         private readonly IwentysDbContext _context;
+
         public readonly AccountManagementTestCaseContext AccountManagementTestCaseContext;
         public readonly AchievementService AchievementService;
         public readonly AssignmentService AssignmentService;
@@ -55,6 +56,7 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly StudentService StudentService;
         public readonly StudyService StudyService;
         public readonly StudyTestCaseContext StudyTestCaseContext;
+        public readonly StudyLeaderboardService StudyLeaderboard;
         public readonly SubjectAssignmentService SubjectAssignmentService;
         public readonly TournamentService TournamentService;
 
@@ -69,6 +71,7 @@ namespace Iwentys.Tests.TestCaseContexts
             var achievementProvider = new AchievementProvider(UnitOfWork);
             var githubApiAccessor = new DummyGithubApiAccessor();
 
+            //TODO: use DI (AspStartupExtensions)
             IwentysUserService = new IwentysUserService(UnitOfWork);
             StudentService = new StudentService(UnitOfWork);
             GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, UnitOfWork);
@@ -89,6 +92,7 @@ namespace Iwentys.Tests.TestCaseContexts
             SubjectAssignmentService = new SubjectAssignmentService(UnitOfWork);
             AssignmentService = new AssignmentService(UnitOfWork);
             RaidService = new RaidService(UnitOfWork);
+            StudyLeaderboard = new StudyLeaderboardService(GithubIntegrationService, _context, UnitOfWork);
 
             TributeTestCaseContext = new TributeTestCaseContext(this);
             GithubTestCaseContext = new GithubTestCaseContext(this);
@@ -106,11 +110,6 @@ namespace Iwentys.Tests.TestCaseContexts
         public static TestCaseContext Case()
         {
             return new TestCaseContext();
-        }
-
-        public static class Constants
-        {
-            public const string GithubUsername = "GhUser";
         }
     }
 }

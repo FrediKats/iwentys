@@ -5,7 +5,7 @@ namespace Iwentys.Common.Exceptions
 {
     public class IwentysException : Exception
     {
-        public IwentysException() : base()
+        public IwentysException()
         {
         }
 

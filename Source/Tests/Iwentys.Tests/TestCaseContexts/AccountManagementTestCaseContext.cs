@@ -20,6 +20,7 @@ namespace Iwentys.Tests.TestCaseContexts
             createArguments.Id = UsersFaker.Instance.GetIdentifier();
 
             IwentysUserInfoDto iwentysUserInfoDto = _context.IwentysUserService.Create(createArguments).Result;
+
             return AuthorizedUser.DebugAuth(iwentysUserInfoDto.Id);
         }
     }

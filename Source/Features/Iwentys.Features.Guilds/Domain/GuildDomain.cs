@@ -90,21 +90,6 @@ namespace Iwentys.Features.Guilds.Domain
             return UserMembershipState.Blocked;
         }
 
-        //FYI: need to use in daemon
-        //public GuildDomain UpdateGuildFromGithub()
-        //{
-        //    Organization organizationInfo = _apiAccessor.FindOrganizationInfo(Profile.Title);
-        //    if (organizationInfo is not null)
-        //    {
-        //        //TODO: need to fix after https://github.com/octokit/octokit.net/pull/2239
-        //        //_profile.Bio = organizationInfo.Bio;
-        //        Profile.ImageUrl = organizationInfo.Url;
-        //        _guildRepository.UpdateAsync(Profile);
-        //    }
-
-        //    return this;
-        //}
-
         public async Task<GuildMember> EnsureMemberCanRestrictPermissionForOther(AuthorizedUser user, int memberToKickId)
         {
             IwentysUser editorStudentAccount = await _userRepository.GetById(user.Id);

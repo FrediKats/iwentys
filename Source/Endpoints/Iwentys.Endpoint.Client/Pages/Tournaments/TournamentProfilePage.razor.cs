@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Features.Guilds.Tournaments.Models;
+using Iwentys.Sdk;
+using Microsoft.Extensions.Logging;
 
 namespace Iwentys.Endpoint.Client.Pages.Tournaments
 {
@@ -11,19 +12,21 @@ namespace Iwentys.Endpoint.Client.Pages.Tournaments
         {
             await base.OnInitializedAsync();
 
-            _tournament = await ClientHolder.Tournament.Get(TournamentId);
+            _tournament = await TournamentClient.GetByIdAsync(TournamentId);
         }
 
         private async Task RegisterToTournament()
         {
-            await ClientHolder.Tournament.RegisterToTournament(_tournament.Id);
-            _tournament = await ClientHolder.Tournament.Get(TournamentId);
+            await TournamentClient.RegisterToTournamentAsync(_tournament.Id);
+            _tournament = await TournamentClient.GetByIdAsync(TournamentId);
+            //TODO: notification about successful registration
         }
 
         private async Task ForceUpdate()
         {
-            await ClientHolder.Tournament.ForceUpdate(_tournament.Id);
-            _tournament = await ClientHolder.Tournament.Get(TournamentId);
+            _logger.LogWarning($"Force tournament update. Id: {_tournament.Id}");
+            await TournamentClient.ForceUpdateAsync(_tournament.Id);
+            _tournament = await TournamentClient.GetByIdAsync(TournamentId);
         }
     }
 }

@@ -1,8 +1,7 @@
-﻿using System.Threading.Tasks;
-using Iwentys.Features.Gamification.Models;
-using Iwentys.Features.Guilds.Models;
-using Iwentys.Features.Study.Models;
-using Iwentys.Features.Study.Models.Students;
+﻿using System;
+using System.Threading.Tasks;
+using Iwentys.Sdk;
+using Microsoft.Extensions.Logging;
 
 namespace Iwentys.Endpoint.Client.Pages.Students
 {
@@ -17,10 +16,29 @@ namespace Iwentys.Endpoint.Client.Pages.Students
         {
             await base.OnInitializedAsync();
 
-            _guild = await ClientHolder.Guild.GetForMember(StudentProfile.Id);
-            _group = await ClientHolder.StudyGroup.FindStudentGroup(StudentProfile.Id);
-            _self = await ClientHolder.Student.GetSelf();
-            _userKarmaStatistic = await ClientHolder.Karma.GetUserKarmaStatistic(StudentProfile.Id);
+            _self = await StudentClient.GetSelfAsync();
+
+            try
+            {
+                _guild = await GuildClient.GetByMemberIdAsync(StudentProfile.Id);
+            }
+            catch (Exception e)
+            {
+                //TODO: remove this hack. Implement logic for handling 404 or null value
+                _logger.Log(LogLevel.Error, e, "Failed to fetch data.");
+            }
+
+            try
+            {
+                _group = await StudyGroupClient.GetByStudentIdAsync(StudentProfile.Id);
+            }
+            catch (Exception e)
+            {
+                //TODO: remove this hack. Implement logic for handling 404 or null value
+                _logger.Log(LogLevel.Error, e, "Failed to fetch data.");
+            }
+
+            _userKarmaStatistic = await KarmaClient.GetStatisticAsync(StudentProfile.Id);
         }
 
         private string LinkToGuild => $"guild/profile/{_guild.Id}";
@@ -28,7 +46,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
 
         private Task MakeGroupAdmin()
         {
-            return ClientHolder.StudyGroup.MakeGroupAdmin(StudentProfile.Id);
+            return StudyGroupClient.MakeGroupAdminAsync(StudentProfile.Id);
         }
 
         private bool IsCanSendKarma()
@@ -40,8 +58,8 @@ namespace Iwentys.Endpoint.Client.Pages.Students
 
         private async Task SendKarma()
         {
-             await ClientHolder.Karma.SendUserKarma(StudentProfile.Id);
-            _userKarmaStatistic = await ClientHolder.Karma.GetUserKarmaStatistic(StudentProfile.Id);
+             await KarmaClient.SendAsync(StudentProfile.Id);
+            _userKarmaStatistic = await KarmaClient.GetStatisticAsync(StudentProfile.Id);
         }
 
         private bool IsCanRemoveKarma()
@@ -53,8 +71,8 @@ namespace Iwentys.Endpoint.Client.Pages.Students
 
         private async Task RemoveKarma()
         {
-            await ClientHolder.Karma.RemoveUserKarma(StudentProfile.Id);
-            _userKarmaStatistic = await ClientHolder.Karma.GetUserKarmaStatistic(StudentProfile.Id);
+            await KarmaClient.RevokeAsync(StudentProfile.Id);
+            _userKarmaStatistic = await KarmaClient.GetStatisticAsync(StudentProfile.Id);
         }
     }
 }
