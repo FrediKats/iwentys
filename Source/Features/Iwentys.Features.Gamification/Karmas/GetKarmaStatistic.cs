@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Iwentys.Features.Gamification.Karmas
 {
-    public class GetKarmaStatistic
+    public static class GetKarmaStatistic
     {
         public class Query : IRequest<Response>
         {
