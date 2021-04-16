@@ -3,7 +3,7 @@ using Iwentys.Domain;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Models;
-using Iwentys.Endpoint.Controllers.Tools;
+using Iwentys.FeatureBase;
 using Iwentys.Features.Guilds.Services;
 using Microsoft.AspNetCore.Mvc;
 

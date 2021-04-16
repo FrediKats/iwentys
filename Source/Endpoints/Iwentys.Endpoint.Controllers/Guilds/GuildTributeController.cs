@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Domain;
 using Iwentys.Domain.Models;
-using Iwentys.Endpoint.Controllers.Tools;
+using Iwentys.FeatureBase;
 using Iwentys.Features.Guilds.Tributes.Services;
 using Microsoft.AspNetCore.Mvc;
 

@@ -2,7 +2,7 @@
 using Iwentys.Domain;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Controllers.Tools
+namespace Iwentys.FeatureBase
 {
     public static class ControllerBaseExtensions
     {
