@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
-using Iwentys.Features.AccountManagement.Entities;
-using Iwentys.Features.AccountManagement.Models;
+using Iwentys.Domain;
+using Iwentys.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.AccountManagement.Services

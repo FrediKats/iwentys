@@ -1,10 +1,9 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Database.Seeding.FakerEntities.Guilds;
-using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.Guilds.Models;
-using Iwentys.Features.Guilds.Tournaments.Enums;
-using Iwentys.Features.Guilds.Tournaments.Models;
+using Iwentys.Domain;
+using Iwentys.Domain.Guilds.Enums;
+using Iwentys.Domain.Models;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 

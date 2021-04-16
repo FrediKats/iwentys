@@ -1,4 +1,4 @@
-﻿using Iwentys.Features.Raids.Entities;
+﻿using Iwentys.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Raids.Infrastructure

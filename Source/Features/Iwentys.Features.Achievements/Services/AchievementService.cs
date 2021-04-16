@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Features.Achievements.Entities;
-using Iwentys.Features.Achievements.Models;
+using Iwentys.Domain.Gamification;
+using Iwentys.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Achievements.Services

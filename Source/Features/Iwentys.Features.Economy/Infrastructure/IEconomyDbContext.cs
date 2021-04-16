@@ -1,4 +1,4 @@
-﻿using Iwentys.Features.Economy.Entities;
+﻿using Iwentys.Domain.Gamification;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Economy.Infrastructure

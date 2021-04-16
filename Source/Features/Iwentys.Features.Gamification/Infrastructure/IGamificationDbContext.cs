@@ -1,4 +1,4 @@
-﻿using Iwentys.Features.Gamification.Entities;
+﻿using Iwentys.Domain.Gamification;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Gamification.Infrastructure

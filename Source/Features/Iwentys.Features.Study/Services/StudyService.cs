@@ -2,11 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.AccountManagement.Entities;
-using Iwentys.Features.Study.Domain;
-using Iwentys.Features.Study.Entities;
-using Iwentys.Features.Study.Models;
+using Iwentys.Domain;
+using Iwentys.Domain.Models;
+using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Study.Services

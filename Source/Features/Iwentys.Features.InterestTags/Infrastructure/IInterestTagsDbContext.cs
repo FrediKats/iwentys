@@ -1,4 +1,4 @@
-﻿using Iwentys.Features.InterestTags.Entities;
+﻿using Iwentys.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.InterestTags.Infrastructure

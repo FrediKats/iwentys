@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.GithubIntegration.Entities;
-using Iwentys.Features.GithubIntegration.Models;
-using Iwentys.Features.PeerReview.Enums;
-using Iwentys.Features.PeerReview.Models;
+using Iwentys.Domain;
+using Iwentys.Domain.Enums;
+using Iwentys.Domain.Models;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 

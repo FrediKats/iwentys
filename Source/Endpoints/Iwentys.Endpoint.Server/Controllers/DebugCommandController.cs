@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
+using Iwentys.Domain.Study;
 using Iwentys.Endpoint.Server.Source.BackgroundServices;
 using Iwentys.Endpoint.Server.Source.Options;
 using Iwentys.Features.Guilds.Services;
-using Iwentys.Features.Study.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using StackExchange.Exceptional;

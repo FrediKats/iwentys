@@ -1,10 +1,11 @@
 ﻿using Iwentys.Common.Databases;
 using Iwentys.Database;
+using Iwentys.Domain.Gamification;
+using Iwentys.Domain.Services;
 using Iwentys.Endpoint.Server.Source.IdentityAuth;
 using Iwentys.Endpoint.Server.Source.Options;
 using Iwentys.Endpoint.Server.Source.Tokens;
 using Iwentys.Features.AccountManagement.Infrastructure;
-using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Achievements.Infrastructure;
 using Iwentys.Features.Assignments.Infrastructure;
 using Iwentys.Features.Companies.Infrastructure;

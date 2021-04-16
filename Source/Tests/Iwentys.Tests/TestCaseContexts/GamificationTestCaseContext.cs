@@ -1,6 +1,5 @@
-﻿using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.InterestTags.Entities;
-using Iwentys.Features.InterestTags.Models;
+﻿using Iwentys.Domain;
+using Iwentys.Domain.Models;
 using Iwentys.Tests.Tools;
 
 namespace Iwentys.Tests.TestCaseContexts

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.InterestTags.Models;
+using Iwentys.Domain;
+using Iwentys.Domain.Models;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 

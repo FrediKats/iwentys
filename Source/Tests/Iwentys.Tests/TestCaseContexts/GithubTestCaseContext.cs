@@ -1,9 +1,7 @@
 ﻿using Iwentys.Common.Databases;
 using Iwentys.Database.Seeding.FakerEntities;
-using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.AccountManagement.Entities;
-using Iwentys.Features.GithubIntegration.Entities;
-using Iwentys.Features.GithubIntegration.Models;
+using Iwentys.Domain;
+using Iwentys.Domain.Models;
 
 namespace Iwentys.Tests.TestCaseContexts
 {

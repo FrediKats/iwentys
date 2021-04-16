@@ -5,7 +5,7 @@ using Bogus;
 using Iwentys.Common.Tools;
 using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Database.Seeding.Tools;
-using Iwentys.Features.Study.Entities;
+using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators

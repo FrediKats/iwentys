@@ -1,4 +1,4 @@
-﻿using Iwentys.Features.GithubIntegration.Services;
+﻿using Iwentys.Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Iwentys.Features.GithubIntegration.Infrastructure

@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Tools;
-using Iwentys.Features.InterestTags.Entities;
-using Iwentys.Features.InterestTags.Models;
+using Iwentys.Domain;
+using Iwentys.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.InterestTags.Services

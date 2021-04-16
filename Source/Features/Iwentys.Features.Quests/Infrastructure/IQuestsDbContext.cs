@@ -1,4 +1,4 @@
-﻿using Iwentys.Features.Quests.Entities;
+﻿using Iwentys.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Quests.Infrastructure

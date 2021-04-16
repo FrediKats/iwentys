@@ -3,10 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
-using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.Guilds.Domain;
-using Iwentys.Features.Guilds.Entities;
-using Iwentys.Features.Guilds.Models.Recruitment;
+using Iwentys.Domain;
+using Iwentys.Domain.Guilds;
+using Iwentys.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Services

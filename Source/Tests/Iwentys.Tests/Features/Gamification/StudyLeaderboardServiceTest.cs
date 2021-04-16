@@ -2,11 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.Gamification.Models;
-using Iwentys.Features.Study.Entities;
-using Iwentys.Features.Study.Models;
-using Iwentys.Features.Study.Models.Students;
+using Iwentys.Domain;
+using Iwentys.Domain.Models;
+using Iwentys.Domain.Study;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 

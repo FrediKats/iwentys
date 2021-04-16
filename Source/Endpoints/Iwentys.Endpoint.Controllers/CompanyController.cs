@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Features.Companies.Models;
+using Iwentys.Domain.Models;
 using Iwentys.Features.Companies.Services;
 using Microsoft.AspNetCore.Mvc;
 

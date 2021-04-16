@@ -1,13 +1,13 @@
 using Iwentys.Common.Databases;
 using Iwentys.Database;
+using Iwentys.Domain.Gamification;
+using Iwentys.Domain.Services;
 using Iwentys.Features.AccountManagement.Services;
-using Iwentys.Features.Achievements.Domain;
 using Iwentys.Features.Achievements.Services;
 using Iwentys.Features.Assignments.Services;
 using Iwentys.Features.Companies.Services;
 using Iwentys.Features.Economy.Services;
 using Iwentys.Features.Gamification.Services;
-using Iwentys.Features.GithubIntegration.Services;
 using Iwentys.Features.Guilds.Services;
 using Iwentys.Features.Guilds.Tournaments.Services;
 using Iwentys.Features.Guilds.Tributes.Services;

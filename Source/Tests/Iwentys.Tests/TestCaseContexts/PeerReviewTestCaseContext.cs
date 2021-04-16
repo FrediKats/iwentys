@@ -1,7 +1,6 @@
-﻿using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.GithubIntegration.Entities;
-using Iwentys.Features.PeerReview.Enums;
-using Iwentys.Features.PeerReview.Models;
+﻿using Iwentys.Domain;
+using Iwentys.Domain.Enums;
+using Iwentys.Domain.Models;
 
 namespace Iwentys.Tests.TestCaseContexts
 {

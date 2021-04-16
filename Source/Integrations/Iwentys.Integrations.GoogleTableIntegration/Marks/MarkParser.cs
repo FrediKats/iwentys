@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Google.Apis.Sheets.v4.Data;
+using Iwentys.Domain;
 using Iwentys.Features.Study;
 using Microsoft.Extensions.Logging;
 

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using ItmoScheduleApiWrapper;
 using ItmoScheduleApiWrapper.Models;
-using Iwentys.Features.Study.Domain;
+using Iwentys.Domain.Study;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers

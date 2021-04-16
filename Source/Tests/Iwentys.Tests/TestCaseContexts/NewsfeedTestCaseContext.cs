@@ -1,8 +1,7 @@
 ﻿using Iwentys.Database.Seeding.FakerEntities;
-using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.Newsfeeds.Models;
-using Iwentys.Features.Study.Entities;
-using Iwentys.Features.Study.Models;
+using Iwentys.Domain;
+using Iwentys.Domain.Models;
+using Iwentys.Domain.Study;
 using Iwentys.Tests.Tools;
 
 namespace Iwentys.Tests.TestCaseContexts

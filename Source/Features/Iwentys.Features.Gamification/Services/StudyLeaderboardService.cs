@@ -3,12 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
-using Iwentys.Features.Gamification.Entities;
-using Iwentys.Features.Gamification.Models;
-using Iwentys.Features.GithubIntegration.Services;
-using Iwentys.Features.Study.Entities;
+using Iwentys.Domain.Gamification;
+using Iwentys.Domain.Models;
+using Iwentys.Domain.Services;
+using Iwentys.Domain.Study;
 using Iwentys.Features.Study.Infrastructure;
-using Iwentys.Features.Study.Models;
 using Iwentys.Features.Study.Repositories;
 using Microsoft.EntityFrameworkCore;
 

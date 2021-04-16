@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Iwentys.Domain;
+using Iwentys.Domain.Models;
 using Iwentys.Endpoint.Controllers.Tools;
-using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.Study.SubjectAssignments.Models;
 using Iwentys.Features.Study.SubjectAssignments.Services;
 using Microsoft.AspNetCore.Mvc;
 

@@ -2,10 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.AccountManagement.Entities;
-using Iwentys.Features.Raids.Entities;
-using Iwentys.Features.Raids.Models;
+using Iwentys.Domain;
+using Iwentys.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Raids.Services

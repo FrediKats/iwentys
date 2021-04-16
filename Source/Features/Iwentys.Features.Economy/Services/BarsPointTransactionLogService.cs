@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
-using Iwentys.Features.AccountManagement.Entities;
-using Iwentys.Features.Economy.Entities;
+using Iwentys.Domain;
+using Iwentys.Domain.Gamification;
 
 namespace Iwentys.Features.Economy.Services
 {

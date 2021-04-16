@@ -1,4 +1,4 @@
-﻿using Iwentys.Features.Study.Domain;
+﻿using Iwentys.Domain.Study;
 using NUnit.Framework;
 
 namespace Iwentys.Tests.Features.Study

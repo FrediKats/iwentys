@@ -2,13 +2,10 @@
 using Bogus;
 using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Database.Seeding.FakerEntities.Study;
-using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.Study.Entities;
-using Iwentys.Features.Study.Enums;
-using Iwentys.Features.Study.Models;
-using Iwentys.Features.Study.Models.Students;
-using Iwentys.Features.Study.SubjectAssignments.Enums;
-using Iwentys.Features.Study.SubjectAssignments.Models;
+using Iwentys.Domain;
+using Iwentys.Domain.Models;
+using Iwentys.Domain.Study;
+using Iwentys.Domain.Study.Enums;
 
 namespace Iwentys.Tests.TestCaseContexts
 {

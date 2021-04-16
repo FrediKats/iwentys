@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
-using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.Study.Domain;
-using Iwentys.Features.Study.Models;
+using Iwentys.Domain;
+using Iwentys.Domain.Models;
+using Iwentys.Domain.Study;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 

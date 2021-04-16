@@ -1,4 +1,4 @@
-﻿using Iwentys.Features.AccountManagement.Entities;
+﻿using Iwentys.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.AccountManagement.Infrastructure

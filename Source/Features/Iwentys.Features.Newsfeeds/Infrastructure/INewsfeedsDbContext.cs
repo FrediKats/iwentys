@@ -1,4 +1,4 @@
-﻿using Iwentys.Features.Newsfeeds.Entities;
+﻿using Iwentys.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Newsfeeds.Infrastructure

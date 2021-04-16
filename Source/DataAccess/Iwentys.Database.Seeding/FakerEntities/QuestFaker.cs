@@ -1,8 +1,8 @@
 ﻿using System;
 using Bogus;
-using Iwentys.Features.Quests.Entities;
-using Iwentys.Features.Quests.Enums;
-using Iwentys.Features.Quests.Models;
+using Iwentys.Domain;
+using Iwentys.Domain.Enums;
+using Iwentys.Domain.Models;
 
 namespace Iwentys.Database.Seeding.FakerEntities
 {

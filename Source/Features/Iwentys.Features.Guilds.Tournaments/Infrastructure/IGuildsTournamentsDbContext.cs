@@ -1,4 +1,4 @@
-﻿using Iwentys.Features.Guilds.Tournaments.Entities;
+﻿using Iwentys.Domain.Guilds;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Tournaments.Infrastructure

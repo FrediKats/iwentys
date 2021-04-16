@@ -3,16 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.AccountManagement.Entities;
-using Iwentys.Features.Achievements.Domain;
-using Iwentys.Features.GithubIntegration.Services;
-using Iwentys.Features.Guilds.Domain;
-using Iwentys.Features.Guilds.Entities;
-using Iwentys.Features.Guilds.Repositories;
-using Iwentys.Features.Guilds.Tournaments.Domain;
-using Iwentys.Features.Guilds.Tournaments.Entities;
-using Iwentys.Features.Guilds.Tournaments.Models;
+using Iwentys.Domain;
+using Iwentys.Domain.Gamification;
+using Iwentys.Domain.Guilds;
+using Iwentys.Domain.Models;
+using Iwentys.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Tournaments.Services

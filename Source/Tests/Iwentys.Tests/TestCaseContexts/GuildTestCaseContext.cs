@@ -1,6 +1,6 @@
-﻿using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.Guilds.Enums;
-using Iwentys.Features.Guilds.Models;
+﻿using Iwentys.Domain;
+using Iwentys.Domain.Guilds.Enums;
+using Iwentys.Domain.Models;
 
 namespace Iwentys.Tests.TestCaseContexts
 {

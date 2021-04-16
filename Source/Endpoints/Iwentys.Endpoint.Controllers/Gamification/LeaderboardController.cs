@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Features.Gamification.Entities;
-using Iwentys.Features.Gamification.Models;
+using Iwentys.Domain.Gamification;
+using Iwentys.Domain.Models;
+using Iwentys.Domain.Study;
+using Iwentys.Domain.Study.Enums;
 using Iwentys.Features.Gamification.Services;
-using Iwentys.Features.Study.Entities;
-using Iwentys.Features.Study.Enums;
-using Iwentys.Features.Study.Models;
 using Iwentys.Features.Study.Services;
 using Microsoft.AspNetCore.Mvc;
 

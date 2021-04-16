@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Common.Databases;
-using Iwentys.Features.Study.Entities;
+using Iwentys.Domain.Models;
+using Iwentys.Domain.Study;
 using Iwentys.Features.Study.Infrastructure;
-using Iwentys.Features.Study.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Study.Repositories

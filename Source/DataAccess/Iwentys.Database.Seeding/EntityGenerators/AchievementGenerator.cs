@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Features.Achievements.Domain;
-using Iwentys.Features.Achievements.Entities;
-using Iwentys.Features.Guilds.Entities;
-using Iwentys.Features.Study.Entities;
+using Iwentys.Domain.Gamification;
+using Iwentys.Domain.Guilds;
+using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators

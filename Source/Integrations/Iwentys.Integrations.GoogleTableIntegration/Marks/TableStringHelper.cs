@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Iwentys.Domain;
 using Iwentys.Features.Study;
 
 namespace Iwentys.Integrations.GoogleTableIntegration.Marks

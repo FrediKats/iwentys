@@ -80,6 +80,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.PeerReview
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Sdk", "Shared\Iwentys.Sdk\Iwentys.Sdk.csproj", "{5BAB9103-B4EE-4791-8832-EE170195A3A1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Domain", "Features\Iwentys.Domain\Iwentys.Domain.csproj", "{F12E1962-C8B6-4150-99C6-5B80CDDD507B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -206,6 +208,10 @@ Global
 		{5BAB9103-B4EE-4791-8832-EE170195A3A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BAB9103-B4EE-4791-8832-EE170195A3A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BAB9103-B4EE-4791-8832-EE170195A3A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F12E1962-C8B6-4150-99C6-5B80CDDD507B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F12E1962-C8B6-4150-99C6-5B80CDDD507B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F12E1962-C8B6-4150-99C6-5B80CDDD507B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F12E1962-C8B6-4150-99C6-5B80CDDD507B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -241,6 +247,7 @@ Global
 		{0B5841E7-3796-4387-8C96-CB07A4D7AEF2} = {708E281D-A2FC-4E6D-AFA6-84482952AAC0}
 		{C885D36B-8189-40A4-B52C-929F225E547A} = {95512D3C-159E-4224-B79E-E445AE17B0E7}
 		{5BAB9103-B4EE-4791-8832-EE170195A3A1} = {C698C845-6859-4CF6-BE15-83B6C1AE6CB0}
+		{F12E1962-C8B6-4150-99C6-5B80CDDD507B} = {95512D3C-159E-4224-B79E-E445AE17B0E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C699E386-11E7-4ABB-9AD6-C676F3CA2061}

@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
+using Iwentys.Domain;
+using Iwentys.Domain.Guilds;
+using Iwentys.Domain.Guilds.Enums;
+using Iwentys.Domain.Models;
 using Iwentys.Endpoint.Controllers.Tools;
-using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.Guilds.Entities;
-using Iwentys.Features.Guilds.Enums;
-using Iwentys.Features.Guilds.Models;
 using Iwentys.Features.Guilds.Services;
 using Microsoft.AspNetCore.Mvc;
 

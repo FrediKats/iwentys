@@ -4,14 +4,10 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
-using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.AccountManagement.Entities;
-using Iwentys.Features.GithubIntegration.Models;
-using Iwentys.Features.GithubIntegration.Services;
-using Iwentys.Features.Guilds.Domain;
-using Iwentys.Features.Guilds.Entities;
-using Iwentys.Features.Guilds.Models;
-using Iwentys.Features.Guilds.Repositories;
+using Iwentys.Domain;
+using Iwentys.Domain.Guilds;
+using Iwentys.Domain.Models;
+using Iwentys.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Services
