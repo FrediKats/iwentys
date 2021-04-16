@@ -1,28 +1,30 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Domain;
-using Iwentys.Domain.Models;
 using Iwentys.FeatureBase;
 using Iwentys.Features.Gamification.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Controllers.Gamification
+namespace Iwentys.Features.Gamification.Karmas
 {
     [Route("api/karma")]
     [ApiController]
     public class KarmaController : ControllerBase
     {
+        private readonly IMediator _mediator;
         private readonly KarmaService _karmaService;
 
-        public KarmaController(KarmaService karmaService)
+        public KarmaController(KarmaService karmaService, IMediator mediator)
         {
             _karmaService = karmaService;
+            _mediator = mediator;
         }
 
         [HttpGet(nameof(GetStatistic))]
-        public async Task<ActionResult<KarmaStatistic>> GetStatistic(int studentId)
+        public async Task<ActionResult<GetKarmaStatistic.Response>> GetStatistic(int studentId)
         {
-            KarmaStatistic karmaStatistic = await _karmaService.GetStatistic(studentId);
-            return Ok(karmaStatistic);
+            GetKarmaStatistic.Response response = await _mediator.Send(new GetKarmaStatistic.Query(studentId));
+            return Ok(response);
         }
 
         [HttpPut(nameof(Send))]

@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.128
@@ -80,7 +80,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Features.PeerReview
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Sdk", "Shared\Iwentys.Sdk\Iwentys.Sdk.csproj", "{5BAB9103-B4EE-4791-8832-EE170195A3A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Domain", "Features\Iwentys.Domain\Iwentys.Domain.csproj", "{F12E1962-C8B6-4150-99C6-5B80CDDD507B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Domain", "Features\Iwentys.Domain\Iwentys.Domain.csproj", "{F12E1962-C8B6-4150-99C6-5B80CDDD507B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.FeatureBase", "Shared\Iwentys.FeatureBase\Iwentys.FeatureBase.csproj", "{FF847E9B-24FE-4F9B-8E56-B87B7D3B441E}"
 EndProject
@@ -214,6 +214,10 @@ Global
 		{F12E1962-C8B6-4150-99C6-5B80CDDD507B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F12E1962-C8B6-4150-99C6-5B80CDDD507B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F12E1962-C8B6-4150-99C6-5B80CDDD507B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF847E9B-24FE-4F9B-8E56-B87B7D3B441E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF847E9B-24FE-4F9B-8E56-B87B7D3B441E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF847E9B-24FE-4F9B-8E56-B87B7D3B441E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF847E9B-24FE-4F9B-8E56-B87B7D3B441E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -250,6 +254,7 @@ Global
 		{C885D36B-8189-40A4-B52C-929F225E547A} = {95512D3C-159E-4224-B79E-E445AE17B0E7}
 		{5BAB9103-B4EE-4791-8832-EE170195A3A1} = {C698C845-6859-4CF6-BE15-83B6C1AE6CB0}
 		{F12E1962-C8B6-4150-99C6-5B80CDDD507B} = {95512D3C-159E-4224-B79E-E445AE17B0E7}
+		{FF847E9B-24FE-4F9B-8E56-B87B7D3B441E} = {C698C845-6859-4CF6-BE15-83B6C1AE6CB0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C699E386-11E7-4ABB-9AD6-C676F3CA2061}
