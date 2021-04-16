@@ -1,4 +1,7 @@
-﻿using Iwentys.Features.Gamification.Services;
+﻿using System.Reflection;
+using Iwentys.Features.Gamification.Karmas;
+using Iwentys.Features.Gamification.Services;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Iwentys.Features.Gamification.Infrastructure
@@ -9,6 +12,8 @@ namespace Iwentys.Features.Gamification.Infrastructure
         {
             services.AddScoped<StudyLeaderboardService>();
             services.AddScoped<KarmaService>();
+
+            services.AddMediatR(typeof(KarmaController).GetTypeInfo().Assembly);
 
             return services;
         }

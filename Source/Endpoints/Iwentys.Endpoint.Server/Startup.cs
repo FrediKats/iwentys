@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Iwentys.Endpoint.Server.Source.IdentityAuth;
 using Iwentys.Endpoint.Server.Source.Tools;
-using MediatR;
 
 namespace Iwentys.Endpoint.Server
 {
@@ -39,8 +38,6 @@ namespace Iwentys.Endpoint.Server
             services.AddControllersWithViews().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
             services.AddSwaggerGen();
             services.AddRazorPages();
-
-            services.AddMediatR(typeof(Startup));
 
             services
                 .AddIwentysOptions(Configuration)
