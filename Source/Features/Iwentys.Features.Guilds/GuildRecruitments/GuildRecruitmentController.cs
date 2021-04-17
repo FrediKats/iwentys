@@ -2,28 +2,28 @@
 using Iwentys.Domain;
 using Iwentys.Domain.Models;
 using Iwentys.FeatureBase;
-using Iwentys.Features.Guilds.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Controllers.Guilds
+namespace Iwentys.Features.Guilds.GuildRecruitments
 {
     [Route("api/GuildRecruitment")]
     [ApiController]
     public class GuildRecruitmentController : ControllerBase
     {
-        private readonly GuildRecruitmentService _guildRecruitmentService;
+        private readonly IMediator _mediator;
 
-        public GuildRecruitmentController(GuildRecruitmentService guildRecruitmentService)
+        public GuildRecruitmentController(IMediator mediator)
         {
-            _guildRecruitmentService = guildRecruitmentService;
+            _mediator = mediator;
         }
 
         [HttpPost(nameof(Create))]
         public async Task<ActionResult<GuildRecruitmentInfoDto>> Create([FromRoute] int guildId, [FromBody] GuildRecruitmentCreateArguments createArguments)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            GuildRecruitmentInfoDto recruitment = await _guildRecruitmentService.Create(guildId, user, createArguments);
-            return Ok(recruitment);
+            CreateGuildRecruitment.Response response = await _mediator.Send(new CreateGuildRecruitment.Query(user, guildId, createArguments));
+            return Ok(response.GuildRecruitment);
         }
     }
 }
