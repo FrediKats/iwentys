@@ -7,7 +7,7 @@ using Iwentys.Features.AccountManagement.Services;
 using Iwentys.Features.Study.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Controllers.Study
+namespace Iwentys.Features.Study.StudentProfile
 {
     [Route("api/[controller]")]
     [ApiController]
