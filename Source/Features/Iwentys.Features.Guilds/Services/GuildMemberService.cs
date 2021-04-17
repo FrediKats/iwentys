@@ -192,10 +192,10 @@ namespace Iwentys.Features.Guilds.Services
         public async Task PromoteToMentor(AuthorizedUser creator, int userForPromotion)
         {
             IwentysUser studentCreator = await _userRepository.GetById(creator.Id);
-            GuildMember guildMemberEntity = _guildMemberRepository.GetStudentMembership(creator.Id);
+            GuildMember guildMemberEntity = GetStudentMembership(_guildMemberRepository, creator.Id);
             GuildCreator guildCreator = await studentCreator.EnsureIsCreator(_guildRepository, guildMemberEntity.GuildId);
 
-            GuildMember studentMembership = _guildMemberRepository.GetStudentMembership(userForPromotion);
+            GuildMember studentMembership = GetStudentMembership(_guildMemberRepository, userForPromotion);
             studentMembership.MakeMentor(guildCreator);
 
             _guildMemberRepository.Update(studentMembership);
@@ -204,7 +204,7 @@ namespace Iwentys.Features.Guilds.Services
 
         private GuildDomain CreateDomain(Guild guild)
         {
-            return new GuildDomain(guild, _githubIntegrationService, _userRepository, _guildMemberRepository, _guildLastLeaveRepository);
+            return new GuildDomain(guild, _userRepository, _guildMemberRepository, _guildLastLeaveRepository, _githubIntegrationService.User);
         }
 
         private async Task RemoveMember(int guildId, IwentysUser user, GuildLastLeave guildLastLeave)
@@ -224,6 +224,14 @@ namespace Iwentys.Features.Guilds.Services
                 .Get()
                 .Where(m => m.Member.Id == studentId)
                 .FirstOrDefault(m => m.MemberType == GuildMemberType.Requested);
+        }
+
+        public static GuildMember GetStudentMembership(IGenericRepository<GuildMember> repository, int studentId)
+        {
+            return repository
+                .Get()
+                .Where(GuildMember.IsMember())
+                .SingleOrDefault(gm => gm.MemberId == studentId);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Iwentys.Domain.Guilds
     public class CodeMarathonTournamentDomain : ITournamentDomain
     {
         private readonly AchievementProvider _achievementProvider;
-        private readonly GithubIntegrationService _githubIntegrationService;
+        private readonly IGithubUserApiAccessor _githubUserApiAccessor;
 
         private readonly Tournament _tournament;
 
@@ -22,14 +22,13 @@ namespace Iwentys.Domain.Guilds
 
         public CodeMarathonTournamentDomain(
             Tournament tournament,
-            GithubIntegrationService githubIntegrationService,
             IUnitOfWork unitOfWork,
-            AchievementProvider achievementProvider)
+            AchievementProvider achievementProvider, IGithubUserApiAccessor githubUserApiAccessor)
         {
             _tournament = tournament;
-            _githubIntegrationService = githubIntegrationService;
             _unitOfWork = unitOfWork;
             _achievementProvider = achievementProvider;
+            _githubUserApiAccessor = githubUserApiAccessor;
 
             _tournamentTeamMemberRepository = _unitOfWork.GetRepository<TournamentTeamMember>();
         }
@@ -83,7 +82,7 @@ namespace Iwentys.Domain.Guilds
 
             foreach (TournamentTeamMember member in members)
             {
-                ContributionFullInfo contributionFullInfo = await _githubIntegrationService.User.FindUserContributionOrEmpty(member.Member);
+                ContributionFullInfo contributionFullInfo = await _githubUserApiAccessor.FindUserContributionOrEmpty(member.Member);
                 member.Points = contributionFullInfo.GetActivityForPeriod(_tournament.StartTime, _tournament.EndTime);
             }
 
@@ -94,10 +93,10 @@ namespace Iwentys.Domain.Guilds
         private int CountGuildRating(Guild guild)
         {
             var domain = new GuildDomain(guild,
-                _githubIntegrationService,
                 _unitOfWork.GetRepository<IwentysUser>(),
                 _unitOfWork.GetRepository<GuildMember>(),
-                _unitOfWork.GetRepository<GuildLastLeave>());
+                _unitOfWork.GetRepository<GuildLastLeave>(),
+                _githubUserApiAccessor);
             //TODO: remove result
             List<GuildMemberImpactDto> users = domain.GetMemberImpacts().Result;
 

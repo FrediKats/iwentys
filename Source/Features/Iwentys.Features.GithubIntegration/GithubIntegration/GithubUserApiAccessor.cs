@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Domain.Services
 {
-    public class GithubUserApiAccessor
+    public class GithubUserApiAccessor : IGithubUserApiAccessor
     {
         private readonly IGithubApiAccessor _githubApiAccessor;
         private readonly IGenericRepository<GithubUser> _githubUserRepository;

@@ -10,23 +10,23 @@ namespace Iwentys.Domain.Guilds
 {
     public class GuildDomain
     {
-        private readonly GithubIntegrationService _githubIntegrationService;
         private readonly IGenericRepository<GuildMember> _guildMemberRepositoryNew;
         private readonly IGenericRepository<IwentysUser> _userRepository;
         private readonly IGenericRepository<GuildLastLeave> _guildLastLeaveRepository;
+        private readonly IGithubUserApiAccessor _githubUserApiAccessor;
 
         public GuildDomain(
             Guild profile,
-            GithubIntegrationService githubIntegrationService,
             IGenericRepository<IwentysUser> studentRepository,
             IGenericRepository<GuildMember> guildMemberRepositoryNew,
-            IGenericRepository<GuildLastLeave> guildLastLeaveRepository)
+            IGenericRepository<GuildLastLeave> guildLastLeaveRepository,
+            IGithubUserApiAccessor githubUserApiAccessor)
         {
             Profile = profile;
-            _githubIntegrationService = githubIntegrationService;
             _userRepository = studentRepository;
             _guildMemberRepositoryNew = guildMemberRepositoryNew;
             _guildLastLeaveRepository = guildLastLeaveRepository;
+            _githubUserApiAccessor = githubUserApiAccessor;
         }
 
         public Guild Profile { get; }
@@ -37,7 +37,7 @@ namespace Iwentys.Domain.Guilds
             var result = new List<GuildMemberImpactDto>();
             foreach (GuildMember member in Profile.Members)
             {
-                ContributionFullInfo contributionFullInfo = await _githubIntegrationService.User.FindUserContributionOrEmpty(member.Member);
+                ContributionFullInfo contributionFullInfo = await _githubUserApiAccessor.FindUserContributionOrEmpty(member.Member);
                 result.Add(new GuildMemberImpactDto(new IwentysUserInfoDto(member.Member), member.MemberType, contributionFullInfo));
             }
 
