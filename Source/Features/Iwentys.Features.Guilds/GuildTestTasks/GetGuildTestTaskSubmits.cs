@@ -6,7 +6,6 @@ using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Models;
 using Iwentys.Domain.Services;
-using Iwentys.Features.PeerReview.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -46,13 +45,10 @@ namespace Iwentys.Features.Guilds.GuildTestTasks
             private readonly IUnitOfWork _unitOfWork;
             private readonly IGenericRepository<IwentysUser> _userRepository;
 
-            private readonly ProjectReviewService _projectReviewService;
-
-            public Handler(IUnitOfWork unitOfWork, AchievementProvider achievementProvider, GithubIntegrationService githubIntegrationService, ProjectReviewService projectReviewService)
+            public Handler(IUnitOfWork unitOfWork, AchievementProvider achievementProvider, GithubIntegrationService githubIntegrationService)
             {
                 _achievementProvider = achievementProvider;
                 _githubIntegrationService = githubIntegrationService;
-                _projectReviewService = projectReviewService;
 
                 _unitOfWork = unitOfWork;
                 _userRepository = _unitOfWork.GetRepository<IwentysUser>();

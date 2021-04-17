@@ -86,7 +86,6 @@ namespace Iwentys.Endpoint.Server.Source.Tools
             services.AddIwentysStudyFeatureServices();
             services.AddIwentysSubjectAssignmentFeatureServices();
 
-            services.AddIwentysVotingFeatureServices();
             services.AddIwentysRaidFeatureServices();
 
             return services;

@@ -6,7 +6,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Iwentys.FeatureBase\Iwentys.FeatureBase.csproj" />
-    <ProjectReference Include="..\Iwentys.Features.AccountManagement\Iwentys.Features.AccountManagement.csproj" />
+    <ProjectReference Include="..\Iwentys.Domain\Iwentys.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Voting\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Kysect.ItmoScheduleSdk" Version="1.0.5" />
   </ItemGroup>
 
 </Project>

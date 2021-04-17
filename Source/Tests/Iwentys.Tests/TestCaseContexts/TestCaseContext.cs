@@ -85,7 +85,7 @@ namespace Iwentys.Tests.TestCaseContexts
             StudyService = new StudyService(UnitOfWork);
             KarmaService = new KarmaService(UnitOfWork);
             ProjectReviewService = new ProjectReviewService(UnitOfWork);
-            GuildTestTaskService = new GuildTestTaskService(achievementProvider, UnitOfWork, GithubIntegrationService, ProjectReviewService);
+            GuildTestTaskService = new GuildTestTaskService(achievementProvider, UnitOfWork, GithubIntegrationService);
             SubjectAssignmentService = new SubjectAssignmentService(UnitOfWork);
             AssignmentService = new AssignmentService(UnitOfWork);
             RaidService = new RaidService(UnitOfWork);
