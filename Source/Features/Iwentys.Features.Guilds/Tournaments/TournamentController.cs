@@ -3,59 +3,59 @@ using System.Threading.Tasks;
 using Iwentys.Domain;
 using Iwentys.Domain.Models;
 using Iwentys.FeatureBase;
-using Iwentys.Features.Guilds.Tournaments.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Controllers.Guilds
+namespace Iwentys.Features.Guilds.Tournaments
 {
     [Route("api/tournaments")]
     [ApiController]
     public class TournamentController : ControllerBase
     {
-        private readonly TournamentService _tournamentService;
+        private readonly IMediator _mediator;
 
-        public TournamentController(TournamentService tournamentService)
+        public TournamentController(IMediator mediator)
         {
-            _tournamentService = tournamentService;
+            _mediator = mediator;
         }
 
         [HttpGet(nameof(Get))]
         public async Task<ActionResult<List<TournamentInfoResponse>>> Get()
         {
-            List<TournamentInfoResponse> tournaments = await _tournamentService.Get();
-            return Ok(tournaments);
+            AuthorizedUser user = this.TryAuthWithToken();
+            GetTournaments.Response response = await _mediator.Send(new GetTournaments.Query(user));
+            return Ok(response.Tournaments);
         }
 
         [HttpGet(nameof(GetById))]
         public async Task<ActionResult<TournamentInfoResponse>> GetById(int id)
         {
-            TournamentInfoResponse tournament = await _tournamentService.Get(id);
-            return Ok(tournament);
+            AuthorizedUser user = this.TryAuthWithToken();
+            GetTournamentById.Response response = await _mediator.Send(new GetTournamentById.Query(user, id));
+            return Ok(response.Tournament);
         }
 
         [HttpGet(nameof(FindActiveByGuildId))]
         public async Task<ActionResult<TournamentInfoResponse>> FindActiveByGuildId(int guildId)
         {
-            TournamentInfoResponse tournament = await _tournamentService.FindGuildActiveTournament(guildId);
-            if (tournament is null)
-                return NotFound();
-
-            return Ok(tournament);
+            AuthorizedUser user = this.TryAuthWithToken();
+            FindGuildActiveTournament.Response response = await _mediator.Send(new FindGuildActiveTournament.Query(user, guildId));
+            return Ok(response.Tournament);
         }
 
         [HttpPost(nameof(CreateCodeMarathon))]
         public async Task<ActionResult<TournamentInfoResponse>> CreateCodeMarathon([FromBody] CreateCodeMarathonTournamentArguments arguments)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            TournamentInfoResponse tournamentInfoResponse = await _tournamentService.CreateCodeMarathon(user, arguments);
-            return Ok(tournamentInfoResponse);
+            CreateCodeMarathon.Response response = await _mediator.Send(new CreateCodeMarathon.Query(user, arguments));
+            return Ok(response.Tournament);
         }
 
         [HttpPut(nameof(RegisterToTournament))]
         public async Task<ActionResult> RegisterToTournament(int tournamentId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            await _tournamentService.RegisterToTournament(user, tournamentId);
+            RegisterToTournament.Response response = await _mediator.Send(new RegisterToTournament.Query(user, tournamentId));
             return Ok();
         }
 
@@ -63,7 +63,8 @@ namespace Iwentys.Endpoint.Controllers.Guilds
         [HttpGet(nameof(ForceUpdate))]
         public async Task ForceUpdate(int tournamentId)
         {
-            await _tournamentService.UpdateResult(tournamentId);
+            AuthorizedUser user = this.TryAuthWithToken();
+            ForceTournamentResultUpdate.Response response = await _mediator.Send(new ForceTournamentResultUpdate.Query(user, tournamentId));
         }
     }
 }

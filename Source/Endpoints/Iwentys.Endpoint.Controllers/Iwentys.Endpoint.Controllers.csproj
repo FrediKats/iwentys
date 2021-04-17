@@ -13,7 +13,6 @@
     <ProjectReference Include="..\..\Features\Iwentys.Features.Assignments\Iwentys.Features.Assignments.csproj" />
     <ProjectReference Include="..\..\Features\Iwentys.Features.Companies\Iwentys.Features.Companies.csproj" />
     <ProjectReference Include="..\..\Features\Iwentys.Features.Gamification\Iwentys.Features.Gamification.csproj" />
-    <ProjectReference Include="..\..\Features\Iwentys.Features.Guilds.Tournaments\Iwentys.Features.Guilds.Tournaments.csproj" />
     <ProjectReference Include="..\..\Features\Iwentys.Features.Guilds\Iwentys.Features.Guilds.csproj" />
     <ProjectReference Include="..\..\Features\Iwentys.Features.Newsfeeds\Iwentys.Features.Newsfeeds.csproj" />
     <ProjectReference Include="..\..\Features\Iwentys.Features.PeerReview\Iwentys.Features.PeerReview.csproj" />

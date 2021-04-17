@@ -22,5 +22,12 @@ namespace Iwentys.Features.Guilds.Infrastructure
 
             return services;
         }
+
+        public static IServiceCollection AddIwentysGuildTournamentFeatureServices(this IServiceCollection services)
+        {
+            services.AddScoped<TournamentService>();
+
+            return services;
+        }
     }
 }
