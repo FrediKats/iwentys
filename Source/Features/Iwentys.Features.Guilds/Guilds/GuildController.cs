@@ -3,77 +3,68 @@ using System.Threading.Tasks;
 using Iwentys.Domain;
 using Iwentys.Domain.Models;
 using Iwentys.FeatureBase;
-using Iwentys.Features.Guilds.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Controllers.Guilds
+namespace Iwentys.Features.Guilds.Guilds
 {
     [Route("api/guild")]
     [ApiController]
     public class GuildController : ControllerBase
     {
-        private readonly GuildService _guildService;
+        private readonly IMediator _mediator;
 
-        public GuildController(GuildService guildService)
+        public GuildController(IMediator mediator)
         {
-            _guildService = guildService;
+            _mediator = mediator;
         }
 
         [HttpPost(nameof(Create))]
         public async Task<ActionResult<GuildProfileShortInfoDto>> Create([FromBody] GuildCreateRequestDto arguments)
         {
             AuthorizedUser creator = this.TryAuthWithToken();
-            return Ok(await _guildService.Create(creator, arguments));
+            CreateGuild.Response response = await _mediator.Send(new CreateGuild.Query(arguments, creator));
+            return Ok(response.Guild);
         }
 
         [HttpPut(nameof(Update))]
         public async Task<ActionResult<GuildProfileShortInfoDto>> Update([FromBody] GuildUpdateRequestDto arguments)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(await _guildService.Update(user, arguments));
+            UpdateGuild.Response response = await _mediator.Send(new UpdateGuild.Query(user, arguments));
+            return Ok(response.Guild);
         }
 
         [HttpGet(nameof(GetRanked))]
-        public ActionResult<List<GuildProfileDto>> GetRanked([FromQuery] int skip = 0, [FromQuery] int take = 20)
+        public async Task<ActionResult<List<GuildProfileDto>>> GetRanked([FromQuery] int skip = 0, [FromQuery] int take = 20)
         {
-            return Ok(_guildService.GetOverview(skip, take));
+            GetGuildRating.Response response = await _mediator.Send(new GetGuildRating.Query(skip, take));
+            return Ok(response.Guilds);
         }
 
         [HttpGet(nameof(Get))]
         public async Task<ActionResult<GuildProfileDto>> Get(int id)
         {
-            return Ok(await _guildService.Get(id));
+            GetGuildById.Response response = await _mediator.Send(new GetGuildById.Query(id));
+            return Ok(response.Guild);
         }
 
         [HttpGet(nameof(GetByMemberId))]
-        public ActionResult<GuildProfileDto> GetByMemberId(int memberId)
+        public async Task<ActionResult<GuildProfileDto>> GetByMemberId(int memberId)
         {
-            GuildProfileDto result = _guildService.FindStudentGuild(memberId);
+            GetByMemberId.Response response = await _mediator.Send(new GetByMemberId.Query(memberId));
+            GuildProfileDto result = response.Guild;
             if (result is null)
                 return NotFound();
             
             return Ok(result);
         }
 
-        [HttpPost(nameof(AddPinnedProject))]
-        public async Task<ActionResult<GithubRepositoryInfoDto>> AddPinnedProject(int guildId, [FromBody] CreateProjectRequestDto createProject)
-        {
-            AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(await _guildService.AddPinnedRepository(user, guildId, createProject.Owner, createProject.RepositoryName));
-        }
-
-        [HttpDelete(nameof(DeletePinnedProject))]
-        public async Task<ActionResult> DeletePinnedProject(int guildId, long repositoryId)
-        {
-            AuthorizedUser user = this.TryAuthWithToken();
-            await _guildService.UnpinProject(user, guildId, repositoryId);
-            return Ok();
-        }
-
         [HttpGet(nameof(GetGuildMemberLeaderBoard))]
         public async Task<ActionResult<GuildMemberLeaderBoardDto>> GetGuildMemberLeaderBoard(int guildId)
         {
-            return Ok(await _guildService.GetGuildMemberLeaderBoard(guildId));
+            GetGuildMemberLeaderBoard.Response response = await _mediator.Send(new GetGuildMemberLeaderBoard.Query(guildId));
+            return Ok(response.GuildMemberLeaderBoard);
         }
     }
 }

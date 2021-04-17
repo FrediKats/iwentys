@@ -1,5 +1,4 @@
 ﻿using Iwentys.Common.Databases;
-using Iwentys.Common.Exceptions;
 using Iwentys.Domain;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Models;
@@ -8,18 +7,18 @@ using MediatR;
 
 namespace Iwentys.Features.Guilds.Guilds
 {
-    public static class CreateGuild
+    public class UpdateGuild
     {
         public class Query : IRequest<Response>
         {
-            public GuildCreateRequestDto Arguments { get; set; }
-            public AuthorizedUser AuthorizedUser { get; set; }
-
-            public Query(GuildCreateRequestDto arguments, AuthorizedUser authorizedUser)
+            public Query(AuthorizedUser authorizedUser, GuildUpdateRequestDto arguments)
             {
-                Arguments = arguments;
                 AuthorizedUser = authorizedUser;
+                Arguments = arguments;
             }
+
+            public AuthorizedUser AuthorizedUser { get; set; }
+            public GuildUpdateRequestDto Arguments { get; set; }
         }
 
         public class Response
@@ -56,16 +55,14 @@ namespace Iwentys.Features.Guilds.Guilds
 
             protected override Response Handle(Query request)
             {
-                IwentysUser creator = _iwentysUserRepository.GetById(request.AuthorizedUser.Id).Result;
+                Guild guild = _guildRepository.GetById(request.Arguments.Id).Result;
+                GuildMentor guildMentor = _iwentysUserRepository.GetById(request.AuthorizedUser.Id).EnsureIsGuildMentor(guild).Result;
 
-                Guild userGuild = _guildMemberRepository.ReadForStudent(creator.Id);
-                if (userGuild is not null)
-                    throw new InnerLogicException("Student already in guild");
+                guild.Update(guildMentor, request.Arguments);
 
-                var guildEntity = Guild.Create(creator, request.Arguments);
-                _guildRepository.InsertAsync(guildEntity).Wait();
+                _guildRepository.Update(guild);
                 _unitOfWork.CommitAsync().Wait();
-                return new Response(new GuildProfileShortInfoDto(guildEntity));
+                return new Response(new GuildProfileShortInfoDto(guild));
             }
         }
     }

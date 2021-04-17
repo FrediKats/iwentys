@@ -1,5 +1,6 @@
-﻿using Iwentys.Common.Databases;
-using Iwentys.Common.Exceptions;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Iwentys.Common.Databases;
 using Iwentys.Domain;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Models;
@@ -8,28 +9,28 @@ using MediatR;
 
 namespace Iwentys.Features.Guilds.Guilds
 {
-    public static class CreateGuild
+    public class GetGuildRating
     {
         public class Query : IRequest<Response>
         {
-            public GuildCreateRequestDto Arguments { get; set; }
-            public AuthorizedUser AuthorizedUser { get; set; }
-
-            public Query(GuildCreateRequestDto arguments, AuthorizedUser authorizedUser)
+            public Query(int skip, int take)
             {
-                Arguments = arguments;
-                AuthorizedUser = authorizedUser;
+                Skip = skip;
+                Take = take;
             }
+
+            public int Skip { get; set; }
+            public int Take { get; set; }
         }
 
         public class Response
         {
-            public Response(GuildProfileShortInfoDto guild)
+            public Response(List<GuildProfileDto> guilds)
             {
-                Guild = guild;
+                Guilds = guilds;
             }
 
-            public GuildProfileShortInfoDto Guild { get; set; }
+            public List<GuildProfileDto> Guilds { get; set; }
         }
 
         public class Handler : RequestHandler<Query, Response>
@@ -56,16 +57,16 @@ namespace Iwentys.Features.Guilds.Guilds
 
             protected override Response Handle(Query request)
             {
-                IwentysUser creator = _iwentysUserRepository.GetById(request.AuthorizedUser.Id).Result;
+                List<GuildProfileDto> result = _guildRepository
+                    .Get()
+                    .Skip(request.Skip)
+                    .Take(request.Take)
+                    .Select(GuildProfileDto.FromEntity)
+                    .ToList()
+                    .OrderByDescending(g => g.GuildRating)
+                    .ToList();
 
-                Guild userGuild = _guildMemberRepository.ReadForStudent(creator.Id);
-                if (userGuild is not null)
-                    throw new InnerLogicException("Student already in guild");
-
-                var guildEntity = Guild.Create(creator, request.Arguments);
-                _guildRepository.InsertAsync(guildEntity).Wait();
-                _unitOfWork.CommitAsync().Wait();
-                return new Response(new GuildProfileShortInfoDto(guildEntity));
+                return new Response(result);
             }
         }
     }

@@ -1,35 +1,34 @@
-﻿using Iwentys.Common.Databases;
-using Iwentys.Common.Exceptions;
+﻿using System.Linq;
+using Iwentys.Common.Databases;
 using Iwentys.Domain;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Models;
 using Iwentys.Domain.Services;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Guilds
 {
-    public static class CreateGuild
+    public class GetGuildById
     {
         public class Query : IRequest<Response>
         {
-            public GuildCreateRequestDto Arguments { get; set; }
-            public AuthorizedUser AuthorizedUser { get; set; }
-
-            public Query(GuildCreateRequestDto arguments, AuthorizedUser authorizedUser)
+            public Query(int guildId)
             {
-                Arguments = arguments;
-                AuthorizedUser = authorizedUser;
+                GuildId = guildId;
             }
+
+            public int GuildId { get; set; }
         }
 
         public class Response
         {
-            public Response(GuildProfileShortInfoDto guild)
+            public Response(GuildProfileDto guild)
             {
                 Guild = guild;
             }
 
-            public GuildProfileShortInfoDto Guild { get; set; }
+            public GuildProfileDto Guild { get; set; }
         }
 
         public class Handler : RequestHandler<Query, Response>
@@ -56,16 +55,13 @@ namespace Iwentys.Features.Guilds.Guilds
 
             protected override Response Handle(Query request)
             {
-                IwentysUser creator = _iwentysUserRepository.GetById(request.AuthorizedUser.Id).Result;
+                GuildProfileDto guildProfileDto = _guildRepository
+                    .Get()
+                    .Where(g => g.Id == request.GuildId)
+                    .Select(GuildProfileDto.FromEntity)
+                    .SingleAsync().Result;
 
-                Guild userGuild = _guildMemberRepository.ReadForStudent(creator.Id);
-                if (userGuild is not null)
-                    throw new InnerLogicException("Student already in guild");
-
-                var guildEntity = Guild.Create(creator, request.Arguments);
-                _guildRepository.InsertAsync(guildEntity).Wait();
-                _unitOfWork.CommitAsync().Wait();
-                return new Response(new GuildProfileShortInfoDto(guildEntity));
+                return new Response(guildProfileDto);
             }
         }
     }

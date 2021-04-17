@@ -1,5 +1,5 @@
 ﻿using Iwentys.Common.Databases;
-using Iwentys.Common.Exceptions;
+using Iwentys.Common.Tools;
 using Iwentys.Domain;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Models;
@@ -8,28 +8,26 @@ using MediatR;
 
 namespace Iwentys.Features.Guilds.Guilds
 {
-    public static class CreateGuild
+    public class GetByMemberId
     {
         public class Query : IRequest<Response>
         {
-            public GuildCreateRequestDto Arguments { get; set; }
-            public AuthorizedUser AuthorizedUser { get; set; }
-
-            public Query(GuildCreateRequestDto arguments, AuthorizedUser authorizedUser)
+            public Query(int memberId)
             {
-                Arguments = arguments;
-                AuthorizedUser = authorizedUser;
+                MemberId = memberId;
             }
+
+            public int MemberId { get; set; }
         }
 
         public class Response
         {
-            public Response(GuildProfileShortInfoDto guild)
+            public Response(GuildProfileDto guild)
             {
                 Guild = guild;
             }
 
-            public GuildProfileShortInfoDto Guild { get; set; }
+            public GuildProfileDto Guild { get; set; }
         }
 
         public class Handler : RequestHandler<Query, Response>
@@ -56,16 +54,8 @@ namespace Iwentys.Features.Guilds.Guilds
 
             protected override Response Handle(Query request)
             {
-                IwentysUser creator = _iwentysUserRepository.GetById(request.AuthorizedUser.Id).Result;
-
-                Guild userGuild = _guildMemberRepository.ReadForStudent(creator.Id);
-                if (userGuild is not null)
-                    throw new InnerLogicException("Student already in guild");
-
-                var guildEntity = Guild.Create(creator, request.Arguments);
-                _guildRepository.InsertAsync(guildEntity).Wait();
-                _unitOfWork.CommitAsync().Wait();
-                return new Response(new GuildProfileShortInfoDto(guildEntity));
+                GuildProfileDto guild = _guildMemberRepository.ReadForStudent(request.MemberId).Maybe(g => new GuildProfileDto(g));
+                return new Response(guild);
             }
         }
     }
