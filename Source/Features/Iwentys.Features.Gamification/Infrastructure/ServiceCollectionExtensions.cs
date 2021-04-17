@@ -17,5 +17,12 @@ namespace Iwentys.Features.Gamification.Infrastructure
 
             return services;
         }
+
+        public static IServiceCollection AddIwentysInterestTagFeatureServices(this IServiceCollection services)
+        {
+            services.AddScoped<InterestTagService>();
+
+            return services;
+        }
     }
 }

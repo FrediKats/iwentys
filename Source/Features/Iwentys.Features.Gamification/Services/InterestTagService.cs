@@ -6,7 +6,7 @@ using Iwentys.Domain;
 using Iwentys.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.InterestTags.Services
+namespace Iwentys.Features.Gamification.Services
 {
     public class InterestTagService
     {
