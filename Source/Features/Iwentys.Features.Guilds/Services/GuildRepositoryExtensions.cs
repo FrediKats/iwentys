@@ -20,13 +20,5 @@ namespace Iwentys.Domain.Services
                 .Select(gm => gm.Guild)
                 .SingleOrDefault();
         }
-
-        public static bool IsStudentHaveRequest(this IGenericRepository<GuildMember> repository, int studentId)
-        {
-            return repository
-                .Get()
-                .Where(m => m.Member.Id == studentId)
-                .Any(m => m.MemberType == GuildMemberType.Requested);
-        }
     }
 }

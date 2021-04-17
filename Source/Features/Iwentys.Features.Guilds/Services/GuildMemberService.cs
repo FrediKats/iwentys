@@ -38,7 +38,9 @@ namespace Iwentys.Features.Guilds.Services
         {
             GuildDomain guild = CreateDomain(await _guildRepository.GetById(guildId));
 
-            if (await guild.GetUserMembershipState(user.Id) != UserMembershipState.CanEnter)
+            IwentysUser user1 = await _userRepository.GetById(user.Id);
+            Guild userGuild = _guildMemberRepository.ReadForStudent(user.Id);
+            if (await guild.GetUserMembershipState(user1, userGuild, GetStudentRequest(_guildMemberRepository, user.Id)) != UserMembershipState.CanEnter)
                 throw new InnerLogicException($"Student unable to enter this guild! UserId: {user.Id} GuildId: {guildId}");
 
             IwentysUser profile = await _userRepository.GetById(user.Id);
@@ -53,7 +55,9 @@ namespace Iwentys.Features.Guilds.Services
         {
             GuildDomain guild = CreateDomain(await _guildRepository.GetById(guildId));
 
-            if (await guild.GetUserMembershipState(user.Id) != UserMembershipState.CanRequest)
+            IwentysUser user1 = await _userRepository.GetById(user.Id);
+            Guild userGuild = _guildMemberRepository.ReadForStudent(user.Id);
+            if (await guild.GetUserMembershipState(user1, userGuild, GetStudentRequest(_guildMemberRepository, user.Id)) != UserMembershipState.CanRequest)
                 throw new InnerLogicException($"Student unable to send request to this guild! UserId: {user.Id} GuildId: {guildId}");
 
             IwentysUser profile = await _userRepository.GetById(user.Id);
@@ -179,7 +183,10 @@ namespace Iwentys.Features.Guilds.Services
         public async Task<UserMembershipState> GetUserMembership(AuthorizedUser creator, int guildId)
         {
             Guild guild = await _guildRepository.GetById(guildId);
-            return await CreateDomain(guild).GetUserMembershipState(creator.Id);
+            GuildDomain tempQualifier = CreateDomain(guild);
+            IwentysUser user1 = await _userRepository.GetById(creator.Id);
+            Guild userGuild = _guildMemberRepository.ReadForStudent(creator.Id);
+            return await tempQualifier.GetUserMembershipState(user1, userGuild, GetStudentRequest(_guildMemberRepository, creator.Id));
         }
 
         public async Task PromoteToMentor(AuthorizedUser creator, int userForPromotion)
@@ -209,6 +216,14 @@ namespace Iwentys.Features.Guilds.Services
             guildLastLeave.UpdateLeave();
             _guildMemberRepository.Delete(guildMember);
             await _unitOfWork.CommitAsync();
+        }
+
+        public static GuildMember GetStudentRequest(IGenericRepository<GuildMember> repository, int studentId)
+        {
+            return repository
+                .Get()
+                .Where(m => m.Member.Id == studentId)
+                .FirstOrDefault(m => m.MemberType == GuildMemberType.Requested);
         }
     }
 }

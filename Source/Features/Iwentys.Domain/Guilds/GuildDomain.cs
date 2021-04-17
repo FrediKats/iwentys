@@ -44,10 +44,8 @@ namespace Iwentys.Domain.Guilds
             return result;
         }
 
-        public async Task<UserMembershipState> GetUserMembershipState(int userId)
+        public async Task<UserMembershipState> GetUserMembershipState(IwentysUser user, Guild userGuild, GuildMember currentMembership)
         {
-            IwentysUser user = await _userRepository.GetById(userId);
-            Guild userGuild = _guildMemberRepositoryNew.ReadForStudent(user.Id);
             GuildMemberType? userStatusInGuild = Profile.Members.Find(m => m.Member.Id == user.Id)?.MemberType;
             GuildLastLeave guildLastLeave = await GuildLastLeave.Get(user, _guildLastLeaveRepository);
 
@@ -62,11 +60,11 @@ namespace Iwentys.Domain.Guilds
                 userGuild.Id == Profile.Id)
                 return UserMembershipState.Entered;
 
-            if (_guildMemberRepositoryNew.IsStudentHaveRequest(userId) &&
+            if (currentMembership?.MemberType == GuildMemberType.Requested &&
                 userStatusInGuild != GuildMemberType.Requested)
                 return UserMembershipState.Blocked;
 
-            if (_guildMemberRepositoryNew.IsStudentHaveRequest(userId) &&
+            if (currentMembership?.MemberType == GuildMemberType.Requested &&
                 userStatusInGuild == GuildMemberType.Requested)
                 return UserMembershipState.Requested;
 

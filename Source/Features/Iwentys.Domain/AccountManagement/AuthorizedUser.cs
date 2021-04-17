@@ -9,7 +9,7 @@
 
         public int Id { get; set; }
 
-        //FYI: Only for debug propose
+        //TODO: think about. Only for debug propose
         public static AuthorizedUser DebugAuth(int id)
         {
             return new AuthorizedUser(id);
