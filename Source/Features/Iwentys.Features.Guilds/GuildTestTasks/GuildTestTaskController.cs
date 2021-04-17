@@ -3,50 +3,51 @@ using System.Threading.Tasks;
 using Iwentys.Domain;
 using Iwentys.Domain.Models;
 using Iwentys.FeatureBase;
-using Iwentys.Features.Guilds.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Controllers.Guilds
+namespace Iwentys.Features.Guilds.GuildTestTasks
 {
     [Route("api/GuildTestTask")]
     [ApiController]
-    public class GuildTestTaskServiceController : ControllerBase
+    public class GuildTestTaskController : ControllerBase
     {
-        private readonly GuildTestTaskService _guildTestTaskService;
+        private readonly IMediator _mediator;
 
-        public GuildTestTaskServiceController(GuildTestTaskService guildTestTaskService)
+        public GuildTestTaskController(IMediator mediator)
         {
-            _guildTestTaskService = guildTestTaskService;
+            _mediator = mediator;
         }
 
         [HttpGet(nameof(GetByGuildId))]
-        public ActionResult<List<GuildTestTaskInfoResponse>> GetByGuildId([FromQuery] int guildId)
+        public async Task<ActionResult<List<GuildTestTaskInfoResponse>>> GetByGuildId([FromQuery] int guildId)
         {
-            return Ok(_guildTestTaskService.GetResponses(guildId));
+            GetGuildTestTaskSubmits.Response response = await _mediator.Send(new GetGuildTestTaskSubmits.Query(guildId));
+            return Ok(response.Submits);
         }
 
         [HttpPut(nameof(Accept))]
         public async Task<ActionResult<GuildTestTaskInfoResponse>> Accept([FromQuery]int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            GuildTestTaskInfoResponse testTask = await _guildTestTaskService.Accept(user, guildId);
-            return Ok(testTask);
+            AcceptGuildTestTask.Response response = await _mediator.Send(new AcceptGuildTestTask.Query(guildId, user));
+            return Ok(response.TestTaskInfo);
         }
 
         [HttpPut(nameof(Submit))]
         public async Task<ActionResult<GuildTestTaskInfoResponse>> Submit([FromQuery] int guildId, [FromQuery] string projectOwner, [FromQuery] string projectName)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            GuildTestTaskInfoResponse testTask = await _guildTestTaskService.Submit(user, guildId, projectOwner, projectName);
-            return Ok(testTask);
+            SubmitGuildTestTask.Response response = await _mediator.Send(new SubmitGuildTestTask.Query(guildId, user));
+            return Ok(response.TestTaskInfo);
         }
 
         [HttpPut(nameof(Complete))]
         public async Task<ActionResult<GuildTestTaskInfoResponse>> Complete([FromQuery] int guildId, [FromQuery] int taskSolveOwnerId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            GuildTestTaskInfoResponse testTask = await _guildTestTaskService.Complete(user, guildId, taskSolveOwnerId);
-            return Ok(testTask);
+            CompleteGuildTestTask.Response response = await _mediator.Send(new CompleteGuildTestTask.Query(guildId, user, taskSolveOwnerId));
+            return Ok(response.TestTaskInfo);
         }
     }
 }
