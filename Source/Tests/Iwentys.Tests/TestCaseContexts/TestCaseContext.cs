@@ -3,7 +3,6 @@ using Iwentys.Database;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Services;
 using Iwentys.Features.AccountManagement.Services;
-using Iwentys.Features.Achievements.Services;
 using Iwentys.Features.Assignments.Services;
 using Iwentys.Features.Companies.Services;
 using Iwentys.Features.Economy.Services;

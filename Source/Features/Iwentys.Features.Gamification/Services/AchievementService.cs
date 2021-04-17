@@ -6,7 +6,7 @@ using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Achievements.Services
+namespace Iwentys.Features.Gamification.Services
 {
     public class AchievementService
     {
