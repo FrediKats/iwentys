@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Study.Services
 {
+    //TODO: move this service to ??
     public class SubjectActivityService
     {
         private readonly IGenericRepository<SubjectActivity> _subjectActivityRepositoryNew;

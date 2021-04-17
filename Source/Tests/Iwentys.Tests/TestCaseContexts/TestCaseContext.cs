@@ -92,7 +92,7 @@ namespace Iwentys.Tests.TestCaseContexts
             SubjectAssignmentService = new SubjectAssignmentService(UnitOfWork);
             AssignmentService = new AssignmentService(UnitOfWork);
             RaidService = new RaidService(UnitOfWork);
-            StudyLeaderboard = new StudyLeaderboardService(GithubIntegrationService, _context, UnitOfWork);
+            StudyLeaderboard = new StudyLeaderboardService(_context);
 
             TributeTestCaseContext = new TributeTestCaseContext(this);
             GithubTestCaseContext = new GithubTestCaseContext(this);
