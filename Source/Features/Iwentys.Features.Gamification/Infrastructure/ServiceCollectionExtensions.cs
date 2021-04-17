@@ -1,6 +1,9 @@
 ﻿using System.Reflection;
+using Iwentys.Features.Achievements.Services;
+using Iwentys.Features.Economy.Services;
 using Iwentys.Features.Gamification.Karmas;
 using Iwentys.Features.Gamification.Services;
+using Iwentys.Features.Quests.Services;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,6 +24,27 @@ namespace Iwentys.Features.Gamification.Infrastructure
         public static IServiceCollection AddIwentysInterestTagFeatureServices(this IServiceCollection services)
         {
             services.AddScoped<InterestTagService>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddIwentysEconomyFeatureServices(this IServiceCollection services)
+        {
+            services.AddScoped<BarsPointTransactionLogService>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddIwentysQuestFeatureServices(this IServiceCollection services)
+        {
+            services.AddScoped<QuestService>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddIwentysAchievementFeatureServices(this IServiceCollection services)
+        {
+            services.AddScoped<AchievementService>();
 
             return services;
         }

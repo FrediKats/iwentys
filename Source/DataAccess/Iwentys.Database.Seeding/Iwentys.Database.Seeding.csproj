@@ -17,7 +17,6 @@
     <ProjectReference Include="..\..\Features\Iwentys.Features.GithubIntegration\Iwentys.Features.GithubIntegration.csproj" />
     <ProjectReference Include="..\..\Features\Iwentys.Features.Guilds\Iwentys.Features.Guilds.csproj" />
     <ProjectReference Include="..\..\Features\Iwentys.Features.Newsfeeds\Iwentys.Features.Newsfeeds.csproj" />
-    <ProjectReference Include="..\..\Features\Iwentys.Features.Quests\Iwentys.Features.Quests.csproj" />
     <ProjectReference Include="..\..\Features\Iwentys.Features.Raids\Iwentys.Features.Raids.csproj" />
     <ProjectReference Include="..\..\Features\Iwentys.Features.Study.SubjectAssignments\Iwentys.Features.Study.SubjectAssignments.csproj" />
     <ProjectReference Include="..\..\Features\Iwentys.Features.Study\Iwentys.Features.Study.csproj" />

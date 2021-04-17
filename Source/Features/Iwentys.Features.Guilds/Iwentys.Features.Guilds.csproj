@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Iwentys.FeatureBase\Iwentys.FeatureBase.csproj" />
-    <ProjectReference Include="..\Iwentys.Features.Achievements\Iwentys.Features.Achievements.csproj" />
     <ProjectReference Include="..\Iwentys.Features.GithubIntegration\Iwentys.Features.GithubIntegration.csproj" />
     <ProjectReference Include="..\Iwentys.Features.PeerReview\Iwentys.Features.PeerReview.csproj" />
   </ItemGroup>

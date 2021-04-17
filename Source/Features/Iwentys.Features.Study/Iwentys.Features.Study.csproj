@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Iwentys.Features.AccountManagement\Iwentys.Features.AccountManagement.csproj" />
-    <ProjectReference Include="..\Iwentys.Features.Achievements\Iwentys.Features.Achievements.csproj" />
   </ItemGroup>
 
 </Project>
