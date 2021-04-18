@@ -7,6 +7,7 @@ using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Models;
 using Iwentys.Domain.Services;
+using Iwentys.Features.Guilds.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

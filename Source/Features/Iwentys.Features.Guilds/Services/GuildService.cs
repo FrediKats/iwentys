@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Domain;
 using Iwentys.Domain.Guilds;
@@ -37,12 +36,9 @@ namespace Iwentys.Features.Guilds.Services
         public async Task<GuildProfileShortInfoDto> Create(AuthorizedUser authorizedUser, GuildCreateRequestDto arguments)
         {
             IwentysUser creator = await _iwentysUserRepository.GetById(authorizedUser.Id);
-
             Guild userGuild = _guildMemberRepository.ReadForStudent(creator.Id);
-            if (userGuild is not null)
-                throw new InnerLogicException("Student already in guild");
 
-            var guildEntity = Guild.Create(creator, arguments);
+            var guildEntity = Guild.Create(creator, userGuild, arguments);
             await _guildRepository.InsertAsync(guildEntity);
             await _unitOfWork.CommitAsync();
             return new GuildProfileShortInfoDto(guildEntity);
@@ -51,9 +47,9 @@ namespace Iwentys.Features.Guilds.Services
         public async Task<GuildProfileShortInfoDto> Update(AuthorizedUser user, GuildUpdateRequestDto arguments)
         {
             Guild guild = await _guildRepository.GetById(arguments.Id);
-            GuildMentor guildMentor = await _iwentysUserRepository.GetById(user.Id).EnsureIsGuildMentor(guild);
+            IwentysUser iwentysUser = await _iwentysUserRepository.GetById(user.Id);
 
-            guild.Update(guildMentor, arguments);
+            guild.Update(iwentysUser, arguments);
 
             _guildRepository.Update(guild);
             await _unitOfWork.CommitAsync();

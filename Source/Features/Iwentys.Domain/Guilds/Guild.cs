@@ -21,8 +21,11 @@ namespace Iwentys.Domain.Guilds
         public virtual List<GuildPinnedProject> PinnedProjects { get; init; } = new List<GuildPinnedProject>();
         public virtual List<GuildTestTaskSolution> TestTasks { get; init; } = new List<GuildTestTaskSolution>();
 
-        public static Guild Create(IwentysUser creator, GuildCreateRequestDto arguments)
+        public static Guild Create(IwentysUser creator, Guild userCurrentGuild, GuildCreateRequestDto arguments)
         {
+            if (userCurrentGuild is not null)
+                throw new InnerLogicException("Student already in guild");
+
             var newGuild = new Guild
             {
                 Bio = arguments.Bio,
@@ -37,8 +40,10 @@ namespace Iwentys.Domain.Guilds
             return newGuild;
         }
 
-        public void Update(GuildMentor guildMentor, GuildUpdateRequestDto arguments)
+        public void Update(IwentysUser user, GuildUpdateRequestDto arguments)
         {
+            GuildMentor mentor = EnsureIsGuildMentor(user);
+
             Bio = arguments.Bio ?? Bio;
             ImageUrl = arguments.LogoUrl ?? ImageUrl;
             TestTaskLink = arguments.TestTaskLink ?? TestTaskLink;
@@ -46,7 +51,7 @@ namespace Iwentys.Domain.Guilds
 
             if (arguments.HiringPolicy == GuildHiringPolicy.Open)
                 foreach (GuildMember guildMember in Members.Where(guildMember => guildMember.MemberType == GuildMemberType.Requested))
-                    guildMember.Approve(guildMentor);
+                    guildMember.Approve(mentor);
         }
 
         public void Approve(SystemAdminUser admin)
@@ -60,6 +65,16 @@ namespace Iwentys.Domain.Guilds
         public List<GuildMemberImpactDto> GetImpact()
         {
             return Members.Select(member => new GuildMemberImpactDto(member)).ToList();
+        }
+
+        public GuildMentor EnsureIsGuildMentor(IwentysUser user)
+        {
+            GuildMember membership = Members.FirstOrDefault(m => m.MemberId == user.Id);
+
+            if (membership is null)
+                throw InnerLogicException.GuildExceptions.IsNotGuildMember(user.Id, Id);
+
+            return new GuildMentor(user, this, membership.MemberType);
         }
     }
 }

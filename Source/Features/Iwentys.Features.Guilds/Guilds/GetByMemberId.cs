@@ -1,9 +1,10 @@
-﻿using Iwentys.Common.Databases;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Iwentys.Common.Databases;
 using Iwentys.Common.Tools;
-using Iwentys.Domain;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Models;
-using Iwentys.Domain.Services;
+using Iwentys.Features.Guilds.Services;
 using MediatR;
 
 namespace Iwentys.Features.Guilds.Guilds
@@ -30,29 +31,16 @@ namespace Iwentys.Features.Guilds.Guilds
             public GuildProfileDto Guild { get; set; }
         }
 
-        public class Handler : RequestHandler<Query, Response>
+        public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly GithubIntegrationService _githubIntegrationService;
-
             private readonly IGenericRepository<GuildMember> _guildMemberRepository;
-            private readonly IGenericRepository<GuildPinnedProject> _guildPinnedProjectRepository;
-            private readonly IGenericRepository<Guild> _guildRepository;
-            private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
 
-            private readonly IUnitOfWork _unitOfWork;
-
-            public Handler(IUnitOfWork unitOfWork, GithubIntegrationService githubIntegrationService)
+            public Handler(IUnitOfWork unitOfWork)
             {
-                _githubIntegrationService = githubIntegrationService;
-
-                _unitOfWork = unitOfWork;
-                _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
-                _guildRepository = _unitOfWork.GetRepository<Guild>();
-                _guildMemberRepository = _unitOfWork.GetRepository<GuildMember>();
-                _guildPinnedProjectRepository = _unitOfWork.GetRepository<GuildPinnedProject>();
+                _guildMemberRepository = unitOfWork.GetRepository<GuildMember>();
             }
 
-            protected override Response Handle(Query request)
+            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
                 GuildProfileDto guild = _guildMemberRepository.ReadForStudent(request.MemberId).Maybe(g => new GuildProfileDto(g));
                 return new Response(guild);
