@@ -33,20 +33,22 @@ namespace Iwentys.Database.Seeding.FakerEntities.Study
             };
         }
 
-        public SubjectAssignmentSubmitFeedbackArguments CreateFeedback(FeedbackType feedbackType = FeedbackType.Approve)
+        public SubjectAssignmentSubmitFeedbackArguments CreateFeedback(int submitId, FeedbackType feedbackType = FeedbackType.Approve)
         {
             return new SubjectAssignmentSubmitFeedbackArguments
             {
                 Comment = _faker.Lorem.Word(),
-                FeedbackType = feedbackType
+                FeedbackType = feedbackType,
+                SubjectAssignmentSubmitId = submitId
             };
         }
 
-        public SubjectAssignmentSubmitCreateArguments CreateSubjectAssignmentSubmitCreateArguments()
+        public SubjectAssignmentSubmitCreateArguments CreateSubjectAssignmentSubmitCreateArguments(int assignmentId)
         {
             return new SubjectAssignmentSubmitCreateArguments
             {
-                StudentDescription = _faker.Lorem.Word()
+                StudentDescription = _faker.Lorem.Word(),
+                SubjectAssignmentId = assignmentId
             };
         }
 

@@ -3,67 +3,69 @@ using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study.Models;
 using Iwentys.FeatureBase;
-using Iwentys.Features.Study.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Features.Study.SubjectAssignments
 {
+    //TODO: merge controllers
     [Route("api/SubjectAssignmentSubmit")]
     [ApiController]
     public class SubjectAssignmentSubmitController : ControllerBase
     {
-        private readonly SubjectAssignmentService _subjectAssignmentService;
+        private readonly IMediator _mediator;
 
-        public SubjectAssignmentSubmitController(SubjectAssignmentService subjectAssignmentService)
+        public SubjectAssignmentSubmitController(IMediator mediator)
         {
-            _subjectAssignmentService = subjectAssignmentService;
+            _mediator = mediator;
         }
 
         [HttpGet(nameof(GetById))]
         public async Task<ActionResult<SubjectAssignmentSubmitDto>> GetById(int subjectId, int subjectAssignmentSubmitId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            SubjectAssignmentSubmitDto result = await _subjectAssignmentService.GetSubjectAssignmentSubmit(authorizedUser, subjectAssignmentSubmitId);
-            return Ok(result);
+            GetSubjectAssignmentSubmit.Response response = await _mediator.Send(new GetSubjectAssignmentSubmit.Query(subjectAssignmentSubmitId, authorizedUser));
+            return Ok(response.Submit);
         }
 
         [HttpGet(nameof(GetBySubjectId))]
         public async Task<ActionResult<List<SubjectAssignmentSubmitDto>>> GetBySubjectId(int subjectId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            List<SubjectAssignmentSubmitDto> submits = await _subjectAssignmentService.GetStudentSubjectAssignmentSubmits(authorizedUser, new SubjectAssignmentSubmitSearchArguments
+            GetStudentSubjectAssignmentSubmits.Response response = await _mediator.Send(new GetStudentSubjectAssignmentSubmits.Query(new SubjectAssignmentSubmitSearchArguments
             {
                 SubjectId = subjectId,
                 StudentId = authorizedUser.Id
-            });
-            return Ok(submits);
+            }, authorizedUser));
+            return Ok(response.Submits);
         }
 
         [HttpPost(nameof(SendSubmit))]
-        public async Task<ActionResult<SubjectAssignmentSubmitDto>> SendSubmit(int subjectId, int subjectAssignmentId, SubjectAssignmentSubmitCreateArguments arguments)
+        public async Task<ActionResult<SubjectAssignmentSubmitDto>> SendSubmit(SubjectAssignmentSubmitCreateArguments arguments)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            SubjectAssignmentSubmitDto result = await _subjectAssignmentService.SendSubmit(authorizedUser, subjectAssignmentId, arguments);
-            return Ok(result);
+            SendSubmit.Response response = await _mediator.Send(new SendSubmit.Query(arguments, authorizedUser));
+            return Ok(response.Submit);
         }
 
         [HttpGet(nameof(SearchSubjectAssignmentSubmits))]
         public async Task<ActionResult<List<SubjectAssignmentSubmitDto>>> SearchSubjectAssignmentSubmits(int subjectId, [FromQuery] int? studentId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            List<SubjectAssignmentSubmitDto> submits = await _subjectAssignmentService.SearchSubjectAssignmentSubmits(authorizedUser, new SubjectAssignmentSubmitSearchArguments
+            SearchSubjectAssignmentSubmits.Response response = await _mediator.Send(new SearchSubjectAssignmentSubmits.Query(new SubjectAssignmentSubmitSearchArguments
             {
                 SubjectId = subjectId,
                 StudentId = studentId
-            });
-            return Ok(submits);
+            }, authorizedUser));
+
+            return Ok(response.Submits);
         }
 
         [HttpPut(nameof(SendFeedback))]
-        public async Task<ActionResult> SendFeedback(int subjectId, int subjectAssignmentSubmitId, [FromBody] SubjectAssignmentSubmitFeedbackArguments arguments)
+        public async Task<ActionResult> SendFeedback(SubjectAssignmentSubmitFeedbackArguments arguments)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            await _subjectAssignmentService.SendFeedback(authorizedUser, subjectAssignmentSubmitId, arguments);
+            SendFeedback.Response response = await _mediator.Send(new SendFeedback.Query(arguments, authorizedUser));
             return Ok();
         }
     }

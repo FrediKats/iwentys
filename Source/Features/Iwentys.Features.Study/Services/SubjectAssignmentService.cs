@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Common.Tools;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
@@ -38,26 +36,9 @@ namespace Iwentys.Features.Study.Services
             _studentAssignmentRepository = _unitOfWork.GetRepository<StudentAssignment>();
         }
 
-        public async Task<List<SubjectAssignmentSubmitDto>> SearchSubjectAssignmentSubmits(AuthorizedUser user, SubjectAssignmentSubmitSearchArguments searchArguments)
+        public async Task<SubjectAssignmentSubmitDto> SendSubmit(AuthorizedUser user, SubjectAssignmentSubmitCreateArguments arguments)
         {
-            Subject subject = await _subjectRepository.GetById(searchArguments.SubjectId);
-            IwentysUser iwentysUser = await _iwentysUserRepository.GetById(user.Id);
-            iwentysUser.EnsureIsTeacher(subject);
-
-            return await SearchSubjectAssignmentSubmits(searchArguments);
-        }
-
-        public async Task<List<SubjectAssignmentSubmitDto>> GetStudentSubjectAssignmentSubmits(AuthorizedUser user, SubjectAssignmentSubmitSearchArguments searchArguments)
-        {
-            Subject subject = await _subjectRepository.GetById(searchArguments.SubjectId);
-            IwentysUser iwentysUser = await _iwentysUserRepository.GetById(user.Id);
-
-            return await SearchSubjectAssignmentSubmits(searchArguments);
-        }
-
-        public async Task<SubjectAssignmentSubmitDto> SendSubmit(AuthorizedUser user, int subjectAssignmentId, SubjectAssignmentSubmitCreateArguments arguments)
-        {
-            SubjectAssignment subjectAssignment = await _subjectAssignmentRepository.GetById(subjectAssignmentId);
+            SubjectAssignment subjectAssignment = await _subjectAssignmentRepository.GetById(arguments.SubjectAssignmentId);
 
             SubjectAssignmentSubmit subjectAssignmentSubmit = subjectAssignment.CreateSubmit(user, arguments);
 
@@ -71,19 +52,9 @@ namespace Iwentys.Features.Study.Services
                 .SingleAsync();
         }
 
-        public async Task<SubjectAssignmentSubmitDto> GetSubjectAssignmentSubmit(AuthorizedUser user, int subjectAssignmentSubmitId)
+        public async Task SendFeedback(AuthorizedUser user, SubjectAssignmentSubmitFeedbackArguments arguments)
         {
-            return await _subjectAssignmentSubmitRepository
-                .Get()
-                .Where(sas => sas.Id == subjectAssignmentSubmitId)
-                .Select(sas => new SubjectAssignmentSubmitDto(sas))
-                .SingleAsync();
-        }
-
-
-        public async Task SendFeedback(AuthorizedUser user, int subjectAssignmentSubmitId, SubjectAssignmentSubmitFeedbackArguments arguments)
-        {
-            SubjectAssignmentSubmit subjectAssignmentSubmit = await _subjectAssignmentSubmitRepository.GetById(subjectAssignmentSubmitId);
+            SubjectAssignmentSubmit subjectAssignmentSubmit = await _subjectAssignmentSubmitRepository.GetById(arguments.SubjectAssignmentSubmitId);
             IwentysUser iwentysUser = await _iwentysUserRepository.GetById(user.Id);
 
             subjectAssignmentSubmit.ApplyFeedback(iwentysUser, arguments);
