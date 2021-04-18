@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain;
+using Iwentys.Domain.Enums;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
@@ -71,47 +72,6 @@ namespace Iwentys.Features.Guilds.Services
             await _guildTestTaskSolutionRepository.InsertAsync(testTaskSolution);
             await _unitOfWork.CommitAsync();
             return GuildTestTaskInfoResponse.Wrap(testTaskSolution);
-        }
-
-        //TODO: ensure project belong to user
-        public async Task<GuildTestTaskInfoResponse> Submit(AuthorizedUser user, int guildId, string projectOwner, string projectName)
-        {
-            throw new NotImplementedException();
-            ////TODO: Add exception message (Test task was not started)
-            //GuildTestTaskSolution testTaskSolution = await _guildTestTaskSolutionRepository
-            //    .GetSingle(t => t.AuthorId == user.Id && t.GuildId == guildId);
-
-            //if (testTaskSolution.GetState() == GuildTestTaskState.Completed)
-            //    throw new InnerLogicException("Task already completed");
-
-            //Guild guild = await _guildRepository.GetById(guildId);
-            //GithubRepositoryInfoDto githubRepositoryInfoDto = await _githubIntegrationService.Repository.GetRepository(projectOwner, projectName);
-            //var createArguments = new ReviewRequestCreateArguments
-            //{
-            //    ProjectId = githubRepositoryInfoDto.Id,
-            //    Description = "Guild test task review",
-            //    Visibility = ProjectReviewVisibility.Closed
-            //};
-
-            ////TODO: here we call .Commit and... it's not okay
-            //ProjectReviewRequestInfoDto reviewRequest = await _projectReviewService.CreateReviewRequest(user, createArguments);
-
-            //foreach (GuildMember member in guild.Members)
-            //{
-            //    if (member.MemberId == user.Id)
-            //        continue;
-
-            //    if (!member.MemberType.IsMentor())
-            //        continue;
-
-            //    await _projectReviewService.InviteToReview(user, reviewRequest.Id, member.MemberId);
-            //}
-
-            //testTaskSolution.SendSubmit(user, reviewRequest);
-
-            //_guildTestTaskSolutionRepository.Update(testTaskSolution);
-            //await _unitOfWork.CommitAsync();
-            //return GuildTestTaskInfoResponse.Wrap(testTaskSolution);
         }
 
         public async Task<GuildTestTaskInfoResponse> Complete(AuthorizedUser user, int guildId, int taskSolveOwnerId)

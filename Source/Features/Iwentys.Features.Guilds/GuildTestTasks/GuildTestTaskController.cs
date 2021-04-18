@@ -38,7 +38,7 @@ namespace Iwentys.Features.Guilds.GuildTestTasks
         public async Task<ActionResult<GuildTestTaskInfoResponse>> Submit([FromQuery] int guildId, [FromQuery] string projectOwner, [FromQuery] string projectName)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            SubmitGuildTestTask.Response response = await _mediator.Send(new SubmitGuildTestTask.Query(guildId, user));
+            SubmitGuildTestTask.Response response = await _mediator.Send(new SubmitGuildTestTask.Query(user, guildId, projectOwner, projectName));
             return Ok(response.TestTaskInfo);
         }
 

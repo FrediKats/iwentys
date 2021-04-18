@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Domain;
-using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Models;
 using Iwentys.Domain.Services;
@@ -14,10 +13,12 @@ namespace Iwentys.Features.Guilds.GuildTestTasks
     {
         public class Query : IRequest<Response>
         {
-            public Query(int guildId, AuthorizedUser user)
+            public Query(AuthorizedUser user, int guildId, string projectOwner, string projectName)
             {
-                GuildId = guildId;
                 User = user;
+                GuildId = guildId;
+                ProjectOwner = projectOwner;
+                ProjectName = projectName;
             }
 
             public AuthorizedUser User { get; set; }
@@ -46,7 +47,7 @@ namespace Iwentys.Features.Guilds.GuildTestTasks
 
             private readonly IUnitOfWork _unitOfWork;
 
-            public Handler(IUnitOfWork unitOfWork, AchievementProvider achievementProvider, GithubIntegrationService githubIntegrationService)
+            public Handler(IUnitOfWork unitOfWork, GithubIntegrationService githubIntegrationService)
             {
                 _githubIntegrationService = githubIntegrationService;
 

@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Models;
+using Iwentys.Domain.Services;
 
 namespace Iwentys.Domain.Guilds
 {
@@ -75,6 +77,20 @@ namespace Iwentys.Domain.Guilds
                 throw InnerLogicException.GuildExceptions.IsNotGuildMember(user.Id, Id);
 
             return new GuildMentor(user, this, membership.MemberType);
+        }
+
+        //TODO: rework
+        public async Task<List<GuildMemberImpactDto>> GetMemberImpacts(IGithubUserApiAccessor _githubUserApiAccessor)
+        {
+            //FYI: optimization is need
+            var result = new List<GuildMemberImpactDto>();
+            foreach (GuildMember member in Members)
+            {
+                ContributionFullInfo contributionFullInfo = await _githubUserApiAccessor.FindUserContributionOrEmpty(member.Member);
+                result.Add(new GuildMemberImpactDto(new IwentysUserInfoDto(member.Member), member.MemberType, contributionFullInfo));
+            }
+
+            return result;
         }
     }
 }

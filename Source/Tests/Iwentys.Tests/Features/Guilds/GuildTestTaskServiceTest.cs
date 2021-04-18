@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Domain;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Models;
+using Iwentys.Features.Guilds.GuildTestTasks;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -38,7 +40,8 @@ namespace Iwentys.Tests.Features.Guilds
             GithubProject githubProject = context.GithubTestCaseContext.WithStudentProject(guildNewcomer);
 
             await context.GuildTestTaskService.Accept(guildNewcomer, guild.Id);
-            await context.GuildTestTaskService.Submit(guildNewcomer, guild.Id, githubProject.Owner, githubProject.Name);
+
+            await new SubmitGuildTestTask.Handler(context.UnitOfWork, context.GithubIntegrationService).Handle(new SubmitGuildTestTask.Query(guildNewcomer, guild.Id, githubProject.Owner, githubProject.Name), CancellationToken.None);
 
             List<GuildTestTaskInfoResponse> taskInfoResponses = await context.GuildTestTaskService.GetResponses(guild.Id);
             GuildTestTaskInfoResponse userResponse = taskInfoResponses.First(t => t.StudentId == guildNewcomer.Id);
@@ -58,7 +61,8 @@ namespace Iwentys.Tests.Features.Guilds
             GithubProject githubProject = context.GithubTestCaseContext.WithStudentProject(guildNewcomer);
 
             await context.GuildTestTaskService.Accept(guildNewcomer, guild.Id);
-            await context.GuildTestTaskService.Submit(guildNewcomer, guild.Id, githubProject.Owner, githubProject.Name);
+
+            await new SubmitGuildTestTask.Handler(context.UnitOfWork, context.GithubIntegrationService).Handle(new SubmitGuildTestTask.Query(guildNewcomer, guild.Id, githubProject.Owner, githubProject.Name), CancellationToken.None);
             await context.GuildTestTaskService.Complete(user, guild.Id, guildNewcomer.Id);
 
             List<GuildTestTaskInfoResponse> taskInfoResponses = await context.GuildTestTaskService.GetResponses(guild.Id);

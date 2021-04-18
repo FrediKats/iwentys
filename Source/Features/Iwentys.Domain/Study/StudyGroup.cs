@@ -13,7 +13,7 @@ namespace Iwentys.Domain.Study
         public virtual StudyCourse StudyCourse { get; set; }
 
         public int? GroupAdminId { get; set; }
-        public Student GroupAdmin { get; set; }
+        //public Student GroupAdmin { get; set; }
 
         public virtual List<Student> Students { get; set; }
         public virtual List<GroupSubject> GroupSubjects { get; set; }
@@ -32,7 +32,7 @@ namespace Iwentys.Domain.Study
             }
             else
             {
-                newGroupAdmin.Group.GroupAdmin = newGroupAdmin;
+                newGroupAdmin.Group.GroupAdminId = newGroupAdmin.Id;
             }
 
             return newGroupAdmin.Group;

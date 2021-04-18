@@ -27,6 +27,12 @@ namespace Iwentys.Domain
         public virtual ICollection<ProjectReviewRequestInvite> ProjectReviewRequestInvites { get; set; }
         public virtual ICollection<ProjectReviewFeedback> ReviewFeedbacks { get; set; }
 
+        public ProjectReviewRequest()
+        {
+            ProjectReviewRequestInvites = new List<ProjectReviewRequestInvite>();
+            ReviewFeedbacks = new List<ProjectReviewFeedback>();
+        }
+
         public static Expression<Func<ProjectReviewRequest, bool>> IsVisibleTo(AuthorizedUser user) =>
             request => request.Visibility == ProjectReviewVisibility.Open
             || request.AuthorId == user.Id
