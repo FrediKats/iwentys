@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Domain.Study;
-using Iwentys.Endpoint.Server.Source.Options;
+using Iwentys.Infrastructure.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;

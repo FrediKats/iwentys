@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Iwentys.Endpoint.Server.Source.Options
+namespace Iwentys.Infrastructure.Options
 {
     public class IsuApplicationOptions
     {

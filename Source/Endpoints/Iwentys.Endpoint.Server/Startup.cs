@@ -1,12 +1,13 @@
 using System.Text.Json.Serialization;
 using Iwentys.Database;
+using Iwentys.Endpoint.Server.Source;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Iwentys.Endpoint.Server.Source.IdentityAuth;
-using Iwentys.Endpoint.Server.Source.Tools;
+using Iwentys.Infrastructure;
 
 namespace Iwentys.Endpoint.Server
 {
@@ -44,8 +45,8 @@ namespace Iwentys.Endpoint.Server
                 .AddIwentysLogging()
                 .AddIwentysCorsHack()
                 .AddIwentysDatabase()
-                .AddUnitOfWork<IwentysDbContext>()
                 .AddIwentysTokenFactory(Configuration)
+                .AddUnitOfWork<IwentysDbContext>()
                 .AddIwentysServices();
         }
 
