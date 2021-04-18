@@ -1,4 +1,5 @@
 ﻿using Iwentys.Domain;
+using Iwentys.Domain.AccountManagement;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.AccountManagement.Infrastructure

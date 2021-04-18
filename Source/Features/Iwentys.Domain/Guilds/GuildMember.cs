@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds.Enums;
 
 namespace Iwentys.Domain.Guilds

@@ -1,4 +1,5 @@
 ﻿using Iwentys.Domain;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Models;
 using Iwentys.Domain.Study;
 using Iwentys.Tests.TestCaseContexts;

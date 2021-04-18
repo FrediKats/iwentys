@@ -10,9 +10,9 @@ using Iwentys.Features.Study.Infrastructure;
 using Iwentys.Features.Study.Repositories;
 using MediatR;
 
-namespace Iwentys.Features.Gamification.StudyLeaderboard
+namespace Iwentys.Features.Gamification.Leaderboard
 {
-    public class CourseRatingForceRefresh
+    public static class CourseRatingForceRefresh
     {
         public class Query : IRequest<Response>
         {
@@ -50,14 +50,15 @@ namespace Iwentys.Features.Gamification.StudyLeaderboard
                     .Where(clr => clr.CourseId == request.CourseId)
                     .ToList();
 
-                _courseLeaderboardRowRepository.Delete(oldRows);
-
-                List<SubjectActivity> result = _dbContext.GetStudentActivities(new StudySearchParametersDto { CourseId = request.CourseId }).ToList();
+                List<SubjectActivity> result = _dbContext
+                    .GetStudentActivities(new StudySearchParametersDto { CourseId = request.CourseId })
+                    .ToList();
+                
                 List<CourseLeaderboardRow> newRows = CourseLeaderboardRow.Create(request.CourseId, result, oldRows);
 
-                await _courseLeaderboardRowRepository.InsertAsync(newRows);
+                _courseLeaderboardRowRepository.Delete(oldRows);
+                _courseLeaderboardRowRepository.Insert(newRows);
                 await _unitOfWork.CommitAsync();
-
                 return new Response();
             }
         }

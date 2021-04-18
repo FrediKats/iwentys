@@ -2,6 +2,7 @@
 using Iwentys.Common.Databases;
 using Iwentys.Common.Tools;
 using Iwentys.Domain;
+using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

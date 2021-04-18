@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Domain;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Models;
 using Iwentys.FeatureBase;
 using Iwentys.Features.Study.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Controllers.Study
+namespace Iwentys.Features.Study.Study
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -1,4 +1,5 @@
 ﻿using System;
+using Iwentys.Domain.AccountManagement;
 
 namespace Iwentys.Domain.Gamification
 {

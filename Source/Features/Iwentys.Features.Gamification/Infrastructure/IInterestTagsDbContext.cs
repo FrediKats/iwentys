@@ -1,7 +1,7 @@
-﻿using Iwentys.Domain;
+﻿using Iwentys.Domain.Gamification;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.InterestTags.Infrastructure
+namespace Iwentys.Features.Gamification.Infrastructure
 {
     public interface IInterestTagsDbContext
     {
@@ -12,7 +12,7 @@ namespace Iwentys.Features.InterestTags.Infrastructure
 
     }
 
-    public static class DbContextExtensions
+    public static class InterestTagsDbContextExtensions
     {
         public static void OnInterestTagsModelCreating(this ModelBuilder modelBuilder)
         {

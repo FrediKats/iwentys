@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Domain;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Models;
@@ -7,7 +7,7 @@ using Iwentys.FeatureBase;
 using Iwentys.Features.Guilds.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Controllers.Guilds
+namespace Iwentys.Features.Guilds.GuildMemberships
 {
     [Route("api/GuildMembership")]
     [ApiController]

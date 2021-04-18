@@ -6,11 +6,12 @@ using Iwentys.Domain.Models;
 using Iwentys.Domain.Services;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Enums;
+using Iwentys.Features.GithubIntegration.GithubIntegration;
 using Iwentys.Features.Study.Infrastructure;
 using Iwentys.Features.Study.Repositories;
 using MediatR;
 
-namespace Iwentys.Features.Gamification.StudyLeaderboard
+namespace Iwentys.Features.Gamification.Leaderboard
 {
     public class GetStudyRating
     {

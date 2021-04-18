@@ -3,10 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Domain;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Raids.Services
+namespace Iwentys.Features.Extended.Services
 {
     public class RaidService
     {

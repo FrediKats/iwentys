@@ -2,9 +2,11 @@
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Domain;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Models;
+using Iwentys.FeatureBase;
 using MediatR;
 
 namespace Iwentys.Features.Guilds.GuildTestTasks
@@ -59,7 +61,8 @@ namespace Iwentys.Features.Guilds.GuildTestTasks
                 GuildTestTaskSolution testTask = await _guildTestTaskSolutionRepository.GetSingle(t => t.AuthorId == request.TaskSolveOwnerId && t.GuildId == request.GuildId);
 
                 testTask.SetCompleted(review);
-                await _achievementProvider.Achieve(AchievementList.TestTaskDone, request.TaskSolveOwnerId);
+                _achievementProvider.AchieveForStudent(AchievementList.TestTaskDone, request.TaskSolveOwnerId);
+                await AchievementHack.ProcessAchievement(_achievementProvider, _unitOfWork);
 
                 _guildTestTaskSolutionRepository.Update(testTask);
                 await _unitOfWork.CommitAsync();

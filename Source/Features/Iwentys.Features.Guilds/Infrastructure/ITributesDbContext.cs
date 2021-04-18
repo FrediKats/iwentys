@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Guilds.Tributes.Infrastructure
+namespace Iwentys.Features.Guilds.Infrastructure
 {
     public interface ITributesDbContext
     {
         
     }
 
-    public static class DbContextExtensions
+    public static class TributeDbContextExtensions
     {
         public static void OnTributesModelCreating(this ModelBuilder modelBuilder)
         {

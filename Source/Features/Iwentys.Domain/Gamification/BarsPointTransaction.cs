@@ -1,4 +1,5 @@
 ﻿using System;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Gamification.Enums;
 
 namespace Iwentys.Domain.Gamification

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Iwentys.Domain
+namespace Iwentys.Domain.Gamification
 {
     public class InterestTag
     {

@@ -1,36 +1,26 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Iwentys.Common.Databases;
+﻿using System.Collections.Generic;
 
 namespace Iwentys.Domain.Gamification
 {
     public class AchievementProvider
     {
-        private readonly IGenericRepository<GuildAchievement> _guildAchievementRepository;
-        private readonly IGenericRepository<StudentAchievement> _studentAchievementRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        public List<GuildAchievement> GuildAchievement { get; }
+        public List<StudentAchievement> StudentAchievement { get; }
 
-        public AchievementProvider(IUnitOfWork unitOfWork)
+        public AchievementProvider()
         {
-            _unitOfWork = unitOfWork;
-            _guildAchievementRepository = _unitOfWork.GetRepository<GuildAchievement>();
-            _studentAchievementRepository = _unitOfWork.GetRepository<StudentAchievement>();
+            GuildAchievement = new List<GuildAchievement>();
+            StudentAchievement = new List<StudentAchievement>();
         }
 
-        public async Task Achieve(Achievement achievement, int studentId)
+        public void AchieveForStudent(Achievement achievement, int studentId)
         {
-            if (_studentAchievementRepository.Get().Any(s => s.AchievementId == achievement.Id && s.StudentId == studentId))
-                return;
-
-            await _studentAchievementRepository.InsertAsync(StudentAchievement.Create(studentId, achievement.Id));
+            StudentAchievement.Add(Gamification.StudentAchievement.Create(studentId, achievement.Id));
         }
 
-        public async Task AchieveForGuild(Achievement achievement, int guildId)
+        public void AchieveForGuild(Achievement achievement, int guildId)
         {
-            if (_guildAchievementRepository.Get().Any(s => s.AchievementId == achievement.Id && s.GuildId == guildId))
-                return;
-
-            await _guildAchievementRepository.InsertAsync(GuildAchievement.Create(guildId, achievement.Id));
+            GuildAchievement.Add(Gamification.GuildAchievement.Create(guildId, achievement.Id));
         }
     }
 }

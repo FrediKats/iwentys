@@ -2,6 +2,7 @@
 using System.Linq;
 using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Domain;
+using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 

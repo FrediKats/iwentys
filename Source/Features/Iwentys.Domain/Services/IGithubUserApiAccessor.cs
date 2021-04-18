@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Models;
 
 namespace Iwentys.Domain.Services

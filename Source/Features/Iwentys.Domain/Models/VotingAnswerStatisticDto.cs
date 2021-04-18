@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Iwentys.Domain.AccountManagement;
 
 namespace Iwentys.Domain.Models
 {

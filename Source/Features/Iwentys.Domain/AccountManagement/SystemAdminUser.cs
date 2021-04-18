@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 
-namespace Iwentys.Domain
+namespace Iwentys.Domain.AccountManagement
 {
     public class SystemAdminUser
     {

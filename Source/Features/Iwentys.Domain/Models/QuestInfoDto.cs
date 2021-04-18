@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Domain.Enums;
+using Iwentys.Domain.Gamification;
 
 namespace Iwentys.Domain.Models
 {

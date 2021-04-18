@@ -3,14 +3,10 @@ using Iwentys.Database;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Services;
 using Iwentys.Features.AccountManagement.Services;
-using Iwentys.Features.Economy.Services;
 using Iwentys.Features.Extended.Services;
 using Iwentys.Features.Gamification.Services;
+using Iwentys.Features.GithubIntegration.GithubIntegration;
 using Iwentys.Features.Guilds.Services;
-using Iwentys.Features.Guilds.Tributes.Services;
-using Iwentys.Features.Newsfeeds.Services;
-using Iwentys.Features.Quests.Services;
-using Iwentys.Features.Raids.Services;
 using Iwentys.Features.Study.Services;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Tests.Tools;
@@ -62,7 +58,7 @@ namespace Iwentys.Tests.TestCaseContexts
             _context = TestDatabaseProvider.GetDatabaseContext();
             UnitOfWork = new UnitOfWork<IwentysDbContext>(_context);
 
-            var achievementProvider = new AchievementProvider(UnitOfWork);
+            var achievementProvider = new AchievementProvider();
             var githubApiAccessor = new DummyGithubApiAccessor();
 
             //TODO: use DI (AspStartupExtensions)

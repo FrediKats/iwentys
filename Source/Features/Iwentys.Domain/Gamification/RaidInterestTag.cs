@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Domain
+﻿namespace Iwentys.Domain.Gamification
 {
     public class RaidInterestTag
     {

@@ -1,4 +1,6 @@
-﻿namespace Iwentys.Domain.Guilds
+﻿using Iwentys.Domain.AccountManagement;
+
+namespace Iwentys.Domain.Guilds
 {
     public class GuildRecruitmentMember
     {

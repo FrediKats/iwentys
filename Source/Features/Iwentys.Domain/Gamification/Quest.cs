@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Common.Exceptions;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Enums;
 using Iwentys.Domain.Models;
 
-namespace Iwentys.Domain
+namespace Iwentys.Domain.Gamification
 {
     public class Quest
     {

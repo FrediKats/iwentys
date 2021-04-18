@@ -2,14 +2,15 @@
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Models;
-using Iwentys.Domain.Services;
+using Iwentys.Features.GithubIntegration.GithubIntegration;
 using Iwentys.Features.Guilds.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Endpoint.Controllers.Guilds
+namespace Iwentys.Features.Guilds.GuildTributes
 {
     public class GetGuildTributeById
     {

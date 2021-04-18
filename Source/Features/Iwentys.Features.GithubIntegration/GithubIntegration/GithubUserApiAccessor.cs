@@ -3,10 +3,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
+using Iwentys.Domain;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Models;
+using Iwentys.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Domain.Services
+namespace Iwentys.Features.GithubIntegration.GithubIntegration
 {
     public class GithubUserApiAccessor : IGithubUserApiAccessor
     {

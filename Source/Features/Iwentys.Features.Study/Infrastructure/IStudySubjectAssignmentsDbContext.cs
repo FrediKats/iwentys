@@ -1,7 +1,7 @@
 ﻿using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Study.SubjectAssignments.Infrastructure
+namespace Iwentys.Features.Study.Infrastructure
 {
     public interface IStudySubjectAssignmentsDbContext
     {

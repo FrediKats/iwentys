@@ -6,7 +6,7 @@ using Iwentys.Domain.Study.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Features.Gamification.StudyLeaderboard
+namespace Iwentys.Features.Gamification.Leaderboard
 {
     //TODO: refactor naming
     [Route("api/leaderboard")]

@@ -1,7 +1,7 @@
 ﻿using Iwentys.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Assignments.Infrastructure
+namespace Iwentys.Features.Study.Infrastructure
 {
     public interface IAssignmentsDbContext
     {
@@ -9,7 +9,7 @@ namespace Iwentys.Features.Assignments.Infrastructure
         public DbSet<StudentAssignment> StudentAssignments { get; set; }
     }
 
-    public static class DbContextExtensions
+    public static class AssignmentDbContextExtensions
     {
         public static void OnAssignmentsModelCreating(this ModelBuilder modelBuilder)
         {

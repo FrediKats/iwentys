@@ -3,6 +3,7 @@ using Bogus;
 using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Database.Seeding.FakerEntities.Study;
 using Iwentys.Domain;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Models;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Enums;

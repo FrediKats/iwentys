@@ -3,13 +3,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Domain;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Enums;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Models;
-using Iwentys.Features.Economy.Services;
+using Iwentys.FeatureBase;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Quests.Services
+namespace Iwentys.Features.Gamification.Services
 {
     public class QuestService
     {
@@ -85,7 +86,8 @@ namespace Iwentys.Features.Quests.Services
             await _questRepository.InsertAsync(quest);
             _userRepository.Update(student);
 
-            await _achievementProvider.Achieve(AchievementList.QuestCreator, user.Id);
+            _achievementProvider.AchieveForStudent(AchievementList.QuestCreator, user.Id);
+            await AchievementHack.ProcessAchievement(_achievementProvider, _unitOfWork);
             await _unitOfWork.CommitAsync();
 
             return await Get(quest.Id);
@@ -111,7 +113,9 @@ namespace Iwentys.Features.Quests.Services
 
             _questRepository.Update(quest);
             await _pointTransactionLogService.TransferFromSystem(executor.Id, quest.Price);
-            await _achievementProvider.Achieve(AchievementList.QuestComplete, executor.Id);
+
+            _achievementProvider.AchieveForStudent(AchievementList.QuestComplete, executor.Id);
+            await AchievementHack.ProcessAchievement(_achievementProvider, _unitOfWork);
             await _unitOfWork.CommitAsync();
 
             return await Get(questId);

@@ -1,7 +1,8 @@
 ﻿using System;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Models;
 
-namespace Iwentys.Domain
+namespace Iwentys.Domain.Gamification
 {
     public class QuestResponse
     {

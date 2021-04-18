@@ -1,7 +1,7 @@
 ﻿using Iwentys.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.PeerReview.Infrastructure
+namespace Iwentys.Features.Extended.Infrastructure
 {
     public interface IPeerReviewDbContext
     {
@@ -9,7 +9,7 @@ namespace Iwentys.Features.PeerReview.Infrastructure
         public DbSet<ProjectReviewRequestInvite> ProjectReviewRequestInvites { get; set; }
     }
 
-    public static class DbContextExtensions
+    public static class PeerReviewDbContextExtensions
     {
         public static void OnPeerReviewModelCreating(this ModelBuilder modelBuilder)
         {

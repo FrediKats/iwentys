@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Iwentys.Common.Exceptions;
+using Iwentys.Domain.AccountManagement;
 
 namespace Iwentys.Domain.Study
 {

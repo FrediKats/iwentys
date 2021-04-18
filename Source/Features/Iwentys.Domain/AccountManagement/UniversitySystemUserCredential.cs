@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Iwentys.Domain
+namespace Iwentys.Domain.AccountManagement
 {
     public class UniversitySystemUserCredential
     {

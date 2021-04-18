@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Database.Seeding.FakerEntities.Guilds;
 using Iwentys.Domain;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Models;
 using Iwentys.Tests.TestCaseContexts;

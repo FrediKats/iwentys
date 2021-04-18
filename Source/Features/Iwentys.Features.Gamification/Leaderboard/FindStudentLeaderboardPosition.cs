@@ -3,9 +3,9 @@ using Iwentys.Common.Databases;
 using Iwentys.Domain.Gamification;
 using MediatR;
 
-namespace Iwentys.Features.Gamification.StudyLeaderboard
+namespace Iwentys.Features.Gamification.Leaderboard
 {
-    public class FindStudentLeaderboardPosition
+    public static class FindStudentLeaderboardPosition
     {
         public class Query : IRequest<Response>
         {

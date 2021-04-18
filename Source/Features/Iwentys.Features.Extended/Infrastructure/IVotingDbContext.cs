@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Voting.Infrastructure
+namespace Iwentys.Features.Extended.Infrastructure
 {
     public interface IVotingDbContext
     {

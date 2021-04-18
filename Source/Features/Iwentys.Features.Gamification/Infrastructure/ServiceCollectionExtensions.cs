@@ -1,8 +1,6 @@
 ﻿using System.Reflection;
-using Iwentys.Features.Economy.Services;
 using Iwentys.Features.Gamification.Karmas;
 using Iwentys.Features.Gamification.Services;
-using Iwentys.Features.Quests.Services;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 

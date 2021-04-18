@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Domain;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Models;
 using MediatR;

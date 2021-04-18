@@ -1,4 +1,5 @@
 ﻿using System;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Enums;
 
 namespace Iwentys.Domain

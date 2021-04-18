@@ -1,7 +1,8 @@
 ﻿using Iwentys.Common.Databases;
 using Iwentys.Domain.Models;
+using Iwentys.Domain.Services;
 
-namespace Iwentys.Domain.Services
+namespace Iwentys.Features.GithubIntegration.GithubIntegration
 {
     public class GithubIntegrationService
     {

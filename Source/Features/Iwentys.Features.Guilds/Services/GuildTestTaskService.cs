@@ -5,12 +5,15 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Enums;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Models;
 using Iwentys.Domain.Services;
+using Iwentys.FeatureBase;
+using Iwentys.Features.GithubIntegration.GithubIntegration;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Services
@@ -86,7 +89,8 @@ namespace Iwentys.Features.Guilds.Services
                 throw new InnerLogicException("Task must be submitted");
 
             testTask.SetCompleted(review);
-            await _achievementProvider.Achieve(AchievementList.TestTaskDone, taskSolveOwnerId);
+            _achievementProvider.AchieveForStudent(AchievementList.TestTaskDone, taskSolveOwnerId);
+            await AchievementHack.ProcessAchievement(_achievementProvider, _unitOfWork);
 
             _guildTestTaskSolutionRepository.Update(testTask);
             await _unitOfWork.CommitAsync();

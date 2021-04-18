@@ -1,4 +1,6 @@
-﻿namespace Iwentys.Domain
+﻿using Iwentys.Domain.AccountManagement;
+
+namespace Iwentys.Domain
 {
     public class GuildLeaderVotingAnswer
     {

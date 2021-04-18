@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Domain;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Enums;
 using Iwentys.Domain.Models;
 using Iwentys.Tests.TestCaseContexts;

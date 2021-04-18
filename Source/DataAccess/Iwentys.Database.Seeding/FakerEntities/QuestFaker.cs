@@ -2,6 +2,7 @@
 using Bogus;
 using Iwentys.Domain;
 using Iwentys.Domain.Enums;
+using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Models;
 
 namespace Iwentys.Database.Seeding.FakerEntities

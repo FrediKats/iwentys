@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Iwentys.Domain.Gamification;
 
 namespace Iwentys.Domain.Models
 {

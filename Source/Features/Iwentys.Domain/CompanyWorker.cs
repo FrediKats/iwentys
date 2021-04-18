@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using Iwentys.Common.Exceptions;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Enums;
 
 namespace Iwentys.Domain

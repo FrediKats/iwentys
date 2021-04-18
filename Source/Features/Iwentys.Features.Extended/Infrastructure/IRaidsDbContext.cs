@@ -1,7 +1,7 @@
 ﻿using Iwentys.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Raids.Infrastructure
+namespace Iwentys.Features.Extended.Infrastructure
 {
     public interface IRaidsDbContext
     {
@@ -9,7 +9,7 @@ namespace Iwentys.Features.Raids.Infrastructure
         public DbSet<RaidVisitor> RaidVisitors { get; set; }
         public DbSet<RaidPartySearchRequest> PartySearchRequests { get; set; }
     }
-    public static class DbContextExtensions
+    public static class RaidsDbContextExtensions
     {
         public static void OnRaidsModelCreating(this ModelBuilder modelBuilder)
         {

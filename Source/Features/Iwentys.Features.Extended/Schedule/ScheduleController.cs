@@ -4,7 +4,7 @@ using Kysect.ItmoScheduleSdk;
 using Kysect.ItmoScheduleSdk.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Controllers
+namespace Iwentys.Features.Extended.Schedule
 {
     [Route("api/schedule")]
     [ApiController]

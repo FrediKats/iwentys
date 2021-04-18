@@ -1,5 +1,4 @@
 ﻿using Iwentys.Features.Guilds.Services;
-using Iwentys.Features.Guilds.Tributes.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Iwentys.Features.Guilds.Infrastructure

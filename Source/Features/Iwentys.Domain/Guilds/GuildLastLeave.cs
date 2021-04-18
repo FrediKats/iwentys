@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
+using Iwentys.Domain.AccountManagement;
 
 namespace Iwentys.Domain.Guilds
 {

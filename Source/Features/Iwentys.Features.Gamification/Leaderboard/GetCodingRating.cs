@@ -4,11 +4,12 @@ using Iwentys.Common.Databases;
 using Iwentys.Domain.Models;
 using Iwentys.Domain.Services;
 using Iwentys.Domain.Study;
+using Iwentys.Features.GithubIntegration.GithubIntegration;
 using MediatR;
 
-namespace Iwentys.Features.Gamification.StudyLeaderboard
+namespace Iwentys.Features.Gamification.Leaderboard
 {
-    public class GetCodingRating
+    public static class GetCodingRating
     {
         public class Query : IRequest<Response>
         {

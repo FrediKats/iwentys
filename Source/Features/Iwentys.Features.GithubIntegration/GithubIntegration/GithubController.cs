@@ -3,10 +3,9 @@ using System.Threading.Tasks;
 using Iwentys.Common.Tools;
 using Iwentys.Domain;
 using Iwentys.Domain.Models;
-using Iwentys.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Controllers
+namespace Iwentys.Features.GithubIntegration.GithubIntegration
 {
     [Route("api/[controller]")]
     [ApiController]

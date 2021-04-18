@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Models;
 

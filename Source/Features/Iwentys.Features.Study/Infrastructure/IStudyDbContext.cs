@@ -14,7 +14,7 @@ namespace Iwentys.Features.Study.Infrastructure
         public DbSet<StudyCourse> StudyCourses { get; set; }
     }
 
-    public static class DbContextExtensions
+    public static class StudyDbContextExtensions
     {
         public static void OnStudyModelCreating(this ModelBuilder modelBuilder)
         {

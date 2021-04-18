@@ -1,7 +1,8 @@
 ﻿using Iwentys.Domain;
+using Iwentys.Domain.Gamification;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Quests.Infrastructure
+namespace Iwentys.Features.Gamification.Infrastructure
 {
     public interface IQuestsDbContext
     {

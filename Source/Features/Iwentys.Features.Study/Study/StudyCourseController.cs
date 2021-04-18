@@ -4,7 +4,7 @@ using Iwentys.Domain.Models;
 using Iwentys.Features.Study.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Controllers.Study
+namespace Iwentys.Features.Study.Study
 {
     [Route("api/study-courses")]
     [ApiController]

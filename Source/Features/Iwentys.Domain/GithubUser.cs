@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
 using Iwentys.Common.Tools;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Models;
 
 namespace Iwentys.Domain

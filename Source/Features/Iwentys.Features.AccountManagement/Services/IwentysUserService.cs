@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Models;
 using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
@@ -63,7 +64,7 @@ namespace Iwentys.Features.AccountManagement.Services
             user.GithubUsername = githubUsername;
             _userRepository.Update(user);
 
-            //await _achievementProvider.Achieve(AchievementList.AddGithubAchievement, user.Id);
+            //await _achievementProvider.AchieveForStudent(AchievementList.AddGithubAchievement, user.Id);
             await _unitOfWork.CommitAsync();
 
             return new IwentysUserInfoDto(await _userRepository.FindByIdAsync(id));

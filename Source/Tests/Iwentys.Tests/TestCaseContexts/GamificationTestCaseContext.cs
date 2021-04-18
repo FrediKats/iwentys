@@ -1,4 +1,6 @@
 ﻿using Iwentys.Domain;
+using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Models;
 using Iwentys.Tests.Tools;
 

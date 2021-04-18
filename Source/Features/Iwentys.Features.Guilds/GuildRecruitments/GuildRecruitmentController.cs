@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Domain;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Models;
 using Iwentys.FeatureBase;
 using MediatR;

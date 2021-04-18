@@ -9,7 +9,7 @@ namespace Iwentys.Features.Gamification.Infrastructure
         public DbSet<CourseLeaderboardRow> CourseLeaderboardRows { get; set; }
     }
 
-    public static class DbContextExtensions
+    public static class GamificationDbContextExtensions
     {
         public static void OnGamificationModelCreating(this ModelBuilder modelBuilder)
         {

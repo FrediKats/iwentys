@@ -1,4 +1,5 @@
 ﻿using System;
+using Iwentys.Domain.Gamification;
 
 namespace Iwentys.Domain.Models
 {

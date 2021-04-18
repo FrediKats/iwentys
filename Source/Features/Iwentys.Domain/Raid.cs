@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Enums;
 using Iwentys.Domain.Models;
 

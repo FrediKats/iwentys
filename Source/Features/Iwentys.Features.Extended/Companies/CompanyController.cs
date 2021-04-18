@@ -4,7 +4,7 @@ using Iwentys.Domain.Models;
 using Iwentys.Features.Extended.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Controllers
+namespace Iwentys.Features.Extended.Companies
 {
     [Route("api/companies")]
     [ApiController]

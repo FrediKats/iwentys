@@ -1,7 +1,7 @@
 ﻿using Iwentys.Domain.Gamification;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Achievements.Infrastructure
+namespace Iwentys.Features.Gamification.Infrastructure
 {
     public interface IAchievementDbContext
     {
@@ -10,7 +10,7 @@ namespace Iwentys.Features.Achievements.Infrastructure
         public DbSet<GuildAchievement> GuildAchievements { get; set; }
     }
 
-    public static class DbContextExtensions
+    public static class AchievementDbContextExtensions
     {
         public static void OnAchievementModelCreating(this ModelBuilder modelBuilder)
         {

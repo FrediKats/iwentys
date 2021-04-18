@@ -1,9 +1,7 @@
 ﻿using Iwentys.Features.Extended.Services;
-using Iwentys.Features.Newsfeeds.Services;
-using Iwentys.Features.Raids.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Features.Companies.Infrastructure
+namespace Iwentys.Features.Extended.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {
