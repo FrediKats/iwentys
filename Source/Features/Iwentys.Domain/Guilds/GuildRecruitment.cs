@@ -19,12 +19,14 @@ namespace Iwentys.Domain.Guilds
         
         public virtual List<GuildRecruitmentMember> RecruitmentMembers { get; init; }
 
-        public static GuildRecruitment Create(GuildMentor mentor, Guild guild, GuildRecruitmentCreateArguments createArguments)
+        public static GuildRecruitment Create(IwentysUser user, Guild guild, GuildRecruitmentCreateArguments createArguments)
         {
+            user.EnsureIsGuildMentor(guild);
+
             return new GuildRecruitment
             {
                 GuildId = guild.Id,
-                AuthorId = mentor.User.Id,
+                AuthorId = user.Id,
                 Description = createArguments.Description,
                 IsActive = true
             };

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Iwentys.Domain;
 using Iwentys.Domain.Models;
 using Iwentys.FeatureBase;
-using Iwentys.Features.PeerReview.Services;
+using Iwentys.Features.Extended.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Endpoint.Controllers

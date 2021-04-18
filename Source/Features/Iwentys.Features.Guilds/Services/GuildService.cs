@@ -95,30 +95,6 @@ namespace Iwentys.Features.Guilds.Services
             return guild.Maybe(g => new GuildProfileDto(g));
         }
 
-        public async Task<GithubRepositoryInfoDto> AddPinnedRepository(AuthorizedUser user, int guildId, string owner, string projectName)
-        {
-            Guild guild = await _guildRepository.GetById(guildId);
-            GuildMentor guildMentor = await _iwentysUserRepository.GetById(user.Id).EnsureIsGuildMentor(guild);
-
-            GithubRepositoryInfoDto repositoryInfoDto = await _githubIntegrationService.Repository.GetRepository(owner, projectName);
-            var guildPinnedProjectEntity = GuildPinnedProject.Create(guildId, repositoryInfoDto);
-
-            await _guildPinnedProjectRepository.InsertAsync(guildPinnedProjectEntity);
-            await _unitOfWork.CommitAsync();
-            return repositoryInfoDto;
-        }
-
-        public async Task UnpinProject(AuthorizedUser user, int guildId, long pinnedProjectId)
-        {
-            Guild guild = await _guildRepository.GetById(guildId);
-            GuildMentor guildMentor = await _iwentysUserRepository.GetById(user.Id).EnsureIsGuildMentor(guild);
-
-            GuildPinnedProject guildPinnedProjectEntity = await _guildPinnedProjectRepository.GetById(pinnedProjectId);
-
-            _guildPinnedProjectRepository.Delete(guildPinnedProjectEntity);
-            await _unitOfWork.CommitAsync();
-        }
-
         public async Task<GuildMemberLeaderBoardDto> GetGuildMemberLeaderBoard(int guildId)
         {
             Guild guild = await _guildRepository.GetById(guildId);

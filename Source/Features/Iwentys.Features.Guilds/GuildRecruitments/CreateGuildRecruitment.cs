@@ -1,14 +1,14 @@
-﻿using Iwentys.Common.Databases;
-using Iwentys.Common.Exceptions;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Iwentys.Common.Databases;
 using Iwentys.Domain;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Models;
-using Iwentys.Domain.Services;
 using MediatR;
 
 namespace Iwentys.Features.Guilds.GuildRecruitments
 {
-    public class CreateGuildRecruitment
+    public static class CreateGuildRecruitment
     {
         public class Query : IRequest<Response>
         {
@@ -34,32 +34,31 @@ namespace Iwentys.Features.Guilds.GuildRecruitments
             public GuildRecruitmentInfoDto GuildRecruitment { get; set; }
         }
 
-        public class Handler : RequestHandler<Query, Response>
+        public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<GuildRecruitmentMember> _guildRecruitmentMemberRepository;
             private readonly IGenericRepository<GuildRecruitment> _guildRecruitmentRepository;
+            private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
 
             private readonly IGenericRepository<Guild> _guildRepository;
             private readonly IUnitOfWork _unitOfWork;
 
-            public Handler(IUnitOfWork unitOfWork, GithubIntegrationService githubIntegrationService)
+            public Handler(IUnitOfWork unitOfWork)
             {
                 _unitOfWork = unitOfWork;
+                _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
                 _guildRepository = _unitOfWork.GetRepository<Guild>();
                 _guildRecruitmentRepository = _unitOfWork.GetRepository<GuildRecruitment>();
-                _guildRecruitmentMemberRepository = _unitOfWork.GetRepository<GuildRecruitmentMember>();
             }
 
-            protected override Response Handle(Query request)
+            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
                 Guild guild = _guildRepository.GetById(request.GuildId).Result;
-                GuildMember creator = guild.Members.Find(m => m.MemberId == request.AuthorizedUser.Id) ?? throw EntityNotFoundException.Create(typeof(GuildMember), request.AuthorizedUser.Id);
+                IwentysUser user = await _iwentysUserRepository.GetById(request.AuthorizedUser.Id);
 
-                var guildRecruitment = GuildRecruitment.Create(creator.Member.EnsureIsGuildMentor(guild), guild, request.Arguments);
+                var guildRecruitment = GuildRecruitment.Create(user, guild, request.Arguments);
 
-                _guildRecruitmentRepository.InsertAsync(guildRecruitment).Wait();
-                _unitOfWork.CommitAsync().Wait();
-
+                _guildRecruitmentRepository.Insert(guildRecruitment);
+                await _unitOfWork.CommitAsync();
                 return new Response(GuildRecruitmentInfoDto.FromEntity.Compile().Invoke(guildRecruitment));
             }
         }

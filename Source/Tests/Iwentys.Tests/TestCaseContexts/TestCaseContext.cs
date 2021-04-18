@@ -9,7 +9,6 @@ using Iwentys.Features.Gamification.Services;
 using Iwentys.Features.Guilds.Services;
 using Iwentys.Features.Guilds.Tributes.Services;
 using Iwentys.Features.Newsfeeds.Services;
-using Iwentys.Features.PeerReview.Services;
 using Iwentys.Features.Quests.Services;
 using Iwentys.Features.Raids.Services;
 using Iwentys.Features.Study.Services;

@@ -8,7 +8,7 @@ using Iwentys.Domain;
 using Iwentys.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.PeerReview.Services
+namespace Iwentys.Features.Extended.Services
 {
     public class ProjectReviewService
     {

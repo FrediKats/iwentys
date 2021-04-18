@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
+using Iwentys.Common.Exceptions;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Models;
 
@@ -39,6 +41,14 @@ namespace Iwentys.Domain.Guilds
 
         public static GuildTestTaskSolution Create(Guild guild, IwentysUser author)
         {
+            GuildTestTaskSolution existedTestTaskSolution = guild
+                .TestTasks
+                .Where(GuildTestTaskSolution.IsNotCompleted.Compile())
+                .FirstOrDefault(k => k.AuthorId == author.Id);
+
+            if (existedTestTaskSolution is not null)
+                InnerLogicException.GuildExceptions.ActiveTestExisted(author.Id, guild.Id);
+
             return new GuildTestTaskSolution
             {
                 GuildId = guild.Id,
@@ -55,6 +65,11 @@ namespace Iwentys.Domain.Guilds
 
         public void SetCompleted(IwentysUser reviewer)
         {
+            Guild.EnsureIsGuildMentor(reviewer);
+
+            if (GetState() != GuildTestTaskState.Submitted)
+                throw new InnerLogicException("Task must be submitted");
+
             ReviewerId = reviewer.Id;
             CompleteTimeUtc = DateTime.UtcNow;
         }

@@ -1,6 +1,5 @@
 ﻿using Iwentys.Features.Extended.Services;
 using Iwentys.Features.Newsfeeds.Services;
-using Iwentys.Features.PeerReview.Services;
 using Iwentys.Features.Raids.Services;
 using Microsoft.Extensions.DependencyInjection;
 
