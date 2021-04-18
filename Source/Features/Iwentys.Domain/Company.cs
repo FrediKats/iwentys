@@ -12,8 +12,10 @@ namespace Iwentys.Domain
 
         public virtual List<CompanyWorker> Workers { get; init; }
 
-        public static Company Create(SystemAdminUser creator, CompanyCreateArguments createArguments)
+        public static Company Create(IwentysUser creator, CompanyCreateArguments createArguments)
         {
+            creator.EnsureIsAdmin();
+
             return new Company
             {
                 Name = createArguments.Name,

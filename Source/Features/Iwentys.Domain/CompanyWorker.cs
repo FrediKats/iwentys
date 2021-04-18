@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Iwentys.Common.Exceptions;
 using Iwentys.Domain.Enums;
 
 namespace Iwentys.Domain
@@ -18,8 +19,11 @@ namespace Iwentys.Domain
 
         public static Expression<Func<CompanyWorker, bool>> IsRequested => worker => worker.Type == CompanyWorkerType.Requested;
 
-        public static CompanyWorker NewRequest(Company company, IwentysUser worker)
+        public static CompanyWorker NewRequest(Company company, IwentysUser worker, CompanyWorker currentWorkerState)
         {
+            if (currentWorkerState is not null)
+                throw new InnerLogicException("Student already request adding to company");
+
             return new CompanyWorker
             {
                 Company = company,
@@ -28,9 +32,10 @@ namespace Iwentys.Domain
             };
         }
 
-        public void Approve(SystemAdminUser systemAdminUser)
+        public void Approve(IwentysUser iwentysUser)
         {
-            ApprovedById = systemAdminUser.User.Id;
+            iwentysUser.EnsureIsAdmin();
+            ApprovedById = iwentysUser.Id;
             Type = CompanyWorkerType.Accepted;
         }
     }

@@ -1,4 +1,4 @@
-﻿using Iwentys.Features.Companies.Services;
+﻿using Iwentys.Features.Extended.Services;
 using Iwentys.Features.Newsfeeds.Services;
 using Iwentys.Features.PeerReview.Services;
 using Iwentys.Features.Raids.Services;
