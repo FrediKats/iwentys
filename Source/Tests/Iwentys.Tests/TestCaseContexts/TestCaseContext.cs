@@ -9,6 +9,7 @@ using Iwentys.Features.Guilds.Services;
 using Iwentys.Features.Study.Services;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Tests.Tools;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Iwentys.Tests.TestCaseContexts
 {
@@ -51,35 +52,53 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly TributeTestCaseContext TributeTestCaseContext;
         public readonly IUnitOfWork UnitOfWork;
 
-        public TestCaseContext()
+        public TestCaseContext(ServiceProvider serviceProvider)
         {
-            _context = TestDatabaseProvider.GetDatabaseContext();
+
+            _context = serviceProvider.GetRequiredService<IwentysDbContext>();
             UnitOfWork = new UnitOfWork<IwentysDbContext>(_context);
 
-            var achievementProvider = new AchievementProvider();
-            var githubApiAccessor = new DummyGithubApiAccessor();
-
             //TODO: use DI (AspStartupExtensions)
-            IwentysUserService = new IwentysUserService(UnitOfWork);
-            StudentService = new StudentService(UnitOfWork);
-            GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, UnitOfWork);
-            GuildService = new GuildService(GithubIntegrationService, UnitOfWork);
-            GuildMemberService = new GuildMemberService(GithubIntegrationService, UnitOfWork, GuildService);
-            GuildTributeServiceService = new GuildTributeService(UnitOfWork, GithubIntegrationService);
-            TournamentService = new TournamentService(GithubIntegrationService, UnitOfWork, achievementProvider);
-            CompanyService = new CompanyService(UnitOfWork);
-            BarsPointTransactionLogService = new BarsPointTransactionLogService(UnitOfWork);
-            QuestService = new QuestService(achievementProvider, BarsPointTransactionLogService, UnitOfWork);
-            NewsfeedService = new NewsfeedService(UnitOfWork);
-            InterestTagService = new InterestTagService(UnitOfWork);
-            AchievementService = new AchievementService(UnitOfWork);
-            StudyService = new StudyService(UnitOfWork);
-            KarmaService = new KarmaService(UnitOfWork);
-            ProjectReviewService = new ProjectReviewService(UnitOfWork);
-            GuildTestTaskService = new GuildTestTaskService(achievementProvider, UnitOfWork, GithubIntegrationService);
-            AssignmentService = new AssignmentService(UnitOfWork);
-            RaidService = new RaidService(UnitOfWork);
-            StudyLeaderboard = new StudyLeaderboardService(_context);
+            IwentysUserService = serviceProvider.GetRequiredService<IwentysUserService>();
+            StudentService = serviceProvider.GetRequiredService<StudentService>();
+            GithubIntegrationService = serviceProvider.GetRequiredService<GithubIntegrationService>();
+            GuildService = serviceProvider.GetRequiredService<GuildService>();
+            GuildMemberService = serviceProvider.GetRequiredService<GuildMemberService>();
+            GuildTributeServiceService = serviceProvider.GetRequiredService<GuildTributeService>();
+            TournamentService = serviceProvider.GetRequiredService<TournamentService>();
+            CompanyService = serviceProvider.GetRequiredService<CompanyService>();
+            BarsPointTransactionLogService = serviceProvider.GetRequiredService<BarsPointTransactionLogService>();
+            QuestService = serviceProvider.GetRequiredService<QuestService>();
+            NewsfeedService = serviceProvider.GetRequiredService<NewsfeedService>();
+            InterestTagService = serviceProvider.GetRequiredService<InterestTagService>();
+            AchievementService = serviceProvider.GetRequiredService<AchievementService>();
+            StudyService = serviceProvider.GetRequiredService<StudyService>();
+            KarmaService = serviceProvider.GetRequiredService<KarmaService>();
+            ProjectReviewService = serviceProvider.GetRequiredService<ProjectReviewService>();
+            GuildTestTaskService = serviceProvider.GetRequiredService<GuildTestTaskService>();
+            AssignmentService = serviceProvider.GetRequiredService<AssignmentService>();
+            RaidService = serviceProvider.GetRequiredService<RaidService>();
+            StudyLeaderboard = serviceProvider.GetRequiredService<StudyLeaderboardService>();
+            //IwentysUserService = new IwentysUserService(UnitOfWork);
+            //StudentService = new StudentService(UnitOfWork);
+            //GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, UnitOfWork);
+            //GuildService = new GuildService(GithubIntegrationService, UnitOfWork);
+            //GuildMemberService = new GuildMemberService(GithubIntegrationService, UnitOfWork, GuildService);
+            //GuildTributeServiceService = new GuildTributeService(UnitOfWork, GithubIntegrationService);
+            //TournamentService = new TournamentService(GithubIntegrationService, UnitOfWork, achievementProvider);
+            //CompanyService = new CompanyService(UnitOfWork);
+            //BarsPointTransactionLogService = new BarsPointTransactionLogService(UnitOfWork);
+            //QuestService = new QuestService(achievementProvider, BarsPointTransactionLogService, UnitOfWork);
+            //NewsfeedService = new NewsfeedService(UnitOfWork);
+            //InterestTagService = new InterestTagService(UnitOfWork);
+            //AchievementService = new AchievementService(UnitOfWork);
+            //StudyService = new StudyService(UnitOfWork);
+            //KarmaService = new KarmaService(UnitOfWork);
+            //ProjectReviewService = new ProjectReviewService(UnitOfWork);
+            //GuildTestTaskService = new GuildTestTaskService(achievementProvider, UnitOfWork, GithubIntegrationService);
+            //AssignmentService = new AssignmentService(UnitOfWork);
+            //RaidService = new RaidService(UnitOfWork);
+            //StudyLeaderboard = new StudyLeaderboardService(_context);
 
             TributeTestCaseContext = new TributeTestCaseContext(this);
             GithubTestCaseContext = new GithubTestCaseContext(this);
@@ -96,7 +115,8 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public static TestCaseContext Case()
         {
-            return new TestCaseContext();
+            ServiceProvider serviceProvider = new ServiceCollectionHolder().ServiceProvider;
+            return new TestCaseContext(serviceProvider);
         }
     }
 }

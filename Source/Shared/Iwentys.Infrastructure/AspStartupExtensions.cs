@@ -43,6 +43,7 @@ namespace Iwentys.Infrastructure
             services.AddIwentysCompanyFeatureServices();
             services.AddIwentysEconomyFeatureServices();
             services.AddIwentysGamificationFeatureServices();
+            services.AddIwentysInterestTagFeatureServices();
             services.AddIwentysGithubIntegrationFeatureServices();
 
             services.AddIwentysGuildFeatureServices();
