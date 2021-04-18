@@ -46,7 +46,6 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly StudyService StudyService;
         public readonly StudyTestCaseContext StudyTestCaseContext;
         public readonly StudyLeaderboardService StudyLeaderboard;
-        public readonly SubjectAssignmentService SubjectAssignmentService;
         public readonly TournamentService TournamentService;
 
         public readonly TributeTestCaseContext TributeTestCaseContext;
@@ -78,7 +77,6 @@ namespace Iwentys.Tests.TestCaseContexts
             KarmaService = new KarmaService(UnitOfWork);
             ProjectReviewService = new ProjectReviewService(UnitOfWork);
             GuildTestTaskService = new GuildTestTaskService(achievementProvider, UnitOfWork, GithubIntegrationService);
-            SubjectAssignmentService = new SubjectAssignmentService(UnitOfWork);
             AssignmentService = new AssignmentService(UnitOfWork);
             RaidService = new RaidService(UnitOfWork);
             StudyLeaderboard = new StudyLeaderboardService(_context);

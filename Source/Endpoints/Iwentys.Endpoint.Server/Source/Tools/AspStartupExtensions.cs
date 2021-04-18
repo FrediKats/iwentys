@@ -72,7 +72,6 @@ namespace Iwentys.Endpoint.Server.Source.Tools
             
             services.AddScoped<IStudyDbContext, IwentysDbContext>();
             services.AddIwentysStudyFeatureServices();
-            services.AddIwentysSubjectAssignmentFeatureServices();
 
             services.AddIwentysRaidFeatureServices();
 

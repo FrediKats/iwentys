@@ -72,12 +72,12 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public SubjectAssignmentSubmitDto WithSubjectAssignmentSubmit(AuthorizedUser user, SubjectAssignmentDto assignment)
         {
-            return _context.SubjectAssignmentService.SendSubmit(user, SubjectAssignmentFaker.Instance.CreateSubjectAssignmentSubmitCreateArguments(assignment.Id)).Result;
+            return new SendSubmit.Handler(_context.UnitOfWork).Handle(new SendSubmit.Query(SubjectAssignmentFaker.Instance.CreateSubjectAssignmentSubmitCreateArguments(assignment.Id), user), CancellationToken.None).Result.Submit;
         }
 
         public void WithSubjectAssignmentSubmitFeedback(AuthorizedUser user, SubjectAssignmentSubmitDto submit, FeedbackType feedbackType = FeedbackType.Approve)
         {
-            _context.SubjectAssignmentService.SendFeedback(user, SubjectAssignmentFaker.Instance.CreateFeedback(submit.Id, feedbackType)).Wait();
+            new SendFeedback.Handler(_context.UnitOfWork).Handle(new SendFeedback.Query(SubjectAssignmentFaker.Instance.CreateFeedback(submit.Id, feedbackType), user), CancellationToken.None).Wait();
         }
 
         public AuthorizedUser WithNewStudent(GroupProfileResponseDto studyGroup)
