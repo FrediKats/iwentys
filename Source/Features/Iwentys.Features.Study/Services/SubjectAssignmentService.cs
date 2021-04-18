@@ -76,7 +76,7 @@ namespace Iwentys.Features.Study.Services
                 .ToListAsync();
 
             var assignment = Assignment.Create(creator, arguments.ConvertToAssignmentCreateArguments(subjectId));
-            await _assignmentRepository.InsertAsync(assignment);
+            _assignmentRepository.Insert(assignment);
             List<StudentAssignment> studentAssignments = groupMember.SelectToList(s => new StudentAssignment
             {
                 StudentId = s.Id,
@@ -86,8 +86,8 @@ namespace Iwentys.Features.Study.Services
 
             var subjectAssignment = SubjectAssignment.Create(teacher, subject, assignment);
 
-            await _subjectAssignmentRepository.InsertAsync(subjectAssignment);
-            await _studentAssignmentRepository.InsertAsync(studentAssignments);
+            _subjectAssignmentRepository.Insert(subjectAssignment);
+            _studentAssignmentRepository.Insert(studentAssignments);
 
             await _unitOfWork.CommitAsync();
             return await _subjectAssignmentRepository

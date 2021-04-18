@@ -25,7 +25,7 @@ namespace Iwentys.Tests.TestCaseContexts
             //FYI: force EF to generate unique id
             githubProject.Id = 0;
 
-            _context.UnitOfWork.GetRepository<GithubProject>().InsertAsync(githubProject).Wait();
+            _context.UnitOfWork.GetRepository<GithubProject>().Insert(githubProject);
             _context.UnitOfWork.CommitAsync().Wait();
 
             return githubProject;
@@ -39,7 +39,7 @@ namespace Iwentys.Tests.TestCaseContexts
                 IwentysUserId = iwentysUser.Id,
                 Username = iwentysUser.GithubUsername
             };
-            _context.UnitOfWork.GetRepository<GithubUser>().InsertAsync(newGithubUser).Wait();
+            _context.UnitOfWork.GetRepository<GithubUser>().Insert(newGithubUser);
             _context.UnitOfWork.CommitAsync().Wait();
 
             return newGithubUser;

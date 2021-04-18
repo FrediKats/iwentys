@@ -73,7 +73,7 @@ namespace Iwentys.Features.GithubIntegration.GithubIntegration
                 if (_studentProjectRepository.FindByIdAsync(project.Id) is null)
                     _studentProjectRepository.Update(project);
                 else
-                    await _studentProjectRepository.InsertAsync(project);
+                    _studentProjectRepository.Insert(project);
 
             await _unitOfWork.CommitAsync();
         }

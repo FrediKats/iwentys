@@ -83,7 +83,7 @@ namespace Iwentys.Features.Gamification.Services
             IwentysUser student = await _userRepository.FindByIdAsync(user.Id);
             var quest = Quest.New(student, createQuest);
 
-            await _questRepository.InsertAsync(quest);
+            _questRepository.Insert(quest);
             _userRepository.Update(student);
 
             _achievementProvider.AchieveForStudent(AchievementList.QuestCreator, user.Id);
@@ -99,7 +99,7 @@ namespace Iwentys.Features.Gamification.Services
 
             QuestResponse questResponseEntity = quest.CreateResponse(user, arguments);
 
-            await _questResponseRepository.InsertAsync(questResponseEntity);
+            _questResponseRepository.Insert(questResponseEntity);
             await _unitOfWork.CommitAsync();
             return await Get(questId);
         }

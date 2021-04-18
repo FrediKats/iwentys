@@ -34,7 +34,7 @@ namespace Iwentys.Features.Gamification.Services
 
             _studentRepository.Update(sender);
             _studentRepository.Update(receiver);
-            await _barsPointTransactionRepository.InsertAsync(transaction);
+            _barsPointTransactionRepository.Insert(transaction);
 
             await _unitOfWork.CommitAsync();
             return transaction;
@@ -45,7 +45,7 @@ namespace Iwentys.Features.Gamification.Services
             IwentysUser receiver = await _studentRepository.FindByIdAsync(toId);
             BarsPointTransaction transaction = BarsPointTransaction.ReceiveFromSystem(receiver, pointAmountToTransfer);
 
-            await _barsPointTransactionRepository.InsertAsync(transaction);
+            _barsPointTransactionRepository.Insert(transaction);
             _studentRepository.Update(receiver);
             await _unitOfWork.CommitAsync();
             return transaction;

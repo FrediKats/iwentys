@@ -47,7 +47,7 @@ namespace Iwentys.Features.Guilds.Services
 
             IwentysUser profile = await _userRepository.GetById(user.Id);
             var guildMemberEntity = new GuildMember(guild.Profile, profile, GuildMemberType.Member);
-            await _guildMemberRepository.InsertAsync(guildMemberEntity);
+            _guildMemberRepository.Insert(guildMemberEntity);
             await _unitOfWork.CommitAsync();
 
             return await _guildService.Get(guildId);
@@ -64,7 +64,7 @@ namespace Iwentys.Features.Guilds.Services
 
             IwentysUser profile = await _userRepository.GetById(user.Id);
             var guildMemberEntity = new GuildMember(guild.Profile, profile, GuildMemberType.Requested);
-            await _guildMemberRepository.InsertAsync(guildMemberEntity);
+            _guildMemberRepository.Insert(guildMemberEntity);
             await _unitOfWork.CommitAsync();
 
             return await _guildService.Get(guildId);

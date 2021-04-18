@@ -73,7 +73,7 @@ namespace Iwentys.Features.Guilds.Tournaments
 
                 TournamentParticipantTeam tournamentParticipantTeamEntity = tournamentEntity.RegisterTeam(guildMentorUser.Guild, members);
 
-                _tournamentTeamRepository.InsertAsync(tournamentParticipantTeamEntity).Wait();
+                _tournamentTeamRepository.Insert(tournamentParticipantTeamEntity);
                 _unitOfWork.CommitAsync().Wait();
                 return new Response();
             }

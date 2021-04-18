@@ -24,7 +24,7 @@ namespace Iwentys.Domain.Guilds
                     UserId = user.Id,
                     GuildLeftTime = DateTime.UnixEpoch
                 };
-                await guildLastLeaveRepository.InsertAsync(lastLeave);
+                guildLastLeaveRepository.Insert(lastLeave);
             }
 
             return lastLeave;

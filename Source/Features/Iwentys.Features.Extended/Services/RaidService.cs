@@ -34,7 +34,7 @@ namespace Iwentys.Features.Extended.Services
 
             var raid = Raid.CreateCommon(systemAdminUser, arguments);
 
-            await _raidRepository.InsertAsync(raid);
+            _raidRepository.Insert(raid);
             await _unitOfWork.CommitAsync();
             return await _raidRepository
                 .Get()
@@ -67,7 +67,7 @@ namespace Iwentys.Features.Extended.Services
 
             RaidVisitor visitor = raid.RegisterVisitor(student);
 
-            await _raidVisitorRepository.InsertAsync(visitor);
+            _raidVisitorRepository.Insert(visitor);
             await _unitOfWork.CommitAsync();
         }
 
@@ -108,7 +108,7 @@ namespace Iwentys.Features.Extended.Services
 
             var raidPartySearchRequest = RaidPartySearchRequest.Create(raid, visitor, arguments);
 
-            await _raidPartySearchRequestRepository.InsertAsync(raidPartySearchRequest);
+            _raidPartySearchRequestRepository.Insert(raidPartySearchRequest);
             await _unitOfWork.CommitAsync();
         }
     }

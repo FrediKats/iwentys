@@ -51,7 +51,7 @@ namespace Iwentys.Features.Extended.Services
                 newsfeedEntity = SubjectNewsfeed.Create(createViewModel, student.EnsureIsGroupAdmin(), subject);
             }
 
-            await _subjectNewsfeedRepository.InsertAsync(newsfeedEntity);
+            _subjectNewsfeedRepository.Insert(newsfeedEntity);
             await _unitOfWork.CommitAsync();
 
             return await Get(newsfeedEntity.NewsfeedId);
@@ -65,7 +65,7 @@ namespace Iwentys.Features.Extended.Services
             GuildMentor mentor = await author.EnsureIsGuildMentor(_guildRepository, guildId);
             var newsfeedEntity = GuildNewsfeed.Create(createViewModel, mentor, subject);
 
-            await _guildNewsfeedRepository.InsertAsync(newsfeedEntity);
+            _guildNewsfeedRepository.Insert(newsfeedEntity);
             await _unitOfWork.CommitAsync();
 
             return await Get(newsfeedEntity.NewsfeedId);

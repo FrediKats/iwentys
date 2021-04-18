@@ -22,7 +22,7 @@ namespace Iwentys.Tests.TestCaseContexts
             {
                 Name = RandomProvider.Faker.Name.JobArea()
             };
-            _context.UnitOfWork.GetRepository<Subject>().InsertAsync(subject).Wait();
+            _context.UnitOfWork.GetRepository<Subject>().Insert(subject);
             _context.UnitOfWork.CommitAsync().Wait();
 
             return new SubjectProfileDto(subject);

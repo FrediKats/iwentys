@@ -32,7 +32,7 @@ namespace Iwentys.Features.Gamification.Services
 
         public async Task AddUserTag(int userId, int tagId)
         {
-            await _userInterestTagRepository.InsertAsync(new UserInterestTag {UserId = userId, InterestTagId = tagId});
+            _userInterestTagRepository.Insert(new UserInterestTag {UserId = userId, InterestTagId = tagId});
             await _unitOfWork.CommitAsync();
         }
     }

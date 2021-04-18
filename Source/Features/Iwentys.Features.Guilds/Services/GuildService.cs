@@ -41,7 +41,7 @@ namespace Iwentys.Features.Guilds.Services
             Guild userGuild = _guildMemberRepository.ReadForStudent(creator.Id);
 
             var guildEntity = Guild.Create(creator, userGuild, arguments);
-            await _guildRepository.InsertAsync(guildEntity);
+            _guildRepository.Insert(guildEntity);
             await _unitOfWork.CommitAsync();
             return new GuildProfileShortInfoDto(guildEntity);
         }

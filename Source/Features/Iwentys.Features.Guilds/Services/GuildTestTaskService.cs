@@ -72,7 +72,7 @@ namespace Iwentys.Features.Guilds.Services
 
             var testTaskSolution = GuildTestTaskSolution.Create(authorGuild, author);
 
-            await _guildTestTaskSolutionRepository.InsertAsync(testTaskSolution);
+            _guildTestTaskSolutionRepository.Insert(testTaskSolution);
             await _unitOfWork.CommitAsync();
             return GuildTestTaskInfoResponse.Wrap(testTaskSolution);
         }

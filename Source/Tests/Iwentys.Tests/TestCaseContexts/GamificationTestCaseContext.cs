@@ -22,7 +22,7 @@ namespace Iwentys.Tests.TestCaseContexts
                 Title = RandomProvider.Faker.Lorem.Word()
             };
 
-            tagEntity = _context.UnitOfWork.GetRepository<InterestTag>().InsertAsync(tagEntity).Result;
+            tagEntity = _context.UnitOfWork.GetRepository<InterestTag>().Insert(tagEntity);
             _context.UnitOfWork.CommitAsync().Wait();
 
             return new InterestTagDto(tagEntity);

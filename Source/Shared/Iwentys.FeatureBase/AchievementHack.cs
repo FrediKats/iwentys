@@ -12,12 +12,12 @@ namespace Iwentys.FeatureBase
             var achievementHack = new AchievementHack(unitOfWork);
             foreach (GuildAchievement guildAchievement in provider.GuildAchievement)
             {
-                await achievementHack.AchieveForGuild(guildAchievement.Achievement, guildAchievement.GuildId);
+                achievementHack.AchieveForGuild(guildAchievement.Achievement, guildAchievement.GuildId);
             }
 
             foreach (StudentAchievement achievement in provider.StudentAchievement)
             {
-                await achievementHack.Achieve(achievement.Achievement, achievement.StudentId);
+                achievementHack.Achieve(achievement.Achievement, achievement.StudentId);
             }
 
             await unitOfWork.CommitAsync();
@@ -34,20 +34,20 @@ namespace Iwentys.FeatureBase
             _studentAchievementRepository = _unitOfWork.GetRepository<StudentAchievement>();
         }
 
-        public async Task Achieve(Achievement achievement, int studentId)
+        public void Achieve(Achievement achievement, int studentId)
         {
             if (_studentAchievementRepository.Get().Any(s => s.AchievementId == achievement.Id && s.StudentId == studentId))
                 return;
 
-            await _studentAchievementRepository.InsertAsync(StudentAchievement.Create(studentId, achievement.Id));
+            _studentAchievementRepository.Insert(StudentAchievement.Create(studentId, achievement.Id));
         }
 
-        public async Task AchieveForGuild(Achievement achievement, int guildId)
+        public void AchieveForGuild(Achievement achievement, int guildId)
         {
             if (_guildAchievementRepository.Get().Any(s => s.AchievementId == achievement.Id && s.GuildId == guildId))
                 return;
 
-            await _guildAchievementRepository.InsertAsync(GuildAchievement.Create(guildId, achievement.Id));
+            _guildAchievementRepository.Insert(GuildAchievement.Create(guildId, achievement.Id));
         }
     }
 }

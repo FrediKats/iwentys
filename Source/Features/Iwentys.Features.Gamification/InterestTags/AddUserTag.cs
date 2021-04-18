@@ -35,7 +35,7 @@ namespace Iwentys.Features.Gamification.InterestTags
 
             protected override Response Handle(Query request)
             {
-                _userInterestTagRepository.InsertAsync(new UserInterestTag { UserId = request.UserId, InterestTagId = request.TagId }).Wait();
+                _userInterestTagRepository.Insert(new UserInterestTag { UserId = request.UserId, InterestTagId = request.TagId });
                 _unitOfWork.CommitAsync().Wait();
                 return new Response();
             }

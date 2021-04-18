@@ -28,7 +28,7 @@ namespace Iwentys.Tests.Features.Gamification
             //TODO: refactor
             IGenericRepository<SubjectActivity> repository = testCase.UnitOfWork.GetRepository<SubjectActivity>();
             var activity = new SubjectActivity {GroupSubject = groupSubject, StudentId = student.Id, Points = pointCount };
-            await repository.InsertAsync(activity);
+            repository.Insert(activity);
             await testCase.UnitOfWork.CommitAsync();
             List<StudyLeaderboardRowDto> studyLeaderboardRowDtos = testCase.StudyLeaderboard.GetStudentsRatings(StudySearchParametersDto.ForGroup(@group.Id));
 

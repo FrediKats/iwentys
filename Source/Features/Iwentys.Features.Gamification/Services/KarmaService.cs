@@ -41,7 +41,7 @@ namespace Iwentys.Features.Gamification.Services
 
             var karmaUpVote = KarmaUpVote.Create(author, target);
 
-            await _karmaRepository.InsertAsync(karmaUpVote);
+            _karmaRepository.Insert(karmaUpVote);
             await _unitOfWork.CommitAsync();
         }
 

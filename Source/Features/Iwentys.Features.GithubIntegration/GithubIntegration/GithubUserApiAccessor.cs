@@ -62,15 +62,16 @@ namespace Iwentys.Features.GithubIntegration.GithubIntegration
                     if (_studentProjectRepository.FindByIdAsync(project.Id) is null)
                         _studentProjectRepository.Update(project);
                     else
-                        await _studentProjectRepository.InsertAsync(project);
+                        _studentProjectRepository.Insert(project);
 
                 githubUserData.ContributionFullInfo = await _githubApiAccessor.GetUserActivity(student.GithubUsername);
                 _githubUserRepository.Update(githubUserData);
             }
             else
             {
-                await _githubUserRepository.InsertAsync(githubUserData);
-                foreach (GithubProject githubProjectEntity in studentProjects) await _studentProjectRepository.InsertAsync(githubProjectEntity);
+                _githubUserRepository.Insert(githubUserData);
+                foreach (GithubProject githubProjectEntity in studentProjects)
+                    _studentProjectRepository.Insert(githubProjectEntity);
             }
 
             await _unitOfWork.CommitAsync();
@@ -140,7 +141,7 @@ namespace Iwentys.Features.GithubIntegration.GithubIntegration
             if (oldGithubUser is null)
             {
                 var githubUserEntity = GithubUser.Create(student, githubUser, contributionFullInfo);
-                await _githubUserRepository.InsertAsync(githubUserEntity);
+                _githubUserRepository.Insert(githubUserEntity);
                 return githubUserEntity;
             }
 

@@ -92,7 +92,7 @@ namespace Iwentys.Features.Guilds.Services
 
             var tribute = Tribute.Create(guild, student, project, allTributes);
 
-            await _guildTributeRepository.InsertAsync(tribute);
+            _guildTributeRepository.Insert(tribute);
             await _unitOfWork.CommitAsync();
 
             return await _guildTributeRepository
@@ -113,7 +113,7 @@ namespace Iwentys.Features.Guilds.Services
             //TODO: need to get this from GithubService
             var newProject = new GithubProject(githubUser, project);
 
-            await _studentProjectRepository.InsertAsync(newProject);
+            _studentProjectRepository.Insert(newProject);
             await _unitOfWork.CommitAsync();
             return newProject;
         }

@@ -27,7 +27,7 @@ namespace Iwentys.Tests.TestCaseContexts
             };
 
 
-            _context.UnitOfWork.GetRepository<StudyGroup>().InsertAsync(studyGroup).Wait();
+            _context.UnitOfWork.GetRepository<StudyGroup>().Insert(studyGroup);
             _context.UnitOfWork.CommitAsync().Wait();
             return _context.UnitOfWork
                 .GetRepository<StudyGroup>()
@@ -44,7 +44,7 @@ namespace Iwentys.Tests.TestCaseContexts
                 Name = new Faker().Lorem.Word()
             };
 
-            _context.UnitOfWork.GetRepository<Subject>().InsertAsync(subject).Wait();
+            _context.UnitOfWork.GetRepository<Subject>().Insert(subject);
             _context.UnitOfWork.CommitAsync().Wait();
             return subject;
         }
@@ -58,7 +58,7 @@ namespace Iwentys.Tests.TestCaseContexts
                 StudySemester = StudySemester.Y21H1,
                 LectorTeacherId = teacher?.Id
             };
-            _context.UnitOfWork.GetRepository<GroupSubject>().InsertAsync(groupSubject).Wait();
+            _context.UnitOfWork.GetRepository<GroupSubject>().Insert(groupSubject);
             _context.UnitOfWork.CommitAsync().Wait();
             return groupSubject;
         }

@@ -56,8 +56,8 @@ namespace Iwentys.Features.Guilds.Services
 
             var codeMarathonTournamentEntity = CodeMarathonTournament.Create(iwentysUser, arguments);
 
-            await _tournamentRepository.InsertAsync(codeMarathonTournamentEntity.Tournament);
-            await _codeMarathonTournamentRepository.InsertAsync(codeMarathonTournamentEntity);
+            _tournamentRepository.Insert(codeMarathonTournamentEntity.Tournament);
+            _codeMarathonTournamentRepository.Insert(codeMarathonTournamentEntity);
             await _unitOfWork.CommitAsync();
 
             return await Get(codeMarathonTournamentEntity.Id);
@@ -77,7 +77,7 @@ namespace Iwentys.Features.Guilds.Services
 
             TournamentParticipantTeam tournamentParticipantTeamEntity = tournamentEntity.RegisterTeam(guildMentorUser.Guild, members);
 
-            await _tournamentTeamRepository.InsertAsync(tournamentParticipantTeamEntity);
+            _tournamentTeamRepository.Insert(tournamentParticipantTeamEntity);
             await _unitOfWork.CommitAsync();
         }
     }
