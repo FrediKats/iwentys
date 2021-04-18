@@ -94,7 +94,6 @@ namespace Iwentys.Domain.Guilds
         {
             var domain = new GuildDomain(guild,
                 _unitOfWork.GetRepository<IwentysUser>(),
-                _unitOfWork.GetRepository<GuildMember>(),
                 _unitOfWork.GetRepository<GuildLastLeave>(),
                 _githubUserApiAccessor);
             //TODO: remove result

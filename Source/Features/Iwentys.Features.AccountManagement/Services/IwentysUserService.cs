@@ -35,7 +35,7 @@ namespace Iwentys.Features.AccountManagement.Services
         {
             var iwentysUser = UniversitySystemUser.Create(createArguments);
 
-            await _universitySystemUserRepository.InsertAsync(iwentysUser);
+            _universitySystemUserRepository.Insert(iwentysUser);
             await _unitOfWork.CommitAsync();
 
             return new UniversitySystemUserInfoDto(iwentysUser);

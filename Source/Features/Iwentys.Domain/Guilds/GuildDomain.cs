@@ -10,7 +10,6 @@ namespace Iwentys.Domain.Guilds
 {
     public class GuildDomain
     {
-        private readonly IGenericRepository<GuildMember> _guildMemberRepositoryNew;
         private readonly IGenericRepository<IwentysUser> _userRepository;
         private readonly IGenericRepository<GuildLastLeave> _guildLastLeaveRepository;
         private readonly IGithubUserApiAccessor _githubUserApiAccessor;
@@ -18,13 +17,11 @@ namespace Iwentys.Domain.Guilds
         public GuildDomain(
             Guild profile,
             IGenericRepository<IwentysUser> studentRepository,
-            IGenericRepository<GuildMember> guildMemberRepositoryNew,
             IGenericRepository<GuildLastLeave> guildLastLeaveRepository,
             IGithubUserApiAccessor githubUserApiAccessor)
         {
             Profile = profile;
             _userRepository = studentRepository;
-            _guildMemberRepositoryNew = guildMemberRepositoryNew;
             _guildLastLeaveRepository = guildLastLeaveRepository;
             _githubUserApiAccessor = githubUserApiAccessor;
         }

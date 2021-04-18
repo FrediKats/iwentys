@@ -204,7 +204,7 @@ namespace Iwentys.Features.Guilds.Services
 
         private GuildDomain CreateDomain(Guild guild)
         {
-            return new GuildDomain(guild, _userRepository, _guildMemberRepository, _guildLastLeaveRepository, _githubIntegrationService.User);
+            return new GuildDomain(guild, _userRepository, _guildLastLeaveRepository, _githubIntegrationService.User);
         }
 
         private async Task RemoveMember(int guildId, IwentysUser user, GuildLastLeave guildLastLeave)

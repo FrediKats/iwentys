@@ -33,9 +33,20 @@ namespace Iwentys.Common.Databases
             return result.Entity;
         }
 
+        public TEntity Insert(TEntity entity)
+        {
+            EntityEntry<TEntity> result = DbSet.Add(entity);
+            return result.Entity;
+        }
+
         public async Task InsertAsync(IEnumerable<TEntity> entities)
         {
             await DbSet.AddRangeAsync(entities);
+        }
+
+        public void Insert(IEnumerable<TEntity> entities)
+        {
+            DbSet.AddRange(entities);
         }
 
         public async Task DeleteAsync<TKey>(TKey id)
