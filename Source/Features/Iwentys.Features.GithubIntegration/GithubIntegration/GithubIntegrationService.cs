@@ -1,6 +1,6 @@
 ﻿using Iwentys.Common.Databases;
-using Iwentys.Domain.Models;
-using Iwentys.Domain.Services;
+using Iwentys.Domain.GithubIntegration;
+using Iwentys.Domain.GithubIntegration.Models;
 
 namespace Iwentys.Features.GithubIntegration.GithubIntegration
 {

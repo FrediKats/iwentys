@@ -1,9 +1,8 @@
 ﻿using System;
 using Bogus;
-using Iwentys.Domain;
-using Iwentys.Domain.Enums;
+using Iwentys.Domain.Extended.Enums;
 using Iwentys.Domain.Gamification;
-using Iwentys.Domain.Models;
+using Iwentys.Domain.Gamification.Models;
 
 namespace Iwentys.Database.Seeding.FakerEntities
 {

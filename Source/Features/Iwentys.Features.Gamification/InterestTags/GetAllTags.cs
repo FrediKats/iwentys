@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Tools;
-using Iwentys.Domain;
 using Iwentys.Domain.Gamification;
-using Iwentys.Domain.Models;
+using Iwentys.Domain.Gamification.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

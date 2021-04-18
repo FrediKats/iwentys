@@ -4,7 +4,6 @@ using Iwentys.Common.Tools;
 using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Database.Seeding.FakerEntities.Study;
 using Iwentys.Database.Seeding.Tools;
-using Iwentys.Domain;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Enums;

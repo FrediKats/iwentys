@@ -2,12 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Domain;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Guilds;
-using Iwentys.Domain.Models;
-using Iwentys.Domain.Services;
+using Iwentys.Domain.Guilds.Models;
 using Iwentys.Features.GithubIntegration.GithubIntegration;
 using Microsoft.EntityFrameworkCore;
 

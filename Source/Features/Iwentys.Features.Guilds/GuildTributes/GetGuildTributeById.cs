@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
-using Iwentys.Domain;
 using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
-using Iwentys.Domain.Models;
+using Iwentys.Domain.Guilds.Models;
 using Iwentys.Features.GithubIntegration.GithubIntegration;
 using Iwentys.Features.Guilds.Services;
 using MediatR;

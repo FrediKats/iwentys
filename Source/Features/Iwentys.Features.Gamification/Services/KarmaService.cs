@@ -2,10 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Domain;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Gamification;
-using Iwentys.Domain.Models;
+using Iwentys.Domain.Gamification.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Gamification.Services

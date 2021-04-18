@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Domain;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Models;
+using Iwentys.Domain.Study.Models;
 using Iwentys.FeatureBase;
 using Iwentys.Features.AccountManagement.Services;
 using Iwentys.Features.Study.Services;

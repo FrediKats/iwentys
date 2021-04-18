@@ -2,12 +2,10 @@
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
-using Iwentys.Domain;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
-using Iwentys.Domain.Models;
-using Iwentys.Domain.Services;
+using Iwentys.Domain.Guilds.Models;
 using Iwentys.Features.GithubIntegration.GithubIntegration;
 
 namespace Iwentys.Features.Guilds.Services

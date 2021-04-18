@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds.Enums;
-using Iwentys.Domain.Models;
-using Iwentys.Domain.Services;
 
 namespace Iwentys.Domain.Guilds
 {

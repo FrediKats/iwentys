@@ -1,10 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Domain;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
-using Iwentys.Domain.Services;
 using Iwentys.Features.GithubIntegration.GithubIntegration;
 using Iwentys.Features.Guilds.Services;
 using MediatR;

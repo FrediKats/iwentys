@@ -2,7 +2,7 @@
 using System.Linq;
 using Iwentys.Common.Databases;
 using Iwentys.Domain.Gamification;
-using Iwentys.Domain.Models;
+using Iwentys.Domain.Gamification.Models;
 using MediatR;
 
 namespace Iwentys.Features.Gamification.Achievements

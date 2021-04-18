@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Database.Seeding;
-using Iwentys.Domain;
 using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Extended;
 using Iwentys.Domain.Gamification;
+using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Study;
 using Iwentys.Features.AccountManagement.Infrastructure;

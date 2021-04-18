@@ -1,5 +1,5 @@
 ﻿using Bogus;
-using Iwentys.Domain.Models;
+using Iwentys.Domain.GithubIntegration.Models;
 
 namespace Iwentys.Database.Seeding.FakerEntities
 {

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Iwentys.Domain.Models;
 
 namespace Iwentys.Domain.AccountManagement
 {

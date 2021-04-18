@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Database.Seeding.FakerEntities.Raids;
-using Iwentys.Domain;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Models;
+using Iwentys.Domain.Extended;
+using Iwentys.Domain.Extended.Models;
 using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 

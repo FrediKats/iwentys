@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Tools;
 using Iwentys.Domain.Guilds;
-using Iwentys.Domain.Models;
+using Iwentys.Domain.Guilds.Models;
 using Iwentys.Features.Guilds.Services;
 using MediatR;
 

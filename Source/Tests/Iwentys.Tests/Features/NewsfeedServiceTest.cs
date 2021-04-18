@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Domain;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Models;
+using Iwentys.Domain.Extended.Models;
+using Iwentys.Domain.Study.Models;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 

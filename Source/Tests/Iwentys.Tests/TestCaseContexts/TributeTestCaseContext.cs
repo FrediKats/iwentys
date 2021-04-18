@@ -1,7 +1,8 @@
 ﻿using Iwentys.Database.Seeding.FakerEntities.Guilds;
-using Iwentys.Domain;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Models;
+using Iwentys.Domain.Extended.Models;
+using Iwentys.Domain.GithubIntegration;
+using Iwentys.Domain.Guilds.Models;
 
 namespace Iwentys.Tests.TestCaseContexts
 {

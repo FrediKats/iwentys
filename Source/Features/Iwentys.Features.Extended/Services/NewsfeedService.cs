@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Domain;
 using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Extended;
+using Iwentys.Domain.Extended.Models;
 using Iwentys.Domain.Guilds;
-using Iwentys.Domain.Models;
 using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 

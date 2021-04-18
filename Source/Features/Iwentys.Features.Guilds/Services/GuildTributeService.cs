@@ -3,11 +3,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
-using Iwentys.Domain;
 using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Extended.Models;
+using Iwentys.Domain.GithubIntegration;
+using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
-using Iwentys.Domain.Models;
+using Iwentys.Domain.Guilds.Models;
 using Iwentys.Features.GithubIntegration.GithubIntegration;
 using Microsoft.EntityFrameworkCore;
 

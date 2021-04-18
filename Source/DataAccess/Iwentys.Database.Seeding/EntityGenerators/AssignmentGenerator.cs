@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Bogus;
 using Iwentys.Database.Seeding.FakerEntities;
-using Iwentys.Domain;
 using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 

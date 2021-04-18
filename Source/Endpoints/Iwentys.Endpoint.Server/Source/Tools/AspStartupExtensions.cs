@@ -1,14 +1,13 @@
 ﻿using Iwentys.Common.Databases;
 using Iwentys.Database;
 using Iwentys.Domain.Gamification;
-using Iwentys.Domain.Services;
+using Iwentys.Domain.GithubIntegration;
 using Iwentys.Endpoint.Server.Source.IdentityAuth;
 using Iwentys.Endpoint.Server.Source.Options;
 using Iwentys.Endpoint.Server.Source.Tokens;
 using Iwentys.Features.AccountManagement.Infrastructure;
 using Iwentys.Features.Extended.Infrastructure;
 using Iwentys.Features.Gamification.Infrastructure;
-using Iwentys.Features.GithubIntegration;
 using Iwentys.Features.GithubIntegration.Infrastructure;
 using Iwentys.Features.Guilds.Infrastructure;
 using Iwentys.Features.Study.Infrastructure;

@@ -1,7 +1,6 @@
 ﻿using Iwentys.Common.Exceptions;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
-using Iwentys.Domain.Services;
 using Iwentys.Features.GithubIntegration.GithubIntegration;
 
 namespace Iwentys.Features.Guilds.Services

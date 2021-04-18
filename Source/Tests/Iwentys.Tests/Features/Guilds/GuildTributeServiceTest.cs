@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Domain;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Models;
+using Iwentys.Domain.GithubIntegration;
+using Iwentys.Domain.Guilds.Models;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 

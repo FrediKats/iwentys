@@ -4,8 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Enums;
-using Iwentys.Domain.Models;
+using Iwentys.Domain.Extended.Enums;
+using Iwentys.Domain.Extended.Models;
+using Iwentys.Domain.Gamification.Models;
 
 namespace Iwentys.Domain.Gamification
 {

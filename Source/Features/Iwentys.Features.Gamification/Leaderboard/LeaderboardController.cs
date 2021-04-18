@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Domain.Gamification;
-using Iwentys.Domain.Models;
 using Iwentys.Domain.Study.Enums;
+using Iwentys.Domain.Study.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

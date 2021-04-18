@@ -2,9 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Domain;
-using Iwentys.Domain.Models;
-using Iwentys.Domain.Services;
+using Iwentys.Domain.GithubIntegration;
+using Iwentys.Domain.GithubIntegration.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.GithubIntegration.GithubIntegration

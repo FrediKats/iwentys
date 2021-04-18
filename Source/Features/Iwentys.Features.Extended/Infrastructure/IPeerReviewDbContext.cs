@@ -1,4 +1,4 @@
-﻿using Iwentys.Domain;
+﻿using Iwentys.Domain.Extended;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Extended.Infrastructure

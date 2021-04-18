@@ -1,4 +1,4 @@
-﻿using Iwentys.Domain;
+﻿using Iwentys.Domain.GithubIntegration;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.GithubIntegration.Infrastructure

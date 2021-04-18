@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Iwentys.Domain.Models;
+﻿using Iwentys.Domain.Guilds.Models;
 
 namespace Iwentys.Domain.Guilds
 {

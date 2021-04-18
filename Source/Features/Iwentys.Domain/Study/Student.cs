@@ -1,7 +1,7 @@
 ﻿using System;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Models;
 using Iwentys.Domain.Study.Enums;
+using Iwentys.Domain.Study.Models;
 
 namespace Iwentys.Domain.Study
 {

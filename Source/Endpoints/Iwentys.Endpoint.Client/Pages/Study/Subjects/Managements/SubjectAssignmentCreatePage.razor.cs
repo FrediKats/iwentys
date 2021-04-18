@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Iwentys.Sdk;
 
 namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Managements

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
-using Iwentys.Domain;
-using Iwentys.Domain.Models;
+using Iwentys.Domain.GithubIntegration;
+using Iwentys.Domain.GithubIntegration.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Features.GithubIntegration.GithubIntegration

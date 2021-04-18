@@ -2,7 +2,7 @@
 using System.Linq;
 using Bogus;
 using Iwentys.Database.Seeding.FakerEntities.Guilds;
-using Iwentys.Domain;
+using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Study;

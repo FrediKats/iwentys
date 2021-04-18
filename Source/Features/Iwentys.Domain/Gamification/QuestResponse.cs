@@ -1,6 +1,6 @@
 ﻿using System;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Models;
+using Iwentys.Domain.Extended.Models;
 
 namespace Iwentys.Domain.Gamification
 {

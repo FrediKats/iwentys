@@ -1,7 +1,6 @@
 ﻿using Bogus;
-using Iwentys.Domain;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Models;
+using Iwentys.Domain.Extended.Models;
 
 namespace Iwentys.Tests.TestCaseContexts
 {

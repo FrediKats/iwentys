@@ -1,7 +1,7 @@
-﻿using Iwentys.Domain;
-using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Enums;
-using Iwentys.Domain.Models;
+﻿using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Extended.Enums;
+using Iwentys.Domain.Extended.Models;
+using Iwentys.Domain.GithubIntegration;
 
 namespace Iwentys.Tests.TestCaseContexts
 {

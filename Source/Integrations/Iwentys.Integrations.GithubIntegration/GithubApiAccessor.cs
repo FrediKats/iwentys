@@ -5,9 +5,8 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
-using Iwentys.Domain.Models;
-using Iwentys.Domain.Services;
-using Iwentys.Features.GithubIntegration;
+using Iwentys.Domain.GithubIntegration;
+using Iwentys.Domain.GithubIntegration.Models;
 using Octokit;
 
 namespace Iwentys.Integrations.GithubIntegration

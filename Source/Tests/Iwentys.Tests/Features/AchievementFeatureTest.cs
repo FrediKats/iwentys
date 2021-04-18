@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Domain;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Gamification;
-using Iwentys.Domain.Models;
+using Iwentys.Domain.Gamification.Models;
+using Iwentys.Domain.Study.Models;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 

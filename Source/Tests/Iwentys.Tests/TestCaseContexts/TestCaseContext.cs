@@ -1,7 +1,6 @@
 using Iwentys.Common.Databases;
 using Iwentys.Database;
 using Iwentys.Domain.Gamification;
-using Iwentys.Domain.Services;
 using Iwentys.Features.AccountManagement.Services;
 using Iwentys.Features.Extended.Services;
 using Iwentys.Features.Gamification.Services;

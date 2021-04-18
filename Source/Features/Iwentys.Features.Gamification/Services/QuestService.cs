@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Domain;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Enums;
+using Iwentys.Domain.Extended.Enums;
+using Iwentys.Domain.Extended.Models;
 using Iwentys.Domain.Gamification;
-using Iwentys.Domain.Models;
+using Iwentys.Domain.Gamification.Models;
 using Iwentys.FeatureBase;
 using Microsoft.EntityFrameworkCore;
 

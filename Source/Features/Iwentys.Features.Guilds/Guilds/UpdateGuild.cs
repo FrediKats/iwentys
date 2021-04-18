@@ -1,10 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Domain;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
-using Iwentys.Domain.Models;
+using Iwentys.Domain.Guilds.Models;
 using MediatR;
 
 namespace Iwentys.Features.Guilds.Guilds

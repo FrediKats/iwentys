@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Tools;
-using Iwentys.Domain.Models;
 using Iwentys.Domain.Study;
+using Iwentys.Domain.Study.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Study.Services
