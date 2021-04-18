@@ -21,7 +21,7 @@ namespace Iwentys.Domain.Study
         }
 
         public StudentType Type { get; init; }
-        public int GroupId { get; set; }
+        public int? GroupId { get; set; }
         public virtual StudyGroup Group { get; set; }
 
         public static Student CreateFromIsu(int id, string firstName, string secondName)

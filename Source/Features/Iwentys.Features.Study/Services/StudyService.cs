@@ -37,25 +37,22 @@ namespace Iwentys.Features.Study.Services
 
         public async Task<GroupProfileResponseDto> GetStudyGroup(string groupName)
         {
+            //TODO: 
             var name = new GroupName(groupName);
-            List<GroupProfileResponseDto> result = await _studyGroupRepository
+            return await _studyGroupRepository
                 .Get()
                 .Where(StudyGroup.IsMatch(name))
                 .Select(GroupProfileResponseDto.FromEntity)
-                .ToListAsync();
-
-            return result.Single();
+                .SingleAsync();
         }
 
         public async Task<List<GroupProfileResponseDto>> GetStudyGroupsForDto(int? courseId)
         {
-            List<GroupProfileResponseDto> result = await _studyGroupRepository
+            return await _studyGroupRepository
                 .Get()
                 .WhereIf(courseId, gs => gs.StudyCourseId == courseId)
                 .Select(GroupProfileResponseDto.FromEntity)
                 .ToListAsync();
-
-            return result;
         }
 
         public async Task<GroupProfileResponseDto> GetStudentStudyGroup(int studentId)
@@ -71,12 +68,9 @@ namespace Iwentys.Features.Study.Services
         public async Task MakeGroupAdmin(AuthorizedUser initiator, int newGroupAdminId)
         {
             IwentysUser initiatorProfile = await _iwentysUserRepository.GetById(initiator.Id);
-            SystemAdminUser admin = initiatorProfile.EnsureIsAdmin();
             Student newGroupAdminProfile = await _studentRepository.GetById(newGroupAdminId);
 
-            StudyGroup studyGroup = newGroupAdminProfile.Group;
-
-            studyGroup.GroupAdminId = newGroupAdminProfile.Id;
+            StudyGroup studyGroup = StudyGroup.MakeGroupAdmin(initiatorProfile, newGroupAdminProfile);
 
             _studyGroupRepository.Update(studyGroup);
             await _unitOfWork.CommitAsync();

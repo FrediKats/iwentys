@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Tools;
@@ -25,39 +26,36 @@ namespace Iwentys.Features.Study.Services
 
         public async Task<List<SubjectProfileDto>> Get()
         {
-            List<Subject> subjects = await _subjectRepository
+            return await _subjectRepository
                 .Get()
+                .Select(entity => new SubjectProfileDto(entity))
                 .ToListAsync();
-
-            return subjects.SelectToList(entity => new SubjectProfileDto(entity));
         }
 
         public async Task<SubjectProfileDto> Get(int id)
         {
-            Subject subject = await _subjectRepository
+            return await _subjectRepository
                 .Get()
-                .FirstAsync(s => s.Id == id);
-
-            return new SubjectProfileDto(subject);
+                .FirstAsync(s => s.Id == id)
+                .To(entity => new SubjectProfileDto(entity));
         }
 
         public async Task<List<SubjectProfileDto>> GetGroupSubjects(int groupId)
         {
-            List<Subject> subjectEntities = await _groupSubjectRepository
+            return await _groupSubjectRepository
                 .Get()
                 .SearchSubjects(StudySearchParametersDto.ForGroup(groupId))
+                .Select(entity => new SubjectProfileDto(entity))
                 .ToListAsync();
-
-            return subjectEntities.SelectToList(entity => new SubjectProfileDto(entity));
         }
 
         public async Task<List<SubjectProfileDto>> GetSubjectsForDto(StudySearchParametersDto searchParametersDto)
         {
-            List<Subject> subjectEntities = await _groupSubjectRepository
+            return await _groupSubjectRepository
                 .Get()
                 .SearchSubjects(searchParametersDto)
+                .Select(entity => new SubjectProfileDto(entity))
                 .ToListAsync();
-            return subjectEntities.SelectToList(entity => new SubjectProfileDto(entity));
         }
     }
 }

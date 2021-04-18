@@ -4,6 +4,7 @@ using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain;
 using Iwentys.Domain.Models;
+using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.AccountManagement.Services
@@ -66,6 +67,18 @@ namespace Iwentys.Features.AccountManagement.Services
             await _unitOfWork.CommitAsync();
 
             return new IwentysUserInfoDto(await _userRepository.FindByIdAsync(id));
+        }
+
+        public async Task<IwentysUserInfoDto> RemoveGithubUsername(int id, string githubUsername)
+        {
+            IwentysUser user = await _userRepository.GetById(id);
+            
+            user.UpdateGithubUsername(githubUsername);
+
+            _userRepository.Update(user);
+            await _unitOfWork.CommitAsync();
+
+            return new IwentysUserInfoDto(user);
         }
     }
 }

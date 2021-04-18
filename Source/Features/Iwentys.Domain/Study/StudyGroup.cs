@@ -12,8 +12,8 @@ namespace Iwentys.Domain.Study
         public int StudyCourseId { get; init; }
         public virtual StudyCourse StudyCourse { get; set; }
 
-        //FYI: looks like hack
         public int? GroupAdminId { get; set; }
+        public Student GroupAdmin { get; set; }
 
         public virtual List<Student> Students { get; set; }
         public virtual List<GroupSubject> GroupSubjects { get; set; }
@@ -21,6 +21,21 @@ namespace Iwentys.Domain.Study
         public static Expression<Func<StudyGroup, bool>> IsMatch(GroupName groupName)
         {
             return studyGroup => studyGroup.GroupName == groupName.Name;
+        }
+
+        public static StudyGroup MakeGroupAdmin(IwentysUser initiatorProfile, Student newGroupAdmin)
+        {
+            SystemAdminUser admin = initiatorProfile.EnsureIsAdmin();
+            if (newGroupAdmin.Group is null)
+            {
+                //TODO: add exception
+            }
+            else
+            {
+                newGroupAdmin.Group.GroupAdmin = newGroupAdmin;
+            }
+
+            return newGroupAdmin.Group;
         }
     }
 }

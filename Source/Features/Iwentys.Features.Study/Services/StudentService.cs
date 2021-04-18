@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Tools;
@@ -21,17 +22,17 @@ namespace Iwentys.Features.Study.Services
 
         public async Task<List<StudentInfoDto>> Get()
         {
-            List<Student> students = await _studentRepository
+            return await _studentRepository
                 .Get()
+                .Select(s => new StudentInfoDto(s))
                 .ToListAsync();
-
-            return students.SelectToList(s => new StudentInfoDto(s));
         }
 
         public async Task<StudentInfoDto> Get(int id)
         {
-            Student student = await _studentRepository.GetById(id);
-            return new StudentInfoDto(student);
+            return await _studentRepository
+                .GetById(id)
+                .To(s => new StudentInfoDto(s));
         }
 
         public async Task<StudentInfoDto> GetOrCreate(int id)
@@ -40,8 +41,7 @@ namespace Iwentys.Features.Study.Services
             if (student is null)
             {
                 var newStudent = Student.CreateFromIsu(id, "userInfo.FirstName", "userInfo.MiddleName", "userInfo.SecondName");
-                await _studentRepository.InsertAsync(newStudent);
-                student = await _studentRepository.FindByIdAsync(newStudent.Id);
+                student = _studentRepository.Insert(newStudent);
             }
 
             return new StudentInfoDto(student);
@@ -51,18 +51,10 @@ namespace Iwentys.Features.Study.Services
         {
             var student = Student.Create(createArguments);
 
-            await _studentRepository.InsertAsync(student);
+            _studentRepository.Insert(student);
             await _unitOfWork.CommitAsync();
 
             return new StudentInfoDto(student);
-        }
-
-        public async Task<StudentInfoDto> RemoveGithubUsername(int id, string githubUsername)
-        {
-            Student user = await _studentRepository.FindByIdAsync(id);
-            user.GithubUsername = githubUsername;
-            _studentRepository.Update(user);
-            return new StudentInfoDto(await _studentRepository.FindByIdAsync(id));
         }
     }
 }

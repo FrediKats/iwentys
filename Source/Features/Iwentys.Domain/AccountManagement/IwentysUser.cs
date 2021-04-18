@@ -26,5 +26,10 @@ namespace Iwentys.Domain
                 SecondName = createArguments.SecondName
             };
         }
+
+        public void UpdateGithubUsername(string githubUsername)
+        {
+            GithubUsername = githubUsername;
+        }
     }
 }

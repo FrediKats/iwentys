@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Common.Databases;
-using Iwentys.Common.Tools;
 using Iwentys.Domain.Models;
 using Iwentys.Domain.Study;
 using MediatR;
@@ -27,21 +26,20 @@ namespace Iwentys.Features.Study.StudentProfile
         public class Handler : RequestHandler<Query, Response>
         {
             private readonly IGenericRepository<Student> _studentRepository;
-            private readonly IUnitOfWork _unitOfWork;
 
             public Handler(IUnitOfWork unitOfWork)
             {
-                _unitOfWork = unitOfWork;
-                _studentRepository = _unitOfWork.GetRepository<Student>();
+                _studentRepository = unitOfWork.GetRepository<Student>();
             }
 
             protected override Response Handle(Query request)
             {
-                List<Student> students = _studentRepository
+                List<StudentInfoDto> result = _studentRepository
                     .Get()
+                    .Select(s => new StudentInfoDto(s))
                     .ToList();
 
-                return new Response(students.SelectToList(s => new StudentInfoDto(s)));
+                return new Response(result);
             }
         }
     }
