@@ -82,17 +82,70 @@ namespace Iwentys.Domain.Guilds
         }
 
         //TODO: rework
-        public async Task<List<GuildMemberImpactDto>> GetMemberImpacts(IGithubUserApiAccessor _githubUserApiAccessor)
+        public async Task<List<GuildMemberImpactDto>> GetMemberImpacts(IGithubUserApiAccessor githubUserApiAccessor)
         {
             //FYI: optimization is need
             var result = new List<GuildMemberImpactDto>();
             foreach (GuildMember member in Members)
             {
-                ContributionFullInfo contributionFullInfo = await _githubUserApiAccessor.FindUserContributionOrEmpty(member.Member);
+                ContributionFullInfo contributionFullInfo = await githubUserApiAccessor.FindUserContributionOrEmpty(member.Member);
                 result.Add(new GuildMemberImpactDto(new IwentysUserInfoDto(member.Member), member.MemberType, contributionFullInfo));
             }
 
             return result;
+        }
+
+        public GuildMember EnterGuild(IwentysUser user, GuildMember guildMember, GuildLastLeave lastLeave)
+        {
+            if (GetUserMembershipState(user, guildMember, lastLeave) != UserMembershipState.CanEnter)
+                throw new InnerLogicException($"Student unable to enter this guild! UserId: {user.Id} GuildId: {Id}");
+
+            return new GuildMember(this, user, GuildMemberType.Member);
+        }
+
+        public GuildMember RequestEnterGuild(IwentysUser user, GuildMember guildMember, GuildLastLeave lastLeave)
+        {
+            if (GetUserMembershipState(user, guildMember, lastLeave) != UserMembershipState.CanRequest)
+                throw new InnerLogicException($"Student unable to send request to this guild! UserId: {user.Id} GuildId: {Id}");
+
+            return new GuildMember(this, user, GuildMemberType.Member);
+        }
+
+        public UserMembershipState GetUserMembershipState(IwentysUser user, GuildMember currentMembership, GuildLastLeave guildLastLeave)
+        {
+            GuildMemberType? userStatusInGuild = Members.Find(m => m.Member.Id == user.Id)?.MemberType;
+
+            if (userStatusInGuild == GuildMemberType.Blocked)
+                return UserMembershipState.Blocked;
+
+            if (currentMembership is not null &&
+                currentMembership.GuildId != Id)
+                return UserMembershipState.Blocked;
+
+            if (currentMembership is not null &&
+                currentMembership.GuildId == Id)
+                return UserMembershipState.Entered;
+
+            if (currentMembership?.MemberType == GuildMemberType.Requested &&
+                userStatusInGuild != GuildMemberType.Requested)
+                return UserMembershipState.Blocked;
+
+            if (currentMembership?.MemberType == GuildMemberType.Requested &&
+                userStatusInGuild == GuildMemberType.Requested)
+                return UserMembershipState.Requested;
+
+            if (currentMembership is null &&
+                userStatusInGuild != GuildMemberType.Requested &&
+                guildLastLeave.IsLeaveRestrictExpired())
+                return UserMembershipState.Blocked;
+
+            if (currentMembership is null && HiringPolicy == GuildHiringPolicy.Open)
+                return UserMembershipState.CanEnter;
+
+            if (currentMembership is null && HiringPolicy == GuildHiringPolicy.Close)
+                return UserMembershipState.CanRequest;
+
+            return UserMembershipState.Blocked;
         }
     }
 }

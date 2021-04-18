@@ -30,16 +30,6 @@ namespace Iwentys.Features.AccountManagement.Services
                 .SingleAsync();
         }
 
-        public async Task<UniversitySystemUserInfoDto> Create(UniversitySystemUserCreateArguments createArguments)
-        {
-            var iwentysUser = UniversitySystemUser.Create(createArguments);
-
-            _universitySystemUserRepository.Insert(iwentysUser);
-            await _unitOfWork.CommitAsync();
-
-            return new UniversitySystemUserInfoDto(iwentysUser);
-        }
-
         public async Task<IwentysUserInfoDto> Create(IwentysUserCreateArguments createArguments)
         {
             var iwentysUser = IwentysUser.Create(createArguments);
@@ -65,18 +55,6 @@ namespace Iwentys.Features.AccountManagement.Services
             await _unitOfWork.CommitAsync();
 
             return new IwentysUserInfoDto(await _userRepository.FindByIdAsync(id));
-        }
-
-        public async Task<IwentysUserInfoDto> RemoveGithubUsername(int id, string githubUsername)
-        {
-            IwentysUser user = await _userRepository.GetById(id);
-            
-            user.UpdateGithubUsername(githubUsername);
-
-            _userRepository.Update(user);
-            await _unitOfWork.CommitAsync();
-
-            return new IwentysUserInfoDto(user);
         }
     }
 }

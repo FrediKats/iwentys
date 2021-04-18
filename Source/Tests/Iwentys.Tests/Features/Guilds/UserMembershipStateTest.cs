@@ -71,7 +71,7 @@ namespace Iwentys.Tests.Features.Guilds
                 .Setup(r => r.FindByIdAsync(It.IsAny<int>()))
                 .Returns(Task.FromResult(_student));
 
-            _guildDomain = new GuildDomain(_guild, _studentRepository.Object, null, null);
+            _guildDomain = new GuildDomain(_guild, _studentRepository.Object);
         }
 
         private Guild _guild;
