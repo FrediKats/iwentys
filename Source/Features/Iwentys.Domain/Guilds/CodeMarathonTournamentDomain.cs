@@ -1,47 +1,27 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
-using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Models;
 using Iwentys.Domain.Services;
-using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Domain.Guilds
 {
     public class CodeMarathonTournamentDomain : ITournamentDomain
     {
-        private readonly AchievementProvider _achievementProvider;
         private readonly IGithubUserApiAccessor _githubUserApiAccessor;
-
         private readonly Tournament _tournament;
 
-        private readonly IGenericRepository<TournamentTeamMember> _tournamentTeamMemberRepository;
-        private readonly IUnitOfWork _unitOfWork;
-
-        public CodeMarathonTournamentDomain(
-            Tournament tournament,
-            IUnitOfWork unitOfWork,
-            AchievementProvider achievementProvider, IGithubUserApiAccessor githubUserApiAccessor)
+        public CodeMarathonTournamentDomain(Tournament tournament, IGithubUserApiAccessor githubUserApiAccessor)
         {
             _tournament = tournament;
-            _unitOfWork = unitOfWork;
-            _achievementProvider = achievementProvider;
             _githubUserApiAccessor = githubUserApiAccessor;
-
-            _tournamentTeamMemberRepository = _unitOfWork.GetRepository<TournamentTeamMember>();
         }
 
         public TournamentLeaderboardDto GetLeaderboard()
         {
-            List<Guild> guilds = _unitOfWork
-                .GetRepository<Guild>()
-                .Get()
-                .ToList();
-
-            Dictionary<GuildProfileShortInfoDto, int> result = guilds
-                .ToDictionary(g => new GuildProfileShortInfoDto(g), CountGuildRating);
+            Dictionary<GuildProfileShortInfoDto, int> result = _tournament
+                .Teams
+                .ToDictionary(g => new GuildProfileShortInfoDto(g.Guild), t => CountGuildRating(t.Guild));
 
             return new TournamentLeaderboardDto
             {
@@ -50,54 +30,40 @@ namespace Iwentys.Domain.Guilds
             };
         }
 
-        public async Task RewardWinners()
+        public void RewardWinners()
         {
             if (_tournament.IsActive)
                 throw InnerLogicException.TournamentException.IsNotFinished(_tournament.Id);
 
-            TournamentParticipantTeam winner = await _unitOfWork.GetRepository<TournamentParticipantTeam>()
-                .Get()
-                .Where(team => team.TournamentId == _tournament.Id)
+            TournamentParticipantTeam winner = _tournament
+                .Teams
                 .OrderByDescending(t => t.Members.Sum(m => m.Points))
-                .FirstOrDefaultAsync();
+                .FirstOrDefault();
 
             if (winner is null)
                 throw InnerLogicException.TournamentException.NoTeamRegistered(_tournament.Id);
 
-            await _achievementProvider.AchieveForGuild(AchievementList.Tournaments.TournamentWinner, winner.GuildId);
-            await _unitOfWork.CommitAsync();
+            //TODO: fix
+            //await _achievementProvider.AchieveForGuild(AchievementList.Tournaments.TournamentWinner, winner.GuildId);
         }
 
-        public async Task UpdateResult()
+        public void UpdateResult()
         {
             if (!_tournament.IsActive)
                 throw InnerLogicException.TournamentException.AlreadyFinished(_tournament.Id);
 
-            List<TournamentTeamMember> members = await _unitOfWork.GetRepository<TournamentParticipantTeam>()
-                .Get()
-                .Where(team => team.TournamentId == _tournament.Id)
-                .SelectMany(team => team.Members)
-                .Include(m => m.Member)
-                .ToListAsync();
-
-            foreach (TournamentTeamMember member in members)
+            foreach (TournamentTeamMember member in _tournament.Teams.SelectMany(t => t.Members))
             {
-                ContributionFullInfo contributionFullInfo = await _githubUserApiAccessor.FindUserContributionOrEmpty(member.Member);
+                //TODO: clean
+                ContributionFullInfo contributionFullInfo = _githubUserApiAccessor.FindUserContributionOrEmpty(member.Member).Result;
                 member.Points = contributionFullInfo.GetActivityForPeriod(_tournament.StartTime, _tournament.EndTime);
             }
-
-            _tournamentTeamMemberRepository.Update(members);
-            await _unitOfWork.CommitAsync();
         }
 
         private int CountGuildRating(Guild guild)
         {
-            var domain = new GuildDomain(guild,
-                _unitOfWork.GetRepository<IwentysUser>(),
-                _unitOfWork.GetRepository<GuildLastLeave>(),
-                _githubUserApiAccessor);
             //TODO: remove result
-            List<GuildMemberImpactDto> users = domain.GetMemberImpacts().Result;
+            List<GuildMemberImpactDto> users = guild.GetMemberImpacts(_githubUserApiAccessor).Result;
 
             return users
                 .Select(userData => userData.Contribution.GetActivityForPeriod(_tournament.StartTime, _tournament.EndTime))

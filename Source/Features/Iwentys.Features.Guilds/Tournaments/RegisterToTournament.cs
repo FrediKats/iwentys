@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Domain;
 using Iwentys.Domain.Gamification;
@@ -9,7 +8,6 @@ using Iwentys.Domain.Models;
 using Iwentys.Domain.Services;
 using Iwentys.Features.Guilds.Services;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Tournaments
 {

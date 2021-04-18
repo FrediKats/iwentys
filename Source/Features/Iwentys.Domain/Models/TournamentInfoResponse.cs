@@ -16,6 +16,7 @@ namespace Iwentys.Domain.Models
         public DateTime EndTime { get; set; }
         public TournamentType Type { get; set; }
 
+        //TODO: extract to query "GetTournamentRankedList"
         public IEnumerable<TournamentTeamInfoDto> Teams { get; set; }
 
         public static Expression<Func<Tournament, TournamentInfoResponse>> FromEntity =>

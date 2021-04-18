@@ -13,11 +13,11 @@ namespace Iwentys.Domain.Guilds
         public CodeMarathonAllowedMembersType MembersType { get; init; }
         public CodeMarathonAllowedActivityType ActivityType { get; init; }
 
-        public static CodeMarathonTournament Create(SystemAdminUser author, CreateCodeMarathonTournamentArguments arguments)
+        public static CodeMarathonTournament Create(IwentysUser user, CreateCodeMarathonTournamentArguments arguments)
         {
             return new CodeMarathonTournament
             {
-                Tournament = Tournament.Create(author, arguments, TournamentType.CodeMarathon),
+                Tournament = Tournament.Create(user.EnsureIsAdmin(), arguments, TournamentType.CodeMarathon),
                 MembersType = arguments.MembersType,
                 ActivityType = arguments.ActivityType
             };

@@ -1,6 +1,4 @@
-﻿using Iwentys.Common.Databases;
-using Iwentys.Common.Exceptions;
-using Iwentys.Domain.Gamification;
+﻿using Iwentys.Common.Exceptions;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Services;
@@ -11,13 +9,11 @@ namespace Iwentys.Features.Guilds.Services
     {
         public static ITournamentDomain WrapToDomain(
             this Tournament tournament,
-            GithubIntegrationService githubIntegrationService,
-            IUnitOfWork unitOfWork,
-            AchievementProvider achievementProvider)
+            GithubIntegrationService githubIntegrationService)
         {
             return tournament.Type switch
             {
-                TournamentType.CodeMarathon => new CodeMarathonTournamentDomain(tournament, unitOfWork, achievementProvider, githubIntegrationService.User),
+                TournamentType.CodeMarathon => new CodeMarathonTournamentDomain(tournament, githubIntegrationService.User),
                 _ => throw InnerLogicException.NotSupportedEnumValue(tournament.Type)
             };
         }

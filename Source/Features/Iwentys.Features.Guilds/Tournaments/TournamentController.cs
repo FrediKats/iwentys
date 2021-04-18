@@ -44,11 +44,11 @@ namespace Iwentys.Features.Guilds.Tournaments
         }
 
         [HttpPost(nameof(CreateCodeMarathon))]
-        public async Task<ActionResult<TournamentInfoResponse>> CreateCodeMarathon([FromBody] CreateCodeMarathonTournamentArguments arguments)
+        public async Task<ActionResult> CreateCodeMarathon([FromBody] CreateCodeMarathonTournamentArguments arguments)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             CreateCodeMarathon.Response response = await _mediator.Send(new CreateCodeMarathon.Query(user, arguments));
-            return Ok(response.Tournament);
+            return Ok();
         }
 
         [HttpPut(nameof(RegisterToTournament))]

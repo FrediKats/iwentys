@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
@@ -51,9 +50,9 @@ namespace Iwentys.Features.Guilds.Services
 
         public async Task<TournamentInfoResponse> CreateCodeMarathon(AuthorizedUser user, CreateCodeMarathonTournamentArguments arguments)
         {
-            SystemAdminUser systemAdminUser = (await _studentRepository.GetById(user.Id)).EnsureIsAdmin();
+            IwentysUser iwentysUser = await _studentRepository.GetById(user.Id);
 
-            var codeMarathonTournamentEntity = CodeMarathonTournament.Create(systemAdminUser, arguments);
+            var codeMarathonTournamentEntity = CodeMarathonTournament.Create(iwentysUser, arguments);
 
             await _tournamentRepository.InsertAsync(codeMarathonTournamentEntity.Tournament);
             await _codeMarathonTournamentRepository.InsertAsync(codeMarathonTournamentEntity);

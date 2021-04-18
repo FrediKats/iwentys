@@ -56,8 +56,7 @@ namespace Iwentys.Features.Guilds.GuildTestTasks
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
                 IwentysUser review = await _userRepository.GetById(request.User.Id);
-                GuildTestTaskSolution testTask = await _guildTestTaskSolutionRepository
-                    .GetSingle(t => t.AuthorId == request.TaskSolveOwnerId && t.GuildId == request.GuildId);
+                GuildTestTaskSolution testTask = await _guildTestTaskSolutionRepository.GetSingle(t => t.AuthorId == request.TaskSolveOwnerId && t.GuildId == request.GuildId);
 
                 testTask.SetCompleted(review);
                 await _achievementProvider.Achieve(AchievementList.TestTaskDone, request.TaskSolveOwnerId);

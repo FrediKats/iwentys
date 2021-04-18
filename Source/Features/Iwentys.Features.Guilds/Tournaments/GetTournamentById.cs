@@ -6,7 +6,6 @@ using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Models;
 using Iwentys.Domain.Services;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Tournaments
 {

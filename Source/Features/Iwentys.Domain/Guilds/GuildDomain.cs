@@ -28,19 +28,6 @@ namespace Iwentys.Domain.Guilds
 
         public Guild Profile { get; }
 
-        public async Task<List<GuildMemberImpactDto>> GetMemberImpacts()
-        {
-            //FYI: optimization is need
-            var result = new List<GuildMemberImpactDto>();
-            foreach (GuildMember member in Profile.Members)
-            {
-                ContributionFullInfo contributionFullInfo = await _githubUserApiAccessor.FindUserContributionOrEmpty(member.Member);
-                result.Add(new GuildMemberImpactDto(new IwentysUserInfoDto(member.Member), member.MemberType, contributionFullInfo));
-            }
-
-            return result;
-        }
-
         public async Task<UserMembershipState> GetUserMembershipState(IwentysUser user, Guild userGuild, GuildMember currentMembership)
         {
             GuildMemberType? userStatusInGuild = Profile.Members.Find(m => m.Member.Id == user.Id)?.MemberType;

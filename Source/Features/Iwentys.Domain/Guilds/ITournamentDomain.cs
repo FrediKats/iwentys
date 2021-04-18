@@ -6,7 +6,7 @@ namespace Iwentys.Domain.Guilds
     public interface ITournamentDomain
     {
         TournamentLeaderboardDto GetLeaderboard();
-        Task RewardWinners();
-        Task UpdateResult();
+        void RewardWinners();
+        void UpdateResult();
     }
 }
