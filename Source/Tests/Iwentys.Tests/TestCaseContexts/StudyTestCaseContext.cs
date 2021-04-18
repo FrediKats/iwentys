@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using Bogus;
 using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Database.Seeding.FakerEntities.Study;
@@ -6,6 +7,7 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Enums;
 using Iwentys.Domain.Study.Models;
+using Iwentys.Features.Study.SubjectAssignments;
 
 namespace Iwentys.Tests.TestCaseContexts
 {
@@ -64,7 +66,8 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public SubjectAssignmentDto WithSubjectAssignment(AuthorizedUser user, GroupSubject groupSubject)
         {
-            return _context.SubjectAssignmentService.CreateSubjectAssignment(user, groupSubject.SubjectId, SubjectAssignmentFaker.Instance.CreateSubjectAssignmentCreateArguments()).Result;
+            AssignmentCreateArguments arguments = SubjectAssignmentFaker.Instance.CreateSubjectAssignmentCreateArguments().ConvertToAssignmentCreateArguments(groupSubject.SubjectId);
+            return new CreateSubjectAssignment.Handler(_context.UnitOfWork).Handle(new CreateSubjectAssignment.Query(arguments, user), CancellationToken.None).Result.SubjectAssignment;
         }
 
         public SubjectAssignmentSubmitDto WithSubjectAssignmentSubmit(AuthorizedUser user, SubjectAssignmentDto assignment)

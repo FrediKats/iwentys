@@ -24,6 +24,12 @@ namespace Iwentys.Domain.Study
             return studyGroup => studyGroup.GroupName == groupName.Name;
         }
 
+        public StudyGroup()
+        {
+            Students = new List<Student>();
+            GroupSubjects = new List<GroupSubject>();
+        }
+
         public static StudyGroup MakeGroupAdmin(IwentysUser initiatorProfile, Student newGroupAdmin)
         {
             SystemAdminUser admin = initiatorProfile.EnsureIsAdmin();

@@ -12,12 +12,12 @@ namespace Iwentys.FeatureBase
             var achievementHack = new AchievementHack(unitOfWork);
             foreach (GuildAchievement guildAchievement in provider.GuildAchievement)
             {
-                achievementHack.AchieveForGuild(guildAchievement.Achievement, guildAchievement.GuildId);
+                achievementHack.AchieveForGuild(guildAchievement.AchievementId, guildAchievement.GuildId);
             }
 
             foreach (StudentAchievement achievement in provider.StudentAchievement)
             {
-                achievementHack.Achieve(achievement.Achievement, achievement.StudentId);
+                achievementHack.Achieve(achievement.AchievementId, achievement.StudentId);
             }
 
             await unitOfWork.CommitAsync();
@@ -34,20 +34,20 @@ namespace Iwentys.FeatureBase
             _studentAchievementRepository = _unitOfWork.GetRepository<StudentAchievement>();
         }
 
-        public void Achieve(Achievement achievement, int studentId)
+        public void Achieve(int achievementId, int studentId)
         {
-            if (_studentAchievementRepository.Get().Any(s => s.AchievementId == achievement.Id && s.StudentId == studentId))
+            if (_studentAchievementRepository.Get().Any(s => s.AchievementId == achievementId && s.StudentId == studentId))
                 return;
 
-            _studentAchievementRepository.Insert(StudentAchievement.Create(studentId, achievement.Id));
+            _studentAchievementRepository.Insert(StudentAchievement.Create(studentId, achievementId));
         }
 
-        public void AchieveForGuild(Achievement achievement, int guildId)
+        public void AchieveForGuild(int achievementId, int guildId)
         {
-            if (_guildAchievementRepository.Get().Any(s => s.AchievementId == achievement.Id && s.GuildId == guildId))
+            if (_guildAchievementRepository.Get().Any(s => s.AchievementId == achievementId && s.GuildId == guildId))
                 return;
 
-            _guildAchievementRepository.Insert(GuildAchievement.Create(guildId, achievement.Id));
+            _guildAchievementRepository.Insert(GuildAchievement.Create(guildId, achievementId));
         }
     }
 }

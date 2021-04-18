@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Common.Exceptions;
+using Iwentys.Common.Tools;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study.Models;
+using LanguageExt;
 
 namespace Iwentys.Domain.Study
 {
@@ -26,20 +28,52 @@ namespace Iwentys.Domain.Study
 
         public virtual ICollection<SubjectAssignmentSubmit> SubjectAssignmentSubmits { get; set; }
         public virtual ICollection<GroupSubjectAssignment> GroupSubjectAssignments { get; set; }
+        public virtual ICollection<StudentAssignment> StudentAssignments { get; set; }
 
-        public static SubjectAssignment Create(SubjectTeacher teacher, Subject subject, Assignment assignment)
+        public SubjectAssignment()
         {
-            return new SubjectAssignment
+            StudentAssignments = new List<StudentAssignment>();
+        }
+
+        public static SubjectAssignment Create(IwentysUser user, Subject subject, AssignmentCreateArguments arguments)
+        {
+            SubjectTeacher teacher = user.EnsureIsTeacher(subject);
+            var assignment = Assignment.Create(user, arguments);
+            var subjectAssignment = new SubjectAssignment
             {
                 Assignment = assignment,
                 SubjectId = subject.Id,
                 AuthorId = teacher.User.Id
             };
+
+            var a = subject.GroupSubjects
+                .Select(gs => gs.StudyGroup).ToList();
+
+            var b = a.SelectMany(g => g.Students)
+                .ToList();
+
+
+            List<Student> students = subject.GroupSubjects
+                .Select(gs => gs.StudyGroup)
+                .SelectMany(g => g.Students)
+                .ToList();
+
+            foreach (Student student in students)
+            {
+                subjectAssignment.StudentAssignments.Add(new StudentAssignment
+                {
+                    Student = student,
+                    Assignment = assignment,
+                    LastUpdateTimeUtc = DateTime.UtcNow
+                });
+            }
+
+            return subjectAssignment;
         }
 
         public SubjectAssignmentSubmit CreateSubmit(AuthorizedUser user, SubjectAssignmentSubmitCreateArguments arguments)
         {
-            var canCreateSubmit = Subject.GroupSubjects.Any(gs => gs.StudyGroup.Students.Any(s => s.Id == user.Id));
+            bool canCreateSubmit = Subject.GroupSubjects.Any(gs => gs.StudyGroup.Students.Any(s => s.Id == user.Id));
             if (!canCreateSubmit)
                 throw InnerLogicException.SubjectAssignmentException.StudentIsNotAssignedToSubject(user.Id, Id);
 
