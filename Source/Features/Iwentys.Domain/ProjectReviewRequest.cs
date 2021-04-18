@@ -4,6 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.Enums;
+using Iwentys.Domain.Guilds;
+using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Models;
 
 namespace Iwentys.Domain
@@ -30,9 +32,43 @@ namespace Iwentys.Domain
             || request.AuthorId == user.Id
             || request.ProjectReviewRequestInvites.Any(rri => rri.ReviewerId == user.Id);
 
-        public static ProjectReviewRequest Create(AuthorizedUser author, GithubProject githubProject, ReviewRequestCreateArguments createArguments)
+        public static ProjectReviewRequest CreateGuildReviewRequest(IwentysUser author, GithubRepositoryInfoDto githubProject, GuildTestTaskSolution testTaskSolution, Guild guild)
         {
-            if (githubProject.OwnerUserId != author.Id) throw new InnerLogicException("Project do not belong to user");
+            if (testTaskSolution.GetState() == GuildTestTaskState.Completed)
+                throw new InnerLogicException("Task already completed");
+
+            if (testTaskSolution.ProjectReviewRequest is not null)
+                throw InnerLogicException.PeerReviewExceptions.ProjectAlreadyOnReview(githubProject.Id);
+
+            var createArguments = new ReviewRequestCreateArguments
+            {
+                ProjectId = githubProject.Id,
+                Description = "Guild test task review",
+                Visibility = ProjectReviewVisibility.Closed
+            };
+
+            ProjectReviewRequest projectReviewRequest = Create(author, githubProject, createArguments);
+
+            testTaskSolution.SendSubmit(author, projectReviewRequest);
+
+            foreach (GuildMember member in guild.Members)
+            {
+                if (member.MemberId == author.Id)
+                    continue;
+
+                if (!member.MemberType.IsMentor())
+                    continue;
+
+                projectReviewRequest.ProjectReviewRequestInvites.Add(projectReviewRequest.InviteToReview(author, member.Member));
+            }
+
+            return projectReviewRequest;
+        }
+
+        public static ProjectReviewRequest Create(IwentysUser author, GithubRepositoryInfoDto githubProject, ReviewRequestCreateArguments createArguments)
+        {
+            if (githubProject.Owner != author.GithubUsername)
+                throw new InnerLogicException("Project do not belong to user");
 
             return new ProjectReviewRequest
             {

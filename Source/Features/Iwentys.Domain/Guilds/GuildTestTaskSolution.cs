@@ -57,7 +57,7 @@ namespace Iwentys.Domain.Guilds
             };
         }
 
-        public void SendSubmit(AuthorizedUser author, ProjectReviewRequestInfoDto reviewRequest)
+        public void SendSubmit(IwentysUser author, ProjectReviewRequest reviewRequest)
         {
             ProjectReviewRequestId = reviewRequest.Id;
             SubmitTimeUtc = DateTime.UtcNow;
