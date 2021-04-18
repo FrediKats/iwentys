@@ -8,12 +8,11 @@ using Iwentys.Domain.Models;
 using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Assignments.Services
+namespace Iwentys.Features.Study.Services
 {
     public class AssignmentService
     {
         private readonly IGenericRepository<Assignment> _assignmentRepository;
-        private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
         private readonly IGenericRepository<StudentAssignment> _studentAssignmentRepository;
         private readonly IGenericRepository<Student> _studentRepository;
 
@@ -23,31 +22,20 @@ namespace Iwentys.Features.Assignments.Services
         {
             _unitOfWork = unitOfWork;
             _studentRepository = _unitOfWork.GetRepository<Student>();
-            _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
             _assignmentRepository = _unitOfWork.GetRepository<Assignment>();
             _studentAssignmentRepository = _unitOfWork.GetRepository<StudentAssignment>();
         }
 
-        public async Task<AssignmentInfoDto> Create(AuthorizedUser user, AssignmentCreateArguments assignmentCreateArguments)
+        public async Task<List<AssignmentInfoDto>> Create(AuthorizedUser user, AssignmentCreateArguments assignmentCreateArguments)
         {
-            IwentysUser author = await _iwentysUserRepository.GetById(user.Id);
-            StudentAssignment assignment;
+            Student author = await _studentRepository.GetById(user.Id);
 
-            if (!assignmentCreateArguments.ForStudyGroup)
-            {
-                assignment = StudentAssignment.Create(author, assignmentCreateArguments);
-                await _studentAssignmentRepository.InsertAsync(assignment);
-            }
-            else
-            {
-                Student groupAdmin = await _studentRepository.GetById(user.Id);
-                List<StudentAssignment> studentAssignmentEntities = StudentAssignment.CreateForGroup(groupAdmin.EnsureIsGroupAdmin(), assignmentCreateArguments);
-                await _studentAssignmentRepository.InsertAsync(studentAssignmentEntities);
-                assignment = studentAssignmentEntities.First(sa => sa.StudentId == user.Id);
-            }
-
+            List<StudentAssignment> assignments = StudentAssignment.Create(author, assignmentCreateArguments);
+            
+            _studentAssignmentRepository.Insert(assignments);
             await _unitOfWork.CommitAsync();
-            return new AssignmentInfoDto(assignment);
+            return assignments.Select(a => new AssignmentInfoDto(a)).ToList();
+
         }
 
         public async Task<List<AssignmentInfoDto>> GetStudentAssignment(AuthorizedUser user)

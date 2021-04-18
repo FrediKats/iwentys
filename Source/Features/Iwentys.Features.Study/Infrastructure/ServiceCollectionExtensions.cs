@@ -1,6 +1,4 @@
-﻿using Iwentys.Features.Assignments.Services;
-using Iwentys.Features.Study.Services;
-using Iwentys.Features.Study.SubjectAssignments.Services;
+﻿using Iwentys.Features.Study.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Iwentys.Features.Study.Infrastructure

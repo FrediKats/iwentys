@@ -21,8 +21,10 @@ namespace Iwentys.Domain.Study
         public DateTime? RejectTimeUtc { get; set; }
         public string Comment { get; set; }
 
-        public void ApplyFeedback(SubjectTeacher teacher, SubjectAssignmentSubmitFeedbackArguments arguments)
+        public void ApplyFeedback(IwentysUser iwentysUser, SubjectAssignmentSubmitFeedbackArguments arguments)
         {
+            SubjectTeacher teacher = iwentysUser.EnsureIsTeacher(SubjectAssignment.Subject);
+
             switch (arguments.FeedbackType)
             {
                 case FeedbackType.Approve:

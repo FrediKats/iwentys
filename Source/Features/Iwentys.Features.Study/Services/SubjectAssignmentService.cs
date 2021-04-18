@@ -9,7 +9,7 @@ using Iwentys.Domain.Models;
 using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Study.SubjectAssignments.Services
+namespace Iwentys.Features.Study.Services
 {
     public class SubjectAssignmentService
     {
@@ -119,7 +119,7 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
 
             SubjectAssignmentSubmit subjectAssignmentSubmit = subjectAssignment.CreateSubmit(user, arguments);
 
-            await _subjectAssignmentSubmitRepository.InsertAsync(subjectAssignmentSubmit);
+            _subjectAssignmentSubmitRepository.Insert(subjectAssignmentSubmit);
             await _unitOfWork.CommitAsync();
 
             return await _subjectAssignmentSubmitRepository
@@ -138,13 +138,12 @@ namespace Iwentys.Features.Study.SubjectAssignments.Services
                 .SingleAsync();
         }
 
-        public async Task SendFeedback(AuthorizedUser user, int subjectAssignmentSubmitId, SubjectAssignmentSubmitFeedbackArguments createArguments)
+        public async Task SendFeedback(AuthorizedUser user, int subjectAssignmentSubmitId, SubjectAssignmentSubmitFeedbackArguments arguments)
         {
             SubjectAssignmentSubmit subjectAssignmentSubmit = await _subjectAssignmentSubmitRepository.GetById(subjectAssignmentSubmitId);
             IwentysUser iwentysUser = await _iwentysUserRepository.GetById(user.Id);
-            SubjectTeacher teacher = iwentysUser.EnsureIsTeacher(subjectAssignmentSubmit.SubjectAssignment.Subject);
 
-            subjectAssignmentSubmit.ApplyFeedback(teacher, createArguments);
+            subjectAssignmentSubmit.ApplyFeedback(iwentysUser, arguments);
 
             _subjectAssignmentSubmitRepository.Update(subjectAssignmentSubmit);
             await _unitOfWork.CommitAsync();

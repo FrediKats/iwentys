@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Iwentys.Common.Exceptions;
 using Iwentys.Common.Tools;
 using Iwentys.Domain.Models;
@@ -18,7 +19,19 @@ namespace Iwentys.Domain
         public int StudentId { get; init; }
         public virtual Student Student { get; init; }
 
-        public static StudentAssignment Create(IwentysUser author, AssignmentCreateArguments createArguments)
+        public static List<StudentAssignment> Create(Student author, AssignmentCreateArguments createArguments)
+        {
+            if (createArguments.ForStudyGroup)
+            {
+                return CreateForGroup(author.EnsureIsGroupAdmin(), createArguments);
+            }
+            else
+            {
+                return new List<StudentAssignment> {CreateSingle(author, createArguments)};
+            }
+        }
+
+        public static StudentAssignment CreateSingle(IwentysUser author, AssignmentCreateArguments createArguments)
         {
             var assignmentEntity = Assignment.Create(author, createArguments);
             var studentAssignmentEntity = new StudentAssignment

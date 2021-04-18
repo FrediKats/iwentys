@@ -3,7 +3,6 @@ using Iwentys.Database;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Services;
 using Iwentys.Features.AccountManagement.Services;
-using Iwentys.Features.Assignments.Services;
 using Iwentys.Features.Economy.Services;
 using Iwentys.Features.Extended.Services;
 using Iwentys.Features.Gamification.Services;
@@ -14,7 +13,6 @@ using Iwentys.Features.PeerReview.Services;
 using Iwentys.Features.Quests.Services;
 using Iwentys.Features.Raids.Services;
 using Iwentys.Features.Study.Services;
-using Iwentys.Features.Study.SubjectAssignments.Services;
 using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Tests.Tools;
 

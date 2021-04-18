@@ -1,4 +1,5 @@
-﻿using Iwentys.Database.Seeding.FakerEntities;
+﻿using System.Linq;
+using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Domain;
 using Iwentys.Domain.Models;
 
@@ -15,7 +16,7 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public AssignmentInfoDto WithAssignment(AuthorizedUser user)
         {
-            return _context.AssignmentService.Create(user, AssignmentFaker.Instance.CreateAssignmentCreateArguments()).Result;
+            return _context.AssignmentService.Create(user, AssignmentFaker.Instance.CreateAssignmentCreateArguments()).Result.First();
         }
     }
 }
