@@ -18,12 +18,10 @@
     <PackageReference Include="morelinq" Version="3.3.2" />
     <PackageReference Include="nunit" Version="3.13.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.0.0-beta.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0-release-20210330-02" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DataAccess\Iwentys.Database\Iwentys.Database.csproj" />
-    <ProjectReference Include="..\..\Integrations\Iwentys.Integrations.GithubIntegration\Iwentys.Integrations.GithubIntegration.csproj" />
     <ProjectReference Include="..\..\Shared\Iwentys.Infrastructure\Iwentys.Infrastructure.csproj" />
   </ItemGroup>
 
