@@ -52,12 +52,12 @@ namespace Iwentys.Features.Gamification.Leaderboard
             private readonly IGenericRepository<StudyGroup> _studyGroupRepository;
             private readonly IUnitOfWork _unitOfWork;
 
-            public Handler(IUnitOfWork unitOfWork, IStudyDbContext dbContext, GithubIntegrationService githubIntegrationService, IGenericRepository<StudyGroup> studyGroupRepository)
+            public Handler(IUnitOfWork unitOfWork, IStudyDbContext dbContext, GithubIntegrationService githubIntegrationService)
             {
                 _unitOfWork = unitOfWork;
                 _dbContext = dbContext;
                 _githubIntegrationService = githubIntegrationService;
-                _studyGroupRepository = studyGroupRepository;
+                _studyGroupRepository = unitOfWork.GetRepository<StudyGroup>();
             }
 
             protected override Response Handle(Query request)
