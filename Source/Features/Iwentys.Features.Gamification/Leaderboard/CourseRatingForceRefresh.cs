@@ -36,10 +36,10 @@ namespace Iwentys.Features.Gamification.Leaderboard
 
             private readonly IUnitOfWork _unitOfWork;
 
-            public Handler(IUnitOfWork unitOfWork, IGenericRepository<CourseLeaderboardRow> courseLeaderboardRowRepository, IStudyDbContext dbContext)
+            public Handler(IUnitOfWork unitOfWork, IStudyDbContext dbContext)
             {
                 _unitOfWork = unitOfWork;
-                _courseLeaderboardRowRepository = courseLeaderboardRowRepository;
+                _courseLeaderboardRowRepository = unitOfWork.GetRepository<CourseLeaderboardRow>();
                 _dbContext = dbContext;
             }
 

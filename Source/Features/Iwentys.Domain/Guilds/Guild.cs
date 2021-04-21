@@ -108,12 +108,12 @@ namespace Iwentys.Domain.Guilds
             if (GetUserMembershipState(user, guildMember, lastLeave) != UserMembershipState.CanRequest)
                 throw new InnerLogicException($"Student unable to send request to this guild! UserId: {user.Id} GuildId: {Id}");
 
-            return new GuildMember(this, user, GuildMemberType.Member);
+            return new GuildMember(this, user, GuildMemberType.Requested);
         }
 
         public UserMembershipState GetUserMembershipState(IwentysUser user, GuildMember currentMembership, GuildLastLeave guildLastLeave)
         {
-            GuildMemberType? userStatusInGuild = Members.Find(m => m.Member.Id == user.Id)?.MemberType;
+            GuildMemberType? userStatusInGuild = Members?.Find(m => m.Member.Id == user.Id)?.MemberType;
 
             if (userStatusInGuild == GuildMemberType.Blocked)
                 return UserMembershipState.Blocked;
@@ -136,7 +136,7 @@ namespace Iwentys.Domain.Guilds
 
             if (currentMembership is null &&
                 userStatusInGuild != GuildMemberType.Requested &&
-                guildLastLeave.IsLeaveRestrictExpired())
+                (guildLastLeave?.IsLeaveRestrictExpired() ?? false))
                 return UserMembershipState.Blocked;
 
             if (currentMembership is null && HiringPolicy == GuildHiringPolicy.Open)
