@@ -5,6 +5,7 @@ using Iwentys.Domain.Extended.Models;
 using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.FeatureBase;
 using Iwentys.Features.Extended.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Features.Extended.PeerReview
@@ -13,34 +14,35 @@ namespace Iwentys.Features.Extended.PeerReview
     [ApiController]
     public class PeerReviewController : ControllerBase
     {
-        private readonly ProjectReviewService _projectReviewService;
+        private readonly IMediator _mediator;
 
-        public PeerReviewController(ProjectReviewService projectReviewService)
+        public PeerReviewController(IMediator mediator)
         {
-            _projectReviewService = projectReviewService;
+            _mediator = mediator;
         }
+
 
         [HttpGet("requests/all/")]
         public async Task<ActionResult<List<ProjectReviewRequestInfoDto>>> Get()
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            List<ProjectReviewRequestInfoDto> result = await _projectReviewService.GetRequests(authorizedUser);
-            return Ok(result);
+            GetProjectReviewRequests.Response response = await _mediator.Send(new GetProjectReviewRequests.Query(authorizedUser));
+            return Ok(response.Requests);
         }
 
         [HttpGet(nameof(GetAvailableForReviewProject))]
         public async Task<ActionResult<List<GithubRepositoryInfoDto>>> GetAvailableForReviewProject()
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            List<GithubRepositoryInfoDto> projects = await _projectReviewService.GetAvailableForReviewProject(authorizedUser);
-            return Ok(projects);
+            GetAvailableForReviewProject.Response response = await _mediator.Send(new GetAvailableForReviewProject.Query(authorizedUser));
+            return Ok(response.Result);
         }
 
         [HttpPost(nameof(CreateReviewRequest))]
         public async Task<ActionResult> CreateReviewRequest([FromBody] ReviewRequestCreateArguments createArguments)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            await _projectReviewService.CreateReviewRequest(authorizedUser, createArguments);
+            CreateReviewRequest.Response response = await _mediator.Send(new CreateReviewRequest.Query(authorizedUser, createArguments));
             return Ok();
         }
 
@@ -48,7 +50,8 @@ namespace Iwentys.Features.Extended.PeerReview
         public async Task<ActionResult> SendReviewFeedback(int reviewRequestId, [FromBody] ReviewFeedbackCreateArguments createArguments)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            await _projectReviewService.SendReviewFeedback(authorizedUser, reviewRequestId, createArguments);
+            SendReviewFeedback.Response response = await _mediator.Send(new SendReviewFeedback.Query(authorizedUser, createArguments, reviewRequestId));
+
             return Ok();
         }
 
@@ -56,7 +59,8 @@ namespace Iwentys.Features.Extended.PeerReview
         public async Task<ActionResult> FinishReview(int reviewRequestId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            await _projectReviewService.FinishReview(authorizedUser, reviewRequestId);
+            FinishReview.Response response = await _mediator.Send(new FinishReview.Query(authorizedUser, reviewRequestId));
+
             return Ok();
         }
     }
