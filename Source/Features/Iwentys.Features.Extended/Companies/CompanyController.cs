@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Domain.Extended.Models;
-using Iwentys.Features.Extended.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Features.Extended.Companies
@@ -10,25 +10,25 @@ namespace Iwentys.Features.Extended.Companies
     [ApiController]
     public class CompanyController : ControllerBase
     {
-        private readonly CompanyService _companyService;
+        private readonly IMediator _mediator;
 
-        public CompanyController(CompanyService companyService)
+        public CompanyController(IMediator mediator)
         {
-            _companyService = companyService;
+            _mediator = mediator;
         }
 
         [HttpGet(nameof(Get))]
         public async Task<ActionResult<List<CompanyInfoDto>>> Get()
         {
-            List<CompanyInfoDto> companies = await _companyService.Get();
-            return Ok(companies);
+            GetCompanies.Response response = await _mediator.Send(new GetCompanies.Query());
+            return Ok(response.Companies);
         }
 
         [HttpGet(nameof(GetById))]
         public async Task<ActionResult<CompanyInfoDto>> GetById(int id)
         {
-            CompanyInfoDto company = await _companyService.Get(id);
-            return Ok(company);
+            GetCompaniesById.Response response = await _mediator.Send(new GetCompaniesById.Query(id));
+            return Ok(response.Company);
         }
     }
 }

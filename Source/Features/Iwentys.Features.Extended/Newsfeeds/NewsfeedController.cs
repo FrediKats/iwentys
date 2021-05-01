@@ -13,7 +13,7 @@ namespace Iwentys.Features.Extended.Newsfeeds
     public class NewsfeedController : ControllerBase
     {
         private readonly NewsfeedService _newsfeedService;
-
+          
         public NewsfeedController(NewsfeedService newsfeedService)
         {
             _newsfeedService = newsfeedService;

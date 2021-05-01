@@ -61,28 +61,5 @@ namespace Iwentys.Features.Extended.Services
             _companyWorkerRepository.Insert(newRequest);
             await _unitOfWork.CommitAsync();
         }
-
-        public async Task ApproveAdding(AuthorizedUser authorizedAdmin, int userId)
-        {
-            IwentysUser iwentysUser = await _userRepository.GetById(authorizedAdmin.Id);
-            CompanyWorker companyWorker = await _companyWorkerRepository.Get().SingleAsync(cw => cw.WorkerId == userId);
-            
-            companyWorker.Approve(iwentysUser);
-
-            _companyWorkerRepository.Update(companyWorker);
-            await _unitOfWork.CommitAsync();
-        }
-
-        public async Task<CompanyInfoDto> Create(AuthorizedUser initiator, CompanyCreateArguments createArguments)
-        {
-            IwentysUser creator = await _userRepository.GetById(initiator.Id);
-
-            var company = Company.Create(creator, createArguments);
-
-            _companyRepository.Insert(company);
-            await _unitOfWork.CommitAsync();
-
-            return new CompanyInfoDto(company);
-        }
     }
 }

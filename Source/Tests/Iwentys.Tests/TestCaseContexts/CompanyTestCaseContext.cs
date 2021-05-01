@@ -1,6 +1,9 @@
 ﻿using Bogus;
+using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Extended;
 using Iwentys.Domain.Extended.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Tests.TestCaseContexts
 {
@@ -20,17 +23,29 @@ namespace Iwentys.Tests.TestCaseContexts
                 Name = new Faker().Lorem.Word()
             };
 
-            var company = _context.CompanyService.Create(initiator, createArguments).Result;
-            return company;
+            IwentysUser creator = _context.UnitOfWork.GetRepository<IwentysUser>().GetById(initiator.Id).Result;
+
+            var company = Company.Create(creator, createArguments);
+
+            _context.UnitOfWork.GetRepository<Company>().Insert(company);
+            _context.UnitOfWork.CommitAsync().Wait();
+
+            return new CompanyInfoDto(company);
         }
 
         public AuthorizedUser WithCompanyWorker(CompanyInfoDto companyInfo)
         {
             AuthorizedUser userInfo = _context.AccountManagementTestCaseContext.WithUser();
             AuthorizedUser admin = _context.AccountManagementTestCaseContext.WithUser(true);
+            IwentysUser iwentysUserUser = _context.UnitOfWork.GetRepository<IwentysUser>().GetById(admin.Id).Result;
+            IwentysUser newMemberProfile = _context.UnitOfWork.GetRepository<IwentysUser>().FindByIdAsync(userInfo.Id).Result;
 
-            _context.CompanyService.RequestAdding(companyInfo.Id, userInfo.Id).Wait();
-            _context.CompanyService.ApproveAdding(admin, userInfo.Id).Wait();
+            Company company = _context.UnitOfWork.GetRepository<Company>().GetById(companyInfo.Id).Result;
+            var newRequest = CompanyWorker.NewRequest(company, newMemberProfile, null);
+            newRequest.Approve(iwentysUserUser);
+
+            _context.UnitOfWork.GetRepository<CompanyWorker>().Insert(newRequest);
+            _context.UnitOfWork.CommitAsync().Wait();
 
             return userInfo;
         }
