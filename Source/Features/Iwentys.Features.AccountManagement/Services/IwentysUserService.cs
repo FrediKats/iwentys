@@ -11,13 +11,11 @@ namespace Iwentys.Features.AccountManagement.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IGenericRepository<UniversitySystemUser> _universitySystemUserRepository;
         private readonly IGenericRepository<IwentysUser> _userRepository;
 
         public IwentysUserService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _universitySystemUserRepository = _unitOfWork.GetRepository<UniversitySystemUser>();
             _userRepository = _unitOfWork.GetRepository<IwentysUser>();
         }
 

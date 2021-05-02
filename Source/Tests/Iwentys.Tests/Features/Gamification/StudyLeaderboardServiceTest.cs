@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
 using Iwentys.Tests.TestCaseContexts;
@@ -20,8 +19,7 @@ namespace Iwentys.Tests.Features.Gamification
             var group = testCase.StudyTestCaseContext.WithStudyGroup();
             Subject subject = testCase.StudyTestCaseContext.WithSubject();
             GroupSubject groupSubject = testCase.StudyTestCaseContext.WithGroupSubject(@group, subject);
-            AuthorizedUser user = testCase.StudyTestCaseContext.WithNewStudent(@group);
-            StudentInfoDto student = testCase.StudentService.Get(user.Id).Result;
+            Student student = testCase.StudyTestCaseContext.WithNewStudentAsStudent(@group);
             const int pointCount = 10;
 
             //TODO: refactor

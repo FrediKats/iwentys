@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Iwentys.Features.Study.StudentProfile
 {
-    public class GetStudentProfile
+    public class GetStudents
     {
         public class Query : IRequest<Response>
         {

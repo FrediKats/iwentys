@@ -3,8 +3,7 @@ using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study.Models;
 using Iwentys.FeatureBase;
-using Iwentys.Features.AccountManagement.Services;
-using Iwentys.Features.Study.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Features.Study.StudentProfile
@@ -13,44 +12,42 @@ namespace Iwentys.Features.Study.StudentProfile
     [ApiController]
     public class StudentController : ControllerBase
     {
-        private readonly StudentService _studentService;
-        private readonly IwentysUserService _userService;
+        private readonly IMediator _mediator;
 
-        public StudentController(StudentService studentService, IwentysUserService userService)
+        public StudentController(IMediator mediator)
         {
-            _studentService = studentService;
-            _userService = userService;
+            _mediator = mediator;
         }
 
         [HttpGet(nameof(Get))]
         public async Task<ActionResult<List<StudentInfoDto>>> Get()
         {
-            List<StudentInfoDto> students = await _studentService.Get();
-            return Ok(students);
+            GetStudents.Response response = await _mediator.Send(new GetStudents.Query());
+            return Ok(response.Students);
         }
 
         [HttpGet(nameof(GetSelf))]
         public async Task<ActionResult<StudentInfoDto>> GetSelf()
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            StudentInfoDto result  = await _studentService.Get(user.Id);
-            return Ok(result);
+            GetStudentById.Response response = await _mediator.Send(new GetStudentById.Query(user.Id));
+            return Ok(response.Student);
         }
 
 
         [HttpGet(nameof(GetById))]
         public async Task<ActionResult<StudentInfoDto>> GetById(int id)
         {
-            StudentInfoDto student = await _studentService.Get(id);
-            return Ok(student);
+            GetStudentById.Response response = await _mediator.Send(new GetStudentById.Query(id));
+            return Ok(response.Student);
         }
 
         [HttpPut(nameof(UpdateProfile))]
-        public async Task<ActionResult<IwentysUserInfoDto>> UpdateProfile([FromBody] StudentUpdateRequestDto studentUpdateRequestDto)
+        public async Task<ActionResult> UpdateProfile([FromBody] StudentUpdateRequestDto studentUpdateRequestDto)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            IwentysUserInfoDto result = await _userService.AddGithubUsername(authorizedUser.Id, studentUpdateRequestDto.GithubUsername);
-            return Ok(result);
+            UpdateStudentProfile.Response response = await _mediator.Send(new UpdateStudentProfile.Query(authorizedUser, studentUpdateRequestDto));
+            return Ok();
         }
     }
 }

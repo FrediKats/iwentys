@@ -82,14 +82,22 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public AuthorizedUser WithNewStudent(GroupProfileResponseDto studyGroup)
         {
+            Student student = WithNewStudentAsStudent(studyGroup);
+            AuthorizedUser user = AuthorizedUser.DebugAuth(student.Id);
+            return user;
+        }
+
+        public Student WithNewStudentAsStudent(GroupProfileResponseDto studyGroup)
+        {
             StudentCreateArguments createArguments = UsersFaker.Instance.Students.Generate();
             createArguments.Id = UsersFaker.Instance.GetIdentifier();
             createArguments.GroupId = studyGroup.Id;
 
-            StudentInfoDto studentInfoDto = _context.StudentService.Create(createArguments).Result;
+            var student = Student.Create(createArguments);
+            _context.UnitOfWork.GetRepository<Student>().Insert(student);
+            _context.UnitOfWork.CommitAsync().Wait();
 
-            AuthorizedUser user = AuthorizedUser.DebugAuth(studentInfoDto.Id);
-            return user;
+            return student;
         }
     }
 }
