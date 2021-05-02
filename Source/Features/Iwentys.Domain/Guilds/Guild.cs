@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
@@ -167,6 +168,18 @@ namespace Iwentys.Domain.Guilds
                 throw InnerLogicException.GuildExceptions.StudentCannotBeBlocked(memberToKickId, Id);
 
             return memberToKick;
+        }
+
+        public void RemoveMember(IwentysUser mentor, IwentysUser memberToRemove, GuildLastLeave guildLastLeave)
+        {
+            EnsureMemberCanRestrictPermissionForOther(mentor, memberToRemove.Id);
+
+            GuildMember guildMember = Members.Single(gm => gm.MemberId == memberToRemove.Id);
+            if (guildMember.MemberType == GuildMemberType.Creator)
+                throw InnerLogicException.GuildExceptions.CreatorCannotLeave(memberToRemove.Id, Id);
+
+            guildLastLeave.UpdateLeave();
+            Members.Remove(guildMember);
         }
     }
 }

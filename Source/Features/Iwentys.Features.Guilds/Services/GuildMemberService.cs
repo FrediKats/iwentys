@@ -31,7 +31,9 @@ namespace Iwentys.Features.Guilds.Services
             Guild guild = await _guildRepository.GetById(guildId);
             IwentysUser user = await _userRepository.GetById(authorizedUser.Id);
             GuildLastLeave lastLeave = await _guildLastLeaveRepository.FindByIdAsync(user.Id);
-            GuildMember guildMember = GetStudentRequest(_guildMemberRepository, authorizedUser.Id);
+            GuildMember guildMember = _guildMemberRepository
+                .Get()
+                .FirstOrDefault(m => m.Member.Id == authorizedUser.Id && m.MemberType == GuildMemberType.Requested);
 
             GuildMember newMembership = guild.EnterGuild(user, guildMember, lastLeave);
 
@@ -44,7 +46,9 @@ namespace Iwentys.Features.Guilds.Services
             Guild guild = await _guildRepository.GetById(guildId);
             IwentysUser user = await _userRepository.GetById(authorizedUser.Id);
             GuildLastLeave lastLeave = await _guildLastLeaveRepository.FindByIdAsync(user.Id);
-            GuildMember guildMember = GetStudentRequest(_guildMemberRepository, authorizedUser.Id);
+            GuildMember guildMember = _guildMemberRepository
+                .Get()
+                .FirstOrDefault(m => m.Member.Id == authorizedUser.Id && m.MemberType == GuildMemberType.Requested);
 
             GuildMember newMembership = guild.RequestEnterGuild(user, guildMember, lastLeave);
 
@@ -69,7 +73,8 @@ namespace Iwentys.Features.Guilds.Services
             //if (userTribute is not null)
             //    await _guildTributeRepository.DeleteAsync(userTribute.ProjectId);
 
-            await RemoveMember(guildId, iwentysUser, guildLastLeave);
+            studentGuild.RemoveMember(iwentysUser, iwentysUser, guildLastLeave);
+            await _unitOfWork.CommitAsync();
         }
             
         public async Task<GuildMember[]> GetGuildRequests(AuthorizedUser user, int guildId)
@@ -122,7 +127,9 @@ namespace Iwentys.Features.Guilds.Services
             if (member is null || member.MemberType != GuildMemberType.Blocked)
                 throw new InnerLogicException($"Student is not blocked in guild! AuthorId: {studentId} GuildId: {guildId}");
 
-            await RemoveMember(guildId, iwentysUser, guildLastLeave);
+            guild.RemoveMember(student, iwentysUser, guildLastLeave);
+            await _unitOfWork.CommitAsync();
+
         }
 
         public async Task KickGuildMember(AuthorizedUser user, int guildId, int memberId)
@@ -133,7 +140,8 @@ namespace Iwentys.Features.Guilds.Services
             IwentysUser iwentysUser = await _userRepository.GetById(memberId);
             GuildLastLeave guildLastLeave = await GuildLastLeave.Get(iwentysUser, _guildLastLeaveRepository);
 
-            await RemoveMember(guildId, iwentysUser, guildLastLeave);
+            guild.RemoveMember(editorStudentAccount, iwentysUser, guildLastLeave);
+            await _unitOfWork.CommitAsync();
         }
 
         public async Task AcceptRequest(AuthorizedUser user, int guildId, int memberForAccepting)
@@ -161,15 +169,18 @@ namespace Iwentys.Features.Guilds.Services
             if (member is null || member.MemberType != GuildMemberType.Requested)
                 throw InnerLogicException.GuildExceptions.RequestWasNotFound(studentId, guildId);
 
-            await RemoveMember(guildId, iwentysUser, guildLastLeave);
+            guild.RemoveMember(initiator, iwentysUser, guildLastLeave);
+            await _unitOfWork.CommitAsync();
         }
-        
+
         public async Task<UserMembershipState> GetUserMembership(AuthorizedUser creator, int guildId)
         {
             Guild guild = await _guildRepository.GetById(guildId);
             IwentysUser user1 = await _userRepository.GetById(creator.Id);
             GuildLastLeave guildLastLeave = await GuildLastLeave.Get(user1, _guildLastLeaveRepository);
-            GuildMember guildMember = GetStudentRequest(_guildMemberRepository, creator.Id);
+            GuildMember guildMember = _guildMemberRepository
+                .Get()
+                .FirstOrDefault(m => m.Member.Id == creator.Id && m.MemberType == GuildMemberType.Requested);
 
             return guild.GetUserMembershipState(user1, guildMember, guildLastLeave);
         }
@@ -177,41 +188,20 @@ namespace Iwentys.Features.Guilds.Services
         public async Task PromoteToMentor(AuthorizedUser creator, int userForPromotion)
         {
             IwentysUser studentCreator = await _userRepository.GetById(creator.Id);
-            GuildMember guildMemberEntity = GetStudentMembership(_guildMemberRepository, creator.Id);
+            GuildMember guildMemberEntity = _guildMemberRepository
+                .Get()
+                .Where(GuildMember.IsMember())
+                .SingleOrDefault(gm => gm.MemberId == creator.Id);
             GuildCreator guildCreator = await studentCreator.EnsureIsCreator(_guildRepository, guildMemberEntity.GuildId);
 
-            GuildMember studentMembership = GetStudentMembership(_guildMemberRepository, userForPromotion);
+            GuildMember studentMembership = _guildMemberRepository
+                .Get()
+                .Where(GuildMember.IsMember())
+                .SingleOrDefault(gm => gm.MemberId == userForPromotion);
             studentMembership.MakeMentor(guildCreator);
 
             _guildMemberRepository.Update(studentMembership);
             await _unitOfWork.CommitAsync();
-        }
-
-        private async Task RemoveMember(int guildId, IwentysUser user, GuildLastLeave guildLastLeave)
-        {
-            GuildMember guildMember = _guildMemberRepository.Get().Single(gm => gm.GuildId == guildId && gm.MemberId == user.Id);
-            if (guildMember.MemberType == GuildMemberType.Creator)
-                throw InnerLogicException.GuildExceptions.CreatorCannotLeave(user.Id, guildId);
-
-            guildLastLeave.UpdateLeave();
-            _guildMemberRepository.Delete(guildMember);
-            await _unitOfWork.CommitAsync();
-        }
-
-        public static GuildMember GetStudentRequest(IGenericRepository<GuildMember> repository, int studentId)
-        {
-            return repository
-                .Get()
-                .Where(m => m.Member.Id == studentId)
-                .FirstOrDefault(m => m.MemberType == GuildMemberType.Requested);
-        }
-
-        public static GuildMember GetStudentMembership(IGenericRepository<GuildMember> repository, int studentId)
-        {
-            return repository
-                .Get()
-                .Where(GuildMember.IsMember())
-                .SingleOrDefault(gm => gm.MemberId == studentId);
         }
     }
 }
