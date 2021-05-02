@@ -1,12 +1,10 @@
-﻿using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Study.SubjectAssignments
 {

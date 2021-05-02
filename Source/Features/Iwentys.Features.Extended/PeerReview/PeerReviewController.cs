@@ -4,7 +4,6 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Extended.Models;
 using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.FeatureBase;
-using Iwentys.Features.Extended.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

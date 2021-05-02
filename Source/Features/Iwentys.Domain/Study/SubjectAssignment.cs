@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Common.Exceptions;
-using Iwentys.Common.Tools;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study.Models;
-using LanguageExt;
 
 namespace Iwentys.Domain.Study
 {
@@ -45,13 +43,6 @@ namespace Iwentys.Domain.Study
                 SubjectId = subject.Id,
                 AuthorId = teacher.User.Id
             };
-
-            var a = subject.GroupSubjects
-                .Select(gs => gs.StudyGroup).ToList();
-
-            var b = a.SelectMany(g => g.Students)
-                .ToList();
-
 
             List<Student> students = subject.GroupSubjects
                 .Select(gs => gs.StudyGroup)

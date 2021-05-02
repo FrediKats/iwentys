@@ -38,7 +38,7 @@ namespace Iwentys.Features.AccountManagement.Services
             return new IwentysUserInfoDto(iwentysUser);
         }
 
-        public async Task<IwentysUserInfoDto> AddGithubUsername(int id, string githubUsername)
+        public async Task AddGithubUsername(int id, string githubUsername)
         {
             var isUsernameUsed = await _userRepository.Get().AnyAsync(s => s.GithubUsername == githubUsername);
             if (isUsernameUsed)
@@ -51,8 +51,6 @@ namespace Iwentys.Features.AccountManagement.Services
 
             //await _achievementProvider.AchieveForStudent(AchievementList.AddGithubAchievement, user.Id);
             await _unitOfWork.CommitAsync();
-
-            return new IwentysUserInfoDto(await _userRepository.FindByIdAsync(id));
         }
     }
 }

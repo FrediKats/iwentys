@@ -12,7 +12,7 @@ namespace Iwentys.Database.Seeding.FakerEntities.Study
         {
             return new StudyGroup
             {
-                GroupName = new Faker().Lorem.Word()
+                GroupName = _faker.Lorem.Word()
             };
         }
     }

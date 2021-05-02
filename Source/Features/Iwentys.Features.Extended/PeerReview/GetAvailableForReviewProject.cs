@@ -6,7 +6,6 @@ using Iwentys.Common.Databases;
 using Iwentys.Common.Tools;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Extended;
-using Iwentys.Domain.Extended.Models;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.GithubIntegration.Models;
 using MediatR;

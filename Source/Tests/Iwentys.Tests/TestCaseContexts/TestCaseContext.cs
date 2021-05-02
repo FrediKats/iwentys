@@ -16,7 +16,6 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public readonly AccountManagementTestCaseContext AccountManagementTestCaseContext;
         public readonly AchievementService AchievementService;
-        public readonly BarsPointTransactionLogService BarsPointTransactionLogService;
         public readonly GamificationTestCaseContext GamificationTestCaseContext;
         public readonly GithubIntegrationService GithubIntegrationService;
         public readonly GithubTestCaseContext GithubTestCaseContext;
@@ -34,7 +33,6 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly PeerReviewTestCaseContext PeerReviewTestCaseContext;
         public readonly ProjectReviewService ProjectReviewService;
         public readonly QuestService QuestService;
-        public readonly QuestTestCaseContext QuestTestCaseContext;
         public readonly RaidService RaidService;
         public readonly StudyTestCaseContext StudyTestCaseContext;
         public readonly StudyLeaderboardService StudyLeaderboard;
@@ -56,7 +54,6 @@ namespace Iwentys.Tests.TestCaseContexts
             GuildMemberService = serviceProvider.GetRequiredService<GuildMemberService>();
             GuildTributeServiceService = serviceProvider.GetRequiredService<GuildTributeService>();
             TournamentService = serviceProvider.GetRequiredService<TournamentService>();
-            BarsPointTransactionLogService = serviceProvider.GetRequiredService<BarsPointTransactionLogService>();
             QuestService = serviceProvider.GetRequiredService<QuestService>();
             NewsfeedService = serviceProvider.GetRequiredService<NewsfeedService>();
             InterestTagService = serviceProvider.GetRequiredService<InterestTagService>();
@@ -91,7 +88,6 @@ namespace Iwentys.Tests.TestCaseContexts
             GithubTestCaseContext = new GithubTestCaseContext(this);
             AccountManagementTestCaseContext = new AccountManagementTestCaseContext(this);
             StudyTestCaseContext = new StudyTestCaseContext(this);
-            QuestTestCaseContext = new QuestTestCaseContext(this);
             PeerReviewTestCaseContext = new PeerReviewTestCaseContext(this);
             GamificationTestCaseContext = new GamificationTestCaseContext(this);
             NewsfeedTestCaseContext = new NewsfeedTestCaseContext(this);

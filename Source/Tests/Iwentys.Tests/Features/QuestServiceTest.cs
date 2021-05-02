@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Iwentys.Database.Seeding.FakerEntities;
+﻿using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Extended.Enums;
 using Iwentys.Domain.Extended.Models;

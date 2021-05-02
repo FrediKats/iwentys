@@ -3,11 +3,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Extended;
 using Iwentys.Domain.Extended.Models;
-using Iwentys.Domain.GithubIntegration;
-using Iwentys.Domain.GithubIntegration.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,8 +30,6 @@ namespace Iwentys.Features.Extended.Companies
         public class Handler : IRequestHandler<Query, Response>
         {
             private readonly IGenericRepository<Company> _companyRepository;
-            private readonly IGenericRepository<CompanyWorker> _companyWorkerRepository;
-            private readonly IGenericRepository<IwentysUser> _userRepository;
             private readonly IUnitOfWork _unitOfWork;
 
             public Handler(IUnitOfWork unitOfWork)
@@ -42,8 +37,6 @@ namespace Iwentys.Features.Extended.Companies
                 _unitOfWork = unitOfWork;
 
                 _companyRepository = _unitOfWork.GetRepository<Company>();
-                _companyWorkerRepository = _unitOfWork.GetRepository<CompanyWorker>();
-                _userRepository = _unitOfWork.GetRepository<IwentysUser>();
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)

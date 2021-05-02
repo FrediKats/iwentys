@@ -13,7 +13,7 @@ namespace Iwentys.Database.Seeding.FakerEntities.Extended
         {
             return new CompanyCreateArguments
             {
-                Name = new Faker().Lorem.Word()
+                Name = _faker.Lorem.Word()
             };
         }
     }

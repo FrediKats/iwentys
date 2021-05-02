@@ -8,7 +8,6 @@ namespace Iwentys.Features.Guilds.Infrastructure
         public static IServiceCollection AddIwentysGuildFeatureServices(this IServiceCollection services)
         {
             services.AddScoped<GuildMemberService>();
-            services.AddScoped<GuildRecruitmentService>();
             services.AddScoped<GuildService>();
             services.AddScoped<GuildTestTaskService>();
 

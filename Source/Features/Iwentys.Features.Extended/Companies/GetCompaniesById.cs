@@ -35,8 +35,6 @@ namespace Iwentys.Features.Extended.Companies
         public class Handler : IRequestHandler<Query, Response>
         {
             private readonly IGenericRepository<Company> _companyRepository;
-            private readonly IGenericRepository<CompanyWorker> _companyWorkerRepository;
-            private readonly IGenericRepository<IwentysUser> _userRepository;
             private readonly IUnitOfWork _unitOfWork;
 
             public Handler(IUnitOfWork unitOfWork)
@@ -44,8 +42,6 @@ namespace Iwentys.Features.Extended.Companies
                 _unitOfWork = unitOfWork;
 
                 _companyRepository = _unitOfWork.GetRepository<Company>();
-                _companyWorkerRepository = _unitOfWork.GetRepository<CompanyWorker>();
-                _userRepository = _unitOfWork.GetRepository<IwentysUser>();
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)

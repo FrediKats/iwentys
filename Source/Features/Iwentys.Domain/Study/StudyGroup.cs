@@ -38,7 +38,7 @@ namespace Iwentys.Domain.Study
             }
             else
             {
-                newGroupAdmin.Group.MakeAdmin(initiatorProfile, newGroupAdmin);;
+                newGroupAdmin.Group.MakeAdmin(initiatorProfile, newGroupAdmin);
             }
 
             return newGroupAdmin.Group;

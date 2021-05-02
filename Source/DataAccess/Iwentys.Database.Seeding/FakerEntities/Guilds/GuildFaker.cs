@@ -31,6 +31,15 @@ namespace Iwentys.Database.Seeding.FakerEntities.Guilds
             };
         }
 
+        public GuildCreateRequestDto GetGuildCreateArguments(GuildHiringPolicy policy = GuildHiringPolicy.Open)
+        {
+            return new GuildCreateRequestDto
+            {
+                Title = _faker.Company.CompanyName(),
+                HiringPolicy = policy
+            };
+        }
+
         public Faker<Guild> CreateGuildFaker()
         {
             return new Faker<Guild>()
