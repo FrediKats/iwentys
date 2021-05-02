@@ -32,14 +32,13 @@ namespace Iwentys.Domain.Study
 
         public static StudyGroup MakeGroupAdmin(IwentysUser initiatorProfile, Student newGroupAdmin)
         {
-            SystemAdminUser admin = initiatorProfile.EnsureIsAdmin();
             if (newGroupAdmin.Group is null)
             {
                 //TODO: add exception
             }
             else
             {
-                newGroupAdmin.Group.GroupAdminId = newGroupAdmin.Id;
+                newGroupAdmin.Group.MakeAdmin(initiatorProfile, newGroupAdmin);;
             }
 
             return newGroupAdmin.Group;
@@ -48,6 +47,12 @@ namespace Iwentys.Domain.Study
         public void AddStudent(Student student)
         {
             Students.Add(student);
+        }
+
+        public void MakeAdmin(IwentysUser initiatorProfile, Student newGroupAdmin)
+        {
+            SystemAdminUser admin = initiatorProfile.EnsureIsAdmin();
+            GroupAdminId = newGroupAdmin.Id;
         }
     }
 }

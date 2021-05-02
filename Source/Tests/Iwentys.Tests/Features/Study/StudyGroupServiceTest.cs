@@ -1,8 +1,7 @@
-﻿using System.Threading.Tasks;
-using Iwentys.Common.Exceptions;
+﻿using Iwentys.Common.Exceptions;
+using Iwentys.Database.Seeding.FakerEntities.Study;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
-using Iwentys.Domain.Study.Models;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -22,28 +21,27 @@ namespace Iwentys.Tests.Features.Study
         }
 
         [Test]
-        public async Task MakeGroupAdmin_EnsureUserIsAdmin()
+        public void MakeGroupAdmin_EnsureUserIsAdmin()
         {
             TestCaseContext testCase = TestCaseContext.Case();
-            AuthorizedUser admin = testCase.AccountManagementTestCaseContext.WithUser(true);
-            GroupProfileResponseDto studyGroup = testCase.StudyTestCaseContext.WithStudyGroup();
-            AuthorizedUser newGroupAdmin = testCase.StudyTestCaseContext.WithNewStudent(studyGroup);
+            IwentysUser admin = testCase.AccountManagementTestCaseContext.WithIwentysUser(true);
+            StudyGroup studyGroup = StudyGroupFaker.Instance.CreateGroup();
 
-            await testCase.StudyService.MakeGroupAdmin(admin, newGroupAdmin.Id);
+            Student newGroupAdmin = testCase.StudyTestCaseContext.WithNewStudentAsStudent(studyGroup);
+            studyGroup.MakeAdmin(admin, newGroupAdmin);
 
-            studyGroup = await testCase.StudyService.GetStudentStudyGroup(newGroupAdmin.Id);
-            Assert.AreEqual(studyGroup.GroupAdmin.Id, newGroupAdmin.Id);
+            Assert.AreEqual(studyGroup.GroupAdminId, newGroupAdmin.Id);
         }
 
         [Test]
-        public async Task MakeGroupAdminWithoutPermission_NotEnoughPermissionException()
+        public void MakeGroupAdminWithoutPermission_NotEnoughPermissionException()
         {
             TestCaseContext testCase = TestCaseContext.Case();
-            AuthorizedUser commonUser = testCase.AccountManagementTestCaseContext.WithUser();
-            GroupProfileResponseDto studyGroup = testCase.StudyTestCaseContext.WithStudyGroup();
-            AuthorizedUser newGroupAdmin = testCase.StudyTestCaseContext.WithNewStudent(studyGroup);
+            IwentysUser commonUser = testCase.AccountManagementTestCaseContext.WithIwentysUser();
+            StudyGroup studyGroup = StudyGroupFaker.Instance.CreateGroup();
+            Student newGroupAdmin = testCase.StudyTestCaseContext.WithNewStudentAsStudent(studyGroup);
 
-            Assert.ThrowsAsync<InnerLogicException>(() => testCase.StudyService.MakeGroupAdmin(commonUser, newGroupAdmin.Id));
+            Assert.Throws<InnerLogicException>(() => studyGroup.MakeAdmin(commonUser, newGroupAdmin));
         }
     }
 }

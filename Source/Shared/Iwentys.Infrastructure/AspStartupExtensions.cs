@@ -53,7 +53,6 @@ namespace Iwentys.Infrastructure
             services.AddIwentysQuestFeatureServices();
             
             services.AddScoped<IStudyDbContext, IwentysDbContext>();
-            services.AddIwentysStudyFeatureServices();
 
             services.AddIwentysRaidFeatureServices();
 

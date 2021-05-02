@@ -5,7 +5,6 @@ using Iwentys.Features.Extended.Services;
 using Iwentys.Features.Gamification.Services;
 using Iwentys.Features.GithubIntegration.GithubIntegration;
 using Iwentys.Features.Guilds.Services;
-using Iwentys.Features.Study.Services;
 using Iwentys.Tests.Tools;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -37,7 +36,6 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly QuestService QuestService;
         public readonly QuestTestCaseContext QuestTestCaseContext;
         public readonly RaidService RaidService;
-        public readonly StudyService StudyService;
         public readonly StudyTestCaseContext StudyTestCaseContext;
         public readonly StudyLeaderboardService StudyLeaderboard;
         public readonly TournamentService TournamentService;
@@ -63,7 +61,6 @@ namespace Iwentys.Tests.TestCaseContexts
             NewsfeedService = serviceProvider.GetRequiredService<NewsfeedService>();
             InterestTagService = serviceProvider.GetRequiredService<InterestTagService>();
             AchievementService = serviceProvider.GetRequiredService<AchievementService>();
-            StudyService = serviceProvider.GetRequiredService<StudyService>();
             KarmaService = serviceProvider.GetRequiredService<KarmaService>();
             ProjectReviewService = serviceProvider.GetRequiredService<ProjectReviewService>();
             GuildTestTaskService = serviceProvider.GetRequiredService<GuildTestTaskService>();
