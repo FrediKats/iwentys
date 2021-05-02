@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
-using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Study.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Iwentys.Database.Seeding.FakerEntities;
+using Iwentys.Database.Seeding.FakerEntities.Study;
+using Iwentys.Domain.Study;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -10,29 +12,29 @@ namespace Iwentys.Tests.Features
     public class AssignmentServiceTest
     {
         [Test]
-        public async Task CreateAssignment_Ok()
+        public void CreateAssignment_Ok()
         {
             TestCaseContext testCase = TestCaseContext.Case();
-            GroupProfileResponseDto studyGroup = testCase.StudyTestCaseContext.WithStudyGroup();
-            AuthorizedUser student = testCase.StudyTestCaseContext.WithNewStudent(studyGroup);
+            StudyGroup studyGroup = StudyGroupFaker.Instance.CreateGroup();
+            Student student = testCase.StudyTestCaseContext.WithNewStudentAsStudent(studyGroup);
 
-            AssignmentInfoDto assignmentInfoDto = testCase.AssignmentTestCaseContext.WithAssignment(student);
+            List<StudentAssignment> assignments = StudentAssignment.Create(student, AssignmentFaker.Instance.CreateAssignmentCreateArguments());
 
-            Assert.IsNotNull(assignmentInfoDto);
+            Assert.IsNotNull(assignments.Any());
         }
 
         [Test]
-        public async Task CompleteAssignment_StateShouldChanged()
+        public void CompleteAssignment_StateShouldChanged()
         {
             TestCaseContext testCase = TestCaseContext.Case();
-            GroupProfileResponseDto studyGroup = testCase.StudyTestCaseContext.WithStudyGroup();
-            AuthorizedUser student = testCase.StudyTestCaseContext.WithNewStudent(studyGroup);
-            AssignmentInfoDto assignmentInfoDto = testCase.AssignmentTestCaseContext.WithAssignment(student);
+            StudyGroup studyGroup = StudyGroupFaker.Instance.CreateGroup();
+            Student student = testCase.StudyTestCaseContext.WithNewStudentAsStudent(studyGroup);
 
-            await testCase.AssignmentService.Complete(student, assignmentInfoDto.Id);
+            List<StudentAssignment> assignments = StudentAssignment.Create(student, AssignmentFaker.Instance.CreateAssignmentCreateArguments());
+            StudentAssignment studentAssignment = assignments.First();
+            studentAssignment.MarkCompleted();
 
-            assignmentInfoDto = await testCase.AssignmentService.GetStudentAssignment(student, assignmentInfoDto.Id);
-            Assert.IsTrue(assignmentInfoDto.IsCompeted);
+            Assert.IsTrue(studentAssignment.IsCompleted);
         }
     }
 }

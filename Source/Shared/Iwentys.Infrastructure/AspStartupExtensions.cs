@@ -39,7 +39,6 @@ namespace Iwentys.Infrastructure
 
             services.AddIwentysAAccountManagementFeatureServices();
             services.AddIwentysAchievementFeatureServices();
-            services.AddIwentysAssignmentFeatureServices();
             services.AddIwentysEconomyFeatureServices();
             services.AddIwentysGamificationFeatureServices();
             services.AddIwentysInterestTagFeatureServices();

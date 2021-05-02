@@ -17,8 +17,6 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public readonly AccountManagementTestCaseContext AccountManagementTestCaseContext;
         public readonly AchievementService AchievementService;
-        public readonly AssignmentService AssignmentService;
-        public readonly AssignmentTestCaseContext AssignmentTestCaseContext;
         public readonly BarsPointTransactionLogService BarsPointTransactionLogService;
         public readonly GamificationTestCaseContext GamificationTestCaseContext;
         public readonly GithubIntegrationService GithubIntegrationService;
@@ -69,7 +67,6 @@ namespace Iwentys.Tests.TestCaseContexts
             KarmaService = serviceProvider.GetRequiredService<KarmaService>();
             ProjectReviewService = serviceProvider.GetRequiredService<ProjectReviewService>();
             GuildTestTaskService = serviceProvider.GetRequiredService<GuildTestTaskService>();
-            AssignmentService = serviceProvider.GetRequiredService<AssignmentService>();
             RaidService = serviceProvider.GetRequiredService<RaidService>();
             StudyLeaderboard = serviceProvider.GetRequiredService<StudyLeaderboardService>();
             //IwentysUserService = new IwentysUserService(UnitOfWork);
@@ -102,7 +99,6 @@ namespace Iwentys.Tests.TestCaseContexts
             GamificationTestCaseContext = new GamificationTestCaseContext(this);
             NewsfeedTestCaseContext = new NewsfeedTestCaseContext(this);
             GuildTestCaseContext = new GuildTestCaseContext(this);
-            AssignmentTestCaseContext = new AssignmentTestCaseContext(this);
         }
 
         public static TestCaseContext Case()

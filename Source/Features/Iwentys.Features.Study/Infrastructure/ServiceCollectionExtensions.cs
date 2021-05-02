@@ -11,12 +11,5 @@ namespace Iwentys.Features.Study.Infrastructure
 
             return services;
         }
-
-        public static IServiceCollection AddIwentysAssignmentFeatureServices(this IServiceCollection services)
-        {
-            services.AddScoped<AssignmentService>();
-
-            return services;
-        }
     }
 }

@@ -44,5 +44,10 @@ namespace Iwentys.Domain.Study
 
             return newGroupAdmin.Group;
         }
+
+        public void AddStudent(Student student)
+        {
+            Students.Add(student);
+        }
     }
 }

@@ -99,5 +99,16 @@ namespace Iwentys.Tests.TestCaseContexts
 
             return student;
         }
+
+        public Student WithNewStudentAsStudent(StudyGroup studyGroup)
+        {
+            StudentCreateArguments createArguments = UsersFaker.Instance.Students.Generate();
+            createArguments.Id = UsersFaker.Instance.GetIdentifier();
+            createArguments.GroupId = studyGroup.Id;
+
+            var student = Student.Create(createArguments);
+            studyGroup.AddStudent(student);
+            return student;
+        }
     }
 }
