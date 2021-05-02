@@ -147,5 +147,26 @@ namespace Iwentys.Domain.Guilds
 
             return UserMembershipState.Blocked;
         }
+
+        public GuildMember EnsureMemberCanRestrictPermissionForOther(IwentysUser editorStudentAccount, int memberToKickId)
+        {
+            editorStudentAccount.EnsureIsGuildMentor(this);
+
+            GuildMember memberToKick = Members.Find(m => m.MemberId == memberToKickId);
+            GuildMember editorMember = Members.Find(m => m.MemberId == editorStudentAccount.Id) ?? throw new EntityNotFoundException(nameof(GuildMember));
+
+            //TODO: check
+            //if (memberToKick is null || !memberToKick.MemberType.IsMember())
+            if (memberToKick is null)
+                throw InnerLogicException.GuildExceptions.IsNotGuildMember(editorStudentAccount.Id, Id);
+
+            if (memberToKick.MemberType == GuildMemberType.Creator)
+                throw InnerLogicException.GuildExceptions.StudentCannotBeBlocked(memberToKickId, Id);
+
+            if (memberToKick.MemberType == GuildMemberType.Mentor && editorMember.MemberType == GuildMemberType.Mentor)
+                throw InnerLogicException.GuildExceptions.StudentCannotBeBlocked(memberToKickId, Id);
+
+            return memberToKick;
+        }
     }
 }

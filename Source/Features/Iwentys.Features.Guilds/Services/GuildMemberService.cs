@@ -5,14 +5,11 @@ using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
-using Iwentys.Domain.Guilds.Models;
-using Iwentys.Features.GithubIntegration.GithubIntegration;
 
 namespace Iwentys.Features.Guilds.Services
 {
     public class GuildMemberService
     {
-        private readonly GithubIntegrationService _githubIntegrationService;
         private readonly IGenericRepository<GuildMember> _guildMemberRepository;
         private readonly IGenericRepository<Guild> _guildRepository;
         private readonly IGenericRepository<GuildLastLeave> _guildLastLeaveRepository;
@@ -20,21 +17,16 @@ namespace Iwentys.Features.Guilds.Services
 
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly GuildService _guildService;
-
-        public GuildMemberService(GithubIntegrationService githubIntegrationService, IUnitOfWork unitOfWork, GuildService guildService)
+        public GuildMemberService(IUnitOfWork unitOfWork)
         {
-            _githubIntegrationService = githubIntegrationService;
-
             _unitOfWork = unitOfWork;
-            _guildService = guildService;
             _userRepository = _unitOfWork.GetRepository<IwentysUser>();
             _guildRepository = _unitOfWork.GetRepository<Guild>();
             _guildMemberRepository = _unitOfWork.GetRepository<GuildMember>();
             _guildLastLeaveRepository = _unitOfWork.GetRepository<GuildLastLeave>();
         }
 
-        public async Task<GuildProfileDto> EnterGuild(AuthorizedUser authorizedUser, int guildId)
+        public async Task EnterGuild(AuthorizedUser authorizedUser, int guildId)
         {
             Guild guild = await _guildRepository.GetById(guildId);
             IwentysUser user = await _userRepository.GetById(authorizedUser.Id);
@@ -45,10 +37,9 @@ namespace Iwentys.Features.Guilds.Services
 
             _guildMemberRepository.Insert(newMembership);
             await _unitOfWork.CommitAsync();
-            return await _guildService.Get(guildId);
         }
 
-        public async Task<GuildProfileDto> RequestGuild(AuthorizedUser authorizedUser, int guildId)
+        public async Task RequestGuild(AuthorizedUser authorizedUser, int guildId)
         {
             Guild guild = await _guildRepository.GetById(guildId);
             IwentysUser user = await _userRepository.GetById(authorizedUser.Id);
@@ -59,7 +50,6 @@ namespace Iwentys.Features.Guilds.Services
 
             _guildMemberRepository.Insert(newMembership);
             await _unitOfWork.CommitAsync();
-            return await _guildService.Get(guildId);
         }
 
         public async Task LeaveGuild(AuthorizedUser user, int guildId)
@@ -109,8 +99,8 @@ namespace Iwentys.Features.Guilds.Services
         public async Task BlockGuildMember(AuthorizedUser user, int guildId, int memberId)
         {
             IwentysUser editorStudentAccount = await _userRepository.GetById(user.Id);
-            GuildDomain guildDomain = CreateDomain(await _guildRepository.GetById(guildId));
-            GuildMember memberToKick = guildDomain.EnsureMemberCanRestrictPermissionForOther(editorStudentAccount, memberId);
+            Guild guild = await _guildRepository.GetById(guildId);
+            GuildMember memberToKick = guild.EnsureMemberCanRestrictPermissionForOther(editorStudentAccount, memberId);
             IwentysUser iwentysUser = await _userRepository.GetById(user.Id);
             GuildLastLeave guildLastLeave = await GuildLastLeave.Get(iwentysUser, _guildLastLeaveRepository);
             
@@ -124,7 +114,6 @@ namespace Iwentys.Features.Guilds.Services
         {
             IwentysUser student = await _userRepository.GetById(user.Id);
             Guild guild = await _guildRepository.GetById(guildId);
-            GuildMentor guildMentor = student.EnsureIsGuildMentor(guild);
             IwentysUser iwentysUser = await _userRepository.GetById(studentId);
             GuildLastLeave guildLastLeave = await GuildLastLeave.Get(iwentysUser, _guildLastLeaveRepository);
 
@@ -139,8 +128,8 @@ namespace Iwentys.Features.Guilds.Services
         public async Task KickGuildMember(AuthorizedUser user, int guildId, int memberId)
         {
             IwentysUser editorStudentAccount = await _userRepository.GetById(user.Id);
-            GuildDomain guildDomain = CreateDomain(await _guildRepository.GetById(guildId));
-            GuildMember memberToKick = guildDomain.EnsureMemberCanRestrictPermissionForOther(editorStudentAccount, memberId);
+            Guild guild = await _guildRepository.GetById(guildId);
+            GuildMember memberToKick = guild.EnsureMemberCanRestrictPermissionForOther(editorStudentAccount, memberId);
             IwentysUser iwentysUser = await _userRepository.GetById(memberId);
             GuildLastLeave guildLastLeave = await GuildLastLeave.Get(iwentysUser, _guildLastLeaveRepository);
 
@@ -164,7 +153,6 @@ namespace Iwentys.Features.Guilds.Services
         {
             IwentysUser initiator = await _userRepository.GetById(user.Id);
             Guild guild = await _guildRepository.GetById(guildId);
-            GuildMentor guildMentor = initiator.EnsureIsGuildMentor(guild);
             IwentysUser iwentysUser = await _userRepository.GetById(studentId);
             GuildLastLeave guildLastLeave = await GuildLastLeave.Get(iwentysUser, _guildLastLeaveRepository);
 
@@ -197,11 +185,6 @@ namespace Iwentys.Features.Guilds.Services
 
             _guildMemberRepository.Update(studentMembership);
             await _unitOfWork.CommitAsync();
-        }
-
-        private GuildDomain CreateDomain(Guild guild)
-        {
-            return new GuildDomain(guild, _userRepository);
         }
 
         private async Task RemoveMember(int guildId, IwentysUser user, GuildLastLeave guildLastLeave)

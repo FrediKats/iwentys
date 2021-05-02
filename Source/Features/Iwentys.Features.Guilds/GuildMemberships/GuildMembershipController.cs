@@ -24,14 +24,16 @@ namespace Iwentys.Features.Guilds.GuildMemberships
         public async Task<ActionResult<GuildProfileDto>> Enter(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(await _guildMemberService.EnterGuild(user, guildId));
+            await _guildMemberService.EnterGuild(user, guildId);
+            return Ok();
         }
 
         [HttpPut(nameof(SendRequest))]
         public async Task<ActionResult<GuildProfileDto>> SendRequest(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(await _guildMemberService.RequestGuild(user, guildId));
+            await _guildMemberService.RequestGuild(user, guildId);
+            return Ok();
         }
 
         [HttpPut(nameof(Leave))]
