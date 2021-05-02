@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Domain.Study.Models;
-using Iwentys.Features.Study.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Features.Study.Study
@@ -10,18 +10,18 @@ namespace Iwentys.Features.Study.Study
     [ApiController]
     public class StudyCourseController : ControllerBase
     {
-        private readonly StudyService _studyService;
+        private readonly IMediator _mediator;
 
-        public StudyCourseController(StudyService studyService)
+        public StudyCourseController(IMediator mediator)
         {
-            _studyService = studyService;
+            _mediator = mediator;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<StudyCourseInfoDto>>> Get()
         {
-            List<StudyCourseInfoDto> studyCourses = await _studyService.GetStudyCourses();
-            return Ok(studyCourses);
+            GetStudyCourses.Response response = await _mediator.Send(new GetStudyCourses.Query());
+            return Ok(response.Courses);
         }
     }
 }

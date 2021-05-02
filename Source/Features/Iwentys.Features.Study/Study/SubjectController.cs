@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.Study.Enums;
 using Iwentys.Domain.Study.Models;
-using Iwentys.Features.Study.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Features.Study.Study
@@ -11,34 +11,34 @@ namespace Iwentys.Features.Study.Study
     [ApiController]
     public class SubjectController : ControllerBase
     {
-        private readonly SubjectService _subjectService;
+        private readonly IMediator _mediator;
 
-        public SubjectController(SubjectService subjectService)
+        public SubjectController(IMediator mediator)
         {
-            _subjectService = subjectService;
+            _mediator = mediator;
         }
 
-        [HttpGet(nameof(Get))]
-        public async Task<ActionResult<List<SubjectProfileDto>>> Get(int? courseId, StudySemester? semester)
+        [HttpGet(nameof(SearchSubjects))]
+        public async Task<ActionResult<List<SubjectProfileDto>>> SearchSubjects(int? courseId, StudySemester? semester)
         {
             var studySearchParameters = new StudySearchParametersDto(null, null, courseId, semester, 0, 20);
-            List<SubjectProfileDto> subjectInfo = await _subjectService.GetSubjectsForDto(studySearchParameters);
+            SearchSubjects.Response response = await _mediator.Send(new SearchSubjects.Query(studySearchParameters));
 
-            return Ok(subjectInfo);
+            return Ok(response.Subjects);
         }
 
-        [HttpGet(nameof(GetById))]
-        public async Task<ActionResult<SubjectProfileDto>> GetById([FromRoute] int subjectId)
+        [HttpGet(nameof(GetSubjectById))]
+        public async Task<ActionResult<SubjectProfileDto>> GetSubjectById([FromRoute] int subjectId)
         {
-            SubjectProfileDto subject = await _subjectService.Get(subjectId);
-            return Ok(subject);
+            GetSubjectById.Response response = await _mediator.Send(new GetSubjectById.Query(subjectId));
+            return Ok(response.Subject);
         }
 
-        [HttpGet(nameof(GetByGroupId))]
-        public async Task<ActionResult<List<SubjectProfileDto>>> GetByGroupId(int groupId)
+        [HttpGet(nameof(GetSubjectsByGroupId))]
+        public async Task<ActionResult<List<SubjectProfileDto>>> GetSubjectsByGroupId(int groupId)
         {
-            List<SubjectProfileDto> result = await _subjectService.GetGroupSubjects(groupId);
-            return Ok(result);
+            GetSubjectsByGroupId.Response response = await _mediator.Send(new GetSubjectsByGroupId.Query(groupId));
+            return Ok(response.Subjects);
         }
     }
 }

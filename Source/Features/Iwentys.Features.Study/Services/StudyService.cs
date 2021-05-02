@@ -27,34 +27,6 @@ namespace Iwentys.Features.Study.Services
             _studyCourseRepository = _unitOfWork.GetRepository<StudyCourse>();
         }
 
-        public async Task<List<StudyCourseInfoDto>> GetStudyCourses()
-        {
-            return await _studyCourseRepository
-                .Get()
-                .Select(StudyCourseInfoDto.FromEntity)
-                .ToListAsync();
-        }
-
-        public async Task<GroupProfileResponseDto> GetStudyGroup(string groupName)
-        {
-            //TODO: 
-            var name = new GroupName(groupName);
-            return await _studyGroupRepository
-                .Get()
-                .Where(StudyGroup.IsMatch(name))
-                .Select(GroupProfileResponseDto.FromEntity)
-                .SingleAsync();
-        }
-
-        public async Task<List<GroupProfileResponseDto>> GetStudyGroupsForDto(int? courseId)
-        {
-            return await _studyGroupRepository
-                .Get()
-                .WhereIf(courseId, gs => gs.StudyCourseId == courseId)
-                .Select(GroupProfileResponseDto.FromEntity)
-                .ToListAsync();
-        }
-
         public async Task<GroupProfileResponseDto> GetStudentStudyGroup(int studentId)
         {
             return await _studentRepository

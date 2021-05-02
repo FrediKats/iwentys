@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study.Models;
 using Iwentys.FeatureBase;
-using Iwentys.Features.Study.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Features.Study.Study
@@ -12,31 +12,33 @@ namespace Iwentys.Features.Study.Study
     [ApiController]
     public class StudyGroupController : ControllerBase
     {
-        private readonly StudyService _studyService;
+        private readonly IMediator _mediator;
 
-        public StudyGroupController(StudyService studyService)
+        public StudyGroupController(IMediator mediator)
         {
-            _studyService = studyService;
+            _mediator = mediator;
         }
+
 
         [HttpGet(nameof(GetByCourseId))]
         public async Task<ActionResult<List<GroupProfileResponseDto>>> GetByCourseId([FromQuery] int? courseId)
         {
-            List<GroupProfileResponseDto> result = await _studyService.GetStudyGroupsForDto(courseId);
-            return Ok(result);
+            GetStudyGroupByCourseId.Response response = await _mediator.Send(new GetStudyGroupByCourseId.Query(courseId));
+            return Ok(response.Groups);
         }
 
         [HttpGet(nameof(GetByGroupName))]
         public async Task<ActionResult<GroupProfileResponseDto>> GetByGroupName(string groupName)
         {
-            GroupProfileResponseDto result = await _studyService.GetStudyGroup(groupName);
-            return Ok(result);
+            GetStudyGroupByName.Response response = await _mediator.Send(new GetStudyGroupByName.Query(groupName));
+            return Ok(response.Group);
         }
 
         [HttpGet(nameof(GetByStudentId))]
         public async Task<ActionResult<GroupProfileResponseDto>> GetByStudentId(int studentId)
         {
-            GroupProfileResponseDto result = await _studyService.GetStudentStudyGroup(studentId);
+            GetStudyGroupByStudent.Response response = await _mediator.Send(new GetStudyGroupByStudent.Query(studentId));
+            GroupProfileResponseDto result = response.Group;
             if (result is null)
                 return NotFound();
             
@@ -47,7 +49,7 @@ namespace Iwentys.Features.Study.Study
         public async Task<ActionResult> MakeGroupAdmin(int newGroupAdminId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            await _studyService.MakeGroupAdmin(authorizedUser, newGroupAdminId);
+            MakeGroupAdmin.Response response = await _mediator.Send(new MakeGroupAdmin.Query(authorizedUser, newGroupAdminId));
             return Ok();
         }
     }

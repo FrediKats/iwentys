@@ -9,8 +9,6 @@ namespace Iwentys.Features.Study.Infrastructure
         {
             services.AddScoped<StudentService>();
             services.AddScoped<StudyService>();
-            services.AddScoped<SubjectActivityService>();
-            services.AddScoped<SubjectService>();
 
             return services;
         }
