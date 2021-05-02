@@ -37,7 +37,6 @@ namespace Iwentys.Infrastructure
             //services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
             services.AddScoped<AchievementProvider>();
 
-            services.AddIwentysAAccountManagementFeatureServices();
             services.AddIwentysAchievementFeatureServices();
             services.AddIwentysEconomyFeatureServices();
             services.AddIwentysGamificationFeatureServices();

@@ -1,6 +1,5 @@
 using Iwentys.Common.Databases;
 using Iwentys.Database;
-using Iwentys.Features.AccountManagement.Services;
 using Iwentys.Features.Extended.Services;
 using Iwentys.Features.Gamification.Services;
 using Iwentys.Features.GithubIntegration.GithubIntegration;
@@ -26,7 +25,6 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly GuildTributeService GuildTributeServiceService;
         public readonly InterestTagService InterestTagService;
 
-        public readonly IwentysUserService IwentysUserService;
         public readonly KarmaService KarmaService;
         public readonly NewsfeedService NewsfeedService;
         public readonly NewsfeedTestCaseContext NewsfeedTestCaseContext;
@@ -46,7 +44,6 @@ namespace Iwentys.Tests.TestCaseContexts
             UnitOfWork = new UnitOfWork<IwentysDbContext>(_context);
 
             //TODO: use DI (AspStartupExtensions)
-            IwentysUserService = serviceProvider.GetRequiredService<IwentysUserService>();
             GithubIntegrationService = serviceProvider.GetRequiredService<GithubIntegrationService>();
             GuildService = serviceProvider.GetRequiredService<GuildService>();
             GuildMemberService = serviceProvider.GetRequiredService<GuildMemberService>();

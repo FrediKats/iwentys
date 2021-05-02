@@ -1,8 +1,10 @@
-﻿using Iwentys.Database.Seeding.FakerEntities.Guilds;
+﻿using System.Linq;
+using Iwentys.Database.Seeding.FakerEntities.Guilds;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Extended.Models;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Tests.TestCaseContexts
 {
@@ -17,7 +19,11 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public TributeInfoResponse WithTribute(AuthorizedUser userInfo, GithubProject project)
         {
-            IwentysUserInfoDto result = _context.IwentysUserService.Get(userInfo.Id).Result;
+            IwentysUserInfoDto result = _context.UnitOfWork.GetRepository<IwentysUser>()
+                .Get()
+                .Where(u => u.Id == userInfo.Id)
+                .Select(u => new IwentysUserInfoDto(u))
+                .SingleAsync().Result;
             return _context.GuildTributeServiceService.CreateTribute(userInfo, new CreateProjectRequestDto(result.GithubUsername, project.Name)).Result;
         }
 

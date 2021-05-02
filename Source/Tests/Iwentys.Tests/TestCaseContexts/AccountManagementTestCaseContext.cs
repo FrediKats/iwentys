@@ -18,7 +18,11 @@ namespace Iwentys.Tests.TestCaseContexts
             createArguments.IsAdmin = isAdmin;
             createArguments.Id = UsersFaker.Instance.GetIdentifier();
 
-            IwentysUserInfoDto iwentysUserInfoDto = _context.IwentysUserService.Create(createArguments).Result;
+            var iwentysUser = IwentysUser.Create(createArguments);
+
+            _context.UnitOfWork.GetRepository<IwentysUser>().Insert(iwentysUser);
+            _context.UnitOfWork.CommitAsync().Wait();
+            IwentysUserInfoDto iwentysUserInfoDto = new IwentysUserInfoDto(iwentysUser);
 
             return AuthorizedUser.DebugAuth(iwentysUserInfoDto.Id);
         }
