@@ -2,9 +2,8 @@
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
-using Iwentys.Domain.Guilds.Models;
 using Iwentys.FeatureBase;
-using Iwentys.Features.Guilds.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Features.Guilds.GuildMemberships
@@ -13,26 +12,26 @@ namespace Iwentys.Features.Guilds.GuildMemberships
     [ApiController]
     public class GuildMembershipController : ControllerBase
     {
-        private readonly GuildMemberService _guildMemberService;
+        private readonly IMediator _mediator;
 
-        public GuildMembershipController(GuildMemberService guildMemberService)
+        public GuildMembershipController(IMediator mediator)
         {
-            _guildMemberService = guildMemberService;
+            _mediator = mediator;
         }
-        
+
         [HttpPut(nameof(Enter))]
-        public async Task<ActionResult<GuildProfileDto>> Enter(int guildId)
+        public async Task<ActionResult> Enter(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            await _guildMemberService.EnterGuild(user, guildId);
+            EnterGuild.Response response = await _mediator.Send(new EnterGuild.Query(user, guildId));
             return Ok();
         }
 
         [HttpPut(nameof(SendRequest))]
-        public async Task<ActionResult<GuildProfileDto>> SendRequest(int guildId)
+        public async Task<ActionResult> SendRequest(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            await _guildMemberService.RequestGuild(user, guildId);
+            RequestGuildEnter.Response response = await _mediator.Send(new RequestGuildEnter.Query(user, guildId));
             return Ok();
         }
 
@@ -40,7 +39,7 @@ namespace Iwentys.Features.Guilds.GuildMemberships
         public async Task<ActionResult> Leave(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            await _guildMemberService.LeaveGuild(user, guildId);
+            LeaveGuild.Response response = await _mediator.Send(new LeaveGuild.Query(user, guildId));
             return Ok();
         }
 
@@ -48,21 +47,23 @@ namespace Iwentys.Features.Guilds.GuildMemberships
         public async Task<ActionResult<GuildMember[]>> GetRequests(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(await _guildMemberService.GetGuildRequests(user, guildId));
+            GetGuildRequests.Response response = await _mediator.Send(new GetGuildRequests.Query(user, guildId));
+            return Ok(response.GuildMembers);
         }
 
         [HttpGet(nameof(GetBlocked))]
         public async Task<ActionResult<GuildMember[]>> GetBlocked(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            return Ok(await _guildMemberService.GetGuildBlocked(user, guildId));
+            GetGuildBlocked.Response response = await _mediator.Send(new GetGuildBlocked.Query(user, guildId));
+            return Ok(response.GuildMembers);
         }
 
         [HttpPut(nameof(BlockMember))]
         public async Task<IActionResult> BlockMember(int guildId, int memberId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            await _guildMemberService.BlockGuildMember(user, guildId, memberId);
+            BlockGuildMember.Response response = await _mediator.Send(new BlockGuildMember.Query(user, guildId, memberId));
             return Ok();
         }
 
@@ -70,7 +71,7 @@ namespace Iwentys.Features.Guilds.GuildMemberships
         public async Task<IActionResult> UnblockMember(int guildId, int studentId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            await _guildMemberService.UnblockStudent(user, guildId, studentId);
+            UnblockStudent.Response response = await _mediator.Send(new UnblockStudent.Query(user, guildId, studentId));
             return Ok();
         }
 
@@ -78,7 +79,7 @@ namespace Iwentys.Features.Guilds.GuildMemberships
         public async Task<IActionResult> KickMember(int guildId, int memberId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            await _guildMemberService.KickGuildMember(user, guildId, memberId);
+            KickGuildMember.Response response = await _mediator.Send(new KickGuildMember.Query(user, guildId, memberId));
             return Ok();
         }
 
@@ -86,7 +87,7 @@ namespace Iwentys.Features.Guilds.GuildMemberships
         public async Task<IActionResult> PromoteToMentor(int guildId, int memberId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            await _guildMemberService.PromoteToMentor(user, memberId);
+            PromoteToMentor.Response response = await _mediator.Send(new PromoteToMentor.Query(user, guildId, memberId));
             return Ok();
         }
 
@@ -94,15 +95,15 @@ namespace Iwentys.Features.Guilds.GuildMemberships
         public async Task<ActionResult<UserMembershipState>> GetSelfMembership(int guildId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            UserMembershipState result = await _guildMemberService.GetUserMembership(user, guildId);
-            return Ok(result);
+            GetUserMembership.Response response = await _mediator.Send(new GetUserMembership.Query(user, guildId));
+            return Ok(response.Result);
         }
 
         [HttpPut(nameof(AcceptRequest))]
         public async Task<IActionResult> AcceptRequest(int guildId, int studentId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            await _guildMemberService.AcceptRequest(user, guildId, studentId);
+            AcceptGuildRequest.Response response = await _mediator.Send(new AcceptGuildRequest.Query(user, guildId, studentId));
             return Ok();
         }
 
@@ -110,7 +111,7 @@ namespace Iwentys.Features.Guilds.GuildMemberships
         public async Task<IActionResult> RejectRequest(int guildId, int studentId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            await _guildMemberService.RejectRequest(user, guildId, studentId);
+            RejectGuildRequest.Response response = await _mediator.Send(new RejectGuildRequest.Query(user, guildId, studentId));
             return Ok();
         }
     }

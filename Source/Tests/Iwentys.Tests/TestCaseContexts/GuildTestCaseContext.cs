@@ -36,7 +36,7 @@ namespace Iwentys.Tests.TestCaseContexts
 
             _context.GuildMemberService.RequestGuild(user, guild.Id).Wait();
             _context.GuildMemberService.AcceptRequest(guildEditor, guild.Id, user.Id).Wait();
-            _context.GuildMemberService.PromoteToMentor(guildEditor, user.Id).Wait();
+            _context.GuildMemberService.PromoteToMentor(guildEditor, guild.Id, user.Id).Wait();
 
             return user;
         }

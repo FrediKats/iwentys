@@ -136,7 +136,6 @@ namespace Iwentys.Features.Guilds.Services
         {
             IwentysUser editorStudentAccount = await _userRepository.GetById(user.Id);
             Guild guild = await _guildRepository.GetById(guildId);
-            GuildMember memberToKick = guild.EnsureMemberCanRestrictPermissionForOther(editorStudentAccount, memberId);
             IwentysUser iwentysUser = await _userRepository.GetById(memberId);
             GuildLastLeave guildLastLeave = await GuildLastLeave.Get(iwentysUser, _guildLastLeaveRepository);
 
@@ -185,19 +184,15 @@ namespace Iwentys.Features.Guilds.Services
             return guild.GetUserMembershipState(user1, guildMember, guildLastLeave);
         }
 
-        public async Task PromoteToMentor(AuthorizedUser creator, int userForPromotion)
+        public async Task PromoteToMentor(AuthorizedUser creator, int guildId, int userForPromotion)
         {
             IwentysUser studentCreator = await _userRepository.GetById(creator.Id);
-            GuildMember guildMemberEntity = _guildMemberRepository
-                .Get()
-                .Where(GuildMember.IsMember())
-                .SingleOrDefault(gm => gm.MemberId == creator.Id);
-            GuildCreator guildCreator = await studentCreator.EnsureIsCreator(_guildRepository, guildMemberEntity.GuildId);
+            GuildCreator guildCreator = await studentCreator.EnsureIsCreator(_guildRepository, guildId);
 
             GuildMember studentMembership = _guildMemberRepository
                 .Get()
                 .Where(GuildMember.IsMember())
-                .SingleOrDefault(gm => gm.MemberId == userForPromotion);
+                .Single(gm => gm.MemberId == userForPromotion && gm.GuildId == guildId);
             studentMembership.MakeMentor(guildCreator);
 
             _guildMemberRepository.Update(studentMembership);
