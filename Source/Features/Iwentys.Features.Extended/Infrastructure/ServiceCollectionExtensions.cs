@@ -5,13 +5,6 @@ namespace Iwentys.Features.Extended.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddIwentysCompanyFeatureServices(this IServiceCollection services)
-        {
-            services.AddScoped<CompanyService>();
-
-            return services;
-        }
-
         public static IServiceCollection AddIwentysNewsfeedFeatureServices(this IServiceCollection services)
         {
             services.AddScoped<NewsfeedService>();

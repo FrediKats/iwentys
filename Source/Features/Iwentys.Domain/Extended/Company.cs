@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Extended.Enums;
 using Iwentys.Domain.Extended.Models;
 
 namespace Iwentys.Domain.Extended
@@ -13,6 +15,11 @@ namespace Iwentys.Domain.Extended
 
         public virtual List<CompanyWorker> Workers { get; init; }
 
+        public Company()
+        {
+            Workers = new List<CompanyWorker>();
+        }
+
         public static Company Create(IwentysUser creator, CompanyCreateArguments createArguments)
         {
             creator.EnsureIsAdmin();
@@ -23,6 +30,21 @@ namespace Iwentys.Domain.Extended
                 Latitude = createArguments.Latitude,
                 Longitude = createArguments.Longitude
             };
+        }
+
+        public CompanyWorker NewRequest(IwentysUser worker, CompanyWorker currentWorkerState)
+        {
+            if (currentWorkerState is not null)
+                throw new InnerLogicException("Student already request adding to company");
+
+            var newWorker = new CompanyWorker
+            {
+                Company = this,
+                Worker = worker,
+                Type = CompanyWorkerType.Requested
+            };
+            Workers.Add(newWorker);
+            return newWorker;
         }
     }
 }

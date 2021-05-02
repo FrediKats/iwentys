@@ -22,7 +22,6 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly AssignmentService AssignmentService;
         public readonly AssignmentTestCaseContext AssignmentTestCaseContext;
         public readonly BarsPointTransactionLogService BarsPointTransactionLogService;
-        public readonly CompanyService CompanyService;
         public readonly CompanyTestCaseContext CompanyTestCaseContext;
         public readonly GamificationTestCaseContext GamificationTestCaseContext;
         public readonly GithubIntegrationService GithubIntegrationService;
@@ -66,7 +65,6 @@ namespace Iwentys.Tests.TestCaseContexts
             GuildMemberService = serviceProvider.GetRequiredService<GuildMemberService>();
             GuildTributeServiceService = serviceProvider.GetRequiredService<GuildTributeService>();
             TournamentService = serviceProvider.GetRequiredService<TournamentService>();
-            CompanyService = serviceProvider.GetRequiredService<CompanyService>();
             BarsPointTransactionLogService = serviceProvider.GetRequiredService<BarsPointTransactionLogService>();
             QuestService = serviceProvider.GetRequiredService<QuestService>();
             NewsfeedService = serviceProvider.GetRequiredService<NewsfeedService>();

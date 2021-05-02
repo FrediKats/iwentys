@@ -14,7 +14,7 @@ namespace Iwentys.Domain.Extended
         public int WorkerId { get; init; }
         public virtual IwentysUser Worker { get; init; }
 
-        public CompanyWorkerType Type { get; private set; }
+        public CompanyWorkerType Type { get; set; }
         public int? ApprovedById { get; private set; }
         public virtual IwentysUser ApprovedBy { get; init; }
 
