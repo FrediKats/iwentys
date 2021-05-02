@@ -36,7 +36,7 @@ namespace Iwentys.Domain.Extended
             ReviewFeedbacks = new List<ProjectReviewFeedback>();
         }
 
-        public static Expression<Func<ProjectReviewRequest, bool>> IsVisibleTo(AuthorizedUser user) =>
+        public static Expression<Func<ProjectReviewRequest, bool>> IsVisibleTo(IwentysUser user) =>
             request => request.Visibility == ProjectReviewVisibility.Open
             || request.AuthorId == user.Id
             || request.ProjectReviewRequestInvites.Any(rri => rri.ReviewerId == user.Id);

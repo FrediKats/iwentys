@@ -12,13 +12,6 @@ namespace Iwentys.Features.Extended.Infrastructure
             return services;
         }
 
-        public static IServiceCollection AddIwentysPeerReviewFeatureServices(this IServiceCollection services)
-        {
-            services.AddScoped<ProjectReviewService>();
-
-            return services;
-        }
-
         public static IServiceCollection AddIwentysRaidFeatureServices(this IServiceCollection services)
         {
             services.AddScoped<RaidService>();

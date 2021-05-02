@@ -49,7 +49,6 @@ namespace Iwentys.Infrastructure
 
             services.AddIwentysTributesFeatureServices();
             services.AddIwentysNewsfeedFeatureServices();
-            services.AddIwentysPeerReviewFeatureServices();
             services.AddIwentysQuestFeatureServices();
             
             services.AddScoped<IStudyDbContext, IwentysDbContext>();

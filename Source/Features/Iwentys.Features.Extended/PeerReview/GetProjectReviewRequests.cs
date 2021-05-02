@@ -56,9 +56,10 @@ namespace Iwentys.Features.Extended.PeerReview
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
+                IwentysUser user = await _userRepository.GetById(request.AuthorizedUser.Id);
                 List<ProjectReviewRequestInfoDto> result = await _projectReviewRequestRepository
                     .Get()
-                    .Where(ProjectReviewRequest.IsVisibleTo(request.AuthorizedUser))
+                    .Where(ProjectReviewRequest.IsVisibleTo(user))
                     .Select(ProjectReviewRequestInfoDto.FromEntity)
                     .ToListAsync();
 
