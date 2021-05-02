@@ -95,9 +95,11 @@ namespace Iwentys.Features.Gamification.Services
 
         public async Task<QuestInfoDto> SendResponse(AuthorizedUser user, int questId, QuestResponseCreateArguments arguments)
         {
+            IwentysUser student = await _userRepository.FindByIdAsync(user.Id);
+
             Quest quest = await _questRepository.FindByIdAsync(questId);
 
-            QuestResponse questResponseEntity = quest.CreateResponse(user, arguments);
+            QuestResponse questResponseEntity = quest.CreateResponse(student, arguments);
 
             _questResponseRepository.Insert(questResponseEntity);
             await _unitOfWork.CommitAsync();
@@ -108,8 +110,9 @@ namespace Iwentys.Features.Gamification.Services
         {
             Quest quest = await _questRepository.GetById(questId);
             IwentysUser executor = await _userRepository.GetById(arguments.UserId);
+            IwentysUser student = await _userRepository.FindByIdAsync(author.Id);
 
-            quest.MakeCompleted(author, executor, arguments);
+            quest.MakeCompleted(student, executor, arguments);
 
             _questRepository.Update(quest);
             await _pointTransactionLogService.TransferFromSystem(executor.Id, quest.Price);

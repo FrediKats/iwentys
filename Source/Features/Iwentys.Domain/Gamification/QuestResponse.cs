@@ -15,7 +15,7 @@ namespace Iwentys.Domain.Gamification
         public DateTime ResponseTime { get; init; }
         public string Description { get; set; }
 
-        public static QuestResponse New(int questId, AuthorizedUser responseCreator, QuestResponseCreateArguments arguments)
+        public static QuestResponse New(int questId, IwentysUser responseCreator, QuestResponseCreateArguments arguments)
         {
             return new QuestResponse
             {

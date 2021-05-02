@@ -70,7 +70,7 @@ namespace Iwentys.Domain.Gamification
             author.BarsPoints += Price;
         }
 
-        public QuestResponse CreateResponse(AuthorizedUser responseAuthor, QuestResponseCreateArguments arguments)
+        public QuestResponse CreateResponse(IwentysUser responseAuthor, QuestResponseCreateArguments arguments)
         {
             if (AuthorId == responseAuthor.Id)
                 throw InnerLogicException.QuestExceptions.AuthorCanRespondToQuest(Id, responseAuthor.Id);
@@ -81,7 +81,7 @@ namespace Iwentys.Domain.Gamification
             return QuestResponse.New(Id, responseAuthor, arguments);
         }
 
-        public void MakeCompleted(AuthorizedUser author, IwentysUser executor, QuestCompleteArguments arguments)
+        public void MakeCompleted(IwentysUser author, IwentysUser executor, QuestCompleteArguments arguments)
         {
             if (AuthorId != author.Id)
                 throw InnerLogicException.NotEnoughPermissionFor(author.Id);

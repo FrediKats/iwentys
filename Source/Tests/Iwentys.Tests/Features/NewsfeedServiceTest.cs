@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Extended;
 using Iwentys.Domain.Extended.Models;
 using Iwentys.Domain.Study.Models;
 using Iwentys.Tests.TestCaseContexts;
@@ -20,7 +21,7 @@ namespace Iwentys.Tests.Features
             SubjectProfileDto subject = testCase.NewsfeedTestCaseContext.WithSubject();
 
             NewsfeedViewModel createdNewsfeed = testCase.NewsfeedTestCaseContext.WithSubjectNews(subject, admin);
-            NewsfeedViewModel newsfeedFromService = await testCase.NewsfeedService._newsfeedRepository
+            NewsfeedViewModel newsfeedFromService = await testCase.UnitOfWork.GetRepository<Newsfeed>()
                 .Get()
                 .Where(n => n.Id == createdNewsfeed.Id)
                 .Select(NewsfeedViewModel.FromEntity)
