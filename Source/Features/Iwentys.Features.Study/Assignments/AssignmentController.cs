@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study.Models;
 using Iwentys.FeatureBase;
-using Iwentys.Features.Study.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Features.Study.Assignments
@@ -12,34 +12,34 @@ namespace Iwentys.Features.Study.Assignments
     [ApiController]
     public class AssignmentController : ControllerBase
     {
-        private readonly AssignmentService _assignmentService;
+        private readonly IMediator _mediator;
 
-        public AssignmentController(AssignmentService assignmentService)
+        public AssignmentController(IMediator mediator)
         {
-            _assignmentService = assignmentService;
+            _mediator = mediator;
         }
 
         [HttpGet(nameof(Get))]
         public async Task<ActionResult<List<AssignmentInfoDto>>> Get()
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            List<AssignmentInfoDto> assignments = await _assignmentService.GetStudentAssignment(user);
-            return Ok(assignments);
+            GetStudentAssignment.Response response = await _mediator.Send(new GetStudentAssignment.Query(user));
+            return Ok(response.AssignmentInfos);
         }
 
         [HttpPost(nameof(Create))]
         public async Task<ActionResult<AssignmentInfoDto>> Create([FromBody] AssignmentCreateArguments assignmentCreateArguments)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            var assignment = await _assignmentService.Create(user, assignmentCreateArguments);
-            return Ok(assignment);
+            CreateAssignment.Response response = await _mediator.Send(new CreateAssignment.Query(user, assignmentCreateArguments));
+            return Ok(response.AssignmentInfos);
         }
 
         [HttpGet(nameof(Complete))]
         public async Task<ActionResult> Complete(int assignmentId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            await _assignmentService.Complete(user, assignmentId);
+            CompleteAssignment.Response response = await _mediator.Send(new CompleteAssignment.Query(user, assignmentId));
             return Ok();
         }
 
@@ -47,7 +47,7 @@ namespace Iwentys.Features.Study.Assignments
         public async Task<ActionResult> Undo(int assignmentId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            await _assignmentService.Undo(user, assignmentId);
+            UndoAssignmentComplete.Response response = await _mediator.Send(new UndoAssignmentComplete.Query(user, assignmentId));
             return Ok();
         }
 
@@ -55,7 +55,7 @@ namespace Iwentys.Features.Study.Assignments
         public async Task<ActionResult> Delete(int assignmentId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            await _assignmentService.Delete(user, assignmentId);
+            DeleteAssignment.Response response = await _mediator.Send(new DeleteAssignment.Query(user, assignmentId));
             return Ok();
         }
     }
