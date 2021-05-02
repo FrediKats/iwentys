@@ -43,18 +43,22 @@ namespace Iwentys.Features.Extended.Services
             SubjectNewsfeed newsfeedEntity;
             if (author.CheckIsAdmin(out SystemAdminUser admin))
             {
-                newsfeedEntity = SubjectNewsfeed.Create(createViewModel, admin, subject);
+                newsfeedEntity = SubjectNewsfeed.CreateAsSystemAdmin(createViewModel, admin, subject);
             }
             else
             {
                 Student student = await _studentRepository.GetById(author.Id);
-                newsfeedEntity = SubjectNewsfeed.Create(createViewModel, student.EnsureIsGroupAdmin(), subject);
+                newsfeedEntity = SubjectNewsfeed.CreateAsGroupAdmin(createViewModel, student.EnsureIsGroupAdmin(), subject);
             }
 
             _subjectNewsfeedRepository.Insert(newsfeedEntity);
             await _unitOfWork.CommitAsync();
 
-            return await Get(newsfeedEntity.NewsfeedId);
+            return await _newsfeedRepository
+                .Get()
+                .Where(n => n.Id == newsfeedEntity.NewsfeedId)
+                .Select(NewsfeedViewModel.FromEntity)
+                .SingleAsync();
         }
 
         public async Task<NewsfeedViewModel> CreateGuildNewsfeed(NewsfeedCreateViewModel createViewModel, AuthorizedUser authorizedUser, int guildId)
@@ -68,7 +72,11 @@ namespace Iwentys.Features.Extended.Services
             _guildNewsfeedRepository.Insert(newsfeedEntity);
             await _unitOfWork.CommitAsync();
 
-            return await Get(newsfeedEntity.NewsfeedId);
+            return await _newsfeedRepository
+                .Get()
+                .Where(n => n.Id == newsfeedEntity.NewsfeedId)
+                .Select(NewsfeedViewModel.FromEntity)
+                .SingleAsync();
         }
 
         public async Task<List<NewsfeedViewModel>> GetSubjectNewsfeeds(int subjectId)
@@ -86,15 +94,6 @@ namespace Iwentys.Features.Extended.Services
                 .Where(gn => gn.GuildId == guildId)
                 .Select(NewsfeedViewModel.FromGuildEntity)
                 .ToListAsync();
-        }
-
-        public async Task<NewsfeedViewModel> Get(int newsfeedId)
-        {
-            return await _newsfeedRepository
-                .Get()
-                .Where(n => n.Id == newsfeedId)
-                .Select(NewsfeedViewModel.FromEntity)
-                .SingleAsync();
         }
     }
 }

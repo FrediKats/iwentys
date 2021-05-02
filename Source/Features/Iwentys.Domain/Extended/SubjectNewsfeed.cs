@@ -13,12 +13,12 @@ namespace Iwentys.Domain.Extended
         public int NewsfeedId { get; init; }
         public virtual Newsfeed Newsfeed { get; init; }
 
-        public static SubjectNewsfeed Create(NewsfeedCreateViewModel createViewModel, SystemAdminUser admin, Subject subject)
+        public static SubjectNewsfeed CreateAsSystemAdmin(NewsfeedCreateViewModel createViewModel, SystemAdminUser admin, Subject subject)
         {
             return Create(createViewModel, subject, admin.User.Id);
         }
 
-        public static SubjectNewsfeed Create(NewsfeedCreateViewModel createViewModel, GroupAdminUser groupAdmin, Subject subject)
+        public static SubjectNewsfeed CreateAsGroupAdmin(NewsfeedCreateViewModel createViewModel, GroupAdminUser groupAdmin, Subject subject)
         {
             return Create(createViewModel, subject, groupAdmin.Student.Id);
         }

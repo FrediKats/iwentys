@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Extended.Models;
 using Iwentys.FeatureBase;
-using Iwentys.Features.Extended.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Features.Extended.Newsfeeds
@@ -12,18 +12,18 @@ namespace Iwentys.Features.Extended.Newsfeeds
     [ApiController]
     public class NewsfeedController : ControllerBase
     {
-        private readonly NewsfeedService _newsfeedService;
-          
-        public NewsfeedController(NewsfeedService newsfeedService)
+        private readonly IMediator _mediator;
+
+        public NewsfeedController(IMediator mediator)
         {
-            _newsfeedService = newsfeedService;
+            _mediator = mediator;
         }
 
         [HttpPost(nameof(CreateSubjectNewsfeed))]
         public async Task<ActionResult> CreateSubjectNewsfeed(NewsfeedCreateViewModel createViewModel, int subjectId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            await _newsfeedService.CreateSubjectNewsfeed(createViewModel, authorizedUser, subjectId);
+            CreateSubjectNewsfeed.Response response = await _mediator.Send(new CreateSubjectNewsfeed.Query(createViewModel, authorizedUser, subjectId));
             return Ok();
         }
 
@@ -31,20 +31,24 @@ namespace Iwentys.Features.Extended.Newsfeeds
         public async Task<ActionResult> CreateGuildNewsfeed(NewsfeedCreateViewModel createViewModel, int subjectId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            await _newsfeedService.CreateGuildNewsfeed(createViewModel, authorizedUser, subjectId);
+            CreateGuildNewsfeed.Response response = await _mediator.Send(new CreateGuildNewsfeed.Query(createViewModel, authorizedUser, subjectId));
             return Ok();
         }
 
         [HttpGet(nameof(GetBySubjectId))]
         public async Task<ActionResult<List<NewsfeedViewModel>>> GetBySubjectId(int subjectId)
         {
-            return Ok(await _newsfeedService.GetSubjectNewsfeeds(subjectId));
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            GetSubjectNewsfeeds.Response response = await _mediator.Send(new GetSubjectNewsfeeds.Query(authorizedUser, subjectId));
+            return Ok(response.Newsfeeds);
         }
 
         [HttpGet(nameof(GetByGuildId))]
         public async Task<ActionResult<List<NewsfeedViewModel>>> GetByGuildId(int guildId)
         {
-            return Ok(await _newsfeedService.GetGuildNewsfeeds(guildId));
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            GetGuildNewsfeeds.Response response = await _mediator.Send(new GetGuildNewsfeeds.Query(authorizedUser, guildId));
+            return Ok(response.Newsfeeds);
         }
     }
 }
