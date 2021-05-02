@@ -22,5 +22,15 @@ namespace Iwentys.Tests.TestCaseContexts
 
             return AuthorizedUser.DebugAuth(iwentysUserInfoDto.Id);
         }
+
+        public IwentysUser WithIwentysUser(bool isAdmin = false)
+        {
+            IwentysUserCreateArguments createArguments = UsersFaker.Instance.IwentysUsers.Generate();
+            createArguments.IsAdmin = isAdmin;
+            createArguments.Id = UsersFaker.Instance.GetIdentifier();
+
+            var iwentysUser = IwentysUser.Create(createArguments);
+            return iwentysUser;
+        }
     }
 }

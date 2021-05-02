@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Iwentys.Database.Seeding.FakerEntities;
+using Iwentys.Database.Seeding.FakerEntities.Extended;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Extended;
 using Iwentys.Domain.Extended.Enums;
@@ -15,28 +15,28 @@ namespace Iwentys.Tests.Features
         public void CreateCompanyWithWorker_ShouldReturnOneWorker()
         {
             TestCaseContext testCase = TestCaseContext.Case();
-            AuthorizedUser admin = testCase.AccountManagementTestCaseContext.WithUser(true);
-            AuthorizedUser newWorker = testCase.AccountManagementTestCaseContext.WithUser();
-            Company company = testCase.CompanyTestCaseContext.WithCompany(admin);
+            IwentysUser admin = testCase.AccountManagementTestCaseContext.WithIwentysUser(true);
+            IwentysUser newWorker = testCase.AccountManagementTestCaseContext.WithIwentysUser();
+            Company company = Company.Create(admin, CompanyFaker.Instance.NewCompany());
 
-            AuthorizedUser user = testCase.CompanyTestCaseContext.WithCompanyWorker(company, newWorker);
+            CompanyWorker newRequest = company.NewRequest(newWorker, null);
+            newRequest.Approve(admin);
 
-            Assert.IsTrue(company.Workers.Any(cw => cw.WorkerId == user.Id));
+            Assert.IsTrue(company.Workers.Any(cw => cw.Worker.Id == newWorker.Id));
         }
 
         [Test]
         public void SendCompanyWorkerRequest_RequestWillExists()
         {
             TestCaseContext testCase = TestCaseContext.Case();
-            AuthorizedUser admin = testCase.AccountManagementTestCaseContext.WithUser(true);
-            Company company = testCase.CompanyTestCaseContext.WithCompany(admin);
+            IwentysUser admin = testCase.AccountManagementTestCaseContext.WithIwentysUser(true);
+            Company company = Company.Create(admin, CompanyFaker.Instance.NewCompany());
             var profile = IwentysUser.Create(UsersFaker.Instance.IwentysUsers.Generate());
 
-            
-            var newRequest = company.NewRequest(profile, null);
+            CompanyWorker newRequest = company.NewRequest(profile, null);
 
-            Assert.IsFalse(company.Workers.Any(cw => cw.WorkerId == profile.Id && cw.Type != CompanyWorkerType.Requested));
-            Assert.IsTrue(company.Workers.Any(cw => cw.WorkerId == profile.Id && cw.Type == CompanyWorkerType.Requested));
+            Assert.IsFalse(company.Workers.Any(cw => cw.Worker.Id == profile.Id && cw.Type != CompanyWorkerType.Requested));
+            Assert.IsTrue(company.Workers.Any(cw => cw.Worker.Id == profile.Id && cw.Type == CompanyWorkerType.Requested));
         }
     }
 }

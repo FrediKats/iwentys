@@ -1,13 +1,11 @@
 using Iwentys.Common.Databases;
 using Iwentys.Database;
-using Iwentys.Domain.Gamification;
 using Iwentys.Features.AccountManagement.Services;
 using Iwentys.Features.Extended.Services;
 using Iwentys.Features.Gamification.Services;
 using Iwentys.Features.GithubIntegration.GithubIntegration;
 using Iwentys.Features.Guilds.Services;
 using Iwentys.Features.Study.Services;
-using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Tests.Tools;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,7 +20,6 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly AssignmentService AssignmentService;
         public readonly AssignmentTestCaseContext AssignmentTestCaseContext;
         public readonly BarsPointTransactionLogService BarsPointTransactionLogService;
-        public readonly CompanyTestCaseContext CompanyTestCaseContext;
         public readonly GamificationTestCaseContext GamificationTestCaseContext;
         public readonly GithubIntegrationService GithubIntegrationService;
         public readonly GithubTestCaseContext GithubTestCaseContext;
@@ -103,7 +100,6 @@ namespace Iwentys.Tests.TestCaseContexts
             AccountManagementTestCaseContext = new AccountManagementTestCaseContext(this);
             StudyTestCaseContext = new StudyTestCaseContext(this);
             QuestTestCaseContext = new QuestTestCaseContext(this);
-            CompanyTestCaseContext = new CompanyTestCaseContext(this);
             PeerReviewTestCaseContext = new PeerReviewTestCaseContext(this);
             GamificationTestCaseContext = new GamificationTestCaseContext(this);
             NewsfeedTestCaseContext = new NewsfeedTestCaseContext(this);
