@@ -10,7 +10,7 @@ namespace Iwentys.Endpoint.Client.Pages.Guilds
 
         private async Task AddPin()
         {
-            await GuildClient.AddPinnedProjectAsync(GuildId, new CreateProjectRequestDto {Owner = _owner, RepositoryName = _repositoryName});
+            //TODO: not implemented
             NavigationManager.NavigateTo($"/guild/profile/{GuildId}");
         }
     }

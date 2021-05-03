@@ -19,7 +19,7 @@ namespace Iwentys.Endpoint.Client.Pages.PeerReview
         {
             await base.OnInitializedAsync();
 
-            ICollection<ProjectReviewRequestInfoDto> requests = await PeerReviewClient.AllAsync();
+            ICollection<ProjectReviewRequestInfoDto> requests = await PeerReviewClient.GetProjectReviewRequestsAsync();
             _request = requests.First(r => r.Id == ReviewRequestId);
         }
 

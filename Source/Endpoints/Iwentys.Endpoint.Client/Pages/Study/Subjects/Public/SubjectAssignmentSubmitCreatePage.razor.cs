@@ -22,12 +22,13 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Public
 
         public async Task SendSubmit()
         {
-            var createArguments = new SubjectAssignmentSubmitCreateArguments
-            {
-                StudentDescription = _description
-            };
+            //TODO: fix
+            //var createArguments = new SubjectAssignmentSubmitCreateArguments
+            //{
+            //    StudentDescription = _description
+            //};
 
-            SubjectAssignmentSubmitDto submit = await SubjectAssignmentSubmitClient.SendSubmitAsync(SubjectId, _selectedSubject.Id, createArguments);
+            //SubjectAssignmentSubmitDto submit = await SubjectAssignmentSubmitClient.SendSubmitAsync(SubjectId, _selectedSubject.Id, createArguments);
 
         }
     }

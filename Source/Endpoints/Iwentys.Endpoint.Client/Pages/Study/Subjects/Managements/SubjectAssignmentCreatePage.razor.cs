@@ -10,13 +10,14 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Managements
 
         private async Task Create()
         {
-            var arguments = new SubjectAssignmentCreateArguments
+            var arguments = new AssignmentCreateArguments
             {
                 Title = _title,
-                Description = _description
+                Description = _description,
+                SubjectId = SubjectId
             };
 
-            await SubjectAssignmentClient.CreateAsync(SubjectId, arguments);
+            await SubjectAssignmentClient.CreateAsync(arguments);
             NavigationManager.NavigateTo($"/subject/{SubjectId}/management/assignments");
         }
     }

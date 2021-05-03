@@ -22,7 +22,8 @@ namespace Iwentys.Endpoint.Client.Pages.Students
         private StudentInfoDto _studentFullProfile;
         private ICollection<AchievementInfoDto> _achievements;
         private ICollection<CodingActivityInfoResponse> _codingActivityInfo;
-        private StudentActivityInfoDto _studentActivity;
+        //TODO: fix this
+        //private StudentActivityInfoDto _studentActivity;
         private CourseLeaderboardRow _leaderboardRow;
 
         private LineConfig _githubChartConfig;
@@ -52,9 +53,10 @@ namespace Iwentys.Endpoint.Client.Pages.Students
             if (_codingActivityInfo is not null)
                 InitGithubChart();
 
-            _studentActivity = await LeaderboardClient.ActivityAsync(_studentFullProfile.Id);
-            if (_studentActivity is not null)
-                InitStudyChart();
+            //TODO: we lose this method while refac. Try to find this in history
+            //_studentActivity = await LeaderboardClient. ActivityAsync(_studentFullProfile.Id);
+            //if (_studentActivity is not null)
+            //    InitStudyChart();
 
             _achievements = await AchievementClient.GetByStudentIdAsync(_studentFullProfile.Id);
             try
@@ -117,7 +119,7 @@ namespace Iwentys.Endpoint.Client.Pages.Students
             };
 
             _githubChartConfig.Data.Labels = _codingActivityInfo.Select(a => a.Month).ToList();
-            _githubChartConfig.Data.Labels = Enumerable.Repeat("", 12).ToList();
+            _githubChartConfig.Data.Labels = Enumerable.Repeat("", _codingActivityInfo.Count).ToList();
             _githubChartConfig.Data.Datasets.Add(lineDataset);
         }
 
@@ -157,12 +159,12 @@ namespace Iwentys.Endpoint.Client.Pages.Students
                 BorderColor = "#ffffff",
             };
 
-            if (_studentActivity is not null)
-            {
-                var data = _studentActivity.Activity.OrderBy(sa => sa.Points).ToList();
-                pieSet.Data.AddRange(data.Select(sa => sa.Points));
-                _studyChartConfig.Data.Labels.AddRange(data.Select(sa => sa.SubjectTitle));
-            }
+            //if (_studentActivity is not null)
+            //{
+            //    var data = _studentActivity.Activity.OrderBy(sa => sa.Points).ToList();
+            //    pieSet.Data.AddRange(data.Select(sa => sa.Points));
+            //    _studyChartConfig.Data.Labels.AddRange(data.Select(sa => sa.SubjectTitle));
+            //}
 
             _studyChartConfig.Data.Datasets.Add(pieSet);
         }
