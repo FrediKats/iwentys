@@ -41,7 +41,6 @@ namespace Iwentys.Infrastructure
             services.AddIwentysGithubIntegrationFeatureServices();
 
             services.AddIwentysGuildFeatureServices();
-            services.AddIwentysGuildTournamentFeatureServices();
 
             services.AddIwentysTributesFeatureServices();
             services.AddIwentysQuestFeatureServices();

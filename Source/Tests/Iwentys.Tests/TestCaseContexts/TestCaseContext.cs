@@ -26,7 +26,6 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly RaidService RaidService;
         public readonly StudyTestCaseContext StudyTestCaseContext;
         public readonly StudyLeaderboardService StudyLeaderboard;
-        public readonly TournamentService TournamentService;
 
         public readonly TributeTestCaseContext TributeTestCaseContext;
         public readonly IUnitOfWork UnitOfWork;
@@ -42,7 +41,6 @@ namespace Iwentys.Tests.TestCaseContexts
             GuildService = serviceProvider.GetRequiredService<GuildService>();
             GuildMemberService = serviceProvider.GetRequiredService<GuildMemberService>();
             GuildTributeServiceService = serviceProvider.GetRequiredService<GuildTributeService>();
-            TournamentService = serviceProvider.GetRequiredService<TournamentService>();
             QuestService = serviceProvider.GetRequiredService<QuestService>();
             GuildTestTaskService = serviceProvider.GetRequiredService<GuildTestTaskService>();
             RaidService = serviceProvider.GetRequiredService<RaidService>();

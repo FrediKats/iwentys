@@ -1,9 +1,7 @@
 ﻿using System.Linq;
-using System.Threading.Tasks;
 using Iwentys.Database.Seeding.FakerEntities.Guilds;
-using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
-using Iwentys.Domain.Guilds.Models;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -13,48 +11,28 @@ namespace Iwentys.Tests.Features.Guilds
     public class TournamentServiceTest
     {
         [Test]
-        public async Task CreateCodeMarathonTournament_ShouldHaveCorrectType()
+        public void CreateCodeMarathonTournament_ShouldHaveCorrectType()
         {
             TestCaseContext testCase = TestCaseContext
                 .Case();
-            AuthorizedUser admin = testCase.AccountManagementTestCaseContext.WithUser(true);
+            var admin = testCase.AccountManagementTestCaseContext.WithIwentysUser(true);
 
+            var codeMarathonTournament = CodeMarathonTournament.Create(admin, TournamentFaker.Instance.NewCodeMarathon());
 
-            TournamentInfoResponse tournament = await testCase.TournamentService.CreateCodeMarathon(admin, TournamentFaker.Instance.NewCodeMarathon());
-
-            Assert.AreEqual(TournamentType.CodeMarathon, tournament.Type);
+            Assert.AreEqual(TournamentType.CodeMarathon, codeMarathonTournament.Tournament.Type);
         }
 
         [Test]
-        public async Task RegisterTournamentTeam_TeamCreated()
+        public void RegisterTournamentTeam_TeamCreated()
         {
-            TestCaseContext testCase = TestCaseContext
-                .Case();
-            AuthorizedUser admin = testCase.AccountManagementTestCaseContext.WithUser(true);
-            GuildProfileDto guild = testCase.GuildTestCaseContext.WithGuild(admin);
+            TestCaseContext testCase = TestCaseContext.Case();
+            var admin = testCase.AccountManagementTestCaseContext.WithIwentysUser(true);
+            var guild = Guild.Create(admin, null, GuildFaker.Instance.GetGuildCreateArguments());
+            var tournament = CodeMarathonTournament.Create(admin, TournamentFaker.Instance.NewCodeMarathon());
 
-            TournamentInfoResponse tournament = await testCase.TournamentService.CreateCodeMarathon(admin, TournamentFaker.Instance.NewCodeMarathon());
-            await testCase.TournamentService.RegisterToTournament(admin, tournament.Id);
-            tournament = await testCase.TournamentService.Get(tournament.Id);
+            tournament.Tournament.RegisterTeam(admin, guild);
 
-            Assert.That(tournament.Teams.Any(t => t.TeamName == guild.Title));
-        }
-
-        [Test]
-        public async Task RegisterTournamentTeam_ShouldBeInMembers()
-        {
-            TestCaseContext testCase = TestCaseContext
-                .Case();
-            AuthorizedUser admin = testCase.AccountManagementTestCaseContext.WithUser(true);
-            GuildProfileDto guild = testCase.GuildTestCaseContext.WithGuild(admin);
-
-            TournamentInfoResponse tournament = await testCase.TournamentService.CreateCodeMarathon(admin, TournamentFaker.Instance.NewCodeMarathon());
-
-            await testCase.TournamentService.RegisterToTournament(admin, tournament.Id);
-            tournament = await testCase.TournamentService.Get(tournament.Id);
-
-            TournamentTeamInfoDto team = tournament.Teams.First(t => t.TeamName == guild.Title);
-            Assert.That(team.MemberIds.Contains(admin.Id));
+            Assert.That(tournament.Tournament.Teams.Any(t => t.GuildId == guild.Id));
         }
     }
 }

@@ -37,14 +37,17 @@ namespace Iwentys.Domain.Guilds
             };
         }
 
-        public TournamentParticipantTeam RegisterTeam(Guild guild, List<GuildMember> members)
+        public TournamentParticipantTeam RegisterTeam(IwentysUser guildMentor, Guild guild)
         {
+            //TODO: check guild for null
+
+            guildMentor.EnsureIsGuildMentor(guild);
             return new TournamentParticipantTeam
             {
                 TournamentId = Id,
                 GuildId = guild.Id,
                 RegistrationTime = DateTime.UtcNow,
-                Members = members.Select(m => new TournamentTeamMember {MemberId = m.MemberId}).ToList()
+                Members = guild.Members.Select(m => new TournamentTeamMember {MemberId = m.MemberId}).ToList()
             };
         }
 
