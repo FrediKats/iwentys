@@ -17,6 +17,7 @@ namespace Iwentys.Tests.Tools
                     .UseInMemoryDatabase(Guid.NewGuid().ToString())
                     .UseLazyLoadingProxies())
                 .AddUnitOfWork<IwentysDbContext>()
+                .AddIwentysMediatorHandlers()
                 .AddIwentysServices();
 
             ServiceProvider = services.BuildServiceProvider();

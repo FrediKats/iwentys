@@ -47,6 +47,7 @@ namespace Iwentys.Endpoint.Server
                 .AddIwentysDatabase()
                 .AddIwentysTokenFactory(Configuration)
                 .AddUnitOfWork<IwentysDbContext>()
+                .AddIwentysMediatorHandlers()
                 .AddIwentysServices();
         }
 

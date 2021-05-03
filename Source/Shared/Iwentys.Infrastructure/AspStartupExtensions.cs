@@ -2,13 +2,18 @@
 using Iwentys.Database;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.GithubIntegration;
+using Iwentys.Features.Extended.Companies;
 using Iwentys.Features.Extended.Infrastructure;
 using Iwentys.Features.Gamification.Infrastructure;
+using Iwentys.Features.Gamification.Quests;
 using Iwentys.Features.GithubIntegration.Infrastructure;
+using Iwentys.Features.Guilds.Guilds;
 using Iwentys.Features.Guilds.Infrastructure;
 using Iwentys.Features.Study.Infrastructure;
+using Iwentys.Features.Study.StudentProfile;
 using Iwentys.Infrastructure.Options;
 using Iwentys.Integrations.GithubIntegration;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,6 +53,16 @@ namespace Iwentys.Infrastructure
             services.AddScoped<IStudyDbContext, IwentysDbContext>();
 
             services.AddIwentysRaidFeatureServices();
+
+            return services;
+        }
+
+        public static IServiceCollection AddIwentysMediatorHandlers(this IServiceCollection services)
+        {
+            services.AddMediatR(typeof(CompanyController).Assembly);
+            services.AddMediatR(typeof(QuestController).Assembly);
+            services.AddMediatR(typeof(GuildController).Assembly);
+            services.AddMediatR(typeof(StudentController).Assembly);
 
             return services;
         }
