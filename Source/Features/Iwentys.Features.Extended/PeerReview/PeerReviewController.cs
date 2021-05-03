@@ -21,8 +21,8 @@ namespace Iwentys.Features.Extended.PeerReview
         }
 
 
-        [HttpGet("requests/all/")]
-        public async Task<ActionResult<List<ProjectReviewRequestInfoDto>>> Get()
+        [HttpGet(nameof(GetProjectReviewRequests))]
+        public async Task<ActionResult<List<ProjectReviewRequestInfoDto>>> GetProjectReviewRequests()
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             GetProjectReviewRequests.Response response = await _mediator.Send(new GetProjectReviewRequests.Query(authorizedUser));

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Domain.Gamification;
+using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Enums;
 using Iwentys.Domain.Study.Models;
 using MediatR;
@@ -58,8 +59,8 @@ namespace Iwentys.Features.Gamification.Leaderboard
             GetCodingRating.Response response = await _mediator.Send(new GetCodingRating.Query(courseId, skip, take));
             return Ok(response.Rating);
         }
-        
-        //TODO: move this method to Study controller
+
+        //TODO: move this method to Study controller 
         //[HttpGet("activity/{studentId}")]
         //public async Task<ActionResult<StudentActivityInfoDto>> GetStudentActivity(int studentId)
         //{
