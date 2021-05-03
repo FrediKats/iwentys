@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Domain.Extended;
-using Iwentys.Domain.Extended.Models;
+using Iwentys.Domain.Companies;
+using Iwentys.Domain.Companies.Dto;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

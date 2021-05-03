@@ -1,4 +1,4 @@
-﻿using Iwentys.Domain.Extended;
+﻿using Iwentys.Domain.PeerReview;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Extended.Infrastructure

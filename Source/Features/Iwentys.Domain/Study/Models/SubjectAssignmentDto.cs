@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.AccountManagement.Dto;
 
 namespace Iwentys.Domain.Study.Models
 {

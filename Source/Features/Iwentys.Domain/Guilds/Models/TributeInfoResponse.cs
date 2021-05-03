@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.AccountManagement.Dto;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Study.Models;
 

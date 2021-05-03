@@ -3,10 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Extended.Enums;
-using Iwentys.Domain.Extended.Models;
+using Iwentys.Domain.AccountManagement.Dto;
+using Iwentys.Domain.Achievements;
 using Iwentys.Domain.Gamification;
-using Iwentys.Domain.Gamification.Models;
+using Iwentys.Domain.Quests;
+using Iwentys.Domain.Quests.Dto;
 using Iwentys.FeatureBase;
 using Microsoft.EntityFrameworkCore;
 

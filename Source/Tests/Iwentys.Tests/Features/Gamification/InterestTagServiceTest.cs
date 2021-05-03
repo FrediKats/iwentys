@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Gamification.Models;
+using Iwentys.Domain.InterestTags.Dto;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 

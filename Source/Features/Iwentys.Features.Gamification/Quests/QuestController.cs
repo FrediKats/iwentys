@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Extended.Models;
-using Iwentys.Domain.Gamification.Models;
+using Iwentys.Domain.Quests.Dto;
 using Iwentys.FeatureBase;
 using Iwentys.Features.Gamification.Services;
 using Microsoft.AspNetCore.Mvc;

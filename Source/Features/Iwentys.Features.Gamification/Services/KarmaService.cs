@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Gamification;
-using Iwentys.Domain.Gamification.Models;
+using Iwentys.Domain.Karmas;
+using Iwentys.Domain.Karmas.Dto;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Gamification.Services

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Iwentys.Domain.Achievements;
 
 namespace Iwentys.Domain.Gamification
 {
@@ -15,12 +16,12 @@ namespace Iwentys.Domain.Gamification
 
         public void AchieveForStudent(Achievement achievement, int studentId)
         {
-            StudentAchievement.Add(Gamification.StudentAchievement.Create(studentId, achievement.Id));
+            StudentAchievement.Add(Achievements.StudentAchievement.Create(studentId, achievement.Id));
         }
 
         public void AchieveForGuild(Achievement achievement, int guildId)
         {
-            GuildAchievement.Add(Gamification.GuildAchievement.Create(guildId, achievement.Id));
+            GuildAchievement.Add(Achievements.GuildAchievement.Create(guildId, achievement.Id));
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Domain.Gamification.Models;
+using Iwentys.Domain.Achievements.Dto;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

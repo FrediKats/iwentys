@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Extended.Models;
 using Iwentys.Domain.Guilds.Models;
+using Iwentys.Domain.PeerReview.Dto;
 using Iwentys.FeatureBase;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

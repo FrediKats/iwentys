@@ -2,7 +2,8 @@
 using Iwentys.Common.Databases;
 using Iwentys.Common.Tools;
 using Iwentys.Domain.Gamification;
-using Iwentys.Domain.Gamification.Models;
+using Iwentys.Domain.InterestTags;
+using Iwentys.Domain.InterestTags.Dto;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

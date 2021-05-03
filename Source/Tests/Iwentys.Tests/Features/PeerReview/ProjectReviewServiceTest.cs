@@ -1,10 +1,9 @@
 ﻿using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Extended;
-using Iwentys.Domain.Extended.Enums;
-using Iwentys.Domain.Extended.Models;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.GithubIntegration.Models;
+using Iwentys.Domain.PeerReview;
+using Iwentys.Domain.PeerReview.Dto;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 

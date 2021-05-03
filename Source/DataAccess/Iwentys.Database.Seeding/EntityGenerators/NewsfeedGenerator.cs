@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Database.Seeding.FakerEntities;
-using Iwentys.Domain.Extended;
 using Iwentys.Domain.Guilds;
+using Iwentys.Domain.Newsfeeds;
 using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 

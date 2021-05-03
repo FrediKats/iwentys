@@ -1,5 +1,6 @@
 ﻿using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.AccountManagement.Dto;
 
 namespace Iwentys.Tests.TestCaseContexts
 {

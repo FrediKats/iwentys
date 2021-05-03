@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Extended;
 using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
+using Iwentys.Domain.PeerReview;
 using Iwentys.Features.GithubIntegration.GithubIntegration;
 using MediatR;
 

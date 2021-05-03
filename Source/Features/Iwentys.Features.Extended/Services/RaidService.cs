@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Extended;
-using Iwentys.Domain.Extended.Models;
+using Iwentys.Domain.Raids;
+using Iwentys.Domain.Raids.Dto;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Extended.Services

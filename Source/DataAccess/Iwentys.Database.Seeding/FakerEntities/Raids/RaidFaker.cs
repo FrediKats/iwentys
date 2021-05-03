@@ -1,6 +1,6 @@
 ﻿using System;
 using Bogus;
-using Iwentys.Domain.Extended.Models;
+using Iwentys.Domain.Raids.Dto;
 
 namespace Iwentys.Database.Seeding.FakerEntities.Raids
 {

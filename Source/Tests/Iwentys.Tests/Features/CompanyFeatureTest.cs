@@ -2,8 +2,7 @@
 using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Database.Seeding.FakerEntities.Extended;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Extended;
-using Iwentys.Domain.Extended.Enums;
+using Iwentys.Domain.Companies;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 

@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Extended;
-using Iwentys.Domain.Extended.Models;
+using Iwentys.Domain.Newsfeeds;
+using Iwentys.Domain.Newsfeeds.Dto;
 using Iwentys.Domain.Study.Models;
 using Iwentys.Tests.TestCaseContexts;
 using Microsoft.EntityFrameworkCore;

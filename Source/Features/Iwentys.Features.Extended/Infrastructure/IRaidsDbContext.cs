@@ -1,4 +1,5 @@
-﻿using Iwentys.Domain.Extended;
+﻿using Iwentys.Domain.Raids;
+using Iwentys.Domain.Raids.Dto;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Extended.Infrastructure

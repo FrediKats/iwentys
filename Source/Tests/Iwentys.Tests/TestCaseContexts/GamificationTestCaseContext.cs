@@ -1,6 +1,7 @@
 ﻿using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Gamification;
-using Iwentys.Domain.Gamification.Models;
+using Iwentys.Domain.InterestTags;
+using Iwentys.Domain.InterestTags.Dto;
 using Iwentys.Tests.Tools;
 
 namespace Iwentys.Tests.TestCaseContexts

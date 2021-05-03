@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Extended.Models;
+using Iwentys.Domain.Raids.Dto;
 using Iwentys.FeatureBase;
 using Iwentys.Features.Extended.Services;
 using Microsoft.AspNetCore.Mvc;

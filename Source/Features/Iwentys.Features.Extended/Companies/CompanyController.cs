@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Domain.Extended.Models;
+using Iwentys.Domain.Companies.Dto;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

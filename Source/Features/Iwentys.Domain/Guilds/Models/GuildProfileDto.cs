@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Common.Tools;
 using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.AccountManagement.Dto;
 using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.Guilds.Enums;
 

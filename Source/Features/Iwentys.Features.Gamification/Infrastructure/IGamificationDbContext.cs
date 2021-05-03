@@ -1,4 +1,5 @@
 ﻿using Iwentys.Domain.Gamification;
+using Iwentys.Domain.Karmas;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Gamification.Infrastructure

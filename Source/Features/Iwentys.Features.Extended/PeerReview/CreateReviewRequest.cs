@@ -3,10 +3,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Extended;
-using Iwentys.Domain.Extended.Models;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.GithubIntegration.Models;
+using Iwentys.Domain.PeerReview;
+using Iwentys.Domain.PeerReview.Dto;
 using MediatR;
 
 namespace Iwentys.Features.Extended.PeerReview

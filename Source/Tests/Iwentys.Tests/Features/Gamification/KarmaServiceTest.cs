@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Gamification.Models;
+using Iwentys.Domain.Karmas.Dto;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 

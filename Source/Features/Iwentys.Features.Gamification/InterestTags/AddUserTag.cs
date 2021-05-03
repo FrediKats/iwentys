@@ -1,5 +1,6 @@
 ﻿using Iwentys.Common.Databases;
 using Iwentys.Domain.Gamification;
+using Iwentys.Domain.InterestTags;
 using MediatR;
 
 namespace Iwentys.Features.Gamification.InterestTags
