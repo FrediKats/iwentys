@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Iwentys.FeatureBase\Iwentys.FeatureBase.csproj" />
     <ProjectReference Include="..\Iwentys.Features.GithubIntegration\Iwentys.Features.GithubIntegration.csproj" />
   </ItemGroup>
 
