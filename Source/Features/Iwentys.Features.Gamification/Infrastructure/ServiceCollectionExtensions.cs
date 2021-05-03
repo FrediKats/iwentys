@@ -11,16 +11,8 @@ namespace Iwentys.Features.Gamification.Infrastructure
         public static IServiceCollection AddIwentysGamificationFeatureServices(this IServiceCollection services)
         {
             services.AddScoped<StudyLeaderboardService>();
-            services.AddScoped<KarmaService>();
 
             services.AddMediatR(typeof(KarmaController).GetTypeInfo().Assembly);
-
-            return services;
-        }
-
-        public static IServiceCollection AddIwentysInterestTagFeatureServices(this IServiceCollection services)
-        {
-            services.AddScoped<InterestTagService>();
 
             return services;
         }
@@ -35,13 +27,6 @@ namespace Iwentys.Features.Gamification.Infrastructure
         public static IServiceCollection AddIwentysQuestFeatureServices(this IServiceCollection services)
         {
             services.AddScoped<QuestService>();
-
-            return services;
-        }
-
-        public static IServiceCollection AddIwentysAchievementFeatureServices(this IServiceCollection services)
-        {
-            services.AddScoped<AchievementService>();
 
             return services;
         }

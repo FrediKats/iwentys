@@ -36,17 +36,14 @@ namespace Iwentys.Infrastructure
             //services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
             services.AddScoped<AchievementProvider>();
 
-            services.AddIwentysAchievementFeatureServices();
             services.AddIwentysEconomyFeatureServices();
             services.AddIwentysGamificationFeatureServices();
-            services.AddIwentysInterestTagFeatureServices();
             services.AddIwentysGithubIntegrationFeatureServices();
 
             services.AddIwentysGuildFeatureServices();
             services.AddIwentysGuildTournamentFeatureServices();
 
             services.AddIwentysTributesFeatureServices();
-            services.AddIwentysNewsfeedFeatureServices();
             services.AddIwentysQuestFeatureServices();
             
             services.AddScoped<IStudyDbContext, IwentysDbContext>();

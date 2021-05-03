@@ -13,7 +13,7 @@ namespace Iwentys.Domain.Karmas
 
         public DateTime CreationTimeUtc { get; set; }
 
-        public static KarmaUpVote Create(AuthorizedUser author, IwentysUser target)
+        public static KarmaUpVote Create(IwentysUser author, IwentysUser target)
         {
             return new KarmaUpVote
             {

@@ -26,10 +26,5 @@ namespace Iwentys.Tests.TestCaseContexts
 
             return new InterestTagDto(tagEntity);
         }
-
-        public void WithUserInterestTag(InterestTagDto tag, AuthorizedUser user)
-        {
-            _context.InterestTagService.AddUserTag(user.Id, tag.Id).Wait();
-        }
     }
 }

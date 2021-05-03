@@ -14,8 +14,6 @@ namespace Iwentys.Tests.TestCaseContexts
         private readonly IwentysDbContext _context;
 
         public readonly AccountManagementTestCaseContext AccountManagementTestCaseContext;
-        public readonly AchievementService AchievementService;
-        public readonly GamificationTestCaseContext GamificationTestCaseContext;
         public readonly GithubIntegrationService GithubIntegrationService;
         public readonly GithubTestCaseContext GithubTestCaseContext;
         public readonly GuildMemberService GuildMemberService;
@@ -23,11 +21,7 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly GuildTestCaseContext GuildTestCaseContext;
         public readonly GuildTestTaskService GuildTestTaskService;
         public readonly GuildTributeService GuildTributeServiceService;
-        public readonly InterestTagService InterestTagService;
 
-        public readonly KarmaService KarmaService;
-        public readonly NewsfeedService NewsfeedService;
-        public readonly NewsfeedTestCaseContext NewsfeedTestCaseContext;
         public readonly QuestService QuestService;
         public readonly RaidService RaidService;
         public readonly StudyTestCaseContext StudyTestCaseContext;
@@ -50,10 +44,6 @@ namespace Iwentys.Tests.TestCaseContexts
             GuildTributeServiceService = serviceProvider.GetRequiredService<GuildTributeService>();
             TournamentService = serviceProvider.GetRequiredService<TournamentService>();
             QuestService = serviceProvider.GetRequiredService<QuestService>();
-            NewsfeedService = serviceProvider.GetRequiredService<NewsfeedService>();
-            InterestTagService = serviceProvider.GetRequiredService<InterestTagService>();
-            AchievementService = serviceProvider.GetRequiredService<AchievementService>();
-            KarmaService = serviceProvider.GetRequiredService<KarmaService>();
             GuildTestTaskService = serviceProvider.GetRequiredService<GuildTestTaskService>();
             RaidService = serviceProvider.GetRequiredService<RaidService>();
             StudyLeaderboard = serviceProvider.GetRequiredService<StudyLeaderboardService>();
@@ -82,8 +72,6 @@ namespace Iwentys.Tests.TestCaseContexts
             GithubTestCaseContext = new GithubTestCaseContext(this);
             AccountManagementTestCaseContext = new AccountManagementTestCaseContext(this);
             StudyTestCaseContext = new StudyTestCaseContext(this);
-            GamificationTestCaseContext = new GamificationTestCaseContext(this);
-            NewsfeedTestCaseContext = new NewsfeedTestCaseContext(this);
             GuildTestCaseContext = new GuildTestCaseContext(this);
         }
 

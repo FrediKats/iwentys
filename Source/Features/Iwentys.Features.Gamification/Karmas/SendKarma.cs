@@ -43,9 +43,10 @@ namespace Iwentys.Features.Gamification.Karmas
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
+                IwentysUser author = await _studentRepository.GetById(request.AuthorizedUser.Id);
                 IwentysUser target = await _studentRepository.GetById(request.StudentId);
 
-                var karmaUpVote = KarmaUpVote.Create(request.AuthorizedUser, target);
+                var karmaUpVote = KarmaUpVote.Create(author, target);
 
                 _karmaRepository.Insert(karmaUpVote);
                 await _unitOfWork.CommitAsync();
