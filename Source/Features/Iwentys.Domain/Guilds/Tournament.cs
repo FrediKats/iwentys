@@ -23,6 +23,11 @@ namespace Iwentys.Domain.Guilds
 
         public bool IsActive => DateTime.UtcNow < EndTime && !FinishedManually;
 
+        public Tournament()
+        {
+            Teams = new List<TournamentParticipantTeam>();
+        }
+
         public static Tournament Create(SystemAdminUser author, CreateTournamentArguments arguments, TournamentType type)
         {
             return new Tournament
@@ -42,13 +47,15 @@ namespace Iwentys.Domain.Guilds
             //TODO: check guild for null
 
             guildMentor.EnsureIsGuildMentor(guild);
-            return new TournamentParticipantTeam
+            var team = new TournamentParticipantTeam
             {
                 TournamentId = Id,
                 GuildId = guild.Id,
                 RegistrationTime = DateTime.UtcNow,
                 Members = guild.Members.Select(m => new TournamentTeamMember {MemberId = m.MemberId}).ToList()
             };
+            Teams.Add(team);
+            return team;
         }
 
         public void FinishManually(IwentysUser user)
