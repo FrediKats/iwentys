@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Tools;
-using Iwentys.Domain.Gamification;
 using Iwentys.Domain.InterestTags;
 using Iwentys.Domain.InterestTags.Dto;
 using MediatR;

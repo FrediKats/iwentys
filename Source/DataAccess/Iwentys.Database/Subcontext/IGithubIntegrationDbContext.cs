@@ -1,7 +1,7 @@
 ﻿using Iwentys.Domain.GithubIntegration;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.GithubIntegration.Infrastructure
+namespace Iwentys.Database.Subcontext
 {
     public interface IGithubIntegrationDbContext
     {
@@ -9,7 +9,7 @@ namespace Iwentys.Features.GithubIntegration.Infrastructure
         public DbSet<GithubUser> GithubUsersData { get; set; }
     }
 
-    public static class DbContextExtensions
+    public static class GithubIntegrationDbContextExtensions
     {
         public static void OnGithubIntegrationModelCreating(this ModelBuilder modelBuilder)
         {

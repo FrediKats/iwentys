@@ -2,7 +2,7 @@
 using Iwentys.Domain.Raids.Dto;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Extended.Infrastructure
+namespace Iwentys.Database.Subcontext
 {
     public interface IRaidsDbContext
     {

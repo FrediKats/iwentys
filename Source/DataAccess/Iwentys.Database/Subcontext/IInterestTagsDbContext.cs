@@ -1,8 +1,7 @@
-﻿using Iwentys.Domain.Gamification;
-using Iwentys.Domain.InterestTags;
+﻿using Iwentys.Domain.InterestTags;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Gamification.Infrastructure
+namespace Iwentys.Database.Subcontext
 {
     public interface IInterestTagsDbContext
     {

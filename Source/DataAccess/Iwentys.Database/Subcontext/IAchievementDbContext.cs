@@ -1,8 +1,7 @@
 ﻿using Iwentys.Domain.Achievements;
-using Iwentys.Domain.Gamification;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Gamification.Infrastructure
+namespace Iwentys.Database.Subcontext
 {
     public interface IAchievementDbContext
     {

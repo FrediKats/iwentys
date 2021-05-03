@@ -1,7 +1,7 @@
 ﻿using Iwentys.Domain.Companies;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Extended.Infrastructure
+namespace Iwentys.Database.Subcontext
 {
     public interface ICompaniesDbContext
     {
@@ -9,7 +9,7 @@ namespace Iwentys.Features.Extended.Infrastructure
         public DbSet<CompanyWorker> CompanyWorkers { get; set; }
     }
 
-    public static class CompanyDbContextExtensions
+    public static class CompaniesDbContextExtensions
     {
         public static void OnCompaniesModelCreating(this ModelBuilder modelBuilder)
         {

@@ -1,7 +1,7 @@
 ﻿using Iwentys.Domain.Guilds;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Guilds.Infrastructure
+namespace Iwentys.Database.Subcontext
 {
     public interface IGuildsTournamentsDbContext
     {
@@ -11,7 +11,7 @@ namespace Iwentys.Features.Guilds.Infrastructure
         public DbSet<CodeMarathonTournament> CodeMarathonTournaments { get; set; }
     }
 
-    public static class GuildsTournamentDbContextExtensions
+    public static class GuildsTournamentsDbContextExtensions
     {
         public static void OnGuildsTournamentsModelCreating(this ModelBuilder modelBuilder)
         {

@@ -1,6 +1,5 @@
 ﻿using System;
 using Bogus;
-using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Quests;
 using Iwentys.Domain.Quests.Dto;
 

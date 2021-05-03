@@ -1,5 +1,4 @@
 ﻿using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Gamification;
 using Iwentys.Domain.InterestTags;
 using Iwentys.Domain.InterestTags.Dto;
 using Iwentys.Tests.Tools;

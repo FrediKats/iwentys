@@ -2,7 +2,6 @@
 using Iwentys.Database;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.GithubIntegration;
-using Iwentys.Features.AccountManagement.Infrastructure;
 using Iwentys.Features.Extended.Infrastructure;
 using Iwentys.Features.Gamification.Infrastructure;
 using Iwentys.Features.GithubIntegration.Infrastructure;

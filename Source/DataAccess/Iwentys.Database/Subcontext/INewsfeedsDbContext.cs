@@ -1,7 +1,7 @@
 ﻿using Iwentys.Domain.Newsfeeds;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Extended.Infrastructure
+namespace Iwentys.Database.Subcontext
 {
     public interface INewsfeedsDbContext
     {
@@ -10,7 +10,7 @@ namespace Iwentys.Features.Extended.Infrastructure
         public DbSet<GuildNewsfeed> GuildNewsfeeds { get; set; }
     }
 
-    public static class NewsfeedDbContextExtensions
+    public static class NewsfeedsDbContextExtensions
     {
         public static void OnNewsfeedsModelCreating(this ModelBuilder modelBuilder)
         {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Guilds.Infrastructure
+namespace Iwentys.Database.Subcontext
 {
     public interface ITributesDbContext
     {

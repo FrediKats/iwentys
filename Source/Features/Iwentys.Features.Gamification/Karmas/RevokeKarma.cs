@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Karmas;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

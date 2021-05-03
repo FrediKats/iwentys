@@ -1,7 +1,7 @@
 ﻿using Iwentys.Domain.Guilds;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Guilds.Infrastructure
+namespace Iwentys.Database.Subcontext
 {
     public interface IGuildsDbContext
     {
@@ -14,7 +14,7 @@ namespace Iwentys.Features.Guilds.Infrastructure
         public DbSet<GuildRecruitmentMember> GuildRecruitmentMembers { get; set; }
     }
 
-    public static class DbContextExtensions
+    public static class GuildsDbContextExtensions
     {
         public static void OnGuildsModelCreating(this ModelBuilder modelBuilder)
         {

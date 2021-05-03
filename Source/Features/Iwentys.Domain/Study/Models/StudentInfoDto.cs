@@ -1,5 +1,4 @@
 ﻿using Iwentys.Common.Tools;
-using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.AccountManagement.Dto;
 using Iwentys.Domain.Study.Enums;
 

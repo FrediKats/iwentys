@@ -1,7 +1,7 @@
 ﻿using Iwentys.Domain.AccountManagement;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.AccountManagement.Infrastructure
+namespace Iwentys.Database.Subcontext
 {
     public interface IAccountManagementDbContext
     {
@@ -9,7 +9,7 @@ namespace Iwentys.Features.AccountManagement.Infrastructure
         public DbSet<IwentysUser> IwentysUsers { get; set; }
     }
 
-    public static class DbContextExtensions
+    public static class AccountManagementDbContextExtensions
     {
         public static void OnAccountManagementModelCreating(this ModelBuilder modelBuilder)
         {

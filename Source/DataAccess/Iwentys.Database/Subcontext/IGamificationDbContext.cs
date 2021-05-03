@@ -2,7 +2,7 @@
 using Iwentys.Domain.Karmas;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Gamification.Infrastructure
+namespace Iwentys.Database.Subcontext
 {
     public interface IGamificationDbContext
     {

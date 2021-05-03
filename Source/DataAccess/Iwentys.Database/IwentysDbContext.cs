@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Database.Seeding;
+using Iwentys.Database.Subcontext;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Achievements;
 using Iwentys.Domain.Companies;
@@ -15,11 +16,6 @@ using Iwentys.Domain.Quests;
 using Iwentys.Domain.Raids;
 using Iwentys.Domain.Raids.Dto;
 using Iwentys.Domain.Study;
-using Iwentys.Features.AccountManagement.Infrastructure;
-using Iwentys.Features.Extended.Infrastructure;
-using Iwentys.Features.Gamification.Infrastructure;
-using Iwentys.Features.GithubIntegration.Infrastructure;
-using Iwentys.Features.Guilds.Infrastructure;
 using Iwentys.Features.Study.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -43,8 +39,7 @@ namespace Iwentys.Database
         IQuestsDbContext,
         IRaidsDbContext,
         IStudyDbContext,
-        IStudySubjectAssignmentsDbContext,
-        IVotingDbContext
+        IStudySubjectAssignmentsDbContext
 
     {
         public IwentysDbContext(DbContextOptions<IwentysDbContext> options) : base(options)
@@ -173,7 +168,6 @@ namespace Iwentys.Database
             modelBuilder.OnRaidsModelCreating();
             modelBuilder.OnStudyModelCreating();
             modelBuilder.OnStudySubjectAssignmentsModelCreating();
-            modelBuilder.OnVotingModelCreating();
 
             RemoveCascadeDeleting(modelBuilder);
             Seeding(modelBuilder);

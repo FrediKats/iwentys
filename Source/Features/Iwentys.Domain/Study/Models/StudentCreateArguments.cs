@@ -1,5 +1,4 @@
-﻿using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.AccountManagement.Dto;
+﻿using Iwentys.Domain.AccountManagement.Dto;
 using Iwentys.Domain.Study.Enums;
 
 namespace Iwentys.Domain.Study.Models

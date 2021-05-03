@@ -1,15 +1,14 @@
-﻿using Iwentys.Domain.Gamification;
-using Iwentys.Domain.Quests;
+﻿using Iwentys.Domain.Quests;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Gamification.Infrastructure
+namespace Iwentys.Database.Subcontext
 {
     public interface IQuestsDbContext
     {
         public DbSet<Quest> Quests { get; set; }
         public DbSet<QuestResponse> QuestResponses { get; set; }
     }
-    public static class DbContextExtensions
+    public static class QuestsDbContextExtensions
     {
         public static void OnQuestsModelCreating(this ModelBuilder modelBuilder)
         {

@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Domain.Gamification;
 using Iwentys.Domain.InterestTags;
 using Iwentys.Domain.InterestTags.Dto;
 using Microsoft.EntityFrameworkCore;

@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
-using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Companies;
 using Iwentys.Domain.Companies.Dto;
 using MediatR;

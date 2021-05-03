@@ -3,7 +3,6 @@ using System.Linq;
 using Iwentys.Common.Databases;
 using Iwentys.Domain.Achievements;
 using Iwentys.Domain.Achievements.Dto;
-using Iwentys.Domain.Gamification;
 using MediatR;
 
 namespace Iwentys.Features.Gamification.Achievements
