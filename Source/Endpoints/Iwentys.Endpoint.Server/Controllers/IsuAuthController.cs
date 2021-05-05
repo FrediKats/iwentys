@@ -4,12 +4,10 @@ using System.Security.Authentication;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Transferable;
-using Iwentys.Endpoint.Controllers.Tools;
-using Iwentys.Endpoint.Server.Source.Options;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Endpoint.Server.Source.Tokens;
-using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.AccountManagement.Entities;
-using Iwentys.Features.Study.Services;
+using Iwentys.FeatureBase;
+using Iwentys.Infrastructure.Options;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Tef.IsuIntegrator;
@@ -22,13 +20,11 @@ namespace Iwentys.Endpoint.Server.Controllers
     public class IsuAuthController : ControllerBase
     {
         private readonly IsuApiAccessor _isuApiAccessor;
-        private readonly StudentService _studentService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly JwtApplicationOptions _jwtApplicationOptions;
 
-        public IsuAuthController(StudentService studentService, IUnitOfWork unitOfWork, IsuApplicationOptions isuApplicationOptions, JwtApplicationOptions jwtApplicationOptions)
+        public IsuAuthController(IUnitOfWork unitOfWork, IsuApplicationOptions isuApplicationOptions, JwtApplicationOptions jwtApplicationOptions)
         {
-            _studentService = studentService;
             _unitOfWork = unitOfWork;
             _jwtApplicationOptions = jwtApplicationOptions;
             _isuApiAccessor = new IsuApiAccessor(isuApplicationOptions.IsuClientId, isuApplicationOptions.IsuClientSecret, isuApplicationOptions.IsuRedirection);
@@ -70,13 +66,6 @@ namespace Iwentys.Endpoint.Server.Controllers
         [HttpGet("login-with-itip/{userId}")]
         public ActionResult<IwentysAuthResponse> Login(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
-            return Ok(TokenGenerator.Generate(userId, signingEncodingKey, _jwtApplicationOptions));
-        }
-
-        [HttpGet("loginOrCreate/{userId}")]
-        public async Task<ActionResult<IwentysAuthResponse>> LoginOrCreate(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
-        {
-            await _studentService.GetOrCreate(userId);
             return Ok(TokenGenerator.Generate(userId, signingEncodingKey, _jwtApplicationOptions));
         }
 

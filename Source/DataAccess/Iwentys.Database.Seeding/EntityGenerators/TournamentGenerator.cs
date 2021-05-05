@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Bogus;
-using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.Guilds.Entities;
-using Iwentys.Features.Guilds.Tournaments.Entities;
-using Iwentys.Features.Guilds.Tournaments.Enums;
-using Iwentys.Features.Study.Entities;
+using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Guilds;
+using Iwentys.Domain.Guilds.Enums;
+using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators

@@ -2,13 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <EnableNETAnalyzers>false</EnableNETAnalyzers>
+    <AnalysisLevel>5.0</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="LanguageExt.Core" Version="3.4.15" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.AutoHistory" Version="5.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.4">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -16,12 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Features\Iwentys.Features.Companies\Iwentys.Features.Companies.csproj" />
+    <ProjectReference Include="..\..\Features\Iwentys.Features.Extended\Iwentys.Features.Extended.csproj" />
     <ProjectReference Include="..\..\Features\Iwentys.Features.Gamification\Iwentys.Features.Gamification.csproj" />
-    <ProjectReference Include="..\..\Features\Iwentys.Features.InterestTags\Iwentys.Features.InterestTags.csproj" />
-    <ProjectReference Include="..\..\Features\Iwentys.Features.PeerReview\Iwentys.Features.PeerReview.csproj" />
-    <ProjectReference Include="..\..\Features\Iwentys.Features.Voting\Iwentys.Features.Voting.csproj" />
-    <ProjectReference Include="..\..\Shared\Iwentys.Common\Iwentys.Common.csproj" />
     <ProjectReference Include="..\Iwentys.Database.Seeding\Iwentys.Database.Seeding.csproj" />
   </ItemGroup>
 

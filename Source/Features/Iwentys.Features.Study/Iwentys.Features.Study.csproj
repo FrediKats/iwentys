@@ -1,12 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <EnableNETAnalyzers>false</EnableNETAnalyzers>
+    <AnalysisLevel>5.0</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Iwentys.Features.AccountManagement\Iwentys.Features.AccountManagement.csproj" />
-    <ProjectReference Include="..\Iwentys.Features.Achievements\Iwentys.Features.Achievements.csproj" />
+    <ProjectReference Include="..\..\Shared\Iwentys.FeatureBase\Iwentys.FeatureBase.csproj" />
+    <ProjectReference Include="..\Iwentys.Domain\Iwentys.Domain.csproj" />
   </ItemGroup>
 
 </Project>

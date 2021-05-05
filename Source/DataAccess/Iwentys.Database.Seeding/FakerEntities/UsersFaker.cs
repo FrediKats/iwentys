@@ -1,7 +1,7 @@
 ﻿using Bogus;
-using Iwentys.Features.AccountManagement.Models;
-using Iwentys.Features.Study.Enums;
-using Iwentys.Features.Study.Models.Students;
+using Iwentys.Domain.AccountManagement.Dto;
+using Iwentys.Domain.Study.Enums;
+using Iwentys.Domain.Study.Models;
 
 namespace Iwentys.Database.Seeding.FakerEntities
 {

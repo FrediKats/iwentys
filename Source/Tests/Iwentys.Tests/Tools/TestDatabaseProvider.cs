@@ -8,13 +8,11 @@ namespace Iwentys.Tests.Tools
     {
         public static IwentysDbContext GetDatabaseContext()
         {
-            DbContextOptions<IwentysDbContext> options = new DbContextOptionsBuilder<IwentysDbContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString())
-                .UseLazyLoadingProxies()
-                .Options;
-
-
-            var databaseContext = new IwentysDbContext(options);
+            var databaseContext = new IwentysDbContext(
+                new DbContextOptionsBuilder<IwentysDbContext>()
+                    .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                    .UseLazyLoadingProxies()
+                    .Options);
             databaseContext.Database.EnsureCreated();
 
             return databaseContext;

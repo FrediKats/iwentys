@@ -13,8 +13,8 @@ namespace Iwentys.Common.Databases
     {
         IQueryable<TEntity> Get();
         Task<TEntity> FindByIdAsync<TKey>(TKey id);
-        Task<TEntity> InsertAsync(TEntity entity);
-        Task InsertAsync(IEnumerable<TEntity> entities);
+        TEntity Insert(TEntity entity);
+        void Insert(IEnumerable<TEntity> entities);
         void Delete(TEntity entityToDelete);
         void Delete(List<TEntity> entities);
         void Update(List<TEntity> entitiesToUpdate);

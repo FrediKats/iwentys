@@ -1,7 +1,6 @@
-﻿using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.Study.Entities;
-using Iwentys.Features.Study.Models;
-using Iwentys.Features.Study.SubjectAssignments.Models;
+﻿using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Study;
+using Iwentys.Domain.Study.Models;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 

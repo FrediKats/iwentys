@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Database.Seeding.FakerEntities.Study;
-using Iwentys.Features.Assignments.Entities;
-using Iwentys.Features.Study.Entities;
-using Iwentys.Features.Study.SubjectAssignments.Entities;
+using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators

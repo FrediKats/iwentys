@@ -3,8 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentResults;
 using Iwentys.Common.Databases;
-using Iwentys.Features.Study;
-using Iwentys.Features.Study.Entities;
+using Iwentys.Domain.Study;
 using Iwentys.Integrations.GoogleTableIntegration;
 using Iwentys.Integrations.GoogleTableIntegration.Marks;
 using Microsoft.Extensions.Logging;
@@ -68,7 +67,7 @@ namespace Iwentys.Endpoint.Server.Source.BackgroundServices
                         continue;
                     }
 
-                    await _subjectActivityRepository.InsertAsync(new SubjectActivity
+                    _subjectActivityRepository.Insert(new SubjectActivity
                     {
                         StudentId = studentProfile.Id,
                         GroupSubjectId = groupSubjectData.Id,

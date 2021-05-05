@@ -2150,165 +2150,6 @@ namespace Iwentys.Sdk
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<GithubRepositoryInfoDto> AddPinnedProjectAsync(int? guildId, CreateProjectRequestDto body)
-        {
-            return AddPinnedProjectAsync(guildId, body, System.Threading.CancellationToken.None);
-        }
-    
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<GithubRepositoryInfoDto> AddPinnedProjectAsync(int? guildId, CreateProjectRequestDto body, System.Threading.CancellationToken cancellationToken)
-        {
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/guild/AddPinnedProject?");
-            if (guildId != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("guildId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(guildId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Length--;
-    
-            var client_ = _httpClient;
-            var disposeClient_ = false;
-            try
-            {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
-                {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(body, _settings.Value));
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new System.Net.Http.HttpMethod("POST");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
-    
-                    PrepareRequest(client_, request_, urlBuilder_);
-    
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-    
-                    PrepareRequest(client_, request_, url_);
-    
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-    
-                        ProcessResponse(client_, response_);
-    
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<GithubRepositoryInfoDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
-        }
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task DeletePinnedProjectAsync(int? guildId, long? repositoryId)
-        {
-            return DeletePinnedProjectAsync(guildId, repositoryId, System.Threading.CancellationToken.None);
-        }
-    
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task DeletePinnedProjectAsync(int? guildId, long? repositoryId, System.Threading.CancellationToken cancellationToken)
-        {
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/guild/DeletePinnedProject?");
-            if (guildId != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("guildId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(guildId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (repositoryId != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("repositoryId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(repositoryId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Length--;
-    
-            var client_ = _httpClient;
-            var disposeClient_ = false;
-            try
-            {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
-                {
-                    request_.Method = new System.Net.Http.HttpMethod("DELETE");
-    
-                    PrepareRequest(client_, request_, urlBuilder_);
-    
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-    
-                    PrepareRequest(client_, request_, url_);
-    
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-    
-                        ProcessResponse(client_, response_);
-    
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            return;
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
-        }
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<GuildMemberLeaderBoardDto> GetGuildMemberLeaderBoardAsync(int? guildId)
         {
             return GetGuildMemberLeaderBoardAsync(guildId, System.Threading.CancellationToken.None);
@@ -2518,7 +2359,7 @@ namespace Iwentys.Sdk
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<GuildProfileDto> EnterAsync(int? guildId)
+        public System.Threading.Tasks.Task EnterAsync(int? guildId)
         {
             return EnterAsync(guildId, System.Threading.CancellationToken.None);
         }
@@ -2526,7 +2367,7 @@ namespace Iwentys.Sdk
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<GuildProfileDto> EnterAsync(int? guildId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task EnterAsync(int? guildId, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/GuildMembership/Enter?");
@@ -2542,9 +2383,8 @@ namespace Iwentys.Sdk
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "text/plain");
+                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
     
                     PrepareRequest(client_, request_, urlBuilder_);
     
@@ -2569,12 +2409,7 @@ namespace Iwentys.Sdk
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<GuildProfileDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return;
                         }
                         else
                         {
@@ -2598,7 +2433,7 @@ namespace Iwentys.Sdk
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<GuildProfileDto> SendRequestAsync(int? guildId)
+        public System.Threading.Tasks.Task SendRequestAsync(int? guildId)
         {
             return SendRequestAsync(guildId, System.Threading.CancellationToken.None);
         }
@@ -2606,7 +2441,7 @@ namespace Iwentys.Sdk
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<GuildProfileDto> SendRequestAsync(int? guildId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task SendRequestAsync(int? guildId, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/GuildMembership/SendRequest?");
@@ -2622,9 +2457,8 @@ namespace Iwentys.Sdk
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "text/plain");
+                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
     
                     PrepareRequest(client_, request_, urlBuilder_);
     
@@ -2649,12 +2483,7 @@ namespace Iwentys.Sdk
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<GuildProfileDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return;
                         }
                         else
                         {
@@ -3770,12 +3599,12 @@ namespace Iwentys.Sdk
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.10.9.0 (NJsonSchema v10.4.1.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial class GuildTestTaskServiceClient 
+    public partial class GuildTestTaskClient 
     {
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
-        public GuildTestTaskServiceClient(System.Net.Http.HttpClient httpClient)
+        public GuildTestTaskClient(System.Net.Http.HttpClient httpClient)
         {
             _httpClient = httpClient;
             _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
@@ -5680,84 +5509,6 @@ namespace Iwentys.Sdk
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<IwentysAuthResponse> LoginOrCreateAsync(int userId)
-        {
-            return LoginOrCreateAsync(userId, System.Threading.CancellationToken.None);
-        }
-    
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<IwentysAuthResponse> LoginOrCreateAsync(int userId, System.Threading.CancellationToken cancellationToken)
-        {
-            if (userId == null)
-                throw new System.ArgumentNullException("userId");
-    
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/IsuAuth/loginOrCreate/{userId}");
-            urlBuilder_.Replace("{userId}", System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture)));
-    
-            var client_ = _httpClient;
-            var disposeClient_ = false;
-            try
-            {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
-                {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
-    
-                    PrepareRequest(client_, request_, urlBuilder_);
-    
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-    
-                    PrepareRequest(client_, request_, url_);
-    
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-    
-                        ProcessResponse(client_, response_);
-    
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<IwentysAuthResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
-        }
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<int> ValidateTokenAsync()
         {
             return ValidateTokenAsync(System.Threading.CancellationToken.None);
@@ -5962,7 +5713,7 @@ namespace Iwentys.Sdk
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<KarmaStatistic> GetStatisticAsync(int? studentId)
+        public System.Threading.Tasks.Task<Response> GetStatisticAsync(int? studentId)
         {
             return GetStatisticAsync(studentId, System.Threading.CancellationToken.None);
         }
@@ -5970,7 +5721,7 @@ namespace Iwentys.Sdk
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<KarmaStatistic> GetStatisticAsync(int? studentId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<Response> GetStatisticAsync(int? studentId, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/karma/GetStatistic?");
@@ -6012,7 +5763,7 @@ namespace Iwentys.Sdk
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<KarmaStatistic>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<Response>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -6628,84 +6379,6 @@ namespace Iwentys.Sdk
                         if (status_ == 200)
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<StudyLeaderboardRowDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
-        }
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<StudentActivityInfoDto> ActivityAsync(int studentId)
-        {
-            return ActivityAsync(studentId, System.Threading.CancellationToken.None);
-        }
-    
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<StudentActivityInfoDto> ActivityAsync(int studentId, System.Threading.CancellationToken cancellationToken)
-        {
-            if (studentId == null)
-                throw new System.ArgumentNullException("studentId");
-    
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/leaderboard/activity/{studentId}");
-            urlBuilder_.Replace("{studentId}", System.Uri.EscapeDataString(ConvertToString(studentId, System.Globalization.CultureInfo.InvariantCulture)));
-    
-            var client_ = _httpClient;
-            var disposeClient_ = false;
-            try
-            {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
-                {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
-    
-                    PrepareRequest(client_, request_, urlBuilder_);
-    
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-    
-                    PrepareRequest(client_, request_, url_);
-    
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-    
-                        ProcessResponse(client_, response_);
-    
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<StudentActivityInfoDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -7506,18 +7179,18 @@ namespace Iwentys.Sdk
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ProjectReviewRequestInfoDto>> AllAsync()
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ProjectReviewRequestInfoDto>> GetProjectReviewRequestsAsync()
         {
-            return AllAsync(System.Threading.CancellationToken.None);
+            return GetProjectReviewRequestsAsync(System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ProjectReviewRequestInfoDto>> AllAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ProjectReviewRequestInfoDto>> GetProjectReviewRequestsAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/peer-review/requests/all");
+            urlBuilder_.Append("api/peer-review/GetProjectReviewRequests");
     
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -9908,7 +9581,7 @@ namespace Iwentys.Sdk
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<IwentysUserInfoDto> UpdateProfileAsync(StudentUpdateRequestDto body)
+        public System.Threading.Tasks.Task UpdateProfileAsync(StudentUpdateRequestDto body)
         {
             return UpdateProfileAsync(body, System.Threading.CancellationToken.None);
         }
@@ -9916,7 +9589,7 @@ namespace Iwentys.Sdk
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<IwentysUserInfoDto> UpdateProfileAsync(StudentUpdateRequestDto body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task UpdateProfileAsync(StudentUpdateRequestDto body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/Student/UpdateProfile");
@@ -9931,7 +9604,6 @@ namespace Iwentys.Sdk
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
     
                     PrepareRequest(client_, request_, urlBuilder_);
     
@@ -9956,12 +9628,7 @@ namespace Iwentys.Sdk
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<IwentysUserInfoDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return;
                         }
                         else
                         {
@@ -10759,18 +10426,18 @@ namespace Iwentys.Sdk
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SubjectProfileDto>> GetAsync(int? courseId, StudySemester? semester)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SubjectProfileDto>> SearchSubjectsAsync(int? courseId, StudySemester? semester)
         {
-            return GetAsync(courseId, semester, System.Threading.CancellationToken.None);
+            return SearchSubjectsAsync(courseId, semester, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SubjectProfileDto>> GetAsync(int? courseId, StudySemester? semester, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SubjectProfileDto>> SearchSubjectsAsync(int? courseId, StudySemester? semester, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/Subject/Get?");
+            urlBuilder_.Append("api/Subject/SearchSubjects?");
             if (courseId != null)
             {
                 urlBuilder_.Append(System.Uri.EscapeDataString("courseId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(courseId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
@@ -10842,21 +10509,21 @@ namespace Iwentys.Sdk
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<SubjectProfileDto> GetByIdAsync(int subjectId)
+        public System.Threading.Tasks.Task<SubjectProfileDto> GetSubjectByIdAsync(int subjectId)
         {
-            return GetByIdAsync(subjectId, System.Threading.CancellationToken.None);
+            return GetSubjectByIdAsync(subjectId, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<SubjectProfileDto> GetByIdAsync(int subjectId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<SubjectProfileDto> GetSubjectByIdAsync(int subjectId, System.Threading.CancellationToken cancellationToken)
         {
             if (subjectId == null)
                 throw new System.ArgumentNullException("subjectId");
     
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/Subject/GetById");
+            urlBuilder_.Append("api/Subject/GetSubjectById");
             urlBuilder_.Replace("{subjectId}", System.Uri.EscapeDataString(ConvertToString(subjectId, System.Globalization.CultureInfo.InvariantCulture)));
     
             var client_ = _httpClient;
@@ -10920,18 +10587,18 @@ namespace Iwentys.Sdk
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SubjectProfileDto>> GetByGroupIdAsync(int? groupId)
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SubjectProfileDto>> GetSubjectsByGroupIdAsync(int? groupId)
         {
-            return GetByGroupIdAsync(groupId, System.Threading.CancellationToken.None);
+            return GetSubjectsByGroupIdAsync(groupId, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SubjectProfileDto>> GetByGroupIdAsync(int? groupId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SubjectProfileDto>> GetSubjectsByGroupIdAsync(int? groupId, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/Subject/GetByGroupId?");
+            urlBuilder_.Append("api/Subject/GetSubjectsByGroupId?");
             if (groupId != null)
             {
                 urlBuilder_.Append(System.Uri.EscapeDataString("groupId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(groupId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
@@ -11287,23 +10954,18 @@ namespace Iwentys.Sdk
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task CreateAsync(int? subjectId, SubjectAssignmentCreateArguments body)
+        public System.Threading.Tasks.Task CreateAsync(AssignmentCreateArguments body)
         {
-            return CreateAsync(subjectId, body, System.Threading.CancellationToken.None);
+            return CreateAsync(body, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task CreateAsync(int? subjectId, SubjectAssignmentCreateArguments body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task CreateAsync(AssignmentCreateArguments body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/subject-assignment/Create?");
-            if (subjectId != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("subjectId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(subjectId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Length--;
+            urlBuilder_.Append("api/subject-assignment/Create");
     
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -11655,27 +11317,18 @@ namespace Iwentys.Sdk
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<SubjectAssignmentSubmitDto> SendSubmitAsync(int? subjectId, int? subjectAssignmentId, SubjectAssignmentSubmitCreateArguments body)
+        public System.Threading.Tasks.Task<SubjectAssignmentSubmitDto> SendSubmitAsync(SubjectAssignmentSubmitCreateArguments body)
         {
-            return SendSubmitAsync(subjectId, subjectAssignmentId, body, System.Threading.CancellationToken.None);
+            return SendSubmitAsync(body, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<SubjectAssignmentSubmitDto> SendSubmitAsync(int? subjectId, int? subjectAssignmentId, SubjectAssignmentSubmitCreateArguments body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<SubjectAssignmentSubmitDto> SendSubmitAsync(SubjectAssignmentSubmitCreateArguments body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/SubjectAssignmentSubmit/SendSubmit?");
-            if (subjectId != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("subjectId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(subjectId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (subjectAssignmentId != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("subjectAssignmentId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(subjectAssignmentId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Length--;
+            urlBuilder_.Append("api/SubjectAssignmentSubmit/SendSubmit");
     
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -11824,27 +11477,18 @@ namespace Iwentys.Sdk
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task SendFeedbackAsync(int? subjectId, int? subjectAssignmentSubmitId, SubjectAssignmentSubmitFeedbackArguments body)
+        public System.Threading.Tasks.Task SendFeedbackAsync(SubjectAssignmentSubmitFeedbackArguments body)
         {
-            return SendFeedbackAsync(subjectId, subjectAssignmentSubmitId, body, System.Threading.CancellationToken.None);
+            return SendFeedbackAsync(body, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task SendFeedbackAsync(int? subjectId, int? subjectAssignmentSubmitId, SubjectAssignmentSubmitFeedbackArguments body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task SendFeedbackAsync(SubjectAssignmentSubmitFeedbackArguments body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/SubjectAssignmentSubmit/SendFeedback?");
-            if (subjectId != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("subjectId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(subjectId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (subjectAssignmentSubmitId != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("subjectAssignmentSubmitId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(subjectAssignmentSubmitId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Length--;
+            urlBuilder_.Append("api/SubjectAssignmentSubmit/SendFeedback");
     
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -12266,7 +11910,7 @@ namespace Iwentys.Sdk
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<TournamentInfoResponse> CreateCodeMarathonAsync(CreateCodeMarathonTournamentArguments body)
+        public System.Threading.Tasks.Task CreateCodeMarathonAsync(CreateCodeMarathonTournamentArguments body)
         {
             return CreateCodeMarathonAsync(body, System.Threading.CancellationToken.None);
         }
@@ -12274,7 +11918,7 @@ namespace Iwentys.Sdk
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<TournamentInfoResponse> CreateCodeMarathonAsync(CreateCodeMarathonTournamentArguments body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task CreateCodeMarathonAsync(CreateCodeMarathonTournamentArguments body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/tournaments/CreateCodeMarathon");
@@ -12289,7 +11933,6 @@ namespace Iwentys.Sdk
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
     
                     PrepareRequest(client_, request_, urlBuilder_);
     
@@ -12314,12 +11957,7 @@ namespace Iwentys.Sdk
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<TournamentInfoResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return;
                         }
                         else
                         {
@@ -13456,21 +13094,6 @@ namespace Iwentys.Sdk
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.1.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class KarmaStatistic 
-    {
-        [Newtonsoft.Json.JsonProperty("studentId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int StudentId { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("karma", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int Karma { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("upVotes", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<int> UpVotes { get; set; }
-    
-    
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.1.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class NewsfeedCreateViewModel 
     {
         [Newtonsoft.Json.JsonProperty("title", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -13888,6 +13511,21 @@ namespace Iwentys.Sdk
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.1.0 (Newtonsoft.Json v11.0.0.0)")]
+    public partial class Response 
+    {
+        [Newtonsoft.Json.JsonProperty("studentId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int StudentId { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("karma", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int Karma { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("upVotes", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<int> UpVotes { get; set; }
+    
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.1.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class ReviewFeedbackCreateArguments 
     {
         [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -13968,19 +13606,10 @@ namespace Iwentys.Sdk
         public StudentType Type { get; set; }
     
         [Newtonsoft.Json.JsonProperty("groupId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int GroupId { get; set; }
+        public int? GroupId { get; set; }
     
         [Newtonsoft.Json.JsonProperty("group", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public StudyGroup Group { get; set; }
-    
-    
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.1.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class StudentActivityInfoDto 
-    {
-        [Newtonsoft.Json.JsonProperty("activity", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<SubjectActivityInfoResponseDto> Activity { get; set; }
     
     
     }
@@ -14210,36 +13839,6 @@ namespace Iwentys.Sdk
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.1.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class SubjectActivityInfoResponseDto 
-    {
-        [Newtonsoft.Json.JsonProperty("subjectTitle", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string SubjectTitle { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("points", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public double Points { get; set; }
-    
-    
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.1.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class SubjectAssignmentCreateArguments 
-    {
-        [Newtonsoft.Json.JsonProperty("title", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Title { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Description { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("link", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Link { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("deadlineUtc", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset DeadlineUtc { get; set; }
-    
-    
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.1.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class SubjectAssignmentDto 
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -14269,6 +13868,9 @@ namespace Iwentys.Sdk
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.1.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class SubjectAssignmentSubmitCreateArguments 
     {
+        [Newtonsoft.Json.JsonProperty("subjectAssignmentId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int SubjectAssignmentId { get; set; }
+    
         [Newtonsoft.Json.JsonProperty("studentDescription", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string StudentDescription { get; set; }
     
@@ -14315,6 +13917,9 @@ namespace Iwentys.Sdk
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.1.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class SubjectAssignmentSubmitFeedbackArguments 
     {
+        [Newtonsoft.Json.JsonProperty("subjectAssignmentSubmitId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int SubjectAssignmentSubmitId { get; set; }
+    
         [Newtonsoft.Json.JsonProperty("comment", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Comment { get; set; }
     

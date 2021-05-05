@@ -1,41 +1,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Database.Seeding;
-using Iwentys.Features.AccountManagement.Entities;
-using Iwentys.Features.AccountManagement.Infrastructure;
-using Iwentys.Features.Achievements.Entities;
-using Iwentys.Features.Achievements.Infrastructure;
-using Iwentys.Features.Assignments.Entities;
-using Iwentys.Features.Assignments.Infrastructure;
-using Iwentys.Features.Companies.Entities;
-using Iwentys.Features.Companies.Infrastructure;
-using Iwentys.Features.Economy.Entities;
-using Iwentys.Features.Economy.Infrastructure;
-using Iwentys.Features.Gamification.Entities;
-using Iwentys.Features.Gamification.Infrastructure;
-using Iwentys.Features.GithubIntegration.Entities;
-using Iwentys.Features.GithubIntegration.Infrastructure;
-using Iwentys.Features.Guilds.Entities;
-using Iwentys.Features.Guilds.Infrastructure;
-using Iwentys.Features.Guilds.Tournaments.Entities;
-using Iwentys.Features.Guilds.Tournaments.Infrastructure;
-using Iwentys.Features.Guilds.Tributes.Entities;
-using Iwentys.Features.Guilds.Tributes.Infrastructure;
-using Iwentys.Features.InterestTags.Entities;
-using Iwentys.Features.InterestTags.Infrastructure;
-using Iwentys.Features.Newsfeeds.Entities;
-using Iwentys.Features.Newsfeeds.Infrastructure;
-using Iwentys.Features.PeerReview.Entities;
-using Iwentys.Features.PeerReview.Infrastructure;
-using Iwentys.Features.Quests.Entities;
-using Iwentys.Features.Quests.Infrastructure;
-using Iwentys.Features.Raids.Entities;
-using Iwentys.Features.Raids.Infrastructure;
-using Iwentys.Features.Study.Entities;
+using Iwentys.Database.Subcontext;
+using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Achievements;
+using Iwentys.Domain.Companies;
+using Iwentys.Domain.Gamification;
+using Iwentys.Domain.GithubIntegration;
+using Iwentys.Domain.Guilds;
+using Iwentys.Domain.InterestTags;
+using Iwentys.Domain.Karmas;
+using Iwentys.Domain.Newsfeeds;
+using Iwentys.Domain.PeerReview;
+using Iwentys.Domain.Quests;
+using Iwentys.Domain.Raids;
+using Iwentys.Domain.Raids.Dto;
+using Iwentys.Domain.Study;
 using Iwentys.Features.Study.Infrastructure;
-using Iwentys.Features.Study.SubjectAssignments.Entities;
-using Iwentys.Features.Study.SubjectAssignments.Infrastructure;
-using Iwentys.Features.Voting.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -58,8 +39,7 @@ namespace Iwentys.Database
         IQuestsDbContext,
         IRaidsDbContext,
         IStudyDbContext,
-        IStudySubjectAssignmentsDbContext,
-        IVotingDbContext
+        IStudySubjectAssignmentsDbContext
 
     {
         public IwentysDbContext(DbContextOptions<IwentysDbContext> options) : base(options)
@@ -188,7 +168,6 @@ namespace Iwentys.Database
             modelBuilder.OnRaidsModelCreating();
             modelBuilder.OnStudyModelCreating();
             modelBuilder.OnStudySubjectAssignmentsModelCreating();
-            modelBuilder.OnVotingModelCreating();
 
             RemoveCascadeDeleting(modelBuilder);
             Seeding(modelBuilder);

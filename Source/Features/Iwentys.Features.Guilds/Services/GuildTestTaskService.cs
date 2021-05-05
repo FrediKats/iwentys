@@ -3,19 +3,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
-using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.AccountManagement.Entities;
-using Iwentys.Features.Achievements.Domain;
-using Iwentys.Features.GithubIntegration.Models;
-using Iwentys.Features.GithubIntegration.Services;
-using Iwentys.Features.Guilds.Domain;
-using Iwentys.Features.Guilds.Entities;
-using Iwentys.Features.Guilds.Enums;
-using Iwentys.Features.Guilds.Models;
-using Iwentys.Features.Guilds.Repositories;
-using Iwentys.Features.PeerReview.Enums;
-using Iwentys.Features.PeerReview.Models;
-using Iwentys.Features.PeerReview.Services;
+using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Achievements;
+using Iwentys.Domain.Gamification;
+using Iwentys.Domain.Guilds;
+using Iwentys.Domain.Guilds.Enums;
+using Iwentys.Domain.Guilds.Models;
+using Iwentys.FeatureBase;
+using Iwentys.Features.GithubIntegration.GithubIntegration;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Guilds.Services
@@ -23,7 +18,6 @@ namespace Iwentys.Features.Guilds.Services
     public class GuildTestTaskService
     {
         private readonly AchievementProvider _achievementProvider;
-        private readonly GithubIntegrationService _githubIntegrationService;
 
         private readonly IGenericRepository<GuildMember> _guildMemberRepository;
         private readonly IGenericRepository<Guild> _guildRepository;
@@ -32,14 +26,10 @@ namespace Iwentys.Features.Guilds.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IGenericRepository<IwentysUser> _userRepository;
 
-        private readonly ProjectReviewService _projectReviewService;
 
-
-        public GuildTestTaskService(AchievementProvider achievementProvider, IUnitOfWork unitOfWork, GithubIntegrationService githubIntegrationService, ProjectReviewService projectReviewService)
+        public GuildTestTaskService(AchievementProvider achievementProvider, IUnitOfWork unitOfWork, GithubIntegrationService githubIntegrationService)
         {
             _achievementProvider = achievementProvider;
-            _githubIntegrationService = githubIntegrationService;
-            _projectReviewService = projectReviewService;
 
             _unitOfWork = unitOfWork;
             _userRepository = _unitOfWork.GetRepository<IwentysUser>();
@@ -57,7 +47,7 @@ namespace Iwentys.Features.Guilds.Services
                 .ToListAsync();
         }
 
-        public async Task<GuildTestTaskInfoResponse> Accept(AuthorizedUser user, int guildId)
+        public async Task Accept(AuthorizedUser user, int guildId)
         {
             Guild authorGuild = _guildMemberRepository.ReadForStudent(user.Id);
             if (authorGuild is null || authorGuild.Id != guildId)
@@ -77,52 +67,11 @@ namespace Iwentys.Features.Guilds.Services
 
             var testTaskSolution = GuildTestTaskSolution.Create(authorGuild, author);
 
-            await _guildTestTaskSolutionRepository.InsertAsync(testTaskSolution);
+            _guildTestTaskSolutionRepository.Insert(testTaskSolution);
             await _unitOfWork.CommitAsync();
-            return GuildTestTaskInfoResponse.Wrap(testTaskSolution);
         }
 
-        //TODO: ensure project belong to user
-        public async Task<GuildTestTaskInfoResponse> Submit(AuthorizedUser user, int guildId, string projectOwner, string projectName)
-        {
-            //TODO: Add exception message (Test task was not started)
-            GuildTestTaskSolution testTaskSolution = await _guildTestTaskSolutionRepository
-                .GetSingle(t => t.AuthorId == user.Id && t.GuildId == guildId);
-
-            if (testTaskSolution.GetState() == GuildTestTaskState.Completed)
-                throw new InnerLogicException("Task already completed");
-
-            Guild guild = await _guildRepository.GetById(guildId);
-            GithubRepositoryInfoDto githubRepositoryInfoDto = await _githubIntegrationService.Repository.GetRepository(projectOwner, projectName);
-            var createArguments = new ReviewRequestCreateArguments
-            {
-                ProjectId = githubRepositoryInfoDto.Id,
-                Description = "Guild test task review",
-                Visibility = ProjectReviewVisibility.Closed
-            };
-
-            //TODO: here we call .Commit and... it's not okay
-            ProjectReviewRequestInfoDto reviewRequest = await _projectReviewService.CreateReviewRequest(user, createArguments);
-
-            foreach (GuildMember member in guild.Members)
-            {
-                if (member.MemberId == user.Id)
-                    continue;
-
-                if (!member.MemberType.IsMentor())
-                    continue;
-
-                await _projectReviewService.InviteToReview(user, reviewRequest.Id, member.MemberId);
-            }
-
-            testTaskSolution.SendSubmit(user, reviewRequest);
-
-            _guildTestTaskSolutionRepository.Update(testTaskSolution);
-            await _unitOfWork.CommitAsync();
-            return GuildTestTaskInfoResponse.Wrap(testTaskSolution);
-        }
-
-        public async Task<GuildTestTaskInfoResponse> Complete(AuthorizedUser user, int guildId, int taskSolveOwnerId)
+        public async Task Complete(AuthorizedUser user, int guildId, int taskSolveOwnerId)
         {
             IwentysUser review = await _userRepository.FindByIdAsync(user.Id);
             await review.EnsureIsGuildMentor(_guildRepository, guildId);
@@ -134,11 +83,11 @@ namespace Iwentys.Features.Guilds.Services
                 throw new InnerLogicException("Task must be submitted");
 
             testTask.SetCompleted(review);
-            await _achievementProvider.Achieve(AchievementList.TestTaskDone, taskSolveOwnerId);
+            _achievementProvider.AchieveForStudent(AchievementList.TestTaskDone, taskSolveOwnerId);
+            await AchievementHack.ProcessAchievement(_achievementProvider, _unitOfWork);
 
             _guildTestTaskSolutionRepository.Update(testTask);
             await _unitOfWork.CommitAsync();
-            return GuildTestTaskInfoResponse.Wrap(testTask);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.Raids.Models;
+using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Raids.Dto;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 

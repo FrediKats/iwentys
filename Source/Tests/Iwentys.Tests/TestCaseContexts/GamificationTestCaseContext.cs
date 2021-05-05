@@ -1,6 +1,6 @@
-﻿using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.InterestTags.Entities;
-using Iwentys.Features.InterestTags.Models;
+﻿using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.InterestTags;
+using Iwentys.Domain.InterestTags.Dto;
 using Iwentys.Tests.Tools;
 
 namespace Iwentys.Tests.TestCaseContexts
@@ -21,15 +21,10 @@ namespace Iwentys.Tests.TestCaseContexts
                 Title = RandomProvider.Faker.Lorem.Word()
             };
 
-            tagEntity = _context.UnitOfWork.GetRepository<InterestTag>().InsertAsync(tagEntity).Result;
+            tagEntity = _context.UnitOfWork.GetRepository<InterestTag>().Insert(tagEntity);
             _context.UnitOfWork.CommitAsync().Wait();
 
             return new InterestTagDto(tagEntity);
-        }
-
-        public void WithUserInterestTag(InterestTagDto tag, AuthorizedUser user)
-        {
-            _context.InterestTagService.AddUserTag(user.Id, tag.Id).Wait();
         }
     }
 }

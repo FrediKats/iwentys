@@ -1,8 +1,9 @@
-﻿using Iwentys.Features.Study.Entities;
+﻿using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Study.Infrastructure
 {
+    //TODO: it's some hack. Need to move this in database project
     public interface IStudyDbContext
     {
         public DbSet<Student> Students { get; set; }
@@ -14,7 +15,7 @@ namespace Iwentys.Features.Study.Infrastructure
         public DbSet<StudyCourse> StudyCourses { get; set; }
     }
 
-    public static class DbContextExtensions
+    public static class StudyDbContextExtensions
     {
         public static void OnStudyModelCreating(this ModelBuilder modelBuilder)
         {

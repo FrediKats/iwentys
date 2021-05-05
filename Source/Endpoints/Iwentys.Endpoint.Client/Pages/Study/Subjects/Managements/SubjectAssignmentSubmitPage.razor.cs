@@ -16,8 +16,9 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Managements
 
         private async Task Approve(SubjectAssignmentSubmitDto submit)
         {
-            await SubjectAssignmentSubmitClient.SendFeedbackAsync(SubjectId, submit.Id, new SubjectAssignmentSubmitFeedbackArguments
+            await SubjectAssignmentSubmitClient.SendFeedbackAsync(new SubjectAssignmentSubmitFeedbackArguments
             {
+                SubjectAssignmentSubmitId = submit.Id,
                 Comment = "Smth",
                 FeedbackType = FeedbackType.Approve
             });
@@ -27,8 +28,9 @@ namespace Iwentys.Endpoint.Client.Pages.Study.Subjects.Managements
 
         private async Task Reject(SubjectAssignmentSubmitDto submit)
         {
-            await SubjectAssignmentSubmitClient.SendFeedbackAsync(SubjectId, submit.Id, new SubjectAssignmentSubmitFeedbackArguments
+            await SubjectAssignmentSubmitClient.SendFeedbackAsync(new SubjectAssignmentSubmitFeedbackArguments
             {
+                SubjectAssignmentSubmitId = submit.Id,
                 Comment = "Smth",
                 FeedbackType = FeedbackType.Reject
             });

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Database.Seeding.Tools;
-using Iwentys.Features.GithubIntegration.Entities;
-using Iwentys.Features.GithubIntegration.Models;
-using Iwentys.Features.Study.Entities;
+using Iwentys.Domain.GithubIntegration;
+using Iwentys.Domain.GithubIntegration.Models;
+using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators

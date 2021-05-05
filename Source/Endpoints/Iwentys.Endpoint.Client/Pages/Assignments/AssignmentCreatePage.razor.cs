@@ -26,7 +26,7 @@ namespace Iwentys.Endpoint.Client.Pages.Assignments
             if (_studyGroup is not null)
             {
                 List<SubjectProfileDto> subject = new List<SubjectProfileDto>();
-                subject.AddRange(await SubjectClient.GetByGroupIdAsync(_studyGroup.Id));
+                subject.AddRange(await SubjectClient.GetSubjectsByGroupIdAsync(_studyGroup.Id));
 
                 //FYI: this value is used in selector
                 subject.Insert(0, null);

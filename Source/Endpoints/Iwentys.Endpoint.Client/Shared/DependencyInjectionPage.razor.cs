@@ -21,7 +21,6 @@ namespace Iwentys.Endpoint.Client.Shared
         public GuildClient GuildClient { get; set; }
         public GuildMembershipClient GuildMembershipClient { get; set; }
         public GuildRecruitmentClient GuildRecruitmentClient { get; set; }
-        public GuildTestTaskServiceClient GuildTestTaskServiceClient { get; set; }
         public GuildTributeClient GuildTributeClient { get; set; }
         public InterestTagClient InterestTagClient { get; set; }
         public IsuAuthClient IsuAuthClient { get; set; }
@@ -51,7 +50,6 @@ namespace Iwentys.Endpoint.Client.Shared
             GuildClient = new GuildClient(httpClient);
             GuildMembershipClient = new GuildMembershipClient(httpClient);
             GuildRecruitmentClient = new GuildRecruitmentClient(httpClient);
-            GuildTestTaskServiceClient = new GuildTestTaskServiceClient(httpClient);
             GuildTributeClient = new GuildTributeClient(httpClient);
             InterestTagClient = new InterestTagClient(httpClient);
             IsuAuthClient = new IsuAuthClient(httpClient);

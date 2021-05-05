@@ -1,9 +1,8 @@
 ﻿using System;
 using Bogus;
-using Iwentys.Features.Assignments.Entities;
-using Iwentys.Features.Study.SubjectAssignments.Entities;
-using Iwentys.Features.Study.SubjectAssignments.Enums;
-using Iwentys.Features.Study.SubjectAssignments.Models;
+using Iwentys.Domain.Study;
+using Iwentys.Domain.Study.Enums;
+using Iwentys.Domain.Study.Models;
 
 namespace Iwentys.Database.Seeding.FakerEntities.Study
 {
@@ -34,20 +33,22 @@ namespace Iwentys.Database.Seeding.FakerEntities.Study
             };
         }
 
-        public SubjectAssignmentSubmitFeedbackArguments CreateFeedback(FeedbackType feedbackType = FeedbackType.Approve)
+        public SubjectAssignmentSubmitFeedbackArguments CreateFeedback(int submitId, FeedbackType feedbackType = FeedbackType.Approve)
         {
             return new SubjectAssignmentSubmitFeedbackArguments
             {
                 Comment = _faker.Lorem.Word(),
-                FeedbackType = feedbackType
+                FeedbackType = feedbackType,
+                SubjectAssignmentSubmitId = submitId
             };
         }
 
-        public SubjectAssignmentSubmitCreateArguments CreateSubjectAssignmentSubmitCreateArguments()
+        public SubjectAssignmentSubmitCreateArguments CreateSubjectAssignmentSubmitCreateArguments(int assignmentId)
         {
             return new SubjectAssignmentSubmitCreateArguments
             {
-                StudentDescription = _faker.Lorem.Word()
+                StudentDescription = _faker.Lorem.Word(),
+                SubjectAssignmentId = assignmentId
             };
         }
 

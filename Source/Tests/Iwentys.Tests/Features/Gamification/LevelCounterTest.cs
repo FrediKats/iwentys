@@ -1,4 +1,4 @@
-﻿using Iwentys.Features.Gamification.Domain;
+﻿using Iwentys.Domain.Gamification;
 using NUnit.Framework;
 
 namespace Iwentys.Tests.Features.Gamification

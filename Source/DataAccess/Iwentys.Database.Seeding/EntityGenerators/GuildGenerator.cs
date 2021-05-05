@@ -2,11 +2,10 @@
 using System.Linq;
 using Bogus;
 using Iwentys.Database.Seeding.FakerEntities.Guilds;
-using Iwentys.Features.GithubIntegration.Entities;
-using Iwentys.Features.Guilds.Entities;
-using Iwentys.Features.Guilds.Enums;
-using Iwentys.Features.Guilds.Tributes.Entities;
-using Iwentys.Features.Study.Entities;
+using Iwentys.Domain.GithubIntegration;
+using Iwentys.Domain.Guilds;
+using Iwentys.Domain.Guilds.Enums;
+using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Database.Seeding.EntityGenerators

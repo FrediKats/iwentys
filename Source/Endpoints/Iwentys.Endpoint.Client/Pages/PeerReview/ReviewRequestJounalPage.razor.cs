@@ -12,7 +12,7 @@ namespace Iwentys.Endpoint.Client.Pages.PeerReview
         {
             await base.OnInitializedAsync();
 
-            _projectReviewRequests = await PeerReviewClient.AllAsync();
+            _projectReviewRequests = await PeerReviewClient.GetProjectReviewRequestsAsync();
         }
 
         public static string LinkToReviewRequestCreatePage() => "peer-review/create";

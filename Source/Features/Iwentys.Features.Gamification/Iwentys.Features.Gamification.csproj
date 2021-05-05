@@ -1,8 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <EnableNETAnalyzers>false</EnableNETAnalyzers>
+    <AnalysisLevel>5.0</AnalysisLevel>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Iwentys.Features.GithubIntegration\Iwentys.Features.GithubIntegration.csproj" />

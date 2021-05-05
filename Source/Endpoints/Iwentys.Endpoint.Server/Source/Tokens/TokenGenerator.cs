@@ -2,7 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Iwentys.Common.Transferable;
-using Iwentys.Endpoint.Server.Source.Options;
+using Iwentys.Infrastructure.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Iwentys.Endpoint.Server.Source.Tokens

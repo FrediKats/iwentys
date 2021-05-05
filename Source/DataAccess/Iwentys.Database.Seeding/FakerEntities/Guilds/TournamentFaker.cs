@@ -1,7 +1,7 @@
 ﻿using System;
 using Bogus;
-using Iwentys.Features.Guilds.Tournaments.Enums;
-using Iwentys.Features.Guilds.Tournaments.Models;
+using Iwentys.Domain.Guilds.Enums;
+using Iwentys.Domain.Guilds.Models;
 
 namespace Iwentys.Database.Seeding.FakerEntities.Guilds
 {

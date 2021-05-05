@@ -1,8 +1,8 @@
 ﻿using Iwentys.Database.Seeding.FakerEntities;
-using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.Newsfeeds.Models;
-using Iwentys.Features.Study.Entities;
-using Iwentys.Features.Study.Models;
+using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Newsfeeds.Dto;
+using Iwentys.Domain.Study;
+using Iwentys.Domain.Study.Models;
 using Iwentys.Tests.Tools;
 
 namespace Iwentys.Tests.TestCaseContexts
@@ -22,17 +22,10 @@ namespace Iwentys.Tests.TestCaseContexts
             {
                 Name = RandomProvider.Faker.Name.JobArea()
             };
-            _context.UnitOfWork.GetRepository<Subject>().InsertAsync(subject).Wait();
+            _context.UnitOfWork.GetRepository<Subject>().Insert(subject);
             _context.UnitOfWork.CommitAsync().Wait();
 
             return new SubjectProfileDto(subject);
-        }
-
-        public NewsfeedViewModel WithSubjectNews(SubjectProfileDto subjectProfile, AuthorizedUser creator)
-        {
-            NewsfeedCreateViewModel createViewModel = NewsfeedFaker.Instance.GenerateNewsfeedCreateViewModel();
-            NewsfeedViewModel newsfeedViewModel = _context.NewsfeedService.CreateSubjectNewsfeed(createViewModel, creator, subjectProfile.Id).Result;
-            return newsfeedViewModel;
         }
     }
 }

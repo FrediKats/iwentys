@@ -1,6 +1,6 @@
 ﻿using Iwentys.Database.Seeding.FakerEntities;
-using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.AccountManagement.Models;
+using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.AccountManagement.Dto;
 
 namespace Iwentys.Tests.TestCaseContexts
 {
@@ -19,9 +19,23 @@ namespace Iwentys.Tests.TestCaseContexts
             createArguments.IsAdmin = isAdmin;
             createArguments.Id = UsersFaker.Instance.GetIdentifier();
 
-            IwentysUserInfoDto iwentysUserInfoDto = _context.IwentysUserService.Create(createArguments).Result;
+            var iwentysUser = IwentysUser.Create(createArguments);
+
+            _context.UnitOfWork.GetRepository<IwentysUser>().Insert(iwentysUser);
+            _context.UnitOfWork.CommitAsync().Wait();
+            IwentysUserInfoDto iwentysUserInfoDto = new IwentysUserInfoDto(iwentysUser);
 
             return AuthorizedUser.DebugAuth(iwentysUserInfoDto.Id);
+        }
+
+        public IwentysUser WithIwentysUser(bool isAdmin = false)
+        {
+            IwentysUserCreateArguments createArguments = UsersFaker.Instance.IwentysUsers.Generate();
+            createArguments.IsAdmin = isAdmin;
+            createArguments.Id = UsersFaker.Instance.GetIdentifier();
+
+            var iwentysUser = IwentysUser.Create(createArguments);
+            return iwentysUser;
         }
     }
 }

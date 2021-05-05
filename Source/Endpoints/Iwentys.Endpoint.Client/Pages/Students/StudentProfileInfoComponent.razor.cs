@@ -10,7 +10,8 @@ namespace Iwentys.Endpoint.Client.Pages.Students
         private GuildProfileDto _guild;
         private GroupProfileResponseDto _group;
         private StudentInfoDto _self;
-        private KarmaStatistic _userKarmaStatistic;
+        //TODO: i'm not sure it;s ok
+        private Response _userKarmaStatistic;
 
         protected override async Task OnInitializedAsync()
         {

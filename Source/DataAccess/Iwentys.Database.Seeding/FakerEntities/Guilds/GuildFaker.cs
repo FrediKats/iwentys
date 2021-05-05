@@ -1,7 +1,7 @@
 ﻿using Bogus;
-using Iwentys.Features.Guilds.Entities;
-using Iwentys.Features.Guilds.Enums;
-using Iwentys.Features.Guilds.Tributes.Models;
+using Iwentys.Domain.Guilds;
+using Iwentys.Domain.Guilds.Enums;
+using Iwentys.Domain.Guilds.Models;
 
 namespace Iwentys.Database.Seeding.FakerEntities.Guilds
 {
@@ -28,6 +28,15 @@ namespace Iwentys.Database.Seeding.FakerEntities.Guilds
             {
                 Id = GithubRepositoryFaker.Instance.GetId(),
                 GuildId = guildId
+            };
+        }
+
+        public GuildCreateRequestDto GetGuildCreateArguments(GuildHiringPolicy policy = GuildHiringPolicy.Open)
+        {
+            return new GuildCreateRequestDto
+            {
+                Title = _faker.Company.CompanyName(),
+                HiringPolicy = policy
             };
         }
 

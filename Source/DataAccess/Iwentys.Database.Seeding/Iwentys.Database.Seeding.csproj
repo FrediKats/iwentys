@@ -1,7 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <EnableNETAnalyzers>false</EnableNETAnalyzers>
+    <AnalysisLevel>5.0</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,17 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Features\Iwentys.Features.Assignments\Iwentys.Features.Assignments.csproj" />
-    <ProjectReference Include="..\..\Features\Iwentys.Features.GithubIntegration\Iwentys.Features.GithubIntegration.csproj" />
-    <ProjectReference Include="..\..\Features\Iwentys.Features.Guilds.Tournaments\Iwentys.Features.Guilds.Tournaments.csproj" />
-    <ProjectReference Include="..\..\Features\Iwentys.Features.Guilds.Tributes\Iwentys.Features.Guilds.Tributes.csproj" />
     <ProjectReference Include="..\..\Features\Iwentys.Features.Guilds\Iwentys.Features.Guilds.csproj" />
-    <ProjectReference Include="..\..\Features\Iwentys.Features.Newsfeeds\Iwentys.Features.Newsfeeds.csproj" />
-    <ProjectReference Include="..\..\Features\Iwentys.Features.Quests\Iwentys.Features.Quests.csproj" />
-    <ProjectReference Include="..\..\Features\Iwentys.Features.Raids\Iwentys.Features.Raids.csproj" />
-    <ProjectReference Include="..\..\Features\Iwentys.Features.Study.SubjectAssignments\Iwentys.Features.Study.SubjectAssignments.csproj" />
     <ProjectReference Include="..\..\Features\Iwentys.Features.Study\Iwentys.Features.Study.csproj" />
-    <ProjectReference Include="..\..\Shared\Iwentys.Common\Iwentys.Common.csproj" />
   </ItemGroup>
 
 

@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Iwentys.Features.AccountManagement.Domain;
-using Iwentys.Features.AccountManagement.Models;
-using Iwentys.Features.Companies.Models;
+﻿using System.Linq;
+using Iwentys.Database.Seeding.FakerEntities;
+using Iwentys.Database.Seeding.FakerEntities.Extended;
+using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Companies;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -12,34 +11,31 @@ namespace Iwentys.Tests.Features
     public class CompanyFeatureTest
     {
         [Test]
-        public async Task CreateCompanyWithWorker_ShouldReturnOneWorker()
+        public void CreateCompanyWithWorker_ShouldReturnOneWorker()
         {
             TestCaseContext testCase = TestCaseContext.Case();
-            AuthorizedUser admin = testCase.AccountManagementTestCaseContext.WithUser(true);
-            CompanyInfoDto company = testCase.CompanyTestCaseContext.WithCompany(admin);
-            AuthorizedUser user = testCase.CompanyTestCaseContext.WithCompanyWorker(company);
+            IwentysUser admin = testCase.AccountManagementTestCaseContext.WithIwentysUser(true);
+            IwentysUser newWorker = testCase.AccountManagementTestCaseContext.WithIwentysUser();
+            Company company = Company.Create(admin, CompanyFaker.Instance.NewCompany());
 
-            List<IwentysUserInfoDto> companyMembers = (await testCase.CompanyService.Get(company.Id)).Workers;
+            CompanyWorker newRequest = company.NewRequest(newWorker, null);
+            newRequest.Approve(admin);
 
-            Assert.IsTrue(companyMembers.Any(cw => cw.Id == user.Id));
+            Assert.IsTrue(company.Workers.Any(cw => cw.Worker.Id == newWorker.Id));
         }
 
         [Test]
-        public async Task SendCompanyWorkerRequest_RequestWillExists()
+        public void SendCompanyWorkerRequest_RequestWillExists()
         {
             TestCaseContext testCase = TestCaseContext.Case();
-            AuthorizedUser admin = testCase.AccountManagementTestCaseContext.WithUser(true);
-            CompanyInfoDto company = testCase.CompanyTestCaseContext.WithCompany(admin);
-            AuthorizedUser worker = testCase.AccountManagementTestCaseContext.WithUser();
+            IwentysUser admin = testCase.AccountManagementTestCaseContext.WithIwentysUser(true);
+            Company company = Company.Create(admin, CompanyFaker.Instance.NewCompany());
+            var profile = IwentysUser.Create(UsersFaker.Instance.IwentysUsers.Generate());
 
-            await testCase.CompanyService.RequestAdding(company.Id, worker.Id);
-            List<CompanyWorkRequestDto> companyRequests = await testCase.CompanyService.GetCompanyWorkRequest();
-            CompanyInfoDto companyInfo = await testCase.CompanyService.Get(company.Id);
+            CompanyWorker newRequest = company.NewRequest(profile, null);
 
-            List<IwentysUserInfoDto> companyMembers = companyInfo.Workers;
-
-            Assert.IsFalse(companyMembers.Any(cw => cw.Id == worker.Id));
-            Assert.IsTrue(companyRequests.Any(cr => cr.Worker.Id == worker.Id));
+            Assert.IsFalse(company.Workers.Any(cw => cw.Worker.Id == profile.Id && cw.Type != CompanyWorkerType.Requested));
+            Assert.IsTrue(company.Workers.Any(cw => cw.Worker.Id == profile.Id && cw.Type == CompanyWorkerType.Requested));
         }
     }
 }
