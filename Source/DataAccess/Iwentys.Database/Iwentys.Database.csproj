@@ -17,8 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Features\Iwentys.Features.Extended\Iwentys.Features.Extended.csproj" />
-    <ProjectReference Include="..\..\Features\Iwentys.Features.Gamification\Iwentys.Features.Gamification.csproj" />
     <ProjectReference Include="..\Iwentys.Database.Seeding\Iwentys.Database.Seeding.csproj" />
   </ItemGroup>
 

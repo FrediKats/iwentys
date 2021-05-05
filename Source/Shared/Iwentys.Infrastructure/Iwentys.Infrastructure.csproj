@@ -12,6 +12,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\DataAccess\Iwentys.Database\Iwentys.Database.csproj" />
+    <ProjectReference Include="..\..\Features\Iwentys.Features.Extended\Iwentys.Features.Extended.csproj" />
+    <ProjectReference Include="..\..\Features\Iwentys.Features.Gamification\Iwentys.Features.Gamification.csproj" />
+    <ProjectReference Include="..\..\Features\Iwentys.Features.Guilds\Iwentys.Features.Guilds.csproj" />
     <ProjectReference Include="..\..\Integrations\Iwentys.Integrations.GithubIntegration\Iwentys.Integrations.GithubIntegration.csproj" />
   </ItemGroup>
 

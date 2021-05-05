@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\DataAccess\Iwentys.Database\Iwentys.Database.csproj" />
     <ProjectReference Include="..\..\Features\Iwentys.Domain\Iwentys.Domain.csproj" />
   </ItemGroup>
 
