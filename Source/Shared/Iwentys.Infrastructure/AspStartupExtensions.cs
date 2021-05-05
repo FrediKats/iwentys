@@ -1,4 +1,5 @@
-﻿using Iwentys.Common.Databases;
+﻿using System;
+using Iwentys.Common.Databases;
 using Iwentys.Database;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.GithubIntegration;
@@ -72,6 +73,11 @@ namespace Iwentys.Infrastructure
         {
             services.AddScoped<IUnitOfWork, UnitOfWork<TContext>>();
             return services;
+        }
+
+        public static IServiceCollection AddAutoMapperConfig(this IServiceCollection services)
+        {
+            return services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
     }
 }

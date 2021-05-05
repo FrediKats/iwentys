@@ -1,10 +1,15 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Tools;
+using Iwentys.Database;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Features.Study.StudentProfile
 {
@@ -32,18 +37,22 @@ namespace Iwentys.Features.Study.StudentProfile
 
         public class Handler : IRequestHandler<Query, Response>
         {
+            private readonly IwentysDbContext _context;
+            private readonly IMapper _mapper;
             private readonly IGenericRepository<Student> _studentRepository;
 
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IUnitOfWork unitOfWork, IwentysDbContext context, IMapper mapper)
             {
+                _context = context;
+                _mapper = mapper;
                 _studentRepository = unitOfWork.GetRepository<Student>();
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                StudentInfoDto result = await _studentRepository
-                    .GetById(request.StudentId)
-                    .To(s => new StudentInfoDto(s));
+                StudentInfoDto result = await _mapper
+                    .ProjectTo<StudentInfoDto>(_context.Students)
+                    .FirstAsync(s => s.Id == request.StudentId);
 
                 return new Response(result);
             }

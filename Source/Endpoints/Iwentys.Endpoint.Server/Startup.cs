@@ -48,7 +48,8 @@ namespace Iwentys.Endpoint.Server
                 .AddIwentysTokenFactory(Configuration)
                 .AddUnitOfWork<IwentysDbContext>()
                 .AddIwentysMediatorHandlers()
-                .AddIwentysServices();
+                .AddIwentysServices()
+                .AddAutoMapperConfig();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

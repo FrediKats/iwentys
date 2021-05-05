@@ -18,7 +18,8 @@ namespace Iwentys.Tests.Tools
                     .UseLazyLoadingProxies())
                 .AddUnitOfWork<IwentysDbContext>()
                 .AddIwentysMediatorHandlers()
-                .AddIwentysServices();
+                .AddIwentysServices()
+                .AddAutoMapperConfig();
 
             ServiceProvider = services.BuildServiceProvider();
         }
