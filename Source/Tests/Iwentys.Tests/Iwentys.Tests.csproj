@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Shared\Iwentys.Infrastructure\Iwentys.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Shared\Iwentys.Infrastructure\Iwentys.Configuration.csproj" />
   </ItemGroup>
 
 </Project>

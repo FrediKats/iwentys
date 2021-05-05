@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Iwentys.FeatureBase\Iwentys.FeatureBase.csproj" />
-    <ProjectReference Include="..\Iwentys.Domain\Iwentys.Domain.csproj" />
   </ItemGroup>
 
 </Project>

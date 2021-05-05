@@ -48,7 +48,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Integrations\Iwentys.Integrations.GoogleTableIntegration\Iwentys.Integrations.GoogleTableIntegration.csproj" />
-    <ProjectReference Include="..\..\Shared\Iwentys.Infrastructure\Iwentys.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Shared\Iwentys.Infrastructure\Iwentys.Configuration.csproj" />
     <ProjectReference Include="..\Iwentys.Endpoint.Client\Iwentys.Endpoint.Client.csproj" />
   </ItemGroup>
 

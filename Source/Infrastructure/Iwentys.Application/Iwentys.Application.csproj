@@ -1,19 +1,21 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <EnableNETAnalyzers>false</EnableNETAnalyzers>
-    <AnalysisLevel>5.0</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="Kysect.ItmoScheduleSdk" Version="1.0.5" />
     <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\DataAccess\Iwentys.Database\Iwentys.Database.csproj" />
+    <ProjectReference Include="..\..\Integrations\Iwentys.Integrations.GithubIntegration\Iwentys.Integrations.GithubIntegration.csproj" />
   </ItemGroup>
 
 </Project>

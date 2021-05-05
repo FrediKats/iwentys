@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Features\Iwentys.Features.Study\Iwentys.Features.Study.csproj" />
+    <ProjectReference Include="..\..\Features\Iwentys.Domain\Iwentys.Domain.csproj" />
   </ItemGroup>
 
 </Project>

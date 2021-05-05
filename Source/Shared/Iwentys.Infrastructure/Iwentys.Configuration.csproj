@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -8,14 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DataAccess\Iwentys.Database\Iwentys.Database.csproj" />
-    <ProjectReference Include="..\..\Features\Iwentys.Features.Extended\Iwentys.Features.Extended.csproj" />
-    <ProjectReference Include="..\..\Features\Iwentys.Features.Gamification\Iwentys.Features.Gamification.csproj" />
-    <ProjectReference Include="..\..\Features\Iwentys.Features.Guilds\Iwentys.Features.Guilds.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Iwentys.Application\Iwentys.Application.csproj" />
     <ProjectReference Include="..\..\Integrations\Iwentys.Integrations.GithubIntegration\Iwentys.Integrations.GithubIntegration.csproj" />
   </ItemGroup>
 

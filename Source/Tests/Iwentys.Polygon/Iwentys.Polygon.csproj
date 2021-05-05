@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Features\Iwentys.Domain\Iwentys.Domain.csproj" />
     <ProjectReference Include="..\..\Integrations\Iwentys.Integrations.GoogleTableIntegration\Iwentys.Integrations.GoogleTableIntegration.csproj" />
   </ItemGroup>
 
