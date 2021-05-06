@@ -1,0 +1,58 @@
+﻿@page "/subject/{SubjectId:int}/management/assignments/submits/{SubmitId:int}"
+
+@using Iwentys.Sdk
+@using Iwentys.Sdk.Extensions
+
+@inherits Iwentys.Endpoints.WebClient.Shared.DependencyInjectionPage
+
+<h3>SubjectAssignmentSubmitPage</h3>
+
+@if (_submit is not null)
+{
+    <div class="card-list-element">
+        <MatCard Class="dark-elevation-01">
+            <MatCardContent>
+                <div class="card-list-element-content">
+                    <MatHeadline6>
+                        @_submit.Student.GetFullName()
+                    </MatHeadline6>
+                    @switch (_submit.State)
+                    {
+                        case AssignmentSubmitState.Open:
+                            break;
+                        case AssignmentSubmitState.Approved:
+                            <MatBody2>
+                                Approved (@_submit.ApproveTimeUtc)
+                            </MatBody2>
+                            break;
+                        case AssignmentSubmitState.Rejected:
+                            <MatBody2>
+                                Rejected (@_submit.RejectTimeUtc)
+                            </MatBody2>
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(AssignmentSubmitState), "Unsupported assignment state");
+                    }
+                </div>
+            </MatCardContent>
+            <MatCardActions>
+                @if (_submit.ApproveTimeUtc is null)
+                {
+                    <MatButton OnClick=@(async () => await Approve(_submit))>Approve</MatButton>
+                }
+
+                @if (_submit.RejectTimeUtc is null)
+                {
+                    <MatButton OnClick=@(async () => await Reject(_submit))>Reject</MatButton>
+                }
+            </MatCardActions>
+        </MatCard>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int SubjectId { get; set; }
+    [Parameter]
+    public int SubmitId { get; set; }
+}

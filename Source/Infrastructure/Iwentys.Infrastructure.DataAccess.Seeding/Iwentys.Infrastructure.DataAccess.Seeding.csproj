@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.51.0.2266" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.5" />
+    <PackageReference Include="Bogus" Version="33.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="FakerEntities\Raids\" />
   </ItemGroup>
 
   <ItemGroup>

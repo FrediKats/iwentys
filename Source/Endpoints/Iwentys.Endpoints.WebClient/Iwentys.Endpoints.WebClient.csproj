@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <EnableNETAnalyzers>false</EnableNETAnalyzers>
+    <AnalysisLevel>5.0</AnalysisLevel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\CommonElementStyle.scss" />
+    <None Include="wwwroot\css\GlobalStyle.css" />
+    <None Include="wwwroot\css\GlobalStyle.scss" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazor.Extensions.Logging" Version="2.0.4" />
+    <PackageReference Include="Blazored.LocalStorage" Version="3.0.0" />
+    <PackageReference Include="ChartJs.Blazor" Version="1.1.0" />
+    <PackageReference Include="Delegate.SassBuilder" Version="1.4.0" />
+    <PackageReference Include="MatBlazor" Version="2.9.0-develop-042" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
+    <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
+    <PackageReference Include="VxFormGenerator.Components.Bootstrap" Version="0.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Iwentys.Endpoints.Sdk\Iwentys.Endpoints.Sdk.csproj" />
+  </ItemGroup>
+
+</Project>

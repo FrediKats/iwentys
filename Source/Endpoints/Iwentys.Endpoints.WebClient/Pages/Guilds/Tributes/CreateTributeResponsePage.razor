@@ -1,0 +1,43 @@
+﻿@page "/guild/{GuildId:int}/tribute/{TributeId:int}/response"
+
+@inherits Iwentys.Endpoints.WebClient.Shared.DependencyInjectionPage
+
+<h3>CreateTributeResponsePage</h3>
+
+<div class="container-fluid d-flex flex-row">
+
+    <div class="col-md-6 d-flex flex-column dark-elevation-01">
+        @if (_tribute is not null)
+        {
+            <h5>Mark tribute</h5>
+            <p>
+                <MatBody2>@_tribute.Project.Name</MatBody2>
+                <MatBody2>@_tribute.Project.Description</MatBody2>
+                <MatBody2>@_tribute.Project.Url</MatBody2>
+            </p>
+            <div class="input-form-component">
+                <p>
+                    <MatTextField @bind-Value="@_comment" Label="Comment" Class="input-element" FullWidth="true"></MatTextField>
+                </p>
+
+                <p>
+                    <MatTextField @bind-Value="@_difficultLevel" Label="Difficult" Class="input-element" FullWidth="true"></MatTextField>
+                </p>
+
+                <p>
+                    <MatTextField @bind-Value="@_mark" Label="Mark" Class="input-element" FullWidth="true"></MatTextField>
+                </p>
+            </div>
+
+            <MatButton OnClick="@(async () => await CreateResponse())" class="dark-elevation-04">Create</MatButton>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int GuildId { get; set; }
+
+    [Parameter]
+    public int TributeId { get; set; }
+}

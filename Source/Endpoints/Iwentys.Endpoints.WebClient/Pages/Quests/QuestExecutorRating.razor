@@ -1,0 +1,37 @@
+﻿@page "/quests/rating/"
+
+@using Iwentys.Sdk
+@using Iwentys.Sdk.Extensions
+@inherits Iwentys.Endpoints.WebClient.Shared.DependencyInjectionPage
+
+
+<div class="text-center">
+    <h3>QuestExecutorRating</h3>
+
+    <div class="container-fluid d-flex flex-row">
+        <div class="container-fluid d-flex flex-column">
+            @if (_questExecutorRating is not null)
+            {
+                @foreach (QuestRatingRow executorRow in _questExecutorRating)
+                {
+                    <a href=@LinkToProfile(executorRow.User)>
+                        <div class="d-flex flex-row dark-elevation-01 student-rating-row justify-content-center">
+                            <div class="col-md-2">
+                                <img src=@executorRow.User.AvatarUrl class="student-logo" />
+                            </div>
+
+                            <div class="col-md-8">
+                                <h4>@executorRow.User.GetFullName()</h4>
+                            </div>
+
+                            <div class="col-md-2">
+                                <p>@executorRow.Marks.Sum()</p>
+                            </div>
+                        </div>
+                    </a>
+                }
+            }
+        </div>
+    </div>
+
+</div>

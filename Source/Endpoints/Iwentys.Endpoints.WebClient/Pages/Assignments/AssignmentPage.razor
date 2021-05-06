@@ -1,0 +1,55 @@
+﻿@page "/assignment"
+
+@using Iwentys.Sdk
+
+@inherits Iwentys.Endpoints.WebClient.Shared.DependencyInjectionPage
+
+<div class="container-fluid d-flex flex-row">
+    <div class="col-md-3 d-flex flex-column">
+        <MatButton Disabled="true">Все задачи</MatButton>
+        <MatButton Disabled="true">Персональные задачи</MatButton>
+        <MatButton Disabled="true">Календарь</MatButton>
+        <MatButton Link="/assignment/create">Добавить задачу</MatButton>
+    </div>
+
+    <div class="col-md-6 d-flex flex-column">
+        <h5>Assignment list</h5>
+        @if (_assignment is not null)
+        {
+            <div>
+                @foreach (AssignmentInfoDto assignment in _assignment)
+                {
+                    <div class="card-list-element">
+                        <MatCard Class="dark-elevation-01">
+                            <MatCardContent>
+                                <div class="card-list-element-content">
+                                    <MatHeadline6>
+                                        @assignment.Title @(assignment.DeadlineTimeUtc is not null ? assignment.DeadlineTimeUtc : "")
+                                    </MatHeadline6>
+                                </div>
+                            </MatCardContent>
+                            <MatCardActions>
+                                @if (assignment.IsCompeted)
+                                {
+                                    <MatButton OnClick=@(async () => await Delete(assignment.Id))>Delete</MatButton>
+                                    <MatButton OnClick=@(async () => await MakeUncompleted(assignment.Id))>Undo</MatButton>
+                                }
+
+                                @if (!assignment.IsCompeted)
+                                {
+                                    <MatButton OnClick=@(async () => await MakeCompleted(assignment.Id))>Complete</MatButton>
+                                    <MatButton OnClick=@(async () => await Delete(assignment.Id))>Delete</MatButton>
+                                }
+                            </MatCardActions>
+                        </MatCard>
+                    </div>
+
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+
+}

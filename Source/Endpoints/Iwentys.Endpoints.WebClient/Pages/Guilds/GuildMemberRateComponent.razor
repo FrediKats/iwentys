@@ -1,0 +1,23 @@
+﻿@using Iwentys.Sdk
+@namespace Iwentys.Endpoints.WebClient.Pages.Guilds
+
+<div Elevation="10" Rounded="true" class="text-center">
+    <MatHeadline5>Рейтинг гильдии - @GuildLeaderboard.TotalRate</MatHeadline5>
+    <MatList>
+        @foreach (var member in GuildLeaderboard.MembersImpact)
+        {
+            <MatListItem>
+                <MatBody2 Class="rate-list-item">
+                    <div class="mat-body2">@member.StudentInfoDto.GithubUsername  (@member.TotalRate)</div>
+                </MatBody2>
+            </MatListItem>
+        }
+    </MatList>
+</div>
+
+@code {
+
+    [Parameter]
+    public GuildMemberLeaderBoardDto GuildLeaderboard { get; set; }
+
+}
