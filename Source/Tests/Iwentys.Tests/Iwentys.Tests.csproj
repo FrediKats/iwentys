@@ -22,6 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\DataAccess\Iwentys.Database\Iwentys.Database.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Iwentys.Application\Iwentys.Application.csproj" />
     <ProjectReference Include="..\..\Shared\Iwentys.Infrastructure\Iwentys.Configuration.csproj" />
   </ItemGroup>
 

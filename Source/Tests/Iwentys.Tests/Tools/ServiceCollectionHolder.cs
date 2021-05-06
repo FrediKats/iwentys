@@ -1,5 +1,6 @@
 ﻿using System;
 using Iwentys.Database;
+using Iwentys.Features.Guilds.Infrastructure;
 using Iwentys.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

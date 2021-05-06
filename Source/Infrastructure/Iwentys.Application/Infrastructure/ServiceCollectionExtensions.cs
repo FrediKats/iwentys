@@ -1,62 +1,54 @@
-﻿using System.Reflection;
+﻿using Iwentys.Database;
+using Iwentys.Domain.Gamification;
+using Iwentys.Domain.GithubIntegration;
+using Iwentys.Features.Extended.Companies;
 using Iwentys.Features.Extended.Services;
-using Iwentys.Features.Gamification.Karmas;
+using Iwentys.Features.Gamification.Quests;
 using Iwentys.Features.Gamification.Services;
 using Iwentys.Features.GithubIntegration.GithubIntegration;
+using Iwentys.Features.Guilds.Guilds;
 using Iwentys.Features.Guilds.Services;
+using Iwentys.Features.Study.Infrastructure;
+using Iwentys.Features.Study.StudentProfile;
+using Iwentys.Integrations.GithubIntegration;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Iwentys.Features.Guilds.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddIwentysGuildFeatureServices(this IServiceCollection services)
+        public static IServiceCollection AddIwentysServices(this IServiceCollection services)
         {
+            //FYI: replace after release
+            services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();
+            //services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
+            services.AddScoped<AchievementProvider>();
+
+            services.AddScoped<BarsPointTransactionLogService>();
+            services.AddScoped<StudyLeaderboardService>();
+            services.AddScoped<GithubIntegrationService>();
+
             services.AddScoped<GuildMemberService>();
             services.AddScoped<GuildService>();
             services.AddScoped<GuildTestTaskService>();
 
-            return services;
-        }
-
-        public static IServiceCollection AddIwentysTributesFeatureServices(this IServiceCollection services)
-        {
             services.AddScoped<GuildTributeService>();
-
-            return services;
-        }
-
-        public static IServiceCollection AddIwentysGithubIntegrationFeatureServices(this IServiceCollection services)
-        {
-            services.AddScoped<GithubIntegrationService>();
-
-            return services;
-        }
-
-        public static IServiceCollection AddIwentysGamificationFeatureServices(this IServiceCollection services)
-        {
-            services.AddScoped<StudyLeaderboardService>();
-
-            return services;
-        }
-
-        public static IServiceCollection AddIwentysEconomyFeatureServices(this IServiceCollection services)
-        {
-            services.AddScoped<BarsPointTransactionLogService>();
-
-            return services;
-        }
-
-        public static IServiceCollection AddIwentysQuestFeatureServices(this IServiceCollection services)
-        {
             services.AddScoped<QuestService>();
 
+            services.AddScoped<IStudyDbContext, IwentysDbContext>();
+
+            services.AddScoped<RaidService>();
+
             return services;
         }
 
-        public static IServiceCollection AddIwentysRaidFeatureServices(this IServiceCollection services)
+        public static IServiceCollection AddIwentysMediatorHandlers(this IServiceCollection services)
         {
-            services.AddScoped<RaidService>();
+            services.AddMediatR(typeof(CompanyController).Assembly);
+            services.AddMediatR(typeof(QuestController).Assembly);
+            services.AddMediatR(typeof(GuildController).Assembly);
+            services.AddMediatR(typeof(StudentController).Assembly);
 
             return services;
         }

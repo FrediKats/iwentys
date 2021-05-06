@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Iwentys.Endpoint.Server.Source.IdentityAuth;
+using Iwentys.Features.Guilds.Infrastructure;
 using Iwentys.Infrastructure;
 
 namespace Iwentys.Endpoint.Server
