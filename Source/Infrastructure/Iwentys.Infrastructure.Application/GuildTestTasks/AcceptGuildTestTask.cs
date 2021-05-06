@@ -5,10 +5,10 @@ using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
-using Iwentys.Features.Guilds.Services;
+using Iwentys.Infrastructure.Application.Services;
 using MediatR;
 
-namespace Iwentys.Features.Guilds.GuildTestTasks
+namespace Iwentys.Infrastructure.Application.GuildTestTasks
 {
     public static class AcceptGuildTestTask
     {

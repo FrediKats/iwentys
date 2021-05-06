@@ -7,7 +7,7 @@ using Iwentys.Domain.Companies.Dto;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Extended.Companies
+namespace Iwentys.Infrastructure.Application.Companies
 {
     public class GetCompaniesById
     {

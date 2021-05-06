@@ -1,13 +1,13 @@
 ﻿using System.Linq;
 using System.Threading;
 using Bogus;
-using Iwentys.Database.Seeding.FakerEntities;
-using Iwentys.Database.Seeding.FakerEntities.Study;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Enums;
 using Iwentys.Domain.Study.Models;
-using Iwentys.Features.Study.SubjectAssignments;
+using Iwentys.Infrastructure.Application.SubjectAssignments;
+using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
+using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study;
 
 namespace Iwentys.Tests.TestCaseContexts
 {

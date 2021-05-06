@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using Iwentys.Database.Seeding.FakerEntities.Guilds;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.AccountManagement.Dto;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds.Models;
 using Iwentys.Domain.PeerReview.Dto;
+using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Guilds;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Tests.TestCaseContexts

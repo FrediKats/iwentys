@@ -4,7 +4,7 @@ using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Enums;
 using Iwentys.Domain.Study.Models;
 
-namespace Iwentys.Database.Seeding.FakerEntities.Study
+namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study
 {
     public class SubjectAssignmentFaker
     {

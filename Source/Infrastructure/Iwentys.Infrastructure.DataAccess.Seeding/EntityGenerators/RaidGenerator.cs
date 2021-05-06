@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Database.Seeding.FakerEntities.Raids;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Raids;
 using Iwentys.Domain.Raids.Dto;
 using Iwentys.Domain.Study;
+using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Raids;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Database.Seeding.EntityGenerators
+namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
 {
     public class RaidGenerator : IEntityGenerator
     {

@@ -3,7 +3,7 @@ using Bogus;
 using Iwentys.Domain.Quests;
 using Iwentys.Domain.Quests.Dto;
 
-namespace Iwentys.Database.Seeding.FakerEntities
+namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities
 {
     public class QuestFaker
     {

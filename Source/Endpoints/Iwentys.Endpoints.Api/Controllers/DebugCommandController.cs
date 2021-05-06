@@ -2,14 +2,14 @@
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Domain.Study;
-using Iwentys.Endpoint.Server.Source.BackgroundServices;
-using Iwentys.Features.Guilds.Services;
-using Iwentys.Infrastructure.Options;
+using Iwentys.Endpoints.Api.Source.BackgroundServices;
+using Iwentys.Infrastructure.Application.Services;
+using Iwentys.Infrastructure.Configuration.Options;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using StackExchange.Exceptional;
 
-namespace Iwentys.Endpoint.Server.Controllers
+namespace Iwentys.Endpoints.Api.Controllers
 {
     [Route("api/DebugCommand")]
     [ApiController]

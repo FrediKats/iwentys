@@ -7,7 +7,7 @@ using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
-using Iwentys.Features.GithubIntegration.GithubIntegration;
+using Iwentys.Infrastructure.Application.GithubIntegration;
 using Moq;
 using NUnit.Framework;
 

@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Raids.Dto;
-using Iwentys.FeatureBase;
-using Iwentys.Features.Extended.Services;
+using Iwentys.Infrastructure.Application.Infrastructure;
+using Iwentys.Infrastructure.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Features.Extended.Raids
+namespace Iwentys.Infrastructure.Application.Raids
 {
     [Route("api/raids")]
     [ApiController]

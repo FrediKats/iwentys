@@ -4,7 +4,7 @@ using Iwentys.Domain.InterestTags.Dto;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Features.Gamification.InterestTags
+namespace Iwentys.Infrastructure.Application.InterestTags
 {
     [Route("api/InterestTag")]
     [ApiController]

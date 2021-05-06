@@ -7,7 +7,7 @@ using Iwentys.Domain.Study.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Study.StudentProfile
+namespace Iwentys.Infrastructure.Application.StudentProfile
 {
     public class UpdateStudentProfile
     {

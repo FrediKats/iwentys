@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using Iwentys.Database.Seeding.FakerEntities.Guilds;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
+using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Guilds;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 

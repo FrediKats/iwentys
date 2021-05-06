@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Iwentys.Endpoint.Server
+namespace Iwentys.Endpoints.Api
 {
     public class Program
     {

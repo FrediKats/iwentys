@@ -9,11 +9,11 @@ using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Guilds.Models;
-using Iwentys.FeatureBase;
-using Iwentys.Features.GithubIntegration.GithubIntegration;
+using Iwentys.Infrastructure.Application.GithubIntegration;
+using Iwentys.Infrastructure.Application.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Guilds.Services
+namespace Iwentys.Infrastructure.Application.Services
 {
     public class GuildTestTaskService
     {

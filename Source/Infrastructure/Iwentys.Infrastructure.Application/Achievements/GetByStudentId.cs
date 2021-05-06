@@ -5,7 +5,7 @@ using Iwentys.Domain.Achievements;
 using Iwentys.Domain.Achievements.Dto;
 using MediatR;
 
-namespace Iwentys.Features.Gamification.Achievements
+namespace Iwentys.Infrastructure.Application.Achievements
 {
     public class GetByStudentId
     {

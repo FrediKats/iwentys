@@ -1,7 +1,7 @@
-﻿using Iwentys.Database;
-using Iwentys.Endpoint.Server.Source.IdentityAuth;
-using Iwentys.Endpoint.Server.Source.Tokens;
-using Iwentys.Infrastructure.Options;
+﻿using Iwentys.Endpoints.Api.Source.IdentityAuth;
+using Iwentys.Endpoints.Api.Source.Tokens;
+using Iwentys.Infrastructure.Configuration.Options;
+using Iwentys.Infrastructure.DataAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
-namespace Iwentys.Endpoint.Server.Source
+namespace Iwentys.Endpoints.Api.Source
 {
     public static class AspStartupExtensions
     {

@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
-using Iwentys.Features.GithubIntegration.GithubIntegration;
-using Iwentys.Features.Guilds.Services;
+using Iwentys.Infrastructure.Application.GithubIntegration;
+using Iwentys.Infrastructure.Application.Services;
 using MediatR;
 
-namespace Iwentys.Features.Guilds.Tournaments
+namespace Iwentys.Infrastructure.Application.Tournaments
 {
     public static class ForceTournamentResultUpdate
     {

@@ -5,7 +5,7 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Karmas;
 using MediatR;
 
-namespace Iwentys.Features.Gamification.Karmas
+namespace Iwentys.Infrastructure.Application.Karmas
 {
     public static class SendKarma
     {

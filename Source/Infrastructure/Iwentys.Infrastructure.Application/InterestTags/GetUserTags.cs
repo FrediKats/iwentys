@@ -6,7 +6,7 @@ using Iwentys.Domain.InterestTags.Dto;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Gamification.InterestTags
+namespace Iwentys.Infrastructure.Application.InterestTags
 {
     public class GetUserTags
     {

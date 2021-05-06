@@ -1,4 +1,6 @@
-﻿namespace Iwentys.Sdk.Extensions
+﻿using Iwentys.Sdk;
+
+namespace Iwentys.Endpoints.Sdk.Extensions
 {
     public static class GithubRepositoryInfoDtoExtensions
     {

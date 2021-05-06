@@ -4,7 +4,7 @@ using Iwentys.Domain.Companies.Dto;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Features.Extended.Companies
+namespace Iwentys.Infrastructure.Application.Companies
 {
     [Route("api/companies")]
     [ApiController]

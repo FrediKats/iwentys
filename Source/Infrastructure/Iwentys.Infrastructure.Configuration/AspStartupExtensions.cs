@@ -1,12 +1,12 @@
 ﻿using System;
 using Iwentys.Common.Databases;
-using Iwentys.Infrastructure.Options;
+using Iwentys.Infrastructure.Configuration.Options;
 using Iwentys.Integrations.GithubIntegration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Infrastructure
+namespace Iwentys.Infrastructure.Configuration
 {
     public static class AspStartupExtensions
     {

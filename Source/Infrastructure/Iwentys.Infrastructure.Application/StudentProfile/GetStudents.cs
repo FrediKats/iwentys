@@ -5,7 +5,7 @@ using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
 using MediatR;
 
-namespace Iwentys.Features.Study.StudentProfile
+namespace Iwentys.Infrastructure.Application.StudentProfile
 {
     public class GetStudents
     {

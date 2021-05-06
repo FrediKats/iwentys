@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study.Models;
-using Iwentys.FeatureBase;
+using Iwentys.Infrastructure.Application.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Features.Study.StudentProfile
+namespace Iwentys.Infrastructure.Application.StudentProfile
 {
     [Route("api/[controller]")]
     [ApiController]

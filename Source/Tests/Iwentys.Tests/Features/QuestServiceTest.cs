@@ -1,7 +1,7 @@
-﻿using Iwentys.Database.Seeding.FakerEntities;
-using Iwentys.Domain.AccountManagement;
+﻿using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Quests;
 using Iwentys.Domain.Quests.Dto;
+using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 

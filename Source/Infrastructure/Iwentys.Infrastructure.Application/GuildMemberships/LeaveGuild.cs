@@ -4,10 +4,10 @@ using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
-using Iwentys.Features.Guilds.Services;
+using Iwentys.Infrastructure.Application.Services;
 using MediatR;
 
-namespace Iwentys.Features.Guilds.GuildMemberships
+namespace Iwentys.Infrastructure.Application.GuildMemberships
 {
     public class LeaveGuild
     {

@@ -2,7 +2,7 @@
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.GithubIntegration.Models;
 
-namespace Iwentys.Features.GithubIntegration.GithubIntegration
+namespace Iwentys.Infrastructure.Application.GithubIntegration
 {
     public class GithubIntegrationService
     {

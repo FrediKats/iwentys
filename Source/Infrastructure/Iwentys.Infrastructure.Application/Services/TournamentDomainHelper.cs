@@ -1,9 +1,9 @@
 ﻿using Iwentys.Common.Exceptions;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
-using Iwentys.Features.GithubIntegration.GithubIntegration;
+using Iwentys.Infrastructure.Application.GithubIntegration;
 
-namespace Iwentys.Features.Guilds.Services
+namespace Iwentys.Infrastructure.Application.Services
 {
     public static class TournamentDomainHelper
     {

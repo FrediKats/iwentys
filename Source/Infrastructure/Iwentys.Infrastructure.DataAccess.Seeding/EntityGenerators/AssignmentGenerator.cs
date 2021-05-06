@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Bogus;
-using Iwentys.Database.Seeding.FakerEntities;
 using Iwentys.Domain.Study;
+using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Database.Seeding.EntityGenerators
+namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
 {
     public class AssignmentGenerator : IEntityGenerator
     {

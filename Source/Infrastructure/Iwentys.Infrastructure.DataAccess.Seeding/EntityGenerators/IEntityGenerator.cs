@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Database.Seeding.EntityGenerators
+namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
 {
     public interface IEntityGenerator
     {

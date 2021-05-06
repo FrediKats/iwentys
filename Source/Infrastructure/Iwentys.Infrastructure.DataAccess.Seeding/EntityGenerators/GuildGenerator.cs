@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Bogus;
-using Iwentys.Database.Seeding.FakerEntities.Guilds;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Study;
+using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Guilds;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Database.Seeding.EntityGenerators
+namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
 {
     public class GuildGenerator : IEntityGenerator
     {

@@ -10,7 +10,7 @@ using Iwentys.Domain.PeerReview.Dto;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Extended.PeerReview
+namespace Iwentys.Infrastructure.Application.PeerReview
 {
     public class GetProjectReviewRequests
     {

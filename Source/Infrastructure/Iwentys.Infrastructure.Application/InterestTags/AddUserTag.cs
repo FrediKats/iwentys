@@ -2,7 +2,7 @@
 using Iwentys.Domain.InterestTags;
 using MediatR;
 
-namespace Iwentys.Features.Gamification.InterestTags
+namespace Iwentys.Infrastructure.Application.InterestTags
 {
     public class AddUserTag
     {

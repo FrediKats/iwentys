@@ -1,16 +1,16 @@
 using System.Text.Json.Serialization;
-using Iwentys.Database;
-using Iwentys.Endpoint.Server.Source;
+using Iwentys.Endpoints.Api.Source;
+using Iwentys.Endpoints.Api.Source.IdentityAuth;
+using Iwentys.Infrastructure.Application.Infrastructure;
+using Iwentys.Infrastructure.Configuration;
+using Iwentys.Infrastructure.DataAccess;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Iwentys.Endpoint.Server.Source.IdentityAuth;
-using Iwentys.Features.Guilds.Infrastructure;
-using Iwentys.Infrastructure;
 
-namespace Iwentys.Endpoint.Server
+namespace Iwentys.Endpoints.Api
 {
     public class Startup
     {

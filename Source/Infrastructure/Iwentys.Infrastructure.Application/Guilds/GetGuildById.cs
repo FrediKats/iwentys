@@ -7,7 +7,7 @@ using Iwentys.Domain.Guilds.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Guilds.Guilds
+namespace Iwentys.Infrastructure.Application.Guilds
 {
     public class GetGuildById
     {

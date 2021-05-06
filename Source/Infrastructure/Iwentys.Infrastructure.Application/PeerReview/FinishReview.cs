@@ -6,7 +6,7 @@ using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.PeerReview;
 using MediatR;
 
-namespace Iwentys.Features.Extended.PeerReview
+namespace Iwentys.Infrastructure.Application.PeerReview
 {
     public class FinishReview
     {

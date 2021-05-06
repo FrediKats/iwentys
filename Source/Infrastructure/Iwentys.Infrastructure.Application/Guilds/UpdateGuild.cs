@@ -6,7 +6,7 @@ using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
 using MediatR;
 
-namespace Iwentys.Features.Guilds.Guilds
+namespace Iwentys.Infrastructure.Application.Guilds
 {
     public class UpdateGuild
     {

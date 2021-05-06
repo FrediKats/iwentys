@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Newsfeeds.Dto;
-using Iwentys.FeatureBase;
+using Iwentys.Infrastructure.Application.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Features.Extended.Newsfeeds
+namespace Iwentys.Infrastructure.Application.Newsfeeds
 {
     [Route("api/[controller]")]
     [ApiController]

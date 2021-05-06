@@ -2,7 +2,7 @@
 using Iwentys.Common.Databases;
 using Iwentys.Domain.Guilds;
 
-namespace Iwentys.Features.Guilds.Services
+namespace Iwentys.Infrastructure.Application.Services
 {
     public static class GuildRepositoryExtensions
     {

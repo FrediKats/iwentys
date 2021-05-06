@@ -5,12 +5,12 @@ using Iwentys.Common.Exceptions;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Enums;
 using Iwentys.Domain.Study.Models;
-using Iwentys.Features.GithubIntegration.GithubIntegration;
-using Iwentys.Features.Study.Infrastructure;
-using Iwentys.Features.Study.Repositories;
+using Iwentys.Infrastructure.Application.GithubIntegration;
+using Iwentys.Infrastructure.Application.Repositories;
+using Iwentys.Infrastructure.DataAccess.Subcontext;
 using MediatR;
 
-namespace Iwentys.Features.Gamification.Leaderboard
+namespace Iwentys.Infrastructure.Application.Leaderboard
 {
     public class GetStudyRating
     {

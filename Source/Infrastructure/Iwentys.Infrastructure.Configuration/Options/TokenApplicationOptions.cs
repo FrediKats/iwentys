@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Iwentys.Infrastructure.Options
+namespace Iwentys.Infrastructure.Configuration.Options
 {
     public class TokenApplicationOptions
     {

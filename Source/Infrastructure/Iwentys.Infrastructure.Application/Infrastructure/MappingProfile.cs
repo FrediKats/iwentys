@@ -2,7 +2,7 @@
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
 
-namespace Iwentys.FeatureBase
+namespace Iwentys.Infrastructure.Application.Infrastructure
 {
     public class MappingProfile : Profile
     {

@@ -3,10 +3,10 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
-using Iwentys.Features.GithubIntegration.GithubIntegration;
+using Iwentys.Infrastructure.Application.GithubIntegration;
 using MediatR;
 
-namespace Iwentys.Features.Guilds.GuildTributes
+namespace Iwentys.Infrastructure.Application.GuildTributes
 {
     public class CompleteTribute
     {

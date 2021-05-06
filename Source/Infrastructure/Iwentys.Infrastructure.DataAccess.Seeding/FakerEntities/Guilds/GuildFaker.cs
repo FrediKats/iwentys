@@ -3,7 +3,7 @@ using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Guilds.Models;
 
-namespace Iwentys.Database.Seeding.FakerEntities.Guilds
+namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Guilds
 {
     public class GuildFaker
     {

@@ -6,7 +6,7 @@ using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Database.Seeding.EntityGenerators
+namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
 {
     public class AchievementGenerator : IEntityGenerator
     {

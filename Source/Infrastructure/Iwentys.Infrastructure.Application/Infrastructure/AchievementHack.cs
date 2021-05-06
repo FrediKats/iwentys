@@ -4,7 +4,7 @@ using Iwentys.Common.Databases;
 using Iwentys.Domain.Achievements;
 using Iwentys.Domain.Gamification;
 
-namespace Iwentys.FeatureBase
+namespace Iwentys.Infrastructure.Application.Infrastructure
 {
     public class AchievementHack
     {

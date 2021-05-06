@@ -5,7 +5,7 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using MediatR;
 
-namespace Iwentys.Features.Guilds.GuildMemberships
+namespace Iwentys.Infrastructure.Application.GuildMemberships
 {
     public class KickGuildMember
     {

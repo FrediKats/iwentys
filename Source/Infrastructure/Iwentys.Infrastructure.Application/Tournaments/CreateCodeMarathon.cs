@@ -6,7 +6,7 @@ using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
 using MediatR;
 
-namespace Iwentys.Features.Guilds.Tournaments
+namespace Iwentys.Infrastructure.Application.Tournaments
 {
     public static class CreateCodeMarathon
     {

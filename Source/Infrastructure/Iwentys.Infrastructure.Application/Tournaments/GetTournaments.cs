@@ -5,10 +5,10 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
-using Iwentys.Features.GithubIntegration.GithubIntegration;
+using Iwentys.Infrastructure.Application.GithubIntegration;
 using MediatR;
 
-namespace Iwentys.Features.Guilds.Tournaments
+namespace Iwentys.Infrastructure.Application.Tournaments
 {
     public class GetTournaments
     {

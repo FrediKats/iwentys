@@ -11,7 +11,7 @@ using Iwentys.Domain.Study;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Extended.Newsfeeds
+namespace Iwentys.Infrastructure.Application.Newsfeeds
 {
     public class GetGuildNewsfeeds
     {

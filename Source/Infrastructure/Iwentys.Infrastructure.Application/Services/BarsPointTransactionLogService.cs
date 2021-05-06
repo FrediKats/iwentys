@@ -4,7 +4,7 @@ using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Gamification;
 
-namespace Iwentys.Features.Gamification.Services
+namespace Iwentys.Infrastructure.Application.Services
 {
     public class BarsPointTransactionLogService
     {

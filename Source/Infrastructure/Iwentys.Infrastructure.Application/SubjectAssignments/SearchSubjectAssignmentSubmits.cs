@@ -9,7 +9,7 @@ using Iwentys.Domain.Study.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Study.SubjectAssignments
+namespace Iwentys.Infrastructure.Application.SubjectAssignments
 {
     public class SearchSubjectAssignmentSubmits
     {

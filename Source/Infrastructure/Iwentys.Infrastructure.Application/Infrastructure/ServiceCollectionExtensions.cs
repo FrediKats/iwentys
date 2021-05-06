@@ -1,20 +1,18 @@
-﻿using Iwentys.Database;
-using Iwentys.Domain.Gamification;
+﻿using Iwentys.Domain.Gamification;
 using Iwentys.Domain.GithubIntegration;
-using Iwentys.Features.Extended.Companies;
-using Iwentys.Features.Extended.Services;
-using Iwentys.Features.Gamification.Quests;
-using Iwentys.Features.Gamification.Services;
-using Iwentys.Features.GithubIntegration.GithubIntegration;
-using Iwentys.Features.Guilds.Guilds;
-using Iwentys.Features.Guilds.Services;
-using Iwentys.Features.Study.Infrastructure;
-using Iwentys.Features.Study.StudentProfile;
+using Iwentys.Infrastructure.Application.Companies;
+using Iwentys.Infrastructure.Application.GithubIntegration;
+using Iwentys.Infrastructure.Application.Guilds;
+using Iwentys.Infrastructure.Application.Quests;
+using Iwentys.Infrastructure.Application.Services;
+using Iwentys.Infrastructure.Application.StudentProfile;
+using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Infrastructure.DataAccess.Subcontext;
 using Iwentys.Integrations.GithubIntegration;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Features.Guilds.Infrastructure
+namespace Iwentys.Infrastructure.Application.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {

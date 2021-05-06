@@ -7,7 +7,7 @@ using Iwentys.Domain.Study.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Study.Study
+namespace Iwentys.Infrastructure.Application.Study
 {
     public class GetSubjectById
     {

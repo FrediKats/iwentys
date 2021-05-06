@@ -2,7 +2,7 @@
 using Iwentys.Domain.AccountManagement;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.FeatureBase
+namespace Iwentys.Infrastructure.Application.Infrastructure
 {
     public static class ControllerBaseExtensions
     {

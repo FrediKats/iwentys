@@ -11,7 +11,7 @@ using Iwentys.Domain.PeerReview;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Extended.PeerReview
+namespace Iwentys.Infrastructure.Application.PeerReview
 {
     public class GetAvailableForReviewProject
     {

@@ -8,7 +8,7 @@ using Iwentys.Integrations.GoogleTableIntegration;
 using Iwentys.Integrations.GoogleTableIntegration.Marks;
 using Microsoft.Extensions.Logging;
 
-namespace Iwentys.Endpoint.Server.Source.BackgroundServices
+namespace Iwentys.Endpoints.Api.Source.BackgroundServices
 {
     public class MarkGoogleTableUpdateService
     {

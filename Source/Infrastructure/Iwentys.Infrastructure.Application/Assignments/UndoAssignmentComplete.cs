@@ -5,7 +5,7 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using MediatR;
 
-namespace Iwentys.Features.Study.Assignments
+namespace Iwentys.Infrastructure.Application.Assignments
 {
     public class UndoAssignmentComplete
     {

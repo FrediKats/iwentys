@@ -4,7 +4,7 @@ using Iwentys.Domain.Achievements.Dto;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Features.Gamification.Achievements
+namespace Iwentys.Infrastructure.Application.Achievements
 {
     [Route("api/achievements")]
     [ApiController]

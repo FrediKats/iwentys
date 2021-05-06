@@ -1,17 +1,14 @@
-﻿using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Iwentys.Common.Databases;
-using Iwentys.Common.Tools;
-using Iwentys.Database;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
+using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Study.StudentProfile
+namespace Iwentys.Infrastructure.Application.StudentProfile
 {
     public class GetStudentById
     {

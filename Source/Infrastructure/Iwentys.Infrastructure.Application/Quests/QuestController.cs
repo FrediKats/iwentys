@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Quests.Dto;
-using Iwentys.FeatureBase;
-using Iwentys.Features.Gamification.Services;
+using Iwentys.Infrastructure.Application.Infrastructure;
+using Iwentys.Infrastructure.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Features.Gamification.Quests
+namespace Iwentys.Infrastructure.Application.Quests
 {
     [Route("api/quests")]
     [ApiController]

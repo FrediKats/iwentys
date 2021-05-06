@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Common.Tools;
-using Iwentys.Database.Seeding.FakerEntities;
-using Iwentys.Database.Seeding.FakerEntities.Study;
-using Iwentys.Database.Seeding.Tools;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Enums;
+using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
+using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study;
+using Iwentys.Infrastructure.DataAccess.Seeding.Tools;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Database.Seeding.EntityGenerators
+namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
 {
     public class StudyEntitiesGenerator : IEntityGenerator
     {

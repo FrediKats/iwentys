@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Database.Seeding.Tools;
 using Iwentys.Domain.Study;
+using Iwentys.Infrastructure.DataAccess.Seeding.Tools;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Database.Seeding.EntityGenerators
+namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
 {
     public class SubjectActivityGenerator : IEntityGenerator
     {

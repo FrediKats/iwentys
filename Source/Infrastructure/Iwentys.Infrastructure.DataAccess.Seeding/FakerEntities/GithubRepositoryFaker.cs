@@ -1,7 +1,7 @@
 ﻿using Bogus;
 using Iwentys.Domain.GithubIntegration.Models;
 
-namespace Iwentys.Database.Seeding.FakerEntities
+namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities
 {
     public class GithubRepositoryFaker
     {

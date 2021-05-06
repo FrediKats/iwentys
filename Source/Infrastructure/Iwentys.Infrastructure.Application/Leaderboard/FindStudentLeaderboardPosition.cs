@@ -3,7 +3,7 @@ using Iwentys.Common.Databases;
 using Iwentys.Domain.Gamification;
 using MediatR;
 
-namespace Iwentys.Features.Gamification.Leaderboard
+namespace Iwentys.Infrastructure.Application.Leaderboard
 {
     public static class FindStudentLeaderboardPosition
     {

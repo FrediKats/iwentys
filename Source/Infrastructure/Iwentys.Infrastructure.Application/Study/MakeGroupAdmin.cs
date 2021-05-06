@@ -5,7 +5,7 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using MediatR;
 
-namespace Iwentys.Features.Study.Study
+namespace Iwentys.Infrastructure.Application.Study
 {
     public class MakeGroupAdmin
     {

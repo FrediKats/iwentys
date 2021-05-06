@@ -2,11 +2,11 @@
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
-using Iwentys.FeatureBase;
+using Iwentys.Infrastructure.Application.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Features.Guilds.GuildMemberships
+namespace Iwentys.Infrastructure.Application.GuildMemberships
 {
     [Route("api/GuildMembership")]
     [ApiController]

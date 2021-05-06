@@ -3,10 +3,10 @@ using System.Linq;
 using Iwentys.Common.Databases;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
-using Iwentys.Features.GithubIntegration.GithubIntegration;
+using Iwentys.Infrastructure.Application.GithubIntegration;
 using MediatR;
 
-namespace Iwentys.Features.Gamification.Leaderboard
+namespace Iwentys.Infrastructure.Application.Leaderboard
 {
     public static class GetCodingRating
     {

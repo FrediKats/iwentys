@@ -9,7 +9,7 @@ using Iwentys.Domain.PeerReview;
 using Iwentys.Domain.PeerReview.Dto;
 using MediatR;
 
-namespace Iwentys.Features.Extended.PeerReview
+namespace Iwentys.Infrastructure.Application.PeerReview
 {
     public class CreateReviewRequest
     {

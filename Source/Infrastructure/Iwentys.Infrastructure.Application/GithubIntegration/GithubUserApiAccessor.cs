@@ -8,7 +8,7 @@ using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.GithubIntegration.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.GithubIntegration.GithubIntegration
+namespace Iwentys.Infrastructure.Application.GithubIntegration
 {
     public class GithubUserApiAccessor : IGithubUserApiAccessor
     {

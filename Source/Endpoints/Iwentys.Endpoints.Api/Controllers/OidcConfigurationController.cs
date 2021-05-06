@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Endpoint.Server.Controllers
+namespace Iwentys.Endpoints.Api.Controllers
 {
     public class OidcConfigurationController : Controller
     {

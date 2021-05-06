@@ -8,7 +8,7 @@ using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
 using MediatR;
 
-namespace Iwentys.Features.Study.Assignments
+namespace Iwentys.Infrastructure.Application.Assignments
 {
     public class CreateAssignment
     {

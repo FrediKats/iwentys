@@ -6,7 +6,7 @@ using Iwentys.Domain.Karmas;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Gamification.Karmas
+namespace Iwentys.Infrastructure.Application.Karmas
 {
     public static class RevokeKarma
     {

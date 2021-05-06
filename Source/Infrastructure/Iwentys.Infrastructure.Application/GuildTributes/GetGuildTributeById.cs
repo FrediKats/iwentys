@@ -5,12 +5,12 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
-using Iwentys.Features.GithubIntegration.GithubIntegration;
-using Iwentys.Features.Guilds.Services;
+using Iwentys.Infrastructure.Application.GithubIntegration;
+using Iwentys.Infrastructure.Application.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Guilds.GuildTributes
+namespace Iwentys.Infrastructure.Application.GuildTributes
 {
     public class GetGuildTributeById
     {

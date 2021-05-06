@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Common.Transferable;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Endpoint.Server.Source.Tokens;
-using Iwentys.FeatureBase;
-using Iwentys.Infrastructure.Options;
+using Iwentys.Endpoints.Api.Source.Tokens;
+using Iwentys.Infrastructure.Application.Infrastructure;
+using Iwentys.Infrastructure.Configuration.Options;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Tef.IsuIntegrator;
 using Tef.IsuIntegrator.Responses;
 
-namespace Iwentys.Endpoint.Server.Controllers
+namespace Iwentys.Endpoints.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Database.Subcontext
+namespace Iwentys.Infrastructure.DataAccess.Subcontext
 {
     public interface ITributesDbContext
     {

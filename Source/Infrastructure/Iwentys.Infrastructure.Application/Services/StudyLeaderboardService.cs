@@ -3,10 +3,10 @@ using System.Linq;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
-using Iwentys.Features.Study.Infrastructure;
-using Iwentys.Features.Study.Repositories;
+using Iwentys.Infrastructure.Application.Repositories;
+using Iwentys.Infrastructure.DataAccess.Subcontext;
 
-namespace Iwentys.Features.Gamification.Services
+namespace Iwentys.Infrastructure.Application.Services
 {
     public class StudyLeaderboardService
     {

@@ -1,9 +1,7 @@
 using Iwentys.Common.Databases;
-using Iwentys.Database;
-using Iwentys.Features.Extended.Services;
-using Iwentys.Features.Gamification.Services;
-using Iwentys.Features.GithubIntegration.GithubIntegration;
-using Iwentys.Features.Guilds.Services;
+using Iwentys.Infrastructure.Application.GithubIntegration;
+using Iwentys.Infrastructure.Application.Services;
+using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Tests.Tools;
 using Microsoft.Extensions.DependencyInjection;
 

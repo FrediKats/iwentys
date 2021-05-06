@@ -4,13 +4,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Domain.Study;
-using Iwentys.Features.GithubIntegration.GithubIntegration;
-using Iwentys.Infrastructure.Options;
+using Iwentys.Infrastructure.Application.GithubIntegration;
+using Iwentys.Infrastructure.Configuration.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Iwentys.Endpoint.Server.Source.BackgroundServices
+namespace Iwentys.Endpoints.Api.Source.BackgroundServices
 {
     public class GithubUpdateBackgroundService : BackgroundService
     {

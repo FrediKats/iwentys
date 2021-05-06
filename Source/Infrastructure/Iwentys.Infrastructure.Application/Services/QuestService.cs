@@ -8,10 +8,10 @@ using Iwentys.Domain.Achievements;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Quests;
 using Iwentys.Domain.Quests.Dto;
-using Iwentys.FeatureBase;
+using Iwentys.Infrastructure.Application.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Gamification.Services
+namespace Iwentys.Infrastructure.Application.Services
 {
     public class QuestService
     {

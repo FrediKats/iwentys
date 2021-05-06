@@ -7,7 +7,7 @@ using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 using MediatR;
 
-namespace Iwentys.Features.Guilds.GuildMemberships
+namespace Iwentys.Infrastructure.Application.GuildMemberships
 {
     public class EnterGuild
     {

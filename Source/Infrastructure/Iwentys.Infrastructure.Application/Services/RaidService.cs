@@ -7,7 +7,7 @@ using Iwentys.Domain.Raids;
 using Iwentys.Domain.Raids.Dto;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Extended.Services
+namespace Iwentys.Infrastructure.Application.Services
 {
     public class RaidService
     {

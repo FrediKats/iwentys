@@ -6,7 +6,7 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 
-namespace Iwentys.Features.Guilds.Services
+namespace Iwentys.Infrastructure.Application.Services
 {
     public class GuildMemberService
     {

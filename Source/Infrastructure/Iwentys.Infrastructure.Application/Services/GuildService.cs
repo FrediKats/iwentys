@@ -7,10 +7,10 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
-using Iwentys.Features.GithubIntegration.GithubIntegration;
+using Iwentys.Infrastructure.Application.GithubIntegration;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Guilds.Services
+namespace Iwentys.Infrastructure.Application.Services
 {
     public class GuildService
     {

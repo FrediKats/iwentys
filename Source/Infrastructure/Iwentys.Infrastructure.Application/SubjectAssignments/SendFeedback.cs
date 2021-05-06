@@ -6,7 +6,7 @@ using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
 using MediatR;
 
-namespace Iwentys.Features.Study.SubjectAssignments
+namespace Iwentys.Infrastructure.Application.SubjectAssignments
 {
     public static class SendFeedback
     {

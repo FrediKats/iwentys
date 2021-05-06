@@ -6,10 +6,10 @@ using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
 using Iwentys.Domain.PeerReview;
-using Iwentys.Features.GithubIntegration.GithubIntegration;
+using Iwentys.Infrastructure.Application.GithubIntegration;
 using MediatR;
 
-namespace Iwentys.Features.Guilds.GuildTestTasks
+namespace Iwentys.Infrastructure.Application.GuildTestTasks
 {
     public static class SubmitGuildTestTask
     {

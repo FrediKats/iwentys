@@ -5,7 +5,7 @@ using Iwentys.Domain.Study.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Features.Study.Study
+namespace Iwentys.Infrastructure.Application.Study
 {
     [Route("api/[controller]")]
     [ApiController]

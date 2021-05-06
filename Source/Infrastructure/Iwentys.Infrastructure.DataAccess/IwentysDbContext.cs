@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Database.Seeding;
-using Iwentys.Database.Subcontext;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Achievements;
 using Iwentys.Domain.Companies;
@@ -16,11 +14,12 @@ using Iwentys.Domain.Quests;
 using Iwentys.Domain.Raids;
 using Iwentys.Domain.Raids.Dto;
 using Iwentys.Domain.Study;
-using Iwentys.Features.Study.Infrastructure;
+using Iwentys.Infrastructure.DataAccess.Seeding;
+using Iwentys.Infrastructure.DataAccess.Subcontext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Iwentys.Database
+namespace Iwentys.Infrastructure.DataAccess
 {
     public class IwentysDbContext : DbContext,
         IAccountManagementDbContext,

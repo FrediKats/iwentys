@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds.Models;
-using Iwentys.FeatureBase;
+using Iwentys.Infrastructure.Application.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Features.Guilds.GuildTestTasks
+namespace Iwentys.Infrastructure.Application.GuildTestTasks
 {
     [Route("api/GuildTestTask")]
     [ApiController]

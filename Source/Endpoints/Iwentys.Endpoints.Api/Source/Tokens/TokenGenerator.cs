@@ -2,10 +2,10 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Iwentys.Common.Transferable;
-using Iwentys.Infrastructure.Options;
+using Iwentys.Infrastructure.Configuration.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Iwentys.Endpoint.Server.Source.Tokens
+namespace Iwentys.Endpoints.Api.Source.Tokens
 {
     public static class TokenGenerator
     {

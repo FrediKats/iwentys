@@ -1,7 +1,7 @@
 ﻿using Iwentys.Domain.Companies;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Database.Subcontext
+namespace Iwentys.Infrastructure.DataAccess.Subcontext
 {
     public interface ICompaniesDbContext
     {

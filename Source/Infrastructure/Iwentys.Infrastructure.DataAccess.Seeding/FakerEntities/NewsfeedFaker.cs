@@ -3,7 +3,7 @@ using Bogus;
 using Iwentys.Domain.Newsfeeds;
 using Iwentys.Domain.Newsfeeds.Dto;
 
-namespace Iwentys.Database.Seeding.FakerEntities
+namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities
 {
     public class NewsfeedFaker
     {

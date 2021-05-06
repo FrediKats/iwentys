@@ -6,7 +6,7 @@ using Iwentys.Domain.Guilds.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Guilds.GuildTestTasks
+namespace Iwentys.Infrastructure.Application.GuildTestTasks
 {
     public static class GetGuildTestTaskSubmits
     {

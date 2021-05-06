@@ -6,7 +6,7 @@ using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
 using MediatR;
 
-namespace Iwentys.Features.Guilds.GuildRecruitments
+namespace Iwentys.Infrastructure.Application.GuildRecruitments
 {
     public static class CreateGuildRecruitment
     {

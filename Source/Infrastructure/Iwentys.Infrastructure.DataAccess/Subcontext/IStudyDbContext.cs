@@ -1,7 +1,7 @@
 ﻿using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Study.Infrastructure
+namespace Iwentys.Infrastructure.DataAccess.Subcontext
 {
     //TODO: it's some hack. Need to move this in database project
     public interface IStudyDbContext

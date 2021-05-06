@@ -9,7 +9,7 @@ using Iwentys.Domain.Study;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Features.Study.Assignments
+namespace Iwentys.Infrastructure.Application.Assignments
 {
     public class DeleteAssignment
     {

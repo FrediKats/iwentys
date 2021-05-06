@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using Iwentys.Database.Seeding.FakerEntities;
-using Iwentys.Database.Seeding.Tools;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.Study;
+using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
+using Iwentys.Infrastructure.DataAccess.Seeding.Tools;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Database.Seeding.EntityGenerators
+namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
 {
     public class GithubDataGenerator : IEntityGenerator
     {

@@ -8,7 +8,7 @@ using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Database.Seeding.EntityGenerators
+namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
 {
     public class TournamentGenerator : IEntityGenerator
     {
