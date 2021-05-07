@@ -6,7 +6,7 @@ using Iwentys.Common.Databases;
 using Iwentys.Common.Transferable;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Endpoints.Api.Source.Tokens;
-using Iwentys.Infrastructure.Application.Infrastructure;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.Configuration.Options;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;

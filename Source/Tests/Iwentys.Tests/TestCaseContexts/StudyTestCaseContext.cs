@@ -5,7 +5,7 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Enums;
 using Iwentys.Domain.Study.Models;
-using Iwentys.Infrastructure.Application.SubjectAssignments;
+using Iwentys.Infrastructure.Application.Controllers.SubjectAssignments;
 using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
 using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study;
 

@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Domain.Study;
-using Iwentys.Endpoints.Api.Source.BackgroundServices;
-using Iwentys.Infrastructure.Application.Services;
+using Iwentys.Infrastructure.Application.Controllers.BackgroundServices;
+using Iwentys.Infrastructure.Application.Controllers.Services;
 using Iwentys.Infrastructure.Configuration.Options;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

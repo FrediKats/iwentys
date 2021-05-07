@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using Iwentys.Endpoints.Api.Source;
 using Iwentys.Endpoints.Api.Source.IdentityAuth;
-using Iwentys.Infrastructure.Application.Infrastructure;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.Configuration;
 using Iwentys.Infrastructure.DataAccess;
 using Microsoft.AspNetCore.Authentication;

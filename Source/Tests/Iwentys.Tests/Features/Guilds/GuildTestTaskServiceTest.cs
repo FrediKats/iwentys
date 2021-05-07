@@ -7,7 +7,7 @@ using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Guilds.Models;
-using Iwentys.Infrastructure.Application.GuildTestTasks;
+using Iwentys.Infrastructure.Application.Controllers.GuildTestTasks;
 using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Guilds;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;

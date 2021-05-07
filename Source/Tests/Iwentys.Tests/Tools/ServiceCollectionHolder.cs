@@ -1,5 +1,5 @@
 ﻿using System;
-using Iwentys.Infrastructure.Application.Infrastructure;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.Configuration;
 using Iwentys.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
