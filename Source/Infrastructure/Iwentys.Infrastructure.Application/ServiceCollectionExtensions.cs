@@ -48,6 +48,8 @@ namespace Iwentys.Infrastructure.Application
             services.AddMediatR(typeof(GuildController).Assembly);
             services.AddMediatR(typeof(StudentController).Assembly);
 
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionPipeline<,>));
+
             return services;
         }
     }
