@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.PeerReview;
 using Iwentys.Domain.PeerReview.Dto;
@@ -36,10 +38,12 @@ namespace Iwentys.Infrastructure.Application.Controllers.PeerReview
         public class Handler : IRequestHandler<Query, Response>
         {
             private readonly IwentysDbContext _context;
+            private readonly IMapper _mapper;
 
-            public Handler(IwentysDbContext context)
+            public Handler(IwentysDbContext context, IMapper mapper)
             {
                 _context = context;
+                _mapper = mapper;
             }
 
 
@@ -50,8 +54,8 @@ namespace Iwentys.Infrastructure.Application.Controllers.PeerReview
                 List<ProjectReviewRequestInfoDto> result = await _context
                     .ProjectReviewRequests
                     .Where(ProjectReviewRequest.IsVisibleTo(user))
-                    .Select(ProjectReviewRequestInfoDto.FromEntity)
-                    .ToListAsync();
+                    .ProjectTo<ProjectReviewRequestInfoDto>(_mapper.ConfigurationProvider)
+                    .ToListAsync(cancellationToken);
 
                 return new Response(result);
             }

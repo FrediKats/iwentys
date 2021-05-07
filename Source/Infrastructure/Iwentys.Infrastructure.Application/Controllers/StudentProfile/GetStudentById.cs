@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Iwentys.Common.Databases;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
 using Iwentys.Infrastructure.DataAccess;
@@ -36,13 +35,11 @@ namespace Iwentys.Infrastructure.Application.Controllers.StudentProfile
         {
             private readonly IwentysDbContext _context;
             private readonly IMapper _mapper;
-            private readonly IGenericRepository<Student> _studentRepository;
 
-            public Handler(IUnitOfWork unitOfWork, IwentysDbContext context, IMapper mapper)
+            public Handler(IwentysDbContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
-                _studentRepository = unitOfWork.GetRepository<Student>();
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)

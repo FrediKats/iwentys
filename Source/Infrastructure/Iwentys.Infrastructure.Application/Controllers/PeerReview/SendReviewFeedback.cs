@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.PeerReview;
 using Iwentys.Domain.PeerReview.Dto;
@@ -37,10 +38,12 @@ namespace Iwentys.Infrastructure.Application.Controllers.PeerReview
         public class Handler : IRequestHandler<Query, Response>
         {
             private readonly IwentysDbContext _context;
+            private readonly IMapper _mapper;
 
-            public Handler(IwentysDbContext context)
+            public Handler(IwentysDbContext context, IMapper mapper)
             {
                 _context = context;
+                _mapper = mapper;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
@@ -50,7 +53,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.PeerReview
                 ProjectReviewFeedback projectReviewFeedback = projectReviewRequest.CreateFeedback(request.AuthorizedUser, request.Arguments);
 
                 _context.ProjectReviewFeedbacks.Add(projectReviewFeedback);
-                ProjectReviewFeedbackInfoDto result = ProjectReviewFeedbackInfoDto.FromEntity.Compile().Invoke(projectReviewFeedback);
+                ProjectReviewFeedbackInfoDto result = _mapper.Map<ProjectReviewFeedback, ProjectReviewFeedbackInfoDto>(projectReviewFeedback);
 
                 return new Response(result);
             }
