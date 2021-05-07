@@ -1,13 +1,13 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
+using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
 namespace Iwentys.Infrastructure.Application.Controllers.Assignments
 {
-    public class UndoAssignmentComplete
+    public static class UndoAssignmentComplete
     {
         public class Query : IRequest<Response>
         {
@@ -23,34 +23,25 @@ namespace Iwentys.Infrastructure.Application.Controllers.Assignments
 
         public class Response
         {
-
         }
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<Assignment> _assignmentRepository;
-            private readonly IGenericRepository<StudentAssignment> _studentAssignmentRepository;
-            private readonly IGenericRepository<Student> _studentRepository;
+            private readonly IwentysDbContext _context;
 
-            private readonly IUnitOfWork _unitOfWork;
-
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-                _studentRepository = _unitOfWork.GetRepository<Student>();
-                _assignmentRepository = _unitOfWork.GetRepository<Assignment>();
-                _studentAssignmentRepository = _unitOfWork.GetRepository<StudentAssignment>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                Student student = await _studentRepository.GetById(request.User.Id);
-                Assignment assignment = await _assignmentRepository.GetById(request.AssignmentId);
+                Student student = await _context.Students.GetById(request.User.Id);
+                Assignment assignment = await _context.Assignments.GetById(request.AssignmentId);
 
                 StudentAssignment studentAssignment = assignment.MarkUncompleted(student);
 
-                _studentAssignmentRepository.Update(studentAssignment);
-                await _unitOfWork.CommitAsync();
+                _context.StudentAssignments.Update(studentAssignment);
 
                 return new Response();
             }

@@ -2,16 +2,15 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
+using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.Application.Controllers.Assignments
 {
-    public class GetStudentAssignment
+    public static class GetStudentAssignment
     {
         public class Query : IRequest<Response>
         {
@@ -35,24 +34,17 @@ namespace Iwentys.Infrastructure.Application.Controllers.Assignments
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<Assignment> _assignmentRepository;
-            private readonly IGenericRepository<StudentAssignment> _studentAssignmentRepository;
-            private readonly IGenericRepository<Student> _studentRepository;
+            private readonly IwentysDbContext _context;
 
-            private readonly IUnitOfWork _unitOfWork;
-
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-                _studentRepository = _unitOfWork.GetRepository<Student>();
-                _assignmentRepository = _unitOfWork.GetRepository<Assignment>();
-                _studentAssignmentRepository = _unitOfWork.GetRepository<StudentAssignment>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                List<AssignmentInfoDto> result = await _studentAssignmentRepository
-                    .Get()
+                List<AssignmentInfoDto> result = await _context
+                    .StudentAssignments
                     .Where(a => a.StudentId == request.User.Id)
                     .Select(AssignmentInfoDto.FromStudentEntity)
                     .ToListAsync();

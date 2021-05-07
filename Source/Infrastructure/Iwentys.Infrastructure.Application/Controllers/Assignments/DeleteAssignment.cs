@@ -2,16 +2,16 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
+using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.Application.Controllers.Assignments
 {
-    public class DeleteAssignment
+    public static class DeleteAssignment
     {
         public class Query : IRequest<Response>
         {
@@ -27,43 +27,32 @@ namespace Iwentys.Infrastructure.Application.Controllers.Assignments
 
         public class Response
         {
-
         }
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<Assignment> _assignmentRepository;
-            private readonly IGenericRepository<StudentAssignment> _studentAssignmentRepository;
-            private readonly IGenericRepository<Student> _studentRepository;
+            private readonly IwentysDbContext _context;
 
-            private readonly IUnitOfWork _unitOfWork;
-
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-                _studentRepository = _unitOfWork.GetRepository<Student>();
-                _assignmentRepository = _unitOfWork.GetRepository<Assignment>();
-                _studentAssignmentRepository = _unitOfWork.GetRepository<StudentAssignment>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                Student student = await _studentRepository.GetById(request.User.Id);
-                Assignment assignment = await _assignmentRepository.GetById(request.AssignmentId);
+                Student student = await _context.Students.GetById(request.User.Id);
+                Assignment assignment = await _context.Assignments.GetById(request.AssignmentId);
 
                 if (student.Id != assignment.AuthorId)
                     throw InnerLogicException.AssignmentExceptions.IsNotAssignmentCreator(assignment.Id, student.Id);
 
                 //FYI: it's coz for dropped cascade. Need to rework after adding cascade deleting
-                List<StudentAssignment> studentAssignments = await _studentAssignmentRepository
-                    .Get()
+                List<StudentAssignment> studentAssignments = await _context.StudentAssignments
                     .Where(sa => sa.AssignmentId == request.AssignmentId)
                     .ToListAsync();
 
-                _studentAssignmentRepository.Delete(studentAssignments);
-                _assignmentRepository.Delete(assignment);
-
-                await _unitOfWork.CommitAsync();
+                _context.StudentAssignments.RemoveRange(studentAssignments);
+                _context.Assignments.Remove(assignment);
 
                 return new Response();
             }
