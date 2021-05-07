@@ -2,11 +2,10 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.PeerReview;
 using Iwentys.Domain.PeerReview.Dto;
+using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,29 +35,20 @@ namespace Iwentys.Infrastructure.Application.Controllers.PeerReview
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<GithubProject> _projectRepository;
-            private readonly IGenericRepository<ProjectReviewFeedback> _projectReviewFeedbackRepository;
-            private readonly IGenericRepository<ProjectReviewRequest> _projectReviewRequestRepository;
-            private readonly IGenericRepository<ProjectReviewRequestInvite> _projectReviewRequestInviteRepository;
-            private readonly IGenericRepository<IwentysUser> _userRepository;
-            private readonly IUnitOfWork _unitOfWork;
+            private readonly IwentysDbContext _context;
 
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-
-                _userRepository = _unitOfWork.GetRepository<IwentysUser>();
-                _projectReviewRequestRepository = _unitOfWork.GetRepository<ProjectReviewRequest>();
-                _projectReviewFeedbackRepository = _unitOfWork.GetRepository<ProjectReviewFeedback>();
-                _projectRepository = _unitOfWork.GetRepository<GithubProject>();
-                _projectReviewRequestInviteRepository = _unitOfWork.GetRepository<ProjectReviewRequestInvite>();
+                _context = context;
             }
+
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                IwentysUser user = await _userRepository.GetById(request.AuthorizedUser.Id);
-                List<ProjectReviewRequestInfoDto> result = await _projectReviewRequestRepository
-                    .Get()
+                IwentysUser user = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
+
+                List<ProjectReviewRequestInfoDto> result = await _context
+                    .ProjectReviewRequests
                     .Where(ProjectReviewRequest.IsVisibleTo(user))
                     .Select(ProjectReviewRequestInfoDto.FromEntity)
                     .ToListAsync();

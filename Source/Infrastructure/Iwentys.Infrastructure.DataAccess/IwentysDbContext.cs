@@ -116,6 +116,7 @@ namespace Iwentys.Infrastructure.DataAccess
 
         #region IPeerReviewDbContext
         public DbSet<ProjectReviewRequest> ProjectReviewRequests { get; set; }
+        public DbSet<ProjectReviewFeedback> ProjectReviewFeedbacks { get; set; }
         public DbSet<ProjectReviewRequestInvite> ProjectReviewRequestInvites { get; set; }
         #endregion
 

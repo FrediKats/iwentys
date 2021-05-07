@@ -8,6 +8,7 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.PeerReview;
+using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -37,33 +38,22 @@ namespace Iwentys.Infrastructure.Application.Controllers.PeerReview
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<GithubProject> _projectRepository;
-            private readonly IGenericRepository<ProjectReviewFeedback> _projectReviewFeedbackRepository;
-            private readonly IGenericRepository<ProjectReviewRequest> _projectReviewRequestRepository;
-            private readonly IGenericRepository<ProjectReviewRequestInvite> _projectReviewRequestInviteRepository;
-            private readonly IGenericRepository<IwentysUser> _userRepository;
-            private readonly IUnitOfWork _unitOfWork;
+            private readonly IwentysDbContext _context;
 
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-
-                _userRepository = _unitOfWork.GetRepository<IwentysUser>();
-                _projectReviewRequestRepository = _unitOfWork.GetRepository<ProjectReviewRequest>();
-                _projectReviewFeedbackRepository = _unitOfWork.GetRepository<ProjectReviewFeedback>();
-                _projectRepository = _unitOfWork.GetRepository<GithubProject>();
-                _projectReviewRequestInviteRepository = _unitOfWork.GetRepository<ProjectReviewRequestInvite>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                HashSet<long> userProjects = _projectReviewRequestRepository
-                    .Get()
+                HashSet<long> userProjects = _context
+                    .ProjectReviewRequests
                     .Where(k => k.AuthorId == request.AuthorizedUser.Id)
                     .SelectToHashSet(k => k.ProjectId);
 
-                List<GithubRepositoryInfoDto> result = await _projectRepository
-                    .Get()
+                List<GithubRepositoryInfoDto> result = await _context
+                    .StudentProjects
                     .Where(p => p.OwnerUserId == request.AuthorizedUser.Id && !userProjects.Contains(p.Id))
                     .Select(GithubRepositoryInfoDto.FromEntity)
                     .ToListAsync();

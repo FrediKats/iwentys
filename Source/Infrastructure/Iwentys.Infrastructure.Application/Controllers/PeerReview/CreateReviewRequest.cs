@@ -1,13 +1,14 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.PeerReview;
 using Iwentys.Domain.PeerReview.Dto;
+using Iwentys.Infrastructure.DataAccess;
 using MediatR;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Iwentys.Infrastructure.Application.Controllers.PeerReview
 {
@@ -37,34 +38,26 @@ namespace Iwentys.Infrastructure.Application.Controllers.PeerReview
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<GithubProject> _projectRepository;
-            private readonly IGenericRepository<ProjectReviewFeedback> _projectReviewFeedbackRepository;
-            private readonly IGenericRepository<ProjectReviewRequest> _projectReviewRequestRepository;
-            private readonly IGenericRepository<ProjectReviewRequestInvite> _projectReviewRequestInviteRepository;
-            private readonly IGenericRepository<IwentysUser> _userRepository;
-            private readonly IUnitOfWork _unitOfWork;
+            private readonly IwentysDbContext _context;
 
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-
-                _userRepository = _unitOfWork.GetRepository<IwentysUser>();
-                _projectReviewRequestRepository = _unitOfWork.GetRepository<ProjectReviewRequest>();
-                _projectReviewFeedbackRepository = _unitOfWork.GetRepository<ProjectReviewFeedback>();
-                _projectRepository = _unitOfWork.GetRepository<GithubProject>();
-                _projectReviewRequestInviteRepository = _unitOfWork.GetRepository<ProjectReviewRequestInvite>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                GithubProject githubProject = await _projectRepository.GetById(request.Arguments.ProjectId);
-                IwentysUser user = await _userRepository.GetById(request.AuthorizedUser.Id);
+                GithubProject githubProject = await _context.StudentProjects.GetById(request.Arguments.ProjectId);
+                IwentysUser user = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
 
                 var projectReviewRequest = ProjectReviewRequest.Create(user, new GithubRepositoryInfoDto(githubProject), request.Arguments);
 
-                projectReviewRequest = _projectReviewRequestRepository.Insert(projectReviewRequest);
-                await _unitOfWork.CommitAsync();
-                ProjectReviewRequestInfoDto result = _projectReviewRequestRepository.Get().Select(ProjectReviewRequestInfoDto.FromEntity).First(p => p.Id == projectReviewRequest.Id);
+                EntityEntry<ProjectReviewRequest> createRequest = _context.ProjectReviewRequests.Add(projectReviewRequest);
+                
+                ProjectReviewRequestInfoDto result = _context
+                    .ProjectReviewRequests
+                    .Select(ProjectReviewRequestInfoDto.FromEntity)
+                    .First(p => p.Id == createRequest.Entity.Id);
 
                 return new Response(result);
             }
