@@ -73,7 +73,8 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
         public async Task Complete(AuthorizedUser user, int guildId, int taskSolveOwnerId)
         {
             IwentysUser review = await _userRepository.FindByIdAsync(user.Id);
-            await review.EnsureIsGuildMentor(_guildRepository, guildId);
+            Guild guild = await _guildRepository.GetById(guildId);
+            GuildMentorUserExtensions.EnsureIsGuildMentor(review, guild);
 
             GuildTestTaskSolution testTask = await _guildTestTaskSolutionRepository
                 .GetSingle(t => t.AuthorId == taskSolveOwnerId && t.GuildId == guildId);

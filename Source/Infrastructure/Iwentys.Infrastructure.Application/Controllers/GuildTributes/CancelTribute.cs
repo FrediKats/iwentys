@@ -1,4 +1,6 @@
-﻿using Iwentys.Common.Databases;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
@@ -32,7 +34,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildTributes
             public TributeInfoResponse Tribute { get; set; }
         }
 
-        public class Handler : RequestHandler<Query, Response>
+        public class Handler : IRequestHandler<Query, Response>
         {
             private readonly GithubIntegrationService _githubIntegrationService;
             private readonly IGenericRepository<GuildMember> _guildMemberRepository;
@@ -54,7 +56,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildTributes
                 _guildTributeRepository = _unitOfWork.GetRepository<Tribute>();
             }
 
-            protected override Response Handle(Query request)
+            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
                 IwentysUser student = _studentRepository.GetById(request.User.Id).Result;
                 Tribute tribute = _guildTributeRepository.GetById(request.TributeId).Result;
@@ -65,7 +67,9 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildTributes
                 }
                 else
                 {
-                    student.EnsureIsGuildMentor(_guildRepositoryNew, tribute.GuildId).Wait();
+                    //TODO: move logic to domain
+                    Guild guild = await _guildRepositoryNew.GetById(tribute.GuildId);
+                    student.EnsureIsGuildMentor(guild);
                     tribute.SetCanceled();
                 }
 

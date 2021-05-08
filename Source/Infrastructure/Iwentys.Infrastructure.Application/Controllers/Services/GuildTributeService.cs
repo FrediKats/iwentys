@@ -132,7 +132,8 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
             }
             else
             {
-                await student.EnsureIsGuildMentor(_guildRepositoryNew, tribute.GuildId);
+                Guild guild = await _guildRepositoryNew.GetById(tribute.GuildId);
+                GuildMentorUserExtensions.EnsureIsGuildMentor(student, guild);
                 tribute.SetCanceled();
             }
 
@@ -145,7 +146,8 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
         {
             IwentysUser student = await _studentRepository.FindByIdAsync(user.Id);
             Tribute tribute = await _guildTributeRepository.FindByIdAsync(tributeCompleteRequest.TributeId);
-            GuildMentor mentor = await student.EnsureIsGuildMentor(_guildRepositoryNew, tribute.GuildId);
+            Guild guild = await _guildRepositoryNew.GetById(tribute.GuildId);
+            GuildMentor mentor = GuildMentorUserExtensions.EnsureIsGuildMentor(student, guild);
 
             tribute.SetCompleted(mentor.User.Id, tributeCompleteRequest);
 

@@ -50,7 +50,8 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildMemberships
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
                 IwentysUser studentCreator = await _userRepository.GetById(request.User.Id);
-                GuildCreator guildCreator = await studentCreator.EnsureIsCreator(_guildRepository, request.GuildId);
+                Guild guild = await _guildRepository.FindByIdAsync(request.GuildId);
+                GuildCreator guildCreator = GuildCreatorExtensions.EnsureIsCreator(studentCreator, guild);
 
                 GuildMember studentMembership = _guildMemberRepository
                     .Get()

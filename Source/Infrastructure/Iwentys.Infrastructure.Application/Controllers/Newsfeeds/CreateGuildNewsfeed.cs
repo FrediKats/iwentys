@@ -61,7 +61,8 @@ namespace Iwentys.Infrastructure.Application.Controllers.Newsfeeds
                 Student author = await _studentRepository.GetById(request.AuthorizedUser.Id);
                 Guild subject = await _guildRepository.GetById(request.GuildId);
 
-                GuildMentor mentor = await author.EnsureIsGuildMentor(_guildRepository, request.GuildId);
+                Guild guild = await _guildRepository.GetById(request.GuildId);
+                GuildMentor mentor = GuildMentorUserExtensions.EnsureIsGuildMentor(author, guild);
                 var newsfeedEntity = GuildNewsfeed.Create(request.CreateViewModel, mentor, subject);
 
                 _guildNewsfeedRepository.Insert(newsfeedEntity);

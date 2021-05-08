@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds.Enums;
@@ -26,9 +25,8 @@ namespace Iwentys.Domain.Guilds
 
     public static class GuildCreatorExtensions
     {
-        public static async Task<GuildCreator> EnsureIsCreator(this IwentysUser student, IGenericRepository<Guild> guildRepository, int guildId)
+        public static GuildCreator EnsureIsCreator(this IwentysUser student, Guild guild)
         {
-            Guild guild = await guildRepository.FindByIdAsync(guildId);
             GuildMember membership = guild.Members.First(m => m.MemberId == student.Id);
 
             return new GuildCreator(student, guild, membership.MemberType);

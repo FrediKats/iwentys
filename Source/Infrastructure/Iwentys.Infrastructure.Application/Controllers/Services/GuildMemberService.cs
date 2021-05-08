@@ -187,7 +187,8 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
         public async Task PromoteToMentor(AuthorizedUser creator, int guildId, int userForPromotion)
         {
             IwentysUser studentCreator = await _userRepository.GetById(creator.Id);
-            GuildCreator guildCreator = await studentCreator.EnsureIsCreator(_guildRepository, guildId);
+            Guild guild = await _guildRepository.FindByIdAsync(guildId);
+            GuildCreator guildCreator = GuildCreatorExtensions.EnsureIsCreator(studentCreator, guild);
 
             GuildMember studentMembership = _guildMemberRepository
                 .Get()

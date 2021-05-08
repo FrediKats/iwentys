@@ -26,12 +26,6 @@ namespace Iwentys.Domain.Guilds
 
     public static class GuildMentorUserExtensions
     {
-        public static async Task<GuildMentor> EnsureIsGuildMentor(this IwentysUser user, IGenericRepository<Guild> guildRepository, int guildId)
-        {
-            Guild guild = await guildRepository.GetById(guildId);
-            return EnsureIsGuildMentor(user, guild);
-        }
-
         public static GuildMentor EnsureIsGuildMentor(this IwentysUser user, Guild guild)
         {
             GuildMember membership = guild.Members.FirstOrDefault(m => m.MemberId == user.Id);
