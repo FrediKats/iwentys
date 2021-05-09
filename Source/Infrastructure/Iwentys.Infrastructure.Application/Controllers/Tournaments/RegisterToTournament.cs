@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Iwentys.Infrastructure.Application.Controllers.Tournaments
 {
-    public class RegisterToTournament
+    public static class RegisterToTournament
     {
         public class Query : IRequest<Response>
         {
@@ -28,33 +28,22 @@ namespace Iwentys.Infrastructure.Application.Controllers.Tournaments
 
         public class Handler : RequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<GuildMember> _guildMemberRepository;
+            private readonly IwentysDbContext _context;
 
-            private readonly IGenericRepository<IwentysUser> _studentRepository;
-            private readonly IGenericRepository<Tournament> _tournamentRepository;
-            private readonly IGenericRepository<TournamentParticipantTeam> _tournamentTeamRepository;
-            private readonly IUnitOfWork _unitOfWork;
-
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-
-                _studentRepository = _unitOfWork.GetRepository<IwentysUser>();
-                _guildMemberRepository = _unitOfWork.GetRepository<GuildMember>();
-                _tournamentRepository = _unitOfWork.GetRepository<Tournament>();
-                _tournamentTeamRepository = _unitOfWork.GetRepository<TournamentParticipantTeam>();
+                _context = context;
             }
 
             protected override Response Handle(Query request)
             {
-                IwentysUser studentEntity = _studentRepository.GetById(request.User.Id).Result;
-                Guild guild = _guildMemberRepository.ReadForStudent(request.User.Id);
-                Tournament tournamentEntity = _tournamentRepository.GetById(request.TournamentId).Result;
+                IwentysUser studentEntity = _context.IwentysUsers.GetById(request.User.Id).Result;
+                Guild guild = _context.GuildMembers.ReadForStudent(request.User.Id);
+                Tournament tournamentEntity = _context.Tournaments.GetById(request.TournamentId).Result;
 
                 TournamentParticipantTeam tournamentParticipantTeamEntity = tournamentEntity.RegisterTeam(studentEntity, guild);
 
-                _tournamentTeamRepository.Insert(tournamentParticipantTeamEntity);
-                _unitOfWork.CommitAsync().Wait();
+                _context.TournamentParticipantTeams.Add(tournamentParticipantTeamEntity);
                 return new Response();
             }
         }

@@ -33,17 +33,17 @@ namespace Iwentys.Infrastructure.Application.Controllers.Tournaments
 
         public class Handler : RequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<TournamentParticipantTeam> _tournamentTeamRepository;
+            private readonly IwentysDbContext _context;
 
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _tournamentTeamRepository = unitOfWork.GetRepository<TournamentParticipantTeam>();
+                _context = context;
             }
 
             protected override Response Handle(Query request)
             {
-                TournamentInfoResponse result = _tournamentTeamRepository
-                    .Get()
+                TournamentInfoResponse result = _context
+                    .TournamentParticipantTeams
                     .Where(tt => tt.GuildId == request.GuildId)
                     .Select(tt => tt.Tournament)
                     .Select(TournamentInfoResponse.FromEntity)

@@ -28,31 +28,23 @@ namespace Iwentys.Infrastructure.Application.Controllers.Tournaments
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<CodeMarathonTournament> _codeMarathonTournamentRepository;
+            private readonly IwentysDbContext _context;
 
-            private readonly IGenericRepository<IwentysUser> _studentRepository;
-            private readonly IUnitOfWork _unitOfWork;
-
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-
-                _studentRepository = _unitOfWork.GetRepository<IwentysUser>();
-                _codeMarathonTournamentRepository = _unitOfWork.GetRepository<CodeMarathonTournament>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                IwentysUser user = await _studentRepository.GetById(request.User.Id);
+                IwentysUser user = await _context.IwentysUsers.GetById(request.User.Id);
 
                 var codeMarathonTournamentEntity = CodeMarathonTournament.Create(user, request.Arguments);
 
-                _codeMarathonTournamentRepository.Insert(codeMarathonTournamentEntity);
-                await _unitOfWork.CommitAsync();
+                _context.CodeMarathonTournaments.Add(codeMarathonTournamentEntity);
 
                 return new Response();
             }
-
         }
     }
 }

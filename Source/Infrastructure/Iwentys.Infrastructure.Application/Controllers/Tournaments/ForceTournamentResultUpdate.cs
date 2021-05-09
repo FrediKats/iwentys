@@ -29,27 +29,23 @@ namespace Iwentys.Infrastructure.Application.Controllers.Tournaments
 
         public class Handler : IRequestHandler<Query, Response>
         {
+            private readonly IwentysDbContext _context;
             private readonly GithubIntegrationService _githubIntegrationService;
-            private readonly IGenericRepository<Tournament> _tournamentRepository;
-            private readonly IUnitOfWork _unitOfWork;
 
-            public Handler(IUnitOfWork unitOfWork, GithubIntegrationService githubIntegrationService)
+            public Handler(IwentysDbContext context, GithubIntegrationService githubIntegrationService)
             {
-                _unitOfWork = unitOfWork;
-
-                _tournamentRepository = _unitOfWork.GetRepository<Tournament>();
+                _context = context;
                 _githubIntegrationService = githubIntegrationService;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                Tournament tournamentEntity = await _tournamentRepository.GetById(request.TournamentId);
+                Tournament tournamentEntity = await _context.Tournaments.GetById(request.TournamentId);
 
                 ITournamentDomain tournamentDomain = tournamentEntity.WrapToDomain(_githubIntegrationService);
                 tournamentDomain.UpdateResult();
 
-                _tournamentRepository.Update(tournamentEntity);
-                await _unitOfWork.CommitAsync();
+                _context.Tournaments.Update(tournamentEntity);
                 return new Response();
             }
         }
