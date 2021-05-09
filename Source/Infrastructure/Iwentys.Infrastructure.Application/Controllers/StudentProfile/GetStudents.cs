@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
 namespace Iwentys.Infrastructure.Application.Controllers.StudentProfile
 {
-    public class GetStudents
+    public static class GetStudents
     {
         public class Query : IRequest<Response>
         {
@@ -25,17 +24,17 @@ namespace Iwentys.Infrastructure.Application.Controllers.StudentProfile
 
         public class Handler : RequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<Student> _studentRepository;
+            private readonly IwentysDbContext _context;
 
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _studentRepository = unitOfWork.GetRepository<Student>();
+                _context = context;
             }
 
             protected override Response Handle(Query request)
             {
-                List<StudentInfoDto> result = _studentRepository
-                    .Get()
+                List<StudentInfoDto> result = _context
+                    .Students
                     .Select(s => new StudentInfoDto(s))
                     .ToList();
 

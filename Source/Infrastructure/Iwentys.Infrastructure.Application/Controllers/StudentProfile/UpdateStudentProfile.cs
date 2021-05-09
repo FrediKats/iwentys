@@ -29,30 +29,26 @@ namespace Iwentys.Infrastructure.Application.Controllers.StudentProfile
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IUnitOfWork _unitOfWork;
+            private readonly IwentysDbContext _context;
 
-            private readonly IGenericRepository<IwentysUser> _userRepository;
-
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-                _userRepository = _unitOfWork.GetRepository<IwentysUser>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
                 //TODO: move to domain
-                bool isUsernameUsed = await _userRepository.Get().AnyAsync(s => s.GithubUsername == request.StudentUpdateRequest.GithubUsername);
+                bool isUsernameUsed = await _context.IwentysUsers.AnyAsync(s => s.GithubUsername == request.StudentUpdateRequest.GithubUsername);
                 if (isUsernameUsed)
                     throw InnerLogicException.StudentExceptions.GithubAlreadyUser(request.StudentUpdateRequest.GithubUsername);
 
                 //throw new NotImplementedException("Need to validate github credentials");
-                IwentysUser user = await _userRepository.GetById(request.AuthorizedUser.Id);
+                IwentysUser user = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
                 user.GithubUsername = request.StudentUpdateRequest.GithubUsername;
-                _userRepository.Update(user);
+                _context.IwentysUsers.Update(user);
 
                 //await _achievementProvider.AchieveForStudent(AchievementList.AddGithubAchievement, user.Id);
-                await _unitOfWork.CommitAsync();
 
                 return new Response();
             }
