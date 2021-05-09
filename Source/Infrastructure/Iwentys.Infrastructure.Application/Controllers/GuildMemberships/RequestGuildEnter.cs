@@ -30,35 +30,24 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildMemberships
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<GuildMember> _guildMemberRepository;
-            private readonly IGenericRepository<Guild> _guildRepository;
-            private readonly IGenericRepository<GuildLastLeave> _guildLastLeaveRepository;
-            private readonly IGenericRepository<IwentysUser> _userRepository;
+            private readonly IwentysDbContext _context;
 
-            private readonly IUnitOfWork _unitOfWork;
-
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-                _userRepository = _unitOfWork.GetRepository<IwentysUser>();
-                _guildRepository = _unitOfWork.GetRepository<Guild>();
-                _guildMemberRepository = _unitOfWork.GetRepository<GuildMember>();
-                _guildLastLeaveRepository = _unitOfWork.GetRepository<GuildLastLeave>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                Guild guild = await _guildRepository.GetById(request.GuildId);
-                IwentysUser user = await _userRepository.GetById(request.User.Id);
-                GuildLastLeave lastLeave = await _guildLastLeaveRepository.FindByIdAsync(user.Id);
-                GuildMember guildMember = _guildMemberRepository
-                    .Get()
+                Guild guild = await _context.Guilds.GetById(request.GuildId);
+                IwentysUser user = await _context.IwentysUsers.GetById(request.User.Id);
+                GuildLastLeave lastLeave = await _context.GuildLastLeaves.FindAsync(user.Id);
+                GuildMember guildMember = _context.GuildMembers
                     .FirstOrDefault(m => m.Member.Id == request.User.Id && m.MemberType == GuildMemberType.Requested);
 
                 GuildMember newMembership = guild.RequestEnterGuild(user, guildMember, lastLeave);
 
-                _guildMemberRepository.Insert(newMembership);
-                await _unitOfWork.CommitAsync();
+                _context.GuildMembers.Add(newMembership);
                 return new Response();
             }
         }
