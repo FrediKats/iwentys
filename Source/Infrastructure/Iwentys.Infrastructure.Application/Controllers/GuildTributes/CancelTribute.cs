@@ -1,10 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
-using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
@@ -36,30 +34,17 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildTributes
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly GithubIntegrationService _githubIntegrationService;
-            private readonly IGenericRepository<GuildMember> _guildMemberRepository;
-            private readonly IGenericRepository<Guild> _guildRepositoryNew;
-            private readonly IGenericRepository<Tribute> _guildTributeRepository;
-            private readonly IGenericRepository<GithubProject> _studentProjectRepository;
+            private readonly IwentysDbContext _context;
 
-            private readonly IGenericRepository<IwentysUser> _studentRepository;
-            private readonly IUnitOfWork _unitOfWork;
-
-            public Handler(IUnitOfWork unitOfWork, GithubIntegrationService githubIntegrationService)
+            public Handler(IwentysDbContext context)
             {
-                _githubIntegrationService = githubIntegrationService;
-                _unitOfWork = unitOfWork;
-                _studentRepository = _unitOfWork.GetRepository<IwentysUser>();
-                _guildRepositoryNew = _unitOfWork.GetRepository<Guild>();
-                _guildMemberRepository = _unitOfWork.GetRepository<GuildMember>();
-                _studentProjectRepository = _unitOfWork.GetRepository<GithubProject>();
-                _guildTributeRepository = _unitOfWork.GetRepository<Tribute>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                IwentysUser student = _studentRepository.GetById(request.User.Id).Result;
-                Tribute tribute = _guildTributeRepository.GetById(request.TributeId).Result;
+                IwentysUser student = _context.Students.GetById(request.User.Id).Result;
+                Tribute tribute = _context.Tributes.GetById(request.TributeId).Result;
 
                 if (tribute.Project.OwnerUserId == request.User.Id)
                 {
@@ -68,13 +53,12 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildTributes
                 else
                 {
                     //TODO: move logic to domain
-                    Guild guild = await _guildRepositoryNew.GetById(tribute.GuildId);
+                    Guild guild = await _context.Guilds.GetById(tribute.GuildId);
                     student.EnsureIsGuildMentor(guild);
                     tribute.SetCanceled();
                 }
 
-                _guildTributeRepository.Update(tribute);
-                _unitOfWork.CommitAsync().Wait();
+                _context.Tributes.Update(tribute);
                 return new Response(TributeInfoResponse.Wrap(tribute));
             }
         }

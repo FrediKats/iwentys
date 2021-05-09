@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.GithubIntegration;
-using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Guilds.Models;
-using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
@@ -37,30 +34,17 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildTributes
 
         public class Handler : RequestHandler<Query, Response>
         {
-            private readonly GithubIntegrationService _githubIntegrationService;
-            private readonly IGenericRepository<GuildMember> _guildMemberRepository;
-            private readonly IGenericRepository<Guild> _guildRepositoryNew;
-            private readonly IGenericRepository<Tribute> _guildTributeRepository;
-            private readonly IGenericRepository<GithubProject> _studentProjectRepository;
+            private readonly IwentysDbContext _context;
 
-            private readonly IGenericRepository<IwentysUser> _studentRepository;
-            private readonly IUnitOfWork _unitOfWork;
-
-            public Handler(IUnitOfWork unitOfWork, GithubIntegrationService githubIntegrationService)
+            public Handler(IwentysDbContext context)
             {
-                _githubIntegrationService = githubIntegrationService;
-                _unitOfWork = unitOfWork;
-                _studentRepository = _unitOfWork.GetRepository<IwentysUser>();
-                _guildRepositoryNew = _unitOfWork.GetRepository<Guild>();
-                _guildMemberRepository = _unitOfWork.GetRepository<GuildMember>();
-                _studentProjectRepository = _unitOfWork.GetRepository<GithubProject>();
-                _guildTributeRepository = _unitOfWork.GetRepository<Tribute>();
+                _context = context;
             }
 
             protected override Response Handle(Query request)
             {
-                List<TributeInfoResponse> responses = _guildTributeRepository
-                    .Get()
+                List<TributeInfoResponse> responses = _context
+                    .Tributes
                     .Where(t => t.GuildId == request.GuildId)
                     .Where(t => t.State == TributeState.Active)
                     .Select(TributeInfoResponse.FromEntity)

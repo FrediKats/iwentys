@@ -41,41 +41,28 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildTributes
 
         public class Handler : RequestHandler<Query, Response>
         {
+            private readonly IwentysDbContext _context;
             private readonly GithubIntegrationService _githubIntegrationService;
-            private readonly IGenericRepository<GuildMember> _guildMemberRepository;
-            private readonly IGenericRepository<Guild> _guildRepositoryNew;
-            private readonly IGenericRepository<Tribute> _guildTributeRepository;
-            private readonly IGenericRepository<GithubProject> _studentProjectRepository;
 
-            private readonly IGenericRepository<IwentysUser> _studentRepository;
-            private readonly IUnitOfWork _unitOfWork;
-
-            public Handler(IUnitOfWork unitOfWork, GithubIntegrationService githubIntegrationService)
+            public Handler(IwentysDbContext context, GithubIntegrationService githubIntegrationService)
             {
+                _context = context;
                 _githubIntegrationService = githubIntegrationService;
-                _unitOfWork = unitOfWork;
-                _studentRepository = _unitOfWork.GetRepository<IwentysUser>();
-                _guildRepositoryNew = _unitOfWork.GetRepository<Guild>();
-                _guildMemberRepository = _unitOfWork.GetRepository<GuildMember>();
-                _studentProjectRepository = _unitOfWork.GetRepository<GithubProject>();
-                _guildTributeRepository = _unitOfWork.GetRepository<Tribute>();
             }
 
             protected override Response Handle(Query request)
             {
-                IwentysUser student = _studentRepository.FindByIdAsync(request.User.Id).Result;
+                IwentysUser student = _context.IwentysUsers.GetById(request.User.Id).Result;
                 GithubRepositoryInfoDto githubProject = _githubIntegrationService.Repository.GetRepository(request.Arguments.Owner, request.Arguments.RepositoryName).Result;
                 GithubProject project = GetOrCreate(githubProject, student).Result;
-                Guild guild = _guildMemberRepository.ReadForStudent(student.Id);
-                List<Tribute> allTributes = _guildTributeRepository.Get().ToListAsync().Result;
+                Guild guild = _context.GuildMembers.ReadForStudent(student.Id);
+                List<Tribute> allTributes = _context.Tributes.ToListAsync().Result;
 
                 var tribute = Tribute.Create(guild, student, project, allTributes);
 
-                _guildTributeRepository.Insert(tribute);
-                _unitOfWork.CommitAsync().Wait();
+                _context.Tributes.Add(tribute);
 
-                TributeInfoResponse tributeInfoResponse = _guildTributeRepository
-                    .Get()
+                TributeInfoResponse tributeInfoResponse = _context.Tributes
                     .Where(t => t.ProjectId == tribute.ProjectId)
                     .Select(TributeInfoResponse.FromEntity)
                     .SingleAsync().Result;
@@ -85,7 +72,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildTributes
 
             public async Task<GithubProject> GetOrCreate(GithubRepositoryInfoDto project, IwentysUser creator)
             {
-                GithubProject githubProject = await _studentProjectRepository.FindByIdAsync(project.Id);
+                GithubProject githubProject = _context.StudentProjects.Find(project.Id);
                 if (githubProject is not null)
                     return githubProject;
 
@@ -93,8 +80,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildTributes
                 //TODO: need to get this from GithubService
                 var newProject = new GithubProject(githubUser, project);
 
-                _studentProjectRepository.Insert(newProject);
-                await _unitOfWork.CommitAsync();
+                _context.StudentProjects.Add(newProject);
                 return newProject;
             }
         }
