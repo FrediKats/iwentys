@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Common.Databases;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
 using Iwentys.Infrastructure.Application.Repositories;
+using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Infrastructure.DataAccess.Subcontext;
 using MediatR;
 

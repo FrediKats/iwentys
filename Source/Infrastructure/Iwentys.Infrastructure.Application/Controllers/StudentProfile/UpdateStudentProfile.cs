@@ -1,9 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study.Models;
+using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

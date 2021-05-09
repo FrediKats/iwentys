@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study.Enums;
 using Iwentys.Domain.Study.Models;
@@ -23,13 +21,6 @@ namespace Iwentys.Domain.Study
         public DateTime? ApproveTimeUtc { get; set; }
         public DateTime? RejectTimeUtc { get; set; }
         public string Comment { get; set; }
-
-        public static IQueryable<SubjectAssignmentSubmit> ApplySearch(IQueryable<SubjectAssignmentSubmit> query, SubjectAssignmentSubmitSearchArguments searchArguments)
-        {
-            return query
-                .Where(sas => sas.SubjectAssignment.SubjectId == searchArguments.SubjectId)
-                .WhereIf(searchArguments.StudentId, sas => sas.StudentId == searchArguments.StudentId);
-        }
 
         public void ApplyFeedback(IwentysUser iwentysUser, SubjectAssignmentSubmitFeedbackArguments arguments)
         {

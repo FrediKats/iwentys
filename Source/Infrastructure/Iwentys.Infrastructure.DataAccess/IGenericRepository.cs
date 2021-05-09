@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Common.Databases
+namespace Iwentys.Infrastructure.DataAccess
 {
     public interface IGenericRepository<TEntity>
         where TEntity : class

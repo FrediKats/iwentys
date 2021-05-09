@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Achievements;
@@ -10,6 +9,7 @@ using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Guilds.Models;
 using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
+using Iwentys.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.Application.Controllers.Services

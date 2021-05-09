@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.AccountManagement.Dto;
 using Iwentys.Domain.Achievements;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Quests;
 using Iwentys.Domain.Quests.Dto;
+using Iwentys.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.Application.Controllers.Services

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
+using Iwentys.Infrastructure.DataAccess;
 
 namespace Iwentys.Infrastructure.Application.Repositories
 {

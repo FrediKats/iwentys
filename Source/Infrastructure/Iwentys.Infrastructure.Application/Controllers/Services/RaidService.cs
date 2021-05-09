@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Raids;
 using Iwentys.Domain.Raids.Dto;
+using Iwentys.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.Application.Controllers.Services

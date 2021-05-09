@@ -1,4 +1,3 @@
-using Iwentys.Common.Databases;
 using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
 using Iwentys.Infrastructure.Application.Controllers.Services;
 using Iwentys.Infrastructure.DataAccess;

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Common.Databases;
 using Iwentys.Domain.Karmas;
+using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
 namespace Iwentys.Infrastructure.Application.Controllers.Karmas

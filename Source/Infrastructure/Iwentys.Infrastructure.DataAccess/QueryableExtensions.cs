@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Iwentys.Common.Databases
+namespace Iwentys.Infrastructure.DataAccess
 {
     public static class QueryableExtensions
     {

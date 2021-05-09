@@ -1,8 +1,8 @@
-﻿using Iwentys.Common.Databases;
-using Iwentys.Domain.AccountManagement;
+﻿using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
 using Iwentys.Infrastructure.Application.Controllers.Services;
+using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
 namespace Iwentys.Infrastructure.Application.Controllers.Tournaments

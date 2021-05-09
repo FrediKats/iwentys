@@ -1,5 +1,5 @@
-﻿using Iwentys.Common.Databases;
-using Iwentys.Domain.InterestTags;
+﻿using Iwentys.Domain.InterestTags;
+using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
 namespace Iwentys.Infrastructure.Application.Controllers.InterestTags

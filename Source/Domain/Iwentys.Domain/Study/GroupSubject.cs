@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Text.Json;
 using FluentResults;
-using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study.Enums;
-using Iwentys.Domain.Study.Models;
 
 namespace Iwentys.Domain.Study
 {
@@ -43,22 +40,6 @@ namespace Iwentys.Domain.Study
             {
                 return Result.Fail<GoogleTableData>(new Error("Data parse failed").CausedBy(e));
             }
-        }
-    }
-
-    public static class GroupSubjectExtensions
-    {
-        public static IQueryable<Subject> SearchSubjects(this IQueryable<GroupSubject> query, StudySearchParametersDto searchParametersDto)
-        {
-            IQueryable<Subject> newQuery = query
-                .WhereIf(searchParametersDto.GroupId, gs => gs.StudyGroupId == searchParametersDto.GroupId)
-                .WhereIf(searchParametersDto.StudySemester, gs => gs.StudySemester == searchParametersDto.StudySemester)
-                .WhereIf(searchParametersDto.SubjectId, gs => gs.SubjectId == searchParametersDto.SubjectId)
-                .WhereIf(searchParametersDto.CourseId, gs => gs.StudyGroup.StudyCourseId == searchParametersDto.CourseId)
-                .Select(s => s.Subject)
-                .Distinct();
-
-            return newQuery;
         }
     }
 }

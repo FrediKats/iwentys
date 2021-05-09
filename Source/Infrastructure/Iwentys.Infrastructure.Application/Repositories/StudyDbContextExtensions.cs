@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Common.Databases;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
+using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Infrastructure.DataAccess.Subcontext;
 using Microsoft.EntityFrameworkCore;
 

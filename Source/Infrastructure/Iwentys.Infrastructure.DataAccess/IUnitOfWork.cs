@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Iwentys.Common.Databases
+namespace Iwentys.Infrastructure.DataAccess
 {
     public interface IUnitOfWork
     {

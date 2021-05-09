@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Iwentys.Common.Databases;
 using Iwentys.Common.Tools;
 using Iwentys.Domain.InterestTags;
 using Iwentys.Domain.InterestTags.Dto;
+using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

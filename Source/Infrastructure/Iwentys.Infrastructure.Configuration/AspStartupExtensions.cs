@@ -1,6 +1,6 @@
 ﻿using System;
-using Iwentys.Common.Databases;
 using Iwentys.Infrastructure.Configuration.Options;
+using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Integrations.GithubIntegration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

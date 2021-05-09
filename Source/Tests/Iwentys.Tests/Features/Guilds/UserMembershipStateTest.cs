@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
+using Iwentys.Infrastructure.DataAccess;
 using Moq;
 using NUnit.Framework;
 

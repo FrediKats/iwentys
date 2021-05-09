@@ -1,6 +1,6 @@
-﻿using Iwentys.Common.Databases;
-using Iwentys.Domain.GithubIntegration;
+﻿using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.GithubIntegration.Models;
+using Iwentys.Infrastructure.DataAccess;
 
 namespace Iwentys.Infrastructure.Application.Controllers.GithubIntegration
 {

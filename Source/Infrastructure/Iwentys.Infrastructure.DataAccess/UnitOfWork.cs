@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Common.Databases
+namespace Iwentys.Infrastructure.DataAccess
 {
     public class UnitOfWork<TContext> : IUnitOfWork
         where TContext : DbContext

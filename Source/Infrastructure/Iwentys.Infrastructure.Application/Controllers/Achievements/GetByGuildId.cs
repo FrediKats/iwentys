@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Common.Databases;
 using Iwentys.Domain.Achievements;
 using Iwentys.Domain.Achievements.Dto;
+using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
 namespace Iwentys.Infrastructure.Application.Controllers.Achievements

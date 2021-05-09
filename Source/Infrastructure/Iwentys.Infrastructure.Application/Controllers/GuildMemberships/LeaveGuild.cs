@@ -1,11 +1,11 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Infrastructure.Application.Controllers.Services;
 using Iwentys.Infrastructure.Application.Repositories;
+using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
 namespace Iwentys.Infrastructure.Application.Controllers.GuildMemberships

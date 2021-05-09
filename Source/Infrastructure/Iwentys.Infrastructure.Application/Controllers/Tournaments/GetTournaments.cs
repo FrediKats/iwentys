@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
 using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
+using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
 namespace Iwentys.Infrastructure.Application.Controllers.Tournaments

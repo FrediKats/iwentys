@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Common.Databases;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.GithubIntegration.Models;
+using Iwentys.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.Application.Controllers.GithubIntegration

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Iwentys.Common.Databases
+namespace Iwentys.Infrastructure.DataAccess
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {

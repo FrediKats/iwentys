@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Gamification;
+using Iwentys.Infrastructure.DataAccess;
 
 namespace Iwentys.Infrastructure.Application.Controllers.Services
 {

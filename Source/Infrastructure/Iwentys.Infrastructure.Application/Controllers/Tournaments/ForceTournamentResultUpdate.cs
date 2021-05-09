@@ -1,10 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
 using Iwentys.Infrastructure.Application.Controllers.Services;
+using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
 namespace Iwentys.Infrastructure.Application.Controllers.Tournaments
