@@ -27,7 +27,7 @@ namespace Iwentys.Tests.TestCaseContexts
             return guildProfile;
         }
 
-        public AuthorizedUser WithGuildMember(Guild guild, IwentysUser guildEditor)
+        public AuthorizedUser WithGuildMember(Guild guild, AuthorizedUser guildEditor)
         {
             AuthorizedUser user = _context.AccountManagementTestCaseContext.WithUser();
             _context.GuildMemberService.RequestGuild(user, guild.Id).Wait();

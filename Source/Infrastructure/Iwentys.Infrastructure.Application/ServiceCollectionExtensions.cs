@@ -29,7 +29,6 @@ namespace Iwentys.Infrastructure.Application
 
             services.AddScoped<GuildMemberService>();
             services.AddScoped<GuildService>();
-            services.AddScoped<GuildTestTaskService>();
 
             services.AddScoped<QuestService>();
 

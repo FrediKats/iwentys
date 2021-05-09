@@ -8,9 +8,10 @@ namespace Iwentys.Domain.Guilds
 {
     public class GuildMember
     {
-        public GuildMember(Guild guild, IwentysUser student, GuildMemberType memberType)
-            : this(guild.Id, student.Id, memberType)
+        public GuildMember(Guild guild, IwentysUser member, GuildMemberType memberType)
+            : this(guild.Id, member.Id, memberType)
         {
+            Member = member;
         }
 
         public GuildMember(int guildId, int studentId, GuildMemberType memberType) : this()

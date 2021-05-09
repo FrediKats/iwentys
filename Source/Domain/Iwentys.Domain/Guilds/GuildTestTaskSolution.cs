@@ -50,12 +50,15 @@ namespace Iwentys.Domain.Guilds
             if (existedTestTaskSolution is not null)
                 InnerLogicException.GuildExceptions.ActiveTestExisted(author.Id, guild.Id);
 
-            return new GuildTestTaskSolution
+            var createdTask = new GuildTestTaskSolution
             {
+                Guild = guild,
                 GuildId = guild.Id,
                 AuthorId = author.Id,
                 StartTimeUtc = DateTime.UtcNow
             };
+            guild.TestTasks.Add(createdTask);
+            return createdTask;
         }
 
         public void SendSubmit(IwentysUser author, ProjectReviewRequest reviewRequest)

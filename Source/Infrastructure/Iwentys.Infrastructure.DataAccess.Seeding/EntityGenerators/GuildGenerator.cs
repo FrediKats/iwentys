@@ -28,14 +28,14 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
             var usedCount = 0;
             foreach (Guild guild in Guilds)
             {
-                var creator = new GuildMember(guild, students[usedCount], GuildMemberType.Creator);
+                var creator = new GuildMember(guild.Id, students[usedCount].Id, GuildMemberType.Creator);
                 GuildMembers.Add(creator);
                 usedCount++;
 
                 List<GuildMember> members = students
                     .Skip(usedCount)
                     .Take(GuildMemberCount)
-                    .Select(s => new GuildMember(guild, s, GuildMemberType.Member))
+                    .Select(s => new GuildMember(guild.Id, s.Id, GuildMemberType.Member))
                     .ToList();
                 GuildMembers.AddRange(members);
                 usedCount += GuildMemberCount;
