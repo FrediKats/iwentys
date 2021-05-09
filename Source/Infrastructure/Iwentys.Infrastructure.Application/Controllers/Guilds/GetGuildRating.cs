@@ -33,20 +33,17 @@ namespace Iwentys.Infrastructure.Application.Controllers.Guilds
 
         public class Handler : RequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<Guild> _guildRepository;
+            private readonly IwentysDbContext _context;
 
-            private readonly IUnitOfWork _unitOfWork;
-
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-                _guildRepository = _unitOfWork.GetRepository<Guild>();
+                _context = context;
             }
 
             protected override Response Handle(Query request)
             {
-                List<GuildProfileDto> result = _guildRepository
-                    .Get()
+                List<GuildProfileDto> result = _context
+                    .Guilds
                     .Skip(request.Skip)
                     .Take(request.Take)
                     .Select(GuildProfileDto.FromEntity)

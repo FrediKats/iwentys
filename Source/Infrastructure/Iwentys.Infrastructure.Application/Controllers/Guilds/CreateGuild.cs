@@ -35,29 +35,21 @@ namespace Iwentys.Infrastructure.Application.Controllers.Guilds
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<GuildMember> _guildMemberRepository;
-            private readonly IGenericRepository<Guild> _guildRepository;
-            private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
+            private readonly IwentysDbContext _context;
 
-            private readonly IUnitOfWork _unitOfWork;
-
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-                _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
-                _guildRepository = _unitOfWork.GetRepository<Guild>();
-                _guildMemberRepository = _unitOfWork.GetRepository<GuildMember>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                IwentysUser creator = _iwentysUserRepository.GetById(request.AuthorizedUser.Id).Result;
-                Guild userCurrentGuild = _guildMemberRepository.ReadForStudent(creator.Id);
+                IwentysUser creator = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
+                Guild userCurrentGuild = _context.GuildMembers.ReadForStudent(creator.Id);
 
                 var createdGuild = Guild.Create(creator, userCurrentGuild, request.Arguments);
 
-                createdGuild = _guildRepository.Insert(createdGuild);
-                await _unitOfWork.CommitAsync();
+                _context.Guilds.Add(createdGuild);
                 return new Response(new GuildProfileShortInfoDto(createdGuild));
             }
         }

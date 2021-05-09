@@ -34,27 +34,21 @@ namespace Iwentys.Infrastructure.Application.Controllers.Guilds
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<Guild> _guildRepository;
-            private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
+            private readonly IwentysDbContext _context;
 
-            private readonly IUnitOfWork _unitOfWork;
-
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-                _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
-                _guildRepository = _unitOfWork.GetRepository<Guild>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                Guild guild = await _guildRepository.GetById(request.Arguments.Id);
-                IwentysUser user = await _iwentysUserRepository.GetById(request.AuthorizedUser.Id);
+                Guild guild = await _context.Guilds.GetById(request.Arguments.Id);
+                IwentysUser user = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
 
                 guild.Update(user, request.Arguments);
 
-                _guildRepository.Update(guild);
-                await _unitOfWork.CommitAsync();
+                _context.Guilds.Update(guild);
                 return new Response(new GuildProfileShortInfoDto(guild));
             }
         }

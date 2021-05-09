@@ -38,32 +38,27 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildTestTasks
 
         public class Handler : IRequestHandler<Query, Response>
         {
+            private readonly IwentysDbContext _context;
             private readonly AchievementProvider _achievementProvider;
-
-            private readonly IGenericRepository<GuildTestTaskSolution> _guildTestTaskSolutionRepository;
-
             private readonly IUnitOfWork _unitOfWork;
-            private readonly IGenericRepository<IwentysUser> _userRepository;
 
-            public Handler(IUnitOfWork unitOfWork, AchievementProvider achievementProvider)
+            public Handler(IwentysDbContext context, AchievementProvider achievementProvider, IUnitOfWork unitOfWork)
             {
+                _context = context;
                 _achievementProvider = achievementProvider;
-
                 _unitOfWork = unitOfWork;
-                _userRepository = _unitOfWork.GetRepository<IwentysUser>();
-                _guildTestTaskSolutionRepository = _unitOfWork.GetRepository<GuildTestTaskSolution>();
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                IwentysUser review = await _userRepository.GetById(request.User.Id);
-                GuildTestTaskSolution testTask = await _guildTestTaskSolutionRepository.GetSingle(t => t.AuthorId == request.TaskSolveOwnerId && t.GuildId == request.GuildId);
+                IwentysUser review = await _context.IwentysUsers.GetById(request.User.Id);
+                GuildTestTaskSolution testTask = await _context.GuildTestTaskSolvingInfos.GetSingle(t => t.AuthorId == request.TaskSolveOwnerId && t.GuildId == request.GuildId);
 
                 testTask.SetCompleted(review);
                 _achievementProvider.AchieveForStudent(AchievementList.TestTaskDone, request.TaskSolveOwnerId);
                 await AchievementHack.ProcessAchievement(_achievementProvider, _unitOfWork);
 
-                _guildTestTaskSolutionRepository.Update(testTask);
+                _context.GuildTestTaskSolvingInfos.Update(testTask);
                 await _unitOfWork.CommitAsync();
                 return new Response(GuildTestTaskInfoResponse.Wrap(testTask));
             }

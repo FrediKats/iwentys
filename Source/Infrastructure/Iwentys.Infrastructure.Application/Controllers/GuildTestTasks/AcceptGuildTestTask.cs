@@ -36,32 +36,23 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildTestTasks
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<GuildMember> _guildMemberRepository;
-            private readonly IGenericRepository<GuildTestTaskSolution> _guildTestTaskSolutionRepository;
+            private readonly IwentysDbContext _context;
 
-            private readonly IUnitOfWork _unitOfWork;
-            private readonly IGenericRepository<IwentysUser> _userRepository;
-
-
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-                _userRepository = _unitOfWork.GetRepository<IwentysUser>();
-                _guildMemberRepository = _unitOfWork.GetRepository<GuildMember>();
-                _guildTestTaskSolutionRepository = _unitOfWork.GetRepository<GuildTestTaskSolution>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                IwentysUser author = await _userRepository.GetById(request.User.Id);
-                Guild authorGuild = _guildMemberRepository.ReadForStudent(request.User.Id);
+                IwentysUser author = await _context.IwentysUsers.GetById(request.User.Id);
+                Guild authorGuild = _context.GuildMembers.ReadForStudent(request.User.Id);
                 if (authorGuild is null || authorGuild.Id != request.GuildId)
                     throw InnerLogicException.GuildExceptions.IsNotGuildMember(request.User.Id, request.GuildId);
 
                 var testTaskSolution = GuildTestTaskSolution.Create(authorGuild, author);
 
-                _guildTestTaskSolutionRepository.Insert(testTaskSolution);
-                await _unitOfWork.CommitAsync();
+                _context.GuildTestTaskSolvingInfos.Add(testTaskSolution);
                 return new Response(GuildTestTaskInfoResponse.Wrap(testTaskSolution));
             }
         }

@@ -33,17 +33,17 @@ namespace Iwentys.Infrastructure.Application.Controllers.Guilds
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<Guild> _guildRepository;
+            private readonly IwentysDbContext _context;
 
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _guildRepository = unitOfWork.GetRepository<Guild>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                GuildProfileDto guildProfileDto = await _guildRepository
-                    .Get()
+                GuildProfileDto guildProfileDto = await _context
+                    .Guilds
                     .Where(g => g.Id == request.GuildId)
                     .Select(GuildProfileDto.FromEntity)
                     .SingleAsync(cancellationToken);

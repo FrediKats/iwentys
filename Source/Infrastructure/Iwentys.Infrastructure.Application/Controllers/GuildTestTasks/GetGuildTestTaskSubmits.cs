@@ -32,17 +32,17 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildTestTasks
 
         public class Handler : RequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<GuildTestTaskSolution> _guildTestTaskSolutionRepository;
+            private readonly IwentysDbContext _context;
 
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _guildTestTaskSolutionRepository = unitOfWork.GetRepository<GuildTestTaskSolution>();
+                _context = context;
             }
 
             protected override Response Handle(Query request)
             {
-                List<GuildTestTaskInfoResponse> result = _guildTestTaskSolutionRepository
-                    .Get()
+                List<GuildTestTaskInfoResponse> result = _context
+                    .GuildTestTaskSolvingInfos
                     .Where(t => t.GuildId == request.GuildId)
                     .Select(GuildTestTaskInfoResponse.FromEntity)
                     .ToListAsync().Result;

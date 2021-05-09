@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
-using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
 using Iwentys.Infrastructure.Application.Controllers.Services;
 using Iwentys.Infrastructure.DataAccess;
@@ -33,16 +32,16 @@ namespace Iwentys.Infrastructure.Application.Controllers.Guilds
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<GuildMember> _guildMemberRepository;
+            private readonly IwentysDbContext _context;
 
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _guildMemberRepository = unitOfWork.GetRepository<GuildMember>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                GuildProfileDto guild = _guildMemberRepository.ReadForStudent(request.MemberId).Maybe(g => new GuildProfileDto(g));
+                GuildProfileDto guild = _context.GuildMembers.ReadForStudent(request.MemberId).Maybe(g => new GuildProfileDto(g));
                 return new Response(guild);
             }
         }
