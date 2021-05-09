@@ -17,14 +17,12 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly GuildService GuildService;
         public readonly GuildTestCaseContext GuildTestCaseContext;
         public readonly GuildTestTaskService GuildTestTaskService;
-        public readonly GuildTributeService GuildTributeServiceService;
 
         public readonly QuestService QuestService;
         public readonly RaidService RaidService;
         public readonly StudyTestCaseContext StudyTestCaseContext;
         public readonly StudyLeaderboardService StudyLeaderboard;
 
-        public readonly TributeTestCaseContext TributeTestCaseContext;
         public readonly IUnitOfWork UnitOfWork;
 
         public TestCaseContext(ServiceProvider serviceProvider)
@@ -37,7 +35,6 @@ namespace Iwentys.Tests.TestCaseContexts
             GithubIntegrationService = serviceProvider.GetRequiredService<GithubIntegrationService>();
             GuildService = serviceProvider.GetRequiredService<GuildService>();
             GuildMemberService = serviceProvider.GetRequiredService<GuildMemberService>();
-            GuildTributeServiceService = serviceProvider.GetRequiredService<GuildTributeService>();
             QuestService = serviceProvider.GetRequiredService<QuestService>();
             GuildTestTaskService = serviceProvider.GetRequiredService<GuildTestTaskService>();
             RaidService = serviceProvider.GetRequiredService<RaidService>();
@@ -63,7 +60,6 @@ namespace Iwentys.Tests.TestCaseContexts
             //RaidService = new RaidService(UnitOfWork);
             //StudyLeaderboard = new StudyLeaderboardService(_context);
 
-            TributeTestCaseContext = new TributeTestCaseContext(this);
             GithubTestCaseContext = new GithubTestCaseContext(this);
             AccountManagementTestCaseContext = new AccountManagementTestCaseContext(this);
             StudyTestCaseContext = new StudyTestCaseContext(this);

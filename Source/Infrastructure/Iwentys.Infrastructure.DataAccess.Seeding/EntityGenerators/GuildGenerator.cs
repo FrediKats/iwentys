@@ -46,7 +46,9 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
                 {
                     Student student = students.First(s => s.Id == member.MemberId);
                     GithubProject githubProjectEntity = githubProjects.First(p => p.Owner == student.GithubUsername);
-                    var tributeEntity = Tribute.Create(guild, student, githubProjectEntity, new List<Tribute>());
+                    var tributeEntity = new Tribute(guild, githubProjectEntity);
+                    //TODO: omg...
+                    tributeEntity.Project = null;
                     TributeEntities.Add(tributeEntity);
                 }
             }

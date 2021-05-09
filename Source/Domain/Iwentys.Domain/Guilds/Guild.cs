@@ -25,6 +25,12 @@ namespace Iwentys.Domain.Guilds
         public virtual List<GuildMember> Members { get; init; } = new List<GuildMember>();
         public virtual List<GuildPinnedProject> PinnedProjects { get; init; } = new List<GuildPinnedProject>();
         public virtual List<GuildTestTaskSolution> TestTasks { get; init; } = new List<GuildTestTaskSolution>();
+        public virtual List<Tribute> Tributes { get; init; } = new List<Tribute>();
+
+        public Guild()
+        {
+            Tributes = new List<Tribute>();
+        }
 
         public static Guild Create(IwentysUser creator, Guild userCurrentGuild, GuildCreateRequestDto arguments)
         {

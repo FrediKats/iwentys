@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -21,6 +20,7 @@ namespace Iwentys.Domain.Guilds
         public Tribute(Guild guild, GithubProject project) : this()
         {
             GuildId = guild.Id;
+            Project = project;
             ProjectId = project.Id;
             State = TributeState.Active;
             CreationTimeUtc = DateTime.UtcNow;
@@ -28,7 +28,7 @@ namespace Iwentys.Domain.Guilds
         }
 
         [Key] public long ProjectId { get; init; }
-        [ForeignKey("ProjectId")] public virtual GithubProject Project { get; init; }
+        [ForeignKey("ProjectId")] public virtual GithubProject Project { get; set; }
 
         public int GuildId { get; init; }
         public virtual Guild Guild { get; init; }
@@ -45,18 +45,19 @@ namespace Iwentys.Domain.Guilds
 
         public static Expression<Func<Tribute, bool>> IsActive => tribute => tribute.State == TributeState.Active;
 
-        public static Tribute Create(Guild guild, IwentysUser student, GithubProject project, List<Tribute> allTributes)
+        public static Tribute Create(Guild guild, IwentysUser student, GithubProject project)
         {
             if (student.GithubUsername != project.Owner)
                 throw InnerLogicException.TributeExceptions.TributeCanBeSendFromStudentAccount(student.Id, project.Owner);
 
-            if (allTributes.Any(t => t.ProjectId == project.Id))
+            if (guild.Tributes.Any(t => t.ProjectId == project.Id))
                 throw InnerLogicException.TributeExceptions.ProjectAlreadyUsed(project.Id);
 
-            if (allTributes.Any(t => t.State == TributeState.Active && t.Project.OwnerUserId == student.Id))
+            if (guild.Tributes.Any(t => t.State == TributeState.Active && t.Project.OwnerUserId == student.Id))
                 throw InnerLogicException.TributeExceptions.UserAlreadyHaveTribute(student.Id);
 
             var tribute = new Tribute(guild, project);
+            guild.Tributes.Add(tribute);
             return tribute;
         }
 

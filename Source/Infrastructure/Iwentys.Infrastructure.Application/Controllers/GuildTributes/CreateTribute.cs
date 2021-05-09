@@ -58,7 +58,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildTributes
                 Guild guild = _context.GuildMembers.ReadForStudent(student.Id);
                 List<Tribute> allTributes = _context.Tributes.ToListAsync().Result;
 
-                var tribute = Tribute.Create(guild, student, project, allTributes);
+                var tribute = Tribute.Create(guild, student, project);
 
                 _context.Tributes.Add(tribute);
 
