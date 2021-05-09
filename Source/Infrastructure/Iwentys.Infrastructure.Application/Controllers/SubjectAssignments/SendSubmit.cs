@@ -37,30 +37,23 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<SubjectAssignment> _subjectAssignmentRepository;
-            private readonly IGenericRepository<SubjectAssignmentSubmit> _subjectAssignmentSubmitRepository;
-            private readonly IUnitOfWork _unitOfWork;
+            private readonly IwentysDbContext _context;
 
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-
-                _subjectAssignmentRepository = _unitOfWork.GetRepository<SubjectAssignment>();
-                _subjectAssignmentSubmitRepository = _unitOfWork.GetRepository<SubjectAssignmentSubmit>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                SubjectAssignment subjectAssignment = await _subjectAssignmentRepository.GetById(request.Arguments.SubjectAssignmentId);
+                SubjectAssignment subjectAssignment = await _context.SubjectAssignments.GetById(request.Arguments.SubjectAssignmentId);
 
                 SubjectAssignmentSubmit subjectAssignmentSubmit = subjectAssignment.CreateSubmit(request.AuthorizedUser, request.Arguments);
 
-                _subjectAssignmentSubmitRepository.Insert(subjectAssignmentSubmit);
-                await _unitOfWork.CommitAsync();
-
+                _context.SubjectAssignmentSubmits.Add(subjectAssignmentSubmit);
                 
-                SubjectAssignmentSubmitDto result = await _subjectAssignmentSubmitRepository
-                    .Get()
+                SubjectAssignmentSubmitDto result = await _context
+                    .SubjectAssignmentSubmits
                     .Where(sas => sas.Id == subjectAssignmentSubmit.Id)
                     .Select(sas => new SubjectAssignmentSubmitDto(sas))
                     .SingleAsync();

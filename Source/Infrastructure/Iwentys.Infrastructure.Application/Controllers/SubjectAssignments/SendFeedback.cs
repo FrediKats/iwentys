@@ -28,35 +28,21 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
-            private readonly IGenericRepository<Assignment> _assignmentRepository;
-            private readonly IGenericRepository<StudentAssignment> _studentAssignmentRepository;
-            private readonly IGenericRepository<SubjectAssignment> _subjectAssignmentRepository;
-            private readonly IGenericRepository<SubjectAssignmentSubmit> _subjectAssignmentSubmitRepository;
-            private readonly IGenericRepository<Subject> _subjectRepository;
-            private readonly IUnitOfWork _unitOfWork;
+            private readonly IwentysDbContext _context;
 
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-
-                _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
-                _subjectAssignmentRepository = _unitOfWork.GetRepository<SubjectAssignment>();
-                _subjectAssignmentSubmitRepository = _unitOfWork.GetRepository<SubjectAssignmentSubmit>();
-                _subjectRepository = _unitOfWork.GetRepository<Subject>();
-                _assignmentRepository = _unitOfWork.GetRepository<Assignment>();
-                _studentAssignmentRepository = _unitOfWork.GetRepository<StudentAssignment>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                SubjectAssignmentSubmit subjectAssignmentSubmit = await _subjectAssignmentSubmitRepository.GetById(request.Arguments.SubjectAssignmentSubmitId);
-                IwentysUser iwentysUser = await _iwentysUserRepository.GetById(request.AuthorizedUser.Id);
+                SubjectAssignmentSubmit subjectAssignmentSubmit = await _context.SubjectAssignmentSubmits.GetById(request.Arguments.SubjectAssignmentSubmitId);
+                IwentysUser iwentysUser = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
 
                 subjectAssignmentSubmit.ApplyFeedback(iwentysUser, request.Arguments);
 
-                _subjectAssignmentSubmitRepository.Update(subjectAssignmentSubmit);
-                await _unitOfWork.CommitAsync();
+                _context.SubjectAssignmentSubmits.Update(subjectAssignmentSubmit);
 
                 return new Response();
             }

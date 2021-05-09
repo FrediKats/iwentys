@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
@@ -36,36 +34,18 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<GroupSubjectAssignment> _groupSubjectAssignmentRepository;
-            private readonly IGenericRepository<GroupSubject> _groupSubjectRepository;
+            private readonly IwentysDbContext _context;
 
-            private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
-            private readonly IGenericRepository<Assignment> _assignmentRepository;
-            private readonly IGenericRepository<StudentAssignment> _studentAssignmentRepository;
-            private readonly IGenericRepository<SubjectAssignment> _subjectAssignmentRepository;
-            private readonly IGenericRepository<SubjectAssignmentSubmit> _subjectAssignmentSubmitRepository;
-            private readonly IGenericRepository<Subject> _subjectRepository;
-            private readonly IUnitOfWork _unitOfWork;
-
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-
-                _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
-                _subjectAssignmentRepository = _unitOfWork.GetRepository<SubjectAssignment>();
-                _subjectAssignmentSubmitRepository = _unitOfWork.GetRepository<SubjectAssignmentSubmit>();
-                _groupSubjectAssignmentRepository = _unitOfWork.GetRepository<GroupSubjectAssignment>();
-                _groupSubjectRepository = _unitOfWork.GetRepository<GroupSubject>();
-                _subjectRepository = _unitOfWork.GetRepository<Subject>();
-                _assignmentRepository = _unitOfWork.GetRepository<Assignment>();
-                _studentAssignmentRepository = _unitOfWork.GetRepository<StudentAssignment>();
+                _context = context;
             }
 
             //TODO: it is not work?
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                List<SubjectAssignmentDto> result = await _subjectAssignmentRepository
-                    .Get()
+                List<SubjectAssignmentDto> result = await _context
+                    .SubjectAssignments
                     .Where(sa => sa.SubjectId == request.SubjectId)
                     .Select(SubjectAssignmentDto.FromEntity)
                     .ToListAsync();

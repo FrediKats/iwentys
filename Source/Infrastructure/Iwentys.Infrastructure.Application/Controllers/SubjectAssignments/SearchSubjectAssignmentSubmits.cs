@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
 {
-    public class SearchSubjectAssignmentSubmits
+    public static class SearchSubjectAssignmentSubmits
     {
         public class Query : IRequest<Response>
         {
@@ -39,40 +39,22 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<GroupSubjectAssignment> _groupSubjectAssignmentRepository;
-            private readonly IGenericRepository<GroupSubject> _groupSubjectRepository;
+            private readonly IwentysDbContext _context;
 
-            private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
-            private readonly IGenericRepository<Assignment> _assignmentRepository;
-            private readonly IGenericRepository<StudentAssignment> _studentAssignmentRepository;
-            private readonly IGenericRepository<SubjectAssignment> _subjectAssignmentRepository;
-            private readonly IGenericRepository<SubjectAssignmentSubmit> _subjectAssignmentSubmitRepository;
-            private readonly IGenericRepository<Subject> _subjectRepository;
-            private readonly IUnitOfWork _unitOfWork;
-
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-
-                _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
-                _subjectAssignmentRepository = _unitOfWork.GetRepository<SubjectAssignment>();
-                _subjectAssignmentSubmitRepository = _unitOfWork.GetRepository<SubjectAssignmentSubmit>();
-                _groupSubjectAssignmentRepository = _unitOfWork.GetRepository<GroupSubjectAssignment>();
-                _groupSubjectRepository = _unitOfWork.GetRepository<GroupSubject>();
-                _subjectRepository = _unitOfWork.GetRepository<Subject>();
-                _assignmentRepository = _unitOfWork.GetRepository<Assignment>();
-                _studentAssignmentRepository = _unitOfWork.GetRepository<StudentAssignment>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                Subject subject = await _subjectRepository.GetById(request.SearchArguments.SubjectId);
-                IwentysUser iwentysUser = await _iwentysUserRepository.GetById(request.AuthorizedUser.Id);
+                Subject subject = await _context.Subjects.GetById(request.SearchArguments.SubjectId);
+                IwentysUser iwentysUser = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
                 //TODO: move to domain
                 iwentysUser.EnsureIsTeacher(subject);
 
                 List<SubjectAssignmentSubmitDto> submits = await SubjectAssignmentSubmitRepository
-                    .ApplySearch(_subjectAssignmentSubmitRepository.Get(), request.SearchArguments)
+                    .ApplySearch(_context.SubjectAssignmentSubmits, request.SearchArguments)
                     .Select(sas => new SubjectAssignmentSubmitDto(sas))
                     .ToListAsync(cancellationToken);
 

@@ -8,7 +8,7 @@ namespace Iwentys.Tests.TestCaseContexts
 {
     public class TestCaseContext
     {
-        private readonly IwentysDbContext _context;
+        public readonly IwentysDbContext _context;
 
         public readonly AccountManagementTestCaseContext AccountManagementTestCaseContext;
         public readonly GithubIntegrationService GithubIntegrationService;

@@ -5,7 +5,7 @@ using Iwentys.Infrastructure.DataAccess;
 
 namespace Iwentys.Infrastructure.Application.Repositories
 {
-    public class SubjectAssignmentSubmitRepository
+    public static class SubjectAssignmentSubmitRepository
     {
         public static IQueryable<SubjectAssignmentSubmit> ApplySearch(IQueryable<SubjectAssignmentSubmit> query, SubjectAssignmentSubmitSearchArguments searchArguments)
         {
