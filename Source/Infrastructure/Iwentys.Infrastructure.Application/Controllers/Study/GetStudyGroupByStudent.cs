@@ -1,8 +1,6 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
@@ -35,26 +33,17 @@ namespace Iwentys.Infrastructure.Application.Controllers.Study
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
-            private readonly IGenericRepository<Student> _studentRepository;
-            private readonly IGenericRepository<StudyGroup> _studyGroupRepository;
-            private readonly IGenericRepository<StudyCourse> _studyCourseRepository;
-            private readonly IUnitOfWork _unitOfWork;
+            private readonly IwentysDbContext _context;
 
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-
-                _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
-                _studentRepository = _unitOfWork.GetRepository<Student>();
-                _studyGroupRepository = _unitOfWork.GetRepository<StudyGroup>();
-                _studyCourseRepository = _unitOfWork.GetRepository<StudyCourse>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                GroupProfileResponseDto result = await _studentRepository
-                    .Get()
+                GroupProfileResponseDto result = await _context
+                    .Students
                     .Where(sgm => sgm.Id == request.StudentId)
                     .Select(sgm => sgm.Group)
                     .Select(GroupProfileResponseDto.FromEntity)

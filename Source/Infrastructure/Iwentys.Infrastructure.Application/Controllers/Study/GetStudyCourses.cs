@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
@@ -28,20 +27,17 @@ namespace Iwentys.Infrastructure.Application.Controllers.Study
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<StudyCourse> _studyCourseRepository;
-            private readonly IUnitOfWork _unitOfWork;
+            private readonly IwentysDbContext _context;
 
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-
-                _studyCourseRepository = _unitOfWork.GetRepository<StudyCourse>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                List<StudyCourseInfoDto> result = await _studyCourseRepository
-                    .Get()
+                List<StudyCourseInfoDto> result = await _context
+                    .StudyCourses
                     .Select(StudyCourseInfoDto.FromEntity)
                     .ToListAsync();
 

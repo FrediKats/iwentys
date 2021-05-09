@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
-using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
@@ -33,23 +32,17 @@ namespace Iwentys.Infrastructure.Application.Controllers.Study
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<GroupSubject> _groupSubjectRepository;
+            private readonly IwentysDbContext _context;
 
-            private readonly IGenericRepository<Subject> _subjectRepository;
-            private readonly IUnitOfWork _unitOfWork;
-
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-
-                _subjectRepository = _unitOfWork.GetRepository<Subject>();
-                _groupSubjectRepository = _unitOfWork.GetRepository<GroupSubject>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                SubjectProfileDto result = await _subjectRepository
-                    .Get()
+                SubjectProfileDto result = await _context
+                    .Subjects
                     .FirstAsync(s => s.Id == request.SubjectId)
                     .To(entity => new SubjectProfileDto(entity));
 
