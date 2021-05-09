@@ -22,12 +22,14 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
 
         private readonly IGenericRepository<IwentysUser> _userRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IwentysDbContext _context;
 
-        public QuestService(AchievementProvider achievementProvider, BarsPointTransactionLogService pointTransactionLogService, IUnitOfWork unitOfWork)
+        public QuestService(AchievementProvider achievementProvider, BarsPointTransactionLogService pointTransactionLogService, IUnitOfWork unitOfWork, IwentysDbContext context)
         {
             _achievementProvider = achievementProvider;
             _pointTransactionLogService = pointTransactionLogService;
             _unitOfWork = unitOfWork;
+            _context = context;
 
             _userRepository = _unitOfWork.GetRepository<IwentysUser>();
             _questRepository = _unitOfWork.GetRepository<Quest>();
@@ -87,7 +89,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
             _userRepository.Update(student);
 
             _achievementProvider.AchieveForStudent(AchievementList.QuestCreator, user.Id);
-            await AchievementHack.ProcessAchievement(_achievementProvider, _unitOfWork);
+            await AchievementHack.ProcessAchievement(_achievementProvider, _context);
             await _unitOfWork.CommitAsync();
 
             return await Get(quest.Id);
@@ -118,7 +120,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
             await _pointTransactionLogService.TransferFromSystem(executor.Id, quest.Price);
 
             _achievementProvider.AchieveForStudent(AchievementList.QuestComplete, executor.Id);
-            await AchievementHack.ProcessAchievement(_achievementProvider, _unitOfWork);
+            await AchievementHack.ProcessAchievement(_achievementProvider, _context);
             await _unitOfWork.CommitAsync();
 
             return await Get(questId);

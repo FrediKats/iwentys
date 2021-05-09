@@ -8,9 +8,10 @@ namespace Iwentys.Infrastructure.Application
 {
     public class AchievementHack
     {
-        public static async Task ProcessAchievement(AchievementProvider provider, IUnitOfWork unitOfWork)
+
+        public static async Task ProcessAchievement(AchievementProvider provider, IwentysDbContext context)
         {
-            var achievementHack = new AchievementHack(unitOfWork);
+            var achievementHack = new AchievementHack(context);
             foreach (GuildAchievement guildAchievement in provider.GuildAchievement)
             {
                 achievementHack.AchieveForGuild(guildAchievement.AchievementId, guildAchievement.GuildId);
@@ -21,34 +22,30 @@ namespace Iwentys.Infrastructure.Application
                 achievementHack.Achieve(achievement.AchievementId, achievement.StudentId);
             }
 
-            await unitOfWork.CommitAsync();
+            await context.SaveChangesAsync();
         }
 
-        private readonly IGenericRepository<GuildAchievement> _guildAchievementRepository;
-        private readonly IGenericRepository<StudentAchievement> _studentAchievementRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IwentysDbContext _context;
 
-        public AchievementHack(IUnitOfWork unitOfWork)
+        public AchievementHack(IwentysDbContext context)
         {
-            _unitOfWork = unitOfWork;
-            _guildAchievementRepository = _unitOfWork.GetRepository<GuildAchievement>();
-            _studentAchievementRepository = _unitOfWork.GetRepository<StudentAchievement>();
+            _context = context;
         }
 
         public void Achieve(int achievementId, int studentId)
         {
-            if (_studentAchievementRepository.Get().Any(s => s.AchievementId == achievementId && s.StudentId == studentId))
+            if (_context.StudentAchievements.Any(s => s.AchievementId == achievementId && s.StudentId == studentId))
                 return;
 
-            _studentAchievementRepository.Insert(StudentAchievement.Create(studentId, achievementId));
+            _context.StudentAchievements.Add(StudentAchievement.Create(studentId, achievementId));
         }
 
         public void AchieveForGuild(int achievementId, int guildId)
         {
-            if (_guildAchievementRepository.Get().Any(s => s.AchievementId == achievementId && s.GuildId == guildId))
+            if (_context.GuildAchievements.Any(s => s.AchievementId == achievementId && s.GuildId == guildId))
                 return;
 
-            _guildAchievementRepository.Insert(GuildAchievement.Create(guildId, achievementId));
+            _context.GuildAchievements.Add(GuildAchievement.Create(guildId, achievementId));
         }
     }
 }

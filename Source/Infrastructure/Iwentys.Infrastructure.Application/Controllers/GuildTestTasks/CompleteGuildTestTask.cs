@@ -56,7 +56,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildTestTasks
 
                 testTask.SetCompleted(review);
                 _achievementProvider.AchieveForStudent(AchievementList.TestTaskDone, request.TaskSolveOwnerId);
-                await AchievementHack.ProcessAchievement(_achievementProvider, _unitOfWork);
+                await AchievementHack.ProcessAchievement(_achievementProvider, _context);
 
                 _context.GuildTestTaskSolvingInfos.Update(testTask);
                 await _unitOfWork.CommitAsync();
