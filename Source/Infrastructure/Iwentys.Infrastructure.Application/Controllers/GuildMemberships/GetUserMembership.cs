@@ -5,6 +5,7 @@ using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
+using Iwentys.Infrastructure.Application.Repositories;
 using MediatR;
 
 namespace Iwentys.Infrastructure.Application.Controllers.GuildMemberships
@@ -55,7 +56,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildMemberships
             {
                 Guild guild = await _guildRepository.GetById(request.GuildId);
                 IwentysUser user1 = await _userRepository.GetById(request.User.Id);
-                GuildLastLeave guildLastLeave = await GuildLastLeave.Get(user1, _guildLastLeaveRepository);
+                GuildLastLeave guildLastLeave = await GuildRepository.Get(user1, _guildLastLeaveRepository);
                 GuildMember guildMember = _guildMemberRepository
                     .Get()
                     .FirstOrDefault(m => m.Member.Id == request.User.Id && m.MemberType == GuildMemberType.Requested);

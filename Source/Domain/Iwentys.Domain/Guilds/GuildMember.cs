@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Iwentys.Common.Databases;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds.Enums;
@@ -62,14 +61,12 @@ namespace Iwentys.Domain.Guilds
             MemberType = GuildMemberType.Mentor;
         }
 
-        public void Remove(GuildMentor guildMentor, IGenericRepository<GuildMember> guildMemberRepository, GuildLastLeave guildLastLeave)
+        public void Remove(GuildMentor guildMentor, GuildLastLeave guildLastLeave)
         {
             if (MemberType == GuildMemberType.Creator)
                 throw InnerLogicException.GuildExceptions.CreatorCannotLeave(MemberId, GuildId);
 
-            //TODO: do not remove, mark as deleted
             guildLastLeave.UpdateLeave();
-            guildMemberRepository.Delete(this);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
+using Iwentys.Infrastructure.Application.Repositories;
 using MediatR;
 
 namespace Iwentys.Infrastructure.Application.Controllers.GuildMemberships
@@ -52,7 +53,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildMemberships
                 Guild guild = await _guildRepository.GetById(request.GuildId);
                 GuildMember memberToKick = guild.EnsureMemberCanRestrictPermissionForOther(editorStudentAccount, request.MemberId);
                 IwentysUser iwentysUser = await _userRepository.GetById(request.User.Id);
-                GuildLastLeave guildLastLeave = await GuildLastLeave.Get(iwentysUser, _guildLastLeaveRepository);
+                GuildLastLeave guildLastLeave = await GuildRepository.Get(iwentysUser, _guildLastLeaveRepository);
 
                 memberToKick.MarkBlocked(guildLastLeave);
 

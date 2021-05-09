@@ -5,6 +5,7 @@ using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Infrastructure.Application.Controllers.Services;
+using Iwentys.Infrastructure.Application.Repositories;
 using MediatR;
 
 namespace Iwentys.Infrastructure.Application.Controllers.GuildMemberships
@@ -49,7 +50,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildMemberships
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
                 IwentysUser iwentysUser = await _userRepository.GetById(request.User.Id);
-                GuildLastLeave guildLastLeave = await GuildLastLeave.Get(iwentysUser, _guildLastLeaveRepository);
+                GuildLastLeave guildLastLeave = await GuildRepository.Get(iwentysUser, _guildLastLeaveRepository);
 
                 Guild studentGuild = _guildMemberRepository.ReadForStudent(request.User.Id);
                 if (studentGuild is null || studentGuild.Id != request.GuildId)

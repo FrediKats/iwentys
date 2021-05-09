@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Iwentys.Common.Databases;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
+using Iwentys.Infrastructure.Application.Repositories;
 using MediatR;
 
 namespace Iwentys.Infrastructure.Application.Controllers.GuildMemberships
@@ -51,7 +52,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildMemberships
                 IwentysUser editorStudentAccount = await _userRepository.GetById(request.User.Id);
                 Guild guild = await _guildRepository.GetById(request.GuildId);
                 IwentysUser iwentysUser = await _userRepository.GetById(request.MemberId);
-                GuildLastLeave guildLastLeave = await GuildLastLeave.Get(iwentysUser, _guildLastLeaveRepository);
+                GuildLastLeave guildLastLeave = await GuildRepository.Get(iwentysUser, _guildLastLeaveRepository);
 
                 guild.RemoveMember(editorStudentAccount, iwentysUser, guildLastLeave);
                 await _unitOfWork.CommitAsync();

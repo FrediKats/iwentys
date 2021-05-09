@@ -5,6 +5,7 @@ using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
+using Iwentys.Infrastructure.Application.Repositories;
 
 namespace Iwentys.Infrastructure.Application.Controllers.Services
 {
@@ -59,7 +60,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
         public async Task LeaveGuild(AuthorizedUser user, int guildId)
         {
             IwentysUser iwentysUser = await _userRepository.GetById(user.Id);
-            GuildLastLeave guildLastLeave = await GuildLastLeave.Get(iwentysUser, _guildLastLeaveRepository);
+            GuildLastLeave guildLastLeave = await GuildRepository.Get(iwentysUser, _guildLastLeaveRepository);
 
             Guild studentGuild = _guildMemberRepository.ReadForStudent(user.Id);
             if (studentGuild is null || studentGuild.Id != guildId)
@@ -107,7 +108,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
             Guild guild = await _guildRepository.GetById(guildId);
             GuildMember memberToKick = guild.EnsureMemberCanRestrictPermissionForOther(editorStudentAccount, memberId);
             IwentysUser iwentysUser = await _userRepository.GetById(user.Id);
-            GuildLastLeave guildLastLeave = await GuildLastLeave.Get(iwentysUser, _guildLastLeaveRepository);
+            GuildLastLeave guildLastLeave = await GuildRepository.Get(iwentysUser, _guildLastLeaveRepository);
             
             memberToKick.MarkBlocked(guildLastLeave);
             
@@ -120,7 +121,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
             IwentysUser student = await _userRepository.GetById(user.Id);
             Guild guild = await _guildRepository.GetById(guildId);
             IwentysUser iwentysUser = await _userRepository.GetById(studentId);
-            GuildLastLeave guildLastLeave = await GuildLastLeave.Get(iwentysUser, _guildLastLeaveRepository);
+            GuildLastLeave guildLastLeave = await GuildRepository.Get(iwentysUser, _guildLastLeaveRepository);
 
             GuildMember member = guild.Members.Find(m => m.MemberId == studentId);
 
@@ -137,7 +138,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
             IwentysUser editorStudentAccount = await _userRepository.GetById(user.Id);
             Guild guild = await _guildRepository.GetById(guildId);
             IwentysUser iwentysUser = await _userRepository.GetById(memberId);
-            GuildLastLeave guildLastLeave = await GuildLastLeave.Get(iwentysUser, _guildLastLeaveRepository);
+            GuildLastLeave guildLastLeave = await GuildRepository.Get(iwentysUser, _guildLastLeaveRepository);
 
             guild.RemoveMember(editorStudentAccount, iwentysUser, guildLastLeave);
             await _unitOfWork.CommitAsync();
@@ -161,7 +162,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
             IwentysUser initiator = await _userRepository.GetById(user.Id);
             Guild guild = await _guildRepository.GetById(guildId);
             IwentysUser iwentysUser = await _userRepository.GetById(studentId);
-            GuildLastLeave guildLastLeave = await GuildLastLeave.Get(iwentysUser, _guildLastLeaveRepository);
+            GuildLastLeave guildLastLeave = await GuildRepository.Get(iwentysUser, _guildLastLeaveRepository);
 
             GuildMember member = guild.Members.Find(m => m.MemberId == studentId);
 
@@ -176,7 +177,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
         {
             Guild guild = await _guildRepository.GetById(guildId);
             IwentysUser user1 = await _userRepository.GetById(creator.Id);
-            GuildLastLeave guildLastLeave = await GuildLastLeave.Get(user1, _guildLastLeaveRepository);
+            GuildLastLeave guildLastLeave = await GuildRepository.Get(user1, _guildLastLeaveRepository);
             GuildMember guildMember = _guildMemberRepository
                 .Get()
                 .FirstOrDefault(m => m.Member.Id == creator.Id && m.MemberType == GuildMemberType.Requested);

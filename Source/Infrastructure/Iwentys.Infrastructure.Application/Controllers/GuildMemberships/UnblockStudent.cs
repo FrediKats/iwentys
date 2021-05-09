@@ -5,6 +5,7 @@ using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
+using Iwentys.Infrastructure.Application.Repositories;
 using MediatR;
 
 namespace Iwentys.Infrastructure.Application.Controllers.GuildMemberships
@@ -53,7 +54,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildMemberships
                 IwentysUser student = await _userRepository.GetById(request.User.Id);
                 Guild guild = await _guildRepository.GetById(request.GuildId);
                 IwentysUser iwentysUser = await _userRepository.GetById(request.MemberId);
-                GuildLastLeave guildLastLeave = await GuildLastLeave.Get(iwentysUser, _guildLastLeaveRepository);
+                GuildLastLeave guildLastLeave = await GuildRepository.Get(iwentysUser, _guildLastLeaveRepository);
 
                 GuildMember member = guild.Members.Find(m => m.MemberId == request.MemberId);
 
