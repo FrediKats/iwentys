@@ -23,19 +23,16 @@ namespace Iwentys.Infrastructure.Application.Controllers.InterestTags
 
         public class Handler : RequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<UserInterestTag> _userInterestTagRepository;
-            private readonly IUnitOfWork _unitOfWork;
+            private readonly IwentysDbContext _context;
 
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-                _userInterestTagRepository = _unitOfWork.GetRepository<UserInterestTag>();
+                _context = context;
             }
 
             protected override Response Handle(Query request)
             {
-                _userInterestTagRepository.Insert(new UserInterestTag { UserId = request.UserId, InterestTagId = request.TagId });
-                _unitOfWork.CommitAsync().Wait();
+                _context.UserInterestTags.Add(new UserInterestTag { UserId = request.UserId, InterestTagId = request.TagId });
                 return new Response();
             }
         }

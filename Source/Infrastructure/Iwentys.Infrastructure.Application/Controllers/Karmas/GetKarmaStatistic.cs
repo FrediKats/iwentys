@@ -28,17 +28,17 @@ namespace Iwentys.Infrastructure.Application.Controllers.Karmas
 
         public class Handler : RequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<KarmaUpVote> _karmaRepository;
+            private readonly IwentysDbContext _context;
 
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _karmaRepository = unitOfWork.GetRepository<KarmaUpVote>();
+                _context = context;
             }
 
             protected override Response Handle(Query request)
             {
-                List<KarmaUpVote> karmaUpVotes = _karmaRepository
-                    .Get()
+                List<KarmaUpVote> karmaUpVotes = _context
+                    .KarmaUpVotes
                     .Where(karma => karma.TargetId == request.StudentId)
                     .ToList();
 

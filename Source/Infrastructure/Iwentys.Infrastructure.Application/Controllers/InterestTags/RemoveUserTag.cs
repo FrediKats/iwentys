@@ -1,4 +1,6 @@
-﻿using Iwentys.Domain.InterestTags;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Iwentys.Domain.InterestTags;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
@@ -21,21 +23,17 @@ namespace Iwentys.Infrastructure.Application.Controllers.InterestTags
         {
         }
 
-        public class Handler : RequestHandler<Query, Response>
+        public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<UserInterestTag> _userInterestTagRepository;
-            private readonly IUnitOfWork _unitOfWork;
+            private readonly IwentysDbContext _context;
 
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-                _userInterestTagRepository = _unitOfWork.GetRepository<UserInterestTag>();
+                _context = context;
             }
-
-            protected override Response Handle(Query request)
+            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                _userInterestTagRepository.Delete(new UserInterestTag { UserId = request.UserId, InterestTagId = request.TagId });
-                _unitOfWork.CommitAsync().Wait();
+                _context.UserInterestTags.Remove(new UserInterestTag { UserId = request.UserId, InterestTagId = request.TagId });
                 return new Response();
             }
         }

@@ -28,28 +28,20 @@ namespace Iwentys.Infrastructure.Application.Controllers.Karmas
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<KarmaUpVote> _karmaRepository;
+            private readonly IwentysDbContext _context;
 
-            private readonly IGenericRepository<IwentysUser> _studentRepository;
-            private readonly IUnitOfWork _unitOfWork;
-
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-
-                _karmaRepository = unitOfWork.GetRepository<KarmaUpVote>();
-                _studentRepository = _unitOfWork.GetRepository<IwentysUser>();
+                _context = context;
             }
 
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                IwentysUser target = await _studentRepository.GetById(request.StudentId);
-                KarmaUpVote upVote = await _karmaRepository.Get().FirstAsync(k => k.AuthorId == request.AuthorizedUser.Id && k.TargetId == target.Id, cancellationToken);
+                IwentysUser target = await _context.IwentysUsers.GetById(request.StudentId);
+                KarmaUpVote upVote = await _context.KarmaUpVotes.FirstAsync(k => k.AuthorId == request.AuthorizedUser.Id && k.TargetId == target.Id, cancellationToken);
 
-                _karmaRepository.Delete(upVote);
-                await _unitOfWork.CommitAsync();
-
+                _context.KarmaUpVotes.Remove(upVote);
                 return new Response();
             }
         }

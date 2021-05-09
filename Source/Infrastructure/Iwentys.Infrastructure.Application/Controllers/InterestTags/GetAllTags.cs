@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Iwentys.Common.Tools;
 using Iwentys.Domain.InterestTags;
 using Iwentys.Domain.InterestTags.Dto;
@@ -27,18 +29,18 @@ namespace Iwentys.Infrastructure.Application.Controllers.InterestTags
             public List<InterestTagDto> Tags { get; set; }
         }
 
-        public class Handler : RequestHandler<Query, Response>
+        public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<InterestTag> _interestTagRepository;
+            private readonly IwentysDbContext _context;
 
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _interestTagRepository = unitOfWork.GetRepository<InterestTag>();
+                _context = context;
             }
 
-            protected override Response Handle(Query request)
+            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                List<InterestTag> interestTagEntities = _interestTagRepository.Get().ToListAsync().Result;
+                List<InterestTag> interestTagEntities = await _context.InterestTags.ToListAsync();
                 return new Response(interestTagEntities.SelectToList(t => new InterestTagDto(t)));
             }
         }
