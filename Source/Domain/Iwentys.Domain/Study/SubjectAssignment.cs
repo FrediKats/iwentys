@@ -41,6 +41,7 @@ namespace Iwentys.Domain.Study
             {
                 Assignment = assignment,
                 SubjectId = subject.Id,
+                Subject = subject,
                 AuthorId = teacher.User.Id
             };
 
@@ -62,7 +63,7 @@ namespace Iwentys.Domain.Study
             return subjectAssignment;
         }
 
-        public SubjectAssignmentSubmit CreateSubmit(AuthorizedUser user, SubjectAssignmentSubmitCreateArguments arguments)
+        public SubjectAssignmentSubmit CreateSubmit(IwentysUser user, SubjectAssignmentSubmitCreateArguments arguments)
         {
             bool canCreateSubmit = Subject.GroupSubjects.Any(gs => gs.StudyGroup.Students.Any(s => s.Id == user.Id));
             if (!canCreateSubmit)
@@ -72,6 +73,7 @@ namespace Iwentys.Domain.Study
             {
                 StudentId = user.Id,
                 SubjectAssignmentId = Id,
+                SubjectAssignment = this,
                 SubmitTimeUtc = DateTime.UtcNow,
                 StudentDescription = arguments.StudentDescription
             };

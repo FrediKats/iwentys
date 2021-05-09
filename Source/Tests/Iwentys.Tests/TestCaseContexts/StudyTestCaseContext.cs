@@ -1,11 +1,9 @@
 ﻿using System.Linq;
-using System.Threading;
 using Bogus;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Enums;
 using Iwentys.Domain.Study.Models;
-using Iwentys.Infrastructure.Application.Controllers.SubjectAssignments;
 using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
 using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study;
 
@@ -50,7 +48,7 @@ namespace Iwentys.Tests.TestCaseContexts
             return subject;
         }
 
-        public GroupSubject WithGroupSubject(GroupProfileResponseDto studyGroup, Subject subject, AuthorizedUser teacher = null)
+        public GroupSubject WithGroupSubject(GroupProfileResponseDto studyGroup, Subject subject, IwentysUser teacher = null)
         {
             var groupSubject = new GroupSubject
             {
@@ -64,20 +62,24 @@ namespace Iwentys.Tests.TestCaseContexts
             return groupSubject;
         }
 
-        public SubjectAssignmentDto WithSubjectAssignment(AuthorizedUser user, GroupSubject groupSubject)
+        public SubjectAssignment WithSubjectAssignment(IwentysUser creator, GroupSubject groupSubject)
         {
             AssignmentCreateArguments arguments = SubjectAssignmentFaker.Instance.CreateSubjectAssignmentCreateArguments().ConvertToAssignmentCreateArguments(groupSubject.SubjectId);
-            return new CreateSubjectAssignment.Handler(_context._context).Handle(new CreateSubjectAssignment.Query(arguments, user), CancellationToken.None).Result.SubjectAssignment;
+            var subjectAssignment = SubjectAssignment.Create(creator, groupSubject.Subject, arguments);
+            return subjectAssignment;
         }
 
-        public SubjectAssignmentSubmitDto WithSubjectAssignmentSubmit(AuthorizedUser user, SubjectAssignmentDto assignment)
+        public SubjectAssignmentSubmit WithSubjectAssignmentSubmit(IwentysUser user, SubjectAssignment assignment)
         {
-            return new SendSubmit.Handler(_context._context).Handle(new SendSubmit.Query(SubjectAssignmentFaker.Instance.CreateSubjectAssignmentSubmitCreateArguments(assignment.Id), user), CancellationToken.None).Result.Submit;
+            SubjectAssignmentSubmitCreateArguments arguments = SubjectAssignmentFaker.Instance.CreateSubjectAssignmentSubmitCreateArguments(assignment.Id);
+            SubjectAssignmentSubmit subjectAssignmentSubmit = assignment.CreateSubmit(user, arguments);
+            return subjectAssignmentSubmit;
         }
 
-        public void WithSubjectAssignmentSubmitFeedback(AuthorizedUser user, SubjectAssignmentSubmitDto submit, FeedbackType feedbackType = FeedbackType.Approve)
+        public void WithSubjectAssignmentSubmitFeedback(IwentysUser user, SubjectAssignmentSubmit submit, FeedbackType feedbackType = FeedbackType.Approve)
         {
-            new SendFeedback.Handler(_context._context).Handle(new SendFeedback.Query(SubjectAssignmentFaker.Instance.CreateFeedback(submit.Id, feedbackType), user), CancellationToken.None).Wait();
+            SubjectAssignmentSubmitFeedbackArguments arguments = SubjectAssignmentFaker.Instance.CreateFeedback(submit.Id, feedbackType);
+            submit.ApplyFeedback(user, arguments);
         }
 
         public AuthorizedUser WithNewStudent(GroupProfileResponseDto studyGroup)

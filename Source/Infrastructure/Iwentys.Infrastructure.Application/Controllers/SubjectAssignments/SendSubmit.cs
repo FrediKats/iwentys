@@ -47,8 +47,9 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
                 SubjectAssignment subjectAssignment = await _context.SubjectAssignments.GetById(request.Arguments.SubjectAssignmentId);
+                IwentysUser user = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
 
-                SubjectAssignmentSubmit subjectAssignmentSubmit = subjectAssignment.CreateSubmit(request.AuthorizedUser, request.Arguments);
+                SubjectAssignmentSubmit subjectAssignmentSubmit = subjectAssignment.CreateSubmit(user, request.Arguments);
 
                 _context.SubjectAssignmentSubmits.Add(subjectAssignmentSubmit);
                 
