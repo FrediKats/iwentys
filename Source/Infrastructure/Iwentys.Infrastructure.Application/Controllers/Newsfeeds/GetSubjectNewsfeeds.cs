@@ -40,32 +40,17 @@ namespace Iwentys.Infrastructure.Application.Controllers.Newsfeeds
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<GuildNewsfeed> _guildNewsfeedRepository;
-            private readonly IGenericRepository<SubjectNewsfeed> _subjectNewsfeedRepository;
-            private readonly IGenericRepository<Newsfeed> _newsfeedRepository;
-            private readonly IGenericRepository<Guild> _guildRepository;
-            private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
-            private readonly IGenericRepository<Student> _studentRepository;
-            private readonly IGenericRepository<Subject> _subjectRepository;
-            private readonly IUnitOfWork _unitOfWork;
+            private readonly IwentysDbContext _context;
 
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-
-                _studentRepository = _unitOfWork.GetRepository<Student>();
-                _subjectRepository = _unitOfWork.GetRepository<Subject>();
-                _guildRepository = _unitOfWork.GetRepository<Guild>();
-                _subjectNewsfeedRepository = _unitOfWork.GetRepository<SubjectNewsfeed>();
-                _guildNewsfeedRepository = _unitOfWork.GetRepository<GuildNewsfeed>();
-                _newsfeedRepository = _unitOfWork.GetRepository<Newsfeed>();
-                _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                List<NewsfeedViewModel> result = await _subjectNewsfeedRepository
-                    .Get()
+                List<NewsfeedViewModel> result = await _context
+                    .SubjectNewsfeeds
                     .Where(sn => sn.SubjectId == request.SubjectId)
                     .Select(NewsfeedViewModel.FromSubjectEntity)
                     .ToListAsync();

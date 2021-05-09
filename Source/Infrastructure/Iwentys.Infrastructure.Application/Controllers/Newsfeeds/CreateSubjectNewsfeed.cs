@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Newsfeeds;
 using Iwentys.Domain.Newsfeeds.Dto;
 using Iwentys.Domain.Study;
@@ -12,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.Application.Controllers.Newsfeeds
 {
-    public class CreateSubjectNewsfeed
+    public static class CreateSubjectNewsfeed
     {
         public class Query : IRequest<Response>
         {
@@ -40,32 +39,17 @@ namespace Iwentys.Infrastructure.Application.Controllers.Newsfeeds
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<GuildNewsfeed> _guildNewsfeedRepository;
-            private readonly IGenericRepository<SubjectNewsfeed> _subjectNewsfeedRepository;
-            private readonly IGenericRepository<Newsfeed> _newsfeedRepository;
-            private readonly IGenericRepository<Guild> _guildRepository;
-            private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
-            private readonly IGenericRepository<Student> _studentRepository;
-            private readonly IGenericRepository<Subject> _subjectRepository;
-            private readonly IUnitOfWork _unitOfWork;
+            private readonly IwentysDbContext _context;
 
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-
-                _studentRepository = _unitOfWork.GetRepository<Student>();
-                _subjectRepository = _unitOfWork.GetRepository<Subject>();
-                _guildRepository = _unitOfWork.GetRepository<Guild>();
-                _subjectNewsfeedRepository = _unitOfWork.GetRepository<SubjectNewsfeed>();
-                _guildNewsfeedRepository = _unitOfWork.GetRepository<GuildNewsfeed>();
-                _newsfeedRepository = _unitOfWork.GetRepository<Newsfeed>();
-                _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                IwentysUser author = await _iwentysUserRepository.GetById(request.AuthorizedUser.Id);
-                Subject subject = await _subjectRepository.GetById(request.SubjectId);
+                IwentysUser author = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
+                Subject subject = await _context.Subjects.GetById(request.SubjectId);
 
                 SubjectNewsfeed newsfeedEntity;
                 if (author.CheckIsAdmin(out SystemAdminUser admin))
@@ -74,15 +58,14 @@ namespace Iwentys.Infrastructure.Application.Controllers.Newsfeeds
                 }
                 else
                 {
-                    Student student = await _studentRepository.GetById(author.Id);
+                    Student student = await _context.Students.GetById(author.Id);
                     newsfeedEntity = SubjectNewsfeed.CreateAsGroupAdmin(request.CreateViewModel, student.EnsureIsGroupAdmin(), subject);
                 }
 
-                _subjectNewsfeedRepository.Insert(newsfeedEntity);
-                await _unitOfWork.CommitAsync();
+                _context.SubjectNewsfeeds.Add(newsfeedEntity);
 
-                NewsfeedViewModel result = await _newsfeedRepository
-                    .Get()
+                NewsfeedViewModel result = await _context
+                    .Newsfeeds
                     .Where(n => n.Id == newsfeedEntity.NewsfeedId)
                     .Select(NewsfeedViewModel.FromEntity)
                     .SingleAsync();

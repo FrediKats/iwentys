@@ -40,36 +40,25 @@ namespace Iwentys.Infrastructure.Application.Controllers.Newsfeeds
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<GuildNewsfeed> _guildNewsfeedRepository;
-            private readonly IGenericRepository<Newsfeed> _newsfeedRepository;
-            private readonly IGenericRepository<Guild> _guildRepository;
-            private readonly IGenericRepository<Student> _studentRepository;
-            private readonly IUnitOfWork _unitOfWork;
+            private readonly IwentysDbContext _context;
 
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-
-                _studentRepository = _unitOfWork.GetRepository<Student>();
-                _guildRepository = _unitOfWork.GetRepository<Guild>();
-                _guildNewsfeedRepository = _unitOfWork.GetRepository<GuildNewsfeed>();
-                _newsfeedRepository = _unitOfWork.GetRepository<Newsfeed>();
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                Student author = await _studentRepository.GetById(request.AuthorizedUser.Id);
-                Guild subject = await _guildRepository.GetById(request.GuildId);
+                Student author = await _context.Students.GetById(request.AuthorizedUser.Id);
+                Guild guild = await _context.Guilds.GetById(request.GuildId);
 
-                Guild guild = await _guildRepository.GetById(request.GuildId);
-                GuildMentor mentor = GuildMentorUserExtensions.EnsureIsGuildMentor(author, guild);
-                var newsfeedEntity = GuildNewsfeed.Create(request.CreateViewModel, mentor, subject);
+                GuildMentor mentor = author.EnsureIsGuildMentor(guild);
+                var newsfeedEntity = GuildNewsfeed.Create(request.CreateViewModel, mentor, guild);
 
-                _guildNewsfeedRepository.Insert(newsfeedEntity);
-                await _unitOfWork.CommitAsync();
+                _context.GuildNewsfeeds.Add(newsfeedEntity);
 
-                NewsfeedViewModel result = await _newsfeedRepository
-                    .Get()
+                NewsfeedViewModel result = await _context
+                    .Newsfeeds
                     .Where(n => n.Id == newsfeedEntity.NewsfeedId)
                     .Select(NewsfeedViewModel.FromEntity)
                     .SingleAsync();
