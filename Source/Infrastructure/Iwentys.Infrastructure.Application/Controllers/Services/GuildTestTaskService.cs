@@ -46,7 +46,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
                 .ToListAsync();
         }
 
-        public async Task Accept(AuthorizedUser user, int guildId)
+        public async Task<GuildTestTaskSolution> Accept(AuthorizedUser user, int guildId)
         {
             Guild authorGuild = _guildMemberRepository.ReadForStudent(user.Id);
             if (authorGuild is null || authorGuild.Id != guildId)
@@ -68,6 +68,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
 
             _guildTestTaskSolutionRepository.Insert(testTaskSolution);
             await _unitOfWork.CommitAsync();
+            return testTaskSolution;
         }
 
         public async Task Complete(AuthorizedUser user, int guildId, int taskSolveOwnerId)

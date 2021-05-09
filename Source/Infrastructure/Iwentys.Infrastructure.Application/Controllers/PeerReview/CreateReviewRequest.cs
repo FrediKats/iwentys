@@ -50,7 +50,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.PeerReview
                 GithubProject githubProject = await _context.StudentProjects.GetById(request.Arguments.ProjectId);
                 IwentysUser user = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
 
-                var projectReviewRequest = ProjectReviewRequest.Create(user, new GithubRepositoryInfoDto(githubProject), request.Arguments);
+                var projectReviewRequest = ProjectReviewRequest.Create(user, githubProject, request.Arguments);
 
                 EntityEntry<ProjectReviewRequest> createRequest = _context.ProjectReviewRequests.Add(projectReviewRequest);
                 

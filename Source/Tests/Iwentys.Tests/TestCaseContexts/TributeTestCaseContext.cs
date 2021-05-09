@@ -1,11 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.AccountManagement.Dto;
 using Iwentys.Domain.GithubIntegration;
+using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
-using Iwentys.Domain.PeerReview.Dto;
+using Iwentys.Infrastructure.Application.Controllers.Services;
 using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Guilds;
-using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Tests.TestCaseContexts
 {
@@ -18,19 +18,19 @@ namespace Iwentys.Tests.TestCaseContexts
             _context = context;
         }
 
-        public TributeInfoResponse WithTribute(AuthorizedUser userInfo, GithubProject project)
+        public Tribute WithTribute(IwentysUser user, GithubProject project)
         {
-            IwentysUserInfoDto result = _context.UnitOfWork.GetRepository<IwentysUser>()
-                .Get()
-                .Where(u => u.Id == userInfo.Id)
-                .Select(u => new IwentysUserInfoDto(u))
-                .SingleAsync().Result;
-            return _context.GuildTributeServiceService.CreateTribute(userInfo, new CreateProjectRequestDto(result.GithubUsername, project.Name)).Result;
+            Guild guild = _context._context.GuildMembers.ReadForStudent(user.Id);
+            List<Tribute> allTributes = _context._context.Tributes.ToList();
+
+            var tribute = Tribute.Create(guild, user, project, allTributes);
+            return tribute;
         }
 
-        public TributeInfoResponse CompleteTribute(AuthorizedUser mentor, TributeInfoResponse tribute)
+        public Tribute CompleteTribute(AuthorizedUser mentor, Tribute tribute)
         {
-            return _context.GuildTributeServiceService.CompleteTribute(mentor, GuildFaker.Instance.NewTributeCompleteRequest(tribute.Project.Id)).Result;
+            tribute.SetCompleted(mentor.Id, GuildFaker.Instance.NewTributeCompleteRequest(tribute.Project.Id));
+            return tribute;
         }
     }
 }

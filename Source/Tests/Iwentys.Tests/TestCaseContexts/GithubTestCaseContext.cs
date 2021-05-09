@@ -15,18 +15,18 @@ namespace Iwentys.Tests.TestCaseContexts
             _context = context;
         }
 
-        public GithubProject WithStudentProject(AuthorizedUser userInfo)
+        public GithubProject WithStudentProject(AuthorizedUser user, GithubUser githubUser)
         {
-            IwentysUser student = _context.UnitOfWork.GetRepository<IwentysUser>().GetById(userInfo.Id).Result;
-            GithubUser githubUser = _context.GithubIntegrationService.User.Get(userInfo.Id).Result;
-            GithubRepositoryInfoDto repositoryInfo = GithubRepositoryFaker.Instance.Generate(student.GithubUsername);
+            return WithStudentProject(_context._context.IwentysUsers.GetById(user.Id).Result, githubUser);
+        }
+
+        public GithubProject WithStudentProject(IwentysUser user, GithubUser githubUser)
+        {
+            GithubRepositoryInfoDto repositoryInfo = GithubRepositoryFaker.Instance.Generate(user.GithubUsername);
 
             var githubProject = new GithubProject(githubUser, repositoryInfo);
             //FYI: force EF to generate unique id
             githubProject.Id = 0;
-
-            _context.UnitOfWork.GetRepository<GithubProject>().Insert(githubProject);
-            _context.UnitOfWork.CommitAsync().Wait();
 
             return githubProject;
         }
@@ -34,10 +34,15 @@ namespace Iwentys.Tests.TestCaseContexts
         public GithubUser WithGithubAccount(AuthorizedUser user)
         {
             IwentysUser iwentysUser = _context.UnitOfWork.GetRepository<IwentysUser>().GetById(user.Id).Result;
+            return WithGithubAccount(iwentysUser);
+
+        }
+        public GithubUser WithGithubAccount(IwentysUser user)
+        {
             var newGithubUser = new GithubUser
             {
-                IwentysUserId = iwentysUser.Id,
-                Username = iwentysUser.GithubUsername
+                IwentysUserId = user.Id,
+                Username = user.GithubUsername
             };
             _context.UnitOfWork.GetRepository<GithubUser>().Insert(newGithubUser);
             _context.UnitOfWork.CommitAsync().Wait();

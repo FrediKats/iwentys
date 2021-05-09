@@ -33,7 +33,7 @@ namespace Iwentys.Tests.Features.PeerReview
             var githubProject = new GithubProject(githubUser, repositoryInfo);
 
             var createArguments = new ReviewRequestCreateArguments { ProjectId = githubProject.Id, Visibility = ProjectReviewVisibility.Open };
-            var projectReviewRequest = ProjectReviewRequest.Create(user, new GithubRepositoryInfoDto(githubProject), createArguments);
+            var projectReviewRequest = ProjectReviewRequest.Create(user, githubProject, createArguments);
 
             Assert.IsTrue(projectReviewRequest.AuthorId == user.Id);
         }
@@ -47,7 +47,7 @@ namespace Iwentys.Tests.Features.PeerReview
             GithubRepositoryInfoDto repositoryInfo = GithubRepositoryFaker.Instance.Generate(user.GithubUsername);
             var githubProject = new GithubProject(githubUser, repositoryInfo);
             var createArguments = new ReviewRequestCreateArguments { ProjectId = githubProject.Id, Visibility = ProjectReviewVisibility.Open };
-            var projectReviewRequest = ProjectReviewRequest.Create(user, new GithubRepositoryInfoDto(githubProject), createArguments);
+            var projectReviewRequest = ProjectReviewRequest.Create(user, githubProject, createArguments);
 
             AuthorizedUser reviewer = testCase.AccountManagementTestCaseContext.WithUser();
             var reviewFeedbackCreateArguments = new ReviewFeedbackCreateArguments { Summary = ReviewFeedbackSummary.LooksGoodToMe };
@@ -65,7 +65,7 @@ namespace Iwentys.Tests.Features.PeerReview
             GithubRepositoryInfoDto repositoryInfo = GithubRepositoryFaker.Instance.Generate(user.GithubUsername);
             var githubProject = new GithubProject(githubUser, repositoryInfo);
             var createArguments = new ReviewRequestCreateArguments { ProjectId = githubProject.Id, Visibility = ProjectReviewVisibility.Open };
-            var projectReviewRequest = ProjectReviewRequest.Create(user, new GithubRepositoryInfoDto(githubProject), createArguments);
+            var projectReviewRequest = ProjectReviewRequest.Create(user, githubProject, createArguments);
 
             projectReviewRequest.FinishReview(user);
 

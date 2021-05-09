@@ -7,6 +7,7 @@ using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Guilds.Models;
+using Iwentys.Domain.PeerReview;
 using Iwentys.Infrastructure.Application.Controllers.GuildTestTasks;
 using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Guilds;
 using Iwentys.Tests.TestCaseContexts;
@@ -40,8 +41,8 @@ namespace Iwentys.Tests.Features.Guilds
             GuildProfileDto guild = context.GuildTestCaseContext.WithGuild(user);
             AuthorizedUser guildNewcomer = context.GuildTestCaseContext.WithGuildMember(guild, user);
 
-            context.GithubTestCaseContext.WithGithubAccount(guildNewcomer);
-            GithubProject githubProject = context.GithubTestCaseContext.WithStudentProject(guildNewcomer);
+            GithubUser githubUser = context.GithubTestCaseContext.WithGithubAccount(guildNewcomer);
+            GithubProject githubProject = context.GithubTestCaseContext.WithStudentProject(guildNewcomer, githubUser);
 
             await context.GuildTestTaskService.Accept(guildNewcomer, guild.Id);
 
@@ -57,18 +58,21 @@ namespace Iwentys.Tests.Features.Guilds
         public async Task CompleteTestTask_StateShouldBeCompleted()
         {
             TestCaseContext context = TestCaseContext.Case();
-            AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
-            GuildProfileDto guild = context.GuildTestCaseContext.WithGuild(user);
+            var user = context.AccountManagementTestCaseContext.WithIwentysUser();
+            var guild = Guild.Create(user, null, GuildFaker.Instance.GetGuildCreateArguments());
+
             AuthorizedUser guildNewcomer = context.GuildTestCaseContext.WithGuildMember(guild, user);
 
-            context.GithubTestCaseContext.WithGithubAccount(guildNewcomer);
-            GithubProject githubProject = context.GithubTestCaseContext.WithStudentProject(guildNewcomer);
+            GithubUser githubUser = context.GithubTestCaseContext.WithGithubAccount(guildNewcomer);
+            GithubProject githubProject = context.GithubTestCaseContext.WithStudentProject(guildNewcomer, githubUser);
 
-            await context.GuildTestTaskService.Accept(guildNewcomer, guild.Id);
+            GuildTestTaskSolution guildTestTaskSolution = await context.GuildTestTaskService.Accept(guildNewcomer, guild.Id);
+
+            ProjectReviewRequest reviewRequest = ProjectReviewRequest.CreateGuildReviewRequest(user, githubProject, guildTestTaskSolution, guild);
 
             await new SubmitGuildTestTask.Handler(context.UnitOfWork, context.GithubIntegrationService).Handle(new SubmitGuildTestTask.Query(guildNewcomer, guild.Id, githubProject.Owner, githubProject.Name), CancellationToken.None);
-            await context.GuildTestTaskService.Complete(user, guild.Id, guildNewcomer.Id);
-
+            guildTestTaskSolution.SetCompleted(user)
+                ;
             List<GuildTestTaskInfoResponse> taskInfoResponses = await context.GuildTestTaskService.GetResponses(guild.Id);
             GuildTestTaskInfoResponse userResponse = taskInfoResponses.First(t => t.StudentId == guildNewcomer.Id);
 

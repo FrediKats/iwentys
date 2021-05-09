@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
@@ -64,7 +65,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildTestTasks
             {
                 Guild guild = await _guildRepository.GetById(request.GuildId);
                 IwentysUser user = await _userRepository.GetById(request.User.Id);
-                GithubRepositoryInfoDto githubRepositoryInfoDto = _githubIntegrationService.Repository.GetRepository(request.ProjectOwner, request.ProjectName).Result;
+                GithubProject githubRepositoryInfoDto = _githubIntegrationService.Repository.GetRepositoryAsProject(request.ProjectOwner, request.ProjectName).Result;
                 GuildTestTaskSolution testTaskSolution = await _guildTestTaskSolutionRepository.GetSingle(t => t.AuthorId == request.User.Id && t.GuildId == request.GuildId);
 
                 ProjectReviewRequest reviewRequest = ProjectReviewRequest.CreateGuildReviewRequest(user, githubRepositoryInfoDto, testTaskSolution, guild);

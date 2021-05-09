@@ -40,7 +40,7 @@ namespace Iwentys.Domain.PeerReview
             || request.AuthorId == user.Id
             || request.ProjectReviewRequestInvites.Any(rri => rri.ReviewerId == user.Id);
 
-        public static ProjectReviewRequest CreateGuildReviewRequest(IwentysUser author, GithubRepositoryInfoDto githubProject, GuildTestTaskSolution testTaskSolution, Guild guild)
+        public static ProjectReviewRequest CreateGuildReviewRequest(IwentysUser author, GithubProject githubProject, GuildTestTaskSolution testTaskSolution, Guild guild)
         {
             if (testTaskSolution.GetState() == GuildTestTaskState.Completed)
                 throw new InnerLogicException("Task already completed");
@@ -73,7 +73,7 @@ namespace Iwentys.Domain.PeerReview
             return projectReviewRequest;
         }
 
-        public static ProjectReviewRequest Create(IwentysUser author, GithubRepositoryInfoDto githubProject, ReviewRequestCreateArguments createArguments)
+        public static ProjectReviewRequest Create(IwentysUser author, GithubProject githubProject, ReviewRequestCreateArguments createArguments)
         {
             if (githubProject.Owner != author.GithubUsername)
                 throw new InnerLogicException("Project do not belong to user");

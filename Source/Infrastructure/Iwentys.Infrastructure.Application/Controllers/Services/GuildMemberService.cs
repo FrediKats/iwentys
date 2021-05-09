@@ -144,6 +144,11 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
             await _unitOfWork.CommitAsync();
         }
 
+        public async Task AcceptRequest(IwentysUser user, int guildId, int memberForAccepting)
+        {
+            await AcceptRequest(AuthorizedUser.DebugAuth(user.Id), guildId, memberForAccepting);
+        }
+
         public async Task AcceptRequest(AuthorizedUser user, int guildId, int memberForAccepting)
         {
             IwentysUser student = await _userRepository.GetById(user.Id);
@@ -183,6 +188,11 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
                 .FirstOrDefault(m => m.Member.Id == creator.Id && m.MemberType == GuildMemberType.Requested);
 
             return guild.GetUserMembershipState(user1, guildMember, guildLastLeave);
+        }
+
+        public async Task PromoteToMentor(IwentysUser creator, int guildId, int userForPromotion)
+        {
+            await PromoteToMentor(creator, guildId, userForPromotion);
         }
 
         public async Task PromoteToMentor(AuthorizedUser creator, int guildId, int userForPromotion)

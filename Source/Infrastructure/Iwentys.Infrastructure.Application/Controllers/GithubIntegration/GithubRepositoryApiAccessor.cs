@@ -44,6 +44,28 @@ namespace Iwentys.Infrastructure.Application.Controllers.GithubIntegration
             return new GithubRepositoryInfoDto(githubRepository);
         }
 
+        public async Task<GithubProject> GetRepositoryAsProject(string username, string projectName, bool useCache = true)
+        {
+            if (!useCache)
+            {
+                GithubUser githubUser = await UserApiApiAccessor.GetGithubUser(username, useCache);
+                await ForceRescanUserRepositories(githubUser);
+            }
+
+            GithubProject githubRepository = await _studentProjectRepository
+                .Get()
+                .SingleOrDefaultAsync(p => p.Owner == username && p.Name == projectName);
+
+            if (githubRepository is null)
+            {
+                var result = await _githubApiAccessor.GetRepository(username, projectName);
+                GithubUser githubUser = await UserApiApiAccessor.GetGithubUser(username, useCache);
+                return new GithubProject(githubUser, result);
+            }
+
+            return githubRepository;
+        }
+
         public async Task<List<GithubRepositoryInfoDto>> GetStudentRepositories(int studentId, bool useCache = true)
         {
             GithubUser githubUser = await UserApiApiAccessor.Get(studentId, useCache);
