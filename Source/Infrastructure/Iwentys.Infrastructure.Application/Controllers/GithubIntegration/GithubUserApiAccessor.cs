@@ -13,26 +13,18 @@ namespace Iwentys.Infrastructure.Application.Controllers.GithubIntegration
     public class GithubUserApiAccessor : IGithubUserApiAccessor
     {
         private readonly IGithubApiAccessor _githubApiAccessor;
-        private readonly IGenericRepository<GithubUser> _githubUserRepository;
-        private readonly IGenericRepository<GithubProject> _studentProjectRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IwentysDbContext _context;
 
-        private readonly IGenericRepository<IwentysUser> _userRepository;
-
-        public GithubUserApiAccessor(IGithubApiAccessor githubApiAccessor, IUnitOfWork unitOfWork)
+        public GithubUserApiAccessor(IGithubApiAccessor githubApiAccessor, IwentysDbContext context)
         {
             _githubApiAccessor = githubApiAccessor;
-
-            _unitOfWork = unitOfWork;
-            _userRepository = _unitOfWork.GetRepository<IwentysUser>();
-            _studentProjectRepository = _unitOfWork.GetRepository<GithubProject>();
-            _githubUserRepository = _unitOfWork.GetRepository<GithubUser>();
+            _context = context;
         }
 
         public async Task<GithubUser> CreateOrUpdate(int studentId)
         {
-            IwentysUser student = await _userRepository.GetById(studentId);
-            GithubUser githubUserData = _githubUserRepository.Get().SingleOrDefault(gh => gh.IwentysUserId == studentId);
+            IwentysUser student = await _context.IwentysUsers.GetById(studentId);
+            GithubUser githubUserData = _context.GithubUsersData.SingleOrDefault(gh => gh.IwentysUserId == studentId);
             var exists = true;
 
             if (githubUserData is null)
@@ -58,30 +50,29 @@ namespace Iwentys.Infrastructure.Application.Controllers.GithubIntegration
             if (exists)
             {
                 foreach (GithubProject project in studentProjects)
-                    if (_studentProjectRepository.FindByIdAsync(project.Id) is null)
-                        _studentProjectRepository.Update(project);
+                    if (_context.StudentProjects.Find(project.Id) is null)
+                        _context.StudentProjects.Update(project);
                     else
-                        _studentProjectRepository.Insert(project);
+                        _context.StudentProjects.Add(project);
 
                 githubUserData.ContributionFullInfo = await _githubApiAccessor.GetUserActivity(student.GithubUsername);
-                _githubUserRepository.Update(githubUserData);
+                _context.GithubUsersData.Update(githubUserData);
             }
             else
             {
-                _githubUserRepository.Insert(githubUserData);
+                _context.GithubUsersData.Add(githubUserData);
                 foreach (GithubProject githubProjectEntity in studentProjects)
-                    _studentProjectRepository.Insert(githubProjectEntity);
+                    _context.StudentProjects.Add(githubProjectEntity);
             }
 
-            await _unitOfWork.CommitAsync();
+            await _context.SaveChangesAsync();
 
             return githubUserData;
         }
 
         public Task<List<GithubUser>> GetAllGithubUser()
         {
-            return _githubUserRepository
-                .Get()
+            return _context.GithubUsersData
                 .ToListAsync();
         }
 
@@ -97,8 +88,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.GithubIntegration
 
         public async Task<GithubUser> GetGithubUser(string username, bool useCache = true)
         {
-            GithubUser result = await _githubUserRepository
-                .Get()
+            GithubUser result = await _context.GithubUsersData
                 .SingleOrDefaultAsync(g => g.Username == username);
 
             if (!useCache)
@@ -118,8 +108,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.GithubIntegration
         //FYI: why this is Find? Do we need this?
         public async Task<GithubUser> FindGithubUser(int studentId, bool useCache = true)
         {
-            GithubUser result = await _githubUserRepository
-                .Get()
+            GithubUser result = await _context.GithubUsersData
                 .SingleOrDefaultAsync(g => g.IwentysUserId == studentId);
 
             //FYI: if null we... can try get from api?
@@ -140,19 +129,19 @@ namespace Iwentys.Infrastructure.Application.Controllers.GithubIntegration
             if (oldGithubUser is null)
             {
                 var githubUserEntity = GithubUser.Create(student, githubUser, contributionFullInfo);
-                _githubUserRepository.Insert(githubUserEntity);
+                _context.GithubUsersData.Add(githubUserEntity);
                 return githubUserEntity;
             }
 
             oldGithubUser.Update(githubUser, contributionFullInfo);
-            _githubUserRepository.Update(oldGithubUser);
-            await _unitOfWork.CommitAsync();
+            _context.GithubUsersData.Update(oldGithubUser);
+            await _context.SaveChangesAsync();
             return oldGithubUser;
         }
 
         private async Task<IwentysUser> EnsureStudentWithGithub(int studentId)
         {
-            IwentysUser student = await _userRepository.FindByIdAsync(studentId);
+            IwentysUser student = await _context.IwentysUsers.FindAsync(studentId);
             if (student.GithubUsername is null)
                 throw new InnerLogicException("Student do not link github");
             return student;
@@ -160,7 +149,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.GithubIntegration
 
         private async Task<IwentysUser> EnsureStudentWithGithub(string githubUsername)
         {
-            IwentysUser iwentysUser = await _userRepository.Get().SingleAsync(s => s.GithubUsername == githubUsername);
+            IwentysUser iwentysUser = await _context.IwentysUsers.SingleAsync(s => s.GithubUsername == githubUsername);
             if (iwentysUser.GithubUsername is null)
                 throw new InnerLogicException("Student do not link github");
             return iwentysUser;

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Domain.Achievements;
 using Iwentys.Domain.Achievements.Dto;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
@@ -31,24 +30,17 @@ namespace Iwentys.Infrastructure.Application.Controllers.Achievements
 
         public class Handler : RequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<Achievement> _achievementRepository;
-            private readonly IGenericRepository<GuildAchievement> _guildAchievementRepository;
-            private readonly IGenericRepository<StudentAchievement> _studentAchievementRepository;
-            private readonly IUnitOfWork _unitOfWork;
+            private readonly IwentysDbContext _context;
 
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-
-                _achievementRepository = _unitOfWork.GetRepository<Achievement>();
-                _guildAchievementRepository = _unitOfWork.GetRepository<GuildAchievement>();
-                _studentAchievementRepository = _unitOfWork.GetRepository<StudentAchievement>();
+                _context = context;
             }
 
             protected override Response Handle(Query request)
             {
-                List<AchievementInfoDto> result = _guildAchievementRepository
-                    .Get()
+                List<AchievementInfoDto> result = _context
+                    .GuildAchievements
                     .Where(a => a.GuildId == request.GuildId)
                     .Select(AchievementInfoDto.FromGuildAchievement)
                     .ToList();

@@ -11,19 +11,14 @@ namespace Iwentys.Infrastructure.Application.Controllers.GithubIntegration
     public class GithubRepositoryApiAccessor
     {
         private readonly IGithubApiAccessor _githubApiAccessor;
-
-        private readonly IGenericRepository<GithubProject> _studentProjectRepository;
-        private readonly IUnitOfWork _unitOfWork;
-
+        private readonly IwentysDbContext _context;
         public readonly GithubUserApiAccessor UserApiApiAccessor;
 
-        public GithubRepositoryApiAccessor(IGithubApiAccessor githubApiAccessor, IUnitOfWork unitOfWork, GithubUserApiAccessor userApiApiAccessor)
+        public GithubRepositoryApiAccessor(IGithubApiAccessor githubApiAccessor, GithubUserApiAccessor userApiApiAccessor, IwentysDbContext context)
         {
             _githubApiAccessor = githubApiAccessor;
             UserApiApiAccessor = userApiApiAccessor;
-
-            _unitOfWork = unitOfWork;
-            _studentProjectRepository = _unitOfWork.GetRepository<GithubProject>();
+            _context = context;
         }
 
         public async Task<GithubRepositoryInfoDto> GetRepository(string username, string projectName, bool useCache = true)
@@ -34,8 +29,8 @@ namespace Iwentys.Infrastructure.Application.Controllers.GithubIntegration
                 await ForceRescanUserRepositories(githubUser);
             }
 
-            GithubProject githubRepository = await _studentProjectRepository
-                .Get()
+            GithubProject githubRepository = await _context
+                .StudentProjects
                 .SingleOrDefaultAsync(p => p.Owner == username && p.Name == projectName);
 
             if (githubRepository is null)
@@ -52,8 +47,8 @@ namespace Iwentys.Infrastructure.Application.Controllers.GithubIntegration
                 await ForceRescanUserRepositories(githubUser);
             }
 
-            GithubProject githubRepository = await _studentProjectRepository
-                .Get()
+            GithubProject githubRepository = await _context
+                .StudentProjects
                 .SingleOrDefaultAsync(p => p.Owner == username && p.Name == projectName);
 
             if (githubRepository is null)
@@ -79,8 +74,8 @@ namespace Iwentys.Infrastructure.Application.Controllers.GithubIntegration
 
             if (!useCache) await ForceRescanUserRepositories(githubUser);
 
-            return await _studentProjectRepository
-                .Get()
+            return await _context
+                .StudentProjects
                 .Where(p => p.OwnerUserId == githubUser.IwentysUserId)
                 .Select(GithubRepositoryInfoDto.FromEntity)
                 .ToListAsync();
@@ -91,12 +86,12 @@ namespace Iwentys.Infrastructure.Application.Controllers.GithubIntegration
             List<GithubRepositoryInfoDto> githubRepositories = await _githubApiAccessor.GetUserRepositories(githubUser.Username);
             IEnumerable<GithubProject> studentProjects = githubRepositories.Select(r => new GithubProject(githubUser, r));
             foreach (GithubProject project in studentProjects)
-                if (_studentProjectRepository.FindByIdAsync(project.Id) is null)
-                    _studentProjectRepository.Update(project);
+                if (await _context.StudentProjects.FindAsync(project.Id) is null)
+                    _context.StudentProjects.Update(project);
                 else
-                    _studentProjectRepository.Insert(project);
+                    _context.StudentProjects.Add(project);
 
-            await _unitOfWork.CommitAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }

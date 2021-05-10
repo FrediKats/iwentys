@@ -12,21 +12,15 @@ namespace Iwentys.Infrastructure.Application.Controllers.BackgroundServices
 {
     public class MarkGoogleTableUpdateService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        
-        private readonly IGenericRepository<Student> _studentRepository;
-        private readonly IGenericRepository<SubjectActivity> _subjectActivityRepository;
+        private readonly IwentysDbContext _context;
         private readonly ILogger _logger;
         private readonly TableParser _tableParser;
 
-        public MarkGoogleTableUpdateService(ILogger logger, string serviceToken, IUnitOfWork unitOfWork)
+        public MarkGoogleTableUpdateService(ILogger logger, string serviceToken, IwentysDbContext context)
         {
             _logger = logger;
+            _context = context;
             _tableParser = TableParser.Create(_logger, serviceToken);
-            
-            _unitOfWork = unitOfWork;
-            _studentRepository = _unitOfWork.GetRepository<Student>();
-            _subjectActivityRepository = _unitOfWork.GetRepository<SubjectActivity>();
         }
 
         public async Task UpdateSubjectActivityForGroup(GroupSubject groupSubjectData)
@@ -38,7 +32,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.BackgroundServices
                 return;
             }
 
-            List<SubjectActivity> activities = _subjectActivityRepository.Get().ToList();
+            List<SubjectActivity> activities = _context.SubjectActivities.ToList();
 
             foreach (StudentSubjectScore subjectScore in _tableParser.Execute(new MarkParser(googleTableData.Value, _logger)))
             {
@@ -56,8 +50,8 @@ namespace Iwentys.Infrastructure.Application.Controllers.BackgroundServices
                 {
                     _logger.LogWarning($"Subject info was not found: student:{subjectScore.Name}, subjectId:{groupSubjectData.SubjectId}, groupId:{groupSubjectData.StudyGroupId}");
 
-                    Student studentProfile = _studentRepository
-                        .Get()
+                    Student studentProfile = _context
+                        .Students
                         .FirstOrDefault(s => subjectScore.Name.Contains(s.FirstName)
                                     && subjectScore.Name.Contains(s.SecondName));
 
@@ -67,20 +61,20 @@ namespace Iwentys.Infrastructure.Application.Controllers.BackgroundServices
                         continue;
                     }
 
-                    _subjectActivityRepository.Insert(new SubjectActivity
+                    _context.SubjectActivities.Add(new SubjectActivity
                     {
                         StudentId = studentProfile.Id,
                         GroupSubjectId = groupSubjectData.Id,
                         Points = pointsCount
                     });
-                    await _unitOfWork.CommitAsync();
+                    await _context.SaveChangesAsync();
                     
                     continue;
                 }
 
                 activity.Points = pointsCount;
-                _subjectActivityRepository.Update(activity);
-                await _unitOfWork.CommitAsync();
+                _context.SubjectActivities.Update(activity);
+                await _context.SaveChangesAsync();
             }
         }
 
