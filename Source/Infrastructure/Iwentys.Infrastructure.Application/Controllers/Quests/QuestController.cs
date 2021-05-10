@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Quests.Dto;
-using Iwentys.Infrastructure.Application.Controllers.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Infrastructure.Application.Controllers.Quests
@@ -11,88 +11,91 @@ namespace Iwentys.Infrastructure.Application.Controllers.Quests
     [ApiController]
     public class QuestController : ControllerBase
     {
-        private readonly QuestService _questService;
+        private readonly IMediator _mediator;
 
-        public QuestController(QuestService questService)
+        public QuestController(IMediator mediator)
         {
-            _questService = questService;
+            _mediator = mediator;
         }
 
         [HttpGet(nameof(GetById))]
         public async Task<ActionResult<QuestInfoDto>> GetById(int questId)
         {
-            QuestInfoDto quests = await _questService.Get(questId);
-            return Ok(quests);
+            AuthorizedUser user = this.TryAuthWithToken();
+            GetQuestById.Response response = await _mediator.Send(new GetQuestById.Query(questId, user));
+            return Ok(response.QuestInfo);
         }
 
         [HttpGet(nameof(GetCreatedByUser))]
         public async Task<ActionResult<List<QuestInfoDto>>> GetCreatedByUser()
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            List<QuestInfoDto> quests = await _questService.GetCreatedByUser(user);
-            return Ok(quests);
+            GetCreatedByUser.Response response = await _mediator.Send(new GetCreatedByUser.Query(user));
+            return Ok(response.QuestInfos);
         }
 
         [HttpGet(nameof(GetCompletedByUser))]
         public async Task<ActionResult<List<QuestInfoDto>>> GetCompletedByUser()
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            List<QuestInfoDto> quests = await _questService.GetCompletedByUser(user);
-            return Ok(quests);
+            GetCompletedByUser.Response response = await _mediator.Send(new GetCompletedByUser.Query(user));
+            return Ok(response.QuestInfos);
         }
 
         [HttpGet(nameof(GetActive))]
         public async Task<ActionResult<List<QuestInfoDto>>> GetActive()
         {
-            List<QuestInfoDto> quests = await _questService.GetActive();
-
-            return Ok(quests);
+            AuthorizedUser user = this.TryAuthWithToken();
+            GetActive.Response response = await _mediator.Send(new GetActive.Query(user));
+            return Ok(response.QuestInfos);
         }
 
         [HttpGet(nameof(GetArchived))]
         public async Task<ActionResult<List<QuestInfoDto>>> GetArchived()
         {
-            List<QuestInfoDto> quests = await _questService.GetArchived();
-            return Ok(quests);
+            AuthorizedUser user = this.TryAuthWithToken();
+            GetArchived.Response response = await _mediator.Send(new GetArchived.Query(user));
+            return Ok(response.QuestInfos);
         }
 
         [HttpPost(nameof(Create))]
         public async Task<ActionResult<QuestInfoDto>> Create(CreateQuestRequest createQuest)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            QuestInfoDto quest = await _questService.Create(user, createQuest);
-            return Ok(quest);
+            Create.Response response = await _mediator.Send(new Create.Query(user, createQuest));
+            return Ok(response.QuestInfo);
         }
 
         [HttpPost(nameof(SendResponse))]
         public async Task<ActionResult<QuestInfoDto>> SendResponse(int questId, [FromBody] QuestResponseCreateArguments arguments)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            QuestInfoDto quest = await _questService.SendResponse(user, questId, arguments);
-            return Ok(quest);
+            SendResponse.Response response = await _mediator.Send(new SendResponse.Query(questId, user, arguments));
+            return Ok(response.QuestInfo);
         }
 
         [HttpPut(nameof(Complete))]
         public async Task<ActionResult<QuestInfoDto>> Complete([FromRoute]int questId, [FromBody] QuestCompleteArguments arguments)
         {
-            AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            QuestInfoDto quest = await _questService.Complete(authorizedUser, questId, arguments);
-            return Ok(quest);
+            AuthorizedUser user = this.TryAuthWithToken();
+            Complete.Response response = await _mediator.Send(new Complete.Query(questId, user, arguments));
+            return Ok(response.QuestInfo);
         }
 
         [HttpGet(nameof(Revoke))]
         public async Task<ActionResult<QuestInfoDto>> Revoke(int questId)
         {
-            AuthorizedUser author = this.TryAuthWithToken();
-            QuestInfoDto quest = await _questService.Revoke(author, questId);
-            return Ok(quest);
+            AuthorizedUser user = this.TryAuthWithToken();
+            Revoke.Response response = await _mediator.Send(new Revoke.Query(questId, user));
+            return Ok(response.QuestInfo);
         }
 
         [HttpGet(nameof(GetQuestExecutorRating))]
         public async Task<ActionResult<List<QuestRatingRow>>> GetQuestExecutorRating()
         {
-            List<QuestRatingRow> result = await _questService.GetQuestExecutorRating();
-            return result;
+            AuthorizedUser user = this.TryAuthWithToken();
+            GetQuestExecutorRating.Response response = await _mediator.Send(new GetQuestExecutorRating.Query(user));
+            return Ok(response.QuestRatingRows);
         }
     }
 }
