@@ -46,18 +46,11 @@ namespace Iwentys.Infrastructure.Application.Controllers.Leaderboard
 
         public class Handler : RequestHandler<Query, Response>
         {
-            private readonly GithubIntegrationService _githubIntegrationService;
-            private readonly IStudyDbContext _dbContext;
+            private readonly IwentysDbContext _context;
 
-            private readonly IGenericRepository<StudyGroup> _studyGroupRepository;
-            private readonly IUnitOfWork _unitOfWork;
-
-            public Handler(IUnitOfWork unitOfWork, IStudyDbContext dbContext, GithubIntegrationService githubIntegrationService)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-                _dbContext = dbContext;
-                _githubIntegrationService = githubIntegrationService;
-                _studyGroupRepository = unitOfWork.GetRepository<StudyGroup>();
+                _context = context;
             }
 
             protected override Response Handle(Query request)
@@ -68,7 +61,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Leaderboard
                 if (searchParametersDto.CourseId is null && searchParametersDto.GroupId is null)
                     throw new IwentysExecutionException("One of StudySearchParametersDto fields: CourseId or GroupId should be null");
 
-                List<SubjectActivity> result = _dbContext.GetStudentActivities(searchParametersDto).ToList();
+                List<SubjectActivity> result = _context.GetStudentActivities(searchParametersDto).ToList();
 
                 List<StudyLeaderboardRowDto> leaders = result
                     .GroupBy(r => r.StudentId)

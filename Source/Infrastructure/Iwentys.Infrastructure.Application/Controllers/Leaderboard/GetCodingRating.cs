@@ -36,18 +36,18 @@ namespace Iwentys.Infrastructure.Application.Controllers.Leaderboard
 
         public class Handler : RequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<StudyGroup> _studyGroupRepository;
+            private readonly IwentysDbContext _context;
             private readonly GithubIntegrationService _githubIntegrationService;
 
-            public Handler(IUnitOfWork unitOfWork, GithubIntegrationService githubIntegrationService)
+            public Handler(IwentysDbContext context, GithubIntegrationService githubIntegrationService)
             {
+                _context = context;
                 _githubIntegrationService = githubIntegrationService;
-                _studyGroupRepository = unitOfWork.GetRepository<StudyGroup>();
             }
 
             protected override Response Handle(Query request)
             {
-                List<StudyLeaderboardRowDto> result = _studyGroupRepository.Get()
+                List<StudyLeaderboardRowDto> result = _context.StudyGroups
                     .WhereIf(request.CourseId, q => q.StudyCourseId == request.CourseId)
                     .SelectMany(g => g.Students)
                     .AsEnumerable()

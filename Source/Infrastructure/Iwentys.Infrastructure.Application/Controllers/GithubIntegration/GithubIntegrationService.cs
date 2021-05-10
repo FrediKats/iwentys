@@ -10,11 +10,11 @@ namespace Iwentys.Infrastructure.Application.Controllers.GithubIntegration
         public readonly GithubRepositoryApiAccessor Repository;
         public readonly GithubUserApiAccessor User;
 
-        public GithubIntegrationService(IGithubApiAccessor githubApiAccessor, IUnitOfWork unitOfWork)
+        public GithubIntegrationService(IGithubApiAccessor githubApiAccessor, IwentysDbContext context)
         {
             _githubApiAccessor = githubApiAccessor;
-            User = new GithubUserApiAccessor(githubApiAccessor, unitOfWork);
-            Repository = new GithubRepositoryApiAccessor(githubApiAccessor, unitOfWork, User);
+            User = new GithubUserApiAccessor(githubApiAccessor, context);
+            Repository = new GithubRepositoryApiAccessor(githubApiAccessor, User, context);
         }
 
         public OrganizationInfoDto FindOrganizationInfo(string organizationName)

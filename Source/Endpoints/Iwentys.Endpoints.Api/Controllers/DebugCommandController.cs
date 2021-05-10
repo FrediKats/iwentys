@@ -17,17 +17,17 @@ namespace Iwentys.Endpoints.Api.Controllers
     {
         private readonly MarkGoogleTableUpdateService _markGoogleTableUpdateService;
         private readonly ILogger<DebugCommandController> _logger;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IwentysDbContext _context;
 
         private readonly GuildService _guildService;
 
-        public DebugCommandController(ILogger<DebugCommandController> logger, IUnitOfWork unitOfWork, TokenApplicationOptions tokenApplicationOptions, GuildService guildService)
+        public DebugCommandController(ILogger<DebugCommandController> logger, TokenApplicationOptions tokenApplicationOptions, GuildService guildService, IwentysDbContext context)
         {
             _logger = logger;
-            _unitOfWork = unitOfWork;
             _guildService = guildService;
+            _context = context;
 
-            _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(_logger, tokenApplicationOptions.GoogleServiceToken, _unitOfWork);
+            _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(_logger, tokenApplicationOptions.GoogleServiceToken, _context);
         }
 
         //[HttpPost("UpdateSubjectActivityData")]
@@ -39,8 +39,8 @@ namespace Iwentys.Endpoints.Api.Controllers
         [HttpPost("UpdateSubjectActivityForGroup")]
         public async Task<ActionResult> UpdateSubjectActivityForGroup(int subjectId, int groupId)
         {
-            GroupSubject groupSubjectData = _unitOfWork.GetRepository<GroupSubject>()
-                .Get()
+            GroupSubject groupSubjectData = _context
+                .GroupSubjects
                 .FirstOrDefault(s => s.SubjectId == subjectId && s.StudyGroupId == groupId);
 
             if (groupSubjectData is null)

@@ -29,17 +29,17 @@ namespace Iwentys.Infrastructure.Application.Controllers.Leaderboard
 
         public class Handler : RequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<CourseLeaderboardRow> _courseLeaderboardRowRepository;
+            private readonly IwentysDbContext _context;
 
-            public Handler(IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context)
             {
-                _courseLeaderboardRowRepository = unitOfWork.GetRepository<CourseLeaderboardRow>();
+                _context = context;
             }
 
             protected override Response Handle(Query request)
             {
-                CourseLeaderboardRow result = _courseLeaderboardRowRepository
-                    .Get()
+                CourseLeaderboardRow result = _context
+                    .CourseLeaderboardRows
                     .FirstOrDefault(clr => clr.StudentId == request.StudentId);
 
                 return new Response(result);

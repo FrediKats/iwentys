@@ -6,8 +6,6 @@ using Iwentys.Infrastructure.Application.Controllers.Guilds;
 using Iwentys.Infrastructure.Application.Controllers.Quests;
 using Iwentys.Infrastructure.Application.Controllers.Services;
 using Iwentys.Infrastructure.Application.Controllers.StudentProfile;
-using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Infrastructure.DataAccess.Subcontext;
 using Iwentys.Integrations.GithubIntegration;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,8 +27,6 @@ namespace Iwentys.Infrastructure.Application
 
             services.AddScoped<GuildMemberService>();
             services.AddScoped<GuildService>();
-
-            services.AddScoped<IStudyDbContext, IwentysDbContext>();
 
             services.AddScoped<RaidService>();
 

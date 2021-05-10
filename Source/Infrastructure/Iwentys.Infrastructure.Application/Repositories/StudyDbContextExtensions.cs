@@ -10,7 +10,8 @@ namespace Iwentys.Infrastructure.Application.Repositories
 {
     public static class StudyDbContextExtensions
     {
-        public static IReadOnlyCollection<SubjectActivity> GetStudentActivities(this IStudyDbContext dbContext, StudySearchParametersDto searchParametersDto)
+        //TODO: make async
+        public static IReadOnlyCollection<SubjectActivity> GetStudentActivities(this IwentysDbContext dbContext, StudySearchParametersDto searchParametersDto)
         {
             var query =
                 from sa in dbContext.SubjectActivities

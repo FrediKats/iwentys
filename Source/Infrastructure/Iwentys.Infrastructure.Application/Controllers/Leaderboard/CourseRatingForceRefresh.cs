@@ -9,6 +9,7 @@ using Iwentys.Infrastructure.Application.Repositories;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Infrastructure.DataAccess.Subcontext;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.Application.Controllers.Leaderboard
 {
@@ -30,35 +31,28 @@ namespace Iwentys.Infrastructure.Application.Controllers.Leaderboard
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly IGenericRepository<CourseLeaderboardRow> _courseLeaderboardRowRepository;
+            private readonly IwentysDbContext _context;
 
-            private readonly IStudyDbContext _dbContext;
-
-            private readonly IUnitOfWork _unitOfWork;
-
-            public Handler(IUnitOfWork unitOfWork, IStudyDbContext dbContext)
+            public Handler(IwentysDbContext context)
             {
-                _unitOfWork = unitOfWork;
-                _courseLeaderboardRowRepository = unitOfWork.GetRepository<CourseLeaderboardRow>();
-                _dbContext = dbContext;
+                _context = context;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                List<CourseLeaderboardRow> oldRows = _courseLeaderboardRowRepository
-                    .Get()
+                List<CourseLeaderboardRow> oldRows = await _context
+                    .CourseLeaderboardRows
                     .Where(clr => clr.CourseId == request.CourseId)
-                    .ToList();
+                    .ToListAsync();
 
-                List<SubjectActivity> result = _dbContext
+                List<SubjectActivity> result = _context
                     .GetStudentActivities(new StudySearchParametersDto { CourseId = request.CourseId })
                     .ToList();
                 
                 List<CourseLeaderboardRow> newRows = CourseLeaderboardRow.Create(request.CourseId, result, oldRows);
 
-                _courseLeaderboardRowRepository.Delete(oldRows);
-                _courseLeaderboardRowRepository.Insert(newRows);
-                await _unitOfWork.CommitAsync();
+                _context.CourseLeaderboardRows.RemoveRange(oldRows);
+                _context.CourseLeaderboardRows.AddRange(newRows);
                 return new Response();
             }
         }

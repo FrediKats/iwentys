@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.DataAccess.Subcontext
 {
-    //TODO: it's some hack. Need to move this in database project
     public interface IStudyDbContext
     {
         public DbSet<Student> Students { get; set; }
