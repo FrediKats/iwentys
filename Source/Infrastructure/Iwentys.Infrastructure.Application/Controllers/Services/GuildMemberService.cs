@@ -192,7 +192,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
 
         public async Task PromoteToMentor(IwentysUser creator, int guildId, int userForPromotion)
         {
-            await PromoteToMentor(creator, guildId, userForPromotion);
+            await PromoteToMentor(AuthorizedUser.DebugAuth(creator.Id), guildId, userForPromotion);
         }
 
         public async Task PromoteToMentor(AuthorizedUser creator, int guildId, int userForPromotion)

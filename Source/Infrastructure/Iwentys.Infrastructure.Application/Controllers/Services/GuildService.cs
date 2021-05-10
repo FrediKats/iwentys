@@ -59,7 +59,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
 
         public async Task<GuildProfileShortInfoDto> ApproveGuildCreating(AuthorizedUser user, int guildId)
         {
-            SystemAdminUser admin = await _iwentysUserRepository.GetById(user.Id).EnsureIsAdmin();
+            var admin = await _iwentysUserRepository.GetById(user.Id);
             Guild guild = await _guildRepository.GetById(guildId);
 
             guild.Approve(admin);

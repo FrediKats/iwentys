@@ -8,6 +8,7 @@ using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Guilds.Models;
+using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Guilds;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -17,70 +18,68 @@ namespace Iwentys.Tests.Features.Guilds
     public class GuildServiceTest
     {
         [Test]
-        public async Task CreateGuild_ShouldReturnCreatorAsMember()
+        public void CreateGuild_ShouldReturnCreatorAsMember()
         {
             TestCaseContext context = TestCaseContext.Case();
-            AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
-            GuildProfileDto guild = context.GuildTestCaseContext.WithGuild(user);
+            var user = context.AccountManagementTestCaseContext.WithIwentysUser();
+            var guild = Guild.Create(user, null, GuildFaker.Instance.GetGuildCreateArguments());
 
-            GuildMemberLeaderBoardDto guildMemberLeaderBoardDto = await context.GuildService.GetGuildMemberLeaderBoard(guild.Id);
-            var isExist = guildMemberLeaderBoardDto.MembersImpact.Any(_ => _.StudentInfoDto.Id == user.Id);
+            List<GuildMemberImpactDto> guildMemberImpactDtos = guild.GetImpact();
+
+            var isExist = guildMemberImpactDtos.Any(_ => _.StudentInfoDto.Id == user.Id);
             Assert.IsTrue(isExist);
         }
 
         [Test]
-        public async Task CreateGuild_GuildStateIsPending()
+        public void CreateGuild_GuildStateIsPending()
         {
             TestCaseContext context = TestCaseContext.Case();
-            AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
-            GuildProfileDto guild = context.GuildTestCaseContext.WithGuild(user);
+            IwentysUser user = context.AccountManagementTestCaseContext.WithIwentysUser();
 
-            GuildProfileDto createdGuild = await context.GuildService.Get(guild.Id);
+            var guild = Guild.Create(user, null, GuildFaker.Instance.GetGuildCreateArguments());
 
-            Assert.AreEqual(GuildType.Pending, createdGuild.GuildType);
+            Assert.AreEqual(GuildType.Pending, guild.GuildType);
         }
 
         [Test]
-        public async Task ApproveCreatedRepo_GuildStateIsCreated()
+        public void ApproveCreatedRepo_GuildStateIsCreated()
         {
             TestCaseContext context = TestCaseContext.Case();
-            AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
-            AuthorizedUser admin = context.AccountManagementTestCaseContext.WithUser(true);
-            GuildProfileDto guild = context.GuildTestCaseContext.WithGuild(user);
+            var user = context.AccountManagementTestCaseContext.WithIwentysUser();
+            var admin = context.AccountManagementTestCaseContext.WithIwentysUser(true);
+            var guild = Guild.Create(user, null, GuildFaker.Instance.GetGuildCreateArguments());
 
-            await context.GuildService.ApproveGuildCreating(admin, guild.Id);
-            GuildProfileDto createdGuild = await context.GuildService.Get(guild.Id);
+            guild.Approve(admin);
 
-            Assert.AreEqual(GuildType.Created, createdGuild.GuildType);
+            Assert.AreEqual(GuildType.Created, guild.GuildType);
         }
 
         [Test]
         public void CreateTwoGuildForUser_ErrorUserAlreadyInGuild()
         {
             TestCaseContext context = TestCaseContext.Case();
-            AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
-            AuthorizedUser admin = context.AccountManagementTestCaseContext.WithUser(true);
-            GuildProfileDto guild = context.GuildTestCaseContext.WithGuild(user);
+            var user = context.AccountManagementTestCaseContext.WithIwentysUser();
+            var guild = Guild.Create(user, null, GuildFaker.Instance.GetGuildCreateArguments());
 
-            //TODO: rework to correct exception
-            Assert.Catch<AggregateException>(() => context.GuildTestCaseContext.WithGuild(user));
+            Assert.Catch<InnerLogicException>(() => Guild.Create(user, guild, GuildFaker.Instance.GetGuildCreateArguments()));
         }
 
         [Test]
         public void GetGuildRequests_ForGuildEditorAndNoRequestsToGuild_EmptyGildMembersArray()
         {
             TestCaseContext context = TestCaseContext.Case();
-            AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
-            AuthorizedUser admin = context.AccountManagementTestCaseContext.WithUser(true);
-            GuildProfileDto guild = context.GuildTestCaseContext.WithGuild(user);
+            var user = context.AccountManagementTestCaseContext.WithIwentysUser();
+            var guild = Guild.Create(user, null, GuildFaker.Instance.GetGuildCreateArguments());
 
-            List<GuildMember> requests = context.GuildMemberService.GetGuildRequests(user, guild.Id).Result.ToList();
+            List<GuildMember> requests = guild.Members.Where( m => m.MemberType == GuildMemberType.Requested).ToList();
 
             Assert.That(requests, Is.Not.Null);
             Assert.That(requests.Any(), Is.False);
         }
 
+        //TODO: need to add method GetRequests for guild
         [Test]
+        [Ignore("need to add method GetRequests for guild")]
         public void GetGuildRequests_ForNotGuildMember_ThrowInnerLogicException()
         {
             TestCaseContext context = TestCaseContext.Case();
@@ -92,6 +91,7 @@ namespace Iwentys.Tests.Features.Guilds
         }
 
         [Test]
+        [Ignore("need to add method GetRequests for guild")]
         public void GetGuildRequests_ForGuildMemberWithoutEditorPermissions_ThrowInnerLogicException()
         {
             TestCaseContext context = TestCaseContext.Case();
@@ -106,11 +106,13 @@ namespace Iwentys.Tests.Features.Guilds
         public void GetGuildRequests_ForGuildEditor_GildMembersArrayWithRequestStatus()
         {
             TestCaseContext context = TestCaseContext.Case();
-            AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
-            GuildProfileDto guild = context.GuildTestCaseContext.WithGuild(user);
-            AuthorizedUser member = context.GuildTestCaseContext.WithGuildRequest(guild);
+            var user = context.AccountManagementTestCaseContext.WithIwentysUser();
+            var member = context.AccountManagementTestCaseContext.WithIwentysUser();
+            var guild = Guild.Create(user, null, GuildFaker.Instance.GetGuildCreateArguments());
 
-            List<GuildMember> requests = context.GuildMemberService.GetGuildRequests(user, guild.Id).Result.ToList();
+            guild.HiringPolicy = GuildHiringPolicy.Close;
+            guild.RequestEnterGuild(member, null, null);
+            List<GuildMember> requests = guild.Members.Where(m => m.MemberType == GuildMemberType.Requested).ToList();
 
             Assert.That(requests, Is.Not.Null);
             Assert.That(requests.Length, Is.EqualTo(1));

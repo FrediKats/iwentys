@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Guilds;
@@ -13,9 +14,8 @@ namespace Iwentys.Tests.Features.Guilds
         [Test]
         public void CreateCodeMarathonTournament_ShouldHaveCorrectType()
         {
-            TestCaseContext testCase = TestCaseContext
-                .Case();
-            var admin = testCase.AccountManagementTestCaseContext.WithIwentysUser(true);
+            TestCaseContext testCase = TestCaseContext.Case();
+            IwentysUser admin = testCase.AccountManagementTestCaseContext.WithIwentysUser(true);
 
             var codeMarathonTournament = CodeMarathonTournament.Create(admin, TournamentFaker.Instance.NewCodeMarathon());
 
@@ -26,7 +26,7 @@ namespace Iwentys.Tests.Features.Guilds
         public void RegisterTournamentTeam_TeamCreated()
         {
             TestCaseContext testCase = TestCaseContext.Case();
-            var admin = testCase.AccountManagementTestCaseContext.WithIwentysUser(true);
+            IwentysUser admin = testCase.AccountManagementTestCaseContext.WithIwentysUser(true);
             var guild = Guild.Create(admin, null, GuildFaker.Instance.GetGuildCreateArguments());
             var tournament = CodeMarathonTournament.Create(admin, TournamentFaker.Instance.NewCodeMarathon());
 

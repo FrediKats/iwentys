@@ -65,8 +65,9 @@ namespace Iwentys.Domain.Guilds
                     guildMember.Approve(mentor);
         }
 
-        public void Approve(SystemAdminUser admin)
+        public void Approve(IwentysUser admin)
         {
+            admin.EnsureIsAdmin();
             if (GuildType == GuildType.Created)
                 throw new InnerLogicException("Guild already approved");
 
@@ -115,7 +116,10 @@ namespace Iwentys.Domain.Guilds
             if (GetUserMembershipState(user, guildMember, lastLeave) != UserMembershipState.CanRequest)
                 throw new InnerLogicException($"Student unable to send request to this guild! UserId: {user.Id} GuildId: {Id}");
 
-            return new GuildMember(this, user, GuildMemberType.Requested);
+
+            var member = new GuildMember(this, user, GuildMemberType.Requested);
+            Members.Add(member);
+            return member;
         }
 
         public UserMembershipState GetUserMembershipState(IwentysUser user, GuildMember currentMembership, GuildLastLeave guildLastLeave)

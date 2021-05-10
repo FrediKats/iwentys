@@ -18,6 +18,7 @@ namespace Iwentys.Tests.TestCaseContexts
         {
             return WithGuild(AuthorizedUser.DebugAuth(user.Id));
         }
+
         public GuildProfileDto WithGuild(AuthorizedUser user)
         {
             var guildCreateRequest = new GuildCreateRequestDto(null, null, null, GuildHiringPolicy.Close);
