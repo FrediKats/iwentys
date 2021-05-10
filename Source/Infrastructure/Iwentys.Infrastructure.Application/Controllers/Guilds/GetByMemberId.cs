@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
 using Iwentys.Domain.Guilds.Models;
-using Iwentys.Infrastructure.Application.Controllers.Services;
+using Iwentys.Infrastructure.Application.Repositories;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 

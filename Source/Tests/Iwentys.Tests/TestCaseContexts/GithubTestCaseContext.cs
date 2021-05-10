@@ -15,11 +15,6 @@ namespace Iwentys.Tests.TestCaseContexts
             _context = context;
         }
 
-        public GithubProject WithStudentProject(AuthorizedUser user, GithubUser githubUser)
-        {
-            return WithStudentProject(_context._context.IwentysUsers.GetById(user.Id).Result, githubUser);
-        }
-
         public GithubProject WithStudentProject(IwentysUser user, GithubUser githubUser)
         {
             GithubRepositoryInfoDto repositoryInfo = GithubRepositoryFaker.Instance.Generate(user.GithubUsername);
@@ -37,6 +32,7 @@ namespace Iwentys.Tests.TestCaseContexts
             return WithGithubAccount(iwentysUser);
 
         }
+
         public GithubUser WithGithubAccount(IwentysUser user)
         {
             var newGithubUser = new GithubUser

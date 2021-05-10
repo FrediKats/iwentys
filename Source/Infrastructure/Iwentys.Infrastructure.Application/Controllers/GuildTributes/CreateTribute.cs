@@ -8,7 +8,7 @@ using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
 using Iwentys.Domain.PeerReview.Dto;
 using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
-using Iwentys.Infrastructure.Application.Controllers.Services;
+using Iwentys.Infrastructure.Application.Repositories;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

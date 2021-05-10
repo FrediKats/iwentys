@@ -27,21 +27,6 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
             _guildLastLeaveRepository = _unitOfWork.GetRepository<GuildLastLeave>();
         }
 
-        public async Task EnterGuild(AuthorizedUser authorizedUser, int guildId)
-        {
-            Guild guild = await _guildRepository.GetById(guildId);
-            IwentysUser user = await _userRepository.GetById(authorizedUser.Id);
-            GuildLastLeave lastLeave = await _guildLastLeaveRepository.FindByIdAsync(user.Id);
-            GuildMember guildMember = _guildMemberRepository
-                .Get()
-                .FirstOrDefault(m => m.Member.Id == authorizedUser.Id && m.MemberType == GuildMemberType.Requested);
-
-            GuildMember newMembership = guild.EnterGuild(user, guildMember, lastLeave);
-
-            _guildMemberRepository.Insert(newMembership);
-            await _unitOfWork.CommitAsync();
-        }
-
         public async Task RequestGuild(AuthorizedUser authorizedUser, int guildId)
         {
             Guild guild = await _guildRepository.GetById(guildId);
@@ -54,27 +39,6 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
             GuildMember newMembership = guild.RequestEnterGuild(user, guildMember, lastLeave);
 
             _guildMemberRepository.Insert(newMembership);
-            await _unitOfWork.CommitAsync();
-        }
-
-        public async Task LeaveGuild(AuthorizedUser user, int guildId)
-        {
-            IwentysUser iwentysUser = await _userRepository.GetById(user.Id);
-            GuildLastLeave guildLastLeave = await GuildRepository.Get(iwentysUser, _guildLastLeaveRepository);
-
-            Guild studentGuild = _guildMemberRepository.ReadForStudent(user.Id);
-            if (studentGuild is null || studentGuild.Id != guildId)
-                throw InnerLogicException.GuildExceptions.IsNotGuildMember(user.Id, guildId);
-
-            //TributeEntity userTribute = _guildTributeRepository.Get()
-            //    .Where(t => t.GuildId == guildId)
-            //    .Where(t => t.ProjectEntity.AuthorId == user.Id)
-            //    .SingleOrDefault(t => t.State == TributeState.Active);
-
-            //if (userTribute is not null)
-            //    await _guildTributeRepository.DeleteAsync(userTribute.ProjectId);
-
-            studentGuild.RemoveMember(iwentysUser, iwentysUser, guildLastLeave);
             await _unitOfWork.CommitAsync();
         }
             
@@ -176,18 +140,6 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
 
             guild.RemoveMember(initiator, iwentysUser, guildLastLeave);
             await _unitOfWork.CommitAsync();
-        }
-
-        public async Task<UserMembershipState> GetUserMembership(AuthorizedUser creator, int guildId)
-        {
-            Guild guild = await _guildRepository.GetById(guildId);
-            IwentysUser user1 = await _userRepository.GetById(creator.Id);
-            GuildLastLeave guildLastLeave = await GuildRepository.Get(user1, _guildLastLeaveRepository);
-            GuildMember guildMember = _guildMemberRepository
-                .Get()
-                .FirstOrDefault(m => m.Member.Id == creator.Id && m.MemberType == GuildMemberType.Requested);
-
-            return guild.GetUserMembershipState(user1, guildMember, guildLastLeave);
         }
 
         public async Task PromoteToMentor(IwentysUser creator, int guildId, int userForPromotion)

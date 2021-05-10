@@ -4,10 +4,8 @@ using Iwentys.Common.Exceptions;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Enums;
 using Iwentys.Domain.Study.Models;
-using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
 using Iwentys.Infrastructure.Application.Repositories;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Infrastructure.DataAccess.Subcontext;
 using MediatR;
 
 namespace Iwentys.Infrastructure.Application.Controllers.Leaderboard

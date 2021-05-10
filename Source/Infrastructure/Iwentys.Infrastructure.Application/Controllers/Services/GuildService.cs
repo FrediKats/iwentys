@@ -7,6 +7,7 @@ using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
 using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
+using Iwentys.Infrastructure.Application.Repositories;
 using Iwentys.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +18,6 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
         private readonly GithubIntegrationService _githubIntegrationService;
 
         private readonly IGenericRepository<GuildMember> _guildMemberRepository;
-        private readonly IGenericRepository<GuildPinnedProject> _guildPinnedProjectRepository;
         private readonly IGenericRepository<Guild> _guildRepository;
         private readonly IGenericRepository<IwentysUser> _iwentysUserRepository;
 
@@ -31,7 +31,6 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
             _iwentysUserRepository = _unitOfWork.GetRepository<IwentysUser>();
             _guildRepository = _unitOfWork.GetRepository<Guild>();
             _guildMemberRepository = _unitOfWork.GetRepository<GuildMember>();
-            _guildPinnedProjectRepository = _unitOfWork.GetRepository<GuildPinnedProject>();
         }
 
         public async Task<GuildProfileShortInfoDto> Create(AuthorizedUser authorizedUser, GuildCreateRequestDto arguments)
@@ -55,30 +54,6 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
             _guildRepository.Update(guild);
             await _unitOfWork.CommitAsync();
             return new GuildProfileShortInfoDto(guild);
-        }
-
-        public async Task<GuildProfileShortInfoDto> ApproveGuildCreating(AuthorizedUser user, int guildId)
-        {
-            var admin = await _iwentysUserRepository.GetById(user.Id);
-            Guild guild = await _guildRepository.GetById(guildId);
-
-            guild.Approve(admin);
-
-            _guildRepository.Update(guild);
-            await _unitOfWork.CommitAsync();
-            return new GuildProfileShortInfoDto(await _guildRepository.GetById(guildId));
-        }
-
-        public List<GuildProfileDto> GetOverview(int skippedCount, int takenCount)
-        {
-            return _guildRepository
-                .Get()
-                .Skip(skippedCount)
-                .Take(takenCount)
-                .Select(GuildProfileDto.FromEntity)
-                .ToList()
-                .OrderByDescending(g => g.GuildRating)
-                .ToList();
         }
 
         public async Task<GuildProfileDto> Get(int id)

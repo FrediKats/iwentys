@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
@@ -7,7 +6,6 @@ using Iwentys.Domain.Achievements;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Quests;
 using Iwentys.Domain.Quests.Dto;
-using Iwentys.Infrastructure.Application.Controllers.Services;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -43,13 +41,11 @@ namespace Iwentys.Infrastructure.Application.Controllers.Quests
         public class Handler : IRequestHandler<Query, Response>
         {
             private readonly AchievementProvider _achievementProvider;
-            private readonly BarsPointTransactionLogService _pointTransactionLogService;
             private readonly IwentysDbContext _context;
 
-            public Handler(IwentysDbContext context, BarsPointTransactionLogService pointTransactionLogService, AchievementProvider achievementProvider)
+            public Handler(IwentysDbContext context, AchievementProvider achievementProvider)
             {
                 _context = context;
-                _pointTransactionLogService = pointTransactionLogService;
                 _achievementProvider = achievementProvider;
             }
 
@@ -62,8 +58,10 @@ namespace Iwentys.Infrastructure.Application.Controllers.Quests
                 quest.MakeCompleted(student, executor, request.Arguments);
 
                 _context.Quests.Update(quest);
-                await _pointTransactionLogService.TransferFromSystem(executor.Id, quest.Price);
+                BarsPointTransaction transaction = BarsPointTransaction.ReceiveFromSystem(executor, quest.Price);
 
+                _context.BarsPointTransactionLogs.Add(transaction);
+                _context.IwentysUsers.Update(executor);
                 _achievementProvider.AchieveForStudent(AchievementList.QuestComplete, executor.Id);
                 await AchievementHack.ProcessAchievement(_achievementProvider, _context);
                 QuestInfoDto result = await _context

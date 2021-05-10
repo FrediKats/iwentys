@@ -21,8 +21,6 @@ namespace Iwentys.Infrastructure.Application
             //services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
             services.AddScoped<AchievementProvider>();
 
-            services.AddScoped<BarsPointTransactionLogService>();
-            services.AddScoped<StudyLeaderboardService>();
             services.AddScoped<GithubIntegrationService>();
 
             services.AddScoped<GuildMemberService>();

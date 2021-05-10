@@ -7,7 +7,6 @@ using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
 using Iwentys.Infrastructure.Application.Repositories;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Infrastructure.DataAccess.Subcontext;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
