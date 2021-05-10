@@ -30,8 +30,6 @@ namespace Iwentys.Infrastructure.Application
             services.AddScoped<GuildMemberService>();
             services.AddScoped<GuildService>();
 
-            services.AddScoped<QuestService>();
-
             services.AddScoped<IStudyDbContext, IwentysDbContext>();
 
             services.AddScoped<RaidService>();

@@ -1,4 +1,3 @@
-using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
 using Iwentys.Infrastructure.Application.Controllers.Services;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Tests.Tools;
@@ -16,7 +15,6 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly GuildService GuildService;
         public readonly GuildTestCaseContext GuildTestCaseContext;
 
-        public readonly QuestService QuestService;
         public readonly RaidService RaidService;
         public readonly StudyTestCaseContext StudyTestCaseContext;
         public readonly StudyLeaderboardService StudyLeaderboard;
@@ -32,7 +30,6 @@ namespace Iwentys.Tests.TestCaseContexts
             //TODO: use DI (AspStartupExtensions)
             GuildService = serviceProvider.GetRequiredService<GuildService>();
             GuildMemberService = serviceProvider.GetRequiredService<GuildMemberService>();
-            QuestService = serviceProvider.GetRequiredService<QuestService>();
             RaidService = serviceProvider.GetRequiredService<RaidService>();
             StudyLeaderboard = serviceProvider.GetRequiredService<StudyLeaderboardService>();
             //IwentysUserService = new IwentysUserService(UnitOfWork);
