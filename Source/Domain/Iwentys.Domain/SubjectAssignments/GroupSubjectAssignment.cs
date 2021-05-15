@@ -1,4 +1,6 @@
-﻿namespace Iwentys.Domain.Study
+﻿using Iwentys.Domain.Study;
+
+namespace Iwentys.Domain.SubjectAssignments
 {
     public class GroupSubjectAssignment
     {

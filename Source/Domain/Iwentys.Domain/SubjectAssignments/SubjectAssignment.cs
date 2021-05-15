@@ -5,9 +5,10 @@ using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Assignments;
 using Iwentys.Domain.Assignments.Models;
-using Iwentys.Domain.Study.Models;
+using Iwentys.Domain.Study;
+using Iwentys.Domain.SubjectAssignments.Models;
 
-namespace Iwentys.Domain.Study
+namespace Iwentys.Domain.SubjectAssignments
 {
     public class SubjectAssignment
     {

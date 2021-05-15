@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Domain.Assignments.Models;
-using Iwentys.Domain.Study.Models;
+using Iwentys.Domain.SubjectAssignments.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

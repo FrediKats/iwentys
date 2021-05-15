@@ -1,9 +1,10 @@
 ﻿using System;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Study.Enums;
-using Iwentys.Domain.Study.Models;
+using Iwentys.Domain.Study;
+using Iwentys.Domain.SubjectAssignments.Enums;
+using Iwentys.Domain.SubjectAssignments.Models;
 
-namespace Iwentys.Domain.Study
+namespace Iwentys.Domain.SubjectAssignments
 {
     public class SubjectAssignmentSubmit
     {

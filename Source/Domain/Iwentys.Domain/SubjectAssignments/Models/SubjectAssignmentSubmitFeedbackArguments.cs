@@ -1,6 +1,6 @@
-﻿using Iwentys.Domain.Study.Enums;
+﻿using Iwentys.Domain.SubjectAssignments.Enums;
 
-namespace Iwentys.Domain.Study.Models
+namespace Iwentys.Domain.SubjectAssignments.Models
 {
     public class SubjectAssignmentSubmitFeedbackArguments
     {

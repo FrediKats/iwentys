@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Iwentys.Domain.Assignments;
 using Iwentys.Domain.Assignments.Models;
 using Iwentys.Domain.Study;
-using Iwentys.Domain.Study.Models;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 

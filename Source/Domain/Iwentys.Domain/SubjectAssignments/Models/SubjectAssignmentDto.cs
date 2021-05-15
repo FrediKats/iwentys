@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Domain.AccountManagement.Dto;
 
-namespace Iwentys.Domain.Study.Models
+namespace Iwentys.Domain.SubjectAssignments.Models
 {
     public class SubjectAssignmentDto
     {

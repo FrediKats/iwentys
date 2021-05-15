@@ -15,6 +15,7 @@ using Iwentys.Domain.Quests;
 using Iwentys.Domain.Raids;
 using Iwentys.Domain.Raids.Dto;
 using Iwentys.Domain.Study;
+using Iwentys.Domain.SubjectAssignments;
 using Iwentys.Infrastructure.DataAccess.Seeding;
 using Iwentys.Infrastructure.DataAccess.Subcontext;
 using Microsoft.EntityFrameworkCore;

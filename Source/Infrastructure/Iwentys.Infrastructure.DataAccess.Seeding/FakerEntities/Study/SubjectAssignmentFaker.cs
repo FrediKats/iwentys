@@ -1,9 +1,9 @@
 ﻿using System;
 using Bogus;
 using Iwentys.Domain.Assignments;
-using Iwentys.Domain.Study;
-using Iwentys.Domain.Study.Enums;
-using Iwentys.Domain.Study.Models;
+using Iwentys.Domain.SubjectAssignments;
+using Iwentys.Domain.SubjectAssignments.Enums;
+using Iwentys.Domain.SubjectAssignments.Models;
 
 namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study
 {

@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Domain.Study.Models
+﻿namespace Iwentys.Domain.SubjectAssignments.Models
 {
     public class SubjectAssignmentSubmitCreateArguments
     {
