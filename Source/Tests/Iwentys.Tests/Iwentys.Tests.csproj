@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Modules\SubjectAssignmens\" />
+    <Folder Include="Modules\SubjectAssignments\" />
   </ItemGroup>
 
 </Project>

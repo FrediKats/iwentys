@@ -17,11 +17,29 @@ namespace Iwentys.Domain.Study
         public int StudyGroupId { get; init; }
         public virtual StudyGroup StudyGroup { get; init; }
 
-        public int? LectorTeacherId { get; init; }
-        public virtual UniversitySystemUser LectorTeacher { get; init; }
+        public int? LectorMentorId { get; init; }
+        public virtual UniversitySystemUser LectorMentor { get; init; }
 
-        public int? PracticeTeacherId { get; init; }
-        public virtual UniversitySystemUser PracticeTeacher { get; init; }
+        public int? PracticeMentorId { get; init; }
+        public virtual UniversitySystemUser PracticeMentor { get; init; }
+
+        public GroupSubject()
+        {
+        }
+
+        //TODO: enable nullability
+        public GroupSubject(Subject subject, StudyGroup studyGroup, StudySemester studySemester, UniversitySystemUser lectorMentor, UniversitySystemUser practiceMentor)
+        {
+            Subject = subject;
+            SubjectId = subject.Id;
+            StudyGroup = studyGroup;
+            StudyGroupId = studyGroup.Id;
+            StudySemester = studySemester;
+            LectorMentor = lectorMentor;
+            LectorMentorId = lectorMentor?.Id;
+            PracticeMentor = practiceMentor;
+            PracticeMentorId = practiceMentor?.Id;
+        }
 
 
         public string SerializedGoogleTableConfig { get; set; }
@@ -44,7 +62,7 @@ namespace Iwentys.Domain.Study
 
         public bool HasMentorPermission(IwentysUser user)
         {
-            return LectorTeacherId == user.Id || PracticeTeacherId == user.Id;
+            return LectorMentorId == user.Id || PracticeMentorId == user.Id;
         }
     }
 }

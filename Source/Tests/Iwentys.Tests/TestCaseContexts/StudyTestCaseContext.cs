@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Bogus;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Assignments.Models;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Enums;
 using Iwentys.Domain.Study.Models;
@@ -60,7 +59,7 @@ namespace Iwentys.Tests.TestCaseContexts
                 StudyGroupId = studyGroup.Id,
                 SubjectId = subject.Id,
                 StudySemester = StudySemester.Y21H1,
-                LectorTeacherId = teacher?.Id
+                LectorMentorId = teacher?.Id
             };
             _context.UnitOfWork.GetRepository<GroupSubject>().Insert(groupSubject);
             _context.UnitOfWork.CommitAsync().Wait();

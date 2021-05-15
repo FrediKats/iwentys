@@ -24,10 +24,12 @@ namespace Iwentys.Domain.SubjectAssignments
         public int AuthorId { get; set; }
         public virtual IwentysUser Author { get; set; }
 
+        public virtual ICollection<GroupSubjectAssignment> GroupSubjectAssignments { get; set; }
         public virtual ICollection<SubjectAssignmentSubmit> SubjectAssignmentSubmits { get; set; }
 
         public SubjectAssignment()
         {
+            GroupSubjectAssignments = new List<GroupSubjectAssignment>();
         }
 
         public static SubjectAssignment Create(IwentysUser user, Subject subject, SubjectAssignmentCreateArguments arguments)
@@ -48,6 +50,20 @@ namespace Iwentys.Domain.SubjectAssignments
             };
 
             return subjectAssignment;
+        }
+
+        public GroupSubjectAssignment AddAssignmentForGroup(IwentysUser user, StudyGroup group)
+        {
+            SubjectMentor mentor = user.EnsureIsMentor(Subject);
+
+            //TODO: ensure that group has subject
+            var groupSubjectAssignment = new GroupSubjectAssignment
+            {
+                Group = group,
+                SubjectAssignment = this
+            };
+            GroupSubjectAssignments.Add(groupSubjectAssignment);
+            return groupSubjectAssignment;
         }
 
         public SubjectAssignmentSubmit CreateSubmit(IwentysUser user, SubjectAssignmentSubmitCreateArguments arguments)
