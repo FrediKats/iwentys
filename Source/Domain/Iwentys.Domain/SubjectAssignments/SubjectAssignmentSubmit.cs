@@ -9,6 +9,10 @@ namespace Iwentys.Domain.SubjectAssignments
     public class SubjectAssignmentSubmit
     {
         public int Id { get; set; }
+        public DateTime SubmitTimeUtc { get; set; }
+        public string StudentDescription { get; set; }
+        public string RepositoryOwner { get; set; }
+        public string RepositoryName { get; set; }
 
         public int SubjectAssignmentId { get; set; }
         public virtual SubjectAssignment SubjectAssignment { get; set; }
@@ -16,12 +20,25 @@ namespace Iwentys.Domain.SubjectAssignments
         public int StudentId { get; set; }
         public virtual Student Student { get; set; }
 
-        public DateTime SubmitTimeUtc { get; set; }
-        public string StudentDescription { get; set; }
-
         public DateTime? ApproveTimeUtc { get; set; }
         public DateTime? RejectTimeUtc { get; set; }
         public string Comment { get; set; }
+
+        public SubjectAssignmentSubmit()
+        {
+        }
+
+        public SubjectAssignmentSubmit(Student student, SubjectAssignment subjectAssignment, SubjectAssignmentSubmitCreateArguments arguments) : this()
+        {
+            Student = student;
+            StudentId = student.Id;
+            SubjectAssignment = subjectAssignment;
+            SubjectAssignmentId = subjectAssignment.Id;
+            SubmitTimeUtc = DateTime.UtcNow;
+            StudentDescription = arguments.StudentDescription;
+            RepositoryOwner = arguments.RepositoryOwner;
+            RepositoryName = arguments.RepositoryName;
+        }
 
         public void ApplyFeedback(IwentysUser iwentysUser, SubjectAssignmentSubmitFeedbackArguments arguments)
         {

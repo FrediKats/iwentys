@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments.Models;
@@ -26,15 +25,7 @@ namespace Iwentys.Domain.SubjectAssignments
             if (student.GroupId != Group.Id)
                 throw InnerLogicException.SubjectAssignmentException.StudentIsNotAssignedToSubject(student.Id, SubjectAssignment.Id);
 
-            var subjectAssignmentSubmit = new SubjectAssignmentSubmit
-            {
-                Student = student,
-                StudentId = student.Id,
-                SubjectAssignment = SubjectAssignment,
-                SubjectAssignmentId = SubjectAssignmentId,
-                SubmitTimeUtc = DateTime.UtcNow,
-                StudentDescription = arguments.StudentDescription
-            };
+            var subjectAssignmentSubmit = new SubjectAssignmentSubmit(student, SubjectAssignment, arguments);
 
             SubjectAssignmentSubmits.Add(subjectAssignmentSubmit);
             return subjectAssignmentSubmit;
