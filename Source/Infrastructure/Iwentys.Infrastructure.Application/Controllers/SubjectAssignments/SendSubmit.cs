@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments;
 using Iwentys.Domain.SubjectAssignments.Models;
 using Iwentys.Infrastructure.DataAccess;
@@ -47,9 +48,14 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
                 SubjectAssignment subjectAssignment = await _context.SubjectAssignments.GetById(request.Arguments.SubjectAssignmentId);
-                IwentysUser user = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
+                Student student = await _context.Students.GetById(request.AuthorizedUser.Id);
 
-                SubjectAssignmentSubmit subjectAssignmentSubmit = subjectAssignment.CreateSubmit(user, request.Arguments);
+                GroupSubjectAssignment groupSubjectAssignment = await _context
+                    .GroupSubjectAssignments
+                    .FirstAsync(gsa => gsa.SubjectAssignmentId == request.Arguments.SubjectAssignmentId
+                                       && gsa.GroupId == student.GroupId);
+
+                SubjectAssignmentSubmit subjectAssignmentSubmit = groupSubjectAssignment.CreateSubmit(student, request.Arguments);
 
                 _context.SubjectAssignmentSubmits.Add(subjectAssignmentSubmit);
                 

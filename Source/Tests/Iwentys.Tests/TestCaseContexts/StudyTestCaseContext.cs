@@ -73,13 +73,6 @@ namespace Iwentys.Tests.TestCaseContexts
             return subjectAssignment;
         }
 
-        public SubjectAssignmentSubmit WithSubjectAssignmentSubmit(IwentysUser user, SubjectAssignment assignment)
-        {
-            SubjectAssignmentSubmitCreateArguments arguments = SubjectAssignmentFaker.Instance.CreateSubjectAssignmentSubmitCreateArguments(assignment.Id);
-            SubjectAssignmentSubmit subjectAssignmentSubmit = assignment.CreateSubmit(user, arguments);
-            return subjectAssignmentSubmit;
-        }
-
         public void WithSubjectAssignmentSubmitFeedback(IwentysUser user, SubjectAssignmentSubmit submit, FeedbackType feedbackType = FeedbackType.Approve)
         {
             SubjectAssignmentSubmitFeedbackArguments arguments = SubjectAssignmentFaker.Instance.CreateFeedback(submit.Id, feedbackType);

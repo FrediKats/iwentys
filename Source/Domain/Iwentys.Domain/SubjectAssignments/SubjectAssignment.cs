@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments.Models;
@@ -52,34 +50,20 @@ namespace Iwentys.Domain.SubjectAssignments
             return subjectAssignment;
         }
 
-        public GroupSubjectAssignment AddAssignmentForGroup(IwentysUser user, StudyGroup group)
+        public GroupSubjectAssignment AddAssignmentForGroup(IwentysUser user, GroupSubject group)
         {
             SubjectMentor mentor = user.EnsureIsMentor(Subject);
+            //TODO: add correct exception
+            if (SubjectId != group.SubjectId)
+                throw new Exception();
 
-            //TODO: ensure that group has subject
             var groupSubjectAssignment = new GroupSubjectAssignment
             {
-                Group = group,
+                Group = group.StudyGroup,
                 SubjectAssignment = this
             };
             GroupSubjectAssignments.Add(groupSubjectAssignment);
             return groupSubjectAssignment;
-        }
-
-        public SubjectAssignmentSubmit CreateSubmit(IwentysUser user, SubjectAssignmentSubmitCreateArguments arguments)
-        {
-            bool canCreateSubmit = Subject.GroupSubjects.Any(gs => gs.StudyGroup.Students.Any(s => s.Id == user.Id));
-            if (!canCreateSubmit)
-                throw InnerLogicException.SubjectAssignmentException.StudentIsNotAssignedToSubject(user.Id, Id);
-
-            return new SubjectAssignmentSubmit
-            {
-                StudentId = user.Id,
-                SubjectAssignmentId = Id,
-                SubjectAssignment = this,
-                SubmitTimeUtc = DateTime.UtcNow,
-                StudentDescription = arguments.StudentDescription
-            };
         }
     }
 }
