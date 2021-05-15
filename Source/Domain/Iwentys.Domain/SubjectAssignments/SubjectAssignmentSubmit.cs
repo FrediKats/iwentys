@@ -25,29 +25,29 @@ namespace Iwentys.Domain.SubjectAssignments
 
         public void ApplyFeedback(IwentysUser iwentysUser, SubjectAssignmentSubmitFeedbackArguments arguments)
         {
-            SubjectTeacher teacher = iwentysUser.EnsureIsTeacher(SubjectAssignment.Subject);
+            SubjectMentor mentor = iwentysUser.EnsureIsMentor(SubjectAssignment.Subject);
 
             switch (arguments.FeedbackType)
             {
                 case FeedbackType.Approve:
-                    Approve(teacher, arguments);
+                    Approve(mentor, arguments);
                     break;
                 case FeedbackType.Reject:
-                    Reject(teacher, arguments);
+                    Reject(mentor, arguments);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(FeedbackType), "Unsupported feedback state");
             }
         }
 
-        private void Approve(SubjectTeacher teacher, SubjectAssignmentSubmitFeedbackArguments arguments)
+        private void Approve(SubjectMentor mentor, SubjectAssignmentSubmitFeedbackArguments arguments)
         {
             RejectTimeUtc = null;
             ApproveTimeUtc = DateTime.UtcNow;
             Comment = arguments.Comment;
         }
 
-        private void Reject(SubjectTeacher teacher, SubjectAssignmentSubmitFeedbackArguments arguments)
+        private void Reject(SubjectMentor mentor, SubjectAssignmentSubmitFeedbackArguments arguments)
         {
             ApproveTimeUtc = null;
             RejectTimeUtc = DateTime.UtcNow;

@@ -69,7 +69,7 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public SubjectAssignment WithSubjectAssignment(IwentysUser creator, GroupSubject groupSubject)
         {
-            AssignmentCreateArguments arguments = SubjectAssignmentFaker.Instance.CreateSubjectAssignmentCreateArguments().ConvertToAssignmentCreateArguments(groupSubject.SubjectId);
+            var arguments = SubjectAssignmentFaker.Instance.CreateSubjectAssignmentCreateArguments(groupSubject.SubjectId);
             var subjectAssignment = SubjectAssignment.Create(creator, groupSubject.Subject, arguments);
             return subjectAssignment;
         }

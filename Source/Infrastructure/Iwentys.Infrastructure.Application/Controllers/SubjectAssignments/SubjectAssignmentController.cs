@@ -35,10 +35,10 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
         }
         
         [HttpPost(nameof(Create))]
-        public async Task<ActionResult> Create(AssignmentCreateArguments arguments)
+        public async Task<ActionResult> Create(SubjectAssignmentCreateArguments arguments)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            CreateSubjectAssignment.Response response = await _mediator.Send(new CreateSubjectAssignment.Query(arguments, authorizedUser));
+            CreateSubjectAssignment.Response response = await _mediator.Send(new CreateSubjectAssignment.Query(authorizedUser, arguments));
             return Ok();
         }
     }

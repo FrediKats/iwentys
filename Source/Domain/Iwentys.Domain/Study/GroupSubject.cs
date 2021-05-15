@@ -41,5 +41,10 @@ namespace Iwentys.Domain.Study
                 return Result.Fail<GoogleTableData>(new Error("Data parse failed").CausedBy(e));
             }
         }
+
+        public bool HasMentorPermission(IwentysUser user)
+        {
+            return LectorTeacherId == user.Id || PracticeTeacherId == user.Id;
+        }
     }
 }

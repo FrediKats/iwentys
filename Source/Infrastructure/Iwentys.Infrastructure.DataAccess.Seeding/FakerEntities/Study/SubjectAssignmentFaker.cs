@@ -18,7 +18,6 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study
             return new SubjectAssignment
             {
                 Id = _faker.IndexVariable++ + 1,
-                AssignmentId = assignment.Id,
                 SubjectId = subjectId
             };
         }
@@ -53,10 +52,11 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study
             };
         }
 
-        public SubjectAssignmentCreateArguments CreateSubjectAssignmentCreateArguments()
+        public SubjectAssignmentCreateArguments CreateSubjectAssignmentCreateArguments(int subjectId)
         {
             return new SubjectAssignmentCreateArguments
             {
+                SubjectId = subjectId,
                 Title = new Faker().Lorem.Word(),
                 Description = new Faker().Lorem.Word(),
                 Link = new Faker().Lorem.Word(),

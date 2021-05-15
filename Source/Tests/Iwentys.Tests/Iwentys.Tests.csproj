@@ -26,4 +26,8 @@
     <ProjectReference Include="..\..\Infrastructure\Iwentys.Infrastructure.Configuration\Iwentys.Infrastructure.Configuration.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Modules\SubjectAssignmens\" />
+  </ItemGroup>
+
 </Project>

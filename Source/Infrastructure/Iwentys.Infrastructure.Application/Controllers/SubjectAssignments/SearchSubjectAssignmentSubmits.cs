@@ -51,7 +51,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
                 Subject subject = await _context.Subjects.GetById(request.SearchArguments.SubjectId);
                 IwentysUser iwentysUser = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
                 //TODO: move to domain
-                iwentysUser.EnsureIsTeacher(subject);
+                iwentysUser.EnsureIsMentor(subject);
 
                 List<SubjectAssignmentSubmitDto> submits = await SubjectAssignmentSubmitRepository
                     .ApplySearch(_context.SubjectAssignmentSubmits, request.SearchArguments)

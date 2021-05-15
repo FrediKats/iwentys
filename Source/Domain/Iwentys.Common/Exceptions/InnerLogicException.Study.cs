@@ -4,7 +4,7 @@
     {
         public static class StudyExceptions
         {
-            public static InnerLogicException UserIsNotTeacher(int userId)
+            public static InnerLogicException UserIsNotMentor(int userId)
             {
                 return new InnerLogicException($"User is not teacher. Not enough permission. User {userId}");
             }

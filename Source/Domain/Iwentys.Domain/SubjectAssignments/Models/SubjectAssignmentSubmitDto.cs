@@ -13,7 +13,7 @@ namespace Iwentys.Domain.SubjectAssignments.Models
             StudentDescription = submit.StudentDescription;
             SubmitTimeUtc = submit.SubmitTimeUtc;
             SubjectAssignmentId = submit.SubjectAssignmentId;
-            SubjectAssignmentTitle = submit.SubjectAssignment.Assignment.Title;
+            SubjectAssignmentTitle = submit.SubjectAssignment.Title;
             ApproveTimeUtc = submit.ApproveTimeUtc;
             RejectTimeUtc = submit.RejectTimeUtc;
             Comment = submit.Comment;

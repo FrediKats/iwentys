@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Assignments.Models;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments;
 using Iwentys.Domain.SubjectAssignments.Models;
@@ -12,17 +11,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
 {
-    public class CreateSubjectAssignment
+    public static class CreateSubjectAssignment
     {
         public class Query : IRequest<Response>
         {
-            public Query(AssignmentCreateArguments arguments, AuthorizedUser authorizedUser)
+            public Query(AuthorizedUser authorizedUser, SubjectAssignmentCreateArguments arguments)
             {
                 Arguments = arguments;
                 AuthorizedUser = authorizedUser;
             }
 
-            public AssignmentCreateArguments Arguments { get; set; }
+            public SubjectAssignmentCreateArguments Arguments { get; set; }
             public AuthorizedUser AuthorizedUser { get; set; }
         }
 
@@ -34,7 +33,6 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
             }
 
             public SubjectAssignmentDto SubjectAssignment { get; set; }
-
         }
 
         public class Handler : IRequestHandler<Query, Response>
@@ -46,8 +44,6 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
                 _context = context;
             }
 
-            //TODO: here must be subject id and we need to resolve group subject
-            //TODO: OR list of group subject ids
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
                 Subject subject = await _context.Subjects.GetById(request.Arguments.SubjectId);
@@ -56,9 +52,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
                 var subjectAssignment = SubjectAssignment.Create(creator, subject, request.Arguments);
 
                 _context.SubjectAssignments.Add(subjectAssignment);
-                _context.StudentAssignments.AddRange(subjectAssignment.StudentAssignments);
 
-                
                 SubjectAssignmentDto result = await _context
                     .SubjectAssignments
                     .Where(sa => sa.Id == subjectAssignment.Id)
