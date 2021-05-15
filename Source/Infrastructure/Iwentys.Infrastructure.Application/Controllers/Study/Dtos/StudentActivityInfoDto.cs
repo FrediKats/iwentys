@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Common.Tools;
+using Iwentys.Domain.Study;
 
-namespace Iwentys.Domain.Study.Models
+namespace Iwentys.Infrastructure.Application.Controllers.Study.Dtos
 {
     public record StudentActivityInfoDto
     {

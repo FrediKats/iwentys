@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Iwentys.Domain.Study;
 
-namespace Iwentys.Domain.Study.Models
+namespace Iwentys.Infrastructure.Application.Controllers.Study.Dtos
 {
     public class StudyCourseInfoDto
     {

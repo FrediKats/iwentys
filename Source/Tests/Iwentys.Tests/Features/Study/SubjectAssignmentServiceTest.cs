@@ -2,6 +2,7 @@
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
 using Iwentys.Domain.SubjectAssignments;
+using Iwentys.Infrastructure.Application.Controllers.Study.Dtos;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 

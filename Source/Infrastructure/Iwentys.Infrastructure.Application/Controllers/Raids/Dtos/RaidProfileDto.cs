@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Domain.AccountManagement.Dto;
+using Iwentys.Domain.Raids;
 
-namespace Iwentys.Domain.Raids.Dto
+namespace Iwentys.Infrastructure.Application.Controllers.Raids.Dtos
 {
     public class RaidProfileDto
     {

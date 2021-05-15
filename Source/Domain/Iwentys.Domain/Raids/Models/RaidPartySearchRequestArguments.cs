@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Domain.Raids.Dto
+﻿namespace Iwentys.Domain.Raids.Models
 {
     public class RaidPartySearchRequestArguments
     {

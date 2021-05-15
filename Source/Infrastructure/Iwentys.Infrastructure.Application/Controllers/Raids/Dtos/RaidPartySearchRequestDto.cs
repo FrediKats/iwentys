@@ -1,6 +1,7 @@
 ﻿using Iwentys.Domain.AccountManagement.Dto;
+using Iwentys.Domain.Raids.Models;
 
-namespace Iwentys.Domain.Raids.Dto
+namespace Iwentys.Infrastructure.Application.Controllers.Raids.Dtos
 {
     public class RaidPartySearchRequestDto
     {

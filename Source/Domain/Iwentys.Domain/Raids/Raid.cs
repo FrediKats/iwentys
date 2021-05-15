@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Raids.Dto;
+using Iwentys.Domain.Raids.Models;
 
 namespace Iwentys.Domain.Raids
 {

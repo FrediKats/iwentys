@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Domain.Raids.Dto;
+using Iwentys.Domain.Raids.Models;
+using Iwentys.Infrastructure.Application.Controllers.Raids.Dtos;
 using Iwentys.Infrastructure.Application.Controllers.Services;
 using Microsoft.AspNetCore.Mvc;
 

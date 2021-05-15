@@ -3,7 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Raids;
-using Iwentys.Domain.Raids.Dto;
+using Iwentys.Domain.Raids.Models;
+using Iwentys.Infrastructure.Application.Controllers.Raids.Dtos;
 using Iwentys.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 

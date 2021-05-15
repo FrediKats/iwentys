@@ -1,4 +1,6 @@
-﻿namespace Iwentys.Domain.Study.Models
+﻿using Iwentys.Domain.Study;
+
+namespace Iwentys.Infrastructure.Application.Controllers.Study.Dtos
 {
     public record SubjectProfileDto
     {
