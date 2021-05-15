@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Assignments;
+using Iwentys.Domain.Assignments.Models;
 using Iwentys.Domain.Study.Models;
 
 namespace Iwentys.Domain.Study

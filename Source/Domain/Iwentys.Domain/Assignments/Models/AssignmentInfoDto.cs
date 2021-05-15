@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq.Expressions;
 using Iwentys.Domain.AccountManagement.Dto;
+using Iwentys.Domain.Study;
 
-namespace Iwentys.Domain.Study.Models
+namespace Iwentys.Domain.Assignments.Models
 {
     public record AssignmentInfoDto
     {

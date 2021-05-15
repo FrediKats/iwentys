@@ -1,4 +1,5 @@
 ﻿using System;
+using Iwentys.Domain.Assignments.Models;
 
 namespace Iwentys.Domain.Study.Models
 {

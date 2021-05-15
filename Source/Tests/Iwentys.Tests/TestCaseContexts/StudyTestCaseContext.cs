@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Bogus;
 using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Assignments.Models;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Enums;
 using Iwentys.Domain.Study.Models;

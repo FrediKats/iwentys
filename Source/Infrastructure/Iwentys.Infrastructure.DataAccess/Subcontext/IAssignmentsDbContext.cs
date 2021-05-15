@@ -1,4 +1,5 @@
-﻿using Iwentys.Domain.Study;
+﻿using Iwentys.Domain.Assignments;
+using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.DataAccess.Subcontext

@@ -1,4 +1,5 @@
 ﻿using System;
+using Iwentys.Domain.Assignments.Enums;
 using Iwentys.Domain.Study.Enums;
 
 namespace Iwentys.Domain.Study.Models

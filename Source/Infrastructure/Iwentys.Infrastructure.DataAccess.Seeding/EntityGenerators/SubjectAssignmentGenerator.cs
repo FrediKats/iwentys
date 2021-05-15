@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Iwentys.Domain.Assignments;
 using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study;
 using Microsoft.EntityFrameworkCore;

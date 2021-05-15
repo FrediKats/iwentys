@@ -1,5 +1,6 @@
 ﻿using System;
 using Bogus;
+using Iwentys.Domain.Assignments;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Enums;
 using Iwentys.Domain.Study.Models;
