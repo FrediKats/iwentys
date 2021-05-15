@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Quests.Dto;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
-using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;

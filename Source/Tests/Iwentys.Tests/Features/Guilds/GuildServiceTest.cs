@@ -8,6 +8,7 @@ using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Guilds.Models;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Guilds;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
@@ -21,12 +22,12 @@ namespace Iwentys.Tests.Features.Guilds
         public void CreateGuild_ShouldReturnCreatorAsMember()
         {
             TestCaseContext context = TestCaseContext.Case();
-            var user = context.AccountManagementTestCaseContext.WithIwentysUser();
+            IwentysUser user = context.AccountManagementTestCaseContext.WithIwentysUser();
             var guild = Guild.Create(user, null, GuildFaker.Instance.GetGuildCreateArguments());
 
             List<GuildMemberImpactDto> guildMemberImpactDtos = guild.GetImpact();
 
-            var isExist = guildMemberImpactDtos.Any(_ => _.StudentInfoDto.Id == user.Id);
+            bool isExist = guildMemberImpactDtos.Any(_ => _.StudentInfoDto.Id == user.Id);
             Assert.IsTrue(isExist);
         }
 
@@ -45,8 +46,8 @@ namespace Iwentys.Tests.Features.Guilds
         public void ApproveCreatedRepo_GuildStateIsCreated()
         {
             TestCaseContext context = TestCaseContext.Case();
-            var user = context.AccountManagementTestCaseContext.WithIwentysUser();
-            var admin = context.AccountManagementTestCaseContext.WithIwentysUser(true);
+            IwentysUser user = context.AccountManagementTestCaseContext.WithIwentysUser();
+            IwentysUser admin = context.AccountManagementTestCaseContext.WithIwentysUser(true);
             var guild = Guild.Create(user, null, GuildFaker.Instance.GetGuildCreateArguments());
 
             guild.Approve(admin);
@@ -58,7 +59,7 @@ namespace Iwentys.Tests.Features.Guilds
         public void CreateTwoGuildForUser_ErrorUserAlreadyInGuild()
         {
             TestCaseContext context = TestCaseContext.Case();
-            var user = context.AccountManagementTestCaseContext.WithIwentysUser();
+            IwentysUser user = context.AccountManagementTestCaseContext.WithIwentysUser();
             var guild = Guild.Create(user, null, GuildFaker.Instance.GetGuildCreateArguments());
 
             Assert.Catch<InnerLogicException>(() => Guild.Create(user, guild, GuildFaker.Instance.GetGuildCreateArguments()));
@@ -68,7 +69,7 @@ namespace Iwentys.Tests.Features.Guilds
         public void GetGuildRequests_ForGuildEditorAndNoRequestsToGuild_EmptyGildMembersArray()
         {
             TestCaseContext context = TestCaseContext.Case();
-            var user = context.AccountManagementTestCaseContext.WithIwentysUser();
+            IwentysUser user = context.AccountManagementTestCaseContext.WithIwentysUser();
             var guild = Guild.Create(user, null, GuildFaker.Instance.GetGuildCreateArguments());
 
             List<GuildMember> requests = guild.Members.Where( m => m.MemberType == GuildMemberType.Requested).ToList();
@@ -106,8 +107,8 @@ namespace Iwentys.Tests.Features.Guilds
         public void GetGuildRequests_ForGuildEditor_GildMembersArrayWithRequestStatus()
         {
             TestCaseContext context = TestCaseContext.Case();
-            var user = context.AccountManagementTestCaseContext.WithIwentysUser();
-            var member = context.AccountManagementTestCaseContext.WithIwentysUser();
+            IwentysUser user = context.AccountManagementTestCaseContext.WithIwentysUser();
+            IwentysUser member = context.AccountManagementTestCaseContext.WithIwentysUser();
             var guild = Guild.Create(user, null, GuildFaker.Instance.GetGuildCreateArguments());
 
             guild.HiringPolicy = GuildHiringPolicy.Close;
@@ -331,11 +332,11 @@ namespace Iwentys.Tests.Features.Guilds
         public void GetGuildMemberLeaderBoard()
         {
             TestCaseContext context = TestCaseContext.Case();
-            AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
+            IwentysUser user = context.AccountManagementTestCaseContext.WithIwentysUser();
             GithubUser userData = context.GithubTestCaseContext.WithGithubAccount(user);
+            var guild = Guild.Create(user, null, GuildFaker.Instance.GetGuildCreateArguments());
 
-            GuildProfileDto guild = context.GuildTestCaseContext.WithGuild(user);
-            GuildMemberLeaderBoardDto leaderboard = context.GuildService.GetGuildMemberLeaderBoard(guild.Id).Result;
+            var leaderboard = new GuildMemberLeaderBoardDto(guild.GetImpact());
 
             Assert.That(leaderboard.MembersImpact.Single().TotalRate,
                 Is.EqualTo(userData.ContributionFullInfo?.Total ?? 0));

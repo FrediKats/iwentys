@@ -4,6 +4,7 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Enums;
 using Iwentys.Domain.Study.Models;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
 using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study;
 
@@ -80,13 +81,6 @@ namespace Iwentys.Tests.TestCaseContexts
         {
             SubjectAssignmentSubmitFeedbackArguments arguments = SubjectAssignmentFaker.Instance.CreateFeedback(submit.Id, feedbackType);
             submit.ApplyFeedback(user, arguments);
-        }
-
-        public AuthorizedUser WithNewStudent(GroupProfileResponseDto studyGroup)
-        {
-            Student student = WithNewStudentAsStudent(studyGroup);
-            AuthorizedUser user = AuthorizedUser.DebugAuth(student.Id);
-            return user;
         }
 
         public Student WithNewStudentAsStudent(GroupProfileResponseDto studyGroup)

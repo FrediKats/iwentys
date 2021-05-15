@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Domain.AccountManagement
+﻿namespace Iwentys.Infrastructure.Application
 {
     public sealed class AuthorizedUser
     {

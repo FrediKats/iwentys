@@ -30,9 +30,8 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
         public async Task<RaidProfileDto> Create(AuthorizedUser user, RaidCreateArguments arguments)
         {
             IwentysUser iwentysUser = await _iwentysUserRepository.GetById(user.Id);
-            SystemAdminUser systemAdminUser = iwentysUser.EnsureIsAdmin();
 
-            var raid = Raid.CreateCommon(systemAdminUser, arguments);
+            var raid = Raid.CreateCommon(iwentysUser, arguments);
 
             _raidRepository.Insert(raid);
             await _unitOfWork.CommitAsync();

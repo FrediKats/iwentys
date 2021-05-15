@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Newsfeeds.Dto;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;

@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-using Iwentys.Domain.AccountManagement;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Infrastructure.Application

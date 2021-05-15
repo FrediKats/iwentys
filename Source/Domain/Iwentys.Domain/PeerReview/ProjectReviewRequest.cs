@@ -90,7 +90,7 @@ namespace Iwentys.Domain.PeerReview
             };
         }
 
-        public ProjectReviewFeedback CreateFeedback(AuthorizedUser author, ReviewFeedbackCreateArguments createArguments)
+        public ProjectReviewFeedback CreateFeedback(IwentysUser author, ReviewFeedbackCreateArguments createArguments)
         {
             if (State == ProjectReviewState.Finished)
                 throw InnerLogicException.PeerReviewExceptions.ReviewAlreadyClosed(Id);

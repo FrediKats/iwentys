@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.PeerReview.Dto;
 using MediatR;

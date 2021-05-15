@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Domain.AccountManagement;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

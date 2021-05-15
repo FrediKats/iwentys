@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 using MediatR;

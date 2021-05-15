@@ -49,7 +49,7 @@ namespace Iwentys.Tests.Features.PeerReview
             var createArguments = new ReviewRequestCreateArguments { ProjectId = githubProject.Id, Visibility = ProjectReviewVisibility.Open };
             var projectReviewRequest = ProjectReviewRequest.Create(user, githubProject, createArguments);
 
-            AuthorizedUser reviewer = testCase.AccountManagementTestCaseContext.WithUser();
+            var reviewer = testCase.AccountManagementTestCaseContext.WithIwentysUser();
             var reviewFeedbackCreateArguments = new ReviewFeedbackCreateArguments { Summary = ReviewFeedbackSummary.LooksGoodToMe };
             ProjectReviewFeedback projectReviewFeedback = projectReviewRequest.CreateFeedback(reviewer, reviewFeedbackCreateArguments);
 

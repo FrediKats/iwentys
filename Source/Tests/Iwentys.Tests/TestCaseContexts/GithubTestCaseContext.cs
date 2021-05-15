@@ -1,6 +1,7 @@
 ﻿using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.GithubIntegration.Models;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
 
@@ -24,13 +25,6 @@ namespace Iwentys.Tests.TestCaseContexts
             githubProject.Id = 0;
 
             return githubProject;
-        }
-
-        public GithubUser WithGithubAccount(AuthorizedUser user)
-        {
-            IwentysUser iwentysUser = _context.UnitOfWork.GetRepository<IwentysUser>().GetById(user.Id).Result;
-            return WithGithubAccount(iwentysUser);
-
         }
 
         public GithubUser WithGithubAccount(IwentysUser user)

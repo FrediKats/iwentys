@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds.Models;
 using Iwentys.Domain.PeerReview.Dto;
 using MediatR;

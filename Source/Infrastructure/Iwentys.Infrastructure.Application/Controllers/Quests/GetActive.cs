@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Quests;
 using Iwentys.Domain.Quests.Dto;
 using Iwentys.Infrastructure.DataAccess;

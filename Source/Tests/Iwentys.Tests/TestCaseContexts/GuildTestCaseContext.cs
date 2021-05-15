@@ -2,6 +2,7 @@
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Guilds.Models;
+using Iwentys.Infrastructure.Application;
 
 namespace Iwentys.Tests.TestCaseContexts
 {
@@ -26,14 +27,6 @@ namespace Iwentys.Tests.TestCaseContexts
             GuildProfileShortInfoDto guild = _context.GuildService.Create(user, guildCreateRequest).Result;
             GuildProfileDto guildProfile = _context.GuildService.Get(guild.Id).Result;
             return guildProfile;
-        }
-
-        public AuthorizedUser WithGuildMember(Guild guild, AuthorizedUser guildEditor)
-        {
-            AuthorizedUser user = _context.AccountManagementTestCaseContext.WithUser();
-            _context.GuildMemberService.RequestGuild(user, guild.Id).Wait();
-            _context.GuildMemberService.AcceptRequest(guildEditor, guild.Id, user.Id).Wait();
-            return user;
         }
 
         public AuthorizedUser WithGuildMember(GuildProfileDto guild, AuthorizedUser guildEditor)

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Raids;
 using Iwentys.Domain.Raids.Dto;
 using Iwentys.Domain.Study;
@@ -17,7 +16,7 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
             RaidVisitors = new List<RaidVisitor>();
             PartySearchRequests = new List<RaidPartySearchRequest>();
 
-            SystemAdminUser admin = students.First(s => s.IsAdmin).EnsureIsAdmin();
+            var admin = students.First(s => s.IsAdmin);
             var raidFaker = new RaidFaker();
 
             var raid = Raid.CreateCommon(admin, raidFaker.CreateRaidCreateArguments());

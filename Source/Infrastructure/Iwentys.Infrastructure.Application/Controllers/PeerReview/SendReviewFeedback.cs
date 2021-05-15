@@ -48,9 +48,10 @@ namespace Iwentys.Infrastructure.Application.Controllers.PeerReview
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
+                IwentysUser user = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
                 ProjectReviewRequest projectReviewRequest = await _context.ProjectReviewRequests.GetById(request.ReviewRequestId);
 
-                ProjectReviewFeedback projectReviewFeedback = projectReviewRequest.CreateFeedback(request.AuthorizedUser, request.Arguments);
+                ProjectReviewFeedback projectReviewFeedback = projectReviewRequest.CreateFeedback(user, request.Arguments);
 
                 _context.ProjectReviewFeedbacks.Add(projectReviewFeedback);
                 ProjectReviewFeedbackInfoDto result = _mapper.Map<ProjectReviewFeedback, ProjectReviewFeedbackInfoDto>(projectReviewFeedback);

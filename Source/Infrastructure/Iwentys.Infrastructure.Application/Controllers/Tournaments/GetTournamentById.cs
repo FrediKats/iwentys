@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds.Models;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;

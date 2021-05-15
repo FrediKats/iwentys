@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Iwentys.Domain.AccountManagement;
+﻿using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Raids;
 using Iwentys.Domain.Raids.Dto;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
@@ -10,14 +10,14 @@ namespace Iwentys.Tests.Features
     public class RaidServiceTest
     {
         [Test]
-        public async Task CreateRaid_ShouldExists()
+        public void CreateRaid_ShouldExists()
         {
             TestCaseContext testCase = TestCaseContext.Case();
-            AuthorizedUser user = testCase.AccountManagementTestCaseContext.WithUser(true);
-            RaidProfileDto raid = await testCase.RaidService.Create(user, new RaidCreateArguments());
+            IwentysUser user = testCase.AccountManagementTestCaseContext.WithIwentysUser(true);
 
-            RaidProfileDto createdRaid = await testCase.RaidService.Get(raid.Id);
-            Assert.IsNotNull(createdRaid);
+            var raid = Raid.CreateCommon(user, new RaidCreateArguments());
+
+            Assert.IsNotNull(raid);
         }
     }
 }

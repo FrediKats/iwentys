@@ -92,7 +92,7 @@ namespace Iwentys.Domain.Quests
             ExecutorMark = arguments.UserId;
         }
 
-        public static Expression<Func<Quest, bool>> IsCompletedBy(AuthorizedUser user)
+        public static Expression<Func<Quest, bool>> IsCompletedBy(IwentysUser user)
         {
             return q => q.State == QuestState.Completed
                         && q.Responses.Any(r => r.StudentId == user.Id);

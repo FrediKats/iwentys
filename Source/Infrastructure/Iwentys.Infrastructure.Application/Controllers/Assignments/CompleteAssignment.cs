@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;

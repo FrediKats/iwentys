@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Quests;
 using Iwentys.Domain.Quests.Dto;
 using Iwentys.Infrastructure.DataAccess;
@@ -36,20 +35,19 @@ namespace Iwentys.Infrastructure.Application.Controllers.Quests
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly AchievementProvider _achievementProvider;
             private readonly IwentysDbContext _context;
 
-            public Handler(IwentysDbContext context, AchievementProvider achievementProvider)
+            public Handler(IwentysDbContext context)
             {
                 _context = context;
-                _achievementProvider = achievementProvider;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
+                IwentysUser user = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
 
                 List<QuestInfoDto> result = await _context.Quests
-                    .Where(Quest.IsCompletedBy(request.AuthorizedUser))
+                    .Where(Quest.IsCompletedBy(user))
                     .Select(QuestInfoDto.FromEntity)
                     .ToListAsync();
 

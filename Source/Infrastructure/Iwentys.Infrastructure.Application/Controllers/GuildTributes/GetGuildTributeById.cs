@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Iwentys.Common.Exceptions;
-using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
 using Iwentys.Infrastructure.Application.Repositories;
