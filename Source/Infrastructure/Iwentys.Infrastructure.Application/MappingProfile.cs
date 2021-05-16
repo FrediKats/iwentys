@@ -7,6 +7,8 @@ using Iwentys.Domain.PeerReview;
 using Iwentys.Domain.PeerReview.Dto;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
+using Iwentys.Domain.SubjectAssignments;
+using Iwentys.Domain.SubjectAssignments.Models;
 
 namespace Iwentys.Infrastructure.Application
 {
@@ -14,12 +16,18 @@ namespace Iwentys.Infrastructure.Application
     {
         public MappingProfile()
         {
-            CreateMap<Student, StudentInfoDto>();
+            CreateMapForUsers();
+            CreateMapForPeerReview();
+            CreateMapForProject();
+            CreateMapForSubjectAssignment();
+
         }
 
         public void CreateMapForUsers()
         {
             CreateMap<IwentysUser, IwentysUserInfoDto>();
+            CreateMap<Student, StudentInfoDto>();
+
         }
 
         public void CreateMapForPeerReview()
@@ -30,6 +38,12 @@ namespace Iwentys.Infrastructure.Application
         public void CreateMapForProject()
         {
             CreateMap<GithubProject, GithubRepositoryInfoDto>();
+        }
+
+        public void CreateMapForSubjectAssignment()
+        {
+            CreateMap<SubjectAssignment, SubjectAssignmentDto>();
+            CreateMap<SubjectAssignmentSubmit, SubjectAssignmentSubmitDto>();
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Domain.Assignments.Models;
 using Iwentys.Domain.SubjectAssignments.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -18,19 +18,12 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
             _mediator = mediator;
         }
 
-        [HttpGet(nameof(GetByGroupId))]
-        public async Task<ActionResult<List<SubjectAssignmentDto>>> GetByGroupId(int groupId)
+        //TODO: add filter and pagination
+        [HttpGet(nameof(GetAvailableSubjectAssignments))]
+        public async Task<ActionResult<List<SubjectAssignmentDto>>> GetAvailableSubjectAssignments()
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            GetSubjectAssignmentForGroup.Response response = await _mediator.Send(new GetSubjectAssignmentForGroup.Query(groupId));
-            return Ok(response.SubjectAssignments);
-        }
-
-        [HttpGet(nameof(GetBySubjectId))]
-        public async Task<ActionResult<List<SubjectAssignmentDto>>> GetBySubjectId(int subjectId)
-        {
-            AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            GetSubjectAssignmentForSubject.Response response = await _mediator.Send(new GetSubjectAssignmentForSubject.Query(subjectId));
+            GetAvailableSubjectAssignments.Response response = await _mediator.Send(new GetAvailableSubjectAssignments.Query(authorizedUser));
             return Ok(response.SubjectAssignments);
         }
         
@@ -39,6 +32,22 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             CreateSubjectAssignment.Response response = await _mediator.Send(new CreateSubjectAssignment.Query(authorizedUser, arguments));
+            return Ok();
+        }
+
+        [HttpPost(nameof(Update))]
+        public async Task<ActionResult> Update(SubjectAssignmentUpdateArguments arguments)
+        {
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            throw new NotImplementedException();
+            return Ok();
+        }
+
+        [HttpPost(nameof(Update))]
+        public async Task<ActionResult> Delete(int subjectAssignmentId)
+        {
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            throw new NotImplementedException();
             return Ok();
         }
     }

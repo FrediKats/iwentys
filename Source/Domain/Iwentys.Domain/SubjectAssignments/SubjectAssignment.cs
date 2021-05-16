@@ -23,11 +23,12 @@ namespace Iwentys.Domain.SubjectAssignments
         public virtual IwentysUser Author { get; set; }
 
         public virtual ICollection<GroupSubjectAssignment> GroupSubjectAssignments { get; set; }
-        public virtual ICollection<SubjectAssignmentSubmit> SubjectAssignmentSubmits { get; set; }
+        public virtual ICollection<SubjectAssignmentSubmit> Submits { get; set; }
 
         public SubjectAssignment()
         {
             GroupSubjectAssignments = new List<GroupSubjectAssignment>();
+            Submits = new List<SubjectAssignmentSubmit>();
         }
 
         public static SubjectAssignment Create(IwentysUser user, Subject subject, SubjectAssignmentCreateArguments arguments)

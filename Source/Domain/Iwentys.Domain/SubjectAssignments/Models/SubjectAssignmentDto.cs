@@ -27,7 +27,7 @@ namespace Iwentys.Domain.SubjectAssignments.Models
                 Description = entity.Description,
                 Link = entity.Link,
                 Author = new IwentysUserInfoDto(entity.Author),
-                Submits = entity.SubjectAssignmentSubmits.Select(s => new SubjectAssignmentSubmitDto(s)).ToList()
+                Submits = entity.Submits.Select(s => new SubjectAssignmentSubmitDto(s)).ToList()
             };
     }
 }

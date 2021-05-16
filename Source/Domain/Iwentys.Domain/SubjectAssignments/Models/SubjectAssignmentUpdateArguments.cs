@@ -2,9 +2,9 @@
 
 namespace Iwentys.Domain.SubjectAssignments.Models
 {
-    public class SubjectAssignmentCreateArguments
+    public class SubjectAssignmentUpdateArguments
     {
-        public int SubjectId { get; set; }
+        public int SubjectAssignmentId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Link { get; set; }
