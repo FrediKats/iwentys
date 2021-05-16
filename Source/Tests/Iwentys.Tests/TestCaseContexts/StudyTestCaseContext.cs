@@ -76,7 +76,7 @@ namespace Iwentys.Tests.TestCaseContexts
         public void WithSubjectAssignmentSubmitFeedback(IwentysUser user, SubjectAssignmentSubmit submit, FeedbackType feedbackType = FeedbackType.Approve)
         {
             SubjectAssignmentSubmitFeedbackArguments arguments = SubjectAssignmentFaker.Instance.CreateFeedback(submit.Id, feedbackType);
-            submit.ApplyFeedback(user, arguments);
+            submit.AddFeedback(user, arguments);
         }
 
         public Student WithNewStudentAsStudent(GroupProfileResponseDto studyGroup)

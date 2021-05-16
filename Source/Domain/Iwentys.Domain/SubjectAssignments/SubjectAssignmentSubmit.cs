@@ -14,15 +14,29 @@ namespace Iwentys.Domain.SubjectAssignments
         public string RepositoryOwner { get; set; }
         public string RepositoryName { get; set; }
 
+        public string Comment { get; set; }
+        //TODO: validate range
+        public int Points { get; set; }
+        public DateTime? ApproveTimeUtc { get; set; }
+        public DateTime? RejectTimeUtc { get; set; }
+
         public int SubjectAssignmentId { get; set; }
         public virtual SubjectAssignment SubjectAssignment { get; set; }
 
         public int StudentId { get; set; }
         public virtual Student Student { get; set; }
 
-        public DateTime? ApproveTimeUtc { get; set; }
-        public DateTime? RejectTimeUtc { get; set; }
-        public string Comment { get; set; }
+        public SubmitState State
+        {
+            get
+            {
+                if (ApproveTimeUtc is not null)
+                    return SubmitState.Approved;
+                if (RejectTimeUtc is not null)
+                    return SubmitState.Rejected;
+                return SubmitState.Created;
+            }
+        }
 
         public SubjectAssignmentSubmit()
         {
@@ -40,31 +54,32 @@ namespace Iwentys.Domain.SubjectAssignments
             RepositoryName = arguments.RepositoryName;
         }
 
-        public void ApplyFeedback(IwentysUser iwentysUser, SubjectAssignmentSubmitFeedbackArguments arguments)
+        public void AddFeedback(IwentysUser iwentysUser, SubjectAssignmentSubmitFeedbackArguments arguments)
         {
             SubjectMentor mentor = iwentysUser.EnsureIsMentor(SubjectAssignment.Subject);
 
             switch (arguments.FeedbackType)
             {
                 case FeedbackType.Approve:
-                    Approve(mentor, arguments);
+                    Approve(arguments);
                     break;
                 case FeedbackType.Reject:
-                    Reject(mentor, arguments);
+                    Reject(arguments);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(FeedbackType), "Unsupported feedback state");
             }
         }
 
-        private void Approve(SubjectMentor mentor, SubjectAssignmentSubmitFeedbackArguments arguments)
+        private void Approve(SubjectAssignmentSubmitFeedbackArguments arguments)
         {
             RejectTimeUtc = null;
             ApproveTimeUtc = DateTime.UtcNow;
             Comment = arguments.Comment;
+            Points = arguments.Points ?? throw new Exception($"Argument is not provided: {nameof(arguments.Points)}");
         }
 
-        private void Reject(SubjectMentor mentor, SubjectAssignmentSubmitFeedbackArguments arguments)
+        private void Reject(SubjectAssignmentSubmitFeedbackArguments arguments)
         {
             ApproveTimeUtc = null;
             RejectTimeUtc = DateTime.UtcNow;

@@ -15,7 +15,6 @@ namespace Iwentys.Tests.TestCaseContexts
         public readonly GuildService GuildService;
         public readonly GuildTestCaseContext GuildTestCaseContext;
 
-        public readonly RaidService RaidService;
         public readonly StudyTestCaseContext StudyTestCaseContext;
 
         public readonly IUnitOfWork UnitOfWork;
@@ -29,7 +28,6 @@ namespace Iwentys.Tests.TestCaseContexts
             //TODO: use DI (AspStartupExtensions)
             GuildService = serviceProvider.GetRequiredService<GuildService>();
             GuildMemberService = serviceProvider.GetRequiredService<GuildMemberService>();
-            RaidService = serviceProvider.GetRequiredService<RaidService>();
             //IwentysUserService = new IwentysUserService(UnitOfWork);
             //StudentService = new StudentService(UnitOfWork);
             //GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, UnitOfWork);

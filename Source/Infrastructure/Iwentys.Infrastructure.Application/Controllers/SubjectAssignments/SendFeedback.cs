@@ -40,7 +40,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
                 SubjectAssignmentSubmit subjectAssignmentSubmit = await _context.SubjectAssignmentSubmits.GetById(request.Arguments.SubjectAssignmentSubmitId);
                 IwentysUser iwentysUser = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
 
-                subjectAssignmentSubmit.ApplyFeedback(iwentysUser, request.Arguments);
+                subjectAssignmentSubmit.AddFeedback(iwentysUser, request.Arguments);
 
                 _context.SubjectAssignmentSubmits.Update(subjectAssignmentSubmit);
 

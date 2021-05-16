@@ -39,6 +39,7 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study
             {
                 Comment = _faker.Lorem.Word(),
                 FeedbackType = feedbackType,
+                Points = 0,
                 SubjectAssignmentSubmitId = submitId
             };
         }
