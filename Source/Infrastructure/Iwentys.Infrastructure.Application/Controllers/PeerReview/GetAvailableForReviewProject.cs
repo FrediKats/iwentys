@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.Application.Controllers.PeerReview
 {
-    public class GetAvailableForReviewProject
+    public static class GetAvailableForReviewProject
     {
         public class Query : IRequest<Response>
         {

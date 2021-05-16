@@ -7,6 +7,7 @@ namespace Iwentys.Infrastructure.Application.Repositories
 {
     public static class SubjectAssignmentSubmitRepository
     {
+        //TODO: move to domain as Expression
         public static IQueryable<SubjectAssignmentSubmit> ApplySearch(IQueryable<SubjectAssignmentSubmit> query, SubjectAssignmentSubmitSearchArguments searchArguments)
         {
             return query

@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Domain.Study;
-using Iwentys.Domain.Study.Models;
 using Iwentys.Infrastructure.Application.Controllers.Study.Dtos;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;

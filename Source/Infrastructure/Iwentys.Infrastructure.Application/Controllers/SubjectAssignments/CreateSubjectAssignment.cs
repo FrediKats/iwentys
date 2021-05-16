@@ -1,13 +1,12 @@
-﻿using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments;
 using Iwentys.Domain.SubjectAssignments.Models;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
 {
@@ -21,8 +20,8 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
                 AuthorizedUser = authorizedUser;
             }
 
-            public SubjectAssignmentCreateArguments Arguments { get; set; }
             public AuthorizedUser AuthorizedUser { get; set; }
+            public SubjectAssignmentCreateArguments Arguments { get; set; }
         }
 
         public class Response
@@ -38,10 +37,13 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
         public class Handler : IRequestHandler<Query, Response>
         {
             private readonly IwentysDbContext _context;
+            private readonly IMapper _mapper;
 
-            public Handler(IwentysDbContext context)
+
+            public Handler(IwentysDbContext context, IMapper mapper)
             {
                 _context = context;
+                _mapper = mapper;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
@@ -53,13 +55,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
 
                 _context.SubjectAssignments.Add(subjectAssignment);
 
-                SubjectAssignmentDto result = await _context
-                    .SubjectAssignments
-                    .Where(sa => sa.Id == subjectAssignment.Id)
-                    .Select(SubjectAssignmentDto.FromEntity)
-                    .SingleAsync();
-
-                return new Response(result);
+                return new Response(_mapper.Map<SubjectAssignmentDto>(subjectAssignment));
             }
         }
     }
