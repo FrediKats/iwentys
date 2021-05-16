@@ -10,11 +10,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
 {
-    public class SendSubmit
+    public static class CreateSubmit
     {
         public class Query : IRequest<Response>
         {
-            public Query(SubjectAssignmentSubmitCreateArguments arguments, AuthorizedUser authorizedUser)
+            public Query(AuthorizedUser authorizedUser, SubjectAssignmentSubmitCreateArguments arguments)
             {
                 Arguments = arguments;
                 AuthorizedUser = authorizedUser;
@@ -32,7 +32,6 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
             }
 
             public SubjectAssignmentSubmitDto Submit { get; set; }
-
         }
 
         public class Handler : IRequestHandler<Query, Response>
@@ -46,7 +45,6 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                SubjectAssignment subjectAssignment = await _context.SubjectAssignments.GetById(request.Arguments.SubjectAssignmentId);
                 Student student = await _context.Students.GetById(request.AuthorizedUser.Id);
 
                 GroupSubjectAssignment groupSubjectAssignment = await _context

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
 {
-    //TODO: merge controllers
     [Route("api/SubjectAssignmentSubmit")]
     [ApiController]
     public class SubjectAssignmentSubmitController : ControllerBase
@@ -18,52 +17,35 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
             _mediator = mediator;
         }
 
+        [HttpGet(nameof(SearchSubjectAssignmentSubmits))]
+        public async Task<ActionResult<List<SubjectAssignmentSubmitDto>>> SearchSubjectAssignmentSubmits(SubjectAssignmentSubmitSearchArguments arguments)
+        {
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            SearchSubjectAssignmentSubmits.Response response = await _mediator.Send(new SearchSubjectAssignmentSubmits.Query(arguments, authorizedUser));
+            return Ok(response.Submits);
+        }
+
         [HttpGet(nameof(GetById))]
-        public async Task<ActionResult<SubjectAssignmentSubmitDto>> GetById(int subjectId, int subjectAssignmentSubmitId)
+        public async Task<ActionResult<SubjectAssignmentSubmitDto>> GetById(int subjectAssignmentSubmitId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             GetSubjectAssignmentSubmit.Response response = await _mediator.Send(new GetSubjectAssignmentSubmit.Query(subjectAssignmentSubmitId, authorizedUser));
             return Ok(response.Submit);
         }
 
-        [HttpGet(nameof(GetBySubjectId))]
-        public async Task<ActionResult<List<SubjectAssignmentSubmitDto>>> GetBySubjectId(int subjectId)
+        [HttpPost(nameof(CreateSubmit))]
+        public async Task<ActionResult<SubjectAssignmentSubmitDto>> CreateSubmit(SubjectAssignmentSubmitCreateArguments arguments)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            GetStudentSubjectAssignmentSubmits.Response response = await _mediator.Send(new GetStudentSubjectAssignmentSubmits.Query(new SubjectAssignmentSubmitSearchArguments
-            {
-                SubjectId = subjectId,
-                StudentId = authorizedUser.Id
-            }, authorizedUser));
-            return Ok(response.Submits);
-        }
-
-        [HttpPost(nameof(SendSubmit))]
-        public async Task<ActionResult<SubjectAssignmentSubmitDto>> SendSubmit(SubjectAssignmentSubmitCreateArguments arguments)
-        {
-            AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            SendSubmit.Response response = await _mediator.Send(new SendSubmit.Query(arguments, authorizedUser));
+            CreateSubmit.Response response = await _mediator.Send(new CreateSubmit.Query(authorizedUser, arguments));
             return Ok(response.Submit);
         }
 
-        [HttpGet(nameof(SearchSubjectAssignmentSubmits))]
-        public async Task<ActionResult<List<SubjectAssignmentSubmitDto>>> SearchSubjectAssignmentSubmits(int subjectId, [FromQuery] int? studentId)
+        [HttpPut(nameof(SendSubmitFeedback))]
+        public async Task<ActionResult> SendSubmitFeedback(SubjectAssignmentSubmitFeedbackArguments arguments)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            SearchSubjectAssignmentSubmits.Response response = await _mediator.Send(new SearchSubjectAssignmentSubmits.Query(new SubjectAssignmentSubmitSearchArguments
-            {
-                SubjectId = subjectId,
-                StudentId = studentId
-            }, authorizedUser));
-
-            return Ok(response.Submits);
-        }
-
-        [HttpPut(nameof(SendFeedback))]
-        public async Task<ActionResult> SendFeedback(SubjectAssignmentSubmitFeedbackArguments arguments)
-        {
-            AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            SendFeedback.Response response = await _mediator.Send(new SendFeedback.Query(arguments, authorizedUser));
+            SendSubmitFeedback.Response response = await _mediator.Send(new SendSubmitFeedback.Query(authorizedUser, arguments));
             return Ok();
         }
     }

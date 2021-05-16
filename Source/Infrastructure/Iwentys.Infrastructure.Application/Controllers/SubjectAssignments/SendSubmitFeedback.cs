@@ -8,11 +8,11 @@ using MediatR;
 
 namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
 {
-    public static class SendFeedback
+    public static class SendSubmitFeedback
     {
         public class Query : IRequest<Response>
         {
-            public Query(SubjectAssignmentSubmitFeedbackArguments arguments, AuthorizedUser authorizedUser)
+            public Query(AuthorizedUser authorizedUser, SubjectAssignmentSubmitFeedbackArguments arguments)
             {
                 Arguments = arguments;
                 AuthorizedUser = authorizedUser;
