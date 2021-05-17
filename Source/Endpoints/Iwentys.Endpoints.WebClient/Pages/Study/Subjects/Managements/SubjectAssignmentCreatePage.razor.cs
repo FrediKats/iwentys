@@ -10,7 +10,7 @@ namespace Iwentys.Endpoints.WebClient.Pages.Study.Subjects.Managements
 
         private async Task Create()
         {
-            var arguments = new AssignmentCreateArguments
+            var arguments = new SubjectAssignmentCreateArguments
             {
                 Title = _title,
                 Description = _description,

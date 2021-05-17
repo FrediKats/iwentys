@@ -17,7 +17,7 @@ namespace Iwentys.Endpoints.WebClient.Pages.Study.Subjects.Public
         {
             await base.OnInitializedAsync();
             _self = await StudentClient.GetSelfAsync();
-            _subjectAssignments = (await SubjectAssignmentClient.GetBySubjectIdAsync(SubjectId)).ToList();
+            _subjectAssignments = (await SubjectAssignmentClient.GetAvailableSubjectAssignmentsAsync()).ToList();
         }
 
         public async Task SendSubmit()

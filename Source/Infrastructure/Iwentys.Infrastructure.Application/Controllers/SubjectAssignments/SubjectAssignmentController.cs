@@ -43,7 +43,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
             return Ok();
         }
 
-        [HttpPost(nameof(Update))]
+        [HttpPost(nameof(Delete))]
         public async Task<ActionResult> Delete(int subjectAssignmentId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();

@@ -11,31 +11,31 @@ namespace Iwentys.Endpoints.WebClient.Pages.Study.Subjects.Managements
         {
             await base.OnInitializedAsync();
 
-            _submit = await SubjectAssignmentSubmitClient.GetByIdAsync(SubjectId, SubmitId);
+            _submit = await SubjectAssignmentSubmitClient.GetByIdAsync(SubmitId);
         }
 
         private async Task Approve(SubjectAssignmentSubmitDto submit)
         {
-            await SubjectAssignmentSubmitClient.SendFeedbackAsync(new SubjectAssignmentSubmitFeedbackArguments
+            await SubjectAssignmentSubmitClient.SendSubmitFeedbackAsync(new SubjectAssignmentSubmitFeedbackArguments
             {
                 SubjectAssignmentSubmitId = submit.Id,
                 Comment = "Smth",
                 FeedbackType = FeedbackType.Approve
             });
 
-            _submit = await SubjectAssignmentSubmitClient.GetByIdAsync(SubjectId, SubmitId);
+            _submit = await SubjectAssignmentSubmitClient.GetByIdAsync(SubmitId);
         }
 
         private async Task Reject(SubjectAssignmentSubmitDto submit)
         {
-            await SubjectAssignmentSubmitClient.SendFeedbackAsync(new SubjectAssignmentSubmitFeedbackArguments
+            await SubjectAssignmentSubmitClient.SendSubmitFeedbackAsync(new SubjectAssignmentSubmitFeedbackArguments
             {
                 SubjectAssignmentSubmitId = submit.Id,
                 Comment = "Smth",
                 FeedbackType = FeedbackType.Reject
             });
 
-            _submit = await SubjectAssignmentSubmitClient.GetByIdAsync(SubjectId, SubmitId);
+            _submit = await SubjectAssignmentSubmitClient.GetByIdAsync(SubmitId);
         }
     }
 }

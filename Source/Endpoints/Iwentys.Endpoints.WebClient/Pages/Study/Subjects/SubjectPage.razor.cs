@@ -16,7 +16,7 @@ namespace Iwentys.Endpoints.WebClient.Pages.Study.Subjects
 
             _subjectProfile = await SubjectClient.GetSubjectByIdAsync(SubjectId);
             _newsfeeds = await NewsfeedClient.GetBySubjectIdAsync(SubjectId);
-            _subjectAssignments = await SubjectAssignmentClient.GetBySubjectIdAsync(SubjectId);
+            _subjectAssignments = await SubjectAssignmentClient.GetAvailableSubjectAssignmentsAsync();
         }
         
         private string LinkToCreateNewsfeedPage() => $"/newsfeed/create-subject/{SubjectId}";

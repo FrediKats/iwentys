@@ -13,7 +13,10 @@ namespace Iwentys.Endpoints.WebClient.Pages.Study.Subjects.Managements
         {
             await base.OnInitializedAsync();
 
-            _subjectAssignmentSubmits = await SubjectAssignmentSubmitClient.GetBySubjectIdAsync(SubjectId);
+            _subjectAssignmentSubmits = await SubjectAssignmentSubmitClient.SearchSubjectAssignmentSubmitsAsync(new SubjectAssignmentSubmitSearchArguments
+            {
+                SubjectId = SubjectId
+            });
         }
 
         private void NavigateToSubmitPage(object row)
