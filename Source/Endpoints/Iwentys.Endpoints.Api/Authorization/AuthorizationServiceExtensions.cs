@@ -11,7 +11,7 @@ namespace Iwentys.Endpoints.Api.Authorization
         public static IServiceCollection ConfigureIdentityFramework(this IServiceCollection services)
         {
             //TODO: load from config
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite("identity.db"));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite("Data Source=identity.db"));
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()

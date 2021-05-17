@@ -49,7 +49,7 @@ namespace Iwentys.Endpoints.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IwentysDbContext db)
+        public void Configure(IApplicationBuilder app, IwentysDbContext db, ApplicationDbContext applicationDbContext)
         {
             app.UseExceptional();
             app.UseMigrationsEndPoint();
@@ -82,7 +82,10 @@ namespace Iwentys.Endpoints.Api
             app.UseRouting();
 
             app.ConfigureIdentityFramework();
-            
+            applicationDbContext.Database.EnsureDeleted();
+            applicationDbContext.Database.EnsureCreated();
+
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();

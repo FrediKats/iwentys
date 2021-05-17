@@ -1,4 +1,5 @@
-﻿@inherits LayoutComponentBase
+﻿@using Iwentys.Endpoints.WebClient.IdentityAuthorization
+@inherits LayoutComponentBase
 
 <MatThemeProvider Theme=@globalTheme>
     <div class="page main-background">
@@ -7,6 +8,10 @@
         </div>
 
         <div class="main main-background">
+            <div class="top-row px-4 auth">
+                <LoginDisplay />
+            </div>
+
             <div class="content px-4 main-background">
                 @Body
             </div>
