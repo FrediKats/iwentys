@@ -17,7 +17,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildRecruitments
         }
 
         [HttpPost(nameof(Create))]
-        public async Task<ActionResult<GuildRecruitmentInfoDto>> Create([FromRoute] int guildId, [FromBody] GuildRecruitmentCreateArguments createArguments)
+        public async Task<ActionResult<GuildRecruitmentInfoDto>> Create(int guildId, [FromBody] GuildRecruitmentCreateArguments createArguments)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             CreateGuildRecruitment.Response response = await _mediator.Send(new CreateGuildRecruitment.Query(user, guildId, createArguments));

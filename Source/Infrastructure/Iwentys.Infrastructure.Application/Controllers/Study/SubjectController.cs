@@ -29,7 +29,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Study
         }
 
         [HttpGet(nameof(GetSubjectById))]
-        public async Task<ActionResult<SubjectProfileDto>> GetSubjectById([FromRoute] int subjectId)
+        public async Task<ActionResult<SubjectProfileDto>> GetSubjectById(int subjectId)
         {
             GetSubjectById.Response response = await _mediator.Send(new GetSubjectById.Query(subjectId));
             return Ok(response.Subject);

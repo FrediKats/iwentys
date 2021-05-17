@@ -3395,7 +3395,7 @@ namespace Iwentys.Sdk
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<GuildRecruitmentInfoDto> CreateAsync(int guildId, GuildRecruitmentCreateArguments body)
+        public System.Threading.Tasks.Task<GuildRecruitmentInfoDto> CreateAsync(int? guildId, GuildRecruitmentCreateArguments body)
         {
             return CreateAsync(guildId, body, System.Threading.CancellationToken.None);
         }
@@ -3403,14 +3403,15 @@ namespace Iwentys.Sdk
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<GuildRecruitmentInfoDto> CreateAsync(int guildId, GuildRecruitmentCreateArguments body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<GuildRecruitmentInfoDto> CreateAsync(int? guildId, GuildRecruitmentCreateArguments body, System.Threading.CancellationToken cancellationToken)
         {
-            if (guildId == null)
-                throw new System.ArgumentNullException("guildId");
-    
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/GuildRecruitment/Create");
-            urlBuilder_.Replace("{guildId}", System.Uri.EscapeDataString(ConvertToString(guildId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Append("api/GuildRecruitment/Create?");
+            if (guildId != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("guildId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(guildId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            urlBuilder_.Length--;
     
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -8161,7 +8162,7 @@ namespace Iwentys.Sdk
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<QuestInfoDto> CompleteAsync(int questId, QuestCompleteArguments body)
+        public System.Threading.Tasks.Task<QuestInfoDto> CompleteAsync(int? questId, QuestCompleteArguments body)
         {
             return CompleteAsync(questId, body, System.Threading.CancellationToken.None);
         }
@@ -8169,14 +8170,15 @@ namespace Iwentys.Sdk
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<QuestInfoDto> CompleteAsync(int questId, QuestCompleteArguments body, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<QuestInfoDto> CompleteAsync(int? questId, QuestCompleteArguments body, System.Threading.CancellationToken cancellationToken)
         {
-            if (questId == null)
-                throw new System.ArgumentNullException("questId");
-    
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/quests/Complete");
-            urlBuilder_.Replace("{questId}", System.Uri.EscapeDataString(ConvertToString(questId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Append("api/quests/Complete?");
+            if (questId != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("questId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(questId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            urlBuilder_.Length--;
     
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -10440,7 +10442,7 @@ namespace Iwentys.Sdk
     
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<SubjectProfileDto> GetSubjectByIdAsync(int subjectId)
+        public System.Threading.Tasks.Task<SubjectProfileDto> GetSubjectByIdAsync(int? subjectId)
         {
             return GetSubjectByIdAsync(subjectId, System.Threading.CancellationToken.None);
         }
@@ -10448,14 +10450,15 @@ namespace Iwentys.Sdk
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<SubjectProfileDto> GetSubjectByIdAsync(int subjectId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<SubjectProfileDto> GetSubjectByIdAsync(int? subjectId, System.Threading.CancellationToken cancellationToken)
         {
-            if (subjectId == null)
-                throw new System.ArgumentNullException("subjectId");
-    
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/Subject/GetSubjectById");
-            urlBuilder_.Replace("{subjectId}", System.Uri.EscapeDataString(ConvertToString(subjectId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Append("api/Subject/GetSubjectById?");
+            if (subjectId != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("subjectId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(subjectId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            urlBuilder_.Length--;
     
             var client_ = _httpClient;
             var disposeClient_ = false;

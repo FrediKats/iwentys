@@ -74,7 +74,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Quests
         }
 
         [HttpPut(nameof(Complete))]
-        public async Task<ActionResult<QuestInfoDto>> Complete([FromRoute]int questId, [FromBody] QuestCompleteArguments arguments)
+        public async Task<ActionResult<QuestInfoDto>> Complete(int questId, [FromBody] QuestCompleteArguments arguments)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             Complete.Response response = await _mediator.Send(new Complete.Query(questId, user, arguments));
