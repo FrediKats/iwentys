@@ -6,19 +6,42 @@
 
 <h3>SubjectAssignmentManagementPage</h3>
 
-<div>
-    <div class="d-flex flex-row align-self-center align-baseline">
-        <h5>Subject assignment</h5>
-@*        <MatButton Link=@LinkToSubjectAssignmentCreate()>
-            <span class="oi oi-plus" title="add" aria-hidden="true"></span>
-        </MatButton>*@
+@if (_subjectAssignments is not null)
+{
+    <div class="container-fluid d-flex">
+        <div class="d-flex flex-column">
+            <div class="container-fluid d-flex flex-column">
+                @foreach (SubjectAssignmentJournalItemDto subjectAssignment in _subjectAssignments)
+                {
+                    <div class="card-list-element">
+                        <div class="d-flex flex-row align-self-center align-baseline">
+                            <h5>Subject assignment</h5>
+                            <MatButton Link=@LinkToSubjectAssignmentCreate(subjectAssignment.Id)>
+                                <span class="oi oi-plus" title="add" aria-hidden="true"></span>
+                            </MatButton>
+                        </div>
+                        @foreach (SubjectAssignmentDto assignment in subjectAssignment.Assignments)
+                        {
+                            <div class="dark-elevation-04">
+                                @assignment.Title
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
     </div>
+}
+
+
+<div>
+
 
     @*<MatButton Link=@LinkToSubjectAssignmentSubmitJournal()>Submits</MatButton>*@
     @if (_subjectAssignments is not null)
     {
         <div>
-            @foreach (SubjectAssignmentDto subjectAssignment in _subjectAssignments)
+            @foreach (SubjectAssignmentJournalItemDto subjectAssignment in _subjectAssignments)
             {
                 <div class="card-list-element">
                     <MatCard Class="dark-elevation-01">

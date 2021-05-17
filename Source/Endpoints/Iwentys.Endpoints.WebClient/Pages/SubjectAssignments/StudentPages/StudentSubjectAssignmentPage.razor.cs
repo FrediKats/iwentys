@@ -7,7 +7,7 @@ namespace Iwentys.Endpoints.WebClient.Pages.SubjectAssignments.StudentPages
     public partial class StudentSubjectAssignmentPage
     {
         private StudentInfoDto _self;
-        private ICollection<SubjectAssignmentDto> _subjectAssignments;
+        private ICollection<SubjectAssignmentJournalItemDto> _subjectAssignments;
         private ICollection<SubjectAssignmentSubmitDto> _subjectAssignmentSubmits;
 
         protected override async Task OnInitializedAsync()

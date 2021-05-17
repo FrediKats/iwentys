@@ -10727,7 +10727,7 @@ namespace Iwentys.Sdk
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SubjectAssignmentDto>> GetAvailableSubjectAssignmentsAsync()
+        public System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SubjectAssignmentJournalItemDto>> GetAvailableSubjectAssignmentsAsync()
         {
             return GetAvailableSubjectAssignmentsAsync(System.Threading.CancellationToken.None);
         }
@@ -10735,7 +10735,7 @@ namespace Iwentys.Sdk
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SubjectAssignmentDto>> GetAvailableSubjectAssignmentsAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SubjectAssignmentJournalItemDto>> GetAvailableSubjectAssignmentsAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/subject-assignment/GetAvailableSubjectAssignments");
@@ -10772,7 +10772,7 @@ namespace Iwentys.Sdk
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<SubjectAssignmentDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<SubjectAssignmentJournalItemDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -13831,9 +13831,6 @@ namespace Iwentys.Sdk
         [System.Text.Json.Serialization.JsonPropertyName("id")]
         public int Id { get; set; }
     
-        [System.Text.Json.Serialization.JsonPropertyName("groupSubjectId")]
-        public int GroupSubjectId { get; set; }
-    
         [System.Text.Json.Serialization.JsonPropertyName("title")]
         public string Title { get; set; }
     
@@ -13848,6 +13845,21 @@ namespace Iwentys.Sdk
     
         [System.Text.Json.Serialization.JsonPropertyName("submits")]
         public System.Collections.Generic.ICollection<SubjectAssignmentSubmitDto> Submits { get; set; }
+    
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.3.0 (Newtonsoft.Json v11.0.0.0)")]
+    public partial class SubjectAssignmentJournalItemDto 
+    {
+        [System.Text.Json.Serialization.JsonPropertyName("id")]
+        public int Id { get; set; }
+    
+        [System.Text.Json.Serialization.JsonPropertyName("title")]
+        public string Title { get; set; }
+    
+        [System.Text.Json.Serialization.JsonPropertyName("assignments")]
+        public System.Collections.Generic.ICollection<SubjectAssignmentDto> Assignments { get; set; }
     
     
     }

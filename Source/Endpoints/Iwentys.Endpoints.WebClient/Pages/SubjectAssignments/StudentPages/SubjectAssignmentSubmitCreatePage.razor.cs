@@ -8,10 +8,10 @@ namespace Iwentys.Endpoints.WebClient.Pages.SubjectAssignments.StudentPages
     public partial class SubjectAssignmentSubmitCreatePage
     {
         private StudentInfoDto _self;
-        private List<SubjectAssignmentDto> _subjectAssignments;
+        private List<SubjectAssignmentJournalItemDto> _subjectAssignments;
 
         private string _description;
-        private SubjectAssignmentDto _selectedSubject;
+        private SubjectAssignmentJournalItemDto _selectedSubject;
 
         protected override async Task OnInitializedAsync()
         {

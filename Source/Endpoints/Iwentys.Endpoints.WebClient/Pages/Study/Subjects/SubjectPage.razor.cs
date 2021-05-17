@@ -8,7 +8,7 @@ namespace Iwentys.Endpoints.WebClient.Pages.Study.Subjects
     {
         private SubjectProfileDto _subjectProfile;
         private ICollection<NewsfeedViewModel> _newsfeeds;
-        private ICollection<SubjectAssignmentDto> _subjectAssignments;
+        private ICollection<SubjectAssignmentJournalItemDto> _subjectAssignments;
 
         protected override async Task OnInitializedAsync()
         {
