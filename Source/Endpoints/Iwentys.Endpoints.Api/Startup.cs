@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
+using Iwentys.Endpoints.Api.Authorization;
 using Iwentys.Endpoints.Api.Source;
-using Iwentys.Endpoints.Api.Source.IdentityAuth;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.Configuration;
 using Iwentys.Infrastructure.DataAccess;
@@ -23,13 +23,7 @@ namespace Iwentys.Endpoints.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite("IdentDb"));
-
-            services.AddLegacyIdentityAuth();
-
-            services.AddAuthentication()
-                .AddIdentityServerJwt();
+            services.ConfigureIdentityFramework();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddExceptional(settings =>
@@ -86,10 +80,8 @@ namespace Iwentys.Endpoints.Api
 
             app.UseRouting();
 
-            app.UseIdentityServer();
-            app.UseAuthentication();
-            app.UseAuthorization();
-
+            app.ConfigureIdentityFramework();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();

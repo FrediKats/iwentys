@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace Iwentys.Endpoints.Api.Source.IdentityAuth
+namespace Iwentys.Endpoints.Api.Authorization
 {
     public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     {

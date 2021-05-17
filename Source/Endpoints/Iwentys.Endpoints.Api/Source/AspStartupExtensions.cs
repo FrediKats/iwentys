@@ -1,5 +1,4 @@
-﻿using Iwentys.Endpoints.Api.Source.IdentityAuth;
-using Iwentys.Endpoints.Api.Source.Tokens;
+﻿using Iwentys.Endpoints.Api.Source.Tokens;
 using Iwentys.Infrastructure.Configuration.Options;
 using Iwentys.Infrastructure.DataAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -14,17 +13,6 @@ namespace Iwentys.Endpoints.Api.Source
 {
     public static class AspStartupExtensions
     {
-        public static IServiceCollection AddLegacyIdentityAuth(this IServiceCollection services)
-        {
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
-
-            return services;
-        }
-
         public static IServiceCollection AddIwentysLogging(this IServiceCollection services)
         {
             Log.Logger = new LoggerConfiguration()
