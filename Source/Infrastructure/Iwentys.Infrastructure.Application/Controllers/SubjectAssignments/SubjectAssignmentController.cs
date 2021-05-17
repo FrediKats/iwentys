@@ -19,6 +19,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
         }
 
         //TODO: add filter and pagination
+        //TODO: add info about subject
         [HttpGet(nameof(GetAvailableSubjectAssignments))]
         public async Task<ActionResult<List<SubjectAssignmentDto>>> GetAvailableSubjectAssignments()
         {

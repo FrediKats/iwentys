@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Sdk;
 
-namespace Iwentys.Endpoints.WebClient.Pages.Study.Subjects.Managements
+namespace Iwentys.Endpoints.WebClient.Pages.SubjectAssignments.MentorPages
 {
     public partial class SubjectAssignmentManagementPage
     {
@@ -13,9 +13,10 @@ namespace Iwentys.Endpoints.WebClient.Pages.Study.Subjects.Managements
             await base.OnInitializedAsync();
 
             _subjectAssignments = await SubjectAssignmentClient.GetAvailableSubjectAssignmentsAsync();
+            //TODO: group by subject
         }
 
-        private string LinkToSubjectAssignmentCreate() => $"/subject/{SubjectId}/management/assignments/create";
-        private string LinkToSubjectAssignmentSubmitJournal() => $"/subject/{SubjectId}/management/assignments/submits";
+        //private string LinkToSubjectAssignmentCreate() => $"/subject/{SubjectId}/management/assignments/create";
+        //private string LinkToSubjectAssignmentSubmitJournal() => $"/subject/{SubjectId}/management/assignments/submits";
     }
 }

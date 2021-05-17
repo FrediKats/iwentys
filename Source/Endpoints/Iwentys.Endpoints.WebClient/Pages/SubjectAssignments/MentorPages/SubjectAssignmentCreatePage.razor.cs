@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Sdk;
 
-namespace Iwentys.Endpoints.WebClient.Pages.Study.Subjects.Managements
+namespace Iwentys.Endpoints.WebClient.Pages.SubjectAssignments.MentorPages
 {
     public partial class SubjectAssignmentCreatePage
     {
