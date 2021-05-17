@@ -11,12 +11,12 @@
   <ItemGroup>
     <PackageReference Include="LanguageExt.Core" Version="3.4.15" />
     <PackageReference Include="MediatR" Version="9.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="5.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="5.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.6" />
     <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="morelinq" Version="3.3.2" />
-    <PackageReference Include="nunit" Version="3.13.1" />
+    <PackageReference Include="nunit" Version="3.13.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.0.0-beta.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
   </ItemGroup>
