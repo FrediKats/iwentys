@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments;
 using Iwentys.Domain.SubjectAssignments.Models;
+using Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

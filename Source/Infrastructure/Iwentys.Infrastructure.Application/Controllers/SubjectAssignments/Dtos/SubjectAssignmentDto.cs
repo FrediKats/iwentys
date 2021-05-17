@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Domain.AccountManagement.Dto;
+using Iwentys.Domain.SubjectAssignments;
 
-namespace Iwentys.Domain.SubjectAssignments.Models
+namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos
 {
     public class SubjectAssignmentDto
     {
         public int Id { get; set; }
-
-        public int GroupSubjectId { get; set; }
 
         public string Title { get; set; }
         public string Description { get; set; }

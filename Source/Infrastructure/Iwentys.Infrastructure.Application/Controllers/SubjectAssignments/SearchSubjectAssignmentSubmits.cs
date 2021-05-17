@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments.Models;
+using Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos;
 using Iwentys.Infrastructure.Application.Repositories;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;

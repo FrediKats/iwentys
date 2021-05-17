@@ -1,8 +1,9 @@
 ﻿using System;
 using Iwentys.Domain.Assignments.Enums;
 using Iwentys.Domain.Study.Models;
+using Iwentys.Domain.SubjectAssignments;
 
-namespace Iwentys.Domain.SubjectAssignments.Models
+namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos
 {
     public class SubjectAssignmentSubmitDto
     {

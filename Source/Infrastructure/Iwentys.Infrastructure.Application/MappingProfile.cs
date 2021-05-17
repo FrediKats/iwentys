@@ -8,7 +8,7 @@ using Iwentys.Domain.PeerReview.Dto;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
 using Iwentys.Domain.SubjectAssignments;
-using Iwentys.Domain.SubjectAssignments.Models;
+using Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos;
 
 namespace Iwentys.Infrastructure.Application
 {
@@ -44,6 +44,7 @@ namespace Iwentys.Infrastructure.Application
         {
             CreateMap<SubjectAssignment, SubjectAssignmentDto>();
             CreateMap<SubjectAssignmentSubmit, SubjectAssignmentSubmitDto>();
+            CreateMap<Subject, SubjectAssignmentJournalItemDto>();
         }
     }
 }

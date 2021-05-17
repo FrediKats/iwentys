@@ -3,10 +3,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments;
 using Iwentys.Domain.SubjectAssignments.Models;
+using Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -27,12 +29,12 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
 
         public class Response
         {
-            public Response(List<SubjectAssignmentDto> subjectAssignments)
+            public Response(List<SubjectAssignmentJournalItemDto> subjectAssignments)
             {
                 SubjectAssignments = subjectAssignments;
             }
 
-            public List<SubjectAssignmentDto> SubjectAssignments { get; set; }
+            public List<SubjectAssignmentJournalItemDto> SubjectAssignments { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Response>
@@ -51,14 +53,13 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
             {
                 IwentysUser user = await _context.IwentysUsers.GetById(request.User.Id);
 
-                List<SubjectAssignment> assignments = await _context
+                List<SubjectAssignmentJournalItemDto> assignments = await _context
                     .Subjects
                     .Where(Subject.IsAllowedFor(user.Id))
-                    .SelectMany(s => s.Assignments)
+                    .ProjectTo<SubjectAssignmentJournalItemDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();
 
-                List<SubjectAssignmentDto> result = assignments.Select(a => _mapper.Map<SubjectAssignmentDto>(a)).ToList();
-                return new Response(result);
+                return new Response(assignments);
             }
         }
     }
