@@ -1,9 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Blazor.Extensions.Logging;
 using Blazored.LocalStorage;
+using Iwentys.Endpoints.WebClient.IdentityAuthorization;
 using Iwentys.Endpoints.WebClient.Tools;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -15,19 +19,27 @@ namespace Iwentys.Endpoints.WebClient
     {
         public static Task Main(string[] args)
         {
+
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddHttpClient("Iwentys.Endpoint.ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
+            builder.Services
+                .AddHttpClient("Iwentys.Endpoint.ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
+                .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
+            builder.Services.AddApiAuthorization()
+                .AddAccountClaimsPrincipalFactory<CustomUserFactory>();
 
-            builder.Services.AddBlazoredLocalStorage();
-            builder.Services.AddVxFormGenerator();
+
+
+            //TODO: remove this hack
             //builder.Services.AddAuthorizationCore();
             builder.Services.AddScoped<IAuthService, AuthService>();
 
-            builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("Iwentys.Endpoint.ServerAPI"));
+            builder.Services.AddBlazoredLocalStorage();
+            builder.Services.AddVxFormGenerator();
+            
 
-            builder.Services.AddApiAuthorization();
+            builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("Iwentys.Endpoint.ServerAPI"));
 
             builder.Services.AddLogging(b => b
                 .AddBrowserConsole()
