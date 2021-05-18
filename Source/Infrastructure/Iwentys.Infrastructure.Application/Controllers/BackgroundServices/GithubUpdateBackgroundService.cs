@@ -35,10 +35,9 @@ namespace Iwentys.Infrastructure.Application.Controllers.BackgroundServices
                     using IServiceScope scope = _sp.CreateScope();
                     _logger.LogInformation("Execute GithubUpdateBackgroundService update");
 
-                    var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
-                    var studentRepository = unitOfWork.GetRepository<Student>();
+                    var context = scope.ServiceProvider.GetRequiredService<IwentysDbContext>();
                     var githubUserDataService = scope.ServiceProvider.GetRequiredService<GithubIntegrationService>();
-                    foreach (Student student in studentRepository.Get().Where(s => s.GithubUsername != null))
+                    foreach (Student student in context.Students.Where(s => s.GithubUsername != null))
                     {
                         await githubUserDataService.User.CreateOrUpdate(student.Id);
                     }

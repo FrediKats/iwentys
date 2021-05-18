@@ -40,13 +40,11 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildTestTasks
         {
             private readonly IwentysDbContext _context;
             private readonly AchievementProvider _achievementProvider;
-            private readonly IUnitOfWork _unitOfWork;
 
-            public Handler(IwentysDbContext context, AchievementProvider achievementProvider, IUnitOfWork unitOfWork)
+            public Handler(IwentysDbContext context, AchievementProvider achievementProvider)
             {
                 _context = context;
                 _achievementProvider = achievementProvider;
-                _unitOfWork = unitOfWork;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
@@ -59,7 +57,6 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildTestTasks
                 await AchievementHack.ProcessAchievement(_achievementProvider, _context);
 
                 _context.GuildTestTaskSolvingInfos.Update(testTask);
-                await _unitOfWork.CommitAsync();
                 return new Response(GuildTestTaskInfoResponse.Wrap(testTask));
             }
         }

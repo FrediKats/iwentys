@@ -1,12 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Security.Authentication;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Iwentys.Common.Transferable;
-using Iwentys.Domain.AccountManagement;
 using Iwentys.Endpoints.Api.Source.Tokens;
 using Iwentys.Infrastructure.Configuration.Options;
-using Iwentys.Infrastructure.DataAccess;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Tef.IsuIntegrator;
@@ -19,12 +14,10 @@ namespace Iwentys.Endpoints.Api.Controllers
     public class IsuAuthController : ControllerBase
     {
         private readonly IsuApiAccessor _isuApiAccessor;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly JwtApplicationOptions _jwtApplicationOptions;
 
-        public IsuAuthController(IUnitOfWork unitOfWork, IsuApplicationOptions isuApplicationOptions, JwtApplicationOptions jwtApplicationOptions)
+        public IsuAuthController(IsuApplicationOptions isuApplicationOptions, JwtApplicationOptions jwtApplicationOptions)
         {
-            _unitOfWork = unitOfWork;
             _jwtApplicationOptions = jwtApplicationOptions;
             _isuApiAccessor = new IsuApiAccessor(isuApplicationOptions.IsuClientId, isuApplicationOptions.IsuClientSecret, isuApplicationOptions.IsuRedirection);
         }
@@ -46,26 +39,6 @@ namespace Iwentys.Endpoints.Api.Controllers
             };
 
             return Ok(response);
-        }
-
-        [HttpGet("login/{userId}")]
-        //TODO: do not send via query
-        public ActionResult<IwentysAuthResponse> Login(int userId, [FromQuery] string password, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
-        {
-            UniversitySystemUserCredential universitySystemUserCredential = _unitOfWork.GetRepository<UniversitySystemUserCredential>()
-                .Get()
-                .FirstOrDefault(UniversitySystemUserCredential.IsCredentialMatch(userId, password));
-            if (universitySystemUserCredential is not null)
-                return Ok(TokenGenerator.Generate(userId, signingEncodingKey, _jwtApplicationOptions));
-
-            //TODO: rework
-            return BadRequest(new AuthenticationException("Wrong credentials"));
-        }
-
-        [HttpGet("login-with-itip/{userId}")]
-        public ActionResult<IwentysAuthResponse> Login(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
-        {
-            return Ok(TokenGenerator.Generate(userId, signingEncodingKey, _jwtApplicationOptions));
         }
     }
 }
