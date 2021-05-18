@@ -48,7 +48,7 @@ namespace Iwentys.Endpoints.Api.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress]
-            [Display(Name = "Email")]
+            [Display(Name = "Username")]
             public string Email { get; set; }
 
             [Required]

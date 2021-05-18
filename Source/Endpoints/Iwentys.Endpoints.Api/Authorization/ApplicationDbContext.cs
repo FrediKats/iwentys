@@ -17,26 +17,25 @@ namespace Iwentys.Endpoints.Api.Authorization
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            this.SeedUsers(builder);
             this.SeedRoles(builder);
-            this.SeedUserRoles(builder);
         }
 
         private void SeedUsers(ModelBuilder builder)
         {
-            ApplicationUser user = new ApplicationUser()
+        }
+
+        public void SeedUsers(UserManager<ApplicationUser> userManager)
+        {
+            ApplicationUser user = new ApplicationUser
             {
                 Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                 UserName = "Admin",
                 Email = "admin@gmail.com",
                 LockoutEnabled = false,
-                PhoneNumber = "1234567890"
+                PhoneNumber = "1234567890",
             };
 
-            PasswordHasher<ApplicationUser> passwordHasher = new PasswordHasher<ApplicationUser>();
-            passwordHasher.HashPassword(user, "Admin*123");
-
-            builder.Entity<ApplicationUser>().HasData(user);
+            IdentityResult result = userManager.CreateAsync(user, "Admin*123").Result;
         }
 
         private void SeedRoles(ModelBuilder builder)

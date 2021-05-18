@@ -7,6 +7,7 @@ using Iwentys.Infrastructure.Configuration;
 using Iwentys.Infrastructure.DataAccess;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -49,7 +50,7 @@ namespace Iwentys.Endpoints.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IwentysDbContext db, ApplicationDbContext applicationDbContext)
+        public void Configure(IApplicationBuilder app, IwentysDbContext db, ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager)
         {
             app.UseExceptional();
             app.UseMigrationsEndPoint();
@@ -84,7 +85,7 @@ namespace Iwentys.Endpoints.Api
             app.ConfigureIdentityFramework();
             applicationDbContext.Database.EnsureDeleted();
             applicationDbContext.Database.EnsureCreated();
-
+            applicationDbContext.SeedUsers(userManager);
 
             app.UseEndpoints(endpoints =>
             {
