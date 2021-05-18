@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Blazor.Extensions.Logging;
 using Blazored.LocalStorage;
 using Iwentys.Endpoints.WebClient.IdentityAuthorization;
-using Iwentys.Endpoints.WebClient.Tools;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,18 +23,13 @@ namespace Iwentys.Endpoints.WebClient
             builder.Services
                 .AddHttpClient("Iwentys.Endpoint.ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
                 .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
-            builder.Services.AddApiAuthorization()
+            builder.Services
+                .AddApiAuthorization()
                 .AddAccountClaimsPrincipalFactory<CustomUserFactory>();
 
 
-
-            //TODO: remove this hack
-            //builder.Services.AddAuthorizationCore();
-            builder.Services.AddScoped<IAuthService, AuthService>();
-
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddVxFormGenerator();
-            
 
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("Iwentys.Endpoint.ServerAPI"));
 

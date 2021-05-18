@@ -31,7 +31,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.StudentProfile
         [HttpGet(nameof(GetSelf))]
         public async Task<ActionResult<StudentInfoDto>> GetSelf()
         {
-            AuthorizedUser user = this.TryAuthWithIdentity(_userManager);
+            AuthorizedUser user = this.ResolveUserFromIdentity();
             GetStudentById.Response response = await _mediator.Send(new GetStudentById.Query(user.Id));
             return Ok(response.Student);
         }

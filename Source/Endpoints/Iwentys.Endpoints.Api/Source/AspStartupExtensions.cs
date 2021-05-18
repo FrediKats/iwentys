@@ -1,12 +1,6 @@
-﻿using Iwentys.Endpoints.Api.Source.Tokens;
-using Iwentys.Infrastructure.Configuration.Options;
-using Iwentys.Infrastructure.DataAccess;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
+﻿using Iwentys.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
 namespace Iwentys.Endpoints.Api.Source
@@ -35,30 +29,6 @@ namespace Iwentys.Endpoints.Api.Source
                     .AllowAnyMethod()
                     .AllowAnyHeader();
             }));
-            return services;
-        }
-
-        public static IServiceCollection AddIwentysTokenFactory(this IServiceCollection services, IConfiguration configuration)
-        {
-            var jwtOptions = JwtApplicationOptions.Load(configuration);
-            var signingKey = new SigningSymmetricKey(jwtOptions.SigningSecurityKey);
-            services.AddSingleton<IJwtSigningEncodingKey>(signingKey);
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = false,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = jwtOptions.JwtIssuer,
-                        ValidAudience = jwtOptions.JwtIssuer,
-                        IssuerSigningKey = signingKey.GetKey()
-                    };
-                });
-
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             return services;
         }
 

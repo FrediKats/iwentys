@@ -1,7 +1,5 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
-using Blazored.LocalStorage;
-using Iwentys.Endpoints.WebClient.Tools;
 using Iwentys.Sdk;
 using Microsoft.AspNetCore.Components;
 
@@ -9,8 +7,6 @@ namespace Iwentys.Endpoints.WebClient.Shared
 {
     public partial class DependencyInjectionPage
     {
-        //public HttpClient Http => _httpClient;
-        public ILocalStorageService LocalStorage => _localStorage;
         public NavigationManager NavigationManager => _navigationManagerClient;
 
         public AchievementClient AchievementClient { get; set; }
@@ -41,7 +37,7 @@ namespace Iwentys.Endpoints.WebClient.Shared
 
         protected override async Task OnInitializedAsync()
         {
-            HttpClient httpClient = await _httpClient.TrySetHeader(_localStorage);
+            HttpClient httpClient = _httpClient;
             AchievementClient = new AchievementClient(httpClient);
             AssignmentClient = new AssignmentClient(httpClient);
             CompanyClient = new CompanyClient(httpClient);

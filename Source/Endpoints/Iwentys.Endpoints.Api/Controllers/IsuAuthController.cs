@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Iwentys.Common.Transferable;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Endpoints.Api.Source.Tokens;
-using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.Configuration.Options;
 using Iwentys.Infrastructure.DataAccess;
 using Microsoft.AspNetCore.Mvc;
@@ -67,15 +66,6 @@ namespace Iwentys.Endpoints.Api.Controllers
         public ActionResult<IwentysAuthResponse> Login(int userId, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
             return Ok(TokenGenerator.Generate(userId, signingEncodingKey, _jwtApplicationOptions));
-        }
-
-        [HttpGet("ValidateToken")]
-        public int ValidateToken()
-        {
-            AuthorizedUser tryAuthWithToken = this.TryAuthWithTokenOrDefault(-1);
-            if (tryAuthWithToken.Id == -1)
-                throw new Exception("Invalid token");
-            return tryAuthWithToken.Id;
         }
     }
 }

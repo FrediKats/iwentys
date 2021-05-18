@@ -1,11 +1,9 @@
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Iwentys.Endpoints.Api.Authorization;
 using Iwentys.Endpoints.Api.Source;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.Configuration;
 using Iwentys.Infrastructure.DataAccess;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -44,7 +42,6 @@ namespace Iwentys.Endpoints.Api
                 .AddIwentysLogging()
                 .AddIwentysCorsHack()
                 .AddIwentysDatabase()
-                //.AddIwentysTokenFactory(Configuration)
                 .AddUnitOfWork<IwentysDbContext>()
                 .AddIwentysMediatorHandlers()
                 .AddIwentysServices()
