@@ -63,6 +63,7 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study
                 Link = new Faker().Lorem.Word(),
                 DeadlineUtc = DateTime.UtcNow.AddDays(1),
                 Position = 1,
+                AvailableForStudent = true
             };
         }
     }

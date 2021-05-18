@@ -16,6 +16,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos
         public DateTime LastUpdateTimeUtc { get; set; }
         public DateTime? DeadlineTimeUtc { get; set; }
         public int Position { get; set; }
+        public bool AvailableForStudent { get; set; }
 
         public List<SubjectAssignmentSubmitDto> Submits { get; set; }
     }

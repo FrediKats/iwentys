@@ -16,6 +16,7 @@ namespace Iwentys.Domain.SubjectAssignments
         public DateTime LastUpdateTimeUtc { get; set; }
         public DateTime? DeadlineTimeUtc { get; set; }
         public int Position { get; set; }
+        public bool AvailableForStudent { get; set; }
 
         public int SubjectId { get; set; }
         public virtual Subject Subject { get; set; }
@@ -47,7 +48,8 @@ namespace Iwentys.Domain.SubjectAssignments
                 CreationTimeUtc = DateTime.UtcNow,
                 LastUpdateTimeUtc = DateTime.UtcNow,
                 DeadlineTimeUtc = arguments.DeadlineUtc,
-                Position = arguments.Position
+                Position = arguments.Position,
+                AvailableForStudent = arguments.AvailableForStudent
             };
 
             return subjectAssignment;
