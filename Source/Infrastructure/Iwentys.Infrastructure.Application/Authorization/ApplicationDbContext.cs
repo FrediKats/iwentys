@@ -28,14 +28,11 @@ namespace Iwentys.Endpoints.Api.Authorization
         {
             ApplicationUser user = new ApplicationUser
             {
-                Id = "b74ddd14-6340-4840-95c2-db12554843e5",
-                UserName = "Admin",
-                Email = "admin@gmail.com",
-                LockoutEnabled = false,
-                PhoneNumber = "1234567890",
+                Id = "228617",
+                UserName = "fredikats",
             };
 
-            IdentityResult result = userManager.CreateAsync(user, "Admin*123").Result;
+            IdentityResult identityResult = userManager.CreateAsync(user, "Admin*123").Result;
         }
 
         private void SeedRoles(ModelBuilder builder)

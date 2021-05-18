@@ -1,4 +1,7 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
+using Iwentys.Endpoints.Api.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Infrastructure.Application
@@ -14,8 +17,7 @@ namespace Iwentys.Infrastructure.Application
 
         public static AuthorizedUser TryAuthWithTokenOrDefault(this ControllerBase controller, int defaultUserId)
         {
-            ClaimsPrincipal user = controller.HttpContext.User;
-
+            ClaimsPrincipal user = controller.User;
             Claim userIdClaim = user.FindFirst(ClaimTypes.UserData);
             if (userIdClaim is null || !int.TryParse(userIdClaim.Value, out int userId))
                 return AuthorizedUser.DebugAuth(defaultUserId);
@@ -23,5 +25,13 @@ namespace Iwentys.Infrastructure.Application
             return AuthorizedUser.DebugAuth(userId);
         }
 
+        public static AuthorizedUser TryAuthWithIdentity(this ControllerBase controller, UserManager<ApplicationUser> userManager)
+        {
+            Claim findFirst = controller.User.FindFirst("sub");
+            if (findFirst is null || !int.TryParse(findFirst.Value, out int userId))
+                throw new Exception("User authorize exception");
+
+            return AuthorizedUser.DebugAuth(userId);
+        }
     }
 }

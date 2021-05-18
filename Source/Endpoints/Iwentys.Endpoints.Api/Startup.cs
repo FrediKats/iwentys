@@ -25,6 +25,8 @@ namespace Iwentys.Endpoints.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //TODO: load from config
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite("Data Source=identity.db"));
             services.ConfigureIdentityFramework();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
@@ -42,7 +44,7 @@ namespace Iwentys.Endpoints.Api
                 .AddIwentysLogging()
                 .AddIwentysCorsHack()
                 .AddIwentysDatabase()
-                .AddIwentysTokenFactory(Configuration)
+                //.AddIwentysTokenFactory(Configuration)
                 .AddUnitOfWork<IwentysDbContext>()
                 .AddIwentysMediatorHandlers()
                 .AddIwentysServices()

@@ -27,7 +27,7 @@ namespace Iwentys.Endpoints.WebClient.Tools
             var client = new IsuAuthClient(_httpClient);
             IwentysAuthResponse iwentysAuthResponse = await client.LoginWithItipAsync(userId);
             await _localStorage.SetItemAsync("authToken", iwentysAuthResponse.Token);
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", iwentysAuthResponse.Token);
+            //_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", iwentysAuthResponse.Token);
         }
     }
 }
