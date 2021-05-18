@@ -61,7 +61,8 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study
                 Title = new Faker().Lorem.Word(),
                 Description = new Faker().Lorem.Word(),
                 Link = new Faker().Lorem.Word(),
-                DeadlineUtc = DateTime.UtcNow.AddDays(1)
+                DeadlineUtc = DateTime.UtcNow.AddDays(1),
+                Position = 1,
             };
         }
     }

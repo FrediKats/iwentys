@@ -9,5 +9,6 @@ namespace Iwentys.Domain.SubjectAssignments.Models
         public string Description { get; set; }
         public string Link { get; set; }
         public DateTime DeadlineUtc { get; set; }
+        public int Position { get; set; }
     }
 }

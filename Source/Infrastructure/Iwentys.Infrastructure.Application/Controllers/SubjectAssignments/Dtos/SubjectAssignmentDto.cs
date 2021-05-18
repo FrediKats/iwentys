@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 using Iwentys.Domain.AccountManagement.Dto;
-using Iwentys.Domain.SubjectAssignments;
 
 namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos
 {
@@ -15,18 +12,11 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos
         public string Description { get; set; }
         public string Link { get; set; }
         public IwentysUserInfoDto Author { get; set; }
+        public DateTime CreationTimeUtc { get; set; }
+        public DateTime LastUpdateTimeUtc { get; set; }
+        public DateTime? DeadlineTimeUtc { get; set; }
+        public int Position { get; set; }
 
         public List<SubjectAssignmentSubmitDto> Submits { get; set; }
-
-        public static Expression<Func<SubjectAssignment, SubjectAssignmentDto>> FromEntity =>
-            entity => new SubjectAssignmentDto
-            {
-                Id = entity.Id,
-                Title = entity.Title,
-                Description = entity.Description,
-                Link = entity.Link,
-                Author = new IwentysUserInfoDto(entity.Author),
-                Submits = entity.Submits.Select(s => new SubjectAssignmentSubmitDto(s)).ToList()
-            };
     }
 }

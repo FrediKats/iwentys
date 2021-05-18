@@ -15,6 +15,7 @@ namespace Iwentys.Domain.SubjectAssignments
         public DateTime CreationTimeUtc { get; set; }
         public DateTime LastUpdateTimeUtc { get; set; }
         public DateTime? DeadlineTimeUtc { get; set; }
+        public int Position { get; set; }
 
         public int SubjectId { get; set; }
         public virtual Subject Subject { get; set; }
@@ -45,7 +46,8 @@ namespace Iwentys.Domain.SubjectAssignments
                 AuthorId = mentor.Mentor.Id,
                 CreationTimeUtc = DateTime.UtcNow,
                 LastUpdateTimeUtc = DateTime.UtcNow,
-                DeadlineTimeUtc = arguments.DeadlineUtc
+                DeadlineTimeUtc = arguments.DeadlineUtc,
+                Position = arguments.Position
             };
 
             return subjectAssignment;
