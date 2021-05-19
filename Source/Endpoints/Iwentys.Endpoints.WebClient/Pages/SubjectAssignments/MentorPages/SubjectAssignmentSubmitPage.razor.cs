@@ -5,37 +5,37 @@ namespace Iwentys.Endpoints.WebClient.Pages.SubjectAssignments.MentorPages
 {
     public partial class SubjectAssignmentSubmitPage
     {
+        public class Arguments
+        {
+            public string Comment { get; set; }
+            public FeedbackType FeedbackType { get; set; }
+            public int? Points { get; set; }
+        }
+
         private SubjectAssignmentSubmitDto _submit;
+        private Arguments _arguments = new Arguments();
 
         protected override async Task OnInitializedAsync()
         {
-            await base.OnInitializedAsync();
-
-            _submit = await SubjectAssignmentSubmitClient.GetByIdAsync(SubmitId);
+            _submit = await _subjectAssignmentSubmitClient.GetByIdAsync(SubmitId);
         }
 
-        private async Task Approve(SubjectAssignmentSubmitDto submit)
-        {
-            await SubjectAssignmentSubmitClient.SendSubmitFeedbackAsync(new SubjectAssignmentSubmitFeedbackArguments
-            {
-                SubjectAssignmentSubmitId = submit.Id,
-                Comment = "Smth",
-                FeedbackType = FeedbackType.Approve
-            });
 
-            _submit = await SubjectAssignmentSubmitClient.GetByIdAsync(SubmitId);
+        private async Task Create()
+        {
+            await _subjectAssignmentSubmitClient.SendSubmitFeedbackAsync(CreateArg(_arguments));
+            _navigationManagerClient.NavigateTo($"/subject/{SubjectId}/management/assignments/submits/{SubmitId}", true);
         }
 
-        private async Task Reject(SubjectAssignmentSubmitDto submit)
+        private SubjectAssignmentSubmitFeedbackArguments CreateArg(Arguments arguments)
         {
-            await SubjectAssignmentSubmitClient.SendSubmitFeedbackAsync(new SubjectAssignmentSubmitFeedbackArguments
+            return new SubjectAssignmentSubmitFeedbackArguments
             {
-                SubjectAssignmentSubmitId = submit.Id,
-                Comment = "Smth",
-                FeedbackType = FeedbackType.Reject
-            });
-
-            _submit = await SubjectAssignmentSubmitClient.GetByIdAsync(SubmitId);
+                SubjectAssignmentSubmitId = SubmitId,
+                Comment = arguments.Comment,
+                FeedbackType = arguments.FeedbackType,
+                Points = arguments.Points
+            };
         }
     }
 }
