@@ -44,7 +44,7 @@ namespace Iwentys.Tests.TestCaseContexts
         {
             var subject = new Subject
             {
-                Name = new Faker().Lorem.Word()
+                Title = new Faker().Lorem.Word()
             };
 
             _context.UnitOfWork.GetRepository<Subject>().Insert(subject);

@@ -5,7 +5,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Study.Dtos
     public record SubjectActivityInfoResponseDto
     {
         public SubjectActivityInfoResponseDto(SubjectActivity subjectActivity)
-            : this(subjectActivity.GroupSubject.Subject.Name, subjectActivity.Points)
+            : this(subjectActivity.GroupSubject.Subject.Title, subjectActivity.Points)
         {
         }
 

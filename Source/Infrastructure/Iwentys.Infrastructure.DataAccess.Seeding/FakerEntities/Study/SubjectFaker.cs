@@ -10,7 +10,7 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study
         private SubjectFaker()
         {
             RuleFor(t => t.Id, f => f.IndexFaker + 1);
-            RuleFor(t => t.Name, f => f.Company.CompanyName());
+            RuleFor(t => t.Title, f => f.Company.CompanyName());
         }
     }
 }

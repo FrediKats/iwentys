@@ -4,7 +4,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Study.Dtos
 {
     public record SubjectProfileDto
     {
-        public SubjectProfileDto(Subject entity) : this(entity.Id, entity.Name)
+        public SubjectProfileDto(Subject entity) : this(entity.Id, entity.Title)
         {
         }
 
