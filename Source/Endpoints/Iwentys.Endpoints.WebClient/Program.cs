@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Blazor.Extensions.Logging;
 using Blazored.LocalStorage;
 using Iwentys.Endpoints.WebClient.IdentityAuthorization;
+using Iwentys.Sdk;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +33,7 @@ namespace Iwentys.Endpoints.WebClient
             builder.Services.AddVxFormGenerator();
 
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("Iwentys.Endpoint.ServerAPI"));
+            RegisterClients(builder.Services);
 
             builder.Services.AddLogging(b => b
                 .AddBrowserConsole()
@@ -39,6 +41,12 @@ namespace Iwentys.Endpoints.WebClient
             );
 
             return builder.Build().RunAsync();
+        }
+
+        public static void RegisterClients(IServiceCollection service)
+        {
+            service.AddScoped<SubjectAssignmentClient>();
+
         }
     }
 }

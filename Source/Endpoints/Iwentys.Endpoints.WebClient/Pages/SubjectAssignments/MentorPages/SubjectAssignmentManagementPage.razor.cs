@@ -10,10 +10,7 @@ namespace Iwentys.Endpoints.WebClient.Pages.SubjectAssignments.MentorPages
 
         protected override async Task OnInitializedAsync()
         {
-            await base.OnInitializedAsync();
-
-            _subjectAssignments = await SubjectAssignmentClient.GetAvailableSubjectAssignmentsAsync();
-            //TODO: group by subject
+            _subjectAssignments = await _subjectAssignmentClient.GetAvailableSubjectAssignmentsAsync();
         }
 
         private string LinkToSubjectAssignmentCreate(int subjectId) => $"/subject/{subjectId}/management/assignments/create";
