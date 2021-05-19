@@ -19,10 +19,11 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
             SubjectAssignmentSubmits = new List<SubjectAssignmentSubmit>();
 
             Student author = students.First();
+            int mentorId = author.Id;
 
             foreach (Subject subject in subjects)
             {
-                SubjectAssignment sa = SubjectAssignmentFaker.Instance.Create(subject.Id, author.Id);
+                SubjectAssignment sa = SubjectAssignmentFaker.Instance.Create(subject.Id, mentorId);
                 SubjectAssignments.Add(sa);
 
                 foreach (StudyGroup studyGroup in groups) GroupSubjectAssignments.Add(new GroupSubjectAssignment {GroupId = studyGroup.Id, SubjectAssignmentId = sa.Id});

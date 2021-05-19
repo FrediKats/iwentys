@@ -13,6 +13,9 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
 {
     public class StudyEntitiesGenerator : IEntityGenerator
     {
+        //TODO: do it good
+        private const int MentorId = 228617;
+
         private const int TeacherCount = 20;
         private const int SubjectCount = 8;
         private const StudySemester CurrentSemester = StudySemester.Y20H1;
@@ -68,8 +71,8 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
                 Id = Create.GroupSubjectIdentifierGenerator.Next(),
                 SubjectId = subject.Id,
                 StudyGroupId = group.Id,
-                LectorMentorId = RandomExtensions.Instance.PickRandom(Teachers).Id,
-                PracticeMentorId = RandomExtensions.Instance.PickRandom(Teachers).Id,
+                LectorMentorId = 228617,
+                PracticeMentorId = 228617,
                 StudySemester = CurrentSemester
             };
         }
