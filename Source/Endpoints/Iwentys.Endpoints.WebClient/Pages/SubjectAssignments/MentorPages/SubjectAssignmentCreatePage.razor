@@ -1,8 +1,10 @@
 ﻿@page "/subject/assignment-management/{SubjectId:int}/create"
 
 @using VxFormGenerator.Core
-
+@using Microsoft.AspNetCore.Authorization
 @inherits Iwentys.Endpoints.WebClient.Shared.DependencyInjectionPage
+@attribute [Authorize]
+
 
 <h3>Subject Assignment Create Page</h3>
 

@@ -2,8 +2,9 @@
 
 @using Iwentys.Sdk
 @using Iwentys.Endpoints.Sdk.Extensions
-
+@using Microsoft.AspNetCore.Authorization
 @inherits Iwentys.Endpoints.WebClient.Shared.DependencyInjectionPage
+@attribute [Authorize]
 
 <h3>SubjectAssignmentSubmitPage</h3>
 

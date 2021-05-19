@@ -2,9 +2,10 @@
 
 @using VxFormGenerator.Core
 @using Iwentys.Sdk
-
+@using Microsoft.AspNetCore.Authorization
 @inject NavigationManager _navigationManagerClient
 @inject SubjectAssignmentClient _subjectAssignmentClient
+@attribute [Authorize]
 
 
 <h3>SubjectAssignmentUpdatePage</h3>

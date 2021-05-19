@@ -1,8 +1,9 @@
 ﻿@page "/subject/assignment-management/{SubjectId:int}/submits"
 
 @using Iwentys.Endpoints.Sdk.Extensions
-
+@using Microsoft.AspNetCore.Authorization
 @inherits Iwentys.Endpoints.WebClient.Shared.DependencyInjectionPage
+@attribute [Authorize]
 
 <h3>SubjectAssignmentSubmitJounalPage (double click works fine!)</h3>
 
