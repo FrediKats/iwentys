@@ -18,7 +18,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
             _mediator = mediator;
         }
 
-        [HttpGet(nameof(SearchSubjectAssignmentSubmits))]
+        [HttpPost(nameof(SearchSubjectAssignmentSubmits))]
         public async Task<ActionResult<List<SubjectAssignmentSubmitDto>>> SearchSubjectAssignmentSubmits(SubjectAssignmentSubmitSearchArguments arguments)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();

@@ -22,6 +22,9 @@
                             <MatButton Link=@LinkToSubjectAssignmentCreate(subjectAssignment.Id)>
                                 <span class="oi oi-plus" title="add" aria-hidden="true"></span>
                             </MatButton>
+                            <MatButton Link=@LinkToSubjectAssignmentSubmitJournal(subjectAssignment.Id)>
+                                Submits
+                            </MatButton>
                         </div>
                         @foreach (SubjectAssignmentDto assignment in subjectAssignment.Assignments)
                         {
