@@ -1,7 +1,7 @@
 ﻿using System;
-using Iwentys.Domain.Assignments.Enums;
 using Iwentys.Domain.Study.Models;
 using Iwentys.Domain.SubjectAssignments;
+using Iwentys.Domain.SubjectAssignments.Enums;
 
 namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos
 {
@@ -18,7 +18,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos
             ApproveTimeUtc = submit.ApproveTimeUtc;
             RejectTimeUtc = submit.RejectTimeUtc;
             Comment = submit.Comment;
-            State = GetState();
+            State = submit.State;
         }
 
         public SubjectAssignmentSubmitDto()
@@ -35,16 +35,6 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos
         public DateTime? ApproveTimeUtc { get; set; }
         public DateTime? RejectTimeUtc { get; set; }
         public string Comment { get; set; }
-        public AssignmentSubmitState State { get; set; }
-
-
-        public AssignmentSubmitState GetState()
-        {
-            if (RejectTimeUtc is not null)
-                return AssignmentSubmitState.Rejected;
-            if (ApproveTimeUtc is not null)
-                return AssignmentSubmitState.Approved;
-            return AssignmentSubmitState.Open;
-        }
+        public SubmitState State { get; set; }
     }
 }

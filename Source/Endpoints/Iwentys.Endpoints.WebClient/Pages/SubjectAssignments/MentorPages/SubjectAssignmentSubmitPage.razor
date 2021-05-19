@@ -18,20 +18,20 @@
                     </MatHeadline6>
                     @switch (_submit.State)
                     {
-                        case AssignmentSubmitState.Open:
+                        case SubmitState.Created:
                             break;
-                        case AssignmentSubmitState.Approved:
+                        case SubmitState.Approved:
                             <MatBody2>
                                 Approved (@_submit.ApproveTimeUtc)
                             </MatBody2>
                             break;
-                        case AssignmentSubmitState.Rejected:
+                        case SubmitState.Rejected:
                             <MatBody2>
                                 Rejected (@_submit.RejectTimeUtc)
                             </MatBody2>
                             break;
                         default:
-                            throw new ArgumentOutOfRangeException(nameof(AssignmentSubmitState), "Unsupported assignment state");
+                            throw new ArgumentOutOfRangeException(nameof(SubmitState), "Unsupported assignment state");
                     }
                 </div>
             </MatCardContent>
