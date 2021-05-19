@@ -1,9 +1,11 @@
 ﻿@page "/subject/assignment-management"
 
 @using Iwentys.Sdk
+@using Microsoft.Extensions.Logging
 
 @inject NavigationManager _navigationManagerClient
 @inject SubjectAssignmentClient _subjectAssignmentClient
+@inject ILogger<SubjectAssignmentManagementPage> _logger
 
 <h3>SubjectAssignmentManagementPage</h3>
 
@@ -24,7 +26,12 @@
                         @foreach (SubjectAssignmentDto assignment in subjectAssignment.Assignments)
                         {
                             <div class="dark-elevation-04">
-                                @assignment.Title
+                                <MatBody2>
+                                    Assignment: @assignment?.Title
+                                </MatBody2>
+                                <MatButton Link=@LinkToSubjectAssignmentCreate(subjectAssignment.Id)>
+                                    Delete assignment
+                                </MatButton>
                             </div>
                         }
                     </div>

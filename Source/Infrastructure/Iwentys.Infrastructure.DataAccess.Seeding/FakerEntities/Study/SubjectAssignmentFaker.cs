@@ -17,6 +17,7 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study
             return new SubjectAssignment
             {
                 Id = _faker.IndexVariable++ + 1,
+                Title = _faker.Lorem.Word(),
                 SubjectId = subjectId,
                 AuthorId = authorId
             };
