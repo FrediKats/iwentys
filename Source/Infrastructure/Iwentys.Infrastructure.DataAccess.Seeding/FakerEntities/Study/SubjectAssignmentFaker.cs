@@ -1,6 +1,5 @@
 ﻿using System;
 using Bogus;
-using Iwentys.Domain.Assignments;
 using Iwentys.Domain.SubjectAssignments;
 using Iwentys.Domain.SubjectAssignments.Enums;
 using Iwentys.Domain.SubjectAssignments.Models;
@@ -13,12 +12,13 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study
 
         private readonly Faker _faker = new Faker();
 
-        public SubjectAssignment Create(int subjectId, Assignment assignment)
+        public SubjectAssignment Create(int subjectId, int authorId)
         {
             return new SubjectAssignment
             {
                 Id = _faker.IndexVariable++ + 1,
-                SubjectId = subjectId
+                SubjectId = subjectId,
+                AuthorId = authorId
             };
         }
 

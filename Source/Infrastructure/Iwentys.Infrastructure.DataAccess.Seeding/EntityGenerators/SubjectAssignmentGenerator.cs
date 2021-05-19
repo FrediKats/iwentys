@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Domain.Assignments;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments;
 using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study;
@@ -13,8 +12,7 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
         public SubjectAssignmentGenerator(
             List<Student> students,
             List<StudyGroup> groups,
-            List<Subject> subjects,
-            AssignmentGenerator assignmentGenerator)
+            List<Subject> subjects)
         {
             SubjectAssignments = new List<SubjectAssignment>();
             GroupSubjectAssignments = new List<GroupSubjectAssignment>();
@@ -24,9 +22,7 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
 
             foreach (Subject subject in subjects)
             {
-                Assignment assignment = assignmentGenerator.GenerateAssignment(author);
-                assignmentGenerator.Assignments.Add(assignment);
-                SubjectAssignment sa = SubjectAssignmentFaker.Instance.Create(subject.Id, assignment);
+                SubjectAssignment sa = SubjectAssignmentFaker.Instance.Create(subject.Id, author.Id);
                 SubjectAssignments.Add(sa);
 
                 foreach (StudyGroup studyGroup in groups) GroupSubjectAssignments.Add(new GroupSubjectAssignment {GroupId = studyGroup.Id, SubjectAssignmentId = sa.Id});

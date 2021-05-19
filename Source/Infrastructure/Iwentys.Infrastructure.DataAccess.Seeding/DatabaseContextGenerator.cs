@@ -18,7 +18,7 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding
             AchievementGenerator = new AchievementGenerator(StudentGenerator.Students, GuildGenerator.Guilds).To(Register);
             SubjectActivityGenerator = new SubjectActivityGenerator(StudyEntitiesGenerator.GroupSubjects, StudentGenerator.Students).To(Register);
             AssignmentGenerator = new AssignmentGenerator(StudentGenerator.Students).To(Register);
-            SubjectAssignmentGenerator = new SubjectAssignmentGenerator(StudentGenerator.Students, StudyEntitiesGenerator.StudyGroups, StudyEntitiesGenerator.Subjects, AssignmentGenerator).To(Register);
+            SubjectAssignmentGenerator = new SubjectAssignmentGenerator(StudentGenerator.Students, StudyEntitiesGenerator.StudyGroups, StudyEntitiesGenerator.Subjects).To(Register);
             NewsfeedGenerator = new NewsfeedGenerator(StudentGenerator.Students, GuildGenerator.Guilds, StudyEntitiesGenerator.Subjects).To(Register);
             QuestGenerator = new QuestGenerator(StudentGenerator.Students).To(Register);
             TournamentGenerator = new TournamentGenerator(StudentGenerator.Students, GuildGenerator.Guilds, GuildGenerator.GuildMembers).To(Register);

@@ -44,7 +44,9 @@ namespace Iwentys.Infrastructure.Application
         {
             CreateMap<SubjectAssignment, SubjectAssignmentDto>();
             CreateMap<SubjectAssignmentSubmit, SubjectAssignmentSubmitDto>();
-            CreateMap<Subject, SubjectAssignmentJournalItemDto>();
+
+            CreateMap<Subject, SubjectAssignmentJournalItemDto>()
+                .ForMember(dest => dest.Assignments, opt => opt.MapFrom(src => src.Assignments));
         }
     }
 }

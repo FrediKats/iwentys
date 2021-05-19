@@ -6,6 +6,6 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public List<SubjectAssignmentDto> Assignments { get; set; }
+        public ICollection<SubjectAssignmentDto> Assignments { get; set; }
     }
 }
