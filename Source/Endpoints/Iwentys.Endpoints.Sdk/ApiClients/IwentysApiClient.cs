@@ -5314,241 +5314,6 @@ namespace Iwentys.Sdk
             }
         }
     
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<IwentysAuthResponse> LoginAsync(int userId, string password)
-        {
-            return LoginAsync(userId, password, System.Threading.CancellationToken.None);
-        }
-    
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<IwentysAuthResponse> LoginAsync(int userId, string password, System.Threading.CancellationToken cancellationToken)
-        {
-            if (userId == null)
-                throw new System.ArgumentNullException("userId");
-    
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/IsuAuth/login/{userId}?");
-            urlBuilder_.Replace("{userId}", System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture)));
-            if (password != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("password") + "=").Append(System.Uri.EscapeDataString(ConvertToString(password, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Length--;
-    
-            var client_ = _httpClient;
-            var disposeClient_ = false;
-            try
-            {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
-                {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
-    
-                    PrepareRequest(client_, request_, urlBuilder_);
-    
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-    
-                    PrepareRequest(client_, request_, url_);
-    
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-    
-                        ProcessResponse(client_, response_);
-    
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<IwentysAuthResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
-        }
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<IwentysAuthResponse> LoginWithItipAsync(int userId)
-        {
-            return LoginWithItipAsync(userId, System.Threading.CancellationToken.None);
-        }
-    
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<IwentysAuthResponse> LoginWithItipAsync(int userId, System.Threading.CancellationToken cancellationToken)
-        {
-            if (userId == null)
-                throw new System.ArgumentNullException("userId");
-    
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/IsuAuth/login-with-itip/{userId}");
-            urlBuilder_.Replace("{userId}", System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture)));
-    
-            var client_ = _httpClient;
-            var disposeClient_ = false;
-            try
-            {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
-                {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
-    
-                    PrepareRequest(client_, request_, urlBuilder_);
-    
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-    
-                    PrepareRequest(client_, request_, url_);
-    
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-    
-                        ProcessResponse(client_, response_);
-    
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<IwentysAuthResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
-        }
-    
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<int> ValidateTokenAsync()
-        {
-            return ValidateTokenAsync(System.Threading.CancellationToken.None);
-        }
-    
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<int> ValidateTokenAsync(System.Threading.CancellationToken cancellationToken)
-        {
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/IsuAuth/ValidateToken");
-    
-            var client_ = _httpClient;
-            var disposeClient_ = false;
-            try
-            {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
-                {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
-    
-                    PrepareRequest(client_, request_, urlBuilder_);
-    
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-    
-                    PrepareRequest(client_, request_, url_);
-    
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-    
-                        ProcessResponse(client_, response_);
-    
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<int>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
-        }
-    
         protected struct ObjectResponseResult<T>
         {
             public ObjectResponseResult(T responseObject, string responseText)
@@ -12136,7 +11901,7 @@ namespace Iwentys.Sdk
         public string Description { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("gettingTimeUtc")]
-        public System.DateTimeOffset? GettingTimeUtc { get; set; }
+        public System.DateTime? GettingTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("imageUrl")]
         public string ImageUrl { get; set; }
@@ -12169,7 +11934,7 @@ namespace Iwentys.Sdk
         public int? SubjectId { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("deadlineTimeUtc")]
-        public System.DateTimeOffset? DeadlineTimeUtc { get; set; }
+        public System.DateTime? DeadlineTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("forStudyGroup")]
         public bool ForStudyGroup { get; set; }
@@ -12193,10 +11958,10 @@ namespace Iwentys.Sdk
         public string Description { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("creationTimeUtc")]
-        public System.DateTimeOffset CreationTimeUtc { get; set; }
+        public System.DateTime CreationTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("deadlineTimeUtc")]
-        public System.DateTimeOffset? DeadlineTimeUtc { get; set; }
+        public System.DateTime? DeadlineTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("creator")]
         public IwentysUserInfoDto Creator { get; set; }
@@ -12207,20 +11972,6 @@ namespace Iwentys.Sdk
         [System.Text.Json.Serialization.JsonPropertyName("isCompeted")]
         public bool IsCompeted { get; set; }
     
-    
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.3.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum AssignmentSubmitState
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"Open")]
-        Open = 0,
-    
-        [System.Runtime.Serialization.EnumMember(Value = @"Approved")]
-        Approved = 1,
-    
-        [System.Runtime.Serialization.EnumMember(Value = @"Rejected")]
-        Rejected = 2,
     
     }
     
@@ -12331,10 +12082,10 @@ namespace Iwentys.Sdk
         public string Description { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("startTime")]
-        public System.DateTimeOffset StartTime { get; set; }
+        public System.DateTime StartTime { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("endTime")]
-        public System.DateTimeOffset EndTime { get; set; }
+        public System.DateTime EndTime { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("membersType")]
         [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
@@ -12372,7 +12123,7 @@ namespace Iwentys.Sdk
         public int Price { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("deadline")]
-        public System.DateTimeOffset? Deadline { get; set; }
+        public System.DateTime? Deadline { get; set; }
     
     
     }
@@ -12802,16 +12553,16 @@ namespace Iwentys.Sdk
         public int StudentId { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("startTimeUtc")]
-        public System.DateTimeOffset StartTimeUtc { get; set; }
+        public System.DateTime StartTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("submitTimeUtc")]
-        public System.DateTimeOffset? SubmitTimeUtc { get; set; }
+        public System.DateTime? SubmitTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("projectReviewRequestId")]
         public int? ProjectReviewRequestId { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("completeTimeUtc")]
-        public System.DateTimeOffset? CompleteTimeUtc { get; set; }
+        public System.DateTime? CompleteTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("testTaskState")]
         [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
@@ -12848,13 +12599,13 @@ namespace Iwentys.Sdk
         public IwentysUser Reviewer { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("startTimeUtc")]
-        public System.DateTimeOffset StartTimeUtc { get; set; }
+        public System.DateTime StartTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("submitTimeUtc")]
-        public System.DateTimeOffset? SubmitTimeUtc { get; set; }
+        public System.DateTime? SubmitTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("completeTimeUtc")]
-        public System.DateTimeOffset? CompleteTimeUtc { get; set; }
+        public System.DateTime? CompleteTimeUtc { get; set; }
     
     
     }
@@ -12931,15 +12682,6 @@ namespace Iwentys.Sdk
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.3.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class IwentysAuthResponse 
-    {
-        [System.Text.Json.Serialization.JsonPropertyName("token")]
-        public string Token { get; set; }
-    
-    
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.3.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class IwentysUser 
     {
         [System.Text.Json.Serialization.JsonPropertyName("id")]
@@ -12961,10 +12703,10 @@ namespace Iwentys.Sdk
         public string GithubUsername { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("creationTime")]
-        public System.DateTimeOffset CreationTime { get; set; }
+        public System.DateTime CreationTime { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("lastOnlineTime")]
-        public System.DateTimeOffset LastOnlineTime { get; set; }
+        public System.DateTime LastOnlineTime { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("barsPoints")]
         public int BarsPoints { get; set; }
@@ -12997,10 +12739,10 @@ namespace Iwentys.Sdk
         public string GithubUsername { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("creationTime")]
-        public System.DateTimeOffset CreationTime { get; set; }
+        public System.DateTime CreationTime { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("lastOnlineTime")]
-        public System.DateTimeOffset LastOnlineTime { get; set; }
+        public System.DateTime LastOnlineTime { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("barsPoints")]
         public int BarsPoints { get; set; }
@@ -13039,7 +12781,7 @@ namespace Iwentys.Sdk
         public string Content { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("creationTimeUtc")]
-        public System.DateTimeOffset CreationTimeUtc { get; set; }
+        public System.DateTime CreationTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("sourceLink")]
         public string SourceLink { get; set; }
@@ -13090,7 +12832,7 @@ namespace Iwentys.Sdk
         public string Description { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("creationTimeUtc")]
-        public System.DateTimeOffset CreationTimeUtc { get; set; }
+        public System.DateTime CreationTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("summary")]
         [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
@@ -13121,7 +12863,7 @@ namespace Iwentys.Sdk
         public string Description { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("creationTimeUtc")]
-        public System.DateTimeOffset CreationTimeUtc { get; set; }
+        public System.DateTime CreationTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("summary")]
         [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
@@ -13147,10 +12889,10 @@ namespace Iwentys.Sdk
         public ProjectReviewState State { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("creationTimeUtc")]
-        public System.DateTimeOffset CreationTimeUtc { get; set; }
+        public System.DateTime CreationTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("lastUpdateTimeUtc")]
-        public System.DateTimeOffset LastUpdateTimeUtc { get; set; }
+        public System.DateTime LastUpdateTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("visibility")]
         [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
@@ -13191,7 +12933,7 @@ namespace Iwentys.Sdk
         public ProjectReviewState State { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("creationTimeUtc")]
-        public System.DateTimeOffset CreationTimeUtc { get; set; }
+        public System.DateTime CreationTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("project")]
         public GithubRepositoryInfoDto Project { get; set; }
@@ -13270,10 +13012,10 @@ namespace Iwentys.Sdk
         public int Price { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("creationTime")]
-        public System.DateTimeOffset CreationTime { get; set; }
+        public System.DateTime CreationTime { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("deadline")]
-        public System.DateTimeOffset? Deadline { get; set; }
+        public System.DateTime? Deadline { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("state")]
         [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
@@ -13325,7 +13067,7 @@ namespace Iwentys.Sdk
         public IwentysUserInfoDto Student { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("responseTime")]
-        public System.DateTimeOffset ResponseTime { get; set; }
+        public System.DateTime ResponseTime { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("description")]
         public string Description { get; set; }
@@ -13357,10 +13099,10 @@ namespace Iwentys.Sdk
         public string Description { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("startTimeUtc")]
-        public System.DateTimeOffset StartTimeUtc { get; set; }
+        public System.DateTime StartTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("endTimeUtc")]
-        public System.DateTimeOffset EndTimeUtc { get; set; }
+        public System.DateTime EndTimeUtc { get; set; }
     
     
     }
@@ -13390,13 +13132,13 @@ namespace Iwentys.Sdk
         public string Description { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("creationTime")]
-        public System.DateTimeOffset CreationTime { get; set; }
+        public System.DateTime CreationTime { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("startTime")]
-        public System.DateTimeOffset StartTime { get; set; }
+        public System.DateTime StartTime { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("endTime")]
-        public System.DateTimeOffset EndTime { get; set; }
+        public System.DateTime EndTime { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("raidType")]
         [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
@@ -13508,10 +13250,10 @@ namespace Iwentys.Sdk
         public string GithubUsername { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("creationTime")]
-        public System.DateTimeOffset CreationTime { get; set; }
+        public System.DateTime CreationTime { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("lastOnlineTime")]
-        public System.DateTimeOffset LastOnlineTime { get; set; }
+        public System.DateTime LastOnlineTime { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("barsPoints")]
         public int BarsPoints { get; set; }
@@ -13577,10 +13319,10 @@ namespace Iwentys.Sdk
         public string GithubUsername { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("creationTime")]
-        public System.DateTimeOffset CreationTime { get; set; }
+        public System.DateTime CreationTime { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("lastOnlineTime")]
-        public System.DateTimeOffset LastOnlineTime { get; set; }
+        public System.DateTime LastOnlineTime { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("barsPoints")]
         public int BarsPoints { get; set; }
@@ -13747,8 +13489,8 @@ namespace Iwentys.Sdk
         [System.Text.Json.Serialization.JsonPropertyName("id")]
         public int Id { get; set; }
     
-        [System.Text.Json.Serialization.JsonPropertyName("name")]
-        public string Name { get; set; }
+        [System.Text.Json.Serialization.JsonPropertyName("title")]
+        public string Title { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("groupSubjects")]
         public System.Collections.Generic.ICollection<GroupSubject> GroupSubjects { get; set; }
@@ -13775,13 +13517,19 @@ namespace Iwentys.Sdk
         public string Link { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("creationTimeUtc")]
-        public System.DateTimeOffset CreationTimeUtc { get; set; }
+        public System.DateTime CreationTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("lastUpdateTimeUtc")]
-        public System.DateTimeOffset LastUpdateTimeUtc { get; set; }
+        public System.DateTime LastUpdateTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("deadlineTimeUtc")]
-        public System.DateTimeOffset? DeadlineTimeUtc { get; set; }
+        public System.DateTime? DeadlineTimeUtc { get; set; }
+    
+        [System.Text.Json.Serialization.JsonPropertyName("position")]
+        public int Position { get; set; }
+    
+        [System.Text.Json.Serialization.JsonPropertyName("availableForStudent")]
+        public bool AvailableForStudent { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("subjectId")]
         public int SubjectId { get; set; }
@@ -13820,7 +13568,13 @@ namespace Iwentys.Sdk
         public string Link { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("deadlineUtc")]
-        public System.DateTimeOffset DeadlineUtc { get; set; }
+        public System.DateTime DeadlineUtc { get; set; }
+    
+        [System.Text.Json.Serialization.JsonPropertyName("position")]
+        public int Position { get; set; }
+    
+        [System.Text.Json.Serialization.JsonPropertyName("availableForStudent")]
+        public bool AvailableForStudent { get; set; }
     
     
     }
@@ -13842,6 +13596,21 @@ namespace Iwentys.Sdk
     
         [System.Text.Json.Serialization.JsonPropertyName("author")]
         public IwentysUserInfoDto Author { get; set; }
+    
+        [System.Text.Json.Serialization.JsonPropertyName("creationTimeUtc")]
+        public System.DateTime CreationTimeUtc { get; set; }
+    
+        [System.Text.Json.Serialization.JsonPropertyName("lastUpdateTimeUtc")]
+        public System.DateTime LastUpdateTimeUtc { get; set; }
+    
+        [System.Text.Json.Serialization.JsonPropertyName("deadlineTimeUtc")]
+        public System.DateTime? DeadlineTimeUtc { get; set; }
+    
+        [System.Text.Json.Serialization.JsonPropertyName("position")]
+        public int Position { get; set; }
+    
+        [System.Text.Json.Serialization.JsonPropertyName("availableForStudent")]
+        public bool AvailableForStudent { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("submits")]
         public System.Collections.Generic.ICollection<SubjectAssignmentSubmitDto> Submits { get; set; }
@@ -13871,7 +13640,7 @@ namespace Iwentys.Sdk
         public int Id { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("submitTimeUtc")]
-        public System.DateTimeOffset SubmitTimeUtc { get; set; }
+        public System.DateTime SubmitTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("studentDescription")]
         public string StudentDescription { get; set; }
@@ -13889,10 +13658,10 @@ namespace Iwentys.Sdk
         public int Points { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("approveTimeUtc")]
-        public System.DateTimeOffset? ApproveTimeUtc { get; set; }
+        public System.DateTime? ApproveTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("rejectTimeUtc")]
-        public System.DateTimeOffset? RejectTimeUtc { get; set; }
+        public System.DateTime? RejectTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("subjectAssignmentId")]
         public int SubjectAssignmentId { get; set; }
@@ -13944,7 +13713,7 @@ namespace Iwentys.Sdk
         public string StudentDescription { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("submitTimeUtc")]
-        public System.DateTimeOffset SubmitTimeUtc { get; set; }
+        public System.DateTime SubmitTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("subjectAssignmentId")]
         public int SubjectAssignmentId { get; set; }
@@ -13953,17 +13722,17 @@ namespace Iwentys.Sdk
         public string SubjectAssignmentTitle { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("approveTimeUtc")]
-        public System.DateTimeOffset? ApproveTimeUtc { get; set; }
+        public System.DateTime? ApproveTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("rejectTimeUtc")]
-        public System.DateTimeOffset? RejectTimeUtc { get; set; }
+        public System.DateTime? RejectTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("comment")]
         public string Comment { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("state")]
         [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
-        public AssignmentSubmitState State { get; set; }
+        public SubmitState State { get; set; }
     
     
     }
@@ -14030,7 +13799,13 @@ namespace Iwentys.Sdk
         public string Link { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("deadlineUtc")]
-        public System.DateTimeOffset DeadlineUtc { get; set; }
+        public System.DateTime DeadlineUtc { get; set; }
+    
+        [System.Text.Json.Serialization.JsonPropertyName("position")]
+        public int Position { get; set; }
+    
+        [System.Text.Json.Serialization.JsonPropertyName("availableForStudent")]
+        public bool AvailableForStudent { get; set; }
     
     
     }
@@ -14077,10 +13852,10 @@ namespace Iwentys.Sdk
         public string Description { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("startTime")]
-        public System.DateTimeOffset StartTime { get; set; }
+        public System.DateTime StartTime { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("endTime")]
-        public System.DateTimeOffset EndTime { get; set; }
+        public System.DateTime EndTime { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("type")]
         [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
@@ -14102,7 +13877,7 @@ namespace Iwentys.Sdk
         public string TeamName { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("registrationTime")]
-        public System.DateTimeOffset RegistrationTime { get; set; }
+        public System.DateTime RegistrationTime { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("points")]
         public int Points { get; set; }
@@ -14156,10 +13931,10 @@ namespace Iwentys.Sdk
         public string Comment { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("creationTimeUtc")]
-        public System.DateTimeOffset CreationTimeUtc { get; set; }
+        public System.DateTime CreationTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("lastUpdateTimeUtc")]
-        public System.DateTimeOffset LastUpdateTimeUtc { get; set; }
+        public System.DateTime LastUpdateTimeUtc { get; set; }
     
     
     }
@@ -14202,10 +13977,10 @@ namespace Iwentys.Sdk
         public int? Mark { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("creationTimeUtc")]
-        public System.DateTimeOffset CreationTimeUtc { get; set; }
+        public System.DateTime CreationTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("lastUpdateTimeUtc")]
-        public System.DateTimeOffset LastUpdateTimeUtc { get; set; }
+        public System.DateTime LastUpdateTimeUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("mentor")]
         public IwentysUserInfoDto Mentor { get; set; }
