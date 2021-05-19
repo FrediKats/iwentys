@@ -1,6 +1,8 @@
 ﻿using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Guilds.Models;
+using Iwentys.Infrastructure.Application;
 
 namespace Iwentys.Tests.TestCaseContexts
 {
@@ -11,6 +13,11 @@ namespace Iwentys.Tests.TestCaseContexts
         public GuildTestCaseContext(TestCaseContext context)
         {
             _context = context;
+        }
+
+        public GuildProfileDto WithGuild(IwentysUser user)
+        {
+            return WithGuild(AuthorizedUser.DebugAuth(user.Id));
         }
 
         public GuildProfileDto WithGuild(AuthorizedUser user)
@@ -27,6 +34,17 @@ namespace Iwentys.Tests.TestCaseContexts
             AuthorizedUser user = _context.AccountManagementTestCaseContext.WithUser();
             _context.GuildMemberService.RequestGuild(user, guild.Id).Wait();
             _context.GuildMemberService.AcceptRequest(guildEditor, guild.Id, user.Id).Wait();
+            return user;
+        }
+
+        public AuthorizedUser WithGuildMentor(Guild guild, IwentysUser guildEditor)
+        {
+            AuthorizedUser user = _context.AccountManagementTestCaseContext.WithUser();
+
+            _context.GuildMemberService.RequestGuild(user, guild.Id).Wait();
+            _context.GuildMemberService.AcceptRequest(guildEditor, guild.Id, user.Id).Wait();
+            _context.GuildMemberService.PromoteToMentor(guildEditor, guild.Id, user.Id).Wait();
+
             return user;
         }
 

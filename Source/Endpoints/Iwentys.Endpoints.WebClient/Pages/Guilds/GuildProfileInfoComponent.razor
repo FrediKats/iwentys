@@ -1,0 +1,30 @@
+﻿@using Iwentys.Sdk
+@using Iwentys.Endpoints.Sdk.Extensions
+
+@namespace Iwentys.Endpoints.WebClient.Pages.Guilds
+
+@inherits DependencyInjectionPage
+
+<div class="container-fluid d-flex flex-column align-items-center">
+    <img src=@SelectedGuildProfile.ImmageUrl class="guild-logo" />
+
+    <MatHeadline4>@SelectedGuildProfile.Title</MatHeadline4>
+    <MatBody1>@SelectedGuildProfile.Bio</MatBody1>
+    <MatBody1>Лидер: <NavLink href=@LeaderProfileLink()>@SelectedGuildProfile.Leader.GetFullName()</NavLink></MatBody1>
+
+    <MatButton Link="@EditProfileLink()">Редактировать</MatButton>
+    <MatButton Link=@TributeJournalLink()>Трибьюты</MatButton>
+    @if (_membership is not null && _membership == UserMembershipState.Entered)
+    {
+        <MatButton OnClick=@LeaveGuild>Ливнуть</MatButton>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public GuildProfileDto SelectedGuildProfile { get; set; }
+
+    private string EditProfileLink() => $"guild/profile/{SelectedGuildProfile.Id}/edit";
+    private string LeaderProfileLink() => $"student/profile/{SelectedGuildProfile.Leader.Id}";
+    private string TributeJournalLink() => $"/guild/{SelectedGuildProfile.Id}/tribute";
+}

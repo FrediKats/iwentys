@@ -1,9 +1,9 @@
-﻿using Iwentys.Database.Seeding.FakerEntities;
-using Iwentys.Domain.AccountManagement;
+﻿using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.PeerReview;
 using Iwentys.Domain.PeerReview.Dto;
+using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -12,17 +12,6 @@ namespace Iwentys.Tests.Features.PeerReview
     [TestFixture]
     public class ProjectReviewServiceTest
     {
-        [Test]
-        //TODO: no asserts
-        public void GetAvailableProjectForReview_ShouldExistForNewProject()
-        {
-            TestCaseContext testCase = TestCaseContext.Case();
-            IwentysUser user = testCase.AccountManagementTestCaseContext.WithIwentysUser();
-            GithubUser githubUser = new GithubUser { IwentysUserId = user.Id, Username = user.GithubUsername };
-            GithubRepositoryInfoDto repositoryInfo = GithubRepositoryFaker.Instance.Generate(user.GithubUsername);
-            var githubProject = new GithubProject(githubUser, repositoryInfo);
-        }
-
         [Test]
         public void CreateReviewRequest_RequestExists()
         {
@@ -33,7 +22,7 @@ namespace Iwentys.Tests.Features.PeerReview
             var githubProject = new GithubProject(githubUser, repositoryInfo);
 
             var createArguments = new ReviewRequestCreateArguments { ProjectId = githubProject.Id, Visibility = ProjectReviewVisibility.Open };
-            var projectReviewRequest = ProjectReviewRequest.Create(user, new GithubRepositoryInfoDto(githubProject), createArguments);
+            var projectReviewRequest = ProjectReviewRequest.Create(user, githubProject, createArguments);
 
             Assert.IsTrue(projectReviewRequest.AuthorId == user.Id);
         }
@@ -47,9 +36,9 @@ namespace Iwentys.Tests.Features.PeerReview
             GithubRepositoryInfoDto repositoryInfo = GithubRepositoryFaker.Instance.Generate(user.GithubUsername);
             var githubProject = new GithubProject(githubUser, repositoryInfo);
             var createArguments = new ReviewRequestCreateArguments { ProjectId = githubProject.Id, Visibility = ProjectReviewVisibility.Open };
-            var projectReviewRequest = ProjectReviewRequest.Create(user, new GithubRepositoryInfoDto(githubProject), createArguments);
+            var projectReviewRequest = ProjectReviewRequest.Create(user, githubProject, createArguments);
 
-            AuthorizedUser reviewer = testCase.AccountManagementTestCaseContext.WithUser();
+            var reviewer = testCase.AccountManagementTestCaseContext.WithIwentysUser();
             var reviewFeedbackCreateArguments = new ReviewFeedbackCreateArguments { Summary = ReviewFeedbackSummary.LooksGoodToMe };
             ProjectReviewFeedback projectReviewFeedback = projectReviewRequest.CreateFeedback(reviewer, reviewFeedbackCreateArguments);
 
@@ -65,7 +54,7 @@ namespace Iwentys.Tests.Features.PeerReview
             GithubRepositoryInfoDto repositoryInfo = GithubRepositoryFaker.Instance.Generate(user.GithubUsername);
             var githubProject = new GithubProject(githubUser, repositoryInfo);
             var createArguments = new ReviewRequestCreateArguments { ProjectId = githubProject.Id, Visibility = ProjectReviewVisibility.Open };
-            var projectReviewRequest = ProjectReviewRequest.Create(user, new GithubRepositoryInfoDto(githubProject), createArguments);
+            var projectReviewRequest = ProjectReviewRequest.Create(user, githubProject, createArguments);
 
             projectReviewRequest.FinishReview(user);
 

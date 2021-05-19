@@ -1,0 +1,40 @@
+﻿@page "/subject/assignment-management/{SubjectId:int}/submits"
+
+@using Iwentys.Endpoints.Sdk.Extensions
+@using Microsoft.AspNetCore.Authorization
+@inherits Iwentys.Endpoints.WebClient.Shared.DependencyInjectionPage
+@attribute [Authorize]
+
+<h3>SubjectAssignmentSubmitJounalPage (double click works fine!)</h3>
+
+@if (_subjectAssignmentSubmits is not null)
+{
+    <div>
+    <MatTable
+        Items="@_subjectAssignmentSubmits"
+        OnRowDbClick=@NavigateToSubmitPage
+        class="dark-elevation-01">
+            <MatTableHeader>
+                <th>Assignment</th>
+                <th>Student</th>
+                <th>Submit time</th>
+                <th>State</th>
+                <th>Approve time</th>
+                <th>Reject time</th>
+            </MatTableHeader>
+            <MatTableRow>
+                <td>@context.SubjectAssignmentTitle</td>
+                <td>@context.Student.GetFullName()</td>
+                <td>@context.SubmitTimeUtc</td>
+                <td>@context.State</td>
+                <td>@context.ApproveTimeUtc</td>
+                <td>@context.RejectTimeUtc</td>
+            </MatTableRow>
+        </MatTable>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int SubjectId { get; set; }
+}

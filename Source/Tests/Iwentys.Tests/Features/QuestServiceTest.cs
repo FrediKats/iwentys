@@ -1,7 +1,7 @@
-﻿using Iwentys.Database.Seeding.FakerEntities;
-using Iwentys.Domain.AccountManagement;
+﻿using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Quests;
 using Iwentys.Domain.Quests.Dto;
+using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -34,10 +34,7 @@ namespace Iwentys.Tests.Features
             quest.CreateResponse(questExecutor, new QuestResponseCreateArguments());
             quest.MakeCompleted(questCreator, questExecutor, new QuestCompleteArguments() { UserId = questExecutor.Id, Mark = 5 });
 
-            //TODO: fix points transaction
-            //await _pointTransactionLogService.TransferFromSystem(executor.Id, quest.Price);
-            //_achievementProvider.AchieveForStudent(AchievementList.QuestComplete, executor.Id);
-            //Assert.AreEqual(executorPointsCount + quest.Price, questExecutor.BarsPoints);
+            Assert.AreEqual(QuestState.Completed, quest.State);
         }
 
         [Test]

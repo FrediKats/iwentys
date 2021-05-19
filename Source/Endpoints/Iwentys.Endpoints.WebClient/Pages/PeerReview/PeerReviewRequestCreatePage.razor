@@ -1,0 +1,31 @@
+﻿@page "/peer-review/create"
+@using Iwentys.Endpoints.Sdk.Extensions
+@inherits Iwentys.Endpoints.WebClient.Shared.DependencyInjectionPage
+
+<h3>PeerReviewRequestCreatePage</h3>
+
+@if (_availableForReviewProject is not null)
+{
+    <div class="d-flex input-form-component dark-elevation-01">
+        <p>Select project</p>
+        <p>
+            <MatSelectItem @bind-Value="@_selectedProject" Items="@_availableForReviewProject" Class="input-element" FullWidth="true">
+                <ItemTemplate>
+                    @if (context is not null)
+                    {
+                        <span>@context.GithubLikeTitle()</span>
+                    }
+                </ItemTemplate>
+            </MatSelectItem>
+        </p>
+
+        <p>
+            <MatTextField @bind-Value="@_description" Label="Description" Class="input-element"></MatTextField>
+        </p>
+        <MatButton OnClick=@(async () => await CreateRequest())>Create</MatButton>
+    </div>
+}
+
+@code {
+
+}

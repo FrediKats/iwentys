@@ -1,13 +1,15 @@
 ﻿using System.Linq;
-using System.Threading;
 using Bogus;
-using Iwentys.Database.Seeding.FakerEntities;
-using Iwentys.Database.Seeding.FakerEntities.Study;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Enums;
 using Iwentys.Domain.Study.Models;
-using Iwentys.Features.Study.SubjectAssignments;
+using Iwentys.Domain.SubjectAssignments;
+using Iwentys.Domain.SubjectAssignments.Enums;
+using Iwentys.Domain.SubjectAssignments.Models;
+using Iwentys.Infrastructure.Application.Controllers.Study.Dtos;
+using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
+using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study;
 
 namespace Iwentys.Tests.TestCaseContexts
 {
@@ -42,7 +44,7 @@ namespace Iwentys.Tests.TestCaseContexts
         {
             var subject = new Subject
             {
-                Name = new Faker().Lorem.Word()
+                Title = new Faker().Lorem.Word()
             };
 
             _context.UnitOfWork.GetRepository<Subject>().Insert(subject);
@@ -50,41 +52,31 @@ namespace Iwentys.Tests.TestCaseContexts
             return subject;
         }
 
-        public GroupSubject WithGroupSubject(GroupProfileResponseDto studyGroup, Subject subject, AuthorizedUser teacher = null)
+        public GroupSubject WithGroupSubject(GroupProfileResponseDto studyGroup, Subject subject, IwentysUser teacher = null)
         {
             var groupSubject = new GroupSubject
             {
                 StudyGroupId = studyGroup.Id,
                 SubjectId = subject.Id,
                 StudySemester = StudySemester.Y21H1,
-                LectorTeacherId = teacher?.Id
+                LectorMentorId = teacher?.Id
             };
             _context.UnitOfWork.GetRepository<GroupSubject>().Insert(groupSubject);
             _context.UnitOfWork.CommitAsync().Wait();
             return groupSubject;
         }
 
-        public SubjectAssignmentDto WithSubjectAssignment(AuthorizedUser user, GroupSubject groupSubject)
+        public SubjectAssignment WithSubjectAssignment(IwentysUser creator, GroupSubject groupSubject)
         {
-            AssignmentCreateArguments arguments = SubjectAssignmentFaker.Instance.CreateSubjectAssignmentCreateArguments().ConvertToAssignmentCreateArguments(groupSubject.SubjectId);
-            return new CreateSubjectAssignment.Handler(_context.UnitOfWork).Handle(new CreateSubjectAssignment.Query(arguments, user), CancellationToken.None).Result.SubjectAssignment;
+            var arguments = SubjectAssignmentFaker.Instance.CreateSubjectAssignmentCreateArguments(groupSubject.SubjectId);
+            var subjectAssignment = SubjectAssignment.Create(creator, groupSubject.Subject, arguments);
+            return subjectAssignment;
         }
 
-        public SubjectAssignmentSubmitDto WithSubjectAssignmentSubmit(AuthorizedUser user, SubjectAssignmentDto assignment)
+        public void WithSubjectAssignmentSubmitFeedback(IwentysUser user, SubjectAssignmentSubmit submit, FeedbackType feedbackType = FeedbackType.Approve)
         {
-            return new SendSubmit.Handler(_context.UnitOfWork).Handle(new SendSubmit.Query(SubjectAssignmentFaker.Instance.CreateSubjectAssignmentSubmitCreateArguments(assignment.Id), user), CancellationToken.None).Result.Submit;
-        }
-
-        public void WithSubjectAssignmentSubmitFeedback(AuthorizedUser user, SubjectAssignmentSubmitDto submit, FeedbackType feedbackType = FeedbackType.Approve)
-        {
-            new SendFeedback.Handler(_context.UnitOfWork).Handle(new SendFeedback.Query(SubjectAssignmentFaker.Instance.CreateFeedback(submit.Id, feedbackType), user), CancellationToken.None).Wait();
-        }
-
-        public AuthorizedUser WithNewStudent(GroupProfileResponseDto studyGroup)
-        {
-            Student student = WithNewStudentAsStudent(studyGroup);
-            AuthorizedUser user = AuthorizedUser.DebugAuth(student.Id);
-            return user;
+            SubjectAssignmentSubmitFeedbackArguments arguments = SubjectAssignmentFaker.Instance.CreateFeedback(submit.Id, feedbackType);
+            submit.AddFeedback(user, arguments);
         }
 
         public Student WithNewStudentAsStudent(GroupProfileResponseDto studyGroup)

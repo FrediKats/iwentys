@@ -1,14 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Iwentys.Database.Seeding.FakerEntities.Guilds;
+﻿using System.Linq;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
-using Iwentys.Domain.Guilds.Models;
-using Iwentys.Features.Guilds.GuildTestTasks;
+using Iwentys.Domain.PeerReview;
+using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Guilds;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -24,7 +20,6 @@ namespace Iwentys.Tests.Features.Guilds
             IwentysUser user = context.AccountManagementTestCaseContext.WithIwentysUser(true);
             IwentysUser newMember = context.AccountManagementTestCaseContext.WithIwentysUser();
             var guild = Guild.Create(user, null, GuildFaker.Instance.GetGuildCreateArguments());
-            //TODO: do not call directly
             guild.Members.Add(new GuildMember(guild, newMember, GuildMemberType.Member));
 
             var guildTestTaskSolution = GuildTestTaskSolution.Create(guild, newMember);
@@ -33,46 +28,43 @@ namespace Iwentys.Tests.Features.Guilds
         }
 
         [Test]
-        public async Task SubmitTestTask_StateShouldBeSubmitted()
+        public void SubmitTestTask_StateShouldBeSubmitted()
         {
             TestCaseContext context = TestCaseContext.Case();
-            AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
-            GuildProfileDto guild = context.GuildTestCaseContext.WithGuild(user);
-            AuthorizedUser guildNewcomer = context.GuildTestCaseContext.WithGuildMember(guild, user);
+            IwentysUser user = context.AccountManagementTestCaseContext.WithIwentysUser();
+            IwentysUser guildNewcomer = context.AccountManagementTestCaseContext.WithIwentysUser();
+            var guild = Guild.Create(user, null, GuildFaker.Instance.GetGuildCreateArguments());
+            guild.Members.Add(new GuildMember(guild, guildNewcomer, GuildMemberType.Member));
 
-            context.GithubTestCaseContext.WithGithubAccount(guildNewcomer);
-            GithubProject githubProject = context.GithubTestCaseContext.WithStudentProject(guildNewcomer);
+            GithubUser githubUser = context.GithubTestCaseContext.WithGithubAccount(guildNewcomer);
+            GithubProject githubProject = context.GithubTestCaseContext.WithStudentProject(guildNewcomer, githubUser);
+            var testTaskSolution = GuildTestTaskSolution.Create(guild, guildNewcomer);
 
-            await context.GuildTestTaskService.Accept(guildNewcomer, guild.Id);
+            ProjectReviewRequest reviewRequest = ProjectReviewRequest.CreateGuildReviewRequest(guildNewcomer, githubProject, testTaskSolution, guild);
 
-            await new SubmitGuildTestTask.Handler(context.UnitOfWork, context.GithubIntegrationService).Handle(new SubmitGuildTestTask.Query(guildNewcomer, guild.Id, githubProject.Owner, githubProject.Name), CancellationToken.None);
+            GuildTestTaskSolution userResponse = guild.TestTasks.First(t => t.AuthorId == guildNewcomer.Id);
 
-            List<GuildTestTaskInfoResponse> taskInfoResponses = await context.GuildTestTaskService.GetResponses(guild.Id);
-            GuildTestTaskInfoResponse userResponse = taskInfoResponses.First(t => t.StudentId == guildNewcomer.Id);
-
-            Assert.AreEqual(GuildTestTaskState.Submitted, userResponse.TestTaskState);
+            Assert.AreEqual(GuildTestTaskState.Submitted, userResponse.GetState());
         }
 
         [Test]
-        public async Task CompleteTestTask_StateShouldBeCompleted()
+        public void CompleteTestTask_StateShouldBeCompleted()
         {
             TestCaseContext context = TestCaseContext.Case();
-            AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
-            GuildProfileDto guild = context.GuildTestCaseContext.WithGuild(user);
-            AuthorizedUser guildNewcomer = context.GuildTestCaseContext.WithGuildMember(guild, user);
+            IwentysUser user = context.AccountManagementTestCaseContext.WithIwentysUser();
+            IwentysUser guildNewcomer = context.AccountManagementTestCaseContext.WithIwentysUser();
+            var guild = Guild.Create(user, null, GuildFaker.Instance.GetGuildCreateArguments());
+            guild.Members.Add(new GuildMember(guild, guildNewcomer, GuildMemberType.Member));
 
-            context.GithubTestCaseContext.WithGithubAccount(guildNewcomer);
-            GithubProject githubProject = context.GithubTestCaseContext.WithStudentProject(guildNewcomer);
+            GithubUser githubUser = context.GithubTestCaseContext.WithGithubAccount(guildNewcomer);
+            GithubProject githubProject = context.GithubTestCaseContext.WithStudentProject(guildNewcomer, githubUser);
+            var testTaskSolution = GuildTestTaskSolution.Create(guild, guildNewcomer);
 
-            await context.GuildTestTaskService.Accept(guildNewcomer, guild.Id);
+            ProjectReviewRequest reviewRequest = ProjectReviewRequest.CreateGuildReviewRequest(guildNewcomer, githubProject, testTaskSolution, guild);
+            testTaskSolution.SetCompleted(user);
+            GuildTestTaskSolution userResponse = guild.TestTasks.First(t => t.AuthorId == guildNewcomer.Id);
 
-            await new SubmitGuildTestTask.Handler(context.UnitOfWork, context.GithubIntegrationService).Handle(new SubmitGuildTestTask.Query(guildNewcomer, guild.Id, githubProject.Owner, githubProject.Name), CancellationToken.None);
-            await context.GuildTestTaskService.Complete(user, guild.Id, guildNewcomer.Id);
-
-            List<GuildTestTaskInfoResponse> taskInfoResponses = await context.GuildTestTaskService.GetResponses(guild.Id);
-            GuildTestTaskInfoResponse userResponse = taskInfoResponses.First(t => t.StudentId == guildNewcomer.Id);
-
-            Assert.AreEqual(GuildTestTaskState.Completed, userResponse.TestTaskState);
+            Assert.AreEqual(GuildTestTaskState.Completed, userResponse.GetState());
         }
     }
 }

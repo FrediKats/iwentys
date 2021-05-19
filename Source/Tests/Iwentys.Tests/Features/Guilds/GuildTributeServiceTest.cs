@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.GithubIntegration;
-using Iwentys.Domain.Guilds.Models;
+using Iwentys.Domain.Guilds;
+using Iwentys.Domain.Guilds.Enums;
+using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Guilds;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -16,64 +16,56 @@ namespace Iwentys.Tests.Features.Guilds
         public void CreateTribute_TributeExists()
         {
             TestCaseContext context = TestCaseContext.Case();
-            AuthorizedUser student = context.AccountManagementTestCaseContext.WithUser();
-            AuthorizedUser admin = context.AccountManagementTestCaseContext.WithUser(true);
-            GuildProfileDto guild = context.GuildTestCaseContext.WithGuild(student);
-            AuthorizedUser mentor = context.GuildTestCaseContext.WithGuildMentor(guild, student);
+            IwentysUser student = context.AccountManagementTestCaseContext.WithIwentysUser();
+            IwentysUser admin = context.AccountManagementTestCaseContext.WithIwentysUser(true);
+            var guild = Guild.Create(admin, null, GuildFaker.Instance.GetGuildCreateArguments());
+            guild.Members.Add(new GuildMember(guild, student, GuildMemberType.Member));
 
-            context.GithubTestCaseContext.WithGithubAccount(student);
-            GithubProject project = context.GithubTestCaseContext.WithStudentProject(student);
+            GithubUser githubUser = context.GithubTestCaseContext.WithGithubAccount(student);
+            GithubProject project = context.GithubTestCaseContext.WithStudentProject(student, githubUser);
 
-            context.TributeTestCaseContext.WithTribute(student, project);
-            List<TributeInfoResponse> tributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
+            var tribute = Tribute.Create(guild, student, project);
 
-            Assert.IsNotEmpty(tributes);
-            Assert.True(tributes.Any(t => t.Project.Id == project.Id));
+            Assert.True(guild.Tributes.Any(t => t.Project.Id == project.Id));
         }
 
         [Test]
-        public async Task CancelTribute_DoNotReturnForMentorAndReturnForStudent()
+        public void CancelTribute_DoNotReturnForMentorAndReturnForStudent()
         {
             TestCaseContext context = TestCaseContext.Case();
-            AuthorizedUser student = context.AccountManagementTestCaseContext.WithUser();
-            AuthorizedUser admin = context.AccountManagementTestCaseContext.WithUser(true);
-            GuildProfileDto guild = context.GuildTestCaseContext.WithGuild(student);
-            AuthorizedUser mentor = context.GuildTestCaseContext.WithGuildMentor(guild, student);
+            IwentysUser student = context.AccountManagementTestCaseContext.WithIwentysUser();
+            IwentysUser admin = context.AccountManagementTestCaseContext.WithIwentysUser(true);
+            var guild = Guild.Create(admin, null, GuildFaker.Instance.GetGuildCreateArguments());
 
-            context.GithubTestCaseContext.WithGithubAccount(student);
-            GithubProject project = context.GithubTestCaseContext.WithStudentProject(student);
+            GithubUser githubUser = context.GithubTestCaseContext.WithGithubAccount(student);
+            GithubProject project = context.GithubTestCaseContext.WithStudentProject(student, githubUser);
 
-            TributeInfoResponse tributeInfo = context.TributeTestCaseContext.WithTribute(student, project);
-            await context.GuildTributeServiceService.CancelTribute(student, tributeInfo.Project.Id);
-            List<TributeInfoResponse> pendingTributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
-            List<TributeInfoResponse> studentTributes = context.GuildTributeServiceService.GetStudentTributeResult(student);
+            var tribute = Tribute.Create(guild, student, project);
+            tribute.SetCanceled();
 
-            Assert.IsEmpty(pendingTributes);
-            Assert.IsNotEmpty(studentTributes);
-            Assert.True(studentTributes.Any(t => t.Project.Id == project.Id));
+            Assert.IsEmpty(guild.Tributes.Where(t => t.State == TributeState.Active));
+            Assert.True(guild.Tributes.Any(t => t.Project.Id == project.Id));
         }
 
         [Test]
         public void CompleteTribute_DoNotReturnForMentorAndChangeState()
         {
             TestCaseContext context = TestCaseContext.Case();
-            AuthorizedUser student = context.AccountManagementTestCaseContext.WithUser();
-            AuthorizedUser admin = context.AccountManagementTestCaseContext.WithUser(true);
-            GuildProfileDto guild = context.GuildTestCaseContext.WithGuild(student);
-            AuthorizedUser mentor = context.GuildTestCaseContext.WithGuildMentor(guild, student);
+            IwentysUser student = context.AccountManagementTestCaseContext.WithIwentysUser();
+            IwentysUser admin = context.AccountManagementTestCaseContext.WithIwentysUser(true);
 
-            context.GithubTestCaseContext.WithGithubAccount(student);
-            GithubProject project = context.GithubTestCaseContext.WithStudentProject(student);
+            var guild = Guild.Create(admin, null, GuildFaker.Instance.GetGuildCreateArguments());
+            guild.Members.Add(new GuildMember(guild, student, GuildMemberType.Mentor));
 
-            TributeInfoResponse tributeInfo = context.TributeTestCaseContext.WithTribute(student, project);
-            tributeInfo = context.TributeTestCaseContext.CompleteTribute(mentor, tributeInfo);
-            List<TributeInfoResponse> pendingTributes = context.GuildTributeServiceService.GetPendingTributes(mentor);
-            TributeInfoResponse studentTribute = context.GuildTributeServiceService.GetStudentTributeResult(student).FirstOrDefault(t => t.Project.Id == project.Id);
+            GithubUser githubUser = context.GithubTestCaseContext.WithGithubAccount(student);
+            GithubProject project = context.GithubTestCaseContext.WithStudentProject(student, githubUser);
 
-            Assert.IsEmpty(pendingTributes);
-            Assert.NotNull(studentTribute);
-            Assert.IsTrue(studentTribute.Mark == tributeInfo.Mark);
-            Assert.IsTrue(studentTribute.DifficultLevel == tributeInfo.DifficultLevel);
+            var tribute = Tribute.Create(guild, student, project);
+
+            tribute.SetCompleted(student.Id, GuildFaker.Instance.NewTributeCompleteRequest(tribute.Project.Id));
+
+            Assert.IsEmpty(guild.Tributes.Where(t => t.State == TributeState.Active));
+            Assert.AreEqual(TributeState.Completed, tribute.State);
         }
     }
 }

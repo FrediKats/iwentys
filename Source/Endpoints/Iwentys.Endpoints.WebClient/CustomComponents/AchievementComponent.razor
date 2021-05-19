@@ -1,0 +1,19 @@
+﻿@using Iwentys.Sdk
+@namespace Iwentys.Endpoints.WebClient.CustomComponents
+
+<div class="text-center">
+    <div class="container-fluid d-flex flex-row">
+        @foreach (AchievementInfoDto achievement in Achievements)
+        {
+            <div class="d-flex flex-column achievement-item">
+                <img class="achievement-item-icon" src="@achievement.ImageUrl" />
+                <MatBody2>@achievement.Title</MatBody2>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public ICollection<AchievementInfoDto> Achievements { get; set; }
+}

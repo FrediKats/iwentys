@@ -1,0 +1,61 @@
+﻿@page "/student/profile/{StudentId:int?}"
+@using ChartJs.Blazor.Charts
+@using Microsoft.Extensions.Logging
+
+@inherits Iwentys.Endpoints.WebClient.Shared.DependencyInjectionPage
+
+@inject ILogger<StudentProfilePage> _logger
+
+@if (_studentFullProfile is not null)
+{
+    <div class="container-fluid d-flex flex-row">
+        <div class="col-md-6 d-flex flex-column">
+            <div class="profile-element dark-elevation-01">
+                <StudentProfileInfoComponent StudentProfile=@_studentFullProfile></StudentProfileInfoComponent>
+                @if (_leaderboardRow is not null)
+                {
+                    <div dark-elevation-02>
+                        <MatHeadline6>Top-@_leaderboardRow.Position</MatHeadline6>
+                    </div>
+                }
+                @if (_isSelf)
+                {
+                    <MatButton Link="/student/profile/edit">Edit</MatButton>
+                }
+            </div>
+
+            <div class="profile-element dark-elevation-01">
+                @if (_achievements is not null)
+                {
+                    <AchievementComponent Achievements=@_achievements></AchievementComponent>
+                }
+            </div>
+        </div>
+
+
+
+        <div class="col-md-6 d-flex flex-column text-center">
+            @if (_githubChartConfig is not null)
+            {
+                <div class="profile-element dark-elevation-01">
+                    <MatHeadline5>Coding activity</MatHeadline5>
+                    <ChartJsLineChart @ref="_githubChart" Config="_githubChartConfig"></ChartJsLineChart>
+                </div>
+            }
+
+            @if (_studyChartConfig is not null)
+            {
+                <div class="profile-element dark-elevation-01">
+                    <MatHeadline5>Study activity</MatHeadline5>
+                    <ChartJsPieChart @ref="_studyChart" Config="@_studyChartConfig" Width="600" Height="300" />
+                </div>
+            }
+        </div>
+    </div>
+}
+
+
+@code {
+    [Parameter]
+    public int? StudentId { get; set; }
+}

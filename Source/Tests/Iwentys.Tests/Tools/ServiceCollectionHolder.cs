@@ -1,6 +1,7 @@
 ﻿using System;
-using Iwentys.Database;
-using Iwentys.Infrastructure;
+using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Configuration;
+using Iwentys.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,7 +19,8 @@ namespace Iwentys.Tests.Tools
                     .UseLazyLoadingProxies())
                 .AddUnitOfWork<IwentysDbContext>()
                 .AddIwentysMediatorHandlers()
-                .AddIwentysServices();
+                .AddIwentysServices()
+                .AddAutoMapperConfig();
 
             ServiceProvider = services.BuildServiceProvider();
         }
