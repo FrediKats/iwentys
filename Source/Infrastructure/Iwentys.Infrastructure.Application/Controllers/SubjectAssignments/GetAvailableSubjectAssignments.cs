@@ -53,13 +53,25 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
             {
                 IwentysUser user = await _context.IwentysUsers.GetById(request.User.Id);
 
-                List<SubjectAssignmentJournalItemDto> assignments = await _context
-                    .Subjects
-                    .Where(Subject.IsAllowedFor(user.Id))
-                    .ProjectTo<SubjectAssignmentJournalItemDto>(_mapper.ConfigurationProvider)
-                    .ToListAsync();
+                if (user.IsAdmin)
+                {
+                    List<SubjectAssignmentJournalItemDto> assignments = await _context
+                        .Subjects
+                        .ProjectTo<SubjectAssignmentJournalItemDto>(_mapper.ConfigurationProvider)
+                        .ToListAsync();
 
-                return new Response(assignments);
+                    return new Response(assignments);
+                }
+                else
+                {
+                    List<SubjectAssignmentJournalItemDto> assignments = await _context
+                        .Subjects
+                        .Where(Subject.IsAllowedFor(user.Id))
+                        .ProjectTo<SubjectAssignmentJournalItemDto>(_mapper.ConfigurationProvider)
+                        .ToListAsync();
+
+                    return new Response(assignments);
+                }
             }
         }
     }

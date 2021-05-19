@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Assignments.Models;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
@@ -42,13 +43,26 @@ namespace Iwentys.Infrastructure.Application.Controllers.Assignments
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                List<AssignmentInfoDto> result = await _context
+                IwentysUser iwentysUser = await _context.IwentysUsers.GetById(request.User.Id);
+                if (iwentysUser.IsAdmin)
+                {
+                    List<AssignmentInfoDto> result = await _context
+                        .StudentAssignments
+                        .Select(AssignmentInfoDto.FromStudentEntity)
+                        .ToListAsync();
+
+                    return new Response(result);
+                }
+                else
+                {
+                    List<AssignmentInfoDto> result = await _context
                     .StudentAssignments
                     .Where(a => a.StudentId == request.User.Id)
                     .Select(AssignmentInfoDto.FromStudentEntity)
                     .ToListAsync();
 
-                return new Response(result);
+                    return new Response(result);
+                }
             }
         }
     }
