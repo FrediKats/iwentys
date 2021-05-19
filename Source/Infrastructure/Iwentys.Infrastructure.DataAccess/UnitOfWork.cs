@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.DataAccess
 {
-    public class UnitOfWork<TContext> : IUnitOfWork
+    public class UnitOfWork<TContext> : IUnitOfWork, IDisposable
         where TContext : DbContext
     {
         private Dictionary<(Type type, string name), object> _repositories = new Dictionary<(Type type, string Name), object>();

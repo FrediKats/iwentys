@@ -8,12 +8,4 @@ namespace Iwentys.Infrastructure.DataAccess.Subcontext
         public DbSet<UniversitySystemUser> UniversitySystemUsers { get; set; }
         public DbSet<IwentysUser> IwentysUsers { get; set; }
     }
-
-    public static class AccountManagementDbContextExtensions
-    {
-        public static void OnAccountManagementModelCreating(this ModelBuilder modelBuilder)
-        {
-
-        }
-    }
 }

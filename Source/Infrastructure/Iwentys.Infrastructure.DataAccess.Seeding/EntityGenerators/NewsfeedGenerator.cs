@@ -16,12 +16,14 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
 
             SubjectNewsfeeds = new List<SubjectNewsfeed>();
             foreach (Subject subject in subjects)
+            {
                 for (var i = 0; i < 3; i++)
                 {
                     Newsfeed newsfeedEntity = NewsfeedFaker.Instance.CreateNewsfeed(students.First().Id);
                     Newsfeeds.Add(newsfeedEntity);
                     SubjectNewsfeeds.Add(new SubjectNewsfeed {SubjectId = subject.Id, NewsfeedId = newsfeedEntity.Id});
                 }
+            }
 
             GuildNewsfeeds = new List<GuildNewsfeed>();
             foreach (Guild guild in guilds)

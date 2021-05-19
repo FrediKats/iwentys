@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Domain.Study.Models;
-using Iwentys.Endpoints.Api.Authorization;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Infrastructure.Application.Controllers.StudentProfile
@@ -13,12 +11,10 @@ namespace Iwentys.Infrastructure.Application.Controllers.StudentProfile
     public class StudentController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly UserManager<ApplicationUser> _userManager;
 
-        public StudentController(IMediator mediator, UserManager<ApplicationUser> userManager)
+        public StudentController(IMediator mediator)
         {
             _mediator = mediator;
-            _userManager = userManager;
         }
 
         [HttpGet(nameof(Get))]
@@ -31,7 +27,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.StudentProfile
         [HttpGet(nameof(GetSelf))]
         public async Task<ActionResult<StudentInfoDto>> GetSelf()
         {
-            AuthorizedUser user = this.ResolveUserFromIdentity();
+            AuthorizedUser user = this.TryAuthWithToken();
             GetStudentById.Response response = await _mediator.Send(new GetStudentById.Query(user.Id));
             return Ok(response.Student);
         }

@@ -19,8 +19,12 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
             Quest = QuestFaker.Instance.CreateQuestFaker(author.Id).Generate(QuestCount);
 
             foreach (Quest quest in Quest)
-            foreach (Student student in students.Take(QuestResponseCount))
-                QuestResponse.Add(QuestFaker.Instance.CreateQuestResponse(quest.Id, student.Id));
+            {
+                foreach (Student student in students.Take(QuestResponseCount))
+                {
+                    QuestResponse.Add(QuestFaker.Instance.CreateQuestResponse(quest.Id, student.Id));
+                }
+            }
         }
 
         public List<Quest> Quest { get; }

@@ -12,13 +12,17 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
         {
             SubjectActivityEntities = new List<SubjectActivity>();
             foreach (Student student in students)
-            foreach (GroupSubject groupSubjectEntity in groupSubjects.Where(gs => gs.StudyGroupId == student.GroupId))
-                SubjectActivityEntities.Add(new SubjectActivity
+            {
+                foreach (GroupSubject groupSubjectEntity in groupSubjects.Where(gs => gs.StudyGroupId == student.GroupId))
                 {
-                    GroupSubjectId = groupSubjectEntity.Id,
-                    StudentId = student.Id,
-                    Points = RandomExtensions.Instance.Random.Double() * 100
-                });
+                    SubjectActivityEntities.Add(new SubjectActivity
+                    {
+                        GroupSubjectId = groupSubjectEntity.Id,
+                        StudentId = student.Id,
+                        Points = RandomExtensions.Instance.Random.Double() * 100
+                    });
+                }
+            }
         }
 
         public List<SubjectActivity> SubjectActivityEntities { get; set; }

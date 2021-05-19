@@ -85,7 +85,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Quests
         public async Task<ActionResult<QuestInfoDto>> Revoke(int questId)
         {
             AuthorizedUser user = this.TryAuthWithToken();
-            Revoke.Response response = await _mediator.Send(new Revoke.Query(questId, user));
+            RevokeQuest.Response response = await _mediator.Send(new RevokeQuest.Query(questId, user));
             return Ok(response.QuestInfo);
         }
 

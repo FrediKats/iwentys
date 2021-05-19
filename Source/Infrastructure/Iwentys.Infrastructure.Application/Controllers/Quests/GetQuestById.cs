@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Quests.Dto;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
@@ -9,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.Application.Controllers.Quests
 {
-    public class GetQuestById
+    public static class GetQuestById
     {
         public class Query : IRequest<Response>
         {
@@ -35,13 +34,11 @@ namespace Iwentys.Infrastructure.Application.Controllers.Quests
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly AchievementProvider _achievementProvider;
             private readonly IwentysDbContext _context;
 
-            public Handler(IwentysDbContext context, AchievementProvider achievementProvider)
+            public Handler(IwentysDbContext context)
             {
                 _context = context;
-                _achievementProvider = achievementProvider;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)

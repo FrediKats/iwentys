@@ -153,16 +153,12 @@ namespace Iwentys.Infrastructure.DataAccess
         {
             modelBuilder.EnableAutoHistory(null);
 
-            modelBuilder.OnAccountManagementModelCreating();
             modelBuilder.OnAchievementModelCreating();
             modelBuilder.OnAssignmentsModelCreating();
             modelBuilder.OnCompaniesModelCreating();
-            modelBuilder.OnEconomyModelCreating();
             modelBuilder.OnGamificationModelCreating();
-            modelBuilder.OnGithubIntegrationModelCreating();
             modelBuilder.OnGuildsModelCreating();
             modelBuilder.OnGuildsTournamentsModelCreating();
-            modelBuilder.OnTributesModelCreating();
             modelBuilder.OnInterestTagsModelCreating();
             modelBuilder.OnNewsfeedsModelCreating();
             modelBuilder.OnPeerReviewModelCreating();

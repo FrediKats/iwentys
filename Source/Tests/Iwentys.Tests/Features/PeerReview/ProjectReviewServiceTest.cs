@@ -13,17 +13,6 @@ namespace Iwentys.Tests.Features.PeerReview
     public class ProjectReviewServiceTest
     {
         [Test]
-        //TODO: no asserts
-        public void GetAvailableProjectForReview_ShouldExistForNewProject()
-        {
-            TestCaseContext testCase = TestCaseContext.Case();
-            IwentysUser user = testCase.AccountManagementTestCaseContext.WithIwentysUser();
-            GithubUser githubUser = new GithubUser { IwentysUserId = user.Id, Username = user.GithubUsername };
-            GithubRepositoryInfoDto repositoryInfo = GithubRepositoryFaker.Instance.Generate(user.GithubUsername);
-            var githubProject = new GithubProject(githubUser, repositoryInfo);
-        }
-
-        [Test]
         public void CreateReviewRequest_RequestExists()
         {
             TestCaseContext testCase = TestCaseContext.Case();
