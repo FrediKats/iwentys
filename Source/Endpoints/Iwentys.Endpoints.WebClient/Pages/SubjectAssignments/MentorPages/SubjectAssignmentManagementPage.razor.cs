@@ -14,6 +14,7 @@ namespace Iwentys.Endpoints.WebClient.Pages.SubjectAssignments.MentorPages
         }
 
         private string LinkToSubjectAssignmentCreate(int subjectId) => $"/subject/assignment-management/{subjectId}/create";
+        private string LinkToSubjectAssignmentUpdate(int subjectId) => $"/subject/assignment-management/{subjectId}/update";
         //private string LinkToSubjectAssignmentSubmitJournal() => $"/subject/{SubjectId}/management/assignments/submits";
     }
 }

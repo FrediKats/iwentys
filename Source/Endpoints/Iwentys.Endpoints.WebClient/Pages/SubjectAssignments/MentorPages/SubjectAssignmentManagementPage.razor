@@ -25,12 +25,15 @@
                         </div>
                         @foreach (SubjectAssignmentDto assignment in subjectAssignment.Assignments)
                         {
-                            <div class="dark-elevation-04">
+                            <div class="dark-elevation-04 flex-column">
                                 <MatBody2>
                                     Assignment: @assignment?.Title
                                 </MatBody2>
+                                <MatButton Link=@LinkToSubjectAssignmentUpdate(subjectAssignment.Id)>
+                                    Edit
+                                </MatButton>
                                 <MatButton Link=@LinkToSubjectAssignmentCreate(subjectAssignment.Id)>
-                                    Delete assignment
+                                    Delete
                                 </MatButton>
                             </div>
                         }

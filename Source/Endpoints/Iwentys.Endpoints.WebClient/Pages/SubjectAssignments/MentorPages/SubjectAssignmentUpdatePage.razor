@@ -1,10 +1,13 @@
-﻿@page "/subject/assignment-management/{SubjectId:int}/create"
+﻿@page "/subject/assignment-management/{SubjectId:int}/update"
 
 @using VxFormGenerator.Core
+@using Iwentys.Sdk
 
-@inherits Iwentys.Endpoints.WebClient.Shared.DependencyInjectionPage
+@inject NavigationManager _navigationManagerClient
+@inject SubjectAssignmentClient _subjectAssignmentClient
 
-<h3>Subject Assignment Create Page</h3>
+
+<h3>SubjectAssignmentUpdatePage</h3>
 
 <div class="col-md-6 d-flex flex-column dark-elevation-01">
     <EditForm Model="_arguments">
@@ -16,5 +19,5 @@
 
 @code {
     [Parameter]
-    public int SubjectId { get; set; }
+    public int SubjectAssignmentId { get; set; }
 }
