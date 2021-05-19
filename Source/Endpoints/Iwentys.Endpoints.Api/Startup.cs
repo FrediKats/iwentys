@@ -81,10 +81,13 @@ namespace Iwentys.Endpoints.Api
 
             app.UseRouting();
 
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
+
             app.ConfigureIdentityFramework();
             applicationDbContext.Database.EnsureDeleted();
             applicationDbContext.Database.EnsureCreated();
-            applicationDbContext.SeedUsers(userManager);
+            applicationDbContext.SeedUsers(userManager, db);
 
             app.UseEndpoints(endpoints =>
             {
@@ -92,9 +95,6 @@ namespace Iwentys.Endpoints.Api
                 endpoints.MapControllers();
                 endpoints.MapFallbackToFile("index.html");
             });
-            
-            db.Database.EnsureDeleted();
-            db.Database.EnsureCreated();
         }
     }
 }

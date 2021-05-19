@@ -1,4 +1,7 @@
-﻿using IdentityServer4.EntityFramework.Options;
+﻿using System.Linq;
+using IdentityServer4.EntityFramework.Options;
+using Iwentys.Domain.AccountManagement;
+using Iwentys.Infrastructure.DataAccess;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -20,32 +23,25 @@ namespace Iwentys.Endpoints.Api.Authorization
             this.SeedRoles(builder);
         }
 
-        private void SeedUsers(ModelBuilder builder)
+        public void SeedUsers(UserManager<ApplicationUser> userManager, IwentysDbContext context)
         {
-        }
-
-        public void SeedUsers(UserManager<ApplicationUser> userManager)
-        {
-            ApplicationUser user = new ApplicationUser
+            foreach (IwentysUser iwentysUser in context.IwentysUsers.ToList())
             {
-                Id = "228617",
-                UserName = "fredikats",
-            };
+                ApplicationUser user = new ApplicationUser
+                {
+                    Id = iwentysUser.Id.ToString(),
+                    UserName = iwentysUser.Id.ToString(),
+                    //UserName = $"{iwentysUser.FirstName} {iwentysUser.SecondName}",
+                };
 
-            IdentityResult identityResult = userManager.CreateAsync(user, "Admin*123").Result;
+                IdentityResult identityResult = userManager.CreateAsync(user, iwentysUser.Id.ToString()).Result;
+            }
         }
 
         private void SeedRoles(ModelBuilder builder)
         {
             builder.Entity<IdentityRole>().HasData(
                 new IdentityRole() { Id = "fab4fac1-c546-41de-aebc-a14da6895711", Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "Admin" }
-            );
-        }
-
-        private void SeedUserRoles(ModelBuilder builder)
-        {
-            builder.Entity<IdentityUserRole<string>>().HasData(
-                new IdentityUserRole<string>() { RoleId = "fab4fac1-c546-41de-aebc-a14da6895711", UserId = "b74ddd14-6340-4840-95c2-db12554843e5" }
             );
         }
     }
