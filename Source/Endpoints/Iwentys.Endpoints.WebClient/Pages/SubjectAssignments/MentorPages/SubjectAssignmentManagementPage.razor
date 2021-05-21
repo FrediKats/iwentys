@@ -20,12 +20,12 @@
                     <div class="card-list-element">
                         <div class="d-flex flex-row align-self-center align-baseline">
                             <h5>Subject assignment for @subjectAssignment.Title</h5>
-                            <MatButton Link=@LinkToSubjectAssignmentCreate(subjectAssignment.Id)>
+                            <MudButton Link=@LinkToSubjectAssignmentCreate(subjectAssignment.Id)>
                                 <span class="oi oi-plus" title="add" aria-hidden="true"></span>
-                            </MatButton>
-                            <MatButton Link=@LinkToSubjectAssignmentSubmitJournal(subjectAssignment.Id)>
+                            </MudButton>
+                            <MudButton Link=@LinkToSubjectAssignmentSubmitJournal(subjectAssignment.Id)>
                                 Submits
-                            </MatButton>
+                            </MudButton>
                         </div>
                         @foreach (SubjectAssignmentDto assignment in subjectAssignment.Assignments)
                         {
@@ -40,12 +40,12 @@
                                         </div>
                                     </MatCardContent>
                                     <MatCardActions>
-                                        <MatButton Link=@LinkToSubjectAssignmentUpdate(subjectAssignment.Id)>
+                                        <MudButton Link=@LinkToSubjectAssignmentUpdate(subjectAssignment.Id)>
                                             Edit
-                                        </MatButton>
-                                        <MatButton Link=@LinkToSubjectAssignmentCreate(subjectAssignment.Id)>
+                                        </MudButton>
+                                        <MudButton Link=@LinkToSubjectAssignmentCreate(subjectAssignment.Id)>
                                             Delete
-                                        </MatButton>
+                                        </MudButton>
                                     </MatCardActions>
                                 </MatCard>
                             </div>

@@ -6,10 +6,10 @@
 
 <div class="container-fluid d-flex flex-row">
     <div class="col-md-3 d-flex flex-column">
-        <MatButton Disabled="true">Все задачи</MatButton>
-        <MatButton Disabled="true">Персональные задачи</MatButton>
-        <MatButton Disabled="true">Календарь</MatButton>
-        <MatButton Link="/assignment/create">Добавить задачу</MatButton>
+        <MudButton Disabled="true">Все задачи</MudButton>
+        <MudButton Disabled="true">Персональные задачи</MudButton>
+        <MudButton Disabled="true">Календарь</MudButton>
+        <MudButton Link="/assignment/create">Добавить задачу</MudButton>
     </div>
 
     <div class="col-md-6 d-flex flex-column">
@@ -31,14 +31,14 @@
                             <MatCardActions>
                                 @if (assignment.IsCompeted)
                                 {
-                                    <MatButton OnClick=@(async () => await Delete(assignment.Id))>Delete</MatButton>
-                                    <MatButton OnClick=@(async () => await MakeUncompleted(assignment.Id))>Undo</MatButton>
+                                    <MudButton OnClick=@(async () => await Delete(assignment.Id))>Delete</MudButton>
+                                    <MudButton OnClick=@(async () => await MakeUncompleted(assignment.Id))>Undo</MudButton>
                                 }
 
                                 @if (!assignment.IsCompeted)
                                 {
-                                    <MatButton OnClick=@(async () => await MakeCompleted(assignment.Id))>Complete</MatButton>
-                                    <MatButton OnClick=@(async () => await Delete(assignment.Id))>Delete</MatButton>
+                                    <MudButton OnClick=@(async () => await MakeCompleted(assignment.Id))>Complete</MudButton>
+                                    <MudButton OnClick=@(async () => await Delete(assignment.Id))>Delete</MudButton>
                                 }
                             </MatCardActions>
                         </MatCard>

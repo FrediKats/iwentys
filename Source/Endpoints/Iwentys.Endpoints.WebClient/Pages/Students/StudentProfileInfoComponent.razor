@@ -27,7 +27,7 @@
                     @*TODO: Need to add view for management admins*@
                     //@if (_self?.IsAdmin == true)
                     //{
-                    //    <MatButton OnClick=@(async () => await MakeGroupAdmin())>Make admin</MatButton>
+                    //    <MudButton OnClick=@(async () => await MakeGroupAdmin())>Make admin</MudButton>
                     //}
                 }
             }
@@ -44,16 +44,16 @@
 
                     @if (IsCanSendKarma())
                     {
-                        <MatButton OnClick=@(async () => await SendKarma())>
+                        <MudButton OnClick=@(async () => await SendKarma())>
                             <span class="oi oi-plus" title="add" aria-hidden="true"></span>
-                        </MatButton>
+                        </MudButton>
                     }
 
                     @if (IsCanRemoveKarma())
                     {
-                        <MatButton OnClick=@(async () => await RemoveKarma())>
+                        <MudButton OnClick=@(async () => await RemoveKarma())>
                             <span class="oi oi-minus" title="remove" aria-hidden="true"></span>
-                        </MatButton>
+                        </MudButton>
                     }
 
                 </div>

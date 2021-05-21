@@ -11,6 +11,7 @@ namespace Iwentys.Endpoints.WebClient.Pages.Study
         private List<GroupProfileResponseDto> _groups;
 
         public StudyCourseInfoDto _selectedCourse;
+        private GroupProfileResponseDto _selectedGroup;
         private ICollection<StudyLeaderboardRowDto> _studentProfiles;
 
         private string LinkToProfile(StudyLeaderboardRowDto rowDto) => $"student/profile/{rowDto.Student.Id}";

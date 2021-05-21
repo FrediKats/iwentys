@@ -12,11 +12,11 @@
     <MatBody1>@SelectedGuildProfile.Bio</MatBody1>
     <MatBody1>Лидер: <NavLink href=@LeaderProfileLink()>@SelectedGuildProfile.Leader.GetFullName()</NavLink></MatBody1>
 
-    <MatButton Link="@EditProfileLink()">Редактировать</MatButton>
-    <MatButton Link=@TributeJournalLink()>Трибьюты</MatButton>
+    <MudButton Link="@EditProfileLink()">Редактировать</MudButton>
+    <MudButton Link=@TributeJournalLink()>Трибьюты</MudButton>
     @if (_membership is not null && _membership == UserMembershipState.Entered)
     {
-        <MatButton OnClick=@LeaveGuild>Ливнуть</MatButton>
+        <MudButton OnClick=@LeaveGuild>Ливнуть</MudButton>
     }
 </div>
 

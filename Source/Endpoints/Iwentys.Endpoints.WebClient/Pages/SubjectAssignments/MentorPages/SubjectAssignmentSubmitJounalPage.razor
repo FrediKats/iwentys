@@ -1,6 +1,7 @@
 ﻿@page "/subject/assignment-management/{SubjectId:int}/submits"
 
 @using Iwentys.Endpoints.Sdk.Extensions
+@using Iwentys.Sdk
 @using Microsoft.AspNetCore.Authorization
 @inherits Iwentys.Endpoints.WebClient.Shared.DependencyInjectionPage
 @attribute [Authorize]
@@ -10,31 +11,36 @@
 @if (_subjectAssignmentSubmits is not null)
 {
     <div>
-    <MatTable
+    <MudTable
         Items="@_subjectAssignmentSubmits"
-        OnRowDbClick=@NavigateToSubmitPage
         class="dark-elevation-01">
-            <MatTableHeader>
-                <th>Assignment</th>
-                <th>Student</th>
-                <th>Submit time</th>
-                <th>State</th>
-                <th>Approve time</th>
-                <th>Reject time</th>
-            </MatTableHeader>
-            <MatTableRow>
-                <td>@context.SubjectAssignmentTitle</td>
-                <td>@context.Student.GetFullName()</td>
-                <td>@context.SubmitTimeUtc</td>
+            <HeaderContent>
+                <MudTh>Assignment</MudTh>
+                <MudTh>Student</MudTh>
+                <MudTh>Submit time</MudTh>
+                <MudTh>State</MudTh>
+                <MudTh>Approve time</MudTh>
+                <MudTh>Reject time</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd >@context.SubjectAssignmentTitle</MudTd>
+                <MudTd >@context.Student.GetFullName()</MudTd >
+                <MudTd>@context.SubmitTimeUtc</MudTd>
                 <td>@context.State</td>
                 <td>@context.ApproveTimeUtc</td>
                 <td>@context.RejectTimeUtc</td>
-            </MatTableRow>
-        </MatTable>
+            </RowTemplate>
+        </MudTable>
     </div>
 }
 
 @code {
     [Parameter]
     public int SubjectId { get; set; }
+
+    private void OnRowClicked(TableRowClickEventArgs<SubjectAssignmentSubmitDto> obj)
+    {
+        throw new NotImplementedException();
+    }
+
 }

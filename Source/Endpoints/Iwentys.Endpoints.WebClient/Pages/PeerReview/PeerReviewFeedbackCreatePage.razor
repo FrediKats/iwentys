@@ -16,10 +16,10 @@
 
 <div class="input-form-component">
     <p>
-        <MatTextField @bind-Value="@_description" Label="Description" Class="input-element" FullWidth="true"></MatTextField>
+        <MudTextField @bind-Value="@_description" Label="Description" Class="input-element" FullWidth="true"></MudTextField>
     </p>
-    <MatSelectItem @bind-Value=@_selectedSummaries Items="@_feedbackSummaries"></MatSelectItem>
-    <MatButton OnClick="@(async () => await CreateFeedback())">Create</MatButton>
+    <MudSelectItem @bind-Value=@_selectedSummaries Items="@_feedbackSummaries"></MudSelectItem>
+    <MudButton OnClick="@(async () => await CreateFeedback())">Create</MudButton>
 </div>
 
 

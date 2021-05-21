@@ -21,12 +21,12 @@
                     </div>
                 </NavLink>
 
-                <MatButton OnClick=@(async () => await RemovePin(repository.Id)) class="col-md-2">X</MatButton>
+                <MudButton OnClick=@(async () => await RemovePin(repository.Id)) class="col-md-2">X</MudButton>
             </MatNavItem>
         }
     </div>
 
-    <MatButton Link=@LinkToPinCreating>Запинить</MatButton>
+    <MudButton Link=@LinkToPinCreating>Запинить</MudButton>
 </div>
 
 @code {

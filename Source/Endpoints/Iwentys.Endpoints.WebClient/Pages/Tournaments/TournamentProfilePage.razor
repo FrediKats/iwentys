@@ -22,7 +22,7 @@
                         </MatListItem>
                     }
                 </MatList>
-                <MatButton OnClick=@(async () => await RegisterToTournament())>Register guild</MatButton>
+                <MudButton OnClick=@(async () => await RegisterToTournament())>Register guild</MudButton>
             </div>
         </div>
         <div class="col-md-8 profile-element dark-elevation-01">
@@ -33,7 +33,7 @@
                     <p>Start time: @_tournament.StartTime</p>
                     <p>End time: @_tournament.EndTime</p>
                 </span>
-                <MatButton OnClick=@(async () => await ForceUpdate())>Update results</MatButton>
+                <MudButton OnClick=@(async () => await ForceUpdate())>Update results</MudButton>
             </div>
         </div>
     </div>

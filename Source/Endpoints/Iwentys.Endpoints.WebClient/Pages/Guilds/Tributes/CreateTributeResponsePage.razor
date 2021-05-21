@@ -17,19 +17,19 @@
             </p>
             <div class="input-form-component">
                 <p>
-                    <MatTextField @bind-Value="@_comment" Label="Comment" Class="input-element" FullWidth="true"></MatTextField>
+                    <MudTextField @bind-Value="@_comment" Label="Comment" Class="input-element" FullWidth="true"></MudTextField>
                 </p>
 
                 <p>
-                    <MatTextField @bind-Value="@_difficultLevel" Label="Difficult" Class="input-element" FullWidth="true"></MatTextField>
+                    <MudTextField @bind-Value="@_difficultLevel" Label="Difficult" Class="input-element" FullWidth="true"></MudTextField>
                 </p>
 
                 <p>
-                    <MatTextField @bind-Value="@_mark" Label="Mark" Class="input-element" FullWidth="true"></MatTextField>
+                    <MudTextField @bind-Value="@_mark" Label="Mark" Class="input-element" FullWidth="true"></MudTextField>
                 </p>
             </div>
 
-            <MatButton OnClick="@(async () => await CreateResponse())" class="dark-elevation-04">Create</MatButton>
+            <MudButton OnClick="@(async () => await CreateResponse())" class="dark-elevation-04">Create</MudButton>
         }
     </div>
 </div>

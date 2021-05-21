@@ -18,13 +18,13 @@
                     </p>
                     @if (member.MemberType == GuildMemberType.Member)
                     {
-                        <MatButton OnClick="() => PromoteToMentor(member.StudentInfoDto.Id)">
+                        <MudButton OnClick="() => PromoteToMentor(member.StudentInfoDto.Id)">
                             Promote
-                        </MatButton>
+                        </MudButton>
                     }
-                    <MatButton OnClick="() => KickMember(member.StudentInfoDto.Id)">
+                    <MudButton OnClick="() => KickMember(member.StudentInfoDto.Id)">
                         Kick
-                    </MatButton>
+                    </MudButton>
                 </MatListItem>
             }
         }
