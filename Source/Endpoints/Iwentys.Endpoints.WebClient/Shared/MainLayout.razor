@@ -1,7 +1,7 @@
 ﻿@using Iwentys.Endpoints.WebClient.IdentityAuthorization
 @inherits LayoutComponentBase
 
-<MatThemeProvider Theme=@globalTheme>
+<MatThemeProvider>
     <div class="page main-background">
         <div class="sidebar sidebar-surface dark-elevation-04">
             <NavMenu />
@@ -22,7 +22,8 @@
 @code
 {
     //FYI: this colors must be synced with global css
-    MatTheme globalTheme = new MatTheme()
+    //TODO:
+    @*MatTheme globalTheme = new MatTheme()
     {
         Primary = "#80D8FE",
         Secondary = "#00FFAA",
@@ -31,5 +32,5 @@
         OnPrimary = "#E0E0FF",
         OnSecondary = "#E0E0FF",
         OnSurface = "#E0E0FF"
-    };
+    };*@
 }
