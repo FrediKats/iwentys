@@ -51,7 +51,8 @@ namespace Iwentys.Endpoints.WebClient.Pages.SubjectAssignments.MentorPages
                 Title = arguments.Title,
                 Description = arguments.Description,
                 Link = arguments.Link,
-                DeadlineUtc = arguments.DeadlineUtc,
+                //TODO:
+                DeadlineUtc = arguments.DeadlineUtc ?? throw new Exception(),
                 Position = arguments.Position,
                 AvailableForStudent = arguments.AvailableForStudent
             };
