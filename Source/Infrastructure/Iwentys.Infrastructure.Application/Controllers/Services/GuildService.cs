@@ -65,12 +65,6 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
                 .SingleAsync();
         }
 
-        public GuildProfileDto FindStudentGuild(int userId)
-        {
-            Guild guild = _guildMemberRepository.ReadForStudent(userId);
-            return guild.Maybe(g => new GuildProfileDto(g));
-        }
-
         public async Task<GuildMemberLeaderBoardDto> GetGuildMemberLeaderBoard(int guildId)
         {
             Guild guild = await _guildRepository.GetById(guildId);
