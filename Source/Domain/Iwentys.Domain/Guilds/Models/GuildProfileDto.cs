@@ -9,7 +9,7 @@ using Iwentys.Domain.Guilds.Enums;
 
 namespace Iwentys.Domain.Guilds.Models
 {
-    public class GuildProfileDto : GuildProfileShortInfoDto, IResultFormat
+    public class GuildProfileDto : GuildProfileShortInfoDto
     {
         public GuildProfileDto()
         {
@@ -43,10 +43,5 @@ namespace Iwentys.Domain.Guilds.Models
         public List<int> GuildRatingList { get; set; }
 
         public int GuildRating => GuildRatingList?.Sum() ?? 0;
-
-        public string Format()
-        {
-            return $"{Title}";
-        }
     }
 }

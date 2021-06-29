@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.128
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31423.177
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Endpoints", "Endpoints", "{70E1C0FF-AA6C-4ED5-AE29-587699CF170C}"
 EndProject
@@ -43,6 +43,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Tests", "Tests\Iwentys.Tests\Iwentys.Tests.csproj", "{A7665B9A-C791-49D1-BE90-2770687BCB3F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Polygon", "Tests\Iwentys.Polygon\Iwentys.Polygon.csproj", "{135E0A63-F78C-44AB-8F35-BD8DAACA0315}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Integrations.IsuIntegration", "Integrations\Iwentys.Integrations.IsuIntegration\Iwentys.Integrations.IsuIntegration.csproj", "{F20A5653-995E-4DC4-ACD5-828156319EF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -102,6 +104,10 @@ Global
 		{135E0A63-F78C-44AB-8F35-BD8DAACA0315}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{135E0A63-F78C-44AB-8F35-BD8DAACA0315}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{135E0A63-F78C-44AB-8F35-BD8DAACA0315}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F20A5653-995E-4DC4-ACD5-828156319EF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F20A5653-995E-4DC4-ACD5-828156319EF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F20A5653-995E-4DC4-ACD5-828156319EF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F20A5653-995E-4DC4-ACD5-828156319EF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -120,6 +126,7 @@ Global
 		{466B8C6F-54CE-42AC-9B19-61A1A247EA32} = {C2D7EE1D-FF29-410A-A710-0FB6E8C3319F}
 		{A7665B9A-C791-49D1-BE90-2770687BCB3F} = {708E281D-A2FC-4E6D-AFA6-84482952AAC0}
 		{135E0A63-F78C-44AB-8F35-BD8DAACA0315} = {708E281D-A2FC-4E6D-AFA6-84482952AAC0}
+		{F20A5653-995E-4DC4-ACD5-828156319EF7} = {C2D7EE1D-FF29-410A-A710-0FB6E8C3319F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C699E386-11E7-4ABB-9AD6-C676F3CA2061}
