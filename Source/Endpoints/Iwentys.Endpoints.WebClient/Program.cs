@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MudBlazor.Services;
 using VxFormGenerator.Settings.Bootstrap;
 
 namespace Iwentys.Endpoints.WebClient
@@ -28,7 +29,7 @@ namespace Iwentys.Endpoints.WebClient
                 .AddApiAuthorization()
                 .AddAccountClaimsPrincipalFactory<CustomUserFactory>();
 
-
+            builder.Services.AddMudServices();
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddVxFormGenerator();
 

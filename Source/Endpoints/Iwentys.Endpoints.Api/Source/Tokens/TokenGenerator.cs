@@ -1,8 +1,8 @@
 ﻿using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Iwentys.Common.Transferable;
 using Iwentys.Infrastructure.Configuration.Options;
+using Iwentys.Integrations.IsuIntegration.Models;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Iwentys.Endpoints.Api.Source.Tokens

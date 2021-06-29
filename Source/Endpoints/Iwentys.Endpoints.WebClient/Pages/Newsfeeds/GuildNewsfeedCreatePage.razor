@@ -6,14 +6,14 @@
     <h5>Create assignment</h5>
 
     <p>
-        <MatTextField @bind-Value="@_title" Label="Title" Class="input-element" FullWidth="true"></MatTextField>
+        <MudTextField @bind-Value="@_title" Label="Title" Class="input-element" FullWidth="true"></MudTextField>
     </p>
 
     <p>
-        <MatTextField @bind-Value="@_description" Label="Description" Class="input-element" FullWidth="true"></MatTextField>
+        <MudTextField @bind-Value="@_description" Label="Description" Class="input-element" FullWidth="true"></MudTextField>
     </p>
 
-    <MatButton OnClick="@ExecuteCreateNewsfeed" class="dark-elevation-04">Create</MatButton>
+    <MudButton OnClick="@ExecuteCreateNewsfeed" class="dark-elevation-04">Create</MudButton>
 </div>
 
 @code {

@@ -94,7 +94,6 @@ namespace Iwentys.Infrastructure.Application.Controllers.Services
 
             guild.RemoveMember(student, iwentysUser, guildLastLeave);
             await _unitOfWork.CommitAsync();
-
         }
 
         public async Task KickGuildMember(AuthorizedUser user, int guildId, int memberId)

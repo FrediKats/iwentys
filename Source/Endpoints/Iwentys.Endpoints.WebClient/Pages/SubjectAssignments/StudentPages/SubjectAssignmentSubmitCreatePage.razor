@@ -10,19 +10,20 @@
         @if (_subjectAssignments is not null)
         {
             <p>
-                <MatSelectItem @bind-Value=@_selectedSubject Items="@_subjectAssignments" Class="input-element" FullWidth="true">
-                    <ItemTemplate>
-                        <span>@context.Title</span>
-                    </ItemTemplate>
-                </MatSelectItem>
+                <MudSelect  @bind-Value=@_selectedSubject Class="input-element" FullWidth="true">
+                    @foreach (var item in _subjectAssignments)
+                    {
+                        <MudSelectItem Value="@item">@item.Title</MudSelectItem>
+                    }
+                </MudSelect>
             </p>
         }
 
         <p>
-            <MatTextField @bind-Value="@_description" Label="Description" Class="input-element" FullWidth="true"></MatTextField>
+            <MudTextField @bind-Value="@_description" Label="Description" Class="input-element" FullWidth="true"></MudTextField>
         </p>
 
-        <MatButton OnClick="@SendSubmit">Send response</MatButton>
+        <MudButton OnClick="@SendSubmit">Send response</MudButton>
     </div>
 </div>
 

@@ -191,5 +191,46 @@ namespace Iwentys.Domain.Guilds
             guildLastLeave.UpdateLeave();
             Members.Remove(guildMember);
         }
+
+        public void BlockMember(IwentysUser mentor, IwentysUser memberToRemove, GuildLastLeave guildLastLeave)
+        {
+            EnsureMemberCanRestrictPermissionForOther(mentor, memberToRemove.Id);
+
+            GuildMember guildMember = Members.Single(gm => gm.MemberId == memberToRemove.Id);
+            if (guildMember.MemberType == GuildMemberType.Creator)
+                throw InnerLogicException.GuildExceptions.CreatorCannotLeave(memberToRemove.Id, Id);
+
+            guildLastLeave.UpdateLeave();
+            Members.Remove(guildMember);
+        }
+
+        public void UnblockStudent(IwentysUser student, IwentysUser memberToRemove, GuildLastLeave guildLastLeave)
+        {
+            GuildMember member = Members.Find(m => m.MemberId == memberToRemove.Id);
+
+            if (member is null || member.MemberType != GuildMemberType.Blocked)
+                throw new InnerLogicException($"Student is not blocked in guild! AuthorId: {student.Id} GuildId: {memberToRemove.Id}");
+
+            RemoveMember(student, memberToRemove, guildLastLeave);
+        }
+
+        public List<GuildMember> GetGuildRequests(IwentysUser user)
+        {
+            user.EnsureIsGuildMentor(this);
+
+            return Members
+                .Where(m => m.MemberType == GuildMemberType.Requested)
+                .ToList();
+        }
+
+        public List<GuildMember> GetGuildBlocked(IwentysUser user)
+        {
+            user.EnsureIsGuildMentor(this);
+
+            return Members
+                .Where(m => m.MemberType == GuildMemberType.Blocked)
+                .ToList();
+        }
+
     }
 }

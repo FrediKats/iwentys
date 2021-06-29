@@ -9,14 +9,14 @@
         <h5>Create assignment</h5>
 
         <p>
-            <MatTextField @bind-Value="@_owner" Label="Title"></MatTextField>
+            <MudTextField @bind-Value="@_owner" Label="Title"></MudTextField>
         </p>
 
         <p>
-            <MatTextField @bind-Value="@_repositoryName" Label="Description"></MatTextField>
+            <MudTextField @bind-Value="@_repositoryName" Label="Description"></MudTextField>
         </p>
 
-        <MatButton OnClick="@AddPin">Create</MatButton>
+        <MudButton OnClick="@AddPin">Create</MudButton>
     </div>
 </div>
 

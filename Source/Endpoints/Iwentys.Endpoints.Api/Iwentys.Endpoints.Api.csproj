@@ -51,6 +51,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\Iwentys.Infrastructure.Application\Iwentys.Infrastructure.Application.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Iwentys.Infrastructure.Configuration\Iwentys.Infrastructure.Configuration.csproj" />
+    <ProjectReference Include="..\..\Integrations\Iwentys.Integrations.IsuIntegration\Iwentys.Integrations.IsuIntegration.csproj" />
     <ProjectReference Include="..\Iwentys.Endpoints.WebClient\Iwentys.Endpoints.WebClient.csproj" />
   </ItemGroup>
 </Project>

@@ -12,48 +12,48 @@
         <img class="student-profile-logo" src=@StudentProfile.AvatarUrl />
         <div class="container-fluid d-flex flex-column">
             <MatHeadline4>@StudentProfile.GithubUsername</MatHeadline4>
-            <MatBody1>@StudentProfile.GetFullName()</MatBody1>
+            <MudText Typo="Typo.body1">@StudentProfile.GetFullName()</MudText>
 
             @if (_group?.GroupName is not null)
             {
                 @if (StudentProfile.Id == _group.Id)
                 {
-                    <MatBody1>Группа: <NavLink href=@LinkToGroupProfile>@_group.GroupName</NavLink>(Админ)</MatBody1>
+                    <MudText Typo="Typo.body1">Группа: <NavLink href=@LinkToGroupProfile>@_group.GroupName</NavLink>(Админ)</MudText>
                 }
 
                 @if (StudentProfile.Id != _group.Id)
                 {
-                    <MatBody1>Группа: <NavLink href=@LinkToGroupProfile>@_group.GroupName</NavLink></MatBody1>
+                    <MudText Typo="Typo.body1">Группа: <NavLink href=@LinkToGroupProfile>@_group.GroupName</NavLink></MudText>
                     @*TODO: Need to add view for management admins*@
                     //@if (_self?.IsAdmin == true)
                     //{
-                    //    <MatButton OnClick=@(async () => await MakeGroupAdmin())>Make admin</MatButton>
+                    //    <MudButton OnClick=@(async () => await MakeGroupAdmin())>Make admin</MudButton>
                     //}
                 }
             }
 
             @if (_guild is not null)
             {
-                <MatBody1>Гильдия: <NavLink href=@LinkToGuild>@_guild.Title</NavLink></MatBody1>
+                <MudText Typo="Typo.body1">Гильдия: <NavLink href=@LinkToGuild>@_guild.Title</NavLink></MudText>
             }
 
             @if (_userKarmaStatistic is not null)
             {
                 <div class="d-flex flex-row align-self-center align-baseline">
-                    <MatBody1>Карма: @_userKarmaStatistic.Karma</MatBody1>
+                    <MudText Typo="Typo.body1">Карма: @_userKarmaStatistic.Karma</MudText>
 
                     @if (IsCanSendKarma())
                     {
-                        <MatButton OnClick=@(async () => await SendKarma())>
+                        <MudButton OnClick=@(async () => await SendKarma())>
                             <span class="oi oi-plus" title="add" aria-hidden="true"></span>
-                        </MatButton>
+                        </MudButton>
                     }
 
                     @if (IsCanRemoveKarma())
                     {
-                        <MatButton OnClick=@(async () => await RemoveKarma())>
+                        <MudButton OnClick=@(async () => await RemoveKarma())>
                             <span class="oi oi-minus" title="remove" aria-hidden="true"></span>
-                        </MatButton>
+                        </MudButton>
                     }
 
                 </div>

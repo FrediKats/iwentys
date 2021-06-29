@@ -1,5 +1,6 @@
 ﻿@page "/peer-review/create"
 @using Iwentys.Endpoints.Sdk.Extensions
+@using Iwentys.Sdk
 @inherits Iwentys.Endpoints.WebClient.Shared.DependencyInjectionPage
 
 <h3>PeerReviewRequestCreatePage</h3>
@@ -9,20 +10,18 @@
     <div class="d-flex input-form-component dark-elevation-01">
         <p>Select project</p>
         <p>
-            <MatSelectItem @bind-Value="@_selectedProject" Items="@_availableForReviewProject" Class="input-element" FullWidth="true">
-                <ItemTemplate>
-                    @if (context is not null)
-                    {
-                        <span>@context.GithubLikeTitle()</span>
-                    }
-                </ItemTemplate>
-            </MatSelectItem>
+            <MudSelect @bind-Value="@_selectedProject" Class="input-element" FullWidth="true">
+                @foreach (GithubRepositoryInfoDto item in _availableForReviewProject.Where(p => p is not null))
+                {
+                    <MudSelectItem Value="@item">@item.GithubLikeTitle()</MudSelectItem>
+                }
+            </MudSelect>
         </p>
 
         <p>
-            <MatTextField @bind-Value="@_description" Label="Description" Class="input-element"></MatTextField>
+            <MudTextField @bind-Value="@_description" Label="Description" Class="input-element"></MudTextField>
         </p>
-        <MatButton OnClick=@(async () => await CreateRequest())>Create</MatButton>
+        <MudButton OnClick=@(async () => await CreateRequest())>Create</MudButton>
     </div>
 }
 

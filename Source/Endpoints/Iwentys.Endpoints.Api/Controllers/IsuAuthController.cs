@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Common.Transferable;
 using Iwentys.Endpoints.Api.Source.Tokens;
 using Iwentys.Infrastructure.Configuration.Options;
+using Iwentys.Integrations.IsuIntegration.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Tef.IsuIntegrator;

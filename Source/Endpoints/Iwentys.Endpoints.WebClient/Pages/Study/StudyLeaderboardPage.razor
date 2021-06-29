@@ -4,6 +4,19 @@
 
 @inherits Iwentys.Endpoints.WebClient.Shared.DependencyInjectionPage
 
+@code {
+    private async Task Callback(object obj)
+    {
+        await OnCurseSelected(obj as StudyCourseInfoDto);
+    }
+
+    private async Task Callback2(object obj)
+    {
+        await OnGroupSelect(obj as GroupProfileResponseDto);
+    }
+
+}
+
 <div class="text-center">
     <h3>Рейтинг студентов</h3>
 
@@ -36,22 +49,25 @@
             @if (_studyCourses is not null)
             {
                 <p>
-                    <MatSelectItem Items="@_studyCourses" Class="input-element" FullWidth="true" TValue="StudyCourseInfoDto" ValueChanged="@(OnCurseSelected)">
-                        <ItemTemplate>
-                            <span>@context?.CourseTitle</span>
-                        </ItemTemplate>
-                    </MatSelectItem>
+                    @*<MudSelect Class="input-element" FullWidth="true" ValueChanged="Callback">*@
+                    <MudSelect Class="input-element" @bind-Value="_selectedCourse">
+                        @foreach (StudyCourseInfoDto item in _studyCourses)
+                        {
+                            <MudSelectItem Value="@item.CourseTitle"></MudSelectItem>
+                        }
+                    </MudSelect>
                 </p>
             }
 
             @if (_groups is not null)
             {
                 <p>
-                    <MatSelectItem Items="@_groups" Class="input-element" FullWidth="true" TValue="GroupProfileResponseDto" ValueChanged="@(OnGroupSelect)">
-                        <ItemTemplate>
-                            <span>@context?.GroupName</span>
-                        </ItemTemplate>
-                    </MatSelectItem>
+                    <MudSelect Class="input-element" @bind-Value="_selectedGroup">
+                        @foreach (GroupProfileResponseDto item in _groups)
+                        {
+                            <MudSelectItem Value="@item">@item.GroupName</MudSelectItem>
+                        }
+                    </MudSelect>
                 </p>
             }
         </div>

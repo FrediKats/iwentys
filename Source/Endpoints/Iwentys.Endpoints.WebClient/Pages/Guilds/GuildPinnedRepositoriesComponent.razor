@@ -15,18 +15,18 @@
             <MatNavItem class="d-flex flex-row justify-content-md-between">
                 <NavLink href=@repository.Url>
                     <div class="col-md-10">
-                        <MatBody2>@repository.GithubLikeTitle()</MatBody2>
+                        <MudText Typo="Typo.body2">@repository.GithubLikeTitle()</MudText>
 
-                        <MatBody2>@repository.Description</MatBody2>
+                        <MudText Typo="Typo.body2">@repository.Description</MudText>
                     </div>
                 </NavLink>
 
-                <MatButton OnClick=@(async () => await RemovePin(repository.Id)) class="col-md-2">X</MatButton>
+                <MudButton OnClick=@(async () => await RemovePin(repository.Id)) class="col-md-2">X</MudButton>
             </MatNavItem>
         }
     </div>
 
-    <MatButton Link=@LinkToPinCreating>Запинить</MatButton>
+    <MudButton Link=@LinkToPinCreating>Запинить</MudButton>
 </div>
 
 @code {

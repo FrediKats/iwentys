@@ -4,8 +4,11 @@ using Iwentys.Common.Tools;
 
 namespace Iwentys.Domain.Study.Models
 {
-    public record StudyLeaderboardRowDto : IResultFormat
+    public record StudyLeaderboardRowDto
     {
+        public StudentInfoDto Student { get; init; }
+        public double Activity { get; init; }
+
         public StudyLeaderboardRowDto(Student student, int githubActivity)
             : this(new StudentInfoDto(student), githubActivity)
         {
@@ -24,14 +27,6 @@ namespace Iwentys.Domain.Study.Models
 
         public StudyLeaderboardRowDto()
         {
-        }
-
-        public StudentInfoDto Student { get; init; }
-        public double Activity { get; init; }
-
-        public string Format()
-        {
-            return $"{Student.GetFullName()} - {Activity}";
         }
     }
 }

@@ -6,11 +6,11 @@
 
 <div class="container-fluid d-flex flex-row">
     <div class="col-md-3 d-flex flex-column">
-        <MatButton OnClick=@(async () => await SelectActive())>Active</MatButton>
-        <MatButton OnClick=@(async () => await SelectCreated())>Created</MatButton>
-        <MatButton OnClick=@(async () => await SelectArchived())>Archive</MatButton>
-        <MatButton Disabled="true" Link=@LinkToRating()>Rating</MatButton>
-        <MatButton Link="/quest/create">Добавить квест</MatButton>
+        <MudButton OnClick=@(async () => await SelectActive())>Active</MudButton>
+        <MudButton OnClick=@(async () => await SelectCreated())>Created</MudButton>
+        <MudButton OnClick=@(async () => await SelectArchived())>Archive</MudButton>
+        <MudButton Disabled="true" Link=@LinkToRating()>Rating</MudButton>
+        <MudButton Link="/quest/create">Добавить квест</MudButton>
     </div>
 
     <div class="col-md-6 d-flex flex-column">
@@ -36,14 +36,14 @@
                                 </div>
                             </MatCardContent>
                             <MatCardActions>
-                                <MatButton Link=@LinkToQuestProfilePage(quest)>Profile</MatButton>
+                                <MudButton Link=@LinkToQuestProfilePage(quest)>Profile</MudButton>
                                 @if (IsCanResponseToQuest(quest))
                                 {
-                                    <MatButton Link=@LinkToQuestResponsePage(quest)>Response</MatButton>
+                                    <MudButton Link=@LinkToQuestResponsePage(quest)>Response</MudButton>
                                 }
                                 @if (IsQuestCanBeRevoked(quest))
                                 {
-                                    <MatButton OnClick=@(async () => await RevokeQuest(quest))>Revoke</MatButton>
+                                    <MudButton OnClick=@(async () => await RevokeQuest(quest))>Revoke</MudButton>
                                 }
 
                             </MatCardActions>
