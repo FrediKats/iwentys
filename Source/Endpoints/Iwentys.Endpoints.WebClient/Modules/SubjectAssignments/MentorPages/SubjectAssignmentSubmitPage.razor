@@ -1,11 +1,6 @@
 ﻿@page "/subject/{SubjectId:int}/management/assignments/submits/{SubmitId:int}"
 
-@using VxFormGenerator.Core
-@using Iwentys.Sdk
-@using Iwentys.Endpoints.Sdk.Extensions
-@using Microsoft.AspNetCore.Authorization
-@inject SubjectAssignmentSubmitClient _subjectAssignmentSubmitClient
-@inject NavigationManager _navigationManagerClient
+@namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
 @attribute [Authorize]
 
 <h3>SubjectAssignmentSubmitPage</h3>

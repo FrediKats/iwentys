@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Iwentys.Sdk;
 
 namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
@@ -10,7 +11,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
             public string Title { get; set; }
             public string Description { get; set; }
             public string Link { get; set; }
-            public System.DateTime DeadlineUtc { get; set; }
+            public DateTime DeadlineUtc { get; set; }
             public int Position { get; set; }
             public bool AvailableForStudent { get; set; }
         }
@@ -19,8 +20,8 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
 
         private async Task Create()
         {
-            await SubjectAssignmentClient.CreateAsync(CreateArg(_arguments));
-            NavigationManager.NavigateTo("/subject/assignment-management");
+            await _subjectAssignmentClient.CreateAsync(CreateArg(_arguments));
+            _navigationManager.NavigateTo("/subject/assignment-management");
         }
 
         private SubjectAssignmentCreateArguments CreateArg(Arguments arguments)

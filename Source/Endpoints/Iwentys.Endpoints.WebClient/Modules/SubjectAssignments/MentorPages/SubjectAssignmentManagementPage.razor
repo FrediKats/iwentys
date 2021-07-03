@@ -1,12 +1,9 @@
 ﻿@page "/subject/assignment-management"
 
-@using Iwentys.Sdk
-@using Microsoft.AspNetCore.Authorization
-@using Microsoft.Extensions.Logging
-@inject NavigationManager _navigationManagerClient
-@inject SubjectAssignmentClient _subjectAssignmentClient
-@inject ILogger<SubjectAssignmentManagementPage> _logger
+@namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
 @attribute [Authorize]
+
+@inject ILogger<SubjectAssignmentManagementPage> _logger
 
 <h3>Subject assignments</h3>
 

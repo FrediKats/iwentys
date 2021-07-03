@@ -1,12 +1,9 @@
 ﻿@page "/subject/assignment-management/{SubjectId:int}/create"
 
-@using VxFormGenerator.Core
-@using Microsoft.AspNetCore.Authorization
-@inherits Iwentys.Endpoints.WebClient.Shared.DependencyInjectionPage
+@namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
 @attribute [Authorize]
 
-
-<h3>Subject Assignment Create Page</h3>
+<MudText Typo="Typo.h3">Create subject assignment</MudText>
 
 <div class="col-md-6 d-flex flex-column dark-elevation-01">
     <EditForm Model="_arguments">

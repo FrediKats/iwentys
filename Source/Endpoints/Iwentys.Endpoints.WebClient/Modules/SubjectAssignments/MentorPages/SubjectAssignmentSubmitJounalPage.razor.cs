@@ -13,7 +13,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
         {
             await base.OnInitializedAsync();
 
-            _subjectAssignmentSubmits = await SubjectAssignmentSubmitClient.SearchSubjectAssignmentSubmitsAsync(new SubjectAssignmentSubmitSearchArguments
+            _subjectAssignmentSubmits = await _subjectAssignmentSubmitClient.SearchSubjectAssignmentSubmitsAsync(new SubjectAssignmentSubmitSearchArguments
             {
                 SubjectId = SubjectId
             });
@@ -25,7 +25,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
             if (row is not SubjectAssignmentSubmitDto submit)
                 throw new Exception("Something goes wrong.");
 
-            NavigationManager.NavigateTo($"/subject/{SubjectId}/management/assignments/submits/{submit.Id}");
+            _navigationManager.NavigateTo($"/subject/{SubjectId}/management/assignments/submits/{submit.Id}");
         }
     }
 }

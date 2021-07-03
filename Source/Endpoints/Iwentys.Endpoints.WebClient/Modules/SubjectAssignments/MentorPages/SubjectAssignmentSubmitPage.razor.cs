@@ -24,7 +24,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
         private async Task Create()
         {
             await _subjectAssignmentSubmitClient.SendSubmitFeedbackAsync(CreateArg(_arguments));
-            _navigationManagerClient.NavigateTo($"/subject/{SubjectId}/management/assignments/submits/{SubmitId}", true);
+            _navigationManager.NavigateTo($"/subject/{SubjectId}/management/assignments/submits/{SubmitId}", true);
         }
 
         private SubjectAssignmentSubmitFeedbackArguments CreateArg(Arguments arguments)
