@@ -8,7 +8,6 @@ namespace Iwentys.Endpoints.WebClient.Pages.Study.Subjects
     {
         private SubjectProfileDto _subjectProfile;
         private ICollection<NewsfeedViewModel> _newsfeeds;
-        private ICollection<SubjectAssignmentJournalItemDto> _subjectAssignments;
 
         protected override async Task OnInitializedAsync()
         {
@@ -16,7 +15,6 @@ namespace Iwentys.Endpoints.WebClient.Pages.Study.Subjects
 
             _subjectProfile = await SubjectClient.GetSubjectByIdAsync(SubjectId);
             _newsfeeds = await NewsfeedClient.GetBySubjectIdAsync(SubjectId);
-            _subjectAssignments = await _studentSubjectAssignmentClient.GetStudentSubjectAssignmentsAsync();
         }
         
         private string LinkToCreateNewsfeedPage() => $"/newsfeed/create-subject/{SubjectId}";

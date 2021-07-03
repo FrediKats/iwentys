@@ -17,7 +17,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.StudentPages
         {
             await base.OnInitializedAsync();
             _self = await StudentClient.GetSelfAsync();
-            _subjectAssignments = (await _studentSubjectAssignmentClient.GetStudentSubjectAssignmentsAsync()).ToList();
+            _subjectAssignments = (await _studentSubjectAssignmentClient.GetStudentSubjectAssignmentsAsync(SubjectId)).ToList();
         }
 
         public async Task SendSubmit()

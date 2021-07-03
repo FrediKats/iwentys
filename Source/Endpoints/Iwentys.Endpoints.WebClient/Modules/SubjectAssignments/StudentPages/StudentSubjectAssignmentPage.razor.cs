@@ -13,7 +13,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.StudentPages
         {
             await base.OnInitializedAsync();
 
-            _subjectAssignments = await _studentSubjectAssignmentClient.GetStudentSubjectAssignmentsAsync();
+            _subjectAssignments = await _studentSubjectAssignmentClient.GetStudentSubjectAssignmentsAsync(SubjectId);
             _subjectAssignmentSubmits = await _studentSubjectAssignmentClient.GetStudentSubjectAssignmentSubmitsAsync(SubjectId);
         }
 
