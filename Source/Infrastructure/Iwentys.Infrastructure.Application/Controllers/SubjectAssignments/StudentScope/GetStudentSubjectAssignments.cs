@@ -4,8 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
@@ -17,22 +15,24 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
     {
         public class Query : IRequest<Response>
         {
-            public Query(AuthorizedUser user)
+            public AuthorizedUser User { get; set; }
+            public int SubjectId { get; set; }
+
+            public Query(AuthorizedUser user, int subjectId)
             {
                 User = user;
+                SubjectId = subjectId;
             }
-
-            public AuthorizedUser User { get; set; }
         }
 
         public class Response
         {
-            public Response(List<SubjectAssignmentJournalItemDto> subjectAssignments)
+            public Response(List<SubjectAssignmentDto> subjectAssignments)
             {
                 SubjectAssignments = subjectAssignments;
             }
 
-            public List<SubjectAssignmentJournalItemDto> SubjectAssignments { get; set; }
+            public List<SubjectAssignmentDto> SubjectAssignments { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Response>
@@ -49,28 +49,17 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                IwentysUser user = await _context.IwentysUsers.GetById(request.User.Id);
+                var currentStudent = await _context.Students.GetById(request.User.Id);
 
-                //TODO: remove this. Now it is method for student only
-                if (user.IsAdmin)
-                {
-                    List<SubjectAssignmentJournalItemDto> assignments = await _context
-                        .Subjects
-                        .ProjectTo<SubjectAssignmentJournalItemDto>(_mapper.ConfigurationProvider)
-                        .ToListAsync();
+                List<SubjectAssignmentDto> subjectAssignmentDtos = await _context
+                    .GroupSubjectAssignments
+                    .Where(gsa => gsa.GroupId == currentStudent.GroupId)
+                    .Select(gsa => gsa.SubjectAssignment)
+                    .Where(sa => sa.AvailableForStudent)
+                    .ProjectTo<SubjectAssignmentDto>(_mapper.ConfigurationProvider)
+                    .ToListAsync();
 
-                    return new Response(assignments);
-                }
-                else
-                {
-                    List<SubjectAssignmentJournalItemDto> assignments = await _context
-                        .Subjects
-                        .Where(Subject.IsAllowedFor(user.Id))
-                        .ProjectTo<SubjectAssignmentJournalItemDto>(_mapper.ConfigurationProvider)
-                        .ToListAsync();
-
-                    return new Response(assignments);
-                }
+                return new Response(subjectAssignmentDtos);
             }
         }
     }
