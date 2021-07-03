@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Sdk;
 
-namespace Iwentys.Endpoints.WebClient.Pages.SubjectAssignments.StudentPages
+namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.StudentPages
 {
     public partial class StudentSubjectAssignmentPage
     {

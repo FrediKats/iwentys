@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Sdk;
 
-namespace Iwentys.Endpoints.WebClient.Pages.SubjectAssignments.MentorPages
+namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
 {
     public partial class SubjectAssignmentUpdatePage
     {
