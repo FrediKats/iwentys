@@ -1,12 +1,28 @@
-﻿using Iwentys.Infrastructure.DataAccess;
+﻿using Iwentys.Endpoints.Api.Authorization;
+using Iwentys.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace Iwentys.Endpoints.Api.Source
+namespace Iwentys.Endpoints.Api
 {
-    public static class AspStartupExtensions
+    public static class ServiceCollectionExtensions
     {
+        public static IServiceCollection AddIwentysIdentity(this IServiceCollection services)
+        {
+            //TODO: load from config
+            return services
+                .AddDbContext<ApplicationDbContext>(options => options.UseSqlite("Data Source=identity.db"))
+                .ConfigureIdentityFramework();
+        }
+
+        public static IServiceCollection EnableExceptional(this IServiceCollection services)
+        {
+            return services
+                .AddDatabaseDeveloperPageExceptionFilter()
+                .AddExceptional(settings => { settings.Store.ApplicationName = "Samples.AspNetCore"; });
+        }
+
         public static IServiceCollection AddIwentysLogging(this IServiceCollection services)
         {
             Log.Logger = new LoggerConfiguration()
