@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
 {
-    public static class GetAvailableSubjectAssignments
+    public static class GetStudentSubjectAssignments
     {
         public class Query : IRequest<Response>
         {
@@ -51,6 +51,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
             {
                 IwentysUser user = await _context.IwentysUsers.GetById(request.User.Id);
 
+                //TODO: remove this. Now it is method for student only
                 if (user.IsAdmin)
                 {
                     List<SubjectAssignmentJournalItemDto> assignments = await _context
