@@ -12,9 +12,5 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
         {
             _subjectAssignments = await _subjectAssignmentClient.GetAvailableSubjectAssignmentsAsync();
         }
-
-        private string LinkToSubjectAssignmentCreate(int subjectId) => $"/subject/assignment-management/{subjectId}/create";
-        private string LinkToSubjectAssignmentUpdate(int subjectId) => $"/subject/assignment-management/{subjectId}/update";
-        private string LinkToSubjectAssignmentSubmitJournal(int subjectId) => $"/subject/assignment-management/{subjectId}/submits";
     }
 }

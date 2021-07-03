@@ -1,0 +1,33 @@
+﻿<div class="card-list-element">
+    <MudCard Class="dark-elevation-01">
+        <MudCardContent>
+            <div class="card-list-element-content">
+                <MudText Typo="Typo.h6">
+                    Submit for [@Submit.SubjectAssignmentTitle]
+                </MudText>
+                @switch (Submit.State)
+                {
+                    case SubmitState.Created:
+                        break;
+                    case SubmitState.Approved:
+                        <MudText Typo="Typo.body2">
+                            Approved (@Submit.ApproveTimeUtc)
+                        </MudText>
+                        break;
+                    case SubmitState.Rejected:
+                        <MudText Typo="Typo.body2">
+                            Rejected (@Submit.RejectTimeUtc)
+                        </MudText>
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(SubmitState), "Unsupported assignment state");
+                }
+            </div>
+        </MudCardContent>
+    </MudCard>
+</div>
+
+@code {
+    [Parameter]
+    public SubjectAssignmentSubmitDto Submit { get; set; }
+}

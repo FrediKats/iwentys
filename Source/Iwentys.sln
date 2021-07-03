@@ -44,7 +44,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Tests", "Tests\Iwen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Polygon", "Tests\Iwentys.Polygon\Iwentys.Polygon.csproj", "{135E0A63-F78C-44AB-8F35-BD8DAACA0315}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Integrations.IsuIntegration", "Integrations\Iwentys.Integrations.IsuIntegration\Iwentys.Integrations.IsuIntegration.csproj", "{F20A5653-995E-4DC4-ACD5-828156319EF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Integrations.IsuIntegration", "Integrations\Iwentys.Integrations.IsuIntegration\Iwentys.Integrations.IsuIntegration.csproj", "{F20A5653-995E-4DC4-ACD5-828156319EF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

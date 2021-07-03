@@ -1,0 +1,16 @@
+﻿<div class="card-list-element">
+    <MudCard Class="dark-elevation-01">
+        <MudCardContent>
+            <div class="card-list-element-content">
+                <MudText Typo="Typo.h6">
+                    @SubjectAssignment.Title
+                </MudText>
+            </div>
+        </MudCardContent>
+    </MudCard>
+</div>
+
+@code {
+    [Parameter]
+    public SubjectAssignmentJournalItemDto SubjectAssignment { get; set; }
+}

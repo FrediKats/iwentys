@@ -1,0 +1,39 @@
+﻿<div class="card-list-element">
+    <div class="d-flex flex-row align-self-center align-baseline">
+        <MudText Typo="Typo.h5">Subject: @SubjectAssignment.Title</MudText>
+        <MudButton Link=@LinkToSubjectAssignmentCreate(SubjectAssignment.Id)>
+            <span class="oi oi-plus" title="add" aria-hidden="true"></span>
+        </MudButton>
+        <MudButton Link=@LinkToSubjectAssignmentSubmitJournal(SubjectAssignment.Id)>
+            Submits
+        </MudButton>
+    </div>
+    @foreach (SubjectAssignmentDto assignment in SubjectAssignment.Assignments)
+    {
+        <div class="card-list-element">
+
+            <MudCard Class="dark-elevation-01">
+                <MudCardContent>
+                    <div class="card-list-element-content">
+                        <MudText Typo="Typo.h6">
+                            Assignment: @assignment?.Title
+                        </MudText>
+                    </div>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Link=@LinkToSubjectAssignmentUpdate(SubjectAssignment.Id)>
+                        Edit
+                    </MudButton>
+                    <MudButton Link=@LinkToSubjectAssignmentCreate(SubjectAssignment.Id)>
+                        Delete
+                    </MudButton>
+                </MudCardActions>
+            </MudCard>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public SubjectAssignmentJournalItemDto SubjectAssignment { get; set; }
+}

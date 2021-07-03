@@ -1,5 +1,7 @@
 ﻿@page "/subject/assignment-management"
 
+@using Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages.Components
+
 @namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
 @attribute [Authorize]
 
@@ -14,40 +16,7 @@
             <div class="container-fluid d-flex flex-column">
                 @foreach (SubjectAssignmentJournalItemDto subjectAssignment in _subjectAssignments)
                 {
-                    <div class="card-list-element">
-                        <div class="d-flex flex-row align-self-center align-baseline">
-                            <h5>Subject assignment for @subjectAssignment.Title</h5>
-                            <MudButton Link=@LinkToSubjectAssignmentCreate(subjectAssignment.Id)>
-                                <span class="oi oi-plus" title="add" aria-hidden="true"></span>
-                            </MudButton>
-                            <MudButton Link=@LinkToSubjectAssignmentSubmitJournal(subjectAssignment.Id)>
-                                Submits
-                            </MudButton>
-                        </div>
-                        @foreach (SubjectAssignmentDto assignment in subjectAssignment.Assignments)
-                        {
-                            <div class="card-list-element">
-
-                                <MudCard Class="dark-elevation-01">
-                                    <MudCardContent>
-                                        <div class="card-list-element-content">
-                                            <MudText Typo="Typo.h6">
-                                                Assignment: @assignment?.Title
-                                            </MudText>
-                                        </div>
-                                    </MudCardContent>
-                                    <MudCardActions>
-                                        <MudButton Link=@LinkToSubjectAssignmentUpdate(subjectAssignment.Id)>
-                                            Edit
-                                        </MudButton>
-                                        <MudButton Link=@LinkToSubjectAssignmentCreate(subjectAssignment.Id)>
-                                            Delete
-                                        </MudButton>
-                                    </MudCardActions>
-                                </MudCard>
-                            </div>
-                        }
-                    </div>
+                    <SubjectAssignmentComponent SubjectAssignment="@subjectAssignment"></SubjectAssignmentComponent>
                 }
             </div>
         </div>
