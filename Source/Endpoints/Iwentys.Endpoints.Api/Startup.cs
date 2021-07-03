@@ -4,6 +4,7 @@ using Iwentys.Endpoints.Api.Source;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.Configuration;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Integrations.IsuIntegration.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,7 @@ namespace Iwentys.Endpoints.Api
 
             services
                 .AddIwentysOptions(Configuration)
+                .AddIsuIntegrationOptions(Configuration)
                 .AddIwentysLogging()
                 .AddIwentysCorsHack()
                 .AddIwentysDatabase()

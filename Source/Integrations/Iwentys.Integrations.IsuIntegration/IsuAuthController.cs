@@ -1,13 +1,12 @@
-﻿using System.Threading.Tasks;
-using Iwentys.Endpoints.Api.Source.Tokens;
-using Iwentys.Infrastructure.Configuration.Options;
+﻿using System.Text.Json;
+using System.Threading.Tasks;
 using Iwentys.Integrations.IsuIntegration.Models;
+using Iwentys.Integrations.IsuIntegration.SingingLogic;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Tef.IsuIntegrator;
 using Tef.IsuIntegrator.Responses;
 
-namespace Iwentys.Endpoints.Api.Controllers
+namespace Iwentys.Integrations.IsuIntegration
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -22,6 +21,7 @@ namespace Iwentys.Endpoints.Api.Controllers
             _isuApiAccessor = new IsuApiAccessor(isuApplicationOptions.IsuClientId, isuApplicationOptions.IsuClientSecret, isuApplicationOptions.IsuRedirection);
         }
 
+        //TODO: I'm no sure it is work. We missed IJwtSigningEncodingKey registration
         [HttpGet]
         public async Task<ActionResult<IsuAuthResponse>> Get(string code, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
         {
@@ -35,7 +35,7 @@ namespace Iwentys.Endpoints.Api.Controllers
             var response = new IsuAuthResponse
             {
                 Token = token.Token,
-                User = JsonConvert.SerializeObject(userData)
+                User = JsonSerializer.Serialize(userData)
             };
 
             return Ok(response);

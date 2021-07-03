@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Text;
+using Iwentys.Endpoints.Api.Source.Tokens;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Iwentys.Endpoints.Api.Source.Tokens
+namespace Iwentys.Integrations.IsuIntegration.SingingLogic
 {
     public class SigningSymmetricKey : IJwtSigningEncodingKey, IJwtSigningDecodingKey
     {
@@ -16,7 +17,7 @@ namespace Iwentys.Endpoints.Api.Source.Tokens
             _securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
         }
 
-        public String SigningAlgorithm { get; } = SecurityAlgorithms.HmacSha256;
+        public string SigningAlgorithm { get; } = SecurityAlgorithms.HmacSha256;
 
         public SecurityKey GetKey() => _securityKey;
     }

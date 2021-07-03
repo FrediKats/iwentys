@@ -1,11 +1,10 @@
 ﻿using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Iwentys.Infrastructure.Configuration.Options;
 using Iwentys.Integrations.IsuIntegration.Models;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Iwentys.Endpoints.Api.Source.Tokens
+namespace Iwentys.Integrations.IsuIntegration.SingingLogic
 {
     public static class TokenGenerator
     {
