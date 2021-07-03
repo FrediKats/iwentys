@@ -20,7 +20,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.StudentPages
             _subjectAssignments = (await SubjectAssignmentClient.GetAvailableSubjectAssignmentsAsync()).ToList();
         }
 
-        public async Task SendSubmit()
+        public void SendSubmit()
         {
             //TODO: fix
             //var createArguments = new SubjectAssignmentSubmitCreateArguments

@@ -31,6 +31,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.InterestTags
             {
                 _context = context;
             }
+
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
                 _context.UserInterestTags.Remove(new UserInterestTag { UserId = request.UserId, InterestTagId = request.TagId });

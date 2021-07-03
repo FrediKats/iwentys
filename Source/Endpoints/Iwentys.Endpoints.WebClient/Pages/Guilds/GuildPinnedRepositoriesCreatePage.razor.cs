@@ -7,7 +7,7 @@ namespace Iwentys.Endpoints.WebClient.Pages.Guilds
         private string _owner;
         private string _repositoryName;
 
-        private async Task AddPin()
+        private void AddPin()
         {
             //TODO: not implemented
             NavigationManager.NavigateTo($"/guild/profile/{GuildId}");

@@ -13,21 +13,21 @@
     <div class="container-fluid d-flex flex-row">
         <div class="col-md-4  profile-element dark-elevation-01">
             <div class="d-flex flex-column">
-                <MatH6>Teams</MatH6>
-                <MatList>
+                <MudText Typo="Typo.h6">Teams</MudText>
+                <MudList>
                     @foreach (TournamentTeamInfoDto team in _tournament.Teams)
                     {
-                        <MatListItem>
+                        <MudListItem>
                             @team.TeamName (@team.Points)
-                        </MatListItem>
+                        </MudListItem>
                     }
-                </MatList>
+                </MudList>
                 <MudButton OnClick=@(async () => await RegisterToTournament())>Register guild</MudButton>
             </div>
         </div>
         <div class="col-md-8 profile-element dark-elevation-01">
             <div class="d-flex flex-column">
-                <MatH6>Info</MatH6>
+                <MudText Typo="Typo.h6">Info</MudText>
                 <span>
                     <p>@_tournament.Description</p>
                     <p>Start time: @_tournament.StartTime</p>
