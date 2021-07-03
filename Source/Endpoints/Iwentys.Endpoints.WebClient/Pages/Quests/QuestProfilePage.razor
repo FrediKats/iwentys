@@ -8,9 +8,9 @@
 <div class="d-flex col-6 input-form-component">
     @if (_quest is not null)
     {
-        <MatHeadline3>
+        <MudText Typo="Typo.h3">
             @_quest.Title
-        </MatHeadline3>
+        </MudText Typo="Typo.h3">
         <MudText Typo="Typo.body1">
             Price: @_quest.Price
         </MudText>
@@ -26,8 +26,8 @@
                     @foreach (QuestResponseInfoDto questResponse in _quest.ResponseInfos)
                     {
                         <div class="card-list-element">
-                            <MatCard>
-                                <MatCardContent>
+                            <MudCard>
+                                <MudCardContent>
                                     <div class="card-list-element-content">
                                         <MatHeadline6>
                                             @questResponse.Student.GetFullName()
@@ -39,11 +39,11 @@
                                             @questResponse.ResponseTime
                                         </MatBody2>
                                     </div>
-                                </MatCardContent>
-                                <MatCardActions>
+                                </MudCardContent>
+                                <MudCardActions>
                                     <MudButton OnClick=@(async () => await AcceptQuestResponse(questResponse))>Accept</MudButton>
-                                </MatCardActions>
-                            </MatCard>
+                                </MudCardActions>
+                            </MudCard>
                         </div>
                     }
                 </div>

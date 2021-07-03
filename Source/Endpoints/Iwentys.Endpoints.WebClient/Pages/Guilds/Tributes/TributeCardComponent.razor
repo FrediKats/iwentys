@@ -2,8 +2,8 @@
 @inject NavigationManager NavigationManagerClient
 
 <div class="card-list-element">
-    <MatCard Class="dark-elevation-02">
-        <MatCardContent>
+    <MudCard Class="dark-elevation-02">
+        <MudCardContent>
             <div class="card-list-element-content">
                 @if (Tribute.State == TributeState.Completed)
                 {
@@ -18,21 +18,21 @@
                     </MatHeadline6>
                 }
 
-                <MatBody2>
+                <MudText Typo="Typo.body2">
                     Creation time: @Tribute.CreationTimeUtc
-                </MatBody2>
+                </MudText>
                 @if (Tribute.Mark is not null)
                 {
-                    <MatHeadline6>
+                    <MudText Typo="Typo.h6">
                         Mark: @Tribute.Mark (review by @Tribute.Mentor.GithubUsername). Last update: @Tribute.LastUpdateTimeUtc
-                    </MatHeadline6>
+                    </MudText>
                 }
             </div>
-        </MatCardContent>
-        <MatCardActions>
+        </MudCardContent>
+        <MudCardActions>
             <MudButton OnClick=@Complete>Complete</MudButton>
-        </MatCardActions>
-    </MatCard>
+        </MudCardActions>
+    </MudCard>
 </div>
 
 @code {

@@ -3,8 +3,8 @@
 @using Iwentys.Sdk
 
 <div>
-    <MatCard Class="dark-elevation-02">
-        <MatCardContent>
+    <MudCard Class="dark-elevation-02">
+        <MudCardContent>
             <div class="card-list-element-content">
                 <MatHeadline6>
                     @Tournament.Name
@@ -13,11 +13,11 @@
                     @Tournament.Description
                 </MatBody2>
             </div>
-        </MatCardContent>
-        <MatCardActions>
+        </MudCardContent>
+        <MudCardActions>
             <MudButton Link=@LinkToTournamentProfile(Tournament)>Open</MudButton>
-        </MatCardActions>
-    </MatCard>
+        </MudCardActions>
+    </MudCard>
 </div>
 
 @code {

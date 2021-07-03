@@ -13,15 +13,15 @@
             @foreach (SubjectAssignmentJournalItemDto subjectAssignment in _subjectAssignments)
             {
                 <div class="card-list-element">
-                    <MatCard Class="dark-elevation-01">
-                        <MatCardContent>
+                    <MudCard Class="dark-elevation-01">
+                        <MudCardContent>
                             <div class="card-list-element-content">
                                 <MatHeadline6>
                                     @subjectAssignment.Title
                                 </MatHeadline6>
                             </div>
-                        </MatCardContent>
-                    </MatCard>
+                        </MudCardContent>
+                    </MudCard>
                 </div>
             }
         </div>
@@ -39,32 +39,32 @@
         foreach (SubjectAssignmentSubmitDto submit in _subjectAssignmentSubmits)
         {
             <div class="card-list-element">
-                <MatCard Class="dark-elevation-01">
-                    <MatCardContent>
+                <MudCard Class="dark-elevation-01">
+                    <MudCardContent>
                         <div class="card-list-element-content">
-                            <MatHeadline6>
+                            <MudText Typo="Typo.h6">
                                 Submit for [@submit.SubjectAssignmentTitle]
-                            </MatHeadline6>
+                            </MudText>
                             @switch (submit.State)
                             {
                                 case SubmitState.Created:
                                     break;
                                 case SubmitState.Approved:
-                                    <MatBody2>
+                                    <MudText Typo="Typo.body2">
                                         Approved (@submit.ApproveTimeUtc)
-                                    </MatBody2>
+                                    </MudText>
                                     break;
                                 case SubmitState.Rejected:
-                                    <MatBody2>
+                                    <MudText Typo="Typo.body2">
                                         Rejected (@submit.RejectTimeUtc)
-                                    </MatBody2>
+                                    </MudText>
                                     break;
                                 default:
                                     throw new ArgumentOutOfRangeException(nameof(SubmitState), "Unsupported assignment state");
                             }
                         </div>
-                    </MatCardContent>
-                </MatCard>
+                    </MudCardContent>
+                </MudCard>
             </div>
         }
     }

@@ -38,7 +38,7 @@
             @if (_githubChartConfig is not null)
             {
                 <div class="profile-element dark-elevation-01">
-                    <MatHeadline5>Coding activity</MatHeadline5>
+                    <MudText Typo="Typo.h5">Coding activity</MudText Typo="Typo.h5">
                     <ChartJsLineChart @ref="_githubChart" Config="_githubChartConfig"></ChartJsLineChart>
                 </div>
             }
@@ -46,7 +46,7 @@
             @if (_studyChartConfig is not null)
             {
                 <div class="profile-element dark-elevation-01">
-                    <MatHeadline5>Study activity</MatHeadline5>
+                    <MudText Typo="Typo.h5">Study activity</MudText Typo="Typo.h5">
                     <ChartJsPieChart @ref="_studyChart" Config="@_studyChartConfig" Width="600" Height="300" />
                 </div>
             }

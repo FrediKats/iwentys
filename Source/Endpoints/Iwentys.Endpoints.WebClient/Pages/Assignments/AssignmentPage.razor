@@ -20,15 +20,15 @@
                 @foreach (AssignmentInfoDto assignment in _assignment)
                 {
                     <div class="card-list-element">
-                        <MatCard Class="dark-elevation-01">
-                            <MatCardContent>
+                        <MudCard Class="dark-elevation-01">
+                            <MudCardContent>
                                 <div class="card-list-element-content">
-                                    <MatHeadline6>
+                                    <MudHeadline6>
                                         @assignment.Title @(assignment.DeadlineTimeUtc is not null ? assignment.DeadlineTimeUtc : "")
-                                    </MatHeadline6>
+                                    </MudHeadline6>
                                 </div>
-                            </MatCardContent>
-                            <MatCardActions>
+                            </MudCardContent>
+                            <MudCardActions>
                                 @if (assignment.IsCompeted)
                                 {
                                     <MudButton OnClick=@(async () => await Delete(assignment.Id))>Delete</MudButton>
@@ -40,8 +40,8 @@
                                     <MudButton OnClick=@(async () => await MakeCompleted(assignment.Id))>Complete</MudButton>
                                     <MudButton OnClick=@(async () => await Delete(assignment.Id))>Delete</MudButton>
                                 }
-                            </MatCardActions>
-                        </MatCard>
+                            </MudCardActions>
+                        </MudCard>
                     </div>
 
                 }

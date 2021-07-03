@@ -34,20 +34,20 @@
             case SubmitState.Created:
                 break;
             case SubmitState.Approved:
-                <MatBody2>
+                <MudText Typo="Typo.body2">
                     Approved (@_submit.ApproveTimeUtc)
-                </MatBody2>
-                <MatBody2>
+                </MudText>
+                <MudText Typo="Typo.body2">
                     Comment: (@_submit.Comment)
-                </MatBody2>
+                </MudText>
                 break;
             case SubmitState.Rejected:
-                <MatBody2>
+                <MudText Typo="Typo.body2">
                     Rejected (@_submit.RejectTimeUtc)
-                </MatBody2>
-                <MatBody2>
+                </MudText>
+                <MudText Typo="Typo.body2">
                     Comment: (@_submit.Comment)
-                </MatBody2>
+                </MudText>
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(SubmitState), "Unsupported assignment state");

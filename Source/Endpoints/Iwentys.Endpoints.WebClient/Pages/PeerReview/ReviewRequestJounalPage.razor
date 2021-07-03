@@ -21,8 +21,8 @@
             @foreach (ProjectReviewRequestInfoDto reviewRequest in _projectReviewRequests)
             {
                 <div class="card-list-element">
-                    <MatCard Class="dark-elevation-01">
-                        <MatCardContent>
+                    <MudCard Class="dark-elevation-01">
+                        <MudCardContent>
                             <div class="card-list-element-content">
                                 <MatHeadline6>
                                     @reviewRequest.Project.GithubLikeTitle()
@@ -34,11 +34,11 @@
                                     Comment from author: @reviewRequest.Description
                                 </MatBody2>
                             </div>
-                        </MatCardContent>
-                        <MatCardActions>
+                        </MudCardContent>
+                        <MudCardActions>
                             <MudButton Link=@LinkToSendingFeedback(reviewRequest)>Send feedback</MudButton>
-                        </MatCardActions>
-                    </MatCard>
+                        </MudCardActions>
+                    </MudCard>
                 </div>
             }
         </div>

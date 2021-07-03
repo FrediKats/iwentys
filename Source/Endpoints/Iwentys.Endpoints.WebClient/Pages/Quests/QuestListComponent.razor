@@ -5,8 +5,8 @@
     @foreach (QuestInfoDto quest in Quests)
     {
         <div class="card-list-element">
-            <MatCard Class="dark-elevation-02">
-                <MatCardContent>
+            <MudCard Class="dark-elevation-02">
+                <MudCardContent>
                     <div class="card-list-element-content">
                         <MatHeadline6>
                             @quest.Title (@quest.Price)
@@ -18,12 +18,12 @@
                             Created by <NavLink href=@LinkToAuthorProfilePage(quest.Author)>@quest.Author.GetFullName()</NavLink> (@quest.CreationTime)
                         </MatBody2>
                     </div>
-                </MatCardContent>
-                <MatCardActions>
+                </MudCardContent>
+                <MudCardActions>
                     <MudButton Link=@LinkToQuestProfilePage(quest)>Profile</MudButton>
                     <MudButton Link=@LinkToQuestResponsePage(quest)>Response</MudButton>
-                </MatCardActions>
-            </MatCard>
+                </MudCardActions>
+            </MudCard>
         </div>
     }
 </div>

@@ -13,33 +13,33 @@
             @if (_groupProfile.GroupAdmin is not null)
             {
                 <NavLink class="nav-link" href=@LinkToStudentProfile(_groupProfile.GroupAdmin)>
-                    <MatCard>
+                    <MudCard>
                         Староста: @_groupProfile.GroupAdmin.GetFullName()
-                    </MatCard>
+                    </MudCard>
                 </NavLink>
             }
 
             <MatH6>Students</MatH6>
-            <MatNavMenu>
+            <MudNavMenu>
                 @foreach (StudentInfoDto student in _groupProfile.Students.Where(s => s.Id != _groupProfile.GroupAdmin?.Id))
                 {
-                    <MatNavItem Href=@LinkToStudentProfile(student)>
+                    <MudNavLink Href=@LinkToStudentProfile(student)>
                         @student.GetFullName()
-                    </MatNavItem>
+                    </MudNavLink>
                 }
-            </MatNavMenu>
+            </MudNavMenu>
         </div>
 
         <div class="col-md-6 d-flex flex-column">
             <MatH6>Subjects</MatH6>
-            <MatNavMenu>
+            <MudNavMenu>
                 @foreach (SubjectProfileDto subject in _groupProfile.Subjects)
                 {
-                    <MatNavItem Href=@LinkToSubjectProfile(subject)>
+                    <MudNavLink Href=@LinkToSubjectProfile(subject)>
                         @subject.Name
-                    </MatNavItem>
+                    </MudNavLink>
                 }
-            </MatNavMenu>
+            </MudNavMenu>
         </div>
     </div>
 }
