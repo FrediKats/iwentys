@@ -11,9 +11,9 @@ using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
+namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.MentorScope
 {
-    public static class GetAvailableSubjectAssignments
+    public class GetMentorSubjectAssignments
     {
         public class Query : IRequest<Response>
         {

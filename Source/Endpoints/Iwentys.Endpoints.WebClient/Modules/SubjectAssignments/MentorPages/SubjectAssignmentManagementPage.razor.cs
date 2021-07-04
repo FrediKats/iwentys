@@ -10,7 +10,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
 
         protected override async Task OnInitializedAsync()
         {
-            _subjectAssignments = await _subjectAssignmentClient.GetAvailableSubjectAssignmentsAsync();
+            _subjectAssignments = await _subjectAssignmentClient.GetMentorSubjectAssignmentsAsync();
         }
     }
 }

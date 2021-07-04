@@ -21,7 +21,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
 
         protected override async Task OnInitializedAsync()
         {
-            var assignments = await _subjectAssignmentClient.GetAvailableSubjectAssignmentsAsync();
+            var assignments = await _subjectAssignmentClient.GetMentorSubjectAssignmentsAsync();
             var assignment = assignments
                 .SelectMany(s => s.Assignments)
                 .First(a => a.Id == SubjectAssignmentId);
