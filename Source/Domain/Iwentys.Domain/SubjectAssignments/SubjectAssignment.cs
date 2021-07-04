@@ -33,6 +33,26 @@ namespace Iwentys.Domain.SubjectAssignments
             Submits = new List<SubjectAssignmentSubmit>();
         }
 
+        public static SubjectAssignment Update(IwentysUser user, SubjectAssignment existedSubjectAssignment,
+            SubjectAssignmentUpdateArguments arguments)
+        {
+            //TODO: add permission exception
+            /*if (existedSubjectAssignment.Author != user)
+                throw new Exception();*/
+            //TODO: add exception type
+            /*if (existedSubjectAssignment.Id != arguments.SubjectAssignmentId)
+                throw new Exception();*/
+                    
+            existedSubjectAssignment.Title = arguments.Title;
+            existedSubjectAssignment.Description = arguments.Description;
+            existedSubjectAssignment.Link = arguments.Link;
+            existedSubjectAssignment.DeadlineTimeUtc = arguments.DeadlineUtc;
+            existedSubjectAssignment.Position = arguments.Position;
+            existedSubjectAssignment.AvailableForStudent = arguments.AvailableForStudent;
+
+            return existedSubjectAssignment;
+        }
+        
         public static SubjectAssignment Create(IwentysUser user, Subject subject, SubjectAssignmentCreateArguments arguments)
         {
             SubjectMentor mentor = user.EnsureIsMentor(subject);
