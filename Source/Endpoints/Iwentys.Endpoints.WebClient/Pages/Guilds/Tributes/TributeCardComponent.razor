@@ -7,15 +7,15 @@
             <div class="card-list-element-content">
                 @if (Tribute.State == TributeState.Completed)
                 {
-                    <MatHeadline6>
+                    <MudText Typo="Typo.h6">
                         @Tribute.Project.Name (by @Tribute.Project.AuthorUsername)
-                    </MatHeadline6>
+                    </MudText>
                 }
                 @if (Tribute.State != TributeState.Completed)
                 {
-                    <MatHeadline6>
+                    <MudText Typo="Typo.h6">
                         @Tribute.Project.Name
-                    </MatHeadline6>
+                    </MudText>
                 }
 
                 <MudText Typo="Typo.body2">
