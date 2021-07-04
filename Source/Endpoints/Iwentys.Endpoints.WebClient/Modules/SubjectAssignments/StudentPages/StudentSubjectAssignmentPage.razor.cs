@@ -6,7 +6,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.StudentPages
 {
     public partial class StudentSubjectAssignmentPage
     {
-        private ICollection<SubjectAssignmentJournalItemDto> _subjectAssignments;
+        private ICollection<SubjectAssignmentDto> _subjectAssignments;
         private ICollection<SubjectAssignmentSubmitDto> _subjectAssignmentSubmits;
 
         protected override async Task OnInitializedAsync()

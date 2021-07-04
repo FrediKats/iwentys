@@ -7,7 +7,7 @@
     @if (_subjectAssignments is not null)
     {
         <div>
-            @foreach (SubjectAssignmentJournalItemDto subjectAssignment in _subjectAssignments)
+            @foreach (SubjectAssignmentDto subjectAssignment in _subjectAssignments)
             {
                 <StudentSubjectAssignmentComponent SubjectAssignment="@subjectAssignment"></StudentSubjectAssignmentComponent>
             }
