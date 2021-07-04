@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments.Models;
@@ -33,24 +34,18 @@ namespace Iwentys.Domain.SubjectAssignments
             Submits = new List<SubjectAssignmentSubmit>();
         }
 
-        public static SubjectAssignment Update(IwentysUser user, SubjectAssignment existedSubjectAssignment,
-            SubjectAssignmentUpdateArguments arguments)
+        public void Update(IwentysUser user, SubjectAssignmentUpdateArguments arguments)
         {
-            //TODO: add permission exception
-            /*if (existedSubjectAssignment.Author != user)
-                throw new Exception();*/
+            user.EnsureIsMentor(Subject);
             //TODO: add exception type
-            /*if (existedSubjectAssignment.Id != arguments.SubjectAssignmentId)
-                throw new Exception();*/
-                    
-            existedSubjectAssignment.Title = arguments.Title;
-            existedSubjectAssignment.Description = arguments.Description;
-            existedSubjectAssignment.Link = arguments.Link;
-            existedSubjectAssignment.DeadlineTimeUtc = arguments.DeadlineUtc;
-            existedSubjectAssignment.Position = arguments.Position;
-            existedSubjectAssignment.AvailableForStudent = arguments.AvailableForStudent;
-
-            return existedSubjectAssignment;
+            if (Id != arguments.SubjectAssignmentId)
+                throw new InnerLogicException("SubjectAssignment: existed entity's ID != arguments.SubjectAssignmentId");
+            Title = arguments.Title;
+            Description = arguments.Description;
+            Link = arguments.Link;
+            DeadlineTimeUtc = arguments.DeadlineUtc;
+            Position = arguments.Position;
+            AvailableForStudent = arguments.AvailableForStudent;
         }
         
         public static SubjectAssignment Create(IwentysUser user, Subject subject, SubjectAssignmentCreateArguments arguments)

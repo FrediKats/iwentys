@@ -32,8 +32,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
         public async Task<ActionResult> Update(SubjectAssignmentUpdateArguments arguments)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            UpdateSubjectAssignment.Response response =
-                await _mediator.Send(new UpdateSubjectAssignment.Query(authorizedUser, arguments));
+            UpdateSubjectAssignment.Response response = await _mediator.Send(new UpdateSubjectAssignment.Query(authorizedUser, arguments));
             return Ok(response.SubjectAssignment);
         }
 

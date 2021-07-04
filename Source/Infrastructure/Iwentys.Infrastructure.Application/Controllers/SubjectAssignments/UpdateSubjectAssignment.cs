@@ -49,13 +49,12 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                SubjectAssignment subjectAssignment =
-                    await _context.SubjectAssignments.GetById(request.Arguments.SubjectAssignmentId);
+                SubjectAssignment subjectAssignment = await _context.SubjectAssignments.GetById(request.Arguments.SubjectAssignmentId);
                 IwentysUser creator = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
 
-                var updatedSubjectAssignment = SubjectAssignment.Update(creator, subjectAssignment, request.Arguments);
+                subjectAssignment.Update(creator, request.Arguments);
 
-                _context.SubjectAssignments.Update(updatedSubjectAssignment);
+                _context.SubjectAssignments.Update(subjectAssignment);
 
                 return new Response(_mapper.Map<SubjectAssignmentDto>(subjectAssignment));
             }
