@@ -2,8 +2,8 @@
 {
     public enum AvailabilityState
     {
-        Visible,
-        Hidden,
-        Deleted
+        Visible = 1,
+        Hidden = 2,
+        Deleted = 3
     }
 }
