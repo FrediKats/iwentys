@@ -34,17 +34,17 @@
                     </div>
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton Link=@LinkToSubjectAssignmentUpdate(assignment.Id)>
-                        Edit
-                    </MudButton>
                     @if (assignment.AvailabilityState == AvailabilityState.Deleted) {
-                        <MudButton Link=@LinkToSubjectAssignmentCreate(assignment.Id)>
+                        <MudButton  OnClick="@(async () => await Recover(assignment))">
                             Recover
                         </MudButton>
                     }
                     else
                     {
-                        <MudButton Link=@LinkToSubjectAssignmentCreate(assignment.Id)>
+                        <MudButton Link=@LinkToSubjectAssignmentUpdate(assignment.Id)>
+                            Edit
+                        </MudButton>
+                        <MudButton OnClick="@(async () => await Delete(assignment))">
                             Delete
                         </MudButton>
                     }

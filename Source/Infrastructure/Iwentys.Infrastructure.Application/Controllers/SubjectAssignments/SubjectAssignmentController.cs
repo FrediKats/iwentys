@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Iwentys.Domain.SubjectAssignments.Models;
 using Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos;
 using Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.MentorScope;
+using Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.StudentScope;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,8 +41,16 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
         public async Task<ActionResult> Delete(int subjectAssignmentId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            throw new NotImplementedException();
-            return Ok();
+            DeleteSubjectAssignment.Response response = await _mediator.Send(new DeleteSubjectAssignment.Query(authorizedUser, subjectAssignmentId));
+            return Ok(response.SubjectAssignment);
+        }
+        
+        [HttpPost(nameof(Recover))]
+        public async Task<ActionResult> Recover(int subjectAssignmentId)
+        {
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            RecoverSubjectAssignment.Response response = await _mediator.Send(new RecoverSubjectAssignment.Query(authorizedUser, subjectAssignmentId));
+            return Ok(response.SubjectAssignment);
         }
 
         [HttpGet(nameof(GetMentorSubjectAssignments))]
