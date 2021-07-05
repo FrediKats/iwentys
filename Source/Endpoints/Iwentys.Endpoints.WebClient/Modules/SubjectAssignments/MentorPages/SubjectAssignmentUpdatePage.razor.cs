@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Sdk;
@@ -37,7 +38,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
             };
         }
 
-        private async Task Create()
+        private async Task Update()
         {
             await _subjectAssignmentClient.UpdateAsync(CreateArg(_arguments));
             _navigationManager.NavigateTo("/subject/assignment-management");
@@ -51,7 +52,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
                 Title = arguments.Title,
                 Description = arguments.Description,
                 Link = arguments.Link,
-                //TODO:
+                //TODO: Data validation on client side (form warnings)
                 DeadlineUtc = arguments.DeadlineUtc ?? throw new Exception(),
                 Position = arguments.Position,
                 AvailableForStudent = arguments.AvailableForStudent

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments.Models;
@@ -33,6 +34,20 @@ namespace Iwentys.Domain.SubjectAssignments
             Submits = new List<SubjectAssignmentSubmit>();
         }
 
+        public void Update(IwentysUser user, SubjectAssignmentUpdateArguments arguments)
+        {
+            user.EnsureIsMentor(Subject);
+            //TODO: add exception type
+            if (Id != arguments.SubjectAssignmentId)
+                throw new InnerLogicException("SubjectAssignment: existed entity's ID != arguments.SubjectAssignmentId");
+            Title = arguments.Title;
+            Description = arguments.Description;
+            Link = arguments.Link;
+            DeadlineTimeUtc = arguments.DeadlineUtc;
+            Position = arguments.Position;
+            AvailableForStudent = arguments.AvailableForStudent;
+        }
+        
         public static SubjectAssignment Create(IwentysUser user, Subject subject, SubjectAssignmentCreateArguments arguments)
         {
             SubjectMentor mentor = user.EnsureIsMentor(subject);
