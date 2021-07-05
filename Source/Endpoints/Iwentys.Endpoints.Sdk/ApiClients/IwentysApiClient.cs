@@ -12261,6 +12261,20 @@ namespace Iwentys.Sdk
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.4.0 (Newtonsoft.Json v11.0.0.0)")]
+    public enum AvailabilityState
+    {
+        [System.Runtime.Serialization.EnumMember(Value = @"Visible")]
+        Visible = 0,
+    
+        [System.Runtime.Serialization.EnumMember(Value = @"Hidden")]
+        Hidden = 1,
+    
+        [System.Runtime.Serialization.EnumMember(Value = @"Deleted")]
+        Deleted = 2,
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.4.0 (Newtonsoft.Json v11.0.0.0)")]
     public enum CodeMarathonAllowedActivityType
     {
         [System.Runtime.Serialization.EnumMember(Value = @"All")]
@@ -13813,8 +13827,9 @@ namespace Iwentys.Sdk
         [System.Text.Json.Serialization.JsonPropertyName("position")]
         public int Position { get; set; }
     
-        [System.Text.Json.Serialization.JsonPropertyName("availableForStudent")]
-        public bool AvailableForStudent { get; set; }
+        [System.Text.Json.Serialization.JsonPropertyName("availabilityState")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
+        public AvailabilityState AvailabilityState { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("subjectId")]
         public int SubjectId { get; set; }
@@ -13858,8 +13873,9 @@ namespace Iwentys.Sdk
         [System.Text.Json.Serialization.JsonPropertyName("position")]
         public int Position { get; set; }
     
-        [System.Text.Json.Serialization.JsonPropertyName("availableForStudent")]
-        public bool AvailableForStudent { get; set; }
+        [System.Text.Json.Serialization.JsonPropertyName("availabilityState")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
+        public AvailabilityState AvailabilityState { get; set; }
     
     
     }
@@ -13894,8 +13910,9 @@ namespace Iwentys.Sdk
         [System.Text.Json.Serialization.JsonPropertyName("position")]
         public int Position { get; set; }
     
-        [System.Text.Json.Serialization.JsonPropertyName("availableForStudent")]
-        public bool AvailableForStudent { get; set; }
+        [System.Text.Json.Serialization.JsonPropertyName("availabilityState")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
+        public AvailabilityState AvailabilityState { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("submits")]
         public System.Collections.Generic.ICollection<SubjectAssignmentSubmitDto> Submits { get; set; }
@@ -14089,8 +14106,9 @@ namespace Iwentys.Sdk
         [System.Text.Json.Serialization.JsonPropertyName("position")]
         public int Position { get; set; }
     
-        [System.Text.Json.Serialization.JsonPropertyName("availableForStudent")]
-        public bool AvailableForStudent { get; set; }
+        [System.Text.Json.Serialization.JsonPropertyName("availabilityState")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
+        public AvailabilityState AvailabilityState { get; set; }
     
     
     }

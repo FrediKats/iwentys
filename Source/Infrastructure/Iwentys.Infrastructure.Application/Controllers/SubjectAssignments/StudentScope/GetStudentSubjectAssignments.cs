@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Iwentys.Domain.SubjectAssignments.Enums;
 using Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
@@ -55,7 +56,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
                     .GroupSubjectAssignments
                     .Where(gsa => gsa.GroupId == currentStudent.GroupId)
                     .Select(gsa => gsa.SubjectAssignment)
-                    .Where(sa => sa.AvailableForStudent)
+                    .Where(sa => sa.AvailabilityState == AvailabilityState.Visible)
                     .ProjectTo<SubjectAssignmentDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();
 

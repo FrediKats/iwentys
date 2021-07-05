@@ -15,7 +15,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
             public string Link { get; set; }
             public DateTime? DeadlineUtc { get; set; }
             public int Position { get; set; }
-            public bool AvailableForStudent { get; set; }
+            public bool AvailableForStudents { get; set; }
         }
 
         private Arguments _arguments = new Arguments();
@@ -34,7 +34,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
                 Link = assignment.Link,
                 DeadlineUtc = assignment.DeadlineTimeUtc,
                 Position = assignment.Position,
-                AvailableForStudent = assignment.AvailableForStudent
+                AvailableForStudents = assignment.AvailabilityState == AvailabilityState.Visible
             };
         }
 
@@ -55,7 +55,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
                 //TODO: Data validation on client side (form warnings)
                 DeadlineUtc = arguments.DeadlineUtc ?? throw new Exception(),
                 Position = arguments.Position,
-                AvailableForStudent = arguments.AvailableForStudent
+                AvailabilityState = arguments.AvailableForStudents ? AvailabilityState.Visible : AvailabilityState.Hidden
             };
         }
     }
