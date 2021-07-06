@@ -20,7 +20,7 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study
                 Title = _faker.Lorem.Word(),
                 SubjectId = subjectId,
                 AuthorId = authorId,
-                AvailableForStudent = true
+                AvailabilityState = AvailabilityState.Visible
             };
         }
 
