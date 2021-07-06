@@ -4,8 +4,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments.Enums;
 using Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos;
+using Iwentys.Infrastructure.Application.Specifications.SubjectAssignments;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -50,13 +52,11 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                var currentStudent = await _context.Students.GetById(request.User.Id);
+                Student currentStudent = await _context.Students.GetById(request.User.Id);
 
                 List<SubjectAssignmentDto> subjectAssignmentDtos = await _context
                     .GroupSubjectAssignments
-                    .Where(gsa => gsa.GroupId == currentStudent.GroupId)
-                    .Select(gsa => gsa.SubjectAssignment)
-                    .Where(sa => sa.AvailabilityState == AvailabilityState.Visible)
+                    .Specify(new StudentSubjectAssignmentSpecification(currentStudent))
                     .ProjectTo<SubjectAssignmentDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();
 

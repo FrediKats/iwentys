@@ -13,5 +13,10 @@ namespace Iwentys.Infrastructure.DataAccess
                 ? query
                 : query.Where(func);
         }
+
+        public static IQueryable<TResult> Specify<T, TResult>(this IQueryable<T> query, ISpecification<T, TResult> spec) where T : class
+        {
+            return spec.Specify(query);
+        }
     }
 }
