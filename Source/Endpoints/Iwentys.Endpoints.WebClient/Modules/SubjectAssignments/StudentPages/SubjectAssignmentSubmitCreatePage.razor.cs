@@ -7,29 +7,27 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.StudentPages
 {
     public partial class SubjectAssignmentSubmitCreatePage
     {
-        private StudentInfoDto _self;
-        private List<SubjectAssignmentJournalItemDto> _subjectAssignments;
+        private List<SubjectAssignmentDto> _subjectAssignments;
 
         private string _description;
-        private SubjectAssignmentJournalItemDto _selectedSubject;
+        private SubjectAssignmentDto _selectedSubjectAssignment;
 
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            _self = await StudentClient.GetSelfAsync();
             _subjectAssignments = (await _studentSubjectAssignmentClient.GetStudentSubjectAssignmentsAsync(SubjectId)).ToList();
         }
 
-        public void SendSubmit()
+        public async Task SendSubmit()
         {
-            //TODO: fix
-            //var createArguments = new SubjectAssignmentSubmitCreateArguments
-            //{
-            //    StudentDescription = _description
-            //};
+            var createArguments = new SubjectAssignmentSubmitCreateArguments
+            {
+                SubjectAssignmentId = _selectedSubjectAssignment.Id,
+                StudentDescription = _description,
+            };
 
-            //SubjectAssignmentSubmitDto submit = await SubjectAssignmentSubmitClient.SendSubmitAsync(SubjectId, _selectedSubject.Id, createArguments);
-
+            await _subjectAssignmentSubmitClient.CreateSubmitAsync(createArguments);
+            _navigationManager.NavigateTo($"/subject/{SubjectId}/assignments");
         }
     }
 }

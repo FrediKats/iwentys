@@ -56,7 +56,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
                 SubjectAssignmentSubmit subjectAssignmentSubmit = groupSubjectAssignment.CreateSubmit(student, request.Arguments);
 
                 _context.SubjectAssignmentSubmits.Add(subjectAssignmentSubmit);
-                
+                await _context.SaveChangesAsync();
                 SubjectAssignmentSubmitDto result = await _context
                     .SubjectAssignmentSubmits
                     .Where(sas => sas.Id == subjectAssignmentSubmit.Id)

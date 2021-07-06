@@ -19,7 +19,8 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study
                 Id = _faker.IndexVariable++ + 1,
                 Title = _faker.Lorem.Word(),
                 SubjectId = subjectId,
-                AuthorId = authorId
+                AuthorId = authorId,
+                AvailableForStudent = true
             };
         }
 
@@ -30,7 +31,7 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study
                 Id = _faker.IndexVariable++ + 1,
                 SubjectAssignmentId = subjectAssignmentId,
                 StudentId = studentId,
-                SubmitTimeUtc = DateTime.UtcNow
+                SubmitTimeUtc = DateTime.UtcNow,
             };
         }
 

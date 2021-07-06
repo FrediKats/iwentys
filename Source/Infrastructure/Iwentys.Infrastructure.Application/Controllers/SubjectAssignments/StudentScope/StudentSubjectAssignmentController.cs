@@ -19,7 +19,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Stud
 
         //TODO: add filter and pagination
         [HttpGet(nameof(GetStudentSubjectAssignments))]
-        public async Task<ActionResult<List<SubjectAssignmentJournalItemDto>>> GetStudentSubjectAssignments(int subjectAssignmentId)
+        public async Task<ActionResult<List<SubjectAssignmentDto>>> GetStudentSubjectAssignments(int subjectAssignmentId)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             GetStudentSubjectAssignments.Response response = await _mediator.Send(new GetStudentSubjectAssignments.Query(authorizedUser, subjectAssignmentId));

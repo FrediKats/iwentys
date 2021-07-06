@@ -10,7 +10,7 @@
         @if (_subjectAssignments is not null)
         {
             <p>
-                <MudSelect  @bind-Value=@_selectedSubject Class="input-element" FullWidth="true">
+                <MudSelect  @bind-Value=@_selectedSubjectAssignment Class="input-element" FullWidth="true">
                     @foreach (var item in _subjectAssignments)
                     {
                         <MudSelectItem Value="@item">@item.Title</MudSelectItem>
