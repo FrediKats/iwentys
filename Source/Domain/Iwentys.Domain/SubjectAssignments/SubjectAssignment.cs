@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
+using Iwentys.Domain.SubjectAssignments.Enums;
 using Iwentys.Domain.SubjectAssignments.Models;
 
 namespace Iwentys.Domain.SubjectAssignments
@@ -17,7 +18,7 @@ namespace Iwentys.Domain.SubjectAssignments
         public DateTime LastUpdateTimeUtc { get; set; }
         public DateTime? DeadlineTimeUtc { get; set; }
         public int Position { get; set; }
-        public bool AvailableForStudent { get; set; }
+        public AvailabilityState AvailabilityState { get; set; }
 
         public int SubjectId { get; set; }
         public virtual Subject Subject { get; set; }
@@ -40,12 +41,35 @@ namespace Iwentys.Domain.SubjectAssignments
             //TODO: add exception type
             if (Id != arguments.SubjectAssignmentId)
                 throw new InnerLogicException("SubjectAssignment: existed entity's ID != arguments.SubjectAssignmentId");
+            if (arguments.AvailabilityState == AvailabilityState.Deleted || AvailabilityState == AvailabilityState.Deleted)
+            {
+                throw new InnerLogicException("Can't delete subjectAssignment at Update method. Pls use Delete method");
+            }
             Title = arguments.Title;
+            LastUpdateTimeUtc = DateTime.Now;
             Description = arguments.Description;
             Link = arguments.Link;
             DeadlineTimeUtc = arguments.DeadlineUtc;
             Position = arguments.Position;
-            AvailableForStudent = arguments.AvailableForStudent;
+            AvailabilityState = arguments.AvailabilityState;
+        }
+        
+        public void Delete(IwentysUser user)
+        {
+            user.EnsureIsMentor(Subject);
+            if (AvailabilityState == AvailabilityState.Deleted)
+                throw new InnerLogicException("SubjectAssignment already deleted");
+            LastUpdateTimeUtc = DateTime.Now;
+            AvailabilityState = AvailabilityState.Deleted;
+        }
+        
+        public void Recover(IwentysUser user)
+        {
+            user.EnsureIsMentor(Subject);
+            if (AvailabilityState != AvailabilityState.Deleted)
+                throw new InnerLogicException("Can't recover no deleted subjectAssignment");
+            LastUpdateTimeUtc = DateTime.Now;
+            AvailabilityState = AvailabilityState.Visible;
         }
         
         public static SubjectAssignment Create(IwentysUser user, Subject subject, SubjectAssignmentCreateArguments arguments)
@@ -64,7 +88,7 @@ namespace Iwentys.Domain.SubjectAssignments
                 LastUpdateTimeUtc = DateTime.UtcNow,
                 DeadlineTimeUtc = arguments.DeadlineUtc,
                 Position = arguments.Position,
-                AvailableForStudent = arguments.AvailableForStudent
+                AvailabilityState = arguments.AvailabilityState
             };
 
             return subjectAssignment;

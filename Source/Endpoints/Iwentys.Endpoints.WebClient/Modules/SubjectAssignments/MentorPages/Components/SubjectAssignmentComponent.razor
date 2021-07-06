@@ -18,15 +18,36 @@
                         <MudText Typo="Typo.h6">
                             Assignment: @assignment?.Title
                         </MudText>
+                        @switch (assignment.AvailabilityState)
+                        {
+                            case AvailabilityState.Hidden:
+                                <MudIcon Icon="@Icons.Outlined.VisibilityOff" />
+                                break;
+                            case AvailabilityState.Deleted:
+                                <MudIcon Icon="@Icons.Outlined.Block" />
+                                break;
+                            default:
+                                <MudIcon Icon="@Icons.Outlined.Visibility" />
+                                break;
+                        }
+                        
                     </div>
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton Link=@LinkToSubjectAssignmentUpdate(assignment.Id)>
-                        Edit
-                    </MudButton>
-                    <MudButton Link=@LinkToSubjectAssignmentCreate(assignment.Id)>
-                        Delete
-                    </MudButton>
+                    @if (assignment.AvailabilityState == AvailabilityState.Deleted) {
+                        <MudButton  OnClick="@(async () => await Recover(assignment))">
+                            Recover
+                        </MudButton>
+                    }
+                    else
+                    {
+                        <MudButton Link=@LinkToSubjectAssignmentUpdate(assignment.Id)>
+                            Edit
+                        </MudButton>
+                        <MudButton OnClick="@(async () => await Delete(assignment))">
+                            Delete
+                        </MudButton>
+                    }
                 </MudCardActions>
             </MudCard>
         </div>

@@ -1,4 +1,5 @@
 ﻿using System;
+using Iwentys.Domain.SubjectAssignments.Enums;
 
 namespace Iwentys.Domain.SubjectAssignments.Models
 {
@@ -10,6 +11,6 @@ namespace Iwentys.Domain.SubjectAssignments.Models
         public string Link { get; set; }
         public DateTime DeadlineUtc { get; set; }
         public int Position { get; set; }
-        public bool AvailableForStudent { get; set; }
+        public AvailabilityState AvailabilityState { get; set; }
     }
 }
