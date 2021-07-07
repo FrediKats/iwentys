@@ -9,7 +9,9 @@
 {
     <div>
     <MudTable
+        T="SubjectAssignmentSubmitDto"
         Items="@_subjectAssignmentSubmits"
+        OnRowClick="@(arg => OnRowClicked(arg))"
         class="dark-elevation-01">
             <HeaderContent>
                 <MudTh>Assignment</MudTh>
@@ -20,12 +22,12 @@
                 <MudTh>Reject time</MudTh>
             </HeaderContent>
             <RowTemplate>
-                <MudTd >@context.SubjectAssignmentTitle</MudTd>
-                <MudTd >@context.Student.GetFullName()</MudTd >
+                <MudTd>@context.SubjectAssignmentTitle</MudTd>
+                <MudTd>@context.Student.GetFullName()</MudTd >
                 <MudTd>@context.SubmitTimeUtc</MudTd>
-                <td>@context.State</td>
-                <td>@context.ApproveTimeUtc</td>
-                <td>@context.RejectTimeUtc</td>
+                <MudTd>@context.State</MudTd>
+                <MudTd>@context.ApproveTimeUtc</MudTd>
+                <MudTd>@context.RejectTimeUtc</MudTd>
             </RowTemplate>
         </MudTable>
     </div>
@@ -37,7 +39,7 @@
 
     private void OnRowClicked(TableRowClickEventArgs<SubjectAssignmentSubmitDto> obj)
     {
-        throw new NotImplementedException();
+        Console.WriteLine(obj.Item.Id);
     }
 
 }
