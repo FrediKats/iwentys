@@ -11,10 +11,10 @@
             @if (_submit is not null)
             {
                 <MudCard>
-                    <MudText Align="Align.Center" Typo="Typo.h6">Assignment: @_submit.SubjectAssignmentTitle</MudText>
-                    <MudText Align="Align.Center" Typo="Typo.h6">Author: @_submit.Student.GetFullName()</MudText>
-                    <MudText Align="Align.Center" Typo="Typo.h6">Description: @_submit.StudentDescription</MudText>
-                    <MudText Align="Align.Center" Typo="Typo.h6">Submit time: @_submit.SubmitTimeUtc</MudText>
+                    <MudText Typo="Typo.body2">Assignment: @_submit.SubjectAssignmentTitle</MudText>
+                    <MudText Typo="Typo.body2">Author: @_submit.Student.GetFullName()</MudText>
+                    <MudText Typo="Typo.body2">Description: @_submit.StudentDescription</MudText>
+                    <MudText Typo="Typo.body2">Submit time: @_submit.SubmitTimeUtc</MudText>
 
                     @switch (_submit.State)
                     {
@@ -47,7 +47,7 @@
 
         </MudItem>
 
-        <MudItem>
+        <MudItem xs="12" sm="12" md="12">
             <MudCard>
                 <MudText Align="Align.Left" Typo="Typo.h4">Add feedback</MudText>
                 <EditForm Model="_arguments">
