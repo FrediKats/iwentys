@@ -1,58 +1,66 @@
-﻿<div class="card-list-element">
-    <div class="d-flex flex-row align-self-center align-baseline">
-        <MudText Typo="Typo.h5">Subject: @SubjectAssignment.Title</MudText>
-        <MudButton Link=@LinkToSubjectAssignmentCreate(SubjectAssignment.Id)>
-            <span class="oi oi-plus" title="add" aria-hidden="true"></span>
-        </MudButton>
-        <MudButton Link=@LinkToSubjectAssignmentSubmitJournal(SubjectAssignment.Id)>
-            Submits
-        </MudButton>
-    </div>
-    @foreach (SubjectAssignmentDto assignment in SubjectAssignment.Assignments)
-    {
-        <div class="card-list-element">
+﻿<MudContainer Class="card-list-element dark-elevation-01">
+    <MudGrid>
+        <MudItem xs="12" sm="12" md="12" Class="d-flex flex-row align-self-center align-baseline">
+            <MudText Typo="Typo.h4">Subject: @SubjectAssignment.Title</MudText>
+            <MudButton Link=@LinkToSubjectAssignmentCreate(SubjectAssignment.Id)>
+                <span class="oi oi-plus" title="add" aria-hidden="true"></span>
+            </MudButton>
+            <MudButton Link=@LinkToSubjectAssignmentSubmitJournal(SubjectAssignment.Id)>
+                Submits
+            </MudButton>
+        </MudItem>
 
-            <MudCard Class="dark-elevation-01">
-                <MudCardContent>
-                    <div class="card-list-element-content">
-                        <MudText Typo="Typo.h6">
-                            Assignment: @assignment?.Title
-                        </MudText>
-                        @switch (assignment.AvailabilityState)
+        @foreach (SubjectAssignmentDto assignment in SubjectAssignment.Assignments)
+        {
+            <MudItem xs="12" sm="12" md="12" Class="card-list-element">
+                <MudCard Class="dark-elevation-02">
+                    <MudCardContent>
+                        <div class="card-list-element-content">
+                            <div class="d-flex flex-row align-self-center align-baseline">
+                                <MudText Typo="Typo.h5">@assignment.Title</MudText>
+                                @switch (assignment.AvailabilityState)
+                                {
+                                    case AvailabilityState.Hidden:
+                                        <MudIcon Icon="@Icons.Outlined.VisibilityOff" />
+                                        break;
+
+                                    case AvailabilityState.Deleted:
+                                        <MudIcon Icon="@Icons.Outlined.Block" />
+                                        break;
+
+                                    default:
+                                        <MudIcon Icon="@Icons.Outlined.Visibility" />
+                                        break;
+                                }
+                            </div>
+
+                            <MudText Typo="Typo.body1">Deadline: @assignment.DeadlineTimeUtc</MudText>
+                            <MudText Typo="Typo.body1">@assignment.Description</MudText>
+                        </div>
+                    </MudCardContent>
+
+                    <MudCardActions>
+                        @if (assignment.AvailabilityState == AvailabilityState.Deleted)
                         {
-                            case AvailabilityState.Hidden:
-                                <MudIcon Icon="@Icons.Outlined.VisibilityOff" />
-                                break;
-                            case AvailabilityState.Deleted:
-                                <MudIcon Icon="@Icons.Outlined.Block" />
-                                break;
-                            default:
-                                <MudIcon Icon="@Icons.Outlined.Visibility" />
-                                break;
+                            <MudButton OnClick="@(async () => await Recover(assignment))">
+                                Recover
+                            </MudButton>
                         }
-                        
-                    </div>
-                </MudCardContent>
-                <MudCardActions>
-                    @if (assignment.AvailabilityState == AvailabilityState.Deleted) {
-                        <MudButton  OnClick="@(async () => await Recover(assignment))">
-                            Recover
-                        </MudButton>
-                    }
-                    else
-                    {
-                        <MudButton Link=@LinkToSubjectAssignmentUpdate(assignment.Id)>
-                            Edit
-                        </MudButton>
-                        <MudButton OnClick="@(async () => await Delete(assignment))">
-                            Delete
-                        </MudButton>
-                    }
-                </MudCardActions>
-            </MudCard>
-        </div>
-    }
-</div>
+                        else
+                        {
+                            <MudButton Link=@LinkToSubjectAssignmentUpdate(assignment.Id)>
+                                Edit
+                            </MudButton>
+                            <MudButton OnClick="@(async () => await Delete(assignment))">
+                                Delete
+                            </MudButton>
+                        }
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        }
+    </MudGrid>
+</MudContainer>
 
 @code {
     [Parameter]

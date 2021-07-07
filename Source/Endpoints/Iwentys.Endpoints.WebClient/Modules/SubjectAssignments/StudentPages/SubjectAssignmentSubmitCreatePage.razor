@@ -2,30 +2,28 @@
 
 @inherits Iwentys.Endpoints.WebClient.Shared.DependencyInjectionPage
 
-<h3>SubjectAssignmentSubmitCreatePage</h3>
-
-<div class="d-flex col-6 justify-content-between">
-    <div class="d-flex input-form-component">
-        <h3>Send quest response</h3>
-        @if (_subjectAssignments is not null)
-        {
-            <p>
-                <MudSelect  @bind-Value=@_selectedSubjectAssignment Class="input-element" FullWidth="true">
-                    @foreach (var item in _subjectAssignments)
-                    {
-                        <MudSelectItem Value="@item">@item.Title</MudSelectItem>
-                    }
+<MudContainer>
+    <MudGrid>
+        <MudItem xs="12" sm="12" md="12">
+            <MudText Align="Align.Center" Typo="Typo.h4">Add new submit</MudText>
+            @if (_subjectAssignments is not null)
+            {
+                <p>
+                    <MudSelect Label="Select assignment" @bind-Value=@_selectedSubjectAssignment Class="input-element" FullWidth="true">
+                        @foreach (var item in _subjectAssignments)
+                        {
+                            <MudSelectItem Value="@item">@item.Title</MudSelectItem>
+                        }
                 </MudSelect>
-            </p>
-        }
-
-        <p>
-            <MudTextField @bind-Value="@_description" Label="Description" Class="input-element" FullWidth="true"></MudTextField>
-        </p>
-
-        <MudButton OnClick="@SendSubmit">Send response</MudButton>
-    </div>
-</div>
+                </p>
+                <p>
+                    <MudTextField @bind-Value="@_description" Label="Comments" Class="input-element" FullWidth="true"></MudTextField>
+                </p>
+                <MudButton OnClick="@SendSubmit">Send response</MudButton>
+            }
+        </MudItem>
+    </MudGrid>
+</MudContainer>
 
 @code {
     [Parameter]
