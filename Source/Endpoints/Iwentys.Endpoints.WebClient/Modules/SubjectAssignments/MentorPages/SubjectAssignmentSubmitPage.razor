@@ -3,62 +3,62 @@
 @namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
 @attribute [Authorize]
 
-<h3>SubjectAssignmentSubmitPage</h3>
 
-@if (_submit is not null)
-{
-    <div class="d-flex flex-column">
-        <span>
-            Assignment: @_submit.SubjectAssignmentTitle
-        </span>
-        
-        <span>
-            Student: @_submit.Student.GetFullName()
-        </span>
-        
-        <span>
-            Description: @_submit.StudentDescription
-        </span>
-        
-        <span>
-            Submit time: @_submit.SubmitTimeUtc
-        </span>
-        
-        @switch (_submit.State)
-        {
-            case SubmitState.Created:
-                break;
-            case SubmitState.Approved:
-                <MudText Typo="Typo.body2">
-                    Approved (@_submit.ApproveTimeUtc)
-                </MudText>
-                <MudText Typo="Typo.body2">
-                    Comment: (@_submit.Comment)
-                </MudText>
-                break;
-            case SubmitState.Rejected:
-                <MudText Typo="Typo.body2">
-                    Rejected (@_submit.RejectTimeUtc)
-                </MudText>
-                <MudText Typo="Typo.body2">
-                    Comment: (@_submit.Comment)
-                </MudText>
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(SubmitState), "Unsupported assignment state");
-        }
-        
-        <div>
-            
-            <EditForm Model="_arguments">
-                <DataAnnotationsValidator></DataAnnotationsValidator>
-                <RenderFormElements></RenderFormElements>
-                <MudButton class="dark-elevation-04" type="submit" OnClick="@(async () => await Create())">Send feedback</MudButton>
-            </EditForm> 
-        </div>
-        <div class="container-fluid d-flex flex-row"></div>
-    </div>
-}
+<MudContainer>
+    <MudGrid>
+        <MudItem xs="12" sm="12" md="12">
+            <MudText Align="Align.Center" Typo="Typo.h4">Assignment submits</MudText>
+            @if (_submit is not null)
+            {
+                <MudCard>
+                    <MudText Align="Align.Center" Typo="Typo.h6">Assignment: @_submit.SubjectAssignmentTitle</MudText>
+                    <MudText Align="Align.Center" Typo="Typo.h6">Author: @_submit.Student.GetFullName()</MudText>
+                    <MudText Align="Align.Center" Typo="Typo.h6">Description: @_submit.StudentDescription</MudText>
+                    <MudText Align="Align.Center" Typo="Typo.h6">Submit time: @_submit.SubmitTimeUtc</MudText>
+
+                    @switch (_submit.State)
+                    {
+                        case SubmitState.Created:
+                            break;
+
+                        case SubmitState.Approved:
+                            <MudText Typo="Typo.body2">
+                                Approved (@_submit.ApproveTimeUtc)
+                            </MudText>
+                            <MudText Typo="Typo.body2">
+                                Comment: (@_submit.Comment)
+                            </MudText>
+                            break;
+
+                        case SubmitState.Rejected:
+                            <MudText Typo="Typo.body2">
+                                Rejected (@_submit.RejectTimeUtc)
+                            </MudText>
+                            <MudText Typo="Typo.body2">
+                                Comment: (@_submit.Comment)
+                            </MudText>
+                            break;
+
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(SubmitState), "Unsupported assignment state");
+                    }
+                </MudCard>
+            }
+
+        </MudItem>
+
+        <MudItem>
+            <MudCard>
+                <MudText Align="Align.Left" Typo="Typo.h4">Add feedback</MudText>
+                <EditForm Model="_arguments">
+                    <DataAnnotationsValidator></DataAnnotationsValidator>
+                    <RenderFormElements></RenderFormElements>
+                    <MudButton class="dark-elevation-04" type="submit" OnClick="@(async () => await Create())">Send feedback</MudButton>
+                </EditForm>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
 
 @code {
     [Parameter]

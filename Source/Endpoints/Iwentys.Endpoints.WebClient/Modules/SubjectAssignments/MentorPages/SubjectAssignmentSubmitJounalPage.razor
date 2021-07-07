@@ -3,35 +3,42 @@
 @namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
 @attribute [Authorize]
 
-<h3>SubjectAssignmentSubmitJounalPage (double click works fine!)</h3>
+<MudContainer>
+    <MudGrid>
+        <MudItem xs="12" sm="12" md="12">
+            <MudText Align="Align.Center" Typo="Typo.h4">Assignment submits</MudText>
+            <MudText Align="Align.Left" Typo="Typo.body2">Click on row will navigate to submit page</MudText>
+        </MudItem>
 
-@if (_subjectAssignmentSubmits is not null)
-{
-    <div>
-    <MudTable
-        T="SubjectAssignmentSubmitDto"
-        Items="@_subjectAssignmentSubmits"
-        OnRowClick="@(arg => OnRowClicked(arg))"
-        class="dark-elevation-01">
-            <HeaderContent>
-                <MudTh>Assignment</MudTh>
-                <MudTh>Student</MudTh>
-                <MudTh>Submit time</MudTh>
-                <MudTh>State</MudTh>
-                <MudTh>Approve time</MudTh>
-                <MudTh>Reject time</MudTh>
-            </HeaderContent>
-            <RowTemplate>
-                <MudTd>@context.SubjectAssignmentTitle</MudTd>
-                <MudTd>@context.Student.GetFullName()</MudTd >
-                <MudTd>@context.SubmitTimeUtc</MudTd>
-                <MudTd>@context.State</MudTd>
-                <MudTd>@context.ApproveTimeUtc</MudTd>
-                <MudTd>@context.RejectTimeUtc</MudTd>
-            </RowTemplate>
-        </MudTable>
-    </div>
-}
+        @if (_subjectAssignmentSubmits is not null)
+        {
+            <MudItem xs="12" sm="12" md="12">
+                <MudTable T="SubjectAssignmentSubmitDto"
+                      Items="@_subjectAssignmentSubmits"
+                      OnRowClick="@(arg => OnRowClicked(arg))"
+                      class="dark-elevation-01">
+                    <HeaderContent>
+                        <MudTh>Assignment</MudTh>
+                        <MudTh>Student</MudTh>
+                        <MudTh>Submit time</MudTh>
+                        <MudTh>State</MudTh>
+                        <MudTh>Approve time</MudTh>
+                        <MudTh>Reject time</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd>@context.SubjectAssignmentTitle</MudTd>
+                        <MudTd>@context.Student.GetFullName()</MudTd>
+                        <MudTd>@context.SubmitTimeUtc</MudTd>
+                        <MudTd>@context.State</MudTd>
+                        <MudTd>@context.ApproveTimeUtc</MudTd>
+                        <MudTd>@context.RejectTimeUtc</MudTd>
+                    </RowTemplate>
+                </MudTable>
+            </MudItem>
+        }
+
+    </MudGrid>
+</MudContainer>
 
 @code {
     [Parameter]

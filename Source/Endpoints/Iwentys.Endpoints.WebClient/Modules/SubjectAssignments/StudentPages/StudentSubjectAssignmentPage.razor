@@ -5,7 +5,7 @@
 <MudContainer>
     <MudGrid>
         <MudItem xs="12" sm="12" md="12">
-            <MudText Align="Align.Center" Typo="Typo.h3">Assignments</MudText>
+            <MudText Align="Align.Center" Typo="Typo.h4">Assignments</MudText>
             @if (_subjectAssignments is not null)
             {
                 <MudList>
@@ -19,7 +19,7 @@
 
         <MudItem xs="12" sm="12" md="12">
             <div class="d-flex flex-row align-self-center align-baseline">
-                <h5>Submits</h5>
+                <MudText Align="Align.Center" Typo="Typo.h4">Submits</MudText>
                 <MudButton Link=@LinkToCreateSubmit()>
                     <span class="oi oi-plus" title="add" aria-hidden="true"></span>
                 </MudButton>

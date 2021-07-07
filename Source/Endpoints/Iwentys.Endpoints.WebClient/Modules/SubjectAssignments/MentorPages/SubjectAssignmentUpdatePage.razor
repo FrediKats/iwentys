@@ -2,15 +2,20 @@
 
 @attribute [Authorize]
 
-<h3>SubjectAssignmentUpdatePage</h3>
-
-<div class="col-md-6 d-flex flex-column dark-elevation-01">
-    <EditForm Model="_arguments">
-        <DataAnnotationsValidator></DataAnnotationsValidator>
-        <RenderFormElements></RenderFormElements>
-        <MudButton class="dark-elevation-04" type="submit" OnClick="@(async () => await Update())">Submit</MudButton>
-    </EditForm> 
-</div>
+<MudContainer>
+    <MudGrid>
+        <MudItem xs="12" sm="12" md="12">
+            <MudText Align="Align.Center" Typo="Typo.h4">Update assignment</MudText>
+            <MudCard Class="dark-elevation-01">
+                <EditForm Model="_arguments">
+                    <DataAnnotationsValidator></DataAnnotationsValidator>
+                    <RenderFormElements></RenderFormElements>
+                    <MudButton class="dark-elevation-04" type="submit" OnClick="@(async () => await Update())">Submit</MudButton>
+                </EditForm>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
 
 @code {
     [Parameter]

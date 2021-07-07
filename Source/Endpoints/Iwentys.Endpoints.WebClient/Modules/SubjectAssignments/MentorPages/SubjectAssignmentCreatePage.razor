@@ -3,15 +3,22 @@
 @namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
 @attribute [Authorize]
 
-<MudText Typo="Typo.h3">Create subject assignment</MudText>
-
-<div class="col-md-6 d-flex flex-column dark-elevation-01">
-    <EditForm Model="_arguments">
-        <DataAnnotationsValidator></DataAnnotationsValidator>
-        <RenderFormElements></RenderFormElements>
-        <MudButton class="dark-elevation-04" type="submit" OnClick="@(async () => await Create())">Submit</MudButton>
-    </EditForm> 
-</div>
+<MudContainer>
+    <MudGrid>
+        <MudItem xs="12" sm="12" md="12">
+            <MudText Align="Align.Center" Typo="Typo.h4">Create subject assignment</MudText>
+        </MudItem>
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard class="dark-elevation-01">
+                <EditForm Model="_arguments">
+                    <DataAnnotationsValidator></DataAnnotationsValidator>
+                    <RenderFormElements></RenderFormElements>
+                    <MudButton class="dark-elevation-04" type="submit" OnClick="@(async () => await Create())">Submit</MudButton>
+                </EditForm>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
 
 @code {
     [Parameter]
