@@ -2,34 +2,41 @@
 
 @using Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.StudentPages.Components
 
-<div>
-    <h5>Assignments</h5>
-    @if (_subjectAssignments is not null)
-    {
-        <div>
-            @foreach (SubjectAssignmentDto subjectAssignment in _subjectAssignments)
+<MudContainer>
+    <MudGrid>
+        <MudItem xs="12" sm="12" md="12">
+            <MudText Align="Align.Center" Typo="Typo.h3">Assignments</MudText>
+            @if (_subjectAssignments is not null)
             {
-                <StudentSubjectAssignmentComponent SubjectAssignment="@subjectAssignment"></StudentSubjectAssignmentComponent>
+                <MudList>
+                    @foreach (SubjectAssignmentDto subjectAssignment in _subjectAssignments)
+                    {
+                        <StudentSubjectAssignmentComponent SubjectAssignment="@subjectAssignment"></StudentSubjectAssignmentComponent>
+                    }
+                </MudList>
             }
-        </div>
-    }
+        </MudItem>
 
-    <div class="d-flex flex-row align-self-center align-baseline">
-        <h5>Submits</h5>
-        <MudButton Link=@LinkToCreateSubmit()>
-            <span class="oi oi-plus" title="add" aria-hidden="true"></span>
-        </MudButton>
-    </div>
+        <MudItem xs="12" sm="12" md="12">
+            <div class="d-flex flex-row align-self-center align-baseline">
+                <h5>Submits</h5>
+                <MudButton Link=@LinkToCreateSubmit()>
+                    <span class="oi oi-plus" title="add" aria-hidden="true"></span>
+                </MudButton>
+            </div>
+        </MudItem>
 
-    @if (_subjectAssignmentSubmits is not null)
-    {
-        foreach (SubjectAssignmentSubmitDto submit in _subjectAssignmentSubmits)
+        @if (_subjectAssignmentSubmits is not null)
         {
-            <SubjectAssignmentSubmitComponent Submit="@submit"></SubjectAssignmentSubmitComponent>
+            <MudItem xs="12" sm="12" md="12">
+                @foreach (SubjectAssignmentSubmitDto submit in _subjectAssignmentSubmits)
+                {
+                    <SubjectAssignmentSubmitComponent Submit="@submit"></SubjectAssignmentSubmitComponent>
+                }
+            </MudItem>
         }
-    }
-
-</div>
+    </MudGrid>
+</MudContainer>
 
 @code {
     [Parameter]
