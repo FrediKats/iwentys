@@ -39,7 +39,6 @@
 
     private void OnRowClicked(TableRowClickEventArgs<SubjectAssignmentSubmitDto> obj)
     {
-        Console.WriteLine(obj.Item.Id);
+        _navigationManager.NavigateTo($"/subject/{SubjectId}/management/assignments/submits/{obj.Item.Id}");
     }
-
 }
