@@ -3,6 +3,7 @@ using System.Linq;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments;
 using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study;
+using Iwentys.Infrastructure.DataAccess.Seeding.Tools;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
@@ -21,14 +22,29 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
             Student author = students.First();
             int mentorId = author.Id;
 
-            foreach (Subject subject in subjects)
+            foreach (Subject subject in subjects.Take(2))
             {
-                SubjectAssignment sa = SubjectAssignmentFaker.Instance.Create(subject.Id, mentorId);
-                SubjectAssignments.Add(sa);
+                for (int assignmentPerSubjectCount = 0; assignmentPerSubjectCount < 3; assignmentPerSubjectCount++)
+                {
+                    SubjectAssignment subjectAssignment = SubjectAssignmentFaker.Instance.Create(subject.Id, mentorId);
+                    SubjectAssignments.Add(subjectAssignment);
 
-                foreach (StudyGroup studyGroup in groups) GroupSubjectAssignments.Add(new GroupSubjectAssignment {GroupId = studyGroup.Id, SubjectAssignmentId = sa.Id});
+                    foreach (StudyGroup studyGroup in groups)
+                        GroupSubjectAssignments.Add(new GroupSubjectAssignment { GroupId = studyGroup.Id, SubjectAssignmentId = subjectAssignment.Id });
 
-                foreach (Student student in students) SubjectAssignmentSubmits.Add(SubjectAssignmentFaker.Instance.CreateSubjectAssignmentSubmit(sa.Id, student.Id));
+                    foreach (Student student in students)
+                    {
+                        if (RandomExtensions.Instance.Random.Int(0, 10) == 0)
+                        {
+                            SubjectAssignmentSubmits.Add(SubjectAssignmentFaker.Instance.CreateSubjectAssignmentSubmitWithFeedback(subjectAssignment.Id, student.Id));
+
+                        }
+                        else
+                        {
+                            SubjectAssignmentSubmits.Add(SubjectAssignmentFaker.Instance.CreateSubjectAssignmentSubmit(subjectAssignment.Id, student.Id));
+                        }
+                    }
+                }
             }
         }
 
