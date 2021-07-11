@@ -17,13 +17,13 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
 
         protected override async Task OnInitializedAsync()
         {
-            _submit = await _subjectAssignmentSubmitClient.GetByIdAsync(SubmitId);
+            _submit = await _mentorSubjectAssignmentSubmitClient.GetByIdAsync(SubmitId);
         }
 
 
         private async Task Create()
         {
-            await _subjectAssignmentSubmitClient.SendSubmitFeedbackAsync(CreateArg(_arguments));
+            await _mentorSubjectAssignmentSubmitClient.SendSubmitFeedbackAsync(CreateArg(_arguments));
             _navigationManager.NavigateTo($"/subject/{SubjectId}/management/assignments/submits/{SubmitId}", true);
         }
 

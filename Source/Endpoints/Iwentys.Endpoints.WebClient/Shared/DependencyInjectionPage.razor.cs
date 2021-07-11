@@ -31,8 +31,10 @@ namespace Iwentys.Endpoints.WebClient.Shared
         public StudyCourseClient StudyCourseClient { get; set; }
         public StudyGroupClient StudyGroupClient { get; set; }
         public SubjectClient SubjectClient { get; set; }
-        public SubjectAssignmentClient SubjectAssignmentClient { get; set; }
-        public SubjectAssignmentSubmitClient SubjectAssignmentSubmitClient { get; set; }
+        public MentorSubjectAssignmentClient MentorSubjectAssignmentClient { get; set; }
+        public MentorSubjectAssignmentSubmitClient MentorSubjectAssignmentSubmitClient { get; set; }
+        public StudentSubjectAssignmentClient StudentSubjectAssignmentClient { get; set; }
+        public StudentSubjectAssignmentSubmitClient StudentSubjectAssignmentSubmitClient { get; set; }
         public TournamentClient TournamentClient { get; set; }
 
         protected override async Task OnInitializedAsync()
@@ -60,8 +62,10 @@ namespace Iwentys.Endpoints.WebClient.Shared
             StudyCourseClient = new StudyCourseClient(httpClient);
             StudyGroupClient = new StudyGroupClient(httpClient);
             SubjectClient = new SubjectClient(httpClient);
-            SubjectAssignmentClient = new SubjectAssignmentClient(httpClient);
-            SubjectAssignmentSubmitClient = new SubjectAssignmentSubmitClient(httpClient);
+            MentorSubjectAssignmentClient = new MentorSubjectAssignmentClient(httpClient);
+            MentorSubjectAssignmentSubmitClient = new MentorSubjectAssignmentSubmitClient(httpClient);
+            StudentSubjectAssignmentClient = new StudentSubjectAssignmentClient(httpClient);
+            StudentSubjectAssignmentSubmitClient = new StudentSubjectAssignmentSubmitClient(httpClient);
             TournamentClient = new TournamentClient(httpClient);
         }
     }

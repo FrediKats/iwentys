@@ -26,7 +26,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.StudentPages
                 StudentDescription = _description,
             };
 
-            await _subjectAssignmentSubmitClient.CreateSubmitAsync(createArguments);
+            await _studentSubjectAssignmentSubmitClient.CreateSubmitAsync(createArguments);
             _navigationManager.NavigateTo($"/subject/{SubjectId}/assignments");
         }
     }

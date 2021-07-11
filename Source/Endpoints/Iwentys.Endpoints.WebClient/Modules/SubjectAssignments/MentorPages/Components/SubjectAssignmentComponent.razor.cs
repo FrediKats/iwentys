@@ -11,13 +11,13 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages.Com
 
         private async Task Delete(SubjectAssignmentDto assignmentDto)
         {
-            await _subjectAssignmentClient.DeleteAsync(assignmentDto.Id);
+            await _mentorSubjectAssignmentClient.DeleteAsync(assignmentDto.Id);
             assignmentDto.AvailabilityState = AvailabilityState.Deleted;
         }
 
         private async Task Recover(SubjectAssignmentDto assignmentDto)
         {
-            await _subjectAssignmentClient.RecoverAsync(assignmentDto.Id);
+            await _mentorSubjectAssignmentClient.RecoverAsync(assignmentDto.Id);
             assignmentDto.AvailabilityState = AvailabilityState.Visible;
         }
     }

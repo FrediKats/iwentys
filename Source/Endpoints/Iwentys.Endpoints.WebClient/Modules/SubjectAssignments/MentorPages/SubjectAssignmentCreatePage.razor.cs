@@ -20,7 +20,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
 
         private async Task Create()
         {
-            await _subjectAssignmentClient.CreateAsync(CreateArg(_arguments));
+            await _mentorSubjectAssignmentClient.CreateAsync(CreateArg(_arguments));
             _navigationManager.NavigateTo("/subject/assignment-management");
         }
 

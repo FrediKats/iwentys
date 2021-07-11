@@ -22,7 +22,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
 
         protected override async Task OnInitializedAsync()
         {
-            var assignments = await _subjectAssignmentClient.GetMentorSubjectAssignmentsAsync();
+            var assignments = await _mentorSubjectAssignmentClient.GetMentorSubjectAssignmentsAsync();
             var assignment = assignments
                 .SelectMany(s => s.Assignments)
                 .First(a => a.Id == SubjectAssignmentId);
@@ -40,7 +40,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
 
         private async Task Update()
         {
-            await _subjectAssignmentClient.UpdateAsync(CreateArg(_arguments));
+            await _mentorSubjectAssignmentClient.UpdateAsync(CreateArg(_arguments));
             _navigationManager.NavigateTo("/subject/assignment-management");
         }
 

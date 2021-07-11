@@ -46,10 +46,10 @@ namespace Iwentys.Endpoints.WebClient
 
         public static void RegisterClients(IServiceCollection service)
         {
-            service.AddScoped<SubjectAssignmentClient>();
-            service.AddScoped<SubjectAssignmentSubmitClient>();
+            service.AddScoped<MentorSubjectAssignmentClient>();
+            service.AddScoped<MentorSubjectAssignmentSubmitClient>();
             service.AddScoped<StudentSubjectAssignmentClient>();
-
+            service.AddScoped<StudentSubjectAssignmentSubmitClient>();
         }
     }
 }
