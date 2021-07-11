@@ -8,7 +8,7 @@ using Iwentys.Domain.PeerReview.Dto;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
 using Iwentys.Domain.SubjectAssignments;
-using Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos;
+using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos;
 
 namespace Iwentys.Infrastructure.Application
 {

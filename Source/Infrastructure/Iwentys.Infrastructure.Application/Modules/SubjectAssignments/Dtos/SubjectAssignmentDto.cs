@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Iwentys.Domain.AccountManagement.Dto;
 using Iwentys.Domain.SubjectAssignments.Enums;
 
-namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos
+namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos
 {
     public class SubjectAssignmentDto
     {

@@ -6,12 +6,12 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
-using Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos;
+using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.MentorScope
+namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.MentorScope.Queries
 {
     public class GetMentorSubjectAssignments
     {

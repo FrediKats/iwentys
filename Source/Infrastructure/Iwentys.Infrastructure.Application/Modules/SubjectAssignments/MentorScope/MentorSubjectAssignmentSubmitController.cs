@@ -1,19 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.MentorScope.Queries;
 using System.Threading.Tasks;
-using Iwentys.Domain.SubjectAssignments.Models;
-using Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.StudentScope.Queries;
+using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos;
+using Iwentys.Domain.SubjectAssignments.Models;
 
-namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
+namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.MentorScope
 {
-    [Route("api/SubjectAssignmentSubmit")]
+    [Route("api/subject-assignment/mentor/submit")]
     [ApiController]
-    public class SubjectAssignmentSubmitController : ControllerBase
+    public class MentorSubjectAssignmentSubmitController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public SubjectAssignmentSubmitController(IMediator mediator)
+        public MentorSubjectAssignmentSubmitController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -31,14 +33,6 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             GetSubjectAssignmentSubmit.Response response = await _mediator.Send(new GetSubjectAssignmentSubmit.Query(subjectAssignmentSubmitId, authorizedUser));
-            return Ok(response.Submit);
-        }
-
-        [HttpPost(nameof(CreateSubmit))]
-        public async Task<ActionResult<SubjectAssignmentSubmitDto>> CreateSubmit(SubjectAssignmentSubmitCreateArguments arguments)
-        {
-            AuthorizedUser authorizedUser = this.TryAuthWithToken();
-            CreateSubmit.Response response = await _mediator.Send(new CreateSubmit.Query(authorizedUser, arguments));
             return Ok(response.Submit);
         }
 

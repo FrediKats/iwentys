@@ -5,24 +5,24 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments;
 using Iwentys.Domain.SubjectAssignments.Models;
-using Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos;
+using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
+namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments
 {
-    public static class UpdateSubjectAssignment
+    public static class CreateSubjectAssignment
     {
         public class Query : IRequest<Response>
         {
-            public Query(AuthorizedUser authorizedUser, SubjectAssignmentUpdateArguments arguments)
+            public Query(AuthorizedUser authorizedUser, SubjectAssignmentCreateArguments arguments)
             {
                 Arguments = arguments;
                 AuthorizedUser = authorizedUser;
             }
 
             public AuthorizedUser AuthorizedUser { get; set; }
-            public SubjectAssignmentUpdateArguments Arguments { get; set; }
+            public SubjectAssignmentCreateArguments Arguments { get; set; }
         }
 
         public class Response
@@ -49,12 +49,12 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                SubjectAssignment subjectAssignment = await _context.SubjectAssignments.GetById(request.Arguments.SubjectAssignmentId);
+                Subject subject = await _context.Subjects.GetById(request.Arguments.SubjectId);
                 IwentysUser creator = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
 
-                subjectAssignment.Update(creator, request.Arguments);
+                var subjectAssignment = SubjectAssignment.Create(creator, subject, request.Arguments);
 
-                _context.SubjectAssignments.Update(subjectAssignment);
+                _context.SubjectAssignments.Add(subjectAssignment);
 
                 return new Response(_mapper.Map<SubjectAssignmentDto>(subjectAssignment));
             }

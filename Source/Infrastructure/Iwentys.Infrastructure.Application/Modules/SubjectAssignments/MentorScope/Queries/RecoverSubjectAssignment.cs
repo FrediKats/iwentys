@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.SubjectAssignments;
-using Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos;
+using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.StudentScope
+namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.MentorScope.Queries
 {
     public class RecoverSubjectAssignment
     {

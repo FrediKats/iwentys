@@ -1,5 +1,4 @@
-﻿using Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos;
-using Iwentys.Infrastructure.Application.Repositories;
+﻿using Iwentys.Infrastructure.Application.Repositories;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using System.Collections.Generic;
@@ -8,8 +7,9 @@ using System.Threading;
 using Iwentys.Domain.SubjectAssignments.Models;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos;
 
-namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
+namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.StudentScope.Queries
 {
     public static class GetStudentSubjectAssignmentSubmits
     {

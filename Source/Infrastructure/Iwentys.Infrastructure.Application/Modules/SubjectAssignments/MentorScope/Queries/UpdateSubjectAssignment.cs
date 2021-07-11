@@ -2,27 +2,26 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments;
 using Iwentys.Domain.SubjectAssignments.Models;
-using Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos;
+using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
+namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.MentorScope.Queries
 {
-    public static class CreateSubjectAssignment
+    public static class UpdateSubjectAssignment
     {
         public class Query : IRequest<Response>
         {
-            public Query(AuthorizedUser authorizedUser, SubjectAssignmentCreateArguments arguments)
+            public Query(AuthorizedUser authorizedUser, SubjectAssignmentUpdateArguments arguments)
             {
                 Arguments = arguments;
                 AuthorizedUser = authorizedUser;
             }
 
             public AuthorizedUser AuthorizedUser { get; set; }
-            public SubjectAssignmentCreateArguments Arguments { get; set; }
+            public SubjectAssignmentUpdateArguments Arguments { get; set; }
         }
 
         public class Response
@@ -49,12 +48,12 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                Subject subject = await _context.Subjects.GetById(request.Arguments.SubjectId);
+                SubjectAssignment subjectAssignment = await _context.SubjectAssignments.GetById(request.Arguments.SubjectAssignmentId);
                 IwentysUser creator = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
 
-                var subjectAssignment = SubjectAssignment.Create(creator, subject, request.Arguments);
+                subjectAssignment.Update(creator, request.Arguments);
 
-                _context.SubjectAssignments.Add(subjectAssignment);
+                _context.SubjectAssignments.Update(subjectAssignment);
 
                 return new Response(_mapper.Map<SubjectAssignmentDto>(subjectAssignment));
             }

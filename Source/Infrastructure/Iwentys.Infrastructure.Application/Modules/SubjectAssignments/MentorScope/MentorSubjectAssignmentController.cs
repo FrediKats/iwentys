@@ -1,26 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Domain.SubjectAssignments.Models;
-using Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos;
-using Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.MentorScope;
-using Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.StudentScope;
+using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos;
+using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.MentorScope.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
+namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.MentorScope
 {
-    [Route("api/subject-assignment")]
+    [Route("api/subject-assignment/mentor")]
     [ApiController]
-    public class SubjectAssignmentController : ControllerBase
+    public class MentorSubjectAssignmentController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public SubjectAssignmentController(IMediator mediator)
+        public MentorSubjectAssignmentController(IMediator mediator)
         {
             _mediator = mediator;
+
+
         }
-        
         [HttpPost(nameof(Create))]
         public async Task<ActionResult> Create(SubjectAssignmentCreateArguments arguments)
         {
@@ -44,7 +43,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
             DeleteSubjectAssignment.Response response = await _mediator.Send(new DeleteSubjectAssignment.Query(authorizedUser, subjectAssignmentId));
             return Ok(response.SubjectAssignment);
         }
-        
+
         [HttpPost(nameof(Recover))]
         public async Task<ActionResult> Recover(int subjectAssignmentId)
         {
@@ -54,6 +53,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments
         }
 
         [HttpGet(nameof(GetMentorSubjectAssignments))]
+        [Produces("application/json")]
         public async Task<ActionResult<List<SubjectAssignmentJournalItemDto>>> GetMentorSubjectAssignments()
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();

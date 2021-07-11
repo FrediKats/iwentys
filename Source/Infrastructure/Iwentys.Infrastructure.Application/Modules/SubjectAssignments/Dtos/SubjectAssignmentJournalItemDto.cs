@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Iwentys.Infrastructure.Application.Controllers.SubjectAssignments.Dtos
+namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos
 {
     public class SubjectAssignmentJournalItemDto
     {
