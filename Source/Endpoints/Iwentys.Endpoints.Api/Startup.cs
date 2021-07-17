@@ -6,6 +6,7 @@ using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Integrations.IsuIntegration.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,7 +25,12 @@ namespace Iwentys.Endpoints.Api
         {
             services.AddIwentysIdentity();
             services.EnableExceptional();
-            services.AddControllersWithViews().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+            services
+                .AddControllersWithViews(options =>
+            {
+                options.Filters.Add(new ProducesAttribute("application/json"));
+            })
+                .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
             services.AddSwaggerGen();
             services.AddRazorPages();
 
