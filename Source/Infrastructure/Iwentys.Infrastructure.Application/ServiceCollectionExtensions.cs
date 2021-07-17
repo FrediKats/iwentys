@@ -6,6 +6,7 @@ using Iwentys.Infrastructure.Application.Controllers.Guilds;
 using Iwentys.Infrastructure.Application.Controllers.Quests;
 using Iwentys.Infrastructure.Application.Controllers.Services;
 using Iwentys.Infrastructure.Application.Controllers.StudentProfile;
+using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Integrations.GithubIntegration;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,7 +39,7 @@ namespace Iwentys.Infrastructure.Application
             services.AddMediatR(typeof(GuildController).Assembly);
             services.AddMediatR(typeof(StudentController).Assembly);
 
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionPipeline<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionPipeline<,,>));
 
             return services;
         }

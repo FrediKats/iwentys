@@ -1,15 +1,16 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Infrastructure.DataAccess;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application
+namespace Iwentys.Infrastructure.DataAccess
 {
-    public class TransactionPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public class TransactionPipeline<TDbContext, TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+        where TDbContext : DbContext
     {
-        private readonly IwentysDbContext _context;
+        private readonly TDbContext _context;
 
-        public TransactionPipeline(IwentysDbContext context)
+        public TransactionPipeline(TDbContext context)
         {
             _context = context;
         }
