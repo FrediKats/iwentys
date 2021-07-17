@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Iwentys.Infrastructure.Configuration
 {
-    public static class AspStartupExtensions
+    public static class IwentysApiStartupExtensions
     {
         public static IServiceCollection AddIwentysOptions(this IServiceCollection services, IConfiguration configuration)
         {
@@ -31,5 +31,7 @@ namespace Iwentys.Infrastructure.Configuration
         {
             return services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
+
+
     }
 }
