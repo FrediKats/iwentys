@@ -1,0 +1,28 @@
+﻿<div class="card-list-element-content">
+    <div class="d-flex flex-row align-self-center align-baseline">
+        <MudText Typo="Typo.h5">@Assignment.Title</MudText>
+        @switch (Assignment.AvailabilityState)
+        {
+            case AvailabilityState.Hidden:
+                <MudIcon Icon="@Icons.Outlined.VisibilityOff" />
+                break;
+
+            case AvailabilityState.Deleted:
+                <MudIcon Icon="@Icons.Outlined.Block" />
+                break;
+
+            default:
+                <MudIcon Icon="@Icons.Outlined.Visibility" />
+                break;
+        }
+    </div>
+
+    <MudText Typo="Typo.body1">Deadline: @Assignment.DeadlineTimeUtc</MudText>
+    <MudText Typo="Typo.body1">@Assignment.Description</MudText>
+    <MudText Typo="Typo.body1">@Assignment.Link</MudText>
+</div>
+
+@code {
+    [Parameter]
+    public SubjectAssignmentDto Assignment { get; set; }
+}

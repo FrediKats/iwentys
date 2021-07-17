@@ -3,7 +3,7 @@ using Iwentys.Sdk;
 
 namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages.Components
 {
-    public partial class SubjectAssignmentComponent
+    public partial class MentorSubjectAssignmentComponent
     {
         private string LinkToSubjectAssignmentCreate(int subjectId) => $"/subject/assignment-management/{subjectId}/create";
         private string LinkToSubjectAssignmentUpdate(int subjectId) => $"/subject/assignment-management/{subjectId}/update";

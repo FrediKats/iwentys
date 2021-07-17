@@ -1,4 +1,5 @@
-﻿<MudContainer Class="card-list-element dark-elevation-01">
+﻿@using Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.Components
+<MudContainer Class="card-list-element dark-elevation-01">
     <MudGrid>
         <MudItem xs="12" sm="12" md="12" Class="d-flex flex-row align-self-center align-baseline">
             <MudText Typo="Typo.h4">Subject: @SubjectAssignment.Title</MudText>
@@ -15,29 +16,7 @@
             <MudItem xs="12" sm="12" md="12" Class="card-list-element">
                 <MudCard Class="dark-elevation-02">
                     <MudCardContent>
-                        <div class="card-list-element-content">
-                            <div class="d-flex flex-row align-self-center align-baseline">
-                                <MudText Typo="Typo.h5">@assignment.Title</MudText>
-                                @switch (assignment.AvailabilityState)
-                                {
-                                    case AvailabilityState.Hidden:
-                                        <MudIcon Icon="@Icons.Outlined.VisibilityOff" />
-                                        break;
-
-                                    case AvailabilityState.Deleted:
-                                        <MudIcon Icon="@Icons.Outlined.Block" />
-                                        break;
-
-                                    default:
-                                        <MudIcon Icon="@Icons.Outlined.Visibility" />
-                                        break;
-                                }
-                            </div>
-
-                            <MudText Typo="Typo.body1">Deadline: @assignment.DeadlineTimeUtc</MudText>
-                            <MudText Typo="Typo.body1">@assignment.Description</MudText>
-                            <MudText Typo="Typo.body1">@assignment.Link</MudText>
-                        </div>
+                        <SubjectAssignmentComponent Assignment="@assignment"></SubjectAssignmentComponent>
                     </MudCardContent>
 
                     <MudCardActions>

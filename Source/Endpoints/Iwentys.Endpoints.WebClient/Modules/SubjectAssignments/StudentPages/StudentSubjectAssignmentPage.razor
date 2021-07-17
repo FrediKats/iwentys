@@ -1,5 +1,6 @@
 ﻿@page "/subject/{SubjectId:int}/assignments"
 
+@using Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.Components
 @using Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.StudentPages.Components
 
 <MudContainer>
@@ -11,7 +12,13 @@
                 <MudList>
                     @foreach (SubjectAssignmentDto subjectAssignment in _subjectAssignments)
                     {
-                        <StudentSubjectAssignmentComponent SubjectAssignment="@subjectAssignment"></StudentSubjectAssignmentComponent>
+                        <div class="card-list-element">
+                            <MudCard Class="dark-elevation-01">
+                                <MudCardContent>
+                                    <SubjectAssignmentComponent Assignment="@subjectAssignment"></SubjectAssignmentComponent>
+                                </MudCardContent>
+                            </MudCard>
+                        </div>
                     }
                 </MudList>
             }
