@@ -1,0 +1,23 @@
+﻿@page "/subject/assignment-management/student"
+
+<MudContainer>
+    <MudGrid>
+        <MudItem xs="12" sm="12" md="12">
+            <div class="col-md-6 d-flex flex-column">
+                <MudText Typo="Typo.h6">Subjects</MudText>
+                <MudNavMenu>
+                    @if (_group is not null)
+                    {
+                        @foreach (SubjectProfileDto subject in _group.Subjects)
+                        {
+                            <MudNavLink Href=@LinkToMyAssignmentManagement(subject.Id)>
+                                @subject.Name
+                            </MudNavLink>
+                        }
+                    }
+
+                </MudNavMenu>
+            </div>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
