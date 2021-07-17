@@ -16,7 +16,6 @@ using Iwentys.Domain.Raids;
 using Iwentys.Domain.Raids.Models;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments;
-using Iwentys.Infrastructure.DataAccess.Seeding;
 using Iwentys.Infrastructure.DataAccess.Subcontext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -43,8 +42,11 @@ namespace Iwentys.Infrastructure.DataAccess
         IStudySubjectAssignmentsDbContext
 
     {
-        public IwentysDbContext(DbContextOptions<IwentysDbContext> options) : base(options)
+        private readonly IDbContextSeeder _seeder;
+
+        public IwentysDbContext(DbContextOptions<IwentysDbContext> options, IDbContextSeeder seeder) : base(options)
         {
+            _seeder = seeder;
         }
 
         #region IAccountManagementDbContext
@@ -173,10 +175,9 @@ namespace Iwentys.Infrastructure.DataAccess
             base.OnModelCreating(modelBuilder);
         }
 
-        private static void Seeding(ModelBuilder modelBuilder)
+        private void Seeding(ModelBuilder modelBuilder)
         {
-            var seedData = new DatabaseContextGenerator();
-            seedData.Seed(modelBuilder);
+            _seeder.Seed(modelBuilder);
         }
 
         private static void RemoveCascadeDeleting(ModelBuilder modelBuilder)

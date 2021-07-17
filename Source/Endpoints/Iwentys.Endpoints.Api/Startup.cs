@@ -40,6 +40,7 @@ namespace Iwentys.Endpoints.Api
                 .AddIwentysLogging()
                 .AddIwentysCorsHack()
                 .AddIwentysDatabase()
+                .AddIwentysSeeder()
                 .AddUnitOfWork<IwentysDbContext>()
                 .AddIwentysMediatorHandlers()
                 .AddIwentysServices()

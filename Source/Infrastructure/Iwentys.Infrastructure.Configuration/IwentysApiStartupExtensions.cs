@@ -1,6 +1,7 @@
 ﻿using System;
 using Iwentys.Infrastructure.Configuration.Options;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Infrastructure.DataAccess.Seeding;
 using Iwentys.Integrations.GithubIntegration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -32,6 +33,9 @@ namespace Iwentys.Infrastructure.Configuration
             return services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
-
+        public static IServiceCollection AddIwentysSeeder(this IServiceCollection services)
+        {
+            return services.AddScoped<IDbContextSeeder, DatabaseContextGenerator>();
+        }
     }
 }

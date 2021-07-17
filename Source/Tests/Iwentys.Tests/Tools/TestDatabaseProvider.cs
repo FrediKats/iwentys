@@ -1,5 +1,6 @@
 ﻿using System;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Infrastructure.DataAccess.Seeding;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Tests.Tools
@@ -12,7 +13,8 @@ namespace Iwentys.Tests.Tools
                 new DbContextOptionsBuilder<IwentysDbContext>()
                     .UseInMemoryDatabase(Guid.NewGuid().ToString())
                     .UseLazyLoadingProxies()
-                    .Options);
+                    .Options,
+                new DatabaseContextGenerator());
             databaseContext.Database.EnsureCreated();
 
             return databaseContext;

@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Iwentys.Infrastructure.DataAccess.Seeding\Iwentys.Infrastructure.DataAccess.Seeding.csproj" />
+    <ProjectReference Include="..\..\Domain\Iwentys.Domain\Iwentys.Domain.csproj" />
   </ItemGroup>
 
 </Project>
