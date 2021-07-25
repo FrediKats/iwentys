@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Iwentys.Sdk;
-using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.StudentPages
 {
@@ -30,7 +28,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.StudentPages
             _subjectAssignmentSubmits = await _studentSubjectAssignmentClient.GetStudentSubjectAssignmentSubmitsAsync(SubjectId);
         }
 
-        private bool subjectAssignmentSatisfyViewMode(SubjectAssignmentDto subjectAssignment)
+        private bool SubjectAssignmentSatisfyViewMode(SubjectAssignmentDto subjectAssignment)
         {
             return (_currentViewMode == ViewMode.All
                     || (_currentViewMode == ViewMode.Completed &&

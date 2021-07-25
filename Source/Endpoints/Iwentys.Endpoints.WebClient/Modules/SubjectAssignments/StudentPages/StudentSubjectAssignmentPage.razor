@@ -18,7 +18,7 @@
                 <MudList>
                     @foreach (SubjectAssignmentDto subjectAssignment in _subjectAssignments)
                     {
-                        @if (subjectAssignmentSatisfyViewMode(subjectAssignment))
+                        @if (SubjectAssignmentSatisfyViewMode(subjectAssignment))
                         {
                             <div class="card-list-element">
                                 <MudCard Class="dark-elevation-01">
