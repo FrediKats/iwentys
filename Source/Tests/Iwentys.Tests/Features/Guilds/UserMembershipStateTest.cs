@@ -54,7 +54,7 @@ namespace Iwentys.Tests.Features.Guilds
             //    .Returns(default(GithubRepositoryInfoDto));
             _githubUserDataService
                 .Setup(a => a.User.GetGithubUser(It.IsAny<string>(), It.IsAny<bool>()))
-                .Returns(Task.FromResult(new GithubUser {ContributionFullInfo = new ContributionFullInfo {RawActivity = new ActivityInfo {Contributions = new List<ContributionsInfo>(), Years = new List<YearActivityInfo>()}}}));
+                .Returns(Task.FromResult(new GithubUser {ContributionFullInfo = new ContributionFullInfo {RawActivity = new CodingActivityInfo {Contributions = new List<ContributionsInfo>(), Years = new List<YearActivityInfo>()}}}));
 
             //_guildRepository = new Mock<GuildRepository>();
             //_guildRepository

@@ -1,8 +1,10 @@
-﻿namespace Iwentys.Domain.GithubIntegration.Models
+﻿using System;
+
+namespace Iwentys.Domain.GithubIntegration.Models
 {
     public class ContributionsInfo
     {
-        public ContributionsInfo(string date, int count) : this()
+        public ContributionsInfo(DateTime date, int count) : this()
         {
             Date = date;
             Count = count;
@@ -12,7 +14,7 @@
         {
         }
 
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
         public int Count { get; set; }
     }
 }

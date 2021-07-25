@@ -9,7 +9,8 @@
         {
             return new CodingActivityInfoResponse
             {
-                Month = contributions.Date,
+                //TODO: resolve month name
+                Month = contributions.Date.ToString(),
                 Activity = contributions.Count
             };
         }
