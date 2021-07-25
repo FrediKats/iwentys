@@ -10,10 +10,15 @@
         </MudItem>
         <MudItem xs="12" sm="12" md="12">
             <MudCard class="dark-elevation-01">
+                
                 <EditForm Model="_arguments">
-                    <DataAnnotationsValidator></DataAnnotationsValidator>
-                    <RenderFormElements></RenderFormElements>
-                    <MudButton class="dark-elevation-04" type="submit" OnClick="@(async () => await Create())">Submit</MudButton>
+                    <MudCardContent>
+                        <DataAnnotationsValidator/>
+                        <RenderFormElements/>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton class="dark-elevation-04" type="submit" OnClick="@(async () => await Create())">Submit</MudButton>
+                    </MudCardActions>
                 </EditForm>
             </MudCard>
         </MudItem>
