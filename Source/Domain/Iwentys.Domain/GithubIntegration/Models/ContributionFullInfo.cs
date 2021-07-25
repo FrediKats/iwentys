@@ -40,7 +40,7 @@ namespace Iwentys.Domain.GithubIntegration.Models
         public bool IsBelongToActivityPeriod(DateTime date)
         {
             DateTime currentMonthStart = DateTime.UtcNow.AddDays(-DateTime.UtcNow.Day);
-            DateTime currentActivityPeriodStart = currentMonthStart.AddMonths(-11));
+            DateTime currentActivityPeriodStart = currentMonthStart.AddMonths(-11);
 
             return date >= currentActivityPeriodStart;
         }
