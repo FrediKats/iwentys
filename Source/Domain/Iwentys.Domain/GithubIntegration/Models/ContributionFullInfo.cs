@@ -20,10 +20,9 @@ namespace Iwentys.Domain.GithubIntegration.Models
 
         public List<ContributionsInfo> PerMonthActivity()
         {
-            //TODO: convert date to month name
             return RawActivity
                 .Contributions
-                .Where(c => c.Date > DateTime.UtcNow.AddYears(-1))
+                .Where(c => IsBelongToActivityPeriod(c.Date))
                 .GroupBy(c => c.Date.AddDays(-c.Date.Day))
                 .Take(12)
                 .Select(c => new ContributionsInfo(c.Key, c.Sum(_ => _.Count)))
@@ -36,6 +35,14 @@ namespace Iwentys.Domain.GithubIntegration.Models
                 .Contributions
                 .Where(c => c.Date >= from && c.Date <= to)
                 .Sum(c => c.Count);
+        }
+
+        public bool IsBelongToActivityPeriod(DateTime date)
+        {
+            DateTime currentMonthStart = DateTime.UtcNow.AddDays(-DateTime.UtcNow.Day);
+            DateTime currentActivityPeriodStart = currentMonthStart.AddMonths(-11));
+
+            return date >= currentActivityPeriodStart;
         }
     }
 }
