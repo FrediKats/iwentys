@@ -26,12 +26,12 @@
                         <MudTh>Reject time</MudTh>
                     </HeaderContent>
                     <RowTemplate>
-                        <MudTd>@context.SubjectAssignmentTitle</MudTd>
-                        <MudTd>@context.Student.GetFullName()</MudTd>
-                        <MudTd>@context.SubmitTimeUtc</MudTd>
-                        <MudTd>@context.State</MudTd>
-                        <MudTd>@context.ApproveTimeUtc</MudTd>
-                        <MudTd>@context.RejectTimeUtc</MudTd>
+                        <MudTd Class="clickable">@context.SubjectAssignmentTitle</MudTd>
+                        <MudTd Class="clickable">@context.Student.GetFullName()</MudTd>
+                        <MudTd Class="clickable">@context.SubmitTimeUtc</MudTd>
+                        <MudTd Class="clickable">@context.State</MudTd>
+                        <MudTd Class="clickable">@context.ApproveTimeUtc</MudTd>
+                        <MudTd Class="clickable">@context.RejectTimeUtc</MudTd>
                     </RowTemplate>
                 </MudTable>
             </MudItem>
