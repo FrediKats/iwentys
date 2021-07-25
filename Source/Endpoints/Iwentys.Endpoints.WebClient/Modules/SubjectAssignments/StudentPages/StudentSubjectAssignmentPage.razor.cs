@@ -30,15 +30,20 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.StudentPages
 
         private bool SubjectAssignmentSatisfyViewMode(SubjectAssignmentDto subjectAssignment)
         {
-            return (_currentViewMode == ViewMode.All
-                    || (_currentViewMode == ViewMode.Completed &&
-                        subjectAssignment.Submits.Any(
-                            submit => submit.Student.Id == _self.Id && (submit.State == SubmitState.Approved))
-                        || (_currentViewMode == ViewMode.Uncompleted && !subjectAssignment.Submits.Any(
-                            submit => submit.Student.Id == _self.Id && (submit.State == SubmitState.Approved)))
-                    ));
+            return _currentViewMode switch
+            {
+                ViewMode.Completed => ApprovedSubmitByCurrentUserExists(subjectAssignment),
+                ViewMode.Uncompleted => !ApprovedSubmitByCurrentUserExists(subjectAssignment),
+                ViewMode.All => true
+            };
         }
 
+        private bool ApprovedSubmitByCurrentUserExists(SubjectAssignmentDto subjectAssignment)
+        {
+            return subjectAssignment.Submits.Any(
+                submit => submit.Student.Id == _self.Id && (submit.State == SubmitState.Approved));
+        }
+        
         private string LinkToCreateSubmit() => $"/subject/{SubjectId}/assignments/create-submit";
     }
 }
