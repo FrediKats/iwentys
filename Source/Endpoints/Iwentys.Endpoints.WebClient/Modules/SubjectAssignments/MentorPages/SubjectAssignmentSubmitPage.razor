@@ -11,37 +11,39 @@
             @if (_submit is not null)
             {
                 <MudCard>
-                    <MudText Typo="Typo.body2">Assignment: @_submit.SubjectAssignmentTitle</MudText>
-                    <MudText Typo="Typo.body2">Author: @_submit.Student.GetFullName()</MudText>
-                    <MudText Typo="Typo.body2">Description: @_submit.StudentDescription</MudText>
-                    <MudText Typo="Typo.body2">Submit time: @_submit.SubmitTimeUtc</MudText>
+                    <MudCardContent>
+                        <MudText Typo="Typo.body2">Assignment: @_submit.SubjectAssignmentTitle</MudText>
+                        <MudText Typo="Typo.body2">Author: @_submit.Student.GetFullName()</MudText>
+                        <MudText Typo="Typo.body2">Description: @_submit.StudentDescription</MudText>
+                        <MudText Typo="Typo.body2">Submit time: @_submit.SubmitTimeUtc</MudText>
 
-                    @switch (_submit.State)
-                    {
-                        case SubmitState.Created:
-                            break;
+                        @switch (_submit.State)
+                        {
+                            case SubmitState.Created:
+                                break;
 
-                        case SubmitState.Approved:
-                            <MudText Typo="Typo.body2">
-                                Approved (@_submit.ApproveTimeUtc)
-                            </MudText>
-                            <MudText Typo="Typo.body2">
-                                Comment: (@_submit.Comment)
-                            </MudText>
-                            break;
+                            case SubmitState.Approved:
+                                <MudText Typo="Typo.body2">
+                                    Approved (@_submit.ApproveTimeUtc)
+                                </MudText>
+                                <MudText Typo="Typo.body2">
+                                    Comment: (@_submit.Comment)
+                                </MudText>
+                                break;
 
-                        case SubmitState.Rejected:
-                            <MudText Typo="Typo.body2">
-                                Rejected (@_submit.RejectTimeUtc)
-                            </MudText>
-                            <MudText Typo="Typo.body2">
-                                Comment: (@_submit.Comment)
-                            </MudText>
-                            break;
+                            case SubmitState.Rejected:
+                                <MudText Typo="Typo.body2">
+                                    Rejected (@_submit.RejectTimeUtc)
+                                </MudText>
+                                <MudText Typo="Typo.body2">
+                                    Comment: (@_submit.Comment)
+                                </MudText>
+                                break;
 
-                        default:
-                            throw new ArgumentOutOfRangeException(nameof(SubmitState), "Unsupported assignment state");
-                    }
+                            default:
+                                throw new ArgumentOutOfRangeException(nameof(SubmitState), "Unsupported assignment state");
+                        }
+                    </MudCardContent>
                 </MudCard>
             }
 
@@ -49,11 +51,16 @@
 
         <MudItem xs="12" sm="12" md="12">
             <MudCard>
-                <MudText Align="Align.Left" Typo="Typo.h4">Add feedback</MudText>
                 <EditForm Model="_arguments">
-                    <DataAnnotationsValidator></DataAnnotationsValidator>
-                    <RenderFormElements></RenderFormElements>
-                    <MudButton class="dark-elevation-04" type="submit" OnClick="@(async () => await Create())">Send feedback</MudButton>
+                    <MudCardContent>
+                        <MudText Align="Align.Left" Typo="Typo.h4">Add feedback</MudText>
+                        <DataAnnotationsValidator></DataAnnotationsValidator>
+                        <RenderFormElements></RenderFormElements>
+                    </MudCardContent>
+
+                    <MudCardActions>
+                        <MudButton class="dark-elevation-04" type="submit" OnClick="@(async () => await Create())">Send feedback</MudButton>
+                    </MudCardActions>
                 </EditForm>
             </MudCard>
         </MudItem>

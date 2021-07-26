@@ -8,9 +8,13 @@
             <MudText Align="Align.Center" Typo="Typo.h4">Update assignment</MudText>
             <MudCard Class="dark-elevation-01">
                 <EditForm Model="_arguments">
-                    <DataAnnotationsValidator></DataAnnotationsValidator>
-                    <RenderFormElements></RenderFormElements>
-                    <MudButton class="dark-elevation-04" type="submit" OnClick="@(async () => await Update())">Submit</MudButton>
+                    <MudCardContent>
+                        <DataAnnotationsValidator/>
+                        <RenderFormElements/>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton class="dark-elevation-04" type="submit" OnClick="@(async () => await Update())">Submit</MudButton>
+                    </MudCardActions>
                 </EditForm>
             </MudCard>
         </MudItem>
