@@ -1,9 +1,16 @@
 ﻿@page "/subject/{SubjectId:int}/management/assignments/submits/{SubmitId:int}"
-
+@using Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages.Components
 @namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
 @attribute [Authorize]
 
-
+@if (_hasReview)
+{
+    <DarkConfirmationModal Title="Are you sure?" @ref="_confirmationModal" OnConfirm="@(async()=> await Create())" OnCancel="CloseModal">
+        <ChildContent>
+            <MudText Typo="Typo.body1">You are going to rewrite @_reviewer.FirstName @_reviewer.SecondName review, are you sure?</MudText>
+        </ChildContent>
+    </DarkConfirmationModal>
+}
 <MudContainer>
     <MudGrid>
         <MudItem xs="12" sm="12" md="12">
@@ -74,7 +81,7 @@
                     </MudCardContent>
 
                     <MudCardActions>
-                        <MudButton class="dark-elevation-04" type="submit" OnClick="@(async () => await Create())">Send feedback</MudButton>
+                        <MudButton class="dark-elevation-04" type="submit" OnClick="@(async () => await CheckBeforeCreate())">Send feedback</MudButton>
                     </MudCardActions>
                 </EditForm>
             </MudCard>
