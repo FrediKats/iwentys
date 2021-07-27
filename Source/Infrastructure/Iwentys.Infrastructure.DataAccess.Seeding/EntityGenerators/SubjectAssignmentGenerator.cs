@@ -34,7 +34,7 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
 
                     foreach (Student student in students)
                     {
-                        if (RandomExtensions.Instance.Random.Int(0, 10) == 0)
+                        if (RandomExtensions.Instance.Random.Int(0, 10) < 5)
                         {
                             SubjectAssignmentSubmits.Add(SubjectAssignmentFaker.Instance.CreateSubjectAssignmentSubmitWithFeedback(subjectAssignment.Id, student.Id));
 

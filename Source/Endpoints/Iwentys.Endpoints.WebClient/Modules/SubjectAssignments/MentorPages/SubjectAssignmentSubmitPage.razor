@@ -48,7 +48,22 @@
             }
 
         </MudItem>
-
+        @if (_hasReview)
+        {
+            <MudItem xs="12" sm="12" md="12">
+                <MudCard>
+                    <MudCardContent>
+                        <MudText Typo="Typo.body2">Previous reviewer: @_reviewer.FirstName @_reviewer.SecondName</MudText>
+                        <MudText Typo="Typo.body2">Review time: @(_submit.RejectTimeUtc ?? _submit.ApproveTimeUtc)</MudText>
+                        <MudText Typo="Typo.body2">Review verdict: @_submit.State</MudText>
+                        @if (_submit.State is SubmitState.Approved)
+                        {
+                            <MudText Typo="Typo.body2">Points: @_submit.Points</MudText>
+                        }
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+        }
         <MudItem xs="12" sm="12" md="12">
             <MudCard>
                 <EditForm Model="_arguments">

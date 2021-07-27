@@ -14,10 +14,15 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
 
         private SubjectAssignmentSubmitDto _submit;
         private Arguments _arguments = new Arguments();
+        private bool _hasReview;
+        private StudentInfoDto _reviewer;
 
         protected override async Task OnInitializedAsync()
         {
             _submit = await _mentorSubjectAssignmentSubmitClient.GetByIdAsync(SubmitId);
+            _hasReview = _submit is not null && _submit.State is SubmitState.Approved or SubmitState.Rejected;
+            if (_hasReview)
+                _reviewer = await _studentClient.GetByIdAsync(_submit.ReviewerId);
         }
 
 
