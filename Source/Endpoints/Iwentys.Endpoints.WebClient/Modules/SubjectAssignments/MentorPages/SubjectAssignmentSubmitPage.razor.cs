@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages.Components;
 using Iwentys.Sdk;
 
 namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
@@ -16,6 +17,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
         private Arguments _arguments = new Arguments();
         private bool _hasReview;
         private StudentInfoDto _reviewer;
+        private DarkConfirmationModal _confirmationModal;
 
         protected override async Task OnInitializedAsync()
         {
@@ -25,11 +27,28 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
                 _reviewer = await _studentClient.GetByIdAsync(_submit.ReviewerId);
         }
 
-
+        private async Task CheckBeforeCreate()
+        {
+            if (_hasReview)
+            {
+                _confirmationModal.Show();
+            }
+            else
+            {
+                await Create();
+            }
+        }
+        
         private async Task Create()
         {
+            _confirmationModal.Hide();
             await _mentorSubjectAssignmentSubmitClient.SendSubmitFeedbackAsync(CreateArg(_arguments));
             _navigationManager.NavigateTo($"/subject/{SubjectId}/management/assignments/submits/{SubmitId}", true);
+        }
+
+        private void CloseModal()
+        {
+            _confirmationModal.Hide();
         }
 
         private SubjectAssignmentSubmitFeedbackArguments CreateArg(Arguments arguments)
