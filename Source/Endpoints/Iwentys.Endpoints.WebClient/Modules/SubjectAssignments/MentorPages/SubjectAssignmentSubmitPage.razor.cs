@@ -46,11 +46,6 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
             _navigationManager.NavigateTo($"/subject/{SubjectId}/management/assignments/submits/{SubmitId}", true);
         }
 
-        private void CloseModal()
-        {
-            _confirmationModal.Hide();
-        }
-
         private SubjectAssignmentSubmitFeedbackArguments CreateArg(Arguments arguments)
         {
             return new SubjectAssignmentSubmitFeedbackArguments
@@ -58,6 +53,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
                 SubjectAssignmentSubmitId = SubmitId,
                 Comment = arguments.Comment,
                 FeedbackType = arguments.FeedbackType,
+                ReviewerId = _reviewer.Id,
                 Points = arguments.Points
             };
         }
