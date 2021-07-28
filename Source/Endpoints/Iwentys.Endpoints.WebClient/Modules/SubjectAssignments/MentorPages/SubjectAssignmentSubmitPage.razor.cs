@@ -41,7 +41,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
         
         private async Task Create()
         {
-            _confirmationModal.Hide();
+            _confirmationModal?.Hide();
             await _mentorSubjectAssignmentSubmitClient.SendSubmitFeedbackAsync(CreateArg(_arguments));
             _navigationManager.NavigateTo($"/subject/{SubjectId}/management/assignments/submits/{SubmitId}", true);
         }
@@ -53,7 +53,6 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
                 SubjectAssignmentSubmitId = SubmitId,
                 Comment = arguments.Comment,
                 FeedbackType = arguments.FeedbackType,
-                ReviewerId = _reviewer.Id,
                 Points = arguments.Points
             };
         }
