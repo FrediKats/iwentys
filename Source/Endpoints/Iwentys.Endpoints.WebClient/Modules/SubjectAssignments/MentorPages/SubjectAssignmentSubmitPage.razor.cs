@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages.Components;
 using Iwentys.Sdk;
 
@@ -10,6 +11,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
         {
             public string Comment { get; set; }
             public FeedbackType FeedbackType { get; set; }
+            [Range(-100,100,ErrorMessage = "Assignment can be evaluated  only between {1} and {2}")]
             public int? Points { get; set; }
         }
 
