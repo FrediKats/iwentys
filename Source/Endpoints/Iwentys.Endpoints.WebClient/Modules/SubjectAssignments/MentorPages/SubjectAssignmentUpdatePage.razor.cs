@@ -10,9 +10,12 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
     {
         public class Arguments
         {
+            [Required(ErrorMessage = "Title is required")]
             public string Title { get; set; }
             public string Description { get; set; }
+            [RegularExpression(@"(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)",ErrorMessage = "Url is not valid")]
             public string Link { get; set; }
+            [Required(ErrorMessage = "Deadline is required")]
             public DateTime? DeadlineUtc { get; set; }
             public int Position { get; set; }
             public bool AvailableForStudents { get; set; }
@@ -41,7 +44,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
         private async Task Update()
         {
             await _mentorSubjectAssignmentClient.UpdateAsync(CreateArg(_arguments));
-            _navigationManager.NavigateTo("/subject/assignment-management");
+            _navigationManager.NavigateTo("/subject/assignment-management/mentor");
         }
 
         private SubjectAssignmentUpdateArguments CreateArg(Arguments arguments)
@@ -52,8 +55,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
                 Title = arguments.Title,
                 Description = arguments.Description,
                 Link = arguments.Link,
-                //TODO: Data validation on client side (form warnings)
-                DeadlineUtc = arguments.DeadlineUtc ?? throw new Exception(),
+                DeadlineUtc = arguments.DeadlineUtc.Value,
                 Position = arguments.Position,
                 AvailabilityState = arguments.AvailableForStudents ? AvailabilityState.Visible : AvailabilityState.Hidden
             };
