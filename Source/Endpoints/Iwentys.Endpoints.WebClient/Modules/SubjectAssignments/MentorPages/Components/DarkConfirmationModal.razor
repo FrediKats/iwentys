@@ -16,8 +16,8 @@
                     @ChildContent
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="OnCancel">Close</button>
-                    <button type="button" class="btn btn-danger" @onclick="OnConfirm">Confirm</button>
+                    <MudButton Variant="Variant.Filled" Color="Color.Info" @onclick="OnCancel">Close</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Error" @onclick="OnConfirm">Confirm</MudButton>
                 </div>
             </div>
         </div>
