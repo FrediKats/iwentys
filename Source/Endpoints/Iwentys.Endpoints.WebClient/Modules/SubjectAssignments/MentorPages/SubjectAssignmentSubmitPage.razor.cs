@@ -38,10 +38,15 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
                 await Create();
             }
         }
+
+        private async Task Confirm()
+        {
+            _confirmationModal?.Hide();
+            await Create();
+        }
         
         private async Task Create()
         {
-            _confirmationModal?.Hide();
             await _mentorSubjectAssignmentSubmitClient.SendSubmitFeedbackAsync(CreateArg(_arguments));
             _navigationManager.NavigateTo($"/subject/{SubjectId}/management/assignments/submits/{SubmitId}", true);
         }
