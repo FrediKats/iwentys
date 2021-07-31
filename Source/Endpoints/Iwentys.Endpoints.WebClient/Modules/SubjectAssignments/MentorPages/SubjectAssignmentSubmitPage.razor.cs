@@ -17,7 +17,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
         private Arguments _arguments = new Arguments();
         private bool _hasReview;
         private StudentInfoDto _reviewer;
-        private DarkConfirmationModal _confirmationModal;
+        private ConfirmationModal _confirmationModal;
 
         protected override async Task OnInitializedAsync()
         {
