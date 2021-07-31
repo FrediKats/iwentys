@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Iwentys.Common.Tools;
 using Iwentys.Domain.SubjectAssignments.Models;
 using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos;
 using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.StudentScope.Queries;
@@ -21,6 +23,8 @@ namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.StudentS
         [HttpPost(nameof(CreateSubmit))]
         public async Task<ActionResult<SubjectAssignmentSubmitDto>> CreateSubmit(SubjectAssignmentSubmitCreateArguments arguments)
         {
+            if (!ModelState.IsValid)
+                throw new ArgumentException(ModelState.GetErrorsString());
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             CreateSubmit.Response response = await _mediator.Send(new CreateSubmit.Query(authorizedUser, arguments));
             return Ok(response.Submit);

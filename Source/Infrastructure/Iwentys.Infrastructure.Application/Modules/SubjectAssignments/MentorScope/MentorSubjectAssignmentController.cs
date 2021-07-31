@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Iwentys.Common.Tools;
 using Iwentys.Domain.SubjectAssignments.Models;
 using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos;
 using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.MentorScope.Queries;
@@ -17,12 +19,13 @@ namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.MentorSc
         public MentorSubjectAssignmentController(IMediator mediator)
         {
             _mediator = mediator;
-
-
         }
+        
         [HttpPost(nameof(Create))]
         public async Task<ActionResult> Create(SubjectAssignmentCreateArguments arguments)
         {
+            if (!ModelState.IsValid)
+                throw new ArgumentException(ModelState.GetErrorsString());
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             CreateSubjectAssignment.Response response = await _mediator.Send(new CreateSubjectAssignment.Query(authorizedUser, arguments));
             return Ok();
@@ -31,6 +34,8 @@ namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.MentorSc
         [HttpPost(nameof(Update))]
         public async Task<ActionResult> Update(SubjectAssignmentUpdateArguments arguments)
         {
+            if (!ModelState.IsValid)
+                throw new ArgumentException(ModelState.GetErrorsString());
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             UpdateSubjectAssignment.Response response = await _mediator.Send(new UpdateSubjectAssignment.Query(authorizedUser, arguments));
             return Ok(response.SubjectAssignment);

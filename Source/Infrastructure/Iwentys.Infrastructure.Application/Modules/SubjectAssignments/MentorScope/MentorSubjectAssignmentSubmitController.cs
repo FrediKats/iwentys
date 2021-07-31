@@ -1,8 +1,10 @@
-﻿using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.MentorScope.Queries;
+﻿using System;
+using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.MentorScope.Queries;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using Iwentys.Common.Tools;
 using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.StudentScope.Queries;
 using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos;
 using Iwentys.Domain.SubjectAssignments.Models;
@@ -39,6 +41,8 @@ namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.MentorSc
         [HttpPut(nameof(SendSubmitFeedback))]
         public async Task<ActionResult> SendSubmitFeedback(SubjectAssignmentSubmitFeedbackArguments arguments)
         {
+            if (!ModelState.IsValid)
+                throw new ArgumentException(ModelState.GetErrorsString());
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             SendSubmitFeedback.Response response = await _mediator.Send(new SendSubmitFeedback.Query(authorizedUser, arguments));
             return Ok();
