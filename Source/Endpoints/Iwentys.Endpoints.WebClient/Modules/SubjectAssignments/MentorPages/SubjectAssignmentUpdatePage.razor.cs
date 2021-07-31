@@ -10,12 +10,12 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
     {
         public class Arguments
         {
-            [Required(ErrorMessage = "Title is required")]
+            [Required(AllowEmptyStrings=false,ErrorMessage = "Title is required")]
             public string Title { get; set; }
             public string Description { get; set; }
             [RegularExpression(@"(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)",ErrorMessage = "Url is not valid")]
             public string Link { get; set; }
-            [Required(ErrorMessage = "Deadline is required")]
+            [Required(AllowEmptyStrings=false,ErrorMessage = "Deadline is required")]
             public DateTime? DeadlineUtc { get; set; }
             public int Position { get; set; }
             public bool AvailableForStudents { get; set; }
