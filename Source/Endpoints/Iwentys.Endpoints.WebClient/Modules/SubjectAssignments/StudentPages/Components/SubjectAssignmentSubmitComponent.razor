@@ -5,19 +5,28 @@
                 <MudText Typo="Typo.h6">
                     Submit for [@Submit.SubjectAssignmentTitle]
                 </MudText>
+                <MudText Typo="Typo.body2">
+                    Submitted: [@Submit.SubmitTimeUtc]
+                </MudText>
+                <MudPaper Class="p-4 h6" Style="@($"color:{Colors.Green.Accent3};")">
+                    Not checked
+                </MudPaper>
                 @switch (Submit.State)
                 {
                     case SubmitState.Created:
+                        <MudPaper Class="p-4 h6" Style="@($"color:{Colors.Yellow.Lighten1};")">
+                            Not checked
+                        </MudPaper>
                         break;
                     case SubmitState.Approved:
-                        <MudText Typo="Typo.body2">
+                        <MudPaper Class="p-4 h6" Style="@($"color:{Colors.Green.Accent3};")">
                             Approved (@Submit.ApproveTimeUtc)
-                        </MudText>
+                        </MudPaper>
                         break;
                     case SubmitState.Rejected:
-                        <MudText Typo="Typo.body2">
+                        <MudPaper Class="p-4 h6" Style="@($"color:{Colors.DeepOrange.Darken4};")">
                             Rejected (@Submit.RejectTimeUtc)
-                        </MudText>
+                        </MudPaper>
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(SubmitState), "Unsupported assignment state");
