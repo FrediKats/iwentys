@@ -51,6 +51,7 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study
                 SubmitTimeUtc = DateTime.UtcNow,
                 StudentDescription = _faker.Lorem.Paragraph(1),
 
+                ReviewerId = 228617,
                 Comment = _faker.Lorem.Paragraph(1),
                 Points = 5,
                 ApproveTimeUtc = DateTime.UtcNow,

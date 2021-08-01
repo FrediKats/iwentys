@@ -15,6 +15,8 @@ namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos
             SubmitTimeUtc = submit.SubmitTimeUtc;
             SubjectAssignmentId = submit.SubjectAssignmentId;
             SubjectAssignmentTitle = submit.SubjectAssignment.Title;
+            Points = submit.Points;
+            ReviewerId = submit.ReviewerId;
             ApproveTimeUtc = submit.ApproveTimeUtc;
             RejectTimeUtc = submit.RejectTimeUtc;
             Comment = submit.Comment;
@@ -31,7 +33,8 @@ namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos
         public DateTime SubmitTimeUtc { get; set; }
         public int SubjectAssignmentId { get; set; }
         public string SubjectAssignmentTitle { get; set; }
-
+        public int ReviewerId { get; set; }
+        public int Points { get; set; }
         public DateTime? ApproveTimeUtc { get; set; }
         public DateTime? RejectTimeUtc { get; set; }
         public string Comment { get; set; }

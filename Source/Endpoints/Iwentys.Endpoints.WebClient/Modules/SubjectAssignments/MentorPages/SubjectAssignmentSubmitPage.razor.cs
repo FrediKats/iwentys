@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages.Components;
 using Iwentys.Sdk;
 
 namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
@@ -14,13 +15,36 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
 
         private SubjectAssignmentSubmitDto _submit;
         private Arguments _arguments = new Arguments();
+        private bool _hasReview;
+        private StudentInfoDto _reviewer;
+        private ConfirmationModal _confirmationModal;
 
         protected override async Task OnInitializedAsync()
         {
             _submit = await _mentorSubjectAssignmentSubmitClient.GetByIdAsync(SubmitId);
+            _hasReview = _submit is not null && _submit.State is SubmitState.Approved or SubmitState.Rejected;
+            if (_hasReview)
+                _reviewer = await _studentClient.GetByIdAsync(_submit.ReviewerId);
         }
 
+        private async Task CheckBeforeCreate()
+        {
+            if (_hasReview)
+            {
+                _confirmationModal.Show();
+            }
+            else
+            {
+                await Create();
+            }
+        }
 
+        private async Task Confirm()
+        {
+            _confirmationModal?.Hide();
+            await Create();
+        }
+        
         private async Task Create()
         {
             await _mentorSubjectAssignmentSubmitClient.SendSubmitFeedbackAsync(CreateArg(_arguments));
