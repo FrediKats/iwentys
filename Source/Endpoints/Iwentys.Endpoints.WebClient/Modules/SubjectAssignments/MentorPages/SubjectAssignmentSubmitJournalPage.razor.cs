@@ -5,7 +5,7 @@ using Iwentys.Sdk;
 
 namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
 {
-    public partial class SubjectAssignmentSubmitJounalPage
+    public partial class SubjectAssignmentSubmitJournalPage
     {
         private ICollection<SubjectAssignmentSubmitDto> _subjectAssignmentSubmits;
 
@@ -30,7 +30,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
             _navigationManager.NavigateTo($"/subject/{SubjectId}/management/assignments/submits/{submit.Id}");
         }
 
-        private bool Inspector(SubjectAssignmentSubmitDto student)
+        private bool IsMatchedWithSearchRequest(SubjectAssignmentSubmitDto student)
         {
             if (string.IsNullOrWhiteSpace(_searchString))
                 return true;

@@ -17,7 +17,7 @@
                           Items="@_subjectAssignmentSubmits"
                           OnRowClick="@(arg => OnRowClicked(arg))"
                           class="dark-elevation-01"
-                          Filter="new Func<SubjectAssignmentSubmitDto,bool>(Inspector)">
+                          Filter="new Func<SubjectAssignmentSubmitDto,bool>(IsMatchedWithSearchRequest)">
                     <ToolBarContent>
                         <MudTextField @bind-Value="_searchString" Placeholder=" Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
                     </ToolBarContent>

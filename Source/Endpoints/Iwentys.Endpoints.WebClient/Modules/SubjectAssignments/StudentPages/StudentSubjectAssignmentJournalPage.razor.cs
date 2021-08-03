@@ -6,7 +6,7 @@ using Iwentys.Sdk;
 
 namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.StudentPages
 {
-    public partial class StudentSubjectAssignmentJounalPage
+    public partial class StudentSubjectAssignmentJournalPage
     {
         private GroupProfileResponseDto _group;
 
