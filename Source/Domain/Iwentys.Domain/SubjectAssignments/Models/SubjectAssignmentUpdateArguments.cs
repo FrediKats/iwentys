@@ -12,8 +12,7 @@ namespace Iwentys.Domain.SubjectAssignments.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public string Link { get; set; }
-        [Required(AllowEmptyStrings=false,ErrorMessage = "Deadline is required")]
-        public DateTime DeadlineUtc { get; set; }
+        public DateTime? DeadlineUtc { get; set; }
         public int Position { get; set; }
         public AvailabilityState AvailabilityState { get; set; }
     }

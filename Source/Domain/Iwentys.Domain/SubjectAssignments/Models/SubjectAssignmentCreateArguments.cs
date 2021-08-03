@@ -13,8 +13,7 @@ namespace Iwentys.Domain.SubjectAssignments.Models
         public string Description { get; set; }
         [RegularExpression(@"(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)",ErrorMessage = "Url is not valid")]
         public string Link { get; set; }
-        [Required(AllowEmptyStrings=false, ErrorMessage = "Deadline is required")]
-        public DateTime DeadlineUtc { get; set; }
+        public DateTime? DeadlineUtc { get; set; }
         public int Position { get; set; }
         public AvailabilityState AvailabilityState { get; set; }
     }

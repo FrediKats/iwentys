@@ -14076,8 +14076,7 @@ namespace Iwentys.Sdk
         public string Link { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("deadlineUtc")]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.DateTime DeadlineUtc { get; set; }
+        public System.DateTime? DeadlineUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("position")]
         public int Position { get; set; }
@@ -14323,8 +14322,7 @@ namespace Iwentys.Sdk
         public string Link { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("deadlineUtc")]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.DateTime DeadlineUtc { get; set; }
+        public System.DateTime? DeadlineUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("position")]
         public int Position { get; set; }
