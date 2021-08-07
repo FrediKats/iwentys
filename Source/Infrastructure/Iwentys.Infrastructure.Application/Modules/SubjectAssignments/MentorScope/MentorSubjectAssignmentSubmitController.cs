@@ -41,8 +41,6 @@ namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.MentorSc
         [HttpPut(nameof(SendSubmitFeedback))]
         public async Task<ActionResult> SendSubmitFeedback(SubjectAssignmentSubmitFeedbackArguments arguments)
         {
-            if (!ModelState.IsValid)
-                throw new ArgumentException(ModelState.GetErrorsString());
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             SendSubmitFeedback.Response response = await _mediator.Send(new SendSubmitFeedback.Query(authorizedUser, arguments));
             return Ok();
