@@ -24,8 +24,6 @@ namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.MentorSc
         [HttpPost(nameof(Create))]
         public async Task<ActionResult> Create(SubjectAssignmentCreateArguments arguments)
         {
-            if (!ModelState.IsValid)
-                throw new ArgumentException(ModelState.GetErrorsString());
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             CreateSubjectAssignment.Response response = await _mediator.Send(new CreateSubjectAssignment.Query(authorizedUser, arguments));
             return Ok();
@@ -34,8 +32,6 @@ namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.MentorSc
         [HttpPost(nameof(Update))]
         public async Task<ActionResult> Update(SubjectAssignmentUpdateArguments arguments)
         {
-            if (!ModelState.IsValid)
-                throw new ArgumentException(ModelState.GetErrorsString());
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             UpdateSubjectAssignment.Response response = await _mediator.Send(new UpdateSubjectAssignment.Query(authorizedUser, arguments));
             return Ok(response.SubjectAssignment);
