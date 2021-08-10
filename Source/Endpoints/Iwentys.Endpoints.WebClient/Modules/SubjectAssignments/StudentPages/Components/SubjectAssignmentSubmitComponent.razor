@@ -1,43 +1,41 @@
 ﻿<div class="card-list-element">
-    <MudCard Class="dark-elevation-01">
-        <MudCardContent>
-            <div class="card-list-element-content">
-                <MudText Typo="Typo.h6">
-                    Submit for [@Submit.SubjectAssignmentTitle]
-                </MudText>
-                <MudText Typo="Typo.body2">
-                    Submitted: @Submit.SubmitTimeUtc
-                </MudText>
-                @switch (Submit.State)
-                {
-                    case SubmitState.Created:
-                        <MudPaper Class="p-4">
-                            <MudText Color="Color.Warning" Typo="Typo.h6">
-                                Not checked
-                            </MudText>
-                        </MudPaper>
-                        break;
-                    case SubmitState.Approved:
-                        <MudPaper Class="p-4">
-                            <MudText Color="Color.Success" Typo="Typo.h6">
-                                Approved (@Submit.ApproveTimeUtc)
-                            </MudText>
-
-                        </MudPaper>
-                        break;
-                    case SubmitState.Rejected:
-                        <MudPaper Class="p-4">
-                            <MudText Color="Color.Error" Typo="Typo.h6">
-                                Rejected (@Submit.RejectTimeUtc)
-                            </MudText>
-                        </MudPaper>
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(SubmitState), "Unsupported assignment state");
-                }
-            </div>
-        </MudCardContent>
-    </MudCard>
+    <div class="card-list-element-content">
+        @switch (Submit.State)
+        {
+            case SubmitState.Created:
+                <div class="alert alert-warning my-0" role="alert">
+                    <h4 class="alert-heading">Submit for @Submit.SubjectAssignmentTitle</h4>
+                    <b>Submitted:</b> @Submit.SubmitTimeUtc
+                    <hr>
+                    <p class="mb-0">
+                        <b>Not checked</b>
+                    </p>
+                </div>
+                break;
+            case SubmitState.Approved:
+                <div class="alert alert-success my-0" role="alert">
+                    <h4 class="alert-heading">Submit for @Submit.SubjectAssignmentTitle</h4>
+                    <b>Submitted:</b> @Submit.SubmitTimeUtc
+                    <hr>
+                    <p class="mb-0">
+                        <b>Approved!!! Points: @Submit.Points</b>
+                    </p>
+                </div>
+                break;
+            case SubmitState.Rejected:
+                <div class="alert alert-danger my-0" role="alert">
+                    <h4 class="alert-heading">Submit for @Submit.SubjectAssignmentTitle</h4>
+                    <b>Rejected =( Submitted:</b> @Submit.SubmitTimeUtc
+                    <hr>
+                    <p class="mb-0">
+                        <b>Points: @Submit.Points</b>
+                    </p>
+                </div>
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(SubmitState), "Unsupported assignment state");
+        }
+    </div>
 </div>
 
 @code {
