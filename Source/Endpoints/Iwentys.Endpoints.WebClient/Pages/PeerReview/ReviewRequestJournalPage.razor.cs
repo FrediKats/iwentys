@@ -4,7 +4,7 @@ using Iwentys.Sdk;
 
 namespace Iwentys.Endpoints.WebClient.Pages.PeerReview
 {
-    public partial class ReviewRequestJounalPage
+    public partial class ReviewRequestJournalPage
     {
         private ICollection<ProjectReviewRequestInfoDto> _projectReviewRequests;
 
