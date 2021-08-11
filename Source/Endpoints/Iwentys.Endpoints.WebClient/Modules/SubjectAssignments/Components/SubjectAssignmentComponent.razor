@@ -1,28 +1,45 @@
 ﻿<div class="card-list-element-content">
     <div class="d-flex flex-row align-self-center align-baseline">
-        <MudText Typo="Typo.h5">@Assignment.Title</MudText>
+        <MudButton Class="align-self-start" OnClick="@UpdateCollapsedSubjectAssignment">
+            <MudText Typo="Typo.h5" Style="text-transform:none; white-space:nowrap">@Assignment.Title</MudText>
+        </MudButton>
         @switch (Assignment.AvailabilityState)
         {
             case AvailabilityState.Hidden:
-                <MudIcon Class="align-self-center" Icon="@Icons.Outlined.VisibilityOff" />
+                <MudIcon Class="align-self-center" Icon="@Icons.Outlined.VisibilityOff"/>
                 break;
 
             case AvailabilityState.Deleted:
-                <MudIcon Class="align-self-center" Icon="@Icons.Outlined.Block" />
+                <MudIcon Class="align-self-center" Icon="@Icons.Outlined.Block"/>
                 break;
 
             default:
-                <MudIcon Class="align-self-center" Icon="@Icons.Outlined.Visibility" />
+                <MudIcon Class="align-self-center" Icon="@Icons.Outlined.Visibility"/>
                 break;
         }
     </div>
-
-    <MudText Typo="Typo.body1">Deadline: @Assignment.DeadlineTimeUtc</MudText>
-    <MudText Typo="Typo.body1">@Assignment.Description</MudText>
-    <MudText Typo="Typo.body1">@Assignment.Link</MudText>
+    
+    @if (!Collapsed)
+    {
+        <MudText Typo="Typo.body1">Deadline: @Assignment.DeadlineTimeUtc</MudText>
+        <MudText Typo="Typo.body1">@Assignment.Description</MudText>
+        <MudText Typo="Typo.body1">@Assignment.Link</MudText>
+    }
 </div>
 
 @code {
     [Parameter]
     public SubjectAssignmentDto Assignment { get; set; }
+    
+    [Parameter]
+    public bool Collapsed { get; set; } = true;
+
+    [Parameter]
+    public EventCallback<bool> CollapsedChanged { get; set; }
+
+    private async Task UpdateCollapsedSubjectAssignment()
+    {
+        Collapsed = !Collapsed;
+        await CollapsedChanged.InvokeAsync(Collapsed);
+    }
 }

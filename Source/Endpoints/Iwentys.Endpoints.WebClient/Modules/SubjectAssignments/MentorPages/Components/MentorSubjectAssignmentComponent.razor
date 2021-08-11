@@ -2,7 +2,21 @@
 <MudContainer Class="card-list-element dark-elevation-01">
     <MudGrid>
         <MudItem xs="12" sm="12" md="12" Class="d-flex flex-row align-self-center align-baseline">
-            <MudText Typo="Typo.h4">Subject: @SubjectAssignment.Title</MudText>
+            <MudButton Class="align-self-start" OnClick="@(() => _collapsed = !_collapsed)">
+                <MudText Typo="Typo.h5">
+                    @if (_collapsed)
+                    {
+                        <span class="oi oi-caret-bottom" aria-hidden="true"></span>
+                    }
+                    else
+                    {
+                        <span class="oi oi-caret-right" aria-hidden="true"></span>
+                    }
+                </MudText>
+                <MudText Typo="Typo.h4" Style="text-transform: none; white-space: nowrap">
+                    &nbsp; Subject: @SubjectAssignment.Title
+                </MudText>
+            </MudButton>
             <MudButton Class="align-self-center" Link=@LinkToSubjectAssignmentCreate(SubjectAssignment.Id)>
                 <span class="oi oi-plus" title="add" aria-hidden="true"></span>
             </MudButton>
@@ -10,34 +24,42 @@
                 Submits
             </MudButton>
         </MudItem>
-
-        @foreach (SubjectAssignmentDto assignment in SubjectAssignment.Assignments)
+        @if (!_collapsed)
         {
-            <MudItem xs="12" sm="12" md="12" Class="card-list-element">
-                <MudCard Class="dark-elevation-02">
-                    <MudCardContent>
-                        <SubjectAssignmentComponent Assignment="@assignment"></SubjectAssignmentComponent>
-                    </MudCardContent>
+            InitializeCollapsedList();
 
-                    <MudCardActions>
-                        @if (assignment.AvailabilityState == AvailabilityState.Deleted)
+            foreach (SubjectAssignmentDto assignment in SubjectAssignment.Assignments)
+            {
+                int localIterator = _iterator;
+                IncrementIterator();
+                <MudItem xs="12" sm="12" md="12" Class="card-list-element">
+                    <MudCard Class="dark-elevation-02">
+                        <MudCardContent>
+                            <SubjectAssignmentComponent Assignment="@assignment" @bind-Collapsed="@_assignmentsCollapsed[localIterator]" @bind-Collapsed:event="CollapsedChanged"></SubjectAssignmentComponent>
+                        </MudCardContent>
+                        @if (!_assignmentsCollapsed[localIterator])
                         {
-                            <MudButton OnClick="@(async () => await Recover(assignment))">
-                                Recover
-                            </MudButton>
+                            <MudCardActions>
+                                @if (assignment.AvailabilityState == AvailabilityState.Deleted)
+                                {
+                                    <MudButton OnClick="@(async () => await Recover(assignment))">
+                                        Recover
+                                    </MudButton>
+                                }
+                                else
+                                {
+                                    <MudButton Link=@LinkToSubjectAssignmentUpdate(assignment.Id)>
+                                        Edit
+                                    </MudButton>
+                                    <MudButton OnClick="@(async () => await Delete(assignment))">
+                                        Delete
+                                    </MudButton>
+                                }
+                            </MudCardActions>
                         }
-                        else
-                        {
-                            <MudButton Link=@LinkToSubjectAssignmentUpdate(assignment.Id)>
-                                Edit
-                            </MudButton>
-                            <MudButton OnClick="@(async () => await Delete(assignment))">
-                                Delete
-                            </MudButton>
-                        }
-                    </MudCardActions>
-                </MudCard>
-            </MudItem>
+                    </MudCard>
+                </MudItem>
+            }
         }
     </MudGrid>
 </MudContainer>
@@ -45,4 +67,24 @@
 @code {
     [Parameter]
     public SubjectAssignmentJournalItemDto SubjectAssignment { get; set; }
+
+    private bool _collapsed  = true;
+
+    private int _iterator = 0;
+
+    private void IncrementIterator()
+    {
+        _iterator = (_iterator + 1) % SubjectAssignment.Assignments.Count;
+    }
+
+    private List<bool> _assignmentsCollapsed;
+
+    private void InitializeCollapsedList()
+    {
+        if (_assignmentsCollapsed != null)
+            return;
+        _assignmentsCollapsed = Enumerable.Repeat(true, 
+            SubjectAssignment.Assignments.Count).ToList();
+    }
+
 }
