@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Sdk;
@@ -7,10 +8,16 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.StudentPages
 {
     public partial class SubjectAssignmentSubmitCreatePage
     {
+        public class Arguments
+        {
+            [Required]
+            public string Description { get; set; }
+            [Required]
+            public SubjectAssignmentDto SelectedSubjectAssignment { get; set; }
+        }
+        
         private List<SubjectAssignmentDto> _subjectAssignments;
-
-        private string _description;
-        private SubjectAssignmentDto _selectedSubjectAssignment;
+        private Arguments _arguments = new Arguments();
 
         protected override async Task OnInitializedAsync()
         {
@@ -22,8 +29,8 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.StudentPages
         {
             var createArguments = new SubjectAssignmentSubmitCreateArguments
             {
-                SubjectAssignmentId = _selectedSubjectAssignment.Id,
-                StudentDescription = _description,
+                SubjectAssignmentId = _arguments.SelectedSubjectAssignment.Id,
+                StudentDescription = _arguments.Description,
             };
 
             await _studentSubjectAssignmentSubmitClient.CreateSubmitAsync(createArguments);

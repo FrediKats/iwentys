@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Iwentys.Endpoints.Api.Authorization;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Middlewares;
 using Iwentys.Infrastructure.Configuration;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Integrations.IsuIntegration.Configuration;
@@ -29,6 +30,7 @@ namespace Iwentys.Endpoints.Api
                 .AddControllersWithViews(options =>
             {
                 options.Filters.Add(new ProducesAttribute("application/json"));
+                options.Filters.Add(typeof(ModelStateFilter));
             })
                 .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
             services.AddSwaggerGen();

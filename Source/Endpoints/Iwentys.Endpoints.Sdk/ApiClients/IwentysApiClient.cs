@@ -12397,18 +12397,6 @@ namespace Iwentys.Sdk
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.6.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class ActivityInfo 
-    {
-        [System.Text.Json.Serialization.JsonPropertyName("years")]
-        public System.Collections.Generic.ICollection<YearActivityInfo> Years { get; set; }
-    
-        [System.Text.Json.Serialization.JsonPropertyName("contributions")]
-        public System.Collections.Generic.ICollection<ContributionsInfo> Contributions { get; set; }
-    
-    
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.6.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class AssignmentCreateArguments 
     {
         [System.Text.Json.Serialization.JsonPropertyName("title")]
@@ -12499,8 +12487,23 @@ namespace Iwentys.Sdk
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.6.0 (Newtonsoft.Json v11.0.0.0)")]
+    public partial class CodingActivityInfo 
+    {
+        [System.Text.Json.Serialization.JsonPropertyName("years")]
+        public System.Collections.Generic.ICollection<YearActivityInfo> Years { get; set; }
+    
+        [System.Text.Json.Serialization.JsonPropertyName("contributions")]
+        public System.Collections.Generic.ICollection<ContributionsInfo> Contributions { get; set; }
+    
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.4.6.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class CodingActivityInfoResponse 
     {
+        [System.Text.Json.Serialization.JsonPropertyName("date")]
+        public System.DateTime Date { get; set; }
+    
         [System.Text.Json.Serialization.JsonPropertyName("month")]
         public string Month { get; set; }
     
@@ -12535,7 +12538,7 @@ namespace Iwentys.Sdk
     public partial class ContributionFullInfo 
     {
         [System.Text.Json.Serialization.JsonPropertyName("rawActivity")]
-        public ActivityInfo RawActivity { get; set; }
+        public CodingActivityInfo RawActivity { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("total")]
         public int Total { get; set; }
@@ -12547,7 +12550,7 @@ namespace Iwentys.Sdk
     public partial class ContributionsInfo 
     {
         [System.Text.Json.Serialization.JsonPropertyName("date")]
-        public string Date { get; set; }
+        public System.DateTime Date { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("count")]
         public int Count { get; set; }
@@ -14058,19 +14061,22 @@ namespace Iwentys.Sdk
     public partial class SubjectAssignmentCreateArguments 
     {
         [System.Text.Json.Serialization.JsonPropertyName("subjectId")]
+        [System.ComponentModel.DataAnnotations.Range(1, 2147483647)]
         public int SubjectId { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("title")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string Title { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("description")]
         public string Description { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("link")]
+        [System.ComponentModel.DataAnnotations.RegularExpression(@"(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)")]
         public string Link { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("deadlineUtc")]
-        public System.DateTime DeadlineUtc { get; set; }
+        public System.DateTime? DeadlineUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("position")]
         public int Position { get; set; }
@@ -14193,6 +14199,7 @@ namespace Iwentys.Sdk
     public partial class SubjectAssignmentSubmitCreateArguments 
     {
         [System.Text.Json.Serialization.JsonPropertyName("subjectAssignmentId")]
+        [System.ComponentModel.DataAnnotations.Range(1, 2147483647)]
         public int SubjectAssignmentId { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("studentDescription")]
@@ -14254,6 +14261,7 @@ namespace Iwentys.Sdk
     public partial class SubjectAssignmentSubmitFeedbackArguments 
     {
         [System.Text.Json.Serialization.JsonPropertyName("subjectAssignmentSubmitId")]
+        [System.ComponentModel.DataAnnotations.Range(1, 2147483647)]
         public int SubjectAssignmentSubmitId { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("comment")]
@@ -14300,9 +14308,11 @@ namespace Iwentys.Sdk
     public partial class SubjectAssignmentUpdateArguments 
     {
         [System.Text.Json.Serialization.JsonPropertyName("subjectAssignmentId")]
+        [System.ComponentModel.DataAnnotations.Range(1, 2147483647)]
         public int SubjectAssignmentId { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("title")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string Title { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("description")]
@@ -14312,7 +14322,7 @@ namespace Iwentys.Sdk
         public string Link { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("deadlineUtc")]
-        public System.DateTime DeadlineUtc { get; set; }
+        public System.DateTime? DeadlineUtc { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("position")]
         public int Position { get; set; }
@@ -14570,7 +14580,7 @@ namespace Iwentys.Sdk
         public int ActivityInfoId { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("activityInfo")]
-        public ActivityInfo ActivityInfo { get; set; }
+        public CodingActivityInfo ActivityInfo { get; set; }
     
     
     }

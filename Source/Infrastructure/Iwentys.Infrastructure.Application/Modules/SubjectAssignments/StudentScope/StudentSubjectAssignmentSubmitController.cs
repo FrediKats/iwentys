@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Iwentys.Common.Tools;
 using Iwentys.Domain.SubjectAssignments.Models;
 using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos;
 using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.StudentScope.Queries;

@@ -7,28 +7,27 @@
         <MudItem xs="12" sm="12" md="12">
             <MudText Align="Align.Center" Typo="Typo.h4">Add new submit</MudText>
             <MudCard>
-                <MudCardContent>
-                    @if (_subjectAssignments is not null)
-                    {
-                        <p>
-                            <MudSelect Label="Select assignment" @bind-Value=@_selectedSubjectAssignment Class="input-element" FullWidth="true">
+                @if (_subjectAssignments is not null)
+                {
+                    <EditForm Model="_arguments" OnValidSubmit="@(()=>SendSubmit())">
+                        <DataAnnotationsValidator/>
+                        <MudCardContent>
+                            <MudSelect Label="Select assignment" Class="input-element" FullWidth="true"
+                                       @bind-Value="_arguments.SelectedSubjectAssignment"
+                                       For="(() => _arguments.SelectedSubjectAssignment)">
                                 @foreach (var item in _subjectAssignments)
                                 {
                                     <MudSelectItem Value="@item">@item.Title</MudSelectItem>
                                 }
                             </MudSelect>
-                        </p>
-                        <p>
-                            <MudTextField @bind-Value="@_description" Label="Comments" Class="input-element" FullWidth="true"></MudTextField>
-                        </p>
-                    }
-                </MudCardContent>
-                <MudCardActions>
-                    @if (_subjectAssignments is not null)
-                    {
-                        <MudButton OnClick="@SendSubmit">Send response</MudButton>
-                    }
-                </MudCardActions>
+                            <MudTextField InputType="InputType.Text" Label="Comments" Class="input-element" FullWidth="true"
+                                          @bind-Value="_arguments.Description" For="(() => _arguments.Description)"/>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton ButtonType="ButtonType.Submit">Send response</MudButton>
+                        </MudCardActions>
+                    </EditForm>
+                }
             </MudCard>
         </MudItem>
     </MudGrid>
