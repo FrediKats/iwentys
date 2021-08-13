@@ -23,7 +23,14 @@
                             <div class="card-list-element">
                                 <MudCard Class="dark-elevation-01">
                                     <MudCardContent>
-                                        <SubjectAssignmentComponent Assignment="@subjectAssignment"></SubjectAssignmentComponent>
+                                        <MudExpansionPanel>
+                                            <TitleContent>
+                                                <SubjectAssignmentComponentHeading Assignment="@subjectAssignment"></SubjectAssignmentComponentHeading>
+                                            </TitleContent>
+                                            <ChildContent>
+                                                <SubjectAssignmentComponentContent Assignment="@subjectAssignment"></SubjectAssignmentComponentContent>
+                                            </ChildContent>
+                                        </MudExpansionPanel>
                                     </MudCardContent>
                                 </MudCard>
                             </div>

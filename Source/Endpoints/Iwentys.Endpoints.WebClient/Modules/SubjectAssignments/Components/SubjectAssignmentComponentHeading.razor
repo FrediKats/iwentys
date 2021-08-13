@@ -1,0 +1,22 @@
+﻿<div class="d-flex flex-row align-self-center align-baseline">
+    <MudText Typo="Typo.h5">@Assignment.Title &nbsp;</MudText>
+    @switch (Assignment.AvailabilityState)
+    {
+        case AvailabilityState.Hidden:
+            <MudIcon Class="align-self-center" Icon="@Icons.Outlined.VisibilityOff"/>
+            break;
+
+        case AvailabilityState.Deleted:
+            <MudIcon Class="align-self-center" Icon="@Icons.Outlined.Block"/>
+            break;
+
+        default:
+            <MudIcon Class="align-self-center" Icon="@Icons.Outlined.Visibility"/>
+            break;
+    }
+</div>
+
+@code {
+    [Parameter]
+    public SubjectAssignmentDto Assignment { get; set; }
+}
