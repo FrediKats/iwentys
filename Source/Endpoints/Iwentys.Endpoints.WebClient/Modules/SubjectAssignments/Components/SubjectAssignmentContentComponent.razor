@@ -1,0 +1,8 @@
+﻿<MudText Typo="Typo.body1">Deadline: @Assignment.DeadlineTimeUtc</MudText>
+<MudText Typo="Typo.body1">@Assignment.Description</MudText>
+<MudText Typo="Typo.body1">@Assignment.Link</MudText>
+
+@code {
+    [Parameter]
+    public SubjectAssignmentDto Assignment { get; set; }
+}
