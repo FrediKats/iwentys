@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Domain.Raids.Models;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.Application.Controllers.Raids.Dtos;
-using Iwentys.Infrastructure.Application.Controllers.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Raids
+namespace Iwentys.Modules.Gamification.Raids
 {
     [Route("api/raids")]
     [ApiController]
@@ -19,7 +19,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Raids
         }
 
         [HttpPost("profile/create")]
-        public async Task<ActionResult> Create([FromBody]RaidCreateArguments arguments)
+        public async Task<ActionResult> Create([FromBody] RaidCreateArguments arguments)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             await _raidService.Create(user, arguments);
@@ -29,7 +29,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Raids
         [HttpGet("profile/get")]
         public async Task<ActionResult<List<RaidProfileDto>>> Get()
         {
-            List<RaidProfileDto> result = await _raidService.Get(); 
+            List<RaidProfileDto> result = await _raidService.Get();
             return Ok(result);
         }
 

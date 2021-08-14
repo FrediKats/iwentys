@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Domain.Achievements.Dto;
+using Iwentys.Infrastructure.Application.Controllers.Achievements;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Achievements
+namespace Iwentys.Modules.Gamification.Achievements
 {
     [Route("api/achievements")]
     [ApiController]

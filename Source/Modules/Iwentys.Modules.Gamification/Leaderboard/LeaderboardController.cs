@@ -3,10 +3,11 @@ using System.Threading.Tasks;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Study.Enums;
 using Iwentys.Domain.Study.Models;
+using Iwentys.Infrastructure.Application.Controllers.Leaderboard;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Leaderboard
+namespace Iwentys.Modules.Gamification.Leaderboard
 {
     //TODO: refactor naming
     [Route("api/leaderboard")]
