@@ -23,11 +23,11 @@
                             <MudCard Class="dark-elevation-02">
                                 <MudExpansionPanel>
                                     <TitleContent>
-                                        <SubjectAssignmentComponentHeading Assignment="@assignment"></SubjectAssignmentComponentHeading>
+                                        <SubjectAssignmentHeadingComponent Assignment="@assignment"></SubjectAssignmentHeadingComponent>
                                     </TitleContent>
                                     <ChildContent>
                                         <MudCardContent>
-                                            <SubjectAssignmentComponentContent Assignment="@assignment"></SubjectAssignmentComponentContent>
+                                            <SubjectAssignmentContentComponent Assignment="@assignment"></SubjectAssignmentContentComponent>
                                         </MudCardContent>
                                         <MudCardActions>
                                             @if (assignment.AvailabilityState == AvailabilityState.Deleted)
