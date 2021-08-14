@@ -1,7 +1,6 @@
 using System.Text.Json.Serialization;
 using Iwentys.Endpoints.Api.Authorization;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.Application.Middlewares;
 using Iwentys.Infrastructure.Configuration;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Integrations.IsuIntegration.Configuration;

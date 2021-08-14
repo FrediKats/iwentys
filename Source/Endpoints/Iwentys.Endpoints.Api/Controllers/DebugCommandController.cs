@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.Application.Controllers.BackgroundServices;
-using Iwentys.Infrastructure.Application.Controllers.Services;
 using Iwentys.Infrastructure.Configuration.Options;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.Guilds;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using StackExchange.Exceptional;

@@ -1,5 +1,7 @@
 ﻿using Iwentys.Endpoints.Api.Authorization;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.AccountManagement;
+using Iwentys.Modules.Guilds;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -56,6 +58,15 @@ namespace Iwentys.Endpoints.Api
                 .AddDbContext<IwentysDbContext>(o => o
                     .UseLazyLoadingProxies()
                     .UseInMemoryDatabase("Data Source=Iwentys.db"));
+            return services;
+        }
+
+        public static IServiceCollection AddIwentysModules(this IServiceCollection services)
+        {
+            services
+                .AddGuildModule()
+                .AddAccountManagementModule();
+
             return services;
         }
     }
