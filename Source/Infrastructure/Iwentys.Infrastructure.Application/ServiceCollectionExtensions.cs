@@ -2,7 +2,6 @@
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Infrastructure.Application.Controllers.Companies;
 using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
-using Iwentys.Infrastructure.Application.Controllers.Guilds;
 using Iwentys.Infrastructure.Application.Controllers.Quests;
 using Iwentys.Infrastructure.Application.Controllers.Services;
 using Iwentys.Infrastructure.Application.Controllers.StudentProfile;
@@ -24,8 +23,6 @@ namespace Iwentys.Infrastructure.Application
 
             services.AddScoped<GithubIntegrationService>();
 
-            services.AddScoped<GuildMemberService>();
-            services.AddScoped<GuildService>();
 
             services.AddScoped<RaidService>();
 
@@ -36,7 +33,6 @@ namespace Iwentys.Infrastructure.Application
         {
             services.AddMediatR(typeof(CompanyController).Assembly);
             services.AddMediatR(typeof(QuestController).Assembly);
-            services.AddMediatR(typeof(GuildController).Assembly);
             services.AddMediatR(typeof(StudentController).Assembly);
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionPipeline<,,>));

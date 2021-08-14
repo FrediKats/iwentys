@@ -1,5 +1,5 @@
-using Iwentys.Infrastructure.Application.Controllers.Services;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.Guilds;
 using Iwentys.Tests.Tools;
 using Microsoft.Extensions.DependencyInjection;
 
