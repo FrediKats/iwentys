@@ -1,12 +1,10 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Iwentys.Domain.InterestTags;
+﻿using Iwentys.Domain.InterestTags;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.InterestTags
+namespace Iwentys.Modules.AccountManagement.InterestTags.Queries
 {
-    public class RemoveUserTag
+    public class AddUserTag
     {
         public class Query : IRequest<Response>
         {
@@ -23,7 +21,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.InterestTags
         {
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public class Handler : RequestHandler<Query, Response>
         {
             private readonly IwentysDbContext _context;
 
@@ -32,9 +30,9 @@ namespace Iwentys.Infrastructure.Application.Controllers.InterestTags
                 _context = context;
             }
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+            protected override Response Handle(Query request)
             {
-                _context.UserInterestTags.Remove(new UserInterestTag { UserId = request.UserId, InterestTagId = request.TagId });
+                _context.UserInterestTags.Add(new UserInterestTag { UserId = request.UserId, InterestTagId = request.TagId });
                 return new Response();
             }
         }

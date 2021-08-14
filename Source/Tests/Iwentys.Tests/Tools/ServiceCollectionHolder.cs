@@ -2,6 +2,7 @@
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.Configuration;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.AccountManagement;
 using Iwentys.Modules.Guilds;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +24,8 @@ namespace Iwentys.Tests.Tools
                 .AddIwentysMediatorHandlers()
                 .AddIwentysServices()
                 .AddAutoMapperConfig()
-                .AddGuildModule();
+                .AddGuildModule()
+                .AddAccountManagementModule();
 
             ServiceProvider = services.BuildServiceProvider();
         }

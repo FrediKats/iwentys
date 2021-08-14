@@ -6,7 +6,7 @@ using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Controllers.StudentProfile
+namespace Iwentys.Modules.AccountManagement.StudentProfile.Queries
 {
     public class GetStudentById
     {

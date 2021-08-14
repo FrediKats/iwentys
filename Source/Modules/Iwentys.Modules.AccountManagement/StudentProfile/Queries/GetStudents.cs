@@ -4,7 +4,7 @@ using Iwentys.Domain.Study.Models;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.StudentProfile
+namespace Iwentys.Modules.AccountManagement.StudentProfile.Queries
 {
     public static class GetStudents
     {

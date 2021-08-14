@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Domain.InterestTags.Dto;
+using Iwentys.Modules.AccountManagement.InterestTags.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Infrastructure.Application.Controllers.InterestTags
+namespace Iwentys.Modules.AccountManagement.InterestTags
 {
     [Route("api/InterestTag")]
     [ApiController]
@@ -37,7 +38,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.InterestTags
             AddUserTag.Response response = await _mediator.Send(new AddUserTag.Query(studentId, tagId));
             return Ok();
         }
-        
+
         [HttpGet(nameof(Remove))]
         public async Task<ActionResult> Remove(int studentId, int tagId)
         {

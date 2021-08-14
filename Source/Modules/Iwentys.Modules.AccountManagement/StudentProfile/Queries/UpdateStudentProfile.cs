@@ -3,11 +3,12 @@ using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study.Models;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Controllers.StudentProfile
+namespace Iwentys.Modules.AccountManagement.StudentProfile.Queries
 {
     public class UpdateStudentProfile
     {

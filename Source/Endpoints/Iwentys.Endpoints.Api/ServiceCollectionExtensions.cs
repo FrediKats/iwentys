@@ -1,5 +1,6 @@
 ﻿using Iwentys.Endpoints.Api.Authorization;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.AccountManagement;
 using Iwentys.Modules.Guilds;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -63,7 +64,8 @@ namespace Iwentys.Endpoints.Api
         public static IServiceCollection AddIwentysModules(this IServiceCollection services)
         {
             services
-                .AddGuildModule();
+                .AddGuildModule()
+                .AddAccountManagementModule();
 
             return services;
         }

@@ -4,7 +4,6 @@ using Iwentys.Infrastructure.Application.Controllers.Companies;
 using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
 using Iwentys.Infrastructure.Application.Controllers.Quests;
 using Iwentys.Infrastructure.Application.Controllers.Services;
-using Iwentys.Infrastructure.Application.Controllers.StudentProfile;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Integrations.GithubIntegration;
 using MediatR;
@@ -33,7 +32,6 @@ namespace Iwentys.Infrastructure.Application
         {
             services.AddMediatR(typeof(CompanyController).Assembly);
             services.AddMediatR(typeof(QuestController).Assembly);
-            services.AddMediatR(typeof(StudentController).Assembly);
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionPipeline<,,>));
 

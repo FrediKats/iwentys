@@ -1,8 +1,4 @@
-﻿using Iwentys.Domain.Gamification;
-using Iwentys.Domain.GithubIntegration;
-using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
-using Iwentys.Integrations.GithubIntegration;
-using Iwentys.Modules.Guilds.Guilds;
+﻿using Iwentys.Modules.Guilds.Guilds;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
