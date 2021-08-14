@@ -2,10 +2,12 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.PeerReview.Dto;
+using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Controllers.PeerReview;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Infrastructure.Application.Controllers.PeerReview
+namespace Iwentys.Modules.PeerReview
 {
     [Route("api/peer-review")]
     [ApiController]
