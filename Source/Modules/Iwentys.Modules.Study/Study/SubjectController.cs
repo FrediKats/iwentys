@@ -2,11 +2,12 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.Study.Enums;
 using Iwentys.Domain.Study.Models;
+using Iwentys.Infrastructure.Application.Controllers.Study;
 using Iwentys.Infrastructure.Application.Controllers.Study.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Study
+namespace Iwentys.Modules.Study.Study
 {
     [Route("api/[controller]")]
     [ApiController]

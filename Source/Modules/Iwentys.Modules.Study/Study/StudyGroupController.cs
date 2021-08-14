@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Controllers.Study;
 using Iwentys.Infrastructure.Application.Controllers.Study.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Study
+namespace Iwentys.Modules.Study.Study
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -39,7 +41,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Study
             GroupProfileResponseDto result = response.Group;
             if (result is null)
                 return NotFound();
-            
+
             return Ok(result);
         }
 
