@@ -1,6 +1,7 @@
 ﻿using Iwentys.Modules.Gamification.Quests;
 using Iwentys.Modules.Gamification.Raids;
 using MediatR;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Iwentys.Modules.Gamification
@@ -11,6 +12,8 @@ namespace Iwentys.Modules.Gamification
         {
             services.AddScoped<RaidService>();
             services.AddMediatR(typeof(QuestController).Assembly);
+
+            services.AddControllers().PartManager.ApplicationParts.Add(new AssemblyPart(typeof(QuestController).Assembly));
 
             return services;
         }
