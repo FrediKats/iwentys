@@ -1,7 +1,6 @@
 using System.Text.Json.Serialization;
 using Iwentys.Endpoints.Api.Authorization;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.Application.Middlewares;
 using Iwentys.Infrastructure.Configuration;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Integrations.IsuIntegration.Configuration;
@@ -46,7 +45,8 @@ namespace Iwentys.Endpoints.Api
                 .AddUnitOfWork<IwentysDbContext>()
                 .AddIwentysMediatorHandlers()
                 .AddIwentysServices()
-                .AddAutoMapperConfig();
+                .AddAutoMapperConfig()
+                .AddIwentysModules();
         }
 
         public void Configure(IApplicationBuilder app, IwentysDbContext db, ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager)
