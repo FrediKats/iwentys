@@ -1,7 +1,10 @@
 ﻿using Iwentys.Endpoints.Api.Authorization;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Modules.AccountManagement;
+using Iwentys.Modules.Gamification;
 using Iwentys.Modules.Guilds;
+using Iwentys.Modules.PeerReview;
+using Iwentys.Modules.Study;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -64,8 +67,11 @@ namespace Iwentys.Endpoints.Api
         public static IServiceCollection AddIwentysModules(this IServiceCollection services)
         {
             services
+                .AddAccountManagementModule()
+                .AddGamificationModule()
                 .AddGuildModule()
-                .AddAccountManagementModule();
+                .AddPeerReviewModule()
+                .AddStudyModule();
 
             return services;
         }

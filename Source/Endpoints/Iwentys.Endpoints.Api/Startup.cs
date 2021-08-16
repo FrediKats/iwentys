@@ -45,7 +45,8 @@ namespace Iwentys.Endpoints.Api
                 .AddUnitOfWork<IwentysDbContext>()
                 .AddIwentysMediatorHandlers()
                 .AddIwentysServices()
-                .AddAutoMapperConfig();
+                .AddAutoMapperConfig()
+                .AddIwentysModules();
         }
 
         public void Configure(IApplicationBuilder app, IwentysDbContext db, ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager)
