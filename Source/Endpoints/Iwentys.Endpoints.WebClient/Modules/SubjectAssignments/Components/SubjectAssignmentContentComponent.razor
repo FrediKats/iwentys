@@ -1,6 +1,11 @@
 ﻿<MudText Typo="Typo.body1">Deadline: @Assignment.DeadlineTimeUtc</MudText>
 <MudText Typo="Typo.body1">@Assignment.Description</MudText>
-<MudText Typo="Typo.body1">@Assignment.Link</MudText>
+@if (Assignment.IsStudentAssignment)
+ {
+  <MudButton Link="@Assignment.Link">
+    Learn more
+  </MudButton>
+ }
 
 @code {
     [Parameter]
