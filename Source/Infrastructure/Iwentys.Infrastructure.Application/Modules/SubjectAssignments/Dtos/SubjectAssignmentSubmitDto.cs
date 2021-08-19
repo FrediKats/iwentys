@@ -12,6 +12,7 @@ namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos
             Id = submit.Id;
             Student = new StudentInfoDto(submit.Student);
             StudentDescription = submit.StudentDescription;
+            StudentPRLink = submit.StudentPRLink;
             SubmitTimeUtc = submit.SubmitTimeUtc;
             SubjectAssignmentId = submit.SubjectAssignmentId;
             SubjectAssignmentTitle = submit.SubjectAssignment.Title;
@@ -30,6 +31,7 @@ namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos
         public int Id { get; set; }
         public StudentInfoDto Student { get; set; }
         public string StudentDescription { get; set; }
+        public string StudentPRLink { get; set; }
         public DateTime SubmitTimeUtc { get; set; }
         public int SubjectAssignmentId { get; set; }
         public string SubjectAssignmentTitle { get; set; }

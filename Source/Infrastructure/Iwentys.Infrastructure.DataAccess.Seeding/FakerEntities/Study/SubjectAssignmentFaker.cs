@@ -37,6 +37,7 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study
                 SubjectAssignmentId = subjectAssignmentId,
                 StudentId = studentId,
                 SubmitTimeUtc = DateTime.UtcNow,
+                StudentPRLink = $"https://github.com/{subjectAssignmentId}/{_faker.Lorem.Word()}",
                 StudentDescription = _faker.Lorem.Paragraph(1),
             };
         }
@@ -50,7 +51,7 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study
                 StudentId = studentId,
                 SubmitTimeUtc = DateTime.UtcNow,
                 StudentDescription = _faker.Lorem.Paragraph(1),
-
+                StudentPRLink = $"https://github.com/{subjectAssignmentId}/{_faker.Lorem.Word()}",
                 ReviewerId = 228617,
                 Comment = _faker.Lorem.Paragraph(1),
                 Points = 5,
@@ -73,6 +74,7 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study
         {
             return new SubjectAssignmentSubmitCreateArguments
             {
+                StudentPRLink = $"https://github.com/{assignmentId}/{_faker.Lorem.Word()}",
                 StudentDescription = _faker.Lorem.Paragraph(1),
                 SubjectAssignmentId = assignmentId
             };

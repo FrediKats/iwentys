@@ -14,6 +14,8 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.StudentPages
             public string Description { get; set; }
             [Required]
             public SubjectAssignmentDto SelectedSubjectAssignment { get; set; }
+            [Required]
+            public string Link { get; set; }
         }
         
         private List<SubjectAssignmentDto> _subjectAssignments;
@@ -31,6 +33,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.StudentPages
             {
                 SubjectAssignmentId = _arguments.SelectedSubjectAssignment.Id,
                 StudentDescription = _arguments.Description,
+                StudentPRLink = _arguments.Link
             };
 
             await _studentSubjectAssignmentSubmitClient.CreateSubmitAsync(createArguments);
