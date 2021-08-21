@@ -22,6 +22,8 @@ namespace Iwentys.Domain.Study
 
         public int? PracticeMentorId { get; init; }
         public virtual UniversitySystemUser PracticeMentor { get; init; }
+        
+        public virtual string TableLink { get; set; }
 
         public GroupSubject()
         {
