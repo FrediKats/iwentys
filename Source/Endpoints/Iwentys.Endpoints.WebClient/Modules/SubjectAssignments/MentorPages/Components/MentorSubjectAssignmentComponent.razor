@@ -19,7 +19,6 @@
                 <ChildContent>
                     @foreach (SubjectAssignmentDto assignment in SubjectAssignment.Assignments)
                     {
-                        assignment.IsStudentAssignment = false;
                         <div class="card-list-element">
                             <MudCard Class="dark-elevation-02">
                                 <MudExpansionPanel>
@@ -28,7 +27,7 @@
                                     </TitleContent>
                                     <ChildContent>
                                         <MudCardContent>
-                                            <SubjectAssignmentContentComponent Assignment="@assignment"></SubjectAssignmentContentComponent>
+                                            <SubjectAssignmentContentComponent Assignment="@assignment" IsStudentAssignment ="@false"></SubjectAssignmentContentComponent>
                                         </MudCardContent>
                                         <MudCardActions>
                                             @if (assignment.AvailabilityState == AvailabilityState.Deleted)

@@ -18,7 +18,6 @@
                 <MudList>
                     @foreach (SubjectAssignmentDto subjectAssignment in _subjectAssignments)
                     {
-                        subjectAssignment.IsStudentAssignment = true;
                         @if (SubjectAssignmentSatisfyViewMode(subjectAssignment))
                         {
                             <div class="card-list-element">
@@ -29,7 +28,7 @@
                                                 <SubjectAssignmentHeadingComponent Assignment="@subjectAssignment"></SubjectAssignmentHeadingComponent>
                                             </TitleContent>
                                             <ChildContent>
-                                                <SubjectAssignmentContentComponent Assignment="@subjectAssignment"></SubjectAssignmentContentComponent>
+                                                <SubjectAssignmentContentComponent Assignment="@subjectAssignment" IsStudentAssignment ="@true"></SubjectAssignmentContentComponent>
                                             </ChildContent>
                                         </MudExpansionPanel>
                                     </MudCardContent>
