@@ -55,7 +55,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildTributes
                 IwentysUser student = _context.IwentysUsers.GetById(request.User.Id).Result;
                 GithubRepositoryInfoDto githubProject = _githubIntegrationService.Repository.GetRepository(request.Arguments.Owner, request.Arguments.RepositoryName).Result;
                 GithubProject project = GetOrCreate(githubProject, student).Result;
-                Guild guild = _context.GuildMembers.ReadForStudent(student.Id);
+                Guild guild = _context.GuildMembers.ReadForStudent(student.Id).Result;
                 List<Tribute> allTributes = _context.Tributes.ToListAsync().Result;
 
                 var tribute = Tribute.Create(guild, student, project);

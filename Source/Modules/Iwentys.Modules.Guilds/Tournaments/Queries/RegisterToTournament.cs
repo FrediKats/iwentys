@@ -38,7 +38,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Tournaments
             protected override Response Handle(Query request)
             {
                 IwentysUser studentEntity = _context.IwentysUsers.GetById(request.User.Id).Result;
-                Guild guild = _context.GuildMembers.ReadForStudent(request.User.Id);
+                Guild guild = _context.GuildMembers.ReadForStudent(request.User.Id).Result;
                 Tournament tournamentEntity = _context.Tournaments.GetById(request.TournamentId).Result;
 
                 TournamentParticipantTeam tournamentParticipantTeamEntity = tournamentEntity.RegisterTeam(studentEntity, guild);

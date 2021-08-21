@@ -41,7 +41,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Guilds
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                GuildProfileDto guild = _context.GuildMembers.ReadForStudent(request.MemberId).Maybe(g => new GuildProfileDto(g));
+                GuildProfileDto guild = (await _context.GuildMembers.ReadForStudent(request.MemberId)).Maybe(g => new GuildProfileDto(g));
                 return new Response(guild);
             }
         }

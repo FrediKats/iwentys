@@ -46,7 +46,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildTestTasks
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
                 IwentysUser author = await _context.IwentysUsers.GetById(request.User.Id);
-                Guild authorGuild = _context.GuildMembers.ReadForStudent(request.User.Id);
+                Guild authorGuild = await _context.GuildMembers.ReadForStudent(request.User.Id);
                 if (authorGuild is null || authorGuild.Id != request.GuildId)
                     throw InnerLogicException.GuildExceptions.IsNotGuildMember(request.User.Id, request.GuildId);
 

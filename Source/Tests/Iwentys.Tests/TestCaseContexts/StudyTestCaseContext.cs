@@ -29,12 +29,11 @@ namespace Iwentys.Tests.TestCaseContexts
                 GroupName = new Faker().Lorem.Word()
             };
 
+            _context._context.StudyGroups.Add(studyGroup);
+            _context._context.SaveChanges();
 
-            _context.UnitOfWork.GetRepository<StudyGroup>().Insert(studyGroup);
-            _context.UnitOfWork.CommitAsync().Wait();
-            return _context.UnitOfWork
-                .GetRepository<StudyGroup>()
-                .Get()
+            return _context._context
+                .StudyGroups
                 .Where(sg => sg.Id == studyGroup.Id)
                 .Select(GroupProfileResponseDto.FromEntity)
                 .Single();
@@ -47,8 +46,8 @@ namespace Iwentys.Tests.TestCaseContexts
                 Title = new Faker().Lorem.Word()
             };
 
-            _context.UnitOfWork.GetRepository<Subject>().Insert(subject);
-            _context.UnitOfWork.CommitAsync().Wait();
+            _context._context.Subjects.Add(subject);
+            _context._context.SaveChanges();
             return subject;
         }
 
@@ -61,8 +60,9 @@ namespace Iwentys.Tests.TestCaseContexts
                 StudySemester = StudySemester.Y21H1,
                 LectorMentorId = teacher?.Id
             };
-            _context.UnitOfWork.GetRepository<GroupSubject>().Insert(groupSubject);
-            _context.UnitOfWork.CommitAsync().Wait();
+
+            _context._context.GroupSubjects.Add(groupSubject);
+            _context._context.SaveChanges();
             return groupSubject;
         }
 
@@ -86,8 +86,8 @@ namespace Iwentys.Tests.TestCaseContexts
             createArguments.GroupId = studyGroup.Id;
 
             var student = Student.Create(createArguments);
-            _context.UnitOfWork.GetRepository<Student>().Insert(student);
-            _context.UnitOfWork.CommitAsync().Wait();
+            _context._context.Students.Add(student);
+            _context._context.SaveChanges();
 
             return student;
         }

@@ -45,7 +45,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Guilds
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
                 IwentysUser creator = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
-                Guild userCurrentGuild = _context.GuildMembers.ReadForStudent(creator.Id);
+                Guild userCurrentGuild = await _context.GuildMembers.ReadForStudent(creator.Id);
 
                 var createdGuild = Guild.Create(creator, userCurrentGuild, request.Arguments);
 

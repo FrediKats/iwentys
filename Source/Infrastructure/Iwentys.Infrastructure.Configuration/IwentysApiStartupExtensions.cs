@@ -21,13 +21,6 @@ namespace Iwentys.Infrastructure.Configuration
                 .AddSingleton(new ApplicationOptions());
         }
 
-        public static IServiceCollection AddUnitOfWork<TContext>(this IServiceCollection services)
-            where TContext : DbContext
-        {
-            services.AddScoped<IUnitOfWork, UnitOfWork<TContext>>();
-            return services;
-        }
-
         public static IServiceCollection AddAutoMapperConfig(this IServiceCollection services)
         {
             return services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
