@@ -11,7 +11,6 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public readonly AccountManagementTestCaseContext AccountManagementTestCaseContext;
         public readonly GithubTestCaseContext GithubTestCaseContext;
-        public readonly GuildService GuildService;
 
         public readonly StudyTestCaseContext StudyTestCaseContext;
 
@@ -24,7 +23,6 @@ namespace Iwentys.Tests.TestCaseContexts
             UnitOfWork = new UnitOfWork<IwentysDbContext>(_context);
 
             //TODO: use DI (AspStartupExtensions)
-            GuildService = serviceProvider.GetRequiredService<GuildService>();
             //IwentysUserService = new IwentysUserService(UnitOfWork);
             //StudentService = new StudentService(UnitOfWork);
             //GithubIntegrationService = new GithubIntegrationService(githubApiAccessor, UnitOfWork);
