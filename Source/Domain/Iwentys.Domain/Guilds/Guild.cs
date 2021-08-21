@@ -180,6 +180,16 @@ namespace Iwentys.Domain.Guilds
             return memberToKick;
         }
 
+        public void RejectUser(IwentysUser mentor, IwentysUser memberToRemove, GuildLastLeave guildLastLeave)
+        {
+            GuildMember member = Members.Find(m => m.MemberId == memberToRemove.Id);
+
+            if (member is null || member.MemberType != GuildMemberType.Requested)
+                throw InnerLogicException.GuildExceptions.RequestWasNotFound(memberToRemove.Id, Id);
+
+            RemoveMember(mentor, memberToRemove, guildLastLeave);
+        }
+
         public void RemoveMember(IwentysUser mentor, IwentysUser memberToRemove, GuildLastLeave guildLastLeave)
         {
             EnsureMemberCanRestrictPermissionForOther(mentor, memberToRemove.Id);

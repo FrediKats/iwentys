@@ -125,27 +125,6 @@ namespace Iwentys.Modules.Guilds
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task RejectRequest(AuthorizedUser user, int guildId, int studentId)
-        {
-            IwentysUser initiator = await _userRepository.GetById(user.Id);
-            Guild guild = await _guildRepository.GetById(guildId);
-            IwentysUser iwentysUser = await _userRepository.GetById(studentId);
-            GuildLastLeave guildLastLeave = await GuildRepository.Get(iwentysUser, _guildLastLeaveRepository);
-
-            GuildMember member = guild.Members.Find(m => m.MemberId == studentId);
-
-            if (member is null || member.MemberType != GuildMemberType.Requested)
-                throw InnerLogicException.GuildExceptions.RequestWasNotFound(studentId, guildId);
-
-            guild.RemoveMember(initiator, iwentysUser, guildLastLeave);
-            await _unitOfWork.CommitAsync();
-        }
-
-        public async Task PromoteToMentor(IwentysUser creator, int guildId, int userForPromotion)
-        {
-            await PromoteToMentor(AuthorizedUser.DebugAuth(creator.Id), guildId, userForPromotion);
-        }
-
         public async Task PromoteToMentor(AuthorizedUser creator, int guildId, int userForPromotion)
         {
             IwentysUser studentCreator = await _userRepository.GetById(creator.Id);

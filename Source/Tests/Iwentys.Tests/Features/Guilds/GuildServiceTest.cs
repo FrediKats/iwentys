@@ -241,32 +241,28 @@ namespace Iwentys.Tests.Features.Guilds
         }
 
         [Test]
-        public async Task RejectRequest_RemoveFromRequestList()
+        public void RejectRequest_RemoveFromRequestList()
         {
             TestCaseContext context = TestCaseContext.Case();
-            AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
-            GuildProfileDto guild = context.GuildTestCaseContext.WithGuild(user);
-            AuthorizedUser student = context.GuildTestCaseContext.WithGuildRequest(guild);
+            IwentysUser user = context.AccountManagementTestCaseContext.WithIwentysUser();
+            var guild = Guild.Create(user, null, GuildFaker.Instance.GetGuildCreateArguments());
+            IwentysUser student = context.AccountManagementTestCaseContext.WithIwentysUser();
+            guild.Members.Add(new GuildMember(guild, student, GuildMemberType.Requested));
+            guild.RejectUser(user, student, new GuildLastLeave());
 
-            await context.GuildMemberService.RejectRequest(user, guild.Id, student.Id);
-            GuildMemberLeaderBoardDto guildMemberLeaderBoardDto = await context.GuildService.GetGuildMemberLeaderBoard(guild.Id);
-            GuildMemberImpactDto? member = guildMemberLeaderBoardDto.MembersImpact.Find(m => m.StudentInfoDto.Id == student.Id);
-            GuildMember[] requests = await context.GuildMemberService.GetGuildRequests(user, guild.Id);
-
-            Assert.That(member, Is.Null);
-            Assert.That(requests.FirstOrDefault(m => m.MemberId == student.Id), Is.Null);
+            Assert.That(guild.Members.FirstOrDefault(m => m.MemberId == student.Id), Is.Null);
         }
 
         [Test]
         public void RejectRequest_ForStudentWithoutRequest_ThrowsInnerLogicException()
         {
             TestCaseContext context = TestCaseContext.Case();
-            AuthorizedUser user = context.AccountManagementTestCaseContext.WithUser();
-            GuildProfileDto guild = context.GuildTestCaseContext.WithGuild(user);
+            IwentysUser user = context.AccountManagementTestCaseContext.WithIwentysUser();
+            var guild = Guild.Create(user, null, GuildFaker.Instance.GetGuildCreateArguments());
 
-            AuthorizedUser student = context.AccountManagementTestCaseContext.WithUser();
+            IwentysUser student = context.AccountManagementTestCaseContext.WithIwentysUser();
 
-            Assert.ThrowsAsync<InnerLogicException>(() => context.GuildMemberService.RejectRequest(user, guild.Id, student.Id));
+            Assert.Throws<InnerLogicException>(() => guild.RejectUser(user, student, new GuildLastLeave()));
         }
 
         [Test]
