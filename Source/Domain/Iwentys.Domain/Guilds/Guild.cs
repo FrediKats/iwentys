@@ -65,7 +65,7 @@ namespace Iwentys.Domain.Guilds
                     guildMember.Approve(mentor);
         }
 
-        public void Approve(IwentysUser admin)
+        public void ApproveGuildCreation(IwentysUser admin)
         {
             admin.EnsureIsAdmin();
             if (GuildType == GuildType.Created)
@@ -120,6 +120,16 @@ namespace Iwentys.Domain.Guilds
             var member = new GuildMember(this, user, GuildMemberType.Requested);
             Members.Add(member);
             return member;
+        }
+
+        public GuildMember ApproveEnterGuild(IwentysUser user, IwentysUser newMember, GuildLastLeave lastLeave)
+        {
+            GuildMember guildMember = Members.Find(m => m.MemberId == newMember.Id) ?? throw new EntityNotFoundException(nameof(GuildMember));
+            var mentor = user.EnsureIsGuildMentor(this);
+
+            guildMember.Approve(mentor);
+
+            return guildMember;
         }
 
         public UserMembershipState GetUserMembershipState(IwentysUser user, GuildMember currentMembership, GuildLastLeave guildLastLeave)

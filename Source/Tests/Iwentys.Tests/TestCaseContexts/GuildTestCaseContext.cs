@@ -28,17 +28,6 @@ namespace Iwentys.Tests.TestCaseContexts
             return guildProfile;
         }
 
-        public AuthorizedUser WithGuildMentor(GuildProfileDto guild, AuthorizedUser guildEditor)
-        {
-            AuthorizedUser user = _context.AccountManagementTestCaseContext.WithUser();
-
-            _context.GuildMemberService.RequestGuild(user, guild.Id).Wait();
-            _context.GuildMemberService.AcceptRequest(guildEditor, guild.Id, user.Id).Wait();
-            _context.GuildMemberService.PromoteToMentor(guildEditor, guild.Id, user.Id).Wait();
-
-            return user;
-        }
-
         public AuthorizedUser WithGuildRequest(GuildProfileDto guild)
         {
             AuthorizedUser user = _context.AccountManagementTestCaseContext.WithUser();
