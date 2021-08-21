@@ -13,18 +13,18 @@ namespace Iwentys.Infrastructure.Application.Controllers.Study
     {
         public class Query : IRequest<Response>
         {
-            public Query(AuthorizedUser authorizedUser, int studyGroupId, int subjectId, string table)
+            public Query(AuthorizedUser authorizedUser, int studyGroupId, int subjectId, string tableLink)
             {
                 AuthorizedUser = authorizedUser;
                 StudyGroupId = studyGroupId;
                 SubjectId = subjectId;
-                Table = table;
+                TableLink = tableLink;
             }
 
             public AuthorizedUser AuthorizedUser { get; set; }
             public int StudyGroupId { get; set; }
             public int SubjectId { get; set; }
-            public string Table { get; set; }
+            public string TableLink { get; set; }
         }
 
         public class Response
@@ -58,7 +58,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Study
                     throw EntityNotFoundException.Create(typeof(GroupSubject), request.SubjectId, request.StudyGroupId);
                 }
 
-                groupSubject.Table = request.Table;
+                groupSubject.TableLink = request.TableLink;
 
                 _context.GroupSubjects.Update(groupSubject);
 

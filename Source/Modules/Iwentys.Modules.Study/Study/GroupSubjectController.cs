@@ -28,11 +28,11 @@ namespace Iwentys.Modules.Study.Study
         }
 
         [HttpPost(nameof(UpdateGroupSubjectTable))]
-        public async Task<ActionResult<List<GroupSubjectInfoDto>>> UpdateSubjectTable(int studyGroupId, int subjectId, string table)
+        public async Task<ActionResult<List<GroupSubjectInfoDto>>> UpdateSubjectTable(int studyGroupId, int subjectId, string tableLink)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
 
-            UpdateGroupSubjectTable.Response response = await _mediator.Send(new UpdateGroupSubjectTable.Query(authorizedUser, studyGroupId, subjectId, table));
+            UpdateGroupSubjectTable.Response response = await _mediator.Send(new UpdateGroupSubjectTable.Query(authorizedUser, studyGroupId, subjectId, tableLink));
 
             return Ok(response.Result);
         }

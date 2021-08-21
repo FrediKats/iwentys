@@ -11,18 +11,18 @@ namespace Iwentys.Modules.Study.Study.Dtos
 
         public GroupProfileResponsePreviewDto StudyGroup { get; init; }
 
-        public string Table { get; set; }
+        public string TableLink { get; set; }
 
         public GroupSubjectInfoDto(GroupSubject entity)
-            : this(new SubjectProfileDto(entity.Subject), new GroupProfileResponsePreviewDto(entity.StudyGroup), entity.Table)
+            : this(new SubjectProfileDto(entity.Subject), new GroupProfileResponsePreviewDto(entity.StudyGroup), entity.TableLink)
         {
         }
 
-        public GroupSubjectInfoDto(SubjectProfileDto subject, GroupProfileResponsePreviewDto studyGroup, string table)
+        public GroupSubjectInfoDto(SubjectProfileDto subject, GroupProfileResponsePreviewDto studyGroup, string tableLink)
         {
             Subject = subject;
             StudyGroup = studyGroup;
-            Table = table;
+            TableLink = tableLink;
         }
 
         public GroupSubjectInfoDto()
@@ -34,7 +34,7 @@ namespace Iwentys.Modules.Study.Study.Dtos
             {
                 Subject = new SubjectProfileDto(entity.Subject),
                 StudyGroup = new GroupProfileResponsePreviewDto(entity.StudyGroup),
-                Table = entity.Table,
+                TableLink = entity.TableLink,
             };
     }
 }
