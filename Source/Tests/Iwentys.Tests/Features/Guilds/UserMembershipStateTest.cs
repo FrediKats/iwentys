@@ -7,7 +7,6 @@ using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
-using Iwentys.Infrastructure.DataAccess;
 using Moq;
 using NUnit.Framework;
 
@@ -65,18 +64,12 @@ namespace Iwentys.Tests.Features.Guilds
             //_guildMemberRepository
             //    .Setup(r => r.IsStudentHaveRequest(It.IsAny<Int32>()))
             //    .Returns(false);
-
-            _studentRepository = new Mock<IGenericRepository<IwentysUser>>();
-            _studentRepository
-                .Setup(r => r.FindByIdAsync(It.IsAny<int>()))
-                .Returns(Task.FromResult(_student));
         }
 
         private Guild _guild;
 
         private IwentysUser _student;
 
-        private Mock<IGenericRepository<IwentysUser>> _studentRepository;
         private Mock<GithubIntegrationService> _githubUserDataService;
 
         [Test]

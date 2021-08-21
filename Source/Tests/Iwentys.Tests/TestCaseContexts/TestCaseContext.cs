@@ -14,13 +14,10 @@ namespace Iwentys.Tests.TestCaseContexts
 
         public readonly StudyTestCaseContext StudyTestCaseContext;
 
-        public readonly IUnitOfWork UnitOfWork;
-
         public TestCaseContext(ServiceProvider serviceProvider)
         {
 
             _context = serviceProvider.GetRequiredService<IwentysDbContext>();
-            UnitOfWork = new UnitOfWork<IwentysDbContext>(_context);
 
             //TODO: use DI (AspStartupExtensions)
             //IwentysUserService = new IwentysUserService(UnitOfWork);
