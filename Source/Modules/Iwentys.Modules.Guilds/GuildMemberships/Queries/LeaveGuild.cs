@@ -42,7 +42,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildMemberships
                 IwentysUser iwentysUser = await _context.IwentysUsers.GetById(request.User.Id);
                 GuildLastLeave guildLastLeave = await GuildRepository.Get(iwentysUser, _context.GuildLastLeaves);
 
-                Guild studentGuild = _context.GuildMembers.ReadForStudent(request.User.Id);
+                Guild studentGuild = await _context.GuildMembers.ReadForStudent(request.User.Id);
                 if (studentGuild is null || studentGuild.Id != request.GuildId)
                     throw InnerLogicException.GuildExceptions.IsNotGuildMember(request.User.Id, request.GuildId);
 
