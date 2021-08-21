@@ -17,6 +17,18 @@ namespace Iwentys.Infrastructure.Application.Controllers.Study.Dtos
 
         public StudentInfoDto GroupAdmin => GroupAdminId is null ? null : Students.Find(s => s.Id == GroupAdminId);
 
+        public GroupProfileResponseDto()
+        {
+        }
+        public GroupProfileResponseDto(StudyGroup entity)
+        {
+            Id = entity.Id;
+            GroupName = entity.GroupName;
+            GroupAdminId = entity.GroupAdminId;
+            Students = entity.Students.Select(s => new StudentInfoDto(s)).ToList();
+            Subjects = entity.GroupSubjects.Select(gs => new SubjectProfileDto(gs.Subject)).ToList();
+        }
+
         public static Expression<Func<StudyGroup, GroupProfileResponseDto>> FromEntity =>
             entity => new GroupProfileResponseDto
             {
