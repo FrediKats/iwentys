@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.DataAccess.Seeding
 {
-    public class DatabaseContextGenerator
+    public class DatabaseContextGenerator : IDbContextSeeder
     {
         private readonly List<IEntityGenerator> _generators = new List<IEntityGenerator>();
 

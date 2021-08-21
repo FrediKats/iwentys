@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.Study;
@@ -16,7 +17,7 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
             GithubProjectEntities = new List<GithubProject>();
             foreach (Student student in students)
             {
-                ActivityInfo activity = CreateActivity();
+                CodingActivityInfo activity = CreateActivity();
                 var githubUser = new GithubUser
                 {
                     IwentysUserId = student.Id,
@@ -40,16 +41,16 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
             modelBuilder.Entity<GithubProject>().HasData(GithubProjectEntities);
         }
 
-        private static ActivityInfo CreateActivity()
+        private static CodingActivityInfo CreateActivity()
         {
             var result = new List<ContributionsInfo>();
 
             for (var i = 1; i <= 11; i++)
                 result.Add(new ContributionsInfo(
-                    $"2020-{RandomExtensions.Instance.Random.Int(1, 12):D2}-20",
+                    new DateTime(2020, RandomExtensions.Instance.Random.Int(1, 12), 20),
                     RandomExtensions.Instance.Random.Int(0, 100)));
 
-            return new ActivityInfo
+            return new CodingActivityInfo
             {
                 Contributions = result
             };

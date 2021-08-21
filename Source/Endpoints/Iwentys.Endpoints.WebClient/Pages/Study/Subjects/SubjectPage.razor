@@ -8,15 +8,15 @@
 {
     <div class="container-fluid d-flex flex-row">
         <div class="col-md-6 d-flex flex-column">
-            <MatHeadline4>Info</MatHeadline4>
-            <MatBody1>@_subjectProfile.Name</MatBody1>
-            <MudButton Link=@LinkToSubjectAssignmentManagement()>Mange subject assignments</MudButton>
+            <MudText Typo="Typo.h4">Info</MudText>
+            <MudText Typo="Typo.body1">@_subjectProfile.Name</MudText>
+            <MudButton Link=@LinkToSubjectAssignmentManagement()>Manage subject assignments</MudButton>
             <MudButton Link=@LinkToMyAssignmentManagement()>My assignments</MudButton>
         </div>
 
         <div class="col-md-6 d-flex flex-column">
             <div>
-                <MatH6>Newsfeed</MatH6>
+                <MudText Typo="Typo.h6">Newsfeed</MudText>
                 @if (_newsfeeds is not null)
                 {
                     <NewsfeedComponent Newsfeeds=@_newsfeeds></NewsfeedComponent>

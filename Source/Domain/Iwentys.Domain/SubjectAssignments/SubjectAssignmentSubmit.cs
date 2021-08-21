@@ -15,6 +15,8 @@ namespace Iwentys.Domain.SubjectAssignments
         public string RepositoryName { get; set; }
 
         public string Comment { get; set; }
+        public int ReviewerId { get; set; }
+        public virtual IwentysUser Reviewer { get; set; }
         //TODO: validate range
         public int Points { get; set; }
         public DateTime? ApproveTimeUtc { get; set; }
@@ -58,6 +60,9 @@ namespace Iwentys.Domain.SubjectAssignments
         {
             SubjectMentor mentor = iwentysUser.EnsureIsMentor(SubjectAssignment.Subject);
 
+            ReviewerId = mentor.Mentor.Id;
+            Reviewer = mentor.Mentor;
+            
             switch (arguments.FeedbackType)
             {
                 case FeedbackType.Approve:

@@ -3,16 +3,16 @@
 @namespace Iwentys.Endpoints.WebClient.CustomComponents
 
 <div class="container-fluid d-flex flex-column">
-    <MatHeadline5>Анонсы</MatHeadline5>
+    <MudText Typo="Typo.h5">Анонсы</MudText>
     @foreach (NewsfeedViewModel newsfeed in Newsfeeds)
     {
         <div class="newsfeed-element">
-            <MatCard Class="dark-elevation-01">
-                <MatCardContent>
+            <MudCard Class="dark-elevation-01">
+                <MudCardContent>
                     <div class="newsfeed-element-content">
-                        <MatHeadline6>
+                        <MudText Typo="Typo.h6">
                             @newsfeed.Title
-                        </MatHeadline6>
+                        </MudText>
                         <MudText Typo="Typo.body1">
                             @newsfeed.Content
                         </MudText>
@@ -20,8 +20,8 @@
                             @newsfeed.CreationTimeUtc
                         </MudText>
                     </div>
-                </MatCardContent>
-            </MatCard>
+                </MudCardContent>
+            </MudCard>
         </div>
     }
 </div>

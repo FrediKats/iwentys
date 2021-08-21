@@ -15,7 +15,7 @@
                 @if (_leaderboardRow is not null)
                 {
                     <div dark-elevation-02>
-                        <MatHeadline6>Top-@_leaderboardRow.Position</MatHeadline6>
+                        <MudText Typo="Typo.h6">Top-@_leaderboardRow.Position</MudText>
                     </div>
                 }
                 @if (_isSelf)
@@ -38,7 +38,7 @@
             @if (_githubChartConfig is not null)
             {
                 <div class="profile-element dark-elevation-01">
-                    <MatHeadline5>Coding activity</MatHeadline5>
+                    <MudText Typo="Typo.h5">Coding activity</MudText>
                     <ChartJsLineChart @ref="_githubChart" Config="_githubChartConfig"></ChartJsLineChart>
                 </div>
             }
@@ -46,7 +46,7 @@
             @if (_studyChartConfig is not null)
             {
                 <div class="profile-element dark-elevation-01">
-                    <MatHeadline5>Study activity</MatHeadline5>
+                    <MudText Typo="Typo.h5">Study activity</MudText>
                     <ChartJsPieChart @ref="_studyChart" Config="@_studyChartConfig" Width="600" Height="300" />
                 </div>
             }

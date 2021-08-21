@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
@@ -15,7 +14,7 @@ namespace Iwentys.Tests.Features.Gamification
     public class StudyLeaderboardServiceTest
     {
         [Test]
-        public async Task GetStudentActivity_Ok()
+        public void GetStudentActivity_Ok()
         {
             TestCaseContext testCase = TestCaseContext.Case();
             var group = testCase.StudyTestCaseContext.WithStudyGroup();
@@ -25,10 +24,9 @@ namespace Iwentys.Tests.Features.Gamification
             const int pointCount = 10;
 
             //TODO: refactor
-            IGenericRepository<SubjectActivity> repository = testCase.UnitOfWork.GetRepository<SubjectActivity>();
-            var activity = new SubjectActivity {GroupSubject = groupSubject, StudentId = student.Id, Points = pointCount };
-            repository.Insert(activity);
-            await testCase.UnitOfWork.CommitAsync();
+            var activity = new SubjectActivity { GroupSubject = groupSubject, StudentId = student.Id, Points = pointCount };
+            testCase._context.SubjectActivities.Add(activity);
+            testCase._context.SaveChanges();
             List<StudyLeaderboardRowDto> studyLeaderboardRowDtos = GetStudentsRatings(StudySearchParametersDto.ForGroup(@group.Id), testCase._context);
 
             StudyLeaderboardRowDto? studentResult = studyLeaderboardRowDtos.FirstOrDefault(slr => slr.Student.Id == student.Id);

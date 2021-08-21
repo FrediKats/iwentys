@@ -1,11 +1,14 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Iwentys.Domain.GithubIntegration.Models;
+using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.Application.Controllers.BackgroundServices;
-using Iwentys.Infrastructure.Application.Controllers.Services;
+using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
 using Iwentys.Infrastructure.Configuration.Options;
 using Iwentys.Infrastructure.DataAccess;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using StackExchange.Exceptional;
 
@@ -16,17 +19,16 @@ namespace Iwentys.Endpoints.Api.Controllers
     public class DebugCommandController : ControllerBase
     {
         private readonly MarkGoogleTableUpdateService _markGoogleTableUpdateService;
+        private readonly GithubIntegrationService _githubIntegrationService;
         private readonly ILogger<DebugCommandController> _logger;
         private readonly IwentysDbContext _context;
 
-        private readonly GuildService _guildService;
-
-        public DebugCommandController(ILogger<DebugCommandController> logger, TokenApplicationOptions tokenApplicationOptions, GuildService guildService, IwentysDbContext context)
+        public DebugCommandController(ILogger<DebugCommandController> logger, TokenApplicationOptions tokenApplicationOptions, IwentysDbContext context, GithubIntegrationService githubIntegrationService)
         {
             _logger = logger;
-            _guildService = guildService;
             _context = context;
 
+            _githubIntegrationService = githubIntegrationService;
             _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(_logger, tokenApplicationOptions.GoogleServiceToken, _context);
         }
 
@@ -56,7 +58,18 @@ namespace Iwentys.Endpoints.Api.Controllers
         [HttpGet("update-guild-impact")]
         public async Task<ActionResult> UpdateGuildImpact()
         {
-            await _guildService.UpdateGuildMemberImpact();
+            var guildMembers = await _context.GuildMembers
+                .Where(GuildMember.IsMember())
+                .ToListAsync();
+
+            foreach (GuildMember member in guildMembers)
+            {
+                ContributionFullInfo contributionFullInfo = await _githubIntegrationService.User.FindUserContributionOrEmpty(member.Member);
+                member.MemberImpact = contributionFullInfo.Total;
+            }
+
+            _context.GuildMembers.UpdateRange(guildMembers);
+            await _context.SaveChangesAsync();
             return Ok();
         }
 

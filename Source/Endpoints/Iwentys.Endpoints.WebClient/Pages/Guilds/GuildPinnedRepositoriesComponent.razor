@@ -6,13 +6,13 @@
 @inherits DependencyInjectionPage
 
 <div class="text-center">
-    <MatHeadline5>Репозитории</MatHeadline5>
+    <MudText Typo="Typo.h5">Репозитории</MudText>
 
     <div class="container-fluid d-flex flex-column">
         @foreach (GithubRepositoryInfoDto repository in GuildProfile.PinnedRepositories)
         {
 
-            <MatNavItem class="d-flex flex-row justify-content-md-between">
+            <MudNavLink class="d-flex flex-row justify-content-md-between">
                 <NavLink href=@repository.Url>
                     <div class="col-md-10">
                         <MudText Typo="Typo.body2">@repository.GithubLikeTitle()</MudText>
@@ -22,7 +22,7 @@
                 </NavLink>
 
                 <MudButton OnClick=@(async () => await RemovePin(repository.Id)) class="col-md-2">X</MudButton>
-            </MatNavItem>
+            </MudNavLink>
         }
     </div>
 

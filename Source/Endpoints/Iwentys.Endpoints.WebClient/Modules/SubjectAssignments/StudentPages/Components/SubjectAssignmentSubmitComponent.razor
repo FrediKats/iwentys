@@ -1,0 +1,44 @@
+﻿<div class="card-list-element">
+    <div class="card-list-element-content">
+        @switch (Submit.State)
+        {
+            case SubmitState.Created:
+                <div class="alert alert-warning my-0" role="alert">
+                    <h4 class="alert-heading">Submit for @Submit.SubjectAssignmentTitle</h4>
+                    <b>Submitted:</b> @Submit.SubmitTimeUtc
+                    <hr>
+                    <p class="mb-0">
+                        <b>Not checked</b>
+                    </p>
+                </div>
+                break;
+            case SubmitState.Approved:
+                <div class="alert alert-success my-0" role="alert">
+                    <h4 class="alert-heading">Submit for @Submit.SubjectAssignmentTitle</h4>
+                    <b>Submitted:</b> @Submit.SubmitTimeUtc
+                    <hr>
+                    <p class="mb-0">
+                        <b>Approved!!! Points: @Submit.Points</b>
+                    </p>
+                </div>
+                break;
+            case SubmitState.Rejected:
+                <div class="alert alert-danger my-0" role="alert">
+                    <h4 class="alert-heading">Submit for @Submit.SubjectAssignmentTitle</h4>
+                    <b>Rejected =( Submitted:</b> @Submit.SubmitTimeUtc
+                    <hr>
+                    <p class="mb-0">
+                        <b>Points: @Submit.Points</b>
+                    </p>
+                </div>
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(SubmitState), "Unsupported assignment state");
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public SubjectAssignmentSubmitDto Submit { get; set; }
+}

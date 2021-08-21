@@ -6,13 +6,13 @@
 @namespace Iwentys.Endpoints.WebClient.Pages.Guilds
 
 <div class="text-center card">
-    <MatHeadline5>Members</MatHeadline5>
-    <MatList>
+    <MudText Typo="Typo.h5">Members</MudText>
+    <MudList>
         @if (_leaderBoard is not null)
         {
             @foreach (var member in _leaderBoard.MembersImpact)
             {
-                <MatListItem>
+                <MudListItem>
                     <p>
                         @member.StudentInfoDto.GithubUsername (@member.StudentInfoDto.GetFullName()) [@member.MemberType]
                     </p>
@@ -25,12 +25,12 @@
                     <MudButton OnClick="() => KickMember(member.StudentInfoDto.Id)">
                         Kick
                     </MudButton>
-                </MatListItem>
+                </MudListItem>
             }
         }
 
         
-    </MatList>
+    </MudList>
 </div>
 
 @code {

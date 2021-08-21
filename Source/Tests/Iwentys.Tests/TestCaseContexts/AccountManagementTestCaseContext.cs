@@ -14,21 +14,6 @@ namespace Iwentys.Tests.TestCaseContexts
             _context = context;
         }
 
-        public AuthorizedUser WithUser(bool isAdmin = false)
-        {
-            IwentysUserCreateArguments createArguments = UsersFaker.Instance.IwentysUsers.Generate();
-            createArguments.IsAdmin = isAdmin;
-            createArguments.Id = UsersFaker.Instance.GetIdentifier();
-
-            var iwentysUser = IwentysUser.Create(createArguments);
-
-            _context.UnitOfWork.GetRepository<IwentysUser>().Insert(iwentysUser);
-            _context.UnitOfWork.CommitAsync().Wait();
-            IwentysUserInfoDto iwentysUserInfoDto = new IwentysUserInfoDto(iwentysUser);
-
-            return AuthorizedUser.DebugAuth(iwentysUserInfoDto.Id);
-        }
-
         public IwentysUser WithIwentysUser(bool isAdmin = false)
         {
             IwentysUserCreateArguments createArguments = UsersFaker.Instance.IwentysUsers.Generate();

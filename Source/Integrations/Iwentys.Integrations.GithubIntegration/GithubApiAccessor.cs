@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.GithubIntegration.Models;
+using Kysect.GithubActivityAnalyzer.ApiAccessor;
+using Kysect.GithubActivityAnalyzer.ApiAccessor.ApiResponses;
 using Octokit;
 
 namespace Iwentys.Integrations.GithubIntegration
@@ -16,9 +16,11 @@ namespace Iwentys.Integrations.GithubIntegration
         private const string GithubContributionsApiUrl = "https://github-contributions.now.sh/api/v1/";
 
         private readonly GitHubClient _client;
+        private readonly GithubActivityProvider _activityProvider;
 
         public GithubApiAccessor(GithubApiAccessorOptions options)
         {
+            _activityProvider = new GithubActivityProvider();
             _client = new GitHubClient(new ProductHeaderValue("Iwentys"))
             {
                 Credentials = new Credentials(options.Token)
@@ -57,15 +59,11 @@ namespace Iwentys.Integrations.GithubIntegration
 
         public async Task<ContributionFullInfo> GetUserActivity(string githubUsername)
         {
-            //TODO: http client factory?
-            using var http = new HttpClient();
-
-            string info = await http.GetStringAsync(GithubContributionsApiUrl + githubUsername);
-            var result = JsonSerializer.Deserialize<ActivityInfo>(info);
+            ActivityInfo activity = await _activityProvider.GetActivityInfo(githubUsername);
 
             return new ContributionFullInfo
             {
-                RawActivity = result
+                RawActivity = MapToDomainModel(activity),
             };
         }
 
@@ -82,6 +80,15 @@ namespace Iwentys.Integrations.GithubIntegration
             {
                 Name = organization.Name,
                 Description = organization.Description
+            };
+        }
+
+        private CodingActivityInfo MapToDomainModel(ActivityInfo activity)
+        {
+            return new CodingActivityInfo()
+            {
+                Years = new List<Domain.GithubIntegration.Models.YearActivityInfo>(),
+                Contributions = activity.Contributions.Select(x => new Domain.GithubIntegration.Models.ContributionsInfo(x.Date, x.Count)).ToList()
             };
         }
     }

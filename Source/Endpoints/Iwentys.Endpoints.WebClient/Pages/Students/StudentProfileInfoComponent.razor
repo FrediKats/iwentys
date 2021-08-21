@@ -11,7 +11,7 @@
     <div class="container-fluid d-flex flex-row">
         <img class="student-profile-logo" src=@StudentProfile.AvatarUrl />
         <div class="container-fluid d-flex flex-column">
-            <MatHeadline4>@StudentProfile.GithubUsername</MatHeadline4>
+            <MudText Typo="Typo.h4">@StudentProfile.GithubUsername</MudText>
             <MudText Typo="Typo.body1">@StudentProfile.GetFullName()</MudText>
 
             @if (_group?.GroupName is not null)

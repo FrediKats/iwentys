@@ -40,7 +40,7 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
                 GuildMembers.AddRange(members);
                 usedCount += GuildMemberCount;
 
-                for (var i = 0; i < GuildPinnedProjectCount; i++) PinnedProjects.Add(GuildFaker.Instance.CreateGuildPinnedProject(guild.Id));
+                //for (var i = 0; i < GuildPinnedProjectCount; i++) PinnedProjects.Add(GuildFaker.Instance.CreateGuildPinnedProject(guild.Id));
 
                 foreach (GuildMember member in members.Where(m => m.MemberType == GuildMemberType.Member))
                 {

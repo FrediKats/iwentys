@@ -7,15 +7,15 @@
 {
     <div class="container-fluid d-flex flex-row">
         <div class="col-md-6 d-flex flex-column">
-            <MatH6>Visitors (@_raid.Visitors.Count)</MatH6>
-            <MatList>
+            <MudText Typo="Typo.h6">Visitors (@_raid.Visitors.Count)</MudText>
+            <MudList>
                 @foreach (var visitor in _raid.Visitors)
                 {
-                    <MatListItem>
+                    <MudListItem>
                         @visitor.GetFullName()
-                    </MatListItem>
+                    </MudListItem>
                 }
-            </MatList>
+            </MudList>
 
             @if (CanRegisterOnRaid())
             {
@@ -28,15 +28,15 @@
             }
         </div>
         <div class="col-md-6 d-flex flex-column">
-            <MatH6>Team requests</MatH6>
-            <MatList>
+            <MudText Typo="Typo.h6">Team requests</MudText>
+            <MudList>
                 @foreach (var partySearchRequest in _raid.PartySearchRequests)
                 {
-                    <MatListItem>
+                    <MudListItem>
                         @partySearchRequest.Author.GetFullName()
-                    </MatListItem>
+                    </MudListItem>
                 }
-            </MatList>
+            </MudList>
         </div>
     </div>
 }
