@@ -1,4 +1,4 @@
-﻿@using Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.Components
+@using Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.Components
 <MudGrid>
     <MudContainer Class="card-list-element dark-elevation-01">
         <MudExpansionPanels MultiExpansion="true" Elevation="0">
@@ -27,7 +27,7 @@
                                     </TitleContent>
                                     <ChildContent>
                                         <MudCardContent>
-                                            <SubjectAssignmentContentComponent Assignment="@assignment"></SubjectAssignmentContentComponent>
+                                            <SubjectAssignmentContentComponent Assignment="@assignment" IsStudentAssignment ="@false"></SubjectAssignmentContentComponent>
                                         </MudCardContent>
                                         <MudCardActions>
                                             @if (assignment.AvailabilityState == AvailabilityState.Deleted)
@@ -43,6 +43,9 @@
                                                 </MudButton>
                                                 <MudButton OnClick="@(async () => await Delete(assignment))">
                                                     Delete
+                                                </MudButton>
+                                                <MudButton Class="ml-auto" Link="@assignment.Link">
+                                                    Learn more
                                                 </MudButton>
                                             }
                                         </MudCardActions>

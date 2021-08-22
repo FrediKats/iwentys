@@ -44,7 +44,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.GuildTributes
 
             protected override Response Handle(Query request)
             {
-                Guild guild = _context.GuildMembers.ReadForStudent(request.User.Id) ?? throw InnerLogicException.GuildExceptions.IsNotGuildMember(request.User.Id, null);
+                Guild guild = _context.GuildMembers.ReadForStudent(request.User.Id).Result ?? throw InnerLogicException.GuildExceptions.IsNotGuildMember(request.User.Id, null);
 
                 TributeInfoResponse result = _context
                     .Tributes

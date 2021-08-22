@@ -22,7 +22,6 @@ namespace Iwentys.Tests.Tools
                 .AddDbContext<IwentysDbContext>(options => options
                     .UseInMemoryDatabase(Guid.NewGuid().ToString())
                     .UseLazyLoadingProxies())
-                .AddUnitOfWork<IwentysDbContext>()
                 .AddIwentysSeeder()
                 .AddIwentysMediatorHandlers()
                 .AddIwentysServices()

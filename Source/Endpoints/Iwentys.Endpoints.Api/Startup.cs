@@ -42,7 +42,6 @@ namespace Iwentys.Endpoints.Api
                 .AddIwentysCorsHack()
                 .AddIwentysDatabase()
                 .AddIwentysSeeder()
-                .AddUnitOfWork<IwentysDbContext>()
                 .AddIwentysMediatorHandlers()
                 .AddIwentysServices()
                 .AddAutoMapperConfig()

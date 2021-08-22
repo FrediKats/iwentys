@@ -9,8 +9,6 @@ namespace Iwentys.Modules.Guilds
     {
         public static IServiceCollection AddGuildModule(this IServiceCollection services)
         {
-            services.AddScoped<GuildMemberService>();
-            services.AddScoped<GuildService>();
             services.AddMediatR(typeof(GuildController).Assembly);
 
             services.AddControllers().PartManager.ApplicationParts.Add(new AssemblyPart(typeof(GuildController).Assembly));
