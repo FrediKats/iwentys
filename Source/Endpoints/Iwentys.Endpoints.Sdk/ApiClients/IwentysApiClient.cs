@@ -14102,7 +14102,7 @@ namespace Iwentys.Sdk
     
         [System.Text.Json.Serialization.JsonPropertyName("link")]
         public string Link { get; set; }
-    
+
         [System.Text.Json.Serialization.JsonPropertyName("author")]
         public IwentysUserInfoDto Author { get; set; }
     
