@@ -7,9 +7,10 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
 {
     public partial class SubjectAssignmentSubmitJournalPage
     {
-        private ICollection<SubjectAssignmentSubmitDto> _subjectAssignmentSubmits;
-
+        private IEnumerable<SubjectAssignmentSubmitDto> _subjectAssignmentSubmits;
+        private IEnumerable<SubjectAssignmentSubmitDto> _tableSubjectAssignmentSubmits;
         private string _searchString = "";
+        private string _stateSelectorValue = "State";
 
         protected override async Task OnInitializedAsync()
         {
@@ -19,6 +20,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
             {
                 SubjectId = SubjectId
             });
+            _tableSubjectAssignmentSubmits = new List<SubjectAssignmentSubmitDto>(_subjectAssignmentSubmits);
         }
 
         private void NavigateToSubmitPage(object row)
@@ -30,19 +32,23 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
             _navigationManager.NavigateTo($"/subject/{SubjectId}/management/assignments/submits/{submit.Id}");
         }
 
-        private bool IsMatchedWithSearchRequest(SubjectAssignmentSubmitDto student)
+        private bool IsMatchedWithSearchRequest(SubjectAssignmentSubmitDto assignment)
         {
+            //SearchString
             if (string.IsNullOrWhiteSpace(_searchString))
                 return true;
-            if (student.SubjectAssignmentTitle.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            if (assignment.SubjectAssignmentTitle.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
                 return true;
-            if (student.Student.SecondName.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            if (assignment.Student.SecondName.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
                 return true;
-            if (student.Student.FirstName.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            if (assignment.Student.FirstName.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
                 return true;
-            if ($"{student.SubmitTimeUtc} {student.RejectTimeUtc} {student.ApproveTimeUtc}".Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            if ($"{assignment.SubmitTimeUtc} {assignment.RejectTimeUtc} {assignment.ApproveTimeUtc}".Contains(_searchString, StringComparison.OrdinalIgnoreCase))
                 return true;
+            //Filter
+            Console.WriteLine(assignment.State.ToString() == _stateSelectorValue);
             return false;
         }
+        
     }
 }
