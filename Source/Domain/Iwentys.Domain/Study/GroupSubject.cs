@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using FluentResults;
 using Iwentys.Domain.AccountManagement;
@@ -19,16 +21,15 @@ namespace Iwentys.Domain.Study
 
         public int? LectorMentorId { get; init; }
         public virtual UniversitySystemUser LectorMentor { get; init; }
-
-        public int? PracticeMentorId { get; init; }
-        public virtual UniversitySystemUser PracticeMentor { get; init; }
+        
+        public virtual List<GroupSubjectMentor> PracticeMentors { get; init; }
 
         public GroupSubject()
         {
         }
 
         //TODO: enable nullability
-        public GroupSubject(Subject subject, StudyGroup studyGroup, StudySemester studySemester, UniversitySystemUser lectorMentor, UniversitySystemUser practiceMentor)
+        public GroupSubject(Subject subject, StudyGroup studyGroup, StudySemester studySemester, UniversitySystemUser lectorMentor)
         {
             Subject = subject;
             SubjectId = subject.Id;
@@ -37,10 +38,19 @@ namespace Iwentys.Domain.Study
             StudySemester = studySemester;
             LectorMentor = lectorMentor;
             LectorMentorId = lectorMentor?.Id;
-            PracticeMentor = practiceMentor;
-            PracticeMentorId = practiceMentor?.Id;
+            PracticeMentors = new List<GroupSubjectMentor>();
         }
 
+        public void AddPracticeMentor(IwentysUser practiceMentor)
+        {
+            if (PracticeMentors.All(pm => pm.UserId != practiceMentor.Id))
+                PracticeMentors.Add(new GroupSubjectMentor()
+                {
+                    GroupSubjectId = this.Id,
+                    UserId = practiceMentor.Id
+                });
+        }
+        
 
         public string SerializedGoogleTableConfig { get; set; }
 
@@ -62,7 +72,7 @@ namespace Iwentys.Domain.Study
 
         public bool HasMentorPermission(IwentysUser user)
         {
-            return LectorMentorId == user.Id || PracticeMentorId == user.Id;
+            return LectorMentorId == user.Id || PracticeMentors.Any(pm=>pm.UserId == user.Id);
         }
     }
 }

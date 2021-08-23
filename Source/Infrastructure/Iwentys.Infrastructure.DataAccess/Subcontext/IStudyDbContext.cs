@@ -12,6 +12,7 @@ namespace Iwentys.Infrastructure.DataAccess.Subcontext
         public DbSet<SubjectActivity> SubjectActivities { get; set; }
         public DbSet<GroupSubject> GroupSubjects { get; set; }
         public DbSet<StudyCourse> StudyCourses { get; set; }
+        public DbSet<GroupSubjectMentor> GroupSubjectMentors { get; set; }
     }
 
     public static class StudyDbContextExtensions
@@ -19,6 +20,8 @@ namespace Iwentys.Infrastructure.DataAccess.Subcontext
         public static void OnStudyModelCreating(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<SubjectActivity>().HasKey(s => new { s.GroupSubjectId, s.StudentId });
+
+            modelBuilder.Entity<GroupSubjectMentor>().HasKey(gsm => new { gsm.UserId, gsm.GroupSubjectId });
         }
     }
 }

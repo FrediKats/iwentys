@@ -22,21 +22,22 @@ namespace Iwentys.Domain.Study
             Assignments = new List<SubjectAssignment>();
         }
 
-        public GroupSubject AddGroup(StudyGroup studyGroup, StudySemester studySemester, UniversitySystemUser lector = null, UniversitySystemUser practice = null)
+        public GroupSubject AddGroup(StudyGroup studyGroup, StudySemester studySemester, UniversitySystemUser lector = null, IwentysUser practice = null)
         {
-            var groupSubject = new GroupSubject(this, studyGroup, studySemester, lector, practice);
+            var groupSubject = new GroupSubject(this, studyGroup, studySemester, lector);
+            groupSubject.AddPracticeMentor(practice);
             GroupSubjects.Add(groupSubject);
             return groupSubject;
         }
 
         public bool HasMentorPermission(IwentysUser user)
         {
-            return GroupSubjects.Any(gs => gs.LectorMentorId == user.Id || gs.PracticeMentorId == user.Id);
+            return GroupSubjects.Any(gs => gs.HasMentorPermission(user));
         }
 
         public static Expression<Func<Subject, bool>> IsAllowedFor(int userId)
         {
-            return s => s.GroupSubjects.Any(gs => gs.LectorMentorId == userId || gs.PracticeMentorId == userId);
+            return s => s.GroupSubjects.Any(gs => gs.LectorMentorId == userId || gs.PracticeMentors.Any(pm=>pm.UserId == userId));
         }
     }
 }

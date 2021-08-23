@@ -40,10 +40,17 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
 
             StudyGroups = ReadGroups();
             GroupSubjects = new List<GroupSubject>();
-
+            GroupSubjectMentors = new List<GroupSubjectMentor>();
             foreach (Subject subject in Subjects)
             foreach (StudyGroup studyGroup in StudyGroups)
+            {
                 GroupSubjects.Add(CreateGroupSubjectEntity(studyGroup, subject));
+                GroupSubjectMentors.Add(new GroupSubjectMentor()
+                {
+                    UserId = MentorId,
+                    GroupSubjectId = GroupSubjects.Last().Id
+                });
+            }
         }
 
         public List<StudyCourse> StudyCourses { get; set; }
@@ -52,6 +59,7 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
         public List<GroupSubject> GroupSubjects { get; set; }
         public List<StudyGroup> StudyGroups { get; set; }
         public List<UniversitySystemUser> Teachers { get; set; }
+        public List<GroupSubjectMentor> GroupSubjectMentors { get; set; }
 
         public void Seed(ModelBuilder modelBuilder)
         {
@@ -61,6 +69,7 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
             modelBuilder.Entity<UniversitySystemUser>().HasData(Teachers);
             modelBuilder.Entity<Subject>().HasData(Subjects);
             modelBuilder.Entity<GroupSubject>().HasData(GroupSubjects);
+            modelBuilder.Entity<GroupSubjectMentor>().HasData(GroupSubjectMentors);
         }
 
         private GroupSubject CreateGroupSubjectEntity(StudyGroup group, Subject subject)
@@ -72,7 +81,6 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
                 SubjectId = subject.Id,
                 StudyGroupId = group.Id,
                 LectorMentorId = 228617,
-                PracticeMentorId = 228617,
                 StudySemester = CurrentSemester
             };
         }
