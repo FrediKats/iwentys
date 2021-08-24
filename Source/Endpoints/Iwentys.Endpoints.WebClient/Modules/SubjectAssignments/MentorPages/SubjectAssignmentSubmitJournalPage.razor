@@ -13,11 +13,11 @@
         @if (_subjectAssignmentSubmits is not null)
         {
             <MudItem xs="12" sm="12" md="12">
-                <MudTable T="SubjectAssignmentSubmitDto"
+                <MudTable @ref="table" T="SubjectAssignmentSubmitDto"
                           Items="@_tableSubjectAssignmentSubmits"
                           OnRowClick="@(arg => OnRowClicked(arg))"
                           class="dark-elevation-01"
-                          Filter="new Func<SubjectAssignmentSubmitDto,bool>(IsMatchedWithSearchRequest)">
+                          Filter="new Func<SubjectAssignmentSubmitDto, bool>(IsMatchedWithSearchRequest)">
                     <ToolBarContent>
                         <MudTextField @bind-Value="_searchString" Placeholder="Search"  Variant="Variant.Outlined" 
                                       Margin="Margin.None" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
@@ -29,16 +29,20 @@
                         <MudTh><MudTableSortLabel SortBy="new Func<SubjectAssignmentSubmitDto, object>(x => x.Student.SecondName)">Student</MudTableSortLabel></MudTh>
                         <MudTh>
                             <div class="d-flex">
-                                <MudDateRangePicker PickerVariant="PickerVariant.Dialog" @ref="_submitDatePicker" DisableToolbar="true" Adornment="Adornment.None" Class="range-picker-dialog-button"/>
+                                <MudDateRangePicker PickerVariant="PickerVariant.Dialog" @ref="_submitDatePicker" DisableToolbar="true" Adornment="Adornment.None" Class="range-picker-dialog-button">
+                                    <PickerActions>
+                                        <MudButton Class="mr-auto align-self-start" OnClick="@(() => _submitDatePicker.Clear())">Clear</MudButton>
+                                        <MudButton Color="Color.Primary" OnClick="@(() => _submitDatePicker.Close())">Ok</MudButton>
+                                    </PickerActions>
+                                </MudDateRangePicker>
                                 <MudTableSortLabel SortBy="new Func<SubjectAssignmentSubmitDto, object>(x => x.SubmitTimeUtc)">Submit time</MudTableSortLabel>
                                 <MudIconButton Icon="@Icons.Outlined.FilterAlt" @onclick="@(() => _submitDatePicker.Open())"/>
                             </div>
                         </MudTh>
                         <MudTh>
                             <div class="d-flex">
-                                <MudTableSortLabel SortBy="new Func<SubjectAssignmentSubmitDto, object>(x => x.State)">
-                                    <MudSelect CloseIcon="@Icons.Outlined.FilterAlt" OffsetY="true" Label="State" Clearable="true" DisableUnderLine="true" T="string" @bind-Value="_stateSelectorValue"
-                                               >
+                                <MudTableSortLabel  SortBy="new Func<SubjectAssignmentSubmitDto, object>(x => x.State)">
+                                    <MudSelect Style="min-width: 100px" CloseIcon="@Icons.Outlined.FilterAlt" OffsetY="true" Label="State" Clearable="true" DisableUnderLine="true" T="string" @bind-Value="_stateSelectorValue">
                                         @foreach (var state in Enum.GetNames(typeof(SubmitState)))
                                         {
                                             <MudSelectItem T="string" Value="@state">@state</MudSelectItem>
@@ -49,14 +53,24 @@
                         </MudTh>
                         <MudTh>
                             <div class="d-flex">
-                                <MudDateRangePicker PickerVariant="PickerVariant.Dialog" @ref="_approveDatePicker" DisableToolbar="true" Adornment="Adornment.None" Class="range-picker-dialog-button"/>
+                                <MudDateRangePicker PickerVariant="PickerVariant.Dialog" @ref="_approveDatePicker" DisableToolbar="true" Adornment="Adornment.None" Class="range-picker-dialog-button">
+                                    <PickerActions>
+                                        <MudButton Class="mr-auto align-self-start" OnClick="@(() => _approveDatePicker.Clear())">Clear</MudButton>
+                                        <MudButton Color="Color.Primary" OnClick="@(() => _approveDatePicker.Close())">Ok</MudButton>
+                                    </PickerActions>
+                                </MudDateRangePicker>
                                 <MudTableSortLabel SortBy="new Func<SubjectAssignmentSubmitDto, object>(x => x.ApproveTimeUtc)">Approve time</MudTableSortLabel>
                                 <MudIconButton Icon="@Icons.Outlined.FilterAlt" @onclick="@(() => _approveDatePicker.Open())"/>
                             </div>
                         </MudTh>
                         <MudTh>
                             <div class="d-flex">
-                                <MudDateRangePicker PickerVariant="PickerVariant.Dialog" @ref="_rejectDatePicker" DisableToolbar="true" Adornment="Adornment.None" Class="range-picker-dialog-button"/>
+                                <MudDateRangePicker PickerVariant="PickerVariant.Dialog" @ref="_rejectDatePicker" DisableToolbar="true" Adornment="Adornment.None" Class="range-picker-dialog-button">
+                                    <PickerActions>
+                                        <MudButton Class="mr-auto align-self-start" OnClick="@(() => _rejectDatePicker.Clear())">Clear</MudButton>
+                                        <MudButton Color="Color.Primary" OnClick="@(() => _rejectDatePicker.Close())">Ok</MudButton>
+                                    </PickerActions>
+                                </MudDateRangePicker>
                                 <MudTableSortLabel SortBy="new Func<SubjectAssignmentSubmitDto, object>(x => x.ApproveTimeUtc)">Reject time</MudTableSortLabel>
                                 <MudIconButton Icon="@Icons.Outlined.FilterAlt" @onclick="@(() => _rejectDatePicker.Open())"/>
                             </div>
@@ -86,9 +100,10 @@
     [Parameter]
     public int SubjectId { get; set; }
 
-    MudDateRangePicker _submitDatePicker;
-    MudDateRangePicker _approveDatePicker;
-    MudDateRangePicker _rejectDatePicker;
+    MudDateRangePicker _submitDatePicker = new MudDateRangePicker();
+    MudDateRangePicker _approveDatePicker = new MudDateRangePicker();
+    MudDateRangePicker _rejectDatePicker = new MudDateRangePicker();
+    MudTable<SubjectAssignmentSubmitDto> table;
     
     private void OnRowClicked(TableRowClickEventArgs<SubjectAssignmentSubmitDto> obj)
     {
