@@ -36,17 +36,6 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
 
         private bool IsMatchedWithSearchRequest(SubjectAssignmentSubmitDto assignment)
         {
-            
-            bool searched = string.IsNullOrWhiteSpace(_searchString) ||
-                            assignment.SubjectAssignmentTitle.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
-                            assignment.Student.SecondName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
-                            assignment.Student.FirstName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
-                            $"{assignment.SubmitTimeUtc} {assignment.RejectTimeUtc} {assignment.ApproveTimeUtc}".Contains(_searchString, StringComparison.OrdinalIgnoreCase);
-            bool dateRangeIsOk = DateRangeIsOk(_approveDatePicker.DateRange, assignment.ApproveTimeUtc) &&
-                                 DateRangeIsOk(_rejectDatePicker.DateRange, assignment.RejectTimeUtc) &&
-                                 DateRangeIsOk(_submitDatePicker.DateRange, assignment.SubmitTimeUtc);
-            return searched && dateRangeIsOk && SelectIsOk();
-
             bool DateRangeIsOk(DateRange dateRange, DateTime? date){
                 if (dateRange == null || dateRange.End == null && dateRange.Start == null)
                 {
@@ -58,12 +47,20 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
                 }
                 return false;
             }
-
-            bool SelectIsOk()
-            {
-                return assignment.State.ToString().Equals(_stateSelectorValue) || string.IsNullOrEmpty(_stateSelectorValue);
-            }
+            
+            bool searched = string.IsNullOrWhiteSpace(_searchString) ||
+                            assignment.SubjectAssignmentTitle.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+                            assignment.Student.SecondName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+                            assignment.Student.FirstName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+                            $"{assignment.SubmitTimeUtc} {assignment.RejectTimeUtc} {assignment.ApproveTimeUtc}".Contains(_searchString, StringComparison.OrdinalIgnoreCase);
+            bool dateRangeIsOk = DateRangeIsOk(_approveDatePicker.DateRange, assignment.ApproveTimeUtc) &&
+                                 DateRangeIsOk(_rejectDatePicker.DateRange, assignment.RejectTimeUtc) &&
+                                 DateRangeIsOk(_submitDatePicker.DateRange, assignment.SubmitTimeUtc);
+            bool selectStateIsOk = assignment.State.ToString().Equals(_stateSelectorValue) ||
+                                   string.IsNullOrEmpty(_stateSelectorValue);
+            
+            
+            return searched && dateRangeIsOk && selectStateIsOk;
         }
-        
     }
 }
