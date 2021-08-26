@@ -3,15 +3,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.Configuration;
-using AutoMapper.QueryableExtensions;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.Application.Modules.AccountManagment.Dtos;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Infrastructure.DataAccess.Subcontext;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Modules.AccountManagment.MentorsManagment.Queries
+namespace Iwentys.Modules.AccountManagement.Mentors.Queries
 {
     public class GetAllSubjectsMentors
     {
