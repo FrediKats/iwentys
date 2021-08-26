@@ -20,8 +20,4 @@
     <ProjectReference Include="..\Iwentys.Infrastructure.Configuration\Iwentys.Infrastructure.Configuration.csproj" />
     <ProjectReference Include="..\Iwentys.Infrastructure.DataAccess\Iwentys.Infrastructure.DataAccess.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Modules\AccountManagment" />
-  </ItemGroup>
 </Project>

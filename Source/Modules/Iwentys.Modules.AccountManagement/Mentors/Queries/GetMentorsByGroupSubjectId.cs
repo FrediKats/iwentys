@@ -6,38 +6,37 @@ using AutoMapper;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.AccountManagement.Mentors.Dto;
-using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
-using LanguageExt;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Modules.AccountManagement.Mentors.Queries
 {
-    public class GetAllSubjectsMentors
+    public class GetMentorsByGroupSubjectId
     {
         public class Query : IRequest<Response>
         {
             public AuthorizedUser User { get; init; }
-            
-            public Query(AuthorizedUser authorizedUser)
+            public int GroupSubjectId { get; set; }
+            public Query(AuthorizedUser user, int groupSubjectId)
             {
-                User = authorizedUser;
+                User = user;
+                GroupSubjectId = groupSubjectId;
             }
         }
-
+        
         public class Response
         {
-            public IReadOnlyList<SubjectMentorsDto> SubjectMentors { get; init; }
+            public GroupMentorsDto GroupMentors { get; init; }
 
-            public Response(IReadOnlyList<SubjectMentorsDto> subjectMentors)
+            public Response(GroupMentorsDto groupMentors)
             {
-                SubjectMentors = subjectMentors;
+                GroupMentors = groupMentors;
             }
         }
-
-        public class Handler : IRequestHandler<Query, Response>
+        
+        public class Handler : IRequestHandler<Query,Response>
         {
             private IwentysDbContext _context;
             private IMapper _mapper;
@@ -52,17 +51,16 @@ namespace Iwentys.Modules.AccountManagement.Mentors.Queries
             {
                 IwentysUser user = await _context.IwentysUsers.GetById(request.User.Id);
                 
-                var groupSubjects = await _context.GroupSubjects
-                                                   .ToListAsync(cancellationToken);
-
-                if (!user.IsAdmin && !groupSubjects.Any(gs => gs.HasMentorPermission(user)))
+                if (!user.IsAdmin && !_context.GroupSubjects.Any(gs => gs.HasMentorPermission(user)))
                 {
                     throw InnerLogicException.StudyExceptions.UserIsNotMentor(user.Id);
                 }
 
-                var subjectMentorsDtos = _mapper.Map<List<SubjectMentorsDto>>(groupSubjects.GroupBy(x => x.SubjectId));
+                var groupSubject = await _context.GroupSubjects.GetById(request.GroupSubjectId);
+                
+                var groupMentorsDtos = _mapper.Map<GroupMentorsDto>(groupSubject);
 
-                return new Response(subjectMentorsDtos);
+                return new Response(groupMentorsDtos);
             }
         }
     }

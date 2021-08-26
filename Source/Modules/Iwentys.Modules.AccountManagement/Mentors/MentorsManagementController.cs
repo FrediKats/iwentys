@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Iwentys.Domain.AccountManagement.Mentors.Dto;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Modules.AccountManagement.Mentors.Queries;
 using MediatR;
@@ -17,12 +19,20 @@ namespace Iwentys.Modules.AccountManagement.Mentors
             _mediator = mediator;
         }
 
-        [HttpGet("all")]
-        public async Task<IActionResult> GetAllAsync()
+        [HttpGet(nameof(GetAll))]
+        public async Task<ActionResult<IReadOnlyList<SubjectMentorsDto>>> GetAll()
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             var subjectsMentors = await _mediator.Send(new GetAllSubjectsMentors.Query(authorizedUser));
-            return Ok(subjectsMentors);
+            return Ok(subjectsMentors.SubjectMentors);
+        }
+
+        [HttpGet("by-group-subject/{id}")]
+        public async Task<ActionResult<GroupMentorsDto>> GetByGroupSubject(int id)
+        {
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            var groupMentors = await _mediator.Send(new GetMentorsByGroupSubjectId.Query(authorizedUser,id));
+            return Ok(groupMentors.GroupMentors);
         }
     }
 }
