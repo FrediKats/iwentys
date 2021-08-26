@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Modules.AccountManagement.Mentors.Dtos
+﻿namespace Iwentys.Domain.AccountManagement.Mentors.Dto
 {
     public class MentorDto
     {

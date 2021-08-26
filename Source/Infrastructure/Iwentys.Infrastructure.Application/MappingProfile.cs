@@ -2,6 +2,7 @@
 using AutoMapper;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.AccountManagement.Dto;
+using Iwentys.Domain.AccountManagement.Mentors.Dto;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.PeerReview;
@@ -9,7 +10,6 @@ using Iwentys.Domain.PeerReview.Dto;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
 using Iwentys.Domain.SubjectAssignments;
-using Iwentys.Infrastructure.Application.Modules.AccountManagment.Dtos;
 using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos;
 using LanguageExt;
 using Microsoft.AspNetCore.Mvc;
