@@ -3,29 +3,35 @@
 @using Bunit.Extensions
 @inherits Iwentys.Endpoints.WebClient.Shared.DependencyInjectionPage
 
-@if (!_subjectsMentors.IsNullOrEmpty())
-{
-    <MudContainer>
-    @foreach (var subjectMentors in _subjectsMentors)
+
+<MudContainer>
+    <MudGrid>
+        <MudContainer Class="card-list-element dark-elevation-01 p-3 m-3">
+            <MudCheckBox @bind-Checked="ShowOnlyMySubjects">Show only my subjects</MudCheckBox>
+        </MudContainer>
+    </MudGrid>
+    @if (!_subjectsMentorsToShow.IsNullOrEmpty())
     {
-        <MudGrid>
-            <MudContainer Class="card-list-element dark-elevation-01 p-3 m-3">
-                <MudText Typo="Typo.h4">@subjectMentors.Name</MudText>
-                <MudExpansionPanels MultiExpansion="true" Elevation="0">
-                    @foreach (var groupMentors in subjectMentors.Groups)
-                    {
-                        <MudExpansionPanel Text="@groupMentors.Name">
-                            <MudText><MudChip Color="Color.Primary">Lector</MudChip> @groupMentors.LectorMentor.FirstName @groupMentors.LectorMentor.SecondName </MudText>
-                        
-                        @foreach (var practiceMentor in groupMentors.PracticeMentors)
+        @foreach (var subjectMentors in _subjectsMentorsToShow)
+        {
+            <MudGrid>
+                <MudContainer Class="card-list-element dark-elevation-01 p-3 m-3">
+                    <MudText Typo="Typo.h4">@subjectMentors.Name</MudText>
+                    <MudExpansionPanels MultiExpansion="true" Elevation="0">
+                        @foreach (var groupMentors in subjectMentors.Groups)
                         {
-                            <MudText><MudChip Color="Color.Secondary" OnClose="RemoveMentor">Practice</MudChip> @practiceMentor.FirstName @practiceMentor.SecondName</MudText>
+                            <MudExpansionPanel Text="@groupMentors.Name">
+                                <MudText><MudChip Color="Color.Primary">Lector</MudChip> @groupMentors.LectorMentor.FirstName @groupMentors.LectorMentor.SecondName </MudText>
+
+                                @foreach (var practiceMentor in groupMentors.PracticeMentors)
+                                {
+                                    <MudText><MudChip Color="Color.Secondary" OnClose="RemoveMentor">Practice</MudChip> @practiceMentor.FirstName @practiceMentor.SecondName</MudText>
+                                }
+                            </MudExpansionPanel>
                         }
-                        </MudExpansionPanel>
-                    }
-                </MudExpansionPanels>
-            </MudContainer>
-        </MudGrid>
+                    </MudExpansionPanels>
+                </MudContainer>
+            </MudGrid>
+        }
     }
-    </MudContainer>
-}
+</MudContainer>
