@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Sdk;
+using MudBlazor;
 
 namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorPages
 {
@@ -13,6 +14,11 @@ namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorPages
         {
             await base.OnInitializedAsync();
             _subjectsMentors = await MentorsManagementClient.GetAllAsync();
+        }
+
+        public void RemoveMentor(MudChip chip)
+        {
+            
         }
     }
 }

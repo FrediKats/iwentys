@@ -19,7 +19,7 @@
                         
                         @foreach (var practiceMentor in groupMentors.PracticeMentors)
                         {
-                            <MudText><MudChip Color="Color.Secondary">Practice</MudChip> @practiceMentor.FirstName @practiceMentor.SecondName</MudText>
+                            <MudText><MudChip Color="Color.Secondary" OnClose="RemoveMentor">Practice</MudChip> @practiceMentor.FirstName @practiceMentor.SecondName</MudText>
                         }
                         </MudExpansionPanel>
                     }
