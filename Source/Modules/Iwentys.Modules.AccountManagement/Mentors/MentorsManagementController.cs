@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement.Mentors.Dto;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Modules.AccountManagement.Mentors.Commands;
 using Iwentys.Modules.AccountManagement.Mentors.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,14 @@ namespace Iwentys.Modules.AccountManagement.Mentors
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             var groupMentors = await _mediator.Send(new GetMentorsByGroupSubjectId.Query(authorizedUser,id));
             return Ok(groupMentors.GroupMentors);
+        }
+
+        [HttpDelete(nameof(RemoveMentorFromGroup))]
+        public async Task<ActionResult> RemoveMentorFromGroup([FromQuery] int groupSubjectId, [FromQuery] int mentorId)
+        {
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            await _mediator.Send(new RemoveMentorFromGroup.Command(authorizedUser, groupSubjectId, mentorId));
+            return Ok();
         }
     }
 }

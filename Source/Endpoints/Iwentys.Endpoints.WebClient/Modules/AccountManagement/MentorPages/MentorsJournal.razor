@@ -34,7 +34,7 @@
                                 {
                                     @if (_currentUser.IsAdmin)
                                     {
-                                        <MudText><MudChip Color="Color.Secondary" OnClose="RemoveMentor">Practice</MudChip> @practiceMentor.FirstName @practiceMentor.SecondName</MudText>
+                                        <MudText><MudChip Tag="new MentorIdentifier(){GroupSubjectId = groupMentors.Id,MentorId = practiceMentor.Id}" Color="Color.Secondary" OnClose="RemoveMentor">Practice</MudChip> @practiceMentor.FirstName @practiceMentor.SecondName</MudText>
                                     }
                                     else
                                     {

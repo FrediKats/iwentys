@@ -31,13 +31,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Modules\AccountManagement\AdminPages" />
-  </ItemGroup>
-
-  <ItemGroup>
     <_ContentIncludedByDefault Remove="Pages\Raids\CreateRaidProfilePage.razor" />
     <_ContentIncludedByDefault Remove="Pages\Raids\RaidJournalPage.razor" />
     <_ContentIncludedByDefault Remove="Pages\Raids\RaidProfilePage.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Modules\AccountManagement\AdminPages" />
   </ItemGroup>
 
 </Project>

@@ -11,6 +11,7 @@ namespace Iwentys.Infrastructure.DataAccess.Subcontext
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<SubjectActivity> SubjectActivities { get; set; }
         public DbSet<GroupSubject> GroupSubjects { get; set; }
+        public DbSet<GroupSubjectMentor> GroupSubjectMentors { get; set; }
         public DbSet<StudyCourse> StudyCourses { get; set; }
     }
 
