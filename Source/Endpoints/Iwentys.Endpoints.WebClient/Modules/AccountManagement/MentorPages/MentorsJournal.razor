@@ -21,11 +21,25 @@
                         @foreach (var groupMentors in subjectMentors.Groups)
                         {
                             <MudExpansionPanel Text="@groupMentors.Name">
-                                <MudText><MudChip Color="Color.Primary">Lector</MudChip> @groupMentors.LectorMentor.FirstName @groupMentors.LectorMentor.SecondName </MudText>
+                                @if (_currentUser.IsAdmin)
+                                {
+                                    <MudText><MudChip Color="Color.Primary">Lector</MudChip> @groupMentors.LectorMentor.FirstName @groupMentors.LectorMentor.SecondName </MudText>
+                                }
+                                else
+                                {
+                                    <MudText><MudChip>Lector</MudChip> @groupMentors.LectorMentor.FirstName @groupMentors.LectorMentor.SecondName </MudText>
+                                }
 
                                 @foreach (var practiceMentor in groupMentors.PracticeMentors)
                                 {
-                                    <MudText><MudChip Color="Color.Secondary" OnClose="RemoveMentor">Practice</MudChip> @practiceMentor.FirstName @practiceMentor.SecondName</MudText>
+                                    @if (_currentUser.IsAdmin)
+                                    {
+                                        <MudText><MudChip Color="Color.Secondary" OnClose="RemoveMentor">Practice</MudChip> @practiceMentor.FirstName @practiceMentor.SecondName</MudText>
+                                    }
+                                    else
+                                    {
+                                        <MudText><MudChip Color="Color.Secondary">Practice</MudChip> @practiceMentor.FirstName @practiceMentor.SecondName</MudText>
+                                    }
                                 }
                             </MudExpansionPanel>
                         }
