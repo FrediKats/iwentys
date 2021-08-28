@@ -9,7 +9,7 @@ using MudBlazor;
 
 namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorPages
 {
-    public partial class MentorsJournal
+    public partial class MentorsJournalPage
     {
         private class MentorIdentifier
         {
@@ -79,6 +79,11 @@ namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorPages
             {
                 Snackbar.Add("An error occured", Severity.Error);
             }
+        }
+
+        public string LinkToAddMentor(int subjectId)
+        {
+            return $"account-management/mentors/add/{subjectId}/";
         }
     }
 }

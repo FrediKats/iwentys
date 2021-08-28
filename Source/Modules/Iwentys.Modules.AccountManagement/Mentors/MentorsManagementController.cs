@@ -43,5 +43,13 @@ namespace Iwentys.Modules.AccountManagement.Mentors
             await _mediator.Send(new RemoveMentorFromGroup.Command(authorizedUser, groupSubjectId, mentorId));
             return Ok();
         }
+
+        [HttpPost(nameof(AddMentor))]
+        public async Task<ActionResult> AddMentor([FromBody] SubjectMentorCreateArgs args)
+        {
+            AuthorizedUser authorizedUser = this.TryAuthWithToken();
+            await _mediator.Send(new AddMentor.Command(authorizedUser, args));
+            return Ok();
+        }
     }
 }
