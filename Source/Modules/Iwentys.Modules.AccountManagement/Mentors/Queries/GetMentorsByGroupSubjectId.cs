@@ -38,8 +38,8 @@ namespace Iwentys.Modules.AccountManagement.Mentors.Queries
         
         public class Handler : IRequestHandler<Query,Response>
         {
-            private IwentysDbContext _context;
-            private IMapper _mapper;
+            private readonly IwentysDbContext _context;
+            private readonly IMapper _mapper;
 
             public Handler(IwentysDbContext context, IMapper mapper)
             {

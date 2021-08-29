@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Sdk;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorPages
+namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorsManagement
 {
     public partial class MentorsJournalPage
     {
@@ -74,6 +72,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorPages
                 ShowOnlyMySubjects = _showOnlyMySubjects;
                 
                 Snackbar.Add("Mentor was removed successfully", Severity.Success);
+                StateHasChanged();
             }
             catch (ApiException e)
             {

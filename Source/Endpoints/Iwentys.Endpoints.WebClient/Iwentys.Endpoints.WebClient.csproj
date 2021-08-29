@@ -36,8 +36,4 @@
     <_ContentIncludedByDefault Remove="Pages\Raids\RaidProfilePage.razor" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Modules\AccountManagement\AdminPages" />
-  </ItemGroup>
-
 </Project>

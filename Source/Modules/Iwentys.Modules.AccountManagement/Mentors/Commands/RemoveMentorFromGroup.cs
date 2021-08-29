@@ -45,7 +45,7 @@ namespace Iwentys.Modules.AccountManagement.Mentors.Commands
                     gsm.UserId == request.MentorId && gsm.GroupSubjectId == request.GroupSubjectId,cancellationToken);
 
                 if (groupSubjectMentor is null)
-                    throw new ArgumentException(nameof(request));
+                    throw new ArgumentException("User is not mentor", nameof(request));
 
                 _dbContext.GroupSubjectMentors.Remove(groupSubjectMentor);
                 await _dbContext.SaveChangesAsync(cancellationToken);

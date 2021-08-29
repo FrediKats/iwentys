@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
@@ -41,10 +42,19 @@ namespace Iwentys.Modules.AccountManagement.Mentors.Commands
                 if (!user.IsAdmin)
                     throw InnerLogicException.NotEnoughPermissionFor(user.Id);
                 
+                var practiceMentor = await _dbContext.IwentysUsers.FirstOrDefaultAsync(
+                    s => s.Id == request.Args.MentorId,cancellationToken);
+
+                if (practiceMentor is null)
+                    throw new ArgumentException("Invalid mentor", nameof(request.Args.MentorId));
+                
                 foreach (var groupId in request.Args.GroupSubjectIds)
                 {
                     var groupSubject = await _dbContext.GroupSubjects.FirstOrDefaultAsync(
-                        gs=>gs.SubjectId==request.Args.SubjectId && gs.StudyGroupId==groupId);
+                        gs=>gs.SubjectId==request.Args.SubjectId && gs.StudyGroupId==groupId,
+                        cancellationToken);
+
+                    
                     if (groupSubject is null || 
                         groupSubject.PracticeMentors.Any(m=>m.UserId==request.Args.MentorId))
                         continue;
@@ -57,7 +67,7 @@ namespace Iwentys.Modules.AccountManagement.Mentors.Commands
                     _dbContext.GroupSubjects.Update(groupSubject);
                 }
 
-                await _dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync(cancellationToken);
                 
                 return Unit.Value;
             }

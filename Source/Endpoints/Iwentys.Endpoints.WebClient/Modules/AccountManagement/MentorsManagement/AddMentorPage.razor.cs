@@ -6,7 +6,7 @@ using Iwentys.Sdk;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorPages
+namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorsManagement
 {
     public partial class AddMentorPage
     {
@@ -32,6 +32,11 @@ namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorPages
             _subjectProfile = await SubjectClient.GetSubjectByIdAsync(SubjectId);
         }
 
+        private void ShowError(string message)
+        {
+            Snackbar.Add(message, Severity.Error);
+        }
+
         private async Task AddGroup()
         {
             if (_groups.Any(g => g.Name == _groupName.Substring(0,5)))
@@ -47,11 +52,12 @@ namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorPages
                     Name = group.GroupName,
                     Id = group.Id
                 });
+                _groupName = String.Empty;
                 StateHasChanged();
             }
             catch (ApiException e)
             {
-                Snackbar.Add("Invalid group name", Severity.Error);
+                ShowError("Invalid group name");
             }
         }
         
@@ -62,8 +68,14 @@ namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorPages
             StateHasChanged();
         }
 
-        private void Create()
+        private async Task Create()
         {
+            if (_groups.Any())
+            {
+                ShowError("Can't add mentor without group");
+                return;
+            }
+
             var createArgs = new SubjectMentorCreateArgs()
             {
                 MentorId = _mentorId,
@@ -71,9 +83,16 @@ namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorPages
                 SubjectId = SubjectId
             };
 
-            MentorsManagementClient.AddMentorAsync(createArgs);
-            
-            _navigationManager.NavigateTo("/account-management/mentors/");
+            try
+            {
+                await MentorsManagementClient.AddMentorAsync(createArgs);
+                _navigationManager.NavigateTo("/account-management/mentors/");
+            }
+            catch (ApiException e)
+            {
+                ShowError("Error while adding mentor.");
+            }
+
         }
     }
 }
