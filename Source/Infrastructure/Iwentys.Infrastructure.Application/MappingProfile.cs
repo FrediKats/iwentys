@@ -67,7 +67,7 @@ namespace Iwentys.Infrastructure.Application
                                map.MapFrom(g => g.Select(x => x)));
 
             CreateMap<GroupSubject, GroupMentorsDto>()
-                .ForMember(gm=>gm.Name,
+                .ForMember(gm=>gm.GroupName,
                     map=>
                         map.MapFrom(gs=>gs.StudyGroup.GroupName));
             CreateMap<UniversitySystemUser, MentorDto>();

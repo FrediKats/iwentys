@@ -5,7 +5,7 @@ namespace Iwentys.Domain.AccountManagement.Mentors.Dto
     public class GroupMentorsDto
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string GroupName { get; set; }
         public MentorDto LectorMentor { get; set; }
         public IReadOnlyList<MentorDto> PracticeMentors { get; set; }
 
@@ -16,7 +16,7 @@ namespace Iwentys.Domain.AccountManagement.Mentors.Dto
         public GroupMentorsDto(int id, string name, MentorDto lectorMentor, IReadOnlyList<MentorDto> practiceMentors)
         {
             Id = id;
-            Name = name;
+            GroupName = name;
             LectorMentor = lectorMentor;
             PracticeMentors = practiceMentors;
         }
