@@ -29,11 +29,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Iwentys.Endpoints.Sdk\Iwentys.Endpoints.Sdk.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Pages\Raids\CreateRaidProfilePage.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Raids\RaidJournalPage.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Raids\RaidProfilePage.razor" />
-  </ItemGroup>
-
 </Project>

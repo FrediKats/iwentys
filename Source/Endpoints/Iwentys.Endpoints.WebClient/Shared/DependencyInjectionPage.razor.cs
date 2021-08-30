@@ -25,7 +25,6 @@ namespace Iwentys.Endpoints.WebClient.Shared
         public NewsfeedClient NewsfeedClient { get; set; }
         public PeerReviewClient PeerReviewClient { get; set; }
         public QuestClient QuestClient { get; set; }
-        // public RaidClient RaidClient { get; set; }
         public MentorsManagementClient MentorsManagementClient { get; set; }
         public ScheduleClient ScheduleClient { get; set; }
         public StudentClient StudentClient { get; set; }
@@ -57,7 +56,6 @@ namespace Iwentys.Endpoints.WebClient.Shared
             NewsfeedClient = new NewsfeedClient(httpClient);
             PeerReviewClient = new PeerReviewClient(httpClient);
             QuestClient = new QuestClient(httpClient);
-            // RaidClient = new RaidClient(httpClient);
             MentorsManagementClient = new MentorsManagementClient(httpClient);
             ScheduleClient = new ScheduleClient(httpClient);
             StudentClient = new StudentClient(httpClient);
