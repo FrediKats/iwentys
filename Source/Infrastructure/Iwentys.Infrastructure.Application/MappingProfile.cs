@@ -67,10 +67,16 @@ namespace Iwentys.Infrastructure.Application
                                map.MapFrom(g => g.Select(x => x)));
 
             CreateMap<GroupSubject, GroupMentorsDto>()
-                .ForMember(gm=>gm.GroupName,
-                    map=>
-                        map.MapFrom(gs=>gs.StudyGroup.GroupName));
-            CreateMap<UniversitySystemUser, MentorDto>();
+                .ForMember(gm => gm.GroupName,
+                           map =>
+                               map.MapFrom(gs => gs.StudyGroup.GroupName))
+                .ForMember(gm => gm.PracticeMentors,
+                           map =>
+                               map.MapFrom(gs => gs.Mentors.Where(g => !g.IsLector)))
+                .ForMember(gm => gm.LectorMentors,
+                           map =>
+                               map.MapFrom(gs => gs.Mentors.Where(g => g.IsLector)));
+            CreateMap<IwentysUser, MentorDto>();
 
             CreateMap<GroupSubjectMentor, MentorDto>()
                 .ForMember(gs => gs.Id,

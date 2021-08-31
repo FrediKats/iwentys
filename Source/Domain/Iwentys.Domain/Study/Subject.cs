@@ -22,7 +22,7 @@ namespace Iwentys.Domain.Study
             Assignments = new List<SubjectAssignment>();
         }
 
-        public GroupSubject AddGroup(StudyGroup studyGroup, StudySemester studySemester, UniversitySystemUser lector = null, IwentysUser practice = null)
+        public GroupSubject AddGroup(StudyGroup studyGroup, StudySemester studySemester, IwentysUser lector = null, IwentysUser practice = null)
         {
             var groupSubject = new GroupSubject(this, studyGroup, studySemester, lector);
             groupSubject.AddPracticeMentor(practice);
@@ -37,7 +37,7 @@ namespace Iwentys.Domain.Study
 
         public static Expression<Func<Subject, bool>> IsAllowedFor(int userId)
         {
-            return s => s.GroupSubjects.Any(gs => gs.LectorMentorId == userId || gs.PracticeMentors.Any(pm=>pm.UserId == userId));
+            return s => s.GroupSubjects.Any(gs => gs.Mentors.Any(pm=>pm.UserId == userId));
         }
     }
 }

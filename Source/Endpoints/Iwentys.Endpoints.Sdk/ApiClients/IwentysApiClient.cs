@@ -12557,11 +12557,11 @@ namespace Iwentys.Sdk
         [System.Text.Json.Serialization.JsonPropertyName("id")]
         public int Id { get; set; }
     
-        [System.Text.Json.Serialization.JsonPropertyName("name")]
-        public string Name { get; set; }
+        [System.Text.Json.Serialization.JsonPropertyName("groupName")]
+        public string GroupName { get; set; }
     
-        [System.Text.Json.Serialization.JsonPropertyName("lectorMentor")]
-        public MentorDto LectorMentor { get; set; }
+        [System.Text.Json.Serialization.JsonPropertyName("lectorMentors")]
+        public System.Collections.Generic.ICollection<MentorDto> LectorMentors { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("practiceMentors")]
         public System.Collections.Generic.ICollection<MentorDto> PracticeMentors { get; set; }
@@ -12615,14 +12615,8 @@ namespace Iwentys.Sdk
         [System.Text.Json.Serialization.JsonPropertyName("studyGroup")]
         public StudyGroup StudyGroup { get; set; }
     
-        [System.Text.Json.Serialization.JsonPropertyName("lectorMentorId")]
-        public int? LectorMentorId { get; set; }
-    
-        [System.Text.Json.Serialization.JsonPropertyName("lectorMentor")]
-        public UniversitySystemUser LectorMentor { get; set; }
-    
-        [System.Text.Json.Serialization.JsonPropertyName("practiceMentors")]
-        public System.Collections.Generic.ICollection<GroupSubjectMentor> PracticeMentors { get; set; }
+        [System.Text.Json.Serialization.JsonPropertyName("mentors")]
+        public System.Collections.Generic.ICollection<GroupSubjectMentor> Mentors { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("serializedGoogleTableConfig")]
         public string SerializedGoogleTableConfig { get; set; }
@@ -12654,6 +12648,9 @@ namespace Iwentys.Sdk
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class GroupSubjectMentor 
     {
+        [System.Text.Json.Serialization.JsonPropertyName("isLector")]
+        public bool IsLector { get; set; }
+    
         [System.Text.Json.Serialization.JsonPropertyName("userId")]
         public int UserId { get; set; }
     
@@ -14380,24 +14377,6 @@ namespace Iwentys.Sdk
     
         [System.Runtime.Serialization.EnumMember(Value = @"Completed")]
         Completed = 2,
-    
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class UniversitySystemUser 
-    {
-        [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int Id { get; set; }
-    
-        [System.Text.Json.Serialization.JsonPropertyName("firstName")]
-        public string FirstName { get; set; }
-    
-        [System.Text.Json.Serialization.JsonPropertyName("middleName")]
-        public string MiddleName { get; set; }
-    
-        [System.Text.Json.Serialization.JsonPropertyName("secondName")]
-        public string SecondName { get; set; }
-    
     
     }
     

@@ -45,6 +45,13 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
             foreach (StudyGroup studyGroup in StudyGroups)
             {
                 GroupSubjects.Add(CreateGroupSubjectEntity(studyGroup, subject));
+
+                GroupSubjectMentors.Add(new GroupSubjectMentor()
+                {
+                    IsLector = true,
+                    UserId = MentorId,
+                    GroupSubjectId = GroupSubjects.Last().Id
+                });
                 GroupSubjectMentors.Add(new GroupSubjectMentor()
                 {
                     UserId = MentorId,
@@ -80,7 +87,6 @@ namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
                 Id = Create.GroupSubjectIdentifierGenerator.Next(),
                 SubjectId = subject.Id,
                 StudyGroupId = group.Id,
-                LectorMentorId = 228617,
                 StudySemester = CurrentSemester
             };
         }

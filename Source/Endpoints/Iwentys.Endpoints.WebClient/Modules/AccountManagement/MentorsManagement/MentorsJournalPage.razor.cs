@@ -42,7 +42,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorsManagemen
             _allSubjectsMentors = await MentorsManagementClient.GetAllAsync();
 
             _currentUserSubjects = _allSubjectsMentors.Where(
-                sm => sm.Groups.Any(g => g.LectorMentor.Id == _currentUser.Id
+                sm => sm.Groups.Any(g => g.LectorMentors.Any(m=>m.Id == _currentUser.Id)
                                          || g.PracticeMentors.Any(m => m.Id == _currentUser.Id))).ToList();
             _subjectsMentorsToShow = _allSubjectsMentors;
         }
@@ -66,7 +66,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorsManagemen
                 group.PracticeMentors.Remove(mentor);
                 
                 _currentUserSubjects = _allSubjectsMentors.Where(
-                    sm => sm.Groups.Any(g => g.LectorMentor.Id == _currentUser.Id
+                    sm => sm.Groups.Any(g => g.LectorMentors.Any(m=>m.Id == _currentUser.Id)
                                              || g.PracticeMentors.Any(m => m.Id == _currentUser.Id))).ToList();
 
                 ShowOnlyMySubjects = _showOnlyMySubjects;

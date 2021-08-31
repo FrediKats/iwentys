@@ -30,14 +30,10 @@
                             <MudExpansionPanels MultiExpansion="true" Elevation="0">
                                 @foreach (var groupMentors in subjectMentors.Groups)
                                 {
-                                    <MudExpansionPanel Text="@groupMentors.Name">
-                                        @if (_currentUser.IsAdmin)
+                                    <MudExpansionPanel Text="@groupMentors.GroupName">
+                                        @foreach (var lector in groupMentors.LectorMentors)
                                         {
-                                            <MudText><MudChip Color="Color.Primary">Lector</MudChip> @groupMentors.LectorMentor.FirstName @groupMentors.LectorMentor.SecondName </MudText>
-                                        }
-                                        else
-                                        {
-                                            <MudText><MudChip Color="Color.Primary">Lector</MudChip> @groupMentors.LectorMentor.FirstName @groupMentors.LectorMentor.SecondName </MudText>
+                                            <MudText><MudChip Color="Color.Primary">Lector</MudChip> @lector.FirstName @lector.SecondName </MudText>
                                         }
 
                                         @foreach (var practiceMentor in groupMentors.PracticeMentors)

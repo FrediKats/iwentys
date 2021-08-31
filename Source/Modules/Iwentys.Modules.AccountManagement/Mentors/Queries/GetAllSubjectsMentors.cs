@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -61,7 +62,7 @@ namespace Iwentys.Modules.AccountManagement.Mentors.Queries
                 }
 
                 var subjectMentorsDtos = _mapper.Map<List<SubjectMentorsDto>>(groupSubjects.GroupBy(x => x.SubjectId));
-
+                
                 return new Response(subjectMentorsDtos);
             }
         }

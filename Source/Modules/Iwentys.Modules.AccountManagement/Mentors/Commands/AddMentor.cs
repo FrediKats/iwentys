@@ -56,9 +56,9 @@ namespace Iwentys.Modules.AccountManagement.Mentors.Commands
 
                     
                     if (groupSubject is null || 
-                        groupSubject.PracticeMentors.Any(m=>m.UserId==request.Args.MentorId))
+                        groupSubject.Mentors.Any(m=> !m.IsLector || m.UserId==request.Args.MentorId))
                         continue;
-                    groupSubject.PracticeMentors.Add(new GroupSubjectMentor()
+                    groupSubject.Mentors.Add(new GroupSubjectMentor()
                     {
                         GroupSubjectId = groupSubject.Id,
                         UserId = request.Args.MentorId

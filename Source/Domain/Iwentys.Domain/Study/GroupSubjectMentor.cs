@@ -4,6 +4,8 @@ namespace Iwentys.Domain.Study
 {
     public class GroupSubjectMentor
     {
+        public bool IsLector { get; set; }
+        
         public int UserId { get; set; }
         public virtual IwentysUser User { get; set; }
 
