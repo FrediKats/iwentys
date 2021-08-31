@@ -48,18 +48,17 @@ namespace Iwentys.Modules.AccountManagement.Mentors.Commands
                 if (practiceMentor is null)
                     throw new ArgumentException("Invalid mentor", nameof(request.Args.MentorId));
                 
-                foreach (var groupId in request.Args.GroupSubjectIds)
+                var groupSubjects = await _dbContext.GroupSubjects.Where(
+                    gs=>gs.SubjectId==request.Args.SubjectId && request.Args.GroupSubjectIds.Contains(gs.StudyGroupId))
+                                                    .ToListAsync(cancellationToken);
+                
+                foreach (var groupSubject in groupSubjects)
                 {
-                    var groupSubject = await _dbContext.GroupSubjects.FirstOrDefaultAsync(
-                        gs=>gs.SubjectId==request.Args.SubjectId && gs.StudyGroupId==groupId,
-                        cancellationToken);
-
-                    
-                    if (groupSubject is null || 
-                        groupSubject.Mentors.Any(m=> !m.IsLector || m.UserId==request.Args.MentorId))
+                    if (groupSubject.Mentors.Any(m=> !m.IsLector && m.UserId==request.Args.MentorId))
                         continue;
                     groupSubject.Mentors.Add(new GroupSubjectMentor()
                     {
+                        IsLector = false,
                         GroupSubjectId = groupSubject.Id,
                         UserId = request.Args.MentorId
                     });

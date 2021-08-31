@@ -42,7 +42,9 @@ namespace Iwentys.Modules.AccountManagement.Mentors.Commands
                     throw InnerLogicException.NotEnoughPermissionFor(user.Id);
                 
                 var groupSubjectMentor = await _dbContext.GroupSubjectMentors.FirstOrDefaultAsync(gsm =>
-                    gsm.UserId == request.MentorId && gsm.GroupSubjectId == request.GroupSubjectId,cancellationToken);
+                    gsm.UserId == request.MentorId 
+                    && gsm.GroupSubjectId == request.GroupSubjectId 
+                    && !gsm.IsLector,cancellationToken);
 
                 if (groupSubjectMentor is null)
                     throw new ArgumentException("User is not mentor", nameof(request));

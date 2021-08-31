@@ -70,7 +70,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorsManagemen
 
         private async Task Create()
         {
-            if (_groups.Any())
+            if (!_groups.Any())
             {
                 ShowError("Can't add mentor without group");
                 return;

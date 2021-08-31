@@ -12560,11 +12560,8 @@ namespace Iwentys.Sdk
         [System.Text.Json.Serialization.JsonPropertyName("groupName")]
         public string GroupName { get; set; }
     
-        [System.Text.Json.Serialization.JsonPropertyName("lectorMentors")]
-        public System.Collections.Generic.ICollection<MentorDto> LectorMentors { get; set; }
-    
-        [System.Text.Json.Serialization.JsonPropertyName("practiceMentors")]
-        public System.Collections.Generic.ICollection<MentorDto> PracticeMentors { get; set; }
+        [System.Text.Json.Serialization.JsonPropertyName("mentors")]
+        public System.Collections.Generic.ICollection<MentorDto> Mentors { get; set; }
     
     
     }
@@ -13146,6 +13143,9 @@ namespace Iwentys.Sdk
     {
         [System.Text.Json.Serialization.JsonPropertyName("id")]
         public int Id { get; set; }
+    
+        [System.Text.Json.Serialization.JsonPropertyName("isLector")]
+        public bool IsLector { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("firstName")]
         public string FirstName { get; set; }

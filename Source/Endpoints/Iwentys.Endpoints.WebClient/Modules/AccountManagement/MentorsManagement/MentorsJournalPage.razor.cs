@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Sdk;
@@ -12,7 +13,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorsManagemen
         private class MentorIdentifier
         {
             public int GroupSubjectId { get; set; }
-            public int MentorId { get; set; }
+            public MentorDto Mentor { get; set; }
         }
         
         private ICollection<SubjectMentorsDto> _allSubjectsMentors;
@@ -42,8 +43,8 @@ namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorsManagemen
             _allSubjectsMentors = await MentorsManagementClient.GetAllAsync();
 
             _currentUserSubjects = _allSubjectsMentors.Where(
-                sm => sm.Groups.Any(g => g.LectorMentors.Any(m=>m.Id == _currentUser.Id)
-                                         || g.PracticeMentors.Any(m => m.Id == _currentUser.Id))).ToList();
+                sm => sm.Groups.Any(
+                    g => g.Mentors.Any(m=>m.Id == _currentUser.Id))).ToList();
             _subjectsMentorsToShow = _allSubjectsMentors;
         }
 
@@ -53,21 +54,24 @@ namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorsManagemen
 
             try
             {
-                MentorsManagementClient.RemoveMentorFromGroupAsync(userToDelete.GroupSubjectId, userToDelete.MentorId);
+                MentorsManagementClient.RemoveMentorFromGroupAsync(userToDelete.GroupSubjectId, userToDelete.Mentor.Id);
 
                 var subject = _allSubjectsMentors.FirstOrDefault(
-                    sm => sm.Groups.Any(g => g.PracticeMentors.Any(m => m.Id == userToDelete.MentorId)));
+                    sm => sm.Groups.Any(g => g.Mentors.Contains(userToDelete.Mentor)));
 
                 var group = subject.Groups.FirstOrDefault(
-                    g => g.PracticeMentors.Any(m => m.Id == userToDelete.MentorId));
+                    g => g.Mentors.Contains(userToDelete.Mentor));
 
-                var mentor = group.PracticeMentors.FirstOrDefault(m => m.Id == userToDelete.MentorId);
-
-                group.PracticeMentors.Remove(mentor);
+                Console.WriteLine(group.Mentors.Count);
+                Console.WriteLine(userToDelete.Mentor.IsLector);
                 
+                group.Mentors.Remove(userToDelete.Mentor);
+
+                Console.WriteLine(group.Mentors.Count);
+
                 _currentUserSubjects = _allSubjectsMentors.Where(
-                    sm => sm.Groups.Any(g => g.LectorMentors.Any(m=>m.Id == _currentUser.Id)
-                                             || g.PracticeMentors.Any(m => m.Id == _currentUser.Id))).ToList();
+                    sm => sm.Groups.Any(
+                        g => g.Mentors.Any(m=>m.Id == _currentUser.Id))).ToList();
 
                 ShowOnlyMySubjects = _showOnlyMySubjects;
                 
