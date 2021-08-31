@@ -42,10 +42,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorsManagemen
             _currentUser = await StudentClient.GetSelfAsync();
             _allSubjectsMentors = await MentorsManagementClient.GetAllAsync();
 
-            _currentUserSubjects = _allSubjectsMentors.Where(
-                sm => sm.Groups.Any(
-                    g => g.Mentors.Any(m=>m.Id == _currentUser.Id))).ToList();
-            _subjectsMentorsToShow = _allSubjectsMentors;
+            _currentUserSubjects = GetCurrentUserSubjects();
         }
 
         public void RemoveMentor(MudChip chip)
@@ -56,22 +53,11 @@ namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorsManagemen
             {
                 MentorsManagementClient.RemoveMentorFromGroupAsync(userToDelete.GroupSubjectId, userToDelete.Mentor.Id);
 
-                var subject = _allSubjectsMentors.FirstOrDefault(
-                    sm => sm.Groups.Any(g => g.Mentors.Contains(userToDelete.Mentor)));
+                var group = GetGroupByMentor(userToDelete);
 
-                var group = subject.Groups.FirstOrDefault(
-                    g => g.Mentors.Contains(userToDelete.Mentor));
-
-                Console.WriteLine(group.Mentors.Count);
-                Console.WriteLine(userToDelete.Mentor.IsLector);
-                
                 group.Mentors.Remove(userToDelete.Mentor);
 
-                Console.WriteLine(group.Mentors.Count);
-
-                _currentUserSubjects = _allSubjectsMentors.Where(
-                    sm => sm.Groups.Any(
-                        g => g.Mentors.Any(m=>m.Id == _currentUser.Id))).ToList();
+                _currentUserSubjects = GetCurrentUserSubjects();
 
                 ShowOnlyMySubjects = _showOnlyMySubjects;
                 
@@ -82,6 +68,24 @@ namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorsManagemen
             {
                 Snackbar.Add("An error occured", Severity.Error);
             }
+        }
+
+        private GroupMentorsDto GetGroupByMentor(MentorIdentifier userToDelete)
+        {
+            var subject = _allSubjectsMentors.First(
+                sm => sm.Groups.Any(g => g.Mentors.Contains(userToDelete.Mentor)));
+
+            var group = subject.Groups.First(
+                g => g.Mentors.Contains(userToDelete.Mentor));
+
+            return group;
+        }
+
+        private List<SubjectMentorsDto> GetCurrentUserSubjects()
+        {
+            return _allSubjectsMentors.Where(
+                sm => sm.Groups.Any(
+                    g => g.Mentors.Any(m=>m.Id == _currentUser.Id))).ToList();
         }
 
         public string LinkToAddMentor(int subjectId)

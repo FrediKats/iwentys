@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using FluentResults;
+using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study.Enums;
 
@@ -46,11 +47,16 @@ namespace Iwentys.Domain.Study
         public void AddPracticeMentor(IwentysUser practiceMentor)
         {
             if (Mentors.All(pm => !pm.IsLector || pm.UserId != practiceMentor.Id))
+            {
                 Mentors.Add(new GroupSubjectMentor()
                 {
                     GroupSubjectId = Id,
                     UserId = practiceMentor.Id
                 });
+            } else
+            {
+                throw new IwentysException("User is already practice mentor");
+            }
         }
         
 

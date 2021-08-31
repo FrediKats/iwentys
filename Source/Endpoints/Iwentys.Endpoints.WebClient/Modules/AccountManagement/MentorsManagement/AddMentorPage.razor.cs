@@ -16,8 +16,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorsManagemen
             public int Id { get; set; }
         }
         
-        [Parameter]
-        public int SubjectId { get; set; }
+        [Parameter] public int SubjectId { get; set; }
         
         [Inject] public ISnackbar Snackbar { get; set; }
         

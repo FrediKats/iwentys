@@ -28,19 +28,19 @@
                                 }
                             </MudItem>
                             <MudExpansionPanels MultiExpansion="true" Elevation="0">
-                                @foreach (var groupMentors in subjectMentors.Groups)
+                                @foreach (var group in subjectMentors.Groups)
                                 {
-                                    <MudExpansionPanel Text="@groupMentors.GroupName">
-                                        @foreach (var lector in groupMentors.Mentors.Where(m=>m.IsLector))
+                                    <MudExpansionPanel Text="@group.GroupName">
+                                        @foreach (var lector in group.Mentors.Where(m=>m.IsLector))
                                         {
                                             <MudText><MudChip Color="Color.Primary">Lector</MudChip> @lector.FirstName @lector.SecondName </MudText>
                                         }
 
-                                        @foreach (var practiceMentor in groupMentors.Mentors.Where(m=>!m.IsLector))
+                                        @foreach (var practiceMentor in group.Mentors.Where(m=>!m.IsLector))
                                         {
                                             @if (_currentUser.IsAdmin)
                                             {
-                                                <MudText><MudChip Tag="new MentorIdentifier() { GroupSubjectId = groupMentors.Id, Mentor = practiceMentor }" Color="Color.Secondary" OnClose="RemoveMentor">Practice</MudChip> @practiceMentor.FirstName @practiceMentor.SecondName</MudText>
+                                                <MudText><MudChip Tag="new MentorIdentifier() { GroupSubjectId = group.Id, Mentor = practiceMentor }" Color="Color.Secondary" OnClose="RemoveMentor">Practice</MudChip> @practiceMentor.FirstName @practiceMentor.SecondName</MudText>
                                             }
                                             else
                                             {
