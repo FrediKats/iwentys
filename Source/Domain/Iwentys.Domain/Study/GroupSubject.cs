@@ -53,8 +53,7 @@ namespace Iwentys.Domain.Study
                     GroupSubjectId = Id,
                     UserId = practiceMentor.Id
                 });
-            } else
-            {
+            } else {
                 throw new IwentysException("User is already practice mentor");
             }
         }

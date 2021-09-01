@@ -6,6 +6,6 @@ namespace Iwentys.Domain.AccountManagement.Mentors.Dto
     {
         public int SubjectId { get; set; }
         public int MentorId { get; set; }
-        public List<int> GroupSubjectIds { get; set; }
+        public IReadOnlyList<int> GroupSubjectIds { get; set; }
     }
 }

@@ -12,11 +12,11 @@ namespace Iwentys.Domain.AccountManagement.Mentors.Dto
         {
         }
 
-        public GroupMentorsDto(int id, string name, IReadOnlyList<MentorDto> lectorMentors, IReadOnlyList<MentorDto> Mentors)
+        public GroupMentorsDto(int id, string name, IReadOnlyList<MentorDto> mentors)
         {
             Id = id;
             GroupName = name;
-            Mentors = lectorMentors;
+            Mentors = mentors;
         }
     }
 }

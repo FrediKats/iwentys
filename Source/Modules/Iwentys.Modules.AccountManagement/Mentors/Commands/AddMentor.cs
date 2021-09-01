@@ -49,13 +49,15 @@ namespace Iwentys.Modules.AccountManagement.Mentors.Commands
                     throw new ArgumentException("Invalid mentor", nameof(request.Args.MentorId));
                 
                 var groupSubjects = await _dbContext.GroupSubjects.Where(
-                    gs=>gs.SubjectId==request.Args.SubjectId && request.Args.GroupSubjectIds.Contains(gs.StudyGroupId))
-                                                    .ToListAsync(cancellationToken);
+                    gs=>gs.SubjectId == request.Args.SubjectId 
+                        && request.Args.GroupSubjectIds.Contains(gs.StudyGroupId))
+                                                       .ToListAsync(cancellationToken);
                 
                 foreach (var groupSubject in groupSubjects)
                 {
                     if (groupSubject.Mentors.Any(m=> !m.IsLector && m.UserId==request.Args.MentorId))
                         continue;
+                    
                     groupSubject.Mentors.Add(new GroupSubjectMentor()
                     {
                         IsLector = false,
