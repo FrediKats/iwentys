@@ -46,18 +46,20 @@ namespace Iwentys.Domain.Study
 
         public void AddPracticeMentor(IwentysUser practiceMentor)
         {
-            if (Mentors.All(pm => !pm.IsLector || pm.UserId != practiceMentor.Id))
+            if (!IsPracticeMentor(practiceMentor))
             {
-                Mentors.Add(new GroupSubjectMentor()
-                {
-                    GroupSubjectId = Id,
-                    UserId = practiceMentor.Id
-                });
-            } else {
                 throw new IwentysException("User is already practice mentor");
             }
+
+            Mentors.Add(new GroupSubjectMentor()
+                            {
+                                GroupSubjectId = Id,
+                                UserId = practiceMentor.Id
+                            });
         }
-        
+
+        private bool IsPracticeMentor(IwentysUser mentor)
+            => Mentors.All(pm => !pm.IsLector || pm.UserId != mentor.Id);
 
         public string SerializedGoogleTableConfig { get; set; }
 

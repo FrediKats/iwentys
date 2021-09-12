@@ -54,7 +54,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorsManagemen
                 _groupName = String.Empty;
                 StateHasChanged();
             }
-            catch (ApiException e)
+            catch (ApiException)
             {
                 ShowError("Invalid group name");
             }
@@ -87,7 +87,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorsManagemen
                 await MentorsManagementClient.AddMentorAsync(createArgs);
                 _navigationManager.NavigateTo("/account-management/mentors/");
             }
-            catch (ApiException e)
+            catch (ApiException)
             {
                 ShowError("Error while adding mentor.");
             }
