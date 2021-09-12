@@ -13,4 +13,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Iwentys.Common\Iwentys.Common.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="AccountManagement\Mentors" />
+  </ItemGroup>
 </Project>
