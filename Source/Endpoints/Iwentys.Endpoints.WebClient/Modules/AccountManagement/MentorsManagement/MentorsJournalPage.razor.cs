@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorsManagement.Extensions;
 using Iwentys.Sdk;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -28,7 +29,9 @@ namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorsManagemen
             set
             {
                 _showOnlyMySubjects = value;
-                _subjectsMentorsToShow = _showOnlyMySubjects ? _currentUserSubjects : _allSubjectsMentors;
+                _subjectsMentorsToShow = _showOnlyMySubjects 
+                                         ? _currentUserSubjects 
+                                         : _allSubjectsMentors;
                 }
         }
 
@@ -43,19 +46,20 @@ namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorsManagemen
             _allSubjectsMentors = await MentorsManagementClient.GetAllAsync();
 
             _currentUserSubjects = GetCurrentUserSubjects();
+            _subjectsMentorsToShow = _allSubjectsMentors;
         }
 
-        public void RemoveMentor(MudChip chip)
+        private void RemoveMentor(MudChip chip)
         {
-            var userToDelete = (MentorIdentifier)chip.Tag;
+            var mentorToDeleteIdentifier = (MentorIdentifier)chip.Tag;
 
             try
             {
-                MentorsManagementClient.RemoveMentorFromGroupAsync(userToDelete.GroupSubjectId, userToDelete.Mentor.Id);
+                MentorsManagementClient.RemoveMentorFromGroupAsync(mentorToDeleteIdentifier.GroupSubjectId, mentorToDeleteIdentifier.Mentor.Id);
 
-                var group = GetGroupByMentor(userToDelete);
+                var group = GetGroupByMentor(mentorToDeleteIdentifier);
 
-                group.Mentors.Remove(userToDelete.Mentor);
+                group.Mentors.Remove(mentorToDeleteIdentifier.Mentor);
 
                 _currentUserSubjects = GetCurrentUserSubjects();
 
@@ -64,19 +68,19 @@ namespace Iwentys.Endpoints.WebClient.Modules.AccountManagement.MentorsManagemen
                 Snackbar.Add("Mentor was removed successfully", Severity.Success);
                 StateHasChanged();
             }
-            catch (ApiException e)
+            catch (ApiException)
             {
                 Snackbar.Add("An error occured", Severity.Error);
             }
         }
 
-        private GroupMentorsDto GetGroupByMentor(MentorIdentifier userToDelete)
+        private GroupMentorsDto GetGroupByMentor(MentorIdentifier mentorToDeleteIdentifier)
         {
             var subject = _allSubjectsMentors.First(
-                sm => sm.Groups.Any(g => g.Mentors.Contains(userToDelete.Mentor)));
+                sm=>sm.HasMentor(mentorToDeleteIdentifier.Mentor));
 
             var group = subject.Groups.First(
-                g => g.Mentors.Contains(userToDelete.Mentor));
+                g => g.HasMentor(mentorToDeleteIdentifier.Mentor));
 
             return group;
         }
