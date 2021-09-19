@@ -1,12 +1,13 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.SubjectAssignments.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.StudentScope.Queries
+namespace Iwentys.Modules.SubjectAssignments.StudentScope.Queries
 {
     public class GetSubjectAssignmentSubmit
     {

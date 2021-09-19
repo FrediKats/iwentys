@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.Assignments;
 using Iwentys.Domain.Study;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Assignments
+namespace Iwentys.Modules.Assignments.Queries
 {
     public static class DeleteAssignment
     {

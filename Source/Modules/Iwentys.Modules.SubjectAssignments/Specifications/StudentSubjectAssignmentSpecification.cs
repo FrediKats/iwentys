@@ -4,7 +4,7 @@ using Iwentys.Domain.SubjectAssignments;
 using Iwentys.Domain.SubjectAssignments.Enums;
 using Iwentys.Infrastructure.DataAccess;
 
-namespace Iwentys.Infrastructure.Application.Specifications.SubjectAssignments
+namespace Iwentys.Modules.SubjectAssignments.Specifications
 {
     public class StudentSubjectAssignmentSpecification : ISpecification<GroupSubjectAssignment, SubjectAssignment>
     {

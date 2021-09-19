@@ -1,13 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using Iwentys.Common.Tools;
+﻿using System.Threading.Tasks;
 using Iwentys.Domain.SubjectAssignments.Models;
-using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos;
-using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.StudentScope.Queries;
+using Iwentys.Infrastructure.Application;
+using Iwentys.Modules.SubjectAssignments.Dtos;
+using Iwentys.Modules.SubjectAssignments.StudentScope.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.StudentScope
+namespace Iwentys.Modules.SubjectAssignments.StudentScope
 {
     [Route("api/subject-assignment/student/Submit")]
     [ApiController]

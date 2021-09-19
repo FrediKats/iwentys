@@ -1,15 +1,16 @@
-﻿using Iwentys.Infrastructure.Application.Repositories;
-using Iwentys.Infrastructure.DataAccess;
-using MediatR;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Threading;
-using Iwentys.Domain.SubjectAssignments.Models;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Iwentys.Domain.SubjectAssignments.Models;
+using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.SubjectAssignments.Dtos;
+using Iwentys.Modules.SubjectAssignments.Repositories;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos;
 
-namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.StudentScope.Queries
+namespace Iwentys.Modules.SubjectAssignments.StudentScope.Queries
 {
     public static class GetStudentSubjectAssignmentSubmits
     {

@@ -5,11 +5,12 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments;
 using Iwentys.Domain.SubjectAssignments.Models;
-using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.SubjectAssignments.Dtos;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments
+namespace Iwentys.Modules.SubjectAssignments.MentorScope.Queries
 {
     public static class CreateSubjectAssignment
     {

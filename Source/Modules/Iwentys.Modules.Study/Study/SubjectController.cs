@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.Study.Enums;
 using Iwentys.Domain.Study.Models;
-using Iwentys.Infrastructure.Application.Controllers.Study;
-using Iwentys.Infrastructure.Application.Controllers.Study.Dtos;
+using Iwentys.Modules.Study.Study.Dtos;
+using Iwentys.Modules.Study.Study.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

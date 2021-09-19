@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Common.Tools;
 using Iwentys.Domain.SubjectAssignments.Models;
-using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos;
-using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.MentorScope.Queries;
+using Iwentys.Infrastructure.Application;
+using Iwentys.Modules.SubjectAssignments.Dtos;
+using Iwentys.Modules.SubjectAssignments.MentorScope.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.MentorScope
+namespace Iwentys.Modules.SubjectAssignments.MentorScope
 {
     [Route("api/subject-assignment/mentor")]
     [ApiController]

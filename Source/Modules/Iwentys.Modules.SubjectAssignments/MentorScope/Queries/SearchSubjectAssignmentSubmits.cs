@@ -5,13 +5,14 @@ using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments.Models;
-using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos;
-using Iwentys.Infrastructure.Application.Repositories;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.SubjectAssignments.Dtos;
+using Iwentys.Modules.SubjectAssignments.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.MentorScope.Queries
+namespace Iwentys.Modules.SubjectAssignments.MentorScope.Queries
 {
     public static class SearchSubjectAssignmentSubmits
     {

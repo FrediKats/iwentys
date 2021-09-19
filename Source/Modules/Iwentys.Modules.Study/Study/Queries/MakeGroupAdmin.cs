@@ -2,10 +2,11 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Study
+namespace Iwentys.Modules.Study.Study.Queries
 {
     public class MakeGroupAdmin
     {

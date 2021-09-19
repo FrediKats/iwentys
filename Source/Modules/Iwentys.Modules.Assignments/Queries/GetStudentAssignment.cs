@@ -3,12 +3,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Assignments.Models;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.Assignments.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Assignments
+namespace Iwentys.Modules.Assignments.Queries
 {
     public static class GetStudentAssignment
     {

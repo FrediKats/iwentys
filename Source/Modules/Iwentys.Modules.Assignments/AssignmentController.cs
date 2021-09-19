@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Domain.Assignments.Models;
+using Iwentys.Infrastructure.Application;
+using Iwentys.Modules.Assignments.Dtos;
+using Iwentys.Modules.Assignments.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Assignments
+namespace Iwentys.Modules.Assignments
 {
     [Route("api/assignments")]
     [ApiController]

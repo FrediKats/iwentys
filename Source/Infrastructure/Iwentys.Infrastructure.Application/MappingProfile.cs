@@ -10,9 +10,6 @@ using Iwentys.Domain.PeerReview.Dto;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
 using Iwentys.Domain.SubjectAssignments;
-using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos;
-using LanguageExt;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Infrastructure.Application
 {
@@ -23,15 +20,12 @@ namespace Iwentys.Infrastructure.Application
             CreateMapForUsers();
             CreateMapForPeerReview();
             CreateMapForProject();
-            CreateMapForSubjectAssignment();
             CreateMapForMentors();
         }
 
         public void CreateMapForUsers()
         {
             CreateMap<IwentysUser, IwentysUserInfoDto>();
-            CreateMap<Student, StudentInfoDto>();
-
         }
 
         public void CreateMapForPeerReview()
@@ -42,15 +36,6 @@ namespace Iwentys.Infrastructure.Application
         public void CreateMapForProject()
         {
             CreateMap<GithubProject, GithubRepositoryInfoDto>();
-        }
-
-        public void CreateMapForSubjectAssignment()
-        {
-            CreateMap<SubjectAssignment, SubjectAssignmentDto>();
-            CreateMap<SubjectAssignmentSubmit, SubjectAssignmentSubmitDto>();
-
-            CreateMap<Subject, SubjectAssignmentJournalItemDto>()
-                .ForMember(dest => dest.Assignments, opt => opt.MapFrom(src => src.Assignments));
         }
 
         public void CreateMapForMentors()

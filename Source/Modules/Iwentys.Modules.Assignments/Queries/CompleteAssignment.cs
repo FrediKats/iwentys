@@ -2,10 +2,11 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.Assignments;
 using Iwentys.Domain.Study;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Assignments
+namespace Iwentys.Modules.Assignments.Queries
 {
     public static class CompleteAssignment
     {

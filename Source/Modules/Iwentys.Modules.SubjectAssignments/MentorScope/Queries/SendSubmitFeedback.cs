@@ -3,10 +3,11 @@ using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.SubjectAssignments;
 using Iwentys.Domain.SubjectAssignments.Models;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.MentorScope.Queries
+namespace Iwentys.Modules.SubjectAssignments.MentorScope.Queries
 {
     public static class SendSubmitFeedback
     {

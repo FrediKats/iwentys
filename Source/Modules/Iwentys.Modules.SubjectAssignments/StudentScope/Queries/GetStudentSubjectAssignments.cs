@@ -4,13 +4,14 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Iwentys.Domain.Study;
-using Iwentys.Infrastructure.Application.Modules.SubjectAssignments.Dtos;
-using Iwentys.Infrastructure.Application.Specifications.SubjectAssignments;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.SubjectAssignments.Dtos;
+using Iwentys.Modules.SubjectAssignments.Specifications;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Modules.SubjectAssignments.StudentScope.Queries
+namespace Iwentys.Modules.SubjectAssignments.StudentScope.Queries
 {
     public static class GetStudentSubjectAssignments
     {
