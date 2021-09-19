@@ -21,7 +21,13 @@ namespace Iwentys.Tests.Features.Guilds
             var guild = Guild.Create(admin, null, GuildFaker.Instance.GetGuildCreateArguments());
             guild.Members.Add(new GuildMember(guild, student, GuildMemberType.Member));
 
-            GithubUser githubUser = context.GithubTestCaseContext.WithGithubAccount(student);
+            var newGithubUser = new GithubUser
+            {
+                IwentysUserId = student.Id,
+                Username = student.GithubUsername
+            };
+
+            GithubUser githubUser = newGithubUser;
             GithubProject project = context.GithubTestCaseContext.WithStudentProject(student, githubUser);
 
             var tribute = Tribute.Create(guild, student, project);
@@ -37,7 +43,13 @@ namespace Iwentys.Tests.Features.Guilds
             IwentysUser admin = context.AccountManagementTestCaseContext.WithIwentysUser(true);
             var guild = Guild.Create(admin, null, GuildFaker.Instance.GetGuildCreateArguments());
 
-            GithubUser githubUser = context.GithubTestCaseContext.WithGithubAccount(student);
+            var newGithubUser = new GithubUser
+            {
+                IwentysUserId = student.Id,
+                Username = student.GithubUsername
+            };
+
+            GithubUser githubUser = newGithubUser;
             GithubProject project = context.GithubTestCaseContext.WithStudentProject(student, githubUser);
 
             var tribute = Tribute.Create(guild, student, project);
@@ -57,7 +69,13 @@ namespace Iwentys.Tests.Features.Guilds
             var guild = Guild.Create(admin, null, GuildFaker.Instance.GetGuildCreateArguments());
             guild.Members.Add(new GuildMember(guild, student, GuildMemberType.Mentor));
 
-            GithubUser githubUser = context.GithubTestCaseContext.WithGithubAccount(student);
+            var newGithubUser = new GithubUser
+            {
+                IwentysUserId = student.Id,
+                Username = student.GithubUsername
+            };
+
+            GithubUser githubUser = newGithubUser;
             GithubProject project = context.GithubTestCaseContext.WithStudentProject(student, githubUser);
 
             var tribute = Tribute.Create(guild, student, project);
