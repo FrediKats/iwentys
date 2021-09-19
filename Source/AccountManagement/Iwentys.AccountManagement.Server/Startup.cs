@@ -1,11 +1,9 @@
-using System.Linq;
-using Iwentys.AccountManagement.Server.Data;
-using Iwentys.AccountManagement.Server.Models;
-using Microsoft.AspNetCore.Authentication;
+using Iwentys.AccountManagement.Server.Authorization;
+using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Infrastructure.DataAccess.Seeding;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,31 +20,26 @@ namespace Iwentys.AccountManagement.Server
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
-
-            services.AddAuthentication()
-                .AddIdentityServerJwt();
+            services.AddIwentysIdentity(Configuration);
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services
+                .AddDbContext<IwentysDbContext>(o => o
+                .UseLazyLoadingProxies()
+                .UseInMemoryDatabase("Data Source=Iwentys.db"));
+            
+            services
+                .AddIwentysSeeder();
+
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IwentysDbContext db, ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager)
         {
             if (env.IsDevelopment())
             {
@@ -57,7 +50,6 @@ namespace Iwentys.AccountManagement.Server
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -67,9 +59,14 @@ namespace Iwentys.AccountManagement.Server
 
             app.UseRouting();
 
-            app.UseIdentityServer();
-            app.UseAuthentication();
-            app.UseAuthorization();
+            //TODO: for test propose
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
+
+            app.ConfigureIdentityFramework();
+            applicationDbContext.Database.EnsureDeleted();
+            applicationDbContext.Database.EnsureCreated();
+            applicationDbContext.SeedUsers(userManager, db);
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Iwentys.Infrastructure.Application.Authorization
+namespace Iwentys.AccountManagement.Server.Authorization
 {
     public class ApplicationUser : IdentityUser
     {

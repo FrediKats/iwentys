@@ -24,7 +24,6 @@ namespace Iwentys.Endpoints.Api
         public static IServiceCollection AddIwentysDatabase(this IServiceCollection services)
         {
             //FYI: need to replace with normal db after release
-            //services.AddDbContext<IwentysDbContext>(o => o.UseSqlite("Data Source=Iwentys.db"));
             services
                 .AddDbContext<IwentysDbContext>(o => o
                     .UseLazyLoadingProxies()
