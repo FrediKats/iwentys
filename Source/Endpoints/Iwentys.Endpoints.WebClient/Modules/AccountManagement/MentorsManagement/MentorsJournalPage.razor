@@ -1,6 +1,5 @@
 ﻿@page "/account-management/mentors/"
 @attribute [Authorize]
-@using Bunit.Extensions
 @inherits Iwentys.Endpoints.WebClient.Shared.DependencyInjectionPage
 
 <MudContainer>
@@ -12,7 +11,7 @@
             <MudCheckBox @bind-Checked="ShowOnlyMySubjects">Show only my subjects</MudCheckBox>
         </MudItem>
         <MudItem xs="12" ms="12" lg="12">
-            @if (!_subjectsMentorsToShow.IsNullOrEmpty())
+            @if (_subjectsMentorsToShow is not null && _subjectsMentorsToShow.Count > 0)
             {
                 @foreach (var subjectMentors in _subjectsMentorsToShow)
                 {
