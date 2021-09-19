@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Iwentys.Domain.AccountManagement.Dto;
 using Iwentys.Domain.Companies;
+using Iwentys.Modules.AccountManagement.Dtos;
 
 namespace Iwentys.Modules.Companies.Dtos
 {

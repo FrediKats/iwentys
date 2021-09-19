@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Iwentys.Domain.AccountManagement.Dto;
 using Iwentys.Domain.Guilds;
+using Iwentys.Modules.AccountManagement.Dtos;
 
 namespace Iwentys.Modules.Guilds.Dtos
 {

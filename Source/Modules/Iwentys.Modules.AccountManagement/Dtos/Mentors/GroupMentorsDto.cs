@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Iwentys.Domain.AccountManagement.Mentors.Dto
+namespace Iwentys.Modules.AccountManagement.Dtos.Mentors
 {
     public class GroupMentorsDto
     {

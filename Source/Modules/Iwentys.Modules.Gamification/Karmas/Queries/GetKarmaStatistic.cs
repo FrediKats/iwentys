@@ -4,7 +4,7 @@ using Iwentys.Domain.Karmas;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Karmas
+namespace Iwentys.Modules.Gamification.Karmas.Queries
 {
     public static class GetKarmaStatistic
     {

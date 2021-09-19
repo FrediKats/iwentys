@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using AutoMapper;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.AccountManagement.Dto;
-using Iwentys.Domain.AccountManagement.Mentors.Dto;
 using Iwentys.Domain.Study;
-using Iwentys.Domain.Study.Models;
+using Iwentys.Modules.AccountManagement.Dtos;
+using Iwentys.Modules.AccountManagement.Dtos.Mentors;
+using Iwentys.Modules.AccountManagement.StudentProfile.Dtos;
 
 namespace Iwentys.Modules.AccountManagement
 {

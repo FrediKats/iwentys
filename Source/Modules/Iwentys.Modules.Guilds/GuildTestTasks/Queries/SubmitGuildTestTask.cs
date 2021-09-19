@@ -6,7 +6,6 @@ using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
 using Iwentys.Domain.PeerReview;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.Application.Authorization;
 using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;

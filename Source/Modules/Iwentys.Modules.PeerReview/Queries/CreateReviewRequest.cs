@@ -6,7 +6,6 @@ using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.PeerReview;
 using Iwentys.Domain.PeerReview.Dto;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.Application.Authorization;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Modules.PeerReview.Dtos;
 using MediatR;

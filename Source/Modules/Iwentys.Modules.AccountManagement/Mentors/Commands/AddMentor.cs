@@ -6,7 +6,6 @@ using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement.Mentors.Dto;
 using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.Application.Authorization;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Domain.Guilds.Models;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.Application.Authorization;
 using Iwentys.Modules.Guilds.Dtos;
 using Iwentys.Modules.Guilds.GuildRecruitments.Queries;
 using MediatR;

@@ -5,7 +5,6 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.SubjectAssignments;
 using Iwentys.Domain.SubjectAssignments.Models;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.Application.Authorization;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Modules.SubjectAssignments.Dtos;
 using MediatR;

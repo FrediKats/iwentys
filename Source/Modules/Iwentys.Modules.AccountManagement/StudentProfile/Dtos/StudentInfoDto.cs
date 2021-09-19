@@ -1,7 +1,8 @@
-﻿using Iwentys.Domain.AccountManagement.Dto;
+﻿using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Enums;
+using Iwentys.Modules.AccountManagement.Dtos;
 
-namespace Iwentys.Domain.Study.Models
+namespace Iwentys.Modules.AccountManagement.StudentProfile.Dtos
 {
     public class StudentInfoDto : IwentysUserInfoDto
     {

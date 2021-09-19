@@ -7,10 +7,11 @@ using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
 using Iwentys.Infrastructure.Application.Repositories;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.Gamification.Leaderboard.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Leaderboard
+namespace Iwentys.Modules.Gamification.Leaderboard.Queries
 {
     public static class CourseRatingForceRefresh
     {
@@ -47,7 +48,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Leaderboard
                 List<SubjectActivity> result = _context
                     .GetStudentActivities(new StudySearchParametersDto { CourseId = request.CourseId })
                     .ToList();
-                
+
                 List<CourseLeaderboardRow> newRows = Create(request.CourseId, result, oldRows);
 
                 _context.CourseLeaderboardRows.RemoveRange(oldRows);

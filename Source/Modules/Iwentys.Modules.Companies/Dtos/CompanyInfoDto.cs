@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Common.Tools;
-using Iwentys.Domain.AccountManagement.Dto;
 using Iwentys.Domain.Companies;
+using Iwentys.Modules.AccountManagement.Dtos;
 
 namespace Iwentys.Modules.Companies.Dtos
 {

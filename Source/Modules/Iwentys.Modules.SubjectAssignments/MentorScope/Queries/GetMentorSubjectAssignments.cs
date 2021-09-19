@@ -7,7 +7,6 @@ using AutoMapper.QueryableExtensions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.Application.Authorization;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Modules.SubjectAssignments.Dtos;
 using MediatR;

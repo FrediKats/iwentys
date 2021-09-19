@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.AccountManagement.Dto;
 using Iwentys.Domain.Quests;
-using Iwentys.Domain.Quests.Dto;
-using Iwentys.Infrastructure.Application.Authorization;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.Gamification.Quests.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Quests
+namespace Iwentys.Modules.Gamification.Quests.Queries
 {
     public static class GetQuestExecutorRating
     {

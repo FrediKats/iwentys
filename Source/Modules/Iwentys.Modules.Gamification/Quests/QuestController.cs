@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.Quests.Dto;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.Application.Authorization;
-using Iwentys.Infrastructure.Application.Controllers.Quests;
+using Iwentys.Modules.Gamification.Quests.Dtos;
+using Iwentys.Modules.Gamification.Quests.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

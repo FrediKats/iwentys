@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Iwentys.Domain.AccountManagement.Dto;
+using Iwentys.Modules.AccountManagement.Dtos;
 
-namespace Iwentys.Domain.Quests.Dto
+namespace Iwentys.Modules.Gamification.Quests.Dtos
 {
     public class QuestRatingRow
     {

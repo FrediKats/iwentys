@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Iwentys.Domain.AccountManagement.Mentors.Dto
+namespace Iwentys.Modules.AccountManagement.Dtos.Mentors
 {
     public record SubjectMentorsDto
     {
@@ -10,9 +10,9 @@ namespace Iwentys.Domain.AccountManagement.Mentors.Dto
 
         public SubjectMentorsDto()
         {
-            
+
         }
-        
+
         public SubjectMentorsDto(int id, string name, IReadOnlyList<GroupMentorsDto> groups)
         {
             Id = id;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Iwentys.Domain.AccountManagement.Dto;
 using Iwentys.Domain.SubjectAssignments.Enums;
+using Iwentys.Modules.AccountManagement.Dtos;
 
 namespace Iwentys.Modules.SubjectAssignments.Dtos
 {

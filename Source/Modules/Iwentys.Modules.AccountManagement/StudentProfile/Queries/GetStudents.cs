@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Domain.Study.Models;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.AccountManagement.StudentProfile.Dtos;
 using MediatR;
 
 namespace Iwentys.Modules.AccountManagement.StudentProfile.Queries

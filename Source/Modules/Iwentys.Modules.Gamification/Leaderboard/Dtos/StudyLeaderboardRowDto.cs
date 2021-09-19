@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Common.Tools;
+using Iwentys.Domain.Study;
+using Iwentys.Modules.AccountManagement.StudentProfile.Dtos;
 
-namespace Iwentys.Domain.Study.Models
+namespace Iwentys.Modules.Gamification.Leaderboard.Dtos
 {
     public record StudyLeaderboardRowDto
     {

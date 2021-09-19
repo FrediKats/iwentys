@@ -1,4 +1,6 @@
-﻿namespace Iwentys.Domain.AccountManagement.Dto
+﻿using Iwentys.Domain.AccountManagement;
+
+namespace Iwentys.Modules.AccountManagement.Dtos
 {
     public class UniversitySystemUserInfoDto
     {

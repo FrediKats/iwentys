@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.Assignments.Models;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.Application.Authorization;
 using Iwentys.Modules.Assignments.Dtos;
 using Iwentys.Modules.Assignments.Queries;
 using MediatR;

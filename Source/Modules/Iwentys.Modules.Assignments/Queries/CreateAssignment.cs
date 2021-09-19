@@ -6,7 +6,6 @@ using Iwentys.Domain.Assignments;
 using Iwentys.Domain.Assignments.Models;
 using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.Application.Authorization;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Modules.Assignments.Dtos;
 using MediatR;

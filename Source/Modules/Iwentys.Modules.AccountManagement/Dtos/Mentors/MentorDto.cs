@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Domain.AccountManagement.Mentors.Dto
+﻿namespace Iwentys.Modules.AccountManagement.Dtos.Mentors
 {
     public class MentorDto
     {
@@ -7,10 +7,10 @@
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string SecondName { get; set; }
-        
+
         public MentorDto()
         {
-            
+
         }
 
         public MentorDto(int id, bool isLector, string firstName, string middleName, string secondName)

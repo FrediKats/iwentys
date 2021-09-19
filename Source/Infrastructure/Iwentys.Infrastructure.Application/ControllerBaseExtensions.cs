@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Security.Claims;
-using Iwentys.Infrastructure.Application.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Infrastructure.Application

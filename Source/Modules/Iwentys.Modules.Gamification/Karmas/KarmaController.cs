@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.Application.Authorization;
-using Iwentys.Infrastructure.Application.Controllers.Karmas;
+using Iwentys.Modules.Gamification.Karmas.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

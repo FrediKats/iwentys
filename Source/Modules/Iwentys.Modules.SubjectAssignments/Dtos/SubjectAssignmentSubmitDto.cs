@@ -1,7 +1,7 @@
 ﻿using System;
-using Iwentys.Domain.Study.Models;
 using Iwentys.Domain.SubjectAssignments;
 using Iwentys.Domain.SubjectAssignments.Enums;
+using Iwentys.Modules.AccountManagement.StudentProfile.Dtos;
 
 namespace Iwentys.Modules.SubjectAssignments.Dtos
 {

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Iwentys.Domain.AccountManagement.Dto;
+using Iwentys.Domain.Quests;
+using Iwentys.Modules.AccountManagement.Dtos;
 
-namespace Iwentys.Domain.Quests.Dto
+namespace Iwentys.Modules.Gamification.Quests.Dtos
 {
     public record QuestInfoDto
     {
