@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Domain.GithubIntegration.Models;
+using Iwentys.Domain.PeerReview;
 
-namespace Iwentys.Domain.PeerReview.Dto
+namespace Iwentys.Modules.PeerReview.Dtos
 {
     public class ProjectReviewRequestInfoDto
     {

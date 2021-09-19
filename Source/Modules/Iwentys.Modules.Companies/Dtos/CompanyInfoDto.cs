@@ -2,8 +2,9 @@
 using System.Linq;
 using Iwentys.Common.Tools;
 using Iwentys.Domain.AccountManagement.Dto;
+using Iwentys.Domain.Companies;
 
-namespace Iwentys.Domain.Companies.Dto
+namespace Iwentys.Modules.Companies.Dtos
 {
     public record CompanyInfoDto
     {

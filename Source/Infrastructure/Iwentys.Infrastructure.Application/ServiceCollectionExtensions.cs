@@ -1,7 +1,7 @@
 ﻿using Iwentys.Domain.Gamification;
 using Iwentys.Domain.GithubIntegration;
-using Iwentys.Infrastructure.Application.Controllers.Companies;
 using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
+using Iwentys.Infrastructure.Application.Controllers.Schedule;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Integrations.GithubIntegration;
 using MediatR;
@@ -27,7 +27,7 @@ namespace Iwentys.Infrastructure.Application
 
         public static IServiceCollection AddIwentysMediatorHandlers(this IServiceCollection services)
         {
-            services.AddMediatR(typeof(CompanyController).Assembly);
+            services.AddMediatR(typeof(ScheduleController).Assembly);
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionPipeline<,,>));
 

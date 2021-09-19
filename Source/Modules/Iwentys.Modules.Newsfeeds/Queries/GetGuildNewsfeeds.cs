@@ -2,24 +2,25 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Domain.Newsfeeds.Dto;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.Newsfeeds.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Newsfeeds
+namespace Iwentys.Modules.Newsfeeds.Queries
 {
-    public class GetSubjectNewsfeeds
+    public class GetGuildNewsfeeds
     {
         public class Query : IRequest<Response>
         {
             public AuthorizedUser AuthorizedUser { get; }
-            public int SubjectId { get; }
+            public int GuildId { get; }
 
-            public Query(AuthorizedUser authorizedUser, int subjectId)
+            public Query(AuthorizedUser authorizedUser, int guildId)
             {
                 AuthorizedUser = authorizedUser;
-                SubjectId = subjectId;
+                GuildId = guildId;
             }
         }
 
@@ -46,9 +47,9 @@ namespace Iwentys.Infrastructure.Application.Controllers.Newsfeeds
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
                 List<NewsfeedViewModel> result = await _context
-                    .SubjectNewsfeeds
-                    .Where(sn => sn.SubjectId == request.SubjectId)
-                    .Select(NewsfeedViewModel.FromSubjectEntity)
+                    .GuildNewsfeeds
+                    .Where(gn => gn.GuildId == request.GuildId)
+                    .Select(NewsfeedViewModel.FromGuildEntity)
                     .ToListAsync();
 
                 return new Response(result);

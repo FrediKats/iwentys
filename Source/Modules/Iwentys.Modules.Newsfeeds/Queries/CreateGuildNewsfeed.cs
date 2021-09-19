@@ -1,29 +1,31 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Newsfeeds;
 using Iwentys.Domain.Newsfeeds.Dto;
 using Iwentys.Domain.Study;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.Newsfeeds.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Newsfeeds
+namespace Iwentys.Modules.Newsfeeds.Queries
 {
-    public static class CreateSubjectNewsfeed
+    public class CreateGuildNewsfeed
     {
         public class Query : IRequest<Response>
         {
             public NewsfeedCreateViewModel CreateViewModel { get; }
             public AuthorizedUser AuthorizedUser { get; }
-            public int SubjectId { get; }
+            public int GuildId { get; }
 
-            public Query(NewsfeedCreateViewModel createViewModel, AuthorizedUser authorizedUser, int subjectId)
+            public Query(NewsfeedCreateViewModel createViewModel, AuthorizedUser authorizedUser, int guildId)
             {
                 CreateViewModel = createViewModel;
                 AuthorizedUser = authorizedUser;
-                SubjectId = subjectId;
+                GuildId = guildId;
             }
         }
 
@@ -48,21 +50,13 @@ namespace Iwentys.Infrastructure.Application.Controllers.Newsfeeds
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                IwentysUser author = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
-                Subject subject = await _context.Subjects.GetById(request.SubjectId);
+                Student author = await _context.Students.GetById(request.AuthorizedUser.Id);
+                Guild guild = await _context.Guilds.GetById(request.GuildId);
 
-                SubjectNewsfeed newsfeedEntity;
-                if (author.CheckIsAdmin(out SystemAdminUser admin))
-                {
-                    newsfeedEntity = SubjectNewsfeed.CreateAsSystemAdmin(request.CreateViewModel, admin, subject);
-                }
-                else
-                {
-                    Student student = await _context.Students.GetById(author.Id);
-                    newsfeedEntity = SubjectNewsfeed.CreateAsGroupAdmin(request.CreateViewModel, student.EnsureIsGroupAdmin(), subject);
-                }
+                GuildMentor mentor = author.EnsureIsGuildMentor(guild);
+                var newsfeedEntity = GuildNewsfeed.Create(request.CreateViewModel, mentor, guild);
 
-                _context.SubjectNewsfeeds.Add(newsfeedEntity);
+                _context.GuildNewsfeeds.Add(newsfeedEntity);
 
                 NewsfeedViewModel result = await _context
                     .Newsfeeds

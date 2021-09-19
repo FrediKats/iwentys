@@ -5,11 +5,7 @@ using Iwentys.Domain.AccountManagement.Dto;
 using Iwentys.Domain.AccountManagement.Mentors.Dto;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.GithubIntegration.Models;
-using Iwentys.Domain.PeerReview;
-using Iwentys.Domain.PeerReview.Dto;
 using Iwentys.Domain.Study;
-using Iwentys.Domain.Study.Models;
-using Iwentys.Domain.SubjectAssignments;
 
 namespace Iwentys.Infrastructure.Application
 {
@@ -18,7 +14,6 @@ namespace Iwentys.Infrastructure.Application
         public MappingProfile()
         {
             CreateMapForUsers();
-            CreateMapForPeerReview();
             CreateMapForProject();
             CreateMapForMentors();
         }
@@ -26,11 +21,6 @@ namespace Iwentys.Infrastructure.Application
         public void CreateMapForUsers()
         {
             CreateMap<IwentysUser, IwentysUserInfoDto>();
-        }
-
-        public void CreateMapForPeerReview()
-        {
-            CreateMap<ProjectReviewFeedback, ProjectReviewFeedbackInfoDto>();
         }
 
         public void CreateMapForProject()

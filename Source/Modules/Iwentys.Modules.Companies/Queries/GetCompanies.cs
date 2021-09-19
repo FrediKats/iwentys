@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Domain.Companies.Dto;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.Companies.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Companies
+namespace Iwentys.Modules.Companies.Queries
 {
     public static class GetCompanies
     {
