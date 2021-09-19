@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\Iwentys.Infrastructure.Application\Iwentys.Infrastructure.Application.csproj" />
+    <ProjectReference Include="..\Iwentys.Modules.AccountManagement\Iwentys.Modules.AccountManagement.csproj" />
   </ItemGroup>
 
 </Project>

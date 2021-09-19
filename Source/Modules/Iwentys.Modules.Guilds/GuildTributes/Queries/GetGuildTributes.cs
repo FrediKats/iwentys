@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Domain.Guilds.Enums;
-using Iwentys.Domain.Guilds.Models;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.Guilds.Dtos;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.GuildTributes
+namespace Iwentys.Modules.Guilds.GuildTributes.Queries
 {
     public class GetGuildTributes
     {

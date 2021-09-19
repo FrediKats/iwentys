@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.Guilds;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.GuildMemberships
+namespace Iwentys.Modules.Guilds.GuildMemberships.Queries
 {
     public class GetUserMembership
     {

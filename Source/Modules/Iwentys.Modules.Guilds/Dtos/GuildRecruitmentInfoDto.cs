@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Domain.AccountManagement.Dto;
+using Iwentys.Domain.Guilds;
 
-namespace Iwentys.Domain.Guilds.Models
+namespace Iwentys.Modules.Guilds.Dtos
 {
     public class GuildRecruitmentInfoDto
     {

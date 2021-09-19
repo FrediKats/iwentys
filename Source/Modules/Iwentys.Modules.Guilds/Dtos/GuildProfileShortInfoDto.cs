@@ -1,6 +1,7 @@
-﻿using Iwentys.Domain.Guilds.Enums;
+﻿using Iwentys.Domain.Guilds;
+using Iwentys.Domain.Guilds.Enums;
 
-namespace Iwentys.Domain.Guilds.Models
+namespace Iwentys.Modules.Guilds.Dtos
 {
     public class GuildProfileShortInfoDto
     {

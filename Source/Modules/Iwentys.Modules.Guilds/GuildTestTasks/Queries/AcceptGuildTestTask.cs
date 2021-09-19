@@ -4,11 +4,11 @@ using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.Guilds;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.GuildTestTasks
+namespace Iwentys.Modules.Guilds.GuildTestTasks.Queries
 {
     public static class AcceptGuildTestTask
     {

@@ -1,8 +1,9 @@
 ﻿using Iwentys.Domain.AccountManagement.Dto;
 using Iwentys.Domain.GithubIntegration.Models;
+using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 
-namespace Iwentys.Domain.Guilds.Models
+namespace Iwentys.Modules.Guilds.Dtos
 {
     public record GuildMemberImpactDto
     {

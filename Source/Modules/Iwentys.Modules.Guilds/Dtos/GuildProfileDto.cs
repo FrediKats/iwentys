@@ -5,9 +5,11 @@ using System.Linq.Expressions;
 using Iwentys.Common.Tools;
 using Iwentys.Domain.AccountManagement.Dto;
 using Iwentys.Domain.GithubIntegration.Models;
+using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
+using Iwentys.Domain.Guilds.Models;
 
-namespace Iwentys.Domain.Guilds.Models
+namespace Iwentys.Modules.Guilds.Dtos
 {
     public class GuildProfileDto : GuildProfileShortInfoDto
     {

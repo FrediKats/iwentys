@@ -7,7 +7,7 @@ using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Modules.Guilds.GuildMemberships
+namespace Iwentys.Modules.Guilds.GuildMemberships.Queries
 {
     public class AcceptGuildRequest
     {

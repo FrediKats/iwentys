@@ -1,12 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Domain.Guilds;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.Guilds;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Tournaments
+namespace Iwentys.Modules.Guilds.Tournaments.Queries
 {
     public static class ForceTournamentResultUpdate
     {

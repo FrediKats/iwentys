@@ -1,9 +1,10 @@
 ﻿using System.Linq;
-using Iwentys.Domain.Guilds.Models;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.Guilds.Dtos;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Tournaments
+namespace Iwentys.Modules.Guilds.Tournaments.Queries
 {
     public static class FindGuildActiveTournament
     {

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Domain.Guilds.Models;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.Guilds.Dtos;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Guilds
+namespace Iwentys.Modules.Guilds.Guilds.Queries
 {
     public class GetGuildRating
     {

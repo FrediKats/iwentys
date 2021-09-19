@@ -5,10 +5,11 @@ using Iwentys.Domain.Achievements;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.GuildTestTasks
+namespace Iwentys.Modules.Guilds.GuildTestTasks.Queries
 {
     public static class CompleteGuildTestTask
     {
