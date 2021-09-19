@@ -102,7 +102,7 @@ namespace Iwentys.Endpoints.Api
         {
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
-                .WriteTo.RollingFile("Logs/iwentys-{Date}.log")
+                .WriteTo.File("Logs/iwentys-{Date}.log")
                 .CreateLogger();
 
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));

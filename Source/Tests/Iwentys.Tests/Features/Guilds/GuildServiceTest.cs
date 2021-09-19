@@ -114,7 +114,7 @@ namespace Iwentys.Tests.Features.Guilds
             List<GuildMember> requests = guild.Members.Where(m => m.MemberType == GuildMemberType.Requested).ToList();
 
             Assert.That(requests, Is.Not.Null);
-            Assert.That(requests.Length, Is.EqualTo(1));
+            Assert.That(requests.Count, Is.EqualTo(1));
             Assert.That(requests[0].MemberId, Is.EqualTo(member.Id));
             Assert.That(requests[0].MemberType, Is.EqualTo(GuildMemberType.Requested));
         }

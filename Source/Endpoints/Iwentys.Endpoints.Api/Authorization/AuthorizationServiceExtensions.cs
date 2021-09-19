@@ -13,7 +13,7 @@ namespace Iwentys.Endpoints.Api.Authorization
         {
             //TODO: load from config
             services
-                .AddDbContext<ApplicationDbContext>(options => options.UseSqlite("Data Source=identity.db"));
+                .AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("Data Source=identity.db"));
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()

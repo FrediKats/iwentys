@@ -6,23 +6,16 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Kysect.ItmoScheduleSdk" Version="1.0.5" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="5.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.6" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.6" />
-    <PackageReference Include="Serilog" Version="2.5.0" />
-    <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Integrations\Iwentys.Integrations.GithubIntegration\Iwentys.Integrations.GithubIntegration.csproj" />
     <ProjectReference Include="..\..\Integrations\Iwentys.Integrations.GoogleTableIntegration\Iwentys.Integrations.GoogleTableIntegration.csproj" />
-    <ProjectReference Include="..\Iwentys.Infrastructure.DataAccess.Seeding\Iwentys.Infrastructure.DataAccess.Seeding.csproj" />
     <ProjectReference Include="..\Iwentys.Infrastructure.DataAccess\Iwentys.Infrastructure.DataAccess.csproj" />
   </ItemGroup>
 </Project>

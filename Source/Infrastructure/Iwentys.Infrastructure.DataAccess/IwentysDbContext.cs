@@ -155,8 +155,6 @@ namespace Iwentys.Infrastructure.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.EnableAutoHistory(null);
-
             modelBuilder.OnAchievementModelCreating();
             modelBuilder.OnAssignmentsModelCreating();
             modelBuilder.OnCompaniesModelCreating();
