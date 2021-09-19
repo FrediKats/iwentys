@@ -5,11 +5,11 @@ using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
 using Iwentys.Infrastructure.Application.Controllers.Schedule;
 using Iwentys.Infrastructure.Application.Options;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Infrastructure.DataAccess.Seeding;
 using Iwentys.Integrations.GithubIntegration;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Iwentys.Infrastructure.Application
 {
@@ -21,10 +21,7 @@ namespace Iwentys.Infrastructure.Application
             services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();
             //services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
             services.AddScoped<AchievementProvider>();
-
             services.AddScoped<GithubIntegrationService>();
-
-
 
             return services;
         }
@@ -53,9 +50,29 @@ namespace Iwentys.Infrastructure.Application
             return services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
-        public static IServiceCollection AddIwentysSeeder(this IServiceCollection services)
+        //FYI: Need to rework CORS after release
+        public static IServiceCollection AddIwentysCorsHack(this IServiceCollection services)
         {
-            return services.AddScoped<IDbContextSeeder, DatabaseContextGenerator>();
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            {
+                builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
+            return services;
+        }
+
+        public static IServiceCollection AddIwentysLogging(this IServiceCollection services)
+        {
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .WriteTo.RollingFile("Logs/iwentys-{Date}.log")
+                .CreateLogger();
+
+            services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
+
+            return services;
         }
     }
 }

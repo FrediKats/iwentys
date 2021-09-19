@@ -8,7 +8,7 @@ namespace Iwentys.Integrations.IsuIntegration.SingingLogic
 {
     public static class TokenGenerator
     {
-        public static IwentysAuthResponse Generate(int userId, IJwtSigningEncodingKey signingEncodingKey, JwtApplicationOptions jwtApplicationOptions)
+        public static IwentysAuthResponse Generate(int userId, IJwtSigningEncodingKey signingEncodingKey, string jwtIssuer)
         {
             var claims = new[]
             {
@@ -16,8 +16,8 @@ namespace Iwentys.Integrations.IsuIntegration.SingingLogic
             };
 
             var token = new JwtSecurityToken(
-                issuer: jwtApplicationOptions.JwtIssuer,
-                audience: jwtApplicationOptions.JwtIssuer,
+                issuer: jwtIssuer,
+                audience: jwtIssuer,
                 claims: claims,
                 signingCredentials: new SigningCredentials(
                     signingEncodingKey.GetKey(),

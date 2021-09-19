@@ -9,8 +9,7 @@ namespace Iwentys.Integrations.IsuIntegration.Configuration
         public static IServiceCollection AddIsuIntegrationOptions(this IServiceCollection services, IConfiguration configuration)
         {
             return services
-                .AddSingleton(IsuApplicationOptions.Load(configuration))
-                .AddSingleton(JwtApplicationOptions.Load(configuration));
+                .AddSingleton(IsuApplicationOptions.Load(configuration));
         }
     }
 }

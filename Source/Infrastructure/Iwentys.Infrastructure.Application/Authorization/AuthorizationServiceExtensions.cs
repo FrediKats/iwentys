@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Iwentys.Integrations.IsuIntegration.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Iwentys.Infrastructure.Application.Authorization
 {
     public static class AuthorizationServiceExtensions
     {
-        public static IServiceCollection ConfigureIdentityFramework(this IServiceCollection services)
+        public static IServiceCollection ConfigureIdentityFramework(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
@@ -18,6 +20,9 @@ namespace Iwentys.Infrastructure.Application.Authorization
 
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+
+            services
+                .AddSingleton(JwtApplicationOptions.Load(configuration));
 
             //TODO: reconfig later
             services.Configure<IdentityOptions>(options =>
