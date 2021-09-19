@@ -72,6 +72,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.AccountManagement.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.AccountManagement.Server", "AccountManagement\Iwentys.AccountManagement.Server\Iwentys.AccountManagement.Server.csproj", "{915C94CD-61F8-41A8-9F9A-2B2185D02986}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.Modules.Assignments", "Modules\Iwentys.Modules.Assignments\Iwentys.Modules.Assignments.csproj", "{555A4C72-75C8-458F-B79D-B6D8C4304A8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -178,6 +180,10 @@ Global
 		{915C94CD-61F8-41A8-9F9A-2B2185D02986}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{915C94CD-61F8-41A8-9F9A-2B2185D02986}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{915C94CD-61F8-41A8-9F9A-2B2185D02986}.Release|Any CPU.Build.0 = Release|Any CPU
+		{555A4C72-75C8-458F-B79D-B6D8C4304A8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{555A4C72-75C8-458F-B79D-B6D8C4304A8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{555A4C72-75C8-458F-B79D-B6D8C4304A8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{555A4C72-75C8-458F-B79D-B6D8C4304A8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -208,6 +214,7 @@ Global
 		{DCC905B8-7EC1-4A83-B649-B2FF6A1172CA} = {500314E4-05C5-4A6E-A6CE-08194C3DCAD6}
 		{B5D2A51D-3562-4EB9-BFCF-A5991C00BBE2} = {500314E4-05C5-4A6E-A6CE-08194C3DCAD6}
 		{915C94CD-61F8-41A8-9F9A-2B2185D02986} = {500314E4-05C5-4A6E-A6CE-08194C3DCAD6}
+		{555A4C72-75C8-458F-B79D-B6D8C4304A8B} = {8F56593F-F2A4-4421-B91D-D8B2E84ED39E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C699E386-11E7-4ABB-9AD6-C676F3CA2061}
