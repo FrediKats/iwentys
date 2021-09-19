@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.Guilds;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Authorization;
 using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;

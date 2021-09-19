@@ -6,6 +6,7 @@ using Iwentys.Domain.Newsfeeds;
 using Iwentys.Domain.Newsfeeds.Dto;
 using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Authorization;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Modules.Newsfeeds.Dtos;
 using MediatR;

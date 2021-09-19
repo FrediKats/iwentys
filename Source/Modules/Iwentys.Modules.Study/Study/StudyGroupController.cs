@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Authorization;
 using Iwentys.Modules.Study.Study.Dtos;
 using Iwentys.Modules.Study.Study.Queries;
 using MediatR;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iwentys.Infrastructure.Configuration.Options
+namespace Iwentys.Infrastructure.Application.Options
 {
     public class ApplicationOptions
     {

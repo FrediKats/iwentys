@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Endpoints.Api.Authorization
+namespace Iwentys.Infrastructure.Application.Authorization
 {
     public static class AuthorizationServiceExtensions
     {

@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Authorization;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Modules.Assignments.Dtos;
 using MediatR;

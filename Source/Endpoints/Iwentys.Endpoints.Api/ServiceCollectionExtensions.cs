@@ -1,4 +1,4 @@
-﻿using Iwentys.Endpoints.Api.Authorization;
+﻿using Iwentys.Infrastructure.Application.Authorization;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Modules.AccountManagement;
 using Iwentys.Modules.Gamification;

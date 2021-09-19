@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.Study.Models;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Authorization;
 using Iwentys.Modules.AccountManagement.StudentProfile.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Authorization;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Modules.Guilds.Dtos;
 using MediatR;

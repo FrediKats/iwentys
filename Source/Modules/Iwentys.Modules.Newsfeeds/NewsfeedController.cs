@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.Newsfeeds.Dto;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Authorization;
 using Iwentys.Modules.Newsfeeds.Dtos;
 using Iwentys.Modules.Newsfeeds.Queries;
 using MediatR;

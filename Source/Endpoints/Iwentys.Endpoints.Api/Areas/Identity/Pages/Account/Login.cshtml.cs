@@ -2,8 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Iwentys.Infrastructure.Application.Authorization;
 using Microsoft.AspNetCore.Authorization;
-using Iwentys.Endpoints.Api.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

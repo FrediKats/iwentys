@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Domain.Quests.Dto;
+using Iwentys.Infrastructure.Application.Authorization;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

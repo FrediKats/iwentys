@@ -5,6 +5,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Authorization;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Modules.SubjectAssignments.Dtos;
 using Iwentys.Modules.SubjectAssignments.Specifications;

@@ -1,5 +1,4 @@
 ﻿using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.Configuration;
 using Iwentys.Modules.AccountManagement;
 using Iwentys.Modules.Gamification;
 using Iwentys.Modules.Guilds;

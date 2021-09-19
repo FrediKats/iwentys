@@ -50,7 +50,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\Iwentys.Infrastructure.Application\Iwentys.Infrastructure.Application.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\Iwentys.Infrastructure.Configuration\Iwentys.Infrastructure.Configuration.csproj" />
     <ProjectReference Include="..\..\Integrations\Iwentys.Integrations.IsuIntegration\Iwentys.Integrations.IsuIntegration.csproj" />
     <ProjectReference Include="..\..\Modules\Iwentys.Modules.AccountManagement\Iwentys.Modules.AccountManagement.csproj" />
     <ProjectReference Include="..\..\Modules\Iwentys.Modules.Gamification\Iwentys.Modules.Gamification.csproj" />
