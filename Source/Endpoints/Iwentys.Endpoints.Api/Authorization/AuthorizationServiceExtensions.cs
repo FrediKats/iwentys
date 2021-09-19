@@ -1,16 +1,20 @@
-﻿using Iwentys.Integrations.IsuIntegration.Models;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Infrastructure.Application.Authorization
+namespace Iwentys.Endpoints.Api.Authorization
 {
     public static class AuthorizationServiceExtensions
     {
-        public static IServiceCollection ConfigureIdentityFramework(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddIwentysIdentity(this IServiceCollection services, IConfiguration configuration)
         {
+            //TODO: load from config
+            services
+                .AddDbContext<ApplicationDbContext>(options => options.UseSqlite("Data Source=identity.db"));
+
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();

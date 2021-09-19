@@ -1,26 +1,26 @@
-﻿using Iwentys.Infrastructure.Application.Authorization;
+﻿using Iwentys.Domain.Gamification;
+using Iwentys.Domain.GithubIntegration;
+using System;
+using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
+using Iwentys.Infrastructure.Application.Controllers.Schedule;
+using Iwentys.Infrastructure.Application.Options;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Integrations.GithubIntegration;
 using Iwentys.Modules.AccountManagement;
 using Iwentys.Modules.Gamification;
 using Iwentys.Modules.Guilds;
 using Iwentys.Modules.PeerReview;
 using Iwentys.Modules.Study;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Iwentys.Endpoints.Api
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddIwentysIdentity(this IServiceCollection services, IConfiguration configuration)
-        {
-            //TODO: load from config
-            return services
-                .AddDbContext<ApplicationDbContext>(options => options.UseSqlite("Data Source=identity.db"))
-                .ConfigureIdentityFramework(configuration);
-        }
-
         public static IServiceCollection AddIwentysDatabase(this IServiceCollection services)
         {
             //FYI: need to replace with normal db after release
@@ -47,6 +47,66 @@ namespace Iwentys.Endpoints.Api
                 .AddGuildModule()
                 .AddPeerReviewModule()
                 .AddStudyModule();
+
+            return services;
+        }
+
+        public static IServiceCollection AddIwentysServices(this IServiceCollection services)
+        {
+            //FYI: replace after release
+            services.AddScoped<IGithubApiAccessor, DummyGithubApiAccessor>();
+            //services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
+            services.AddScoped<AchievementProvider>();
+            services.AddScoped<GithubIntegrationService>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddIwentysMediatorHandlers(this IServiceCollection services)
+        {
+            services.AddMediatR(typeof(ScheduleController).Assembly);
+
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionPipeline<,,>));
+
+            return services;
+        }
+
+        public static IServiceCollection AddIwentysOptions(this IServiceCollection services, IConfiguration configuration)
+        {
+            TokenApplicationOptions token = TokenApplicationOptions.Load(configuration);
+
+            return services
+                .AddSingleton(token)
+                .AddSingleton(new GithubApiAccessorOptions { Token = token.GithubToken })
+                .AddSingleton(new ApplicationOptions());
+        }
+
+        public static IServiceCollection AddAutoMapperConfig(this IServiceCollection services)
+        {
+            return services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        }
+
+        //FYI: Need to rework CORS after release
+        public static IServiceCollection AddIwentysCorsHack(this IServiceCollection services)
+        {
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            {
+                builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
+            return services;
+        }
+
+        public static IServiceCollection AddIwentysLogging(this IServiceCollection services)
+        {
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .WriteTo.RollingFile("Logs/iwentys-{Date}.log")
+                .CreateLogger();
+
+            services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
 
             return services;
         }
