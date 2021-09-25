@@ -2,7 +2,8 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.Guilds.Models;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.Application.Controllers.Tournaments;
+using Iwentys.Modules.Guilds.Dtos;
+using Iwentys.Modules.Guilds.Tournaments.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

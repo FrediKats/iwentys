@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Domain.Study;
-using Iwentys.Domain.Study.Models;
+using Iwentys.Modules.AccountManagement.StudentProfile.Dtos;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Study.Dtos
+namespace Iwentys.Modules.Study.Study.Dtos
 {
     public record GroupProfileResponseDto
     {

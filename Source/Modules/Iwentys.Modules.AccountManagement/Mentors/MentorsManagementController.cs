@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement.Mentors.Dto;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Modules.AccountManagement.Dtos.Mentors;
 using Iwentys.Modules.AccountManagement.Mentors.Commands;
 using Iwentys.Modules.AccountManagement.Mentors.Queries;
 using MediatR;

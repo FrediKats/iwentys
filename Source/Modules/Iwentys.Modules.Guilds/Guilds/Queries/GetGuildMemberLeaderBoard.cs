@@ -1,11 +1,12 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Domain.Guilds;
-using Iwentys.Domain.Guilds.Models;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.Guilds.Dtos;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Guilds
+namespace Iwentys.Modules.Guilds.Guilds.Queries
 {
     public class GetGuildMemberLeaderBoard
     {
@@ -42,7 +43,8 @@ namespace Iwentys.Infrastructure.Application.Controllers.Guilds
             {
                 Guild guild = await _context.Guilds.GetById(request.GuildId);
 
-                return new Response(new GuildMemberLeaderBoardDto(guild.GetImpact()));
+                //return new Response(new GuildMemberLeaderBoardDto(guild.GetImpact()));
+                return new Response(new GuildMemberLeaderBoardDto(new List<GuildMemberImpactDto>()));
             }
         }
     }

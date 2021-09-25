@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.Guilds;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.GuildMemberships
+namespace Iwentys.Modules.Guilds.GuildMemberships.Queries
 {
     public class LeaveGuild
     {

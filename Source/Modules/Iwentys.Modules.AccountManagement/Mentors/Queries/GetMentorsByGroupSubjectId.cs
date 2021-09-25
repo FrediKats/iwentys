@@ -1,15 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Iwentys.Common.Exceptions;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.AccountManagement.Mentors.Dto;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.AccountManagement.Dtos.Mentors;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Modules.AccountManagement.Mentors.Queries
 {

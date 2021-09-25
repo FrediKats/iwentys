@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Infrastructure.Application.Controllers.Study;
-using Iwentys.Infrastructure.Application.Controllers.Study.Dtos;
+using Iwentys.Modules.Study.Study.Dtos;
+using Iwentys.Modules.Study.Study.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

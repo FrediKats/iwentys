@@ -2,11 +2,12 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Karmas;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Karmas
+namespace Iwentys.Modules.Gamification.Karmas.Queries
 {
     public static class RevokeKarma
     {

@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Study.Enums;
-using Iwentys.Domain.Study.Models;
-using Iwentys.Infrastructure.Application.Controllers.Leaderboard;
+using Iwentys.Modules.Gamification.Leaderboard.Dtos;
+using Iwentys.Modules.Gamification.Leaderboard.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

@@ -3,10 +3,12 @@ using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.Guilds.Dtos;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.GuildTributes
+namespace Iwentys.Modules.Guilds.GuildTributes.Queries
 {
     public class CompleteTribute
     {

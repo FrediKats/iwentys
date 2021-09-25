@@ -36,7 +36,13 @@ namespace Iwentys.Tests.Features.Guilds
             var guild = Guild.Create(user, null, GuildFaker.Instance.GetGuildCreateArguments());
             guild.Members.Add(new GuildMember(guild, guildNewcomer, GuildMemberType.Member));
 
-            GithubUser githubUser = context.GithubTestCaseContext.WithGithubAccount(guildNewcomer);
+            var newGithubUser = new GithubUser
+            {
+                IwentysUserId = guildNewcomer.Id,
+                Username = guildNewcomer.GithubUsername
+            };
+
+            GithubUser githubUser = newGithubUser;
             GithubProject githubProject = context.GithubTestCaseContext.WithStudentProject(guildNewcomer, githubUser);
             var testTaskSolution = GuildTestTaskSolution.Create(guild, guildNewcomer);
 
@@ -56,7 +62,13 @@ namespace Iwentys.Tests.Features.Guilds
             var guild = Guild.Create(user, null, GuildFaker.Instance.GetGuildCreateArguments());
             guild.Members.Add(new GuildMember(guild, guildNewcomer, GuildMemberType.Member));
 
-            GithubUser githubUser = context.GithubTestCaseContext.WithGithubAccount(guildNewcomer);
+            var newGithubUser = new GithubUser
+            {
+                IwentysUserId = guildNewcomer.Id,
+                Username = guildNewcomer.GithubUsername
+            };
+
+            GithubUser githubUser = newGithubUser;
             GithubProject githubProject = context.GithubTestCaseContext.WithStudentProject(guildNewcomer, githubUser);
             var testTaskSolution = GuildTestTaskSolution.Create(guild, guildNewcomer);
 

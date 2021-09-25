@@ -6,11 +6,13 @@ using Iwentys.Domain.Achievements;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Quests;
 using Iwentys.Domain.Quests.Dto;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.Gamification.Quests.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Quests
+namespace Iwentys.Modules.Gamification.Quests.Queries
 {
     public class Complete
     {
@@ -18,7 +20,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Quests
         {
             public int QuestId { get; set; }
             public AuthorizedUser AuthorizedUser { get; set; }
-            public QuestCompleteArguments Arguments  { get; set; }
+            public QuestCompleteArguments Arguments { get; set; }
 
             public Query(int questId, AuthorizedUser authorizedUser, QuestCompleteArguments arguments)
             {
@@ -35,7 +37,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Quests
                 QuestInfo = questInfo;
             }
 
-            public QuestInfoDto QuestInfo{ get; set; }
+            public QuestInfoDto QuestInfo { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Response>

@@ -1,11 +1,11 @@
 ﻿using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.Guilds;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Tournaments
+namespace Iwentys.Modules.Guilds.Tournaments.Queries
 {
     public static class RegisterToTournament
     {

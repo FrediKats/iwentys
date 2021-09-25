@@ -2,10 +2,11 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.PeerReview;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.PeerReview
+namespace Iwentys.Modules.PeerReview.Queries
 {
     public class FinishReview
     {

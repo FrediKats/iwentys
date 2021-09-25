@@ -13,11 +13,11 @@ namespace Iwentys.Integrations.IsuIntegration
     public class IsuAuthController : ControllerBase
     {
         private readonly IsuApiAccessor _isuApiAccessor;
-        private readonly JwtApplicationOptions _jwtApplicationOptions;
+        //TODO: fix null value
+        private readonly string _jwtIssuer = null;
 
-        public IsuAuthController(IsuApplicationOptions isuApplicationOptions, JwtApplicationOptions jwtApplicationOptions)
+        public IsuAuthController(IsuApplicationOptions isuApplicationOptions)
         {
-            _jwtApplicationOptions = jwtApplicationOptions;
             _isuApiAccessor = new IsuApiAccessor(isuApplicationOptions.IsuClientId, isuApplicationOptions.IsuClientSecret, isuApplicationOptions.IsuRedirection);
         }
 
@@ -31,7 +31,7 @@ namespace Iwentys.Integrations.IsuIntegration
 
             IsuUserDataResponse userData = await _isuApiAccessor.GetUserData(authResponse.TokenResponse.AccessToken);
 
-            IwentysAuthResponse token = TokenGenerator.Generate(userData.Id, signingEncodingKey, _jwtApplicationOptions);
+            IwentysAuthResponse token = TokenGenerator.Generate(userData.Id, signingEncodingKey, _jwtIssuer);
             var response = new IsuAuthResponse
             {
                 Token = token.Token,

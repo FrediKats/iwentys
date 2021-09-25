@@ -2,12 +2,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Domain.Study;
-using Iwentys.Infrastructure.Application.Controllers.Study.Dtos;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.Study.Study.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Study
+namespace Iwentys.Modules.Study.Study.Queries
 {
     public class GetStudyGroupByName
     {

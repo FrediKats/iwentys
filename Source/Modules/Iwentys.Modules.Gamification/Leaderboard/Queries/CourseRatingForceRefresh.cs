@@ -7,10 +7,11 @@ using Iwentys.Domain.Study;
 using Iwentys.Domain.Study.Models;
 using Iwentys.Infrastructure.Application.Repositories;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.Gamification.Leaderboard.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Leaderboard
+namespace Iwentys.Modules.Gamification.Leaderboard.Queries
 {
     public static class CourseRatingForceRefresh
     {
@@ -47,12 +48,35 @@ namespace Iwentys.Infrastructure.Application.Controllers.Leaderboard
                 List<SubjectActivity> result = _context
                     .GetStudentActivities(new StudySearchParametersDto { CourseId = request.CourseId })
                     .ToList();
-                
-                List<CourseLeaderboardRow> newRows = CourseLeaderboardRow.Create(request.CourseId, result, oldRows);
+
+                List<CourseLeaderboardRow> newRows = Create(request.CourseId, result, oldRows);
 
                 _context.CourseLeaderboardRows.RemoveRange(oldRows);
                 _context.CourseLeaderboardRows.AddRange(newRows);
                 return new Response();
+            }
+
+            public static List<CourseLeaderboardRow> Create(int courseId, List<SubjectActivity> rows, List<CourseLeaderboardRow> oldRows)
+            {
+                Dictionary<int, int> mapToOld = oldRows.ToDictionary(v => v.StudentId, v => v.Position);
+
+                return rows
+                    .GroupBy(r => r.StudentId)
+                    .Select(g => new StudyLeaderboardRowDto(g.ToList()))
+                    .OrderByDescending(a => a.Activity)
+                    .Take(50)
+                    .OrderByDescending(r => r.Activity)
+                    .Select((r, position) => CreateRow(r, courseId, position, mapToOld))
+                    .ToList();
+            }
+
+            private static CourseLeaderboardRow CreateRow(StudyLeaderboardRowDto row, int courseId, int position, Dictionary<int, int> mapToOld)
+            {
+                int? oldPosition = null;
+                if (mapToOld.TryGetValue(row.Student.Id, out var value))
+                    oldPosition = value;
+
+                return new CourseLeaderboardRow { Position = position + 1, CourseId = courseId, StudentId = row.Student.Id, OldPosition = oldPosition };
             }
         }
     }

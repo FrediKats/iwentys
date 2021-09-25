@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 using Iwentys.Endpoints.Api.Authorization;
-using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.Configuration;
+using Iwentys.Infrastructure.Application.Middlewares;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Infrastructure.DataAccess.Seeding;
 using Iwentys.Integrations.IsuIntegration.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -23,7 +23,7 @@ namespace Iwentys.Endpoints.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIwentysIdentity();
+            services.AddIwentysIdentity(Configuration);
             services.EnableExceptional();
             services
                 .AddControllersWithViews(options =>

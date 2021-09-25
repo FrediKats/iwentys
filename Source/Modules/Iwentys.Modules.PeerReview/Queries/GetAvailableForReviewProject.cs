@@ -4,11 +4,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Common.Tools;
 using Iwentys.Domain.GithubIntegration.Models;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Controllers.PeerReview
+namespace Iwentys.Modules.PeerReview.Queries
 {
     public static class GetAvailableForReviewProject
     {

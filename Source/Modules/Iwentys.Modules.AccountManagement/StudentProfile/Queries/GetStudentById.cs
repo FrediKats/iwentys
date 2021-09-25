@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Iwentys.Domain.Study.Models;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.AccountManagement.StudentProfile.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

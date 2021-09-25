@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.Guilds.Models;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.Application.Controllers.GuildTestTasks;
+using Iwentys.Modules.Guilds.GuildTestTasks.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

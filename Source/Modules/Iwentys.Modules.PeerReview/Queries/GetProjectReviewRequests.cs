@@ -6,12 +6,13 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.PeerReview;
-using Iwentys.Domain.PeerReview.Dto;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.PeerReview.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Controllers.PeerReview
+namespace Iwentys.Modules.PeerReview.Queries
 {
     public class GetProjectReviewRequests
     {
