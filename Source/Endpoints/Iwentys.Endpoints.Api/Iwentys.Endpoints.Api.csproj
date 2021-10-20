@@ -45,10 +45,14 @@
     <ProjectReference Include="..\..\Infrastructure\Iwentys.Infrastructure.DataAccess.Seeding\Iwentys.Infrastructure.DataAccess.Seeding.csproj" />
     <ProjectReference Include="..\..\Integrations\Iwentys.Integrations.IsuIntegration\Iwentys.Integrations.IsuIntegration.csproj" />
     <ProjectReference Include="..\..\Modules\Iwentys.Modules.AccountManagement\Iwentys.Modules.AccountManagement.csproj" />
+    <ProjectReference Include="..\..\Modules\Iwentys.Modules.Assignments\Iwentys.Modules.Assignments.csproj" />
+    <ProjectReference Include="..\..\Modules\Iwentys.Modules.Companies\Iwentys.Modules.Companies.csproj" />
     <ProjectReference Include="..\..\Modules\Iwentys.Modules.Gamification\Iwentys.Modules.Gamification.csproj" />
     <ProjectReference Include="..\..\Modules\Iwentys.Modules.Guilds\Iwentys.Modules.Guilds.csproj" />
+    <ProjectReference Include="..\..\Modules\Iwentys.Modules.Newsfeeds\Iwentys.Modules.Newsfeeds.csproj" />
     <ProjectReference Include="..\..\Modules\Iwentys.Modules.PeerReview\Iwentys.Modules.PeerReview.csproj" />
     <ProjectReference Include="..\..\Modules\Iwentys.Modules.Study\Iwentys.Modules.Study.csproj" />
+    <ProjectReference Include="..\..\Modules\Iwentys.Modules.SubjectAssignments\Iwentys.Modules.SubjectAssignments.csproj" />
     <ProjectReference Include="..\Iwentys.Endpoints.WebClient\Iwentys.Endpoints.WebClient.csproj" />
   </ItemGroup>
 </Project>
