@@ -67,8 +67,7 @@ namespace Iwentys.Endpoints.Api
         {
             services.AddMediatR(typeof(ScheduleController).Assembly);
 
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionPipeline<,,>));
-
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionPipeline<,>));
             return services;
         }
 
