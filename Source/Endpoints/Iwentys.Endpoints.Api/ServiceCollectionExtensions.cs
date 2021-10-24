@@ -11,6 +11,7 @@ using Iwentys.Modules.Gamification;
 using Iwentys.Modules.Guilds;
 using Iwentys.Modules.PeerReview;
 using Iwentys.Modules.Study;
+using Iwentys.Modules.SubjectAssignments;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -45,7 +46,8 @@ namespace Iwentys.Endpoints.Api
                 .AddGamificationModule()
                 .AddGuildModule()
                 .AddPeerReviewModule()
-                .AddStudyModule();
+                .AddStudyModule()
+                .AddSubjectAssignmentsModule();
 
             return services;
         }
@@ -65,8 +67,7 @@ namespace Iwentys.Endpoints.Api
         {
             services.AddMediatR(typeof(ScheduleController).Assembly);
 
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionPipeline<,,>));
-
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionPipeline<,>));
             return services;
         }
 

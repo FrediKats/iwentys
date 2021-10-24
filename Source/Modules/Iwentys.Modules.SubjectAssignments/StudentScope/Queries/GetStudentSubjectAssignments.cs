@@ -55,7 +55,7 @@ namespace Iwentys.Modules.SubjectAssignments.StudentScope.Queries
 
                 List<SubjectAssignmentDto> subjectAssignmentDtos = await _context
                     .GroupSubjectAssignments
-                    .Specify(new StudentSubjectAssignmentSpecification(currentStudent))
+                    .Specify(new StudentSubjectAssignmentSpecification(currentStudent, request.SubjectId))
                     .ProjectTo<SubjectAssignmentDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();
 
