@@ -13975,6 +13975,9 @@ namespace Iwentys.Sdk
         [System.Text.Json.Serialization.JsonPropertyName("studentDescription")]
         public string StudentDescription { get; set; }
     
+        [System.Text.Json.Serialization.JsonPropertyName("studentPRLink")]
+        public string StudentPRLink { get; set; }
+    
         [System.Text.Json.Serialization.JsonPropertyName("repositoryOwner")]
         public string RepositoryOwner { get; set; }
     
@@ -14028,6 +14031,9 @@ namespace Iwentys.Sdk
         [System.Text.Json.Serialization.JsonPropertyName("studentDescription")]
         public string StudentDescription { get; set; }
     
+        [System.Text.Json.Serialization.JsonPropertyName("studentPRLink")]
+        public string StudentPRLink { get; set; }
+    
         [System.Text.Json.Serialization.JsonPropertyName("repositoryOwner")]
         public string RepositoryOwner { get; set; }
     
@@ -14048,6 +14054,9 @@ namespace Iwentys.Sdk
     
         [System.Text.Json.Serialization.JsonPropertyName("studentDescription")]
         public string StudentDescription { get; set; }
+    
+        [System.Text.Json.Serialization.JsonPropertyName("studentPRLink")]
+        public string StudentPRLink { get; set; }
     
         [System.Text.Json.Serialization.JsonPropertyName("submitTimeUtc")]
         public System.DateTime SubmitTimeUtc { get; set; }

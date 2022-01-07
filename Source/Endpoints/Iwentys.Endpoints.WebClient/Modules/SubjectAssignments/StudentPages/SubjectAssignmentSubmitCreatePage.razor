@@ -22,6 +22,8 @@
                             </MudSelect>
                             <MudTextField InputType="InputType.Text" Label="Comments" Class="input-element" FullWidth="true"
                                           @bind-Value="_arguments.Description" For="(() => _arguments.Description)"/>
+                            <MudTextField InputType="InputType.Text" Label="Link" Class="input-element" FullWidth="true"
+                                          @bind-Value="_arguments.Link" For="(() => _arguments.Link)"/>
                         </MudCardContent>
                         <MudCardActions>
                             <MudButton ButtonType="ButtonType.Submit">Send response</MudButton>
