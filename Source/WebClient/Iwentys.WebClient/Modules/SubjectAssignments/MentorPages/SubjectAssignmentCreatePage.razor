@@ -1,0 +1,49 @@
+﻿@page "/subject/assignment-management/{SubjectId:int}/create"
+
+@namespace Iwentys.WebClient.Modules.SubjectAssignments.MentorPages
+@attribute [Authorize]
+
+<MudContainer>
+    <MudGrid>
+        <MudItem xs="12" sm="12" md="12">
+            <MudText Align="Align.Center" Typo="Typo.h4">Create subject assignment</MudText>
+        </MudItem>
+        <MudItem xs="12" sm="12" md="12">
+            <MudCard class="dark-elevation-01">
+                
+                <EditForm Model="_arguments" OnValidSubmit="@(async () => await Create())">
+                    <MudCardContent>
+                        <DataAnnotationsValidator/>
+                        
+                        <MudTextField InputType="InputType.Text" Label="Title"
+                                      @bind-Value="_arguments.Title" For="(()=>_arguments.Title)"/>
+                        
+                        <MudTextField InputType="InputType.Text" Lines="2" Label="Description"
+                                      @bind-Value="_arguments.Description" For="(()=>_arguments.Description)"/>
+                        
+                        <MudTextField InputType="InputType.Text" Label="Link"
+                                      @bind-Value="_arguments.Link" For="(()=>_arguments.Link)"/>
+                        
+                        <MudDatePicker Label="Deadline date UTC"
+                                       @bind-Date="_arguments.DeadlineUtc" For="(() => _arguments.DeadlineUtc)"/>
+                        
+                        <MudNumericField Label="Position"
+                                         @bind-Value="_arguments.Position" For="(()=> _arguments.Position)"/>
+                        
+                        <MudCheckBox Label="Is available for students" Style="margin-left: -13px;"
+                                     @bind-Value="_arguments.AvailableForStudents" For="(()=>_arguments.AvailableForStudents)"/>
+                        
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton class="dark-elevation-04" ButtonType="ButtonType.Submit">Submit</MudButton>
+                    </MudCardActions>
+                </EditForm>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+    [Parameter]
+    public int SubjectId { get; set; }
+}

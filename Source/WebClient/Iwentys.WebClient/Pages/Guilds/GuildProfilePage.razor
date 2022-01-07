@@ -1,0 +1,57 @@
+﻿@page "/guild/profile/{GuildId:int}"
+@using Microsoft.Extensions.Logging
+
+@inherits Iwentys.WebClient.Shared.DependencyInjectionPage
+@inject ILogger<GuildProfilePage> _logger
+
+
+@if (_guild is not null)
+{
+    <div class="container-fluid d-flex flex-row">
+        <div class="col-md-3 d-flex flex-column profile-block">
+            <GuildProfileInfoComponent SelectedGuildProfile=@_guild></GuildProfileInfoComponent>
+            @if (_activeTribute?.Project is not null)
+            {
+                <TributeCardComponent Tribute=@_activeTribute></TributeCardComponent>
+            }
+        </div>
+
+        <div class="col-md-6 d-flex flex-column">
+            @if (_activeTournament is not null)
+            {
+                <div class="profile-block">
+                    <TournamentInfoComponent Tournament=@_activeTournament></TournamentInfoComponent>
+                </div>
+            }
+
+            <div class="profile-block">
+                <AchievementComponent Achievements=@_achievements></AchievementComponent>
+            </div>
+
+            <div>
+                @if (_newsfeeds is not null)
+                {
+                    <NewsfeedComponent Newsfeeds=@_newsfeeds></NewsfeedComponent>
+                    <MudButton Link=@LinkToCreateNewsfeedPage()>Create</MudButton>
+                }
+            </div>
+        </div>
+
+        <div class="col-md-3 d-flex flex-column">
+            <div class="profile-block profile-block">
+                <GuildMemberRateComponent GuildLeaderboard=@_memberLeaderBoard></GuildMemberRateComponent>
+
+            </div>
+            <div class="profile-block profile-block">
+                <GuildPinnedRepositoriesComponent GuildProfile=@_guild></GuildPinnedRepositoriesComponent>
+
+            </div>
+        </div>
+    </div>
+}
+
+
+@code {
+    [Parameter]
+    public int GuildId { get; set; }
+}

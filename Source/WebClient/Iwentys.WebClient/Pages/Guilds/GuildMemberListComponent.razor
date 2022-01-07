@@ -1,0 +1,36 @@
+﻿@inherits DependencyInjectionPage
+
+@namespace Iwentys.WebClient.Pages.Guilds
+
+<div class="text-center card">
+    <MudText Typo="Typo.h5">Members</MudText>
+    <MudList>
+        @if (_leaderBoard is not null)
+        {
+            @foreach (var member in _leaderBoard.MembersImpact)
+            {
+                <MudListItem>
+                    <p>
+                        @member.StudentInfoDto.GithubUsername (@member.StudentInfoDto.GetFullName()) [@member.MemberType]
+                    </p>
+                    @if (member.MemberType == GuildMemberType.Member)
+                    {
+                        <MudButton OnClick="() => PromoteToMentor(member.StudentInfoDto.Id)">
+                            Promote
+                        </MudButton>
+                    }
+                    <MudButton OnClick="() => KickMember(member.StudentInfoDto.Id)">
+                        Kick
+                    </MudButton>
+                </MudListItem>
+            }
+        }
+
+        
+    </MudList>
+</div>
+
+@code {
+    [Parameter]
+    public GuildProfileDto GuildProfile { get; set; }
+}

@@ -1,0 +1,45 @@
+﻿@page "/tournaments/profile/{TournamentId:int}"
+
+@using Iwentys.Sdk
+@using Microsoft.Extensions.Logging
+
+@inherits Iwentys.WebClient.Shared.DependencyInjectionPage
+@inject ILogger<TournamentProfilePage> _logger
+
+@if (_tournament is not null)
+{
+    <h3>@_tournament.Name</h3>
+
+    <div class="container-fluid d-flex flex-row">
+        <div class="col-md-4  profile-element dark-elevation-01">
+            <div class="d-flex flex-column">
+                <MudText Typo="Typo.h6">Teams</MudText>
+                <MudList>
+                    @foreach (TournamentTeamInfoDto team in _tournament.Teams)
+                    {
+                        <MudListItem>
+                            @team.TeamName (@team.Points)
+                        </MudListItem>
+                    }
+                </MudList>
+                <MudButton OnClick=@(async () => await RegisterToTournament())>Register guild</MudButton>
+            </div>
+        </div>
+        <div class="col-md-8 profile-element dark-elevation-01">
+            <div class="d-flex flex-column">
+                <MudText Typo="Typo.h6">Info</MudText>
+                <span>
+                    <p>@_tournament.Description</p>
+                    <p>Start time: @_tournament.StartTime</p>
+                    <p>End time: @_tournament.EndTime</p>
+                </span>
+                <MudButton OnClick=@(async () => await ForceUpdate())>Update results</MudButton>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int TournamentId { get; set; }
+}

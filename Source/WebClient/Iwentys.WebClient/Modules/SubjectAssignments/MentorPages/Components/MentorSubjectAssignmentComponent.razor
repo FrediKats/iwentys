@@ -1,0 +1,66 @@
+@using Iwentys.WebClient.Modules.SubjectAssignments.Components
+<MudGrid>
+    <MudContainer Class="card-list-element dark-elevation-01">
+        <MudExpansionPanels MultiExpansion="true" Elevation="0">
+            <MudExpansionPanel Class="bg-transparent">
+                <TitleContent>
+                    <MudItem xs="12" sm="12" md="12" Class="d-flex flex-row align-self-center align-baseline">
+                        <MudText Typo="Typo.h4">
+                            Subject: @SubjectAssignment.Title
+                        </MudText>
+                        <MudButton Class="align-self-center" Link=@LinkToSubjectAssignmentCreate(SubjectAssignment.Id)>
+                            <span class="oi oi-plus" title="add" aria-hidden="true"></span>
+                        </MudButton>
+                        <MudButton Class="align-self-center" Link=@LinkToSubjectAssignmentSubmitJournal(SubjectAssignment.Id) Style="padding-bottom: 2px;">
+                            Submits
+                        </MudButton>
+                    </MudItem>
+                </TitleContent>
+                <ChildContent>
+                    @foreach (SubjectAssignmentDto assignment in SubjectAssignment.Assignments)
+                    {
+                        <div class="card-list-element">
+                            <MudCard Class="dark-elevation-02">
+                                <MudExpansionPanel>
+                                    <TitleContent>
+                                        <SubjectAssignmentHeadingComponent Assignment="@assignment"></SubjectAssignmentHeadingComponent>
+                                    </TitleContent>
+                                    <ChildContent>
+                                        <MudCardContent>
+                                            <SubjectAssignmentContentComponent Assignment="@assignment" IsStudentAssignment ="@false"></SubjectAssignmentContentComponent>
+                                        </MudCardContent>
+                                        <MudCardActions>
+                                            @if (assignment.AvailabilityState == AvailabilityState.Deleted)
+                                            {
+                                                <MudButton OnClick="@(async () => await Recover(assignment))">
+                                                    Recover
+                                                </MudButton>
+                                            }
+                                            else
+                                            {
+                                                <MudButton Link=@LinkToSubjectAssignmentUpdate(assignment.Id)>
+                                                    Edit
+                                                </MudButton>
+                                                <MudButton OnClick="@(async () => await Delete(assignment))">
+                                                    Delete
+                                                </MudButton>
+                                                <MudButton Class="ml-auto" Link="@assignment.Link">
+                                                    Learn more
+                                                </MudButton>
+                                            }
+                                        </MudCardActions>
+                                    </ChildContent>
+                                </MudExpansionPanel>
+                            </MudCard>
+                        </div>
+                    }
+                </ChildContent>
+            </MudExpansionPanel>
+        </MudExpansionPanels>
+    </MudContainer>
+</MudGrid>
+
+@code {
+    [Parameter]
+    public SubjectAssignmentJournalItemDto SubjectAssignment { get; set; }
+}

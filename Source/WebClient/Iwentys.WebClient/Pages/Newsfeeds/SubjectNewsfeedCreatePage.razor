@@ -1,0 +1,22 @@
+﻿@page "/newsfeed/create-subject/{SubjectId:int}"
+
+@inherits Iwentys.WebClient.Shared.DependencyInjectionPage
+
+<div class="col-md-6 d-flex input-form-component dark-elevation-01">
+    <h5>Create assignment</h5>
+
+    <p>
+        <MudTextField @bind-Value="@_title" Label="Title" Class="input-element" FullWidth="true"></MudTextField>
+    </p>
+
+    <p>
+        <MudTextField @bind-Value="@_description" Label="Description" Class="input-element" FullWidth="true"></MudTextField>
+    </p>
+
+    <MudButton OnClick="@ExecuteCreateNewsfeed" class="dark-elevation-04">Create</MudButton>
+</div>
+
+@code {
+    [Parameter]
+    public int SubjectId { get; set; }
+}

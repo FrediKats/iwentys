@@ -1,0 +1,65 @@
+﻿@namespace Iwentys.WebClient.Pages.Students
+@inherits Iwentys.WebClient.Shared.DependencyInjectionPage
+@inject ILogger<StudentProfileInfoComponent> _logger
+
+@if (StudentProfile is not null)
+{
+    <div class="container-fluid d-flex flex-row">
+        <img class="student-profile-logo" src=@StudentProfile.AvatarUrl />
+        <div class="container-fluid d-flex flex-column">
+            <MudText Typo="Typo.h4">@StudentProfile.GithubUsername</MudText>
+            <MudText Typo="Typo.body1">@StudentProfile.GetFullName()</MudText>
+
+            @if (_group?.GroupName is not null)
+            {
+                @if (StudentProfile.Id == _group.Id)
+                {
+                    <MudText Typo="Typo.body1">Группа: <NavLink href=@LinkToGroupProfile>@_group.GroupName</NavLink>(Админ)</MudText>
+                }
+
+                @if (StudentProfile.Id != _group.Id)
+                {
+                    <MudText Typo="Typo.body1">Группа: <NavLink href=@LinkToGroupProfile>@_group.GroupName</NavLink></MudText>
+                    @*TODO: Need to add view for management admins*@
+                    //@if (_self?.IsAdmin == true)
+                    //{
+                    //    <MudButton OnClick=@(async () => await MakeGroupAdmin())>Make admin</MudButton>
+                    //}
+                }
+            }
+
+            @if (_guild is not null)
+            {
+                <MudText Typo="Typo.body1">Гильдия: <NavLink href=@LinkToGuild>@_guild.Title</NavLink></MudText>
+            }
+
+            @if (_userKarmaStatistic is not null)
+            {
+                <div class="d-flex flex-row align-self-center align-baseline">
+                    <MudText Typo="Typo.body1">Карма: @_userKarmaStatistic.Karma</MudText>
+
+                    @if (IsCanSendKarma())
+                    {
+                        <MudButton OnClick=@(async () => await SendKarma())>
+                            <span class="oi oi-plus" title="add" aria-hidden="true"></span>
+                        </MudButton>
+                    }
+
+                    @if (IsCanRemoveKarma())
+                    {
+                        <MudButton OnClick=@(async () => await RemoveKarma())>
+                            <span class="oi oi-minus" title="remove" aria-hidden="true"></span>
+                        </MudButton>
+                    }
+
+                </div>
+
+            }
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public StudentInfoDto StudentProfile { get; set; }
+}

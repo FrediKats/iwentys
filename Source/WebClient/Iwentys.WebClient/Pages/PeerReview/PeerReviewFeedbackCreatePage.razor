@@ -1,0 +1,29 @@
+﻿@using Iwentys.Endpoints.Sdk.Extensions
+@inherits Iwentys.WebClient.Shared.DependencyInjectionPage
+
+@page "/peer-review/{ReviewRequestId:int}/feedback"
+
+<h3>PeerReviewFeedbackCreatePage</h3>
+@if (_request is not null)
+{
+    <p>
+        @_request.Project.GithubLikeTitle()
+    </p>
+    <p>
+        @_request.Project.Description
+    </p>
+}
+
+<div class="input-form-component">
+    <p>
+        <MudTextField @bind-Value="@_description" Label="Description" Class="input-element" FullWidth="true"></MudTextField>
+    </p>
+    <MudSelectItem @bind-Value=@_selectedSummaries Items="@_feedbackSummaries"></MudSelectItem>
+    <MudButton OnClick="@(async () => await CreateFeedback())">Create</MudButton>
+</div>
+
+
+@code {
+    [Parameter]
+    public int ReviewRequestId { get; set; }
+}

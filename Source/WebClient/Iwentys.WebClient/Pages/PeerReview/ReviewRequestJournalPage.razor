@@ -1,0 +1,50 @@
+﻿@page "/peer-review"
+
+@using Iwentys.Sdk
+@using Iwentys.Endpoints.Sdk.Extensions
+
+@inherits Iwentys.WebClient.Shared.DependencyInjectionPage
+
+<h3>ReviewRequestJournalPage</h3>
+
+<div>
+    <div class="d-flex flex-row align-self-center align-baseline">
+        <h5>Review requests</h5>
+        <MudButton Link=@LinkToReviewRequestCreatePage()>
+            <span class="oi oi-plus" title="add" aria-hidden="true"></span>
+        </MudButton>
+    </div>
+
+    @if (_projectReviewRequests is not null)
+    {
+        <div>
+            @foreach (ProjectReviewRequestInfoDto reviewRequest in _projectReviewRequests)
+            {
+                <div class="card-list-element">
+                    <MudCard Class="dark-elevation-01">
+                        <MudCardContent>
+                            <div class="card-list-element-content">
+                                <MudText Typo="Typo.h6">
+                                    @reviewRequest.Project.GithubLikeTitle()
+                                </MudText>
+                                <MudText Typo="Typo.body2">
+                                    @reviewRequest.Project.Description
+                                </MudText>
+                                <MudText Typo="Typo.body2">
+                                    Comment from author: @reviewRequest.Description
+                                </MudText>
+                            </div>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Link=@LinkToSendingFeedback(reviewRequest)>Send feedback</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+
+}

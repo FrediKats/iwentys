@@ -16,13 +16,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Infrastructure\Iwentys.Infrastructure.DataAccess.Seeding\Iwentys.Infrastructure.DataAccess.Seeding.csproj" />
-    <ProjectReference Include="..\..\Modules\Iwentys.Modules.AccountManagement\Iwentys.Modules.AccountManagement.csproj" />
-    <ProjectReference Include="..\..\Modules\Iwentys.Modules.Gamification\Iwentys.Modules.Gamification.csproj" />
+    <Folder Include="Modules\SubjectAssignments\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Modules\SubjectAssignments\" />
+    <ProjectReference Include="..\..\Iwentys.DataAccess.Seeding\Iwentys.DataAccess.Seeding.csproj" />
+    <ProjectReference Include="..\..\Iwentys.DataAccess\Iwentys.DataAccess.csproj" />
+    <ProjectReference Include="..\..\Iwentys.Domain\Iwentys.Domain.csproj" />
+    <ProjectReference Include="..\..\Modules\Iwentys.Gamification\Iwentys.Gamification.csproj" />
   </ItemGroup>
 
 </Project>
