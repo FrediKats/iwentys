@@ -44,7 +44,7 @@ namespace Iwentys.Infrastructure.Application.Controllers.Study
             {
                 List<GroupSubjectInfoDto> result = await _context
                     .GroupSubjects
-                    .WhereIf(request.MentorId, gs => gs.LectorMentorId == request.MentorId)
+                    .WhereIf(request.MentorId, gs => gs.Mentors.Any(m => m.UserId == request.MentorId))
                     .Select(GroupSubjectInfoDto.FromEntity)
                     .ToListAsync();
 
