@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Iwentys.Infrastructure.DataAccess
 {
-    public class TransactionPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public class TransactionPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
         private readonly IwentysDbContext _context;
 
