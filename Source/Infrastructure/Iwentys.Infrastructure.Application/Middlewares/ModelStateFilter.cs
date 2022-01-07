@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Common.Tools;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Iwentys.Infrastructure.Application
+namespace Iwentys.Infrastructure.Application.Middlewares
 {
     public class ModelStateFilter : IAsyncActionFilter
     {

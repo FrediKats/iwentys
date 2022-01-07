@@ -1,10 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <EnableNETAnalyzers>false</EnableNETAnalyzers>
     <AnalysisLevel>5.0</AnalysisLevel>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Connected Services\**" />
+    <EmbeddedResource Remove="Connected Services\**" />
+    <None Remove="Connected Services\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="JsonSubTypes" Version="1.8.0" />
@@ -19,7 +25,6 @@
 
   <ItemGroup>
     <Folder Include="ApiClients\" />
-    <Folder Include="Connected Services\" />
   </ItemGroup>
 
 </Project>

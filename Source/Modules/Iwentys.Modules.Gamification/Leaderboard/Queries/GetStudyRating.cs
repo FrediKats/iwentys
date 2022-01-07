@@ -6,9 +6,10 @@ using Iwentys.Domain.Study.Enums;
 using Iwentys.Domain.Study.Models;
 using Iwentys.Infrastructure.Application.Repositories;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.Gamification.Leaderboard.Dtos;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Leaderboard
+namespace Iwentys.Modules.Gamification.Leaderboard.Queries
 {
     public class GetStudyRating
     {

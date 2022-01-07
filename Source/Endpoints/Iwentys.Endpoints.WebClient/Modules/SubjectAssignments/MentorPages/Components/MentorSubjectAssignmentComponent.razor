@@ -1,4 +1,4 @@
-﻿@using Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.Components
+@using Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.Components
 <MudGrid>
     <MudContainer Class="card-list-element dark-elevation-01">
         <MudExpansionPanels MultiExpansion="true" Elevation="0">
@@ -11,7 +11,7 @@
                         <MudButton Class="align-self-center" Link=@LinkToSubjectAssignmentCreate(SubjectAssignment.Id)>
                             <span class="oi oi-plus" title="add" aria-hidden="true"></span>
                         </MudButton>
-                        <MudButton Class="align-self-center" Link=@LinkToSubjectAssignmentSubmitJournal(SubjectAssignment.Id)>
+                        <MudButton Class="align-self-center" Link=@LinkToSubjectAssignmentSubmitJournal(SubjectAssignment.Id) Style="padding-bottom: 2px;">
                             Submits
                         </MudButton>
                     </MudItem>
@@ -27,7 +27,7 @@
                                     </TitleContent>
                                     <ChildContent>
                                         <MudCardContent>
-                                            <SubjectAssignmentContentComponent Assignment="@assignment"></SubjectAssignmentContentComponent>
+                                            <SubjectAssignmentContentComponent Assignment="@assignment" IsStudentAssignment ="@false"></SubjectAssignmentContentComponent>
                                         </MudCardContent>
                                         <MudCardActions>
                                             @if (assignment.AvailabilityState == AvailabilityState.Deleted)
@@ -43,6 +43,9 @@
                                                 </MudButton>
                                                 <MudButton OnClick="@(async () => await Delete(assignment))">
                                                     Delete
+                                                </MudButton>
+                                                <MudButton Class="ml-auto" Link="@assignment.Link">
+                                                    Learn more
                                                 </MudButton>
                                             }
                                         </MudCardActions>

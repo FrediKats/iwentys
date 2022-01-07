@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Domain.Study.Models;
 using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
 using Iwentys.Infrastructure.DataAccess;
+using Iwentys.Modules.Gamification.Leaderboard.Dtos;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Leaderboard
+namespace Iwentys.Modules.Gamification.Leaderboard.Queries
 {
     public static class GetCodingRating
     {

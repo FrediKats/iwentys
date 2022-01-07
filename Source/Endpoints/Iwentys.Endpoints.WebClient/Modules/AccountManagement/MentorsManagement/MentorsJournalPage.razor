@@ -1,0 +1,58 @@
+﻿@page "/account-management/mentors/"
+@attribute [Authorize]
+@inherits Iwentys.Endpoints.WebClient.Shared.DependencyInjectionPage
+
+<MudContainer>
+    <MudGrid>
+        <MudItem xs="12" ms="12" lg="12">
+            <MudText Typo="Typo.h3" Align="Align.Center">Subjects Mentors</MudText>
+        </MudItem>
+        <MudItem xs="12" ms="12" lg="12" Class="card-list-element dark-elevation-01 p-3 m-3">
+            <MudCheckBox @bind-Checked="ShowOnlyMySubjects">Show only my subjects</MudCheckBox>
+        </MudItem>
+        <MudItem xs="12" ms="12" lg="12">
+            @if (_subjectsMentorsToShow is not null && _subjectsMentorsToShow.Count > 0)
+            {
+                @foreach (var subjectMentors in _subjectsMentorsToShow)
+                {
+                    <MudGrid>
+                        <MudContainer Class="card-list-element dark-elevation-01 p-3 m-3">
+                            <MudItem sm="12" md="12" lg="12" Class="d-flex flex-row align-self-center align-baseline">
+                                <MudText Typo="Typo.h4">@subjectMentors.Name</MudText>
+                                @if (_currentUser.IsAdmin)
+                                {
+                                    <MudButton Class="align-self-center" Link="@LinkToAddMentor(subjectMentors.Id)">
+                                        <span class="oi oi-plus" title="add" aria-hidden="true"></span>
+                                    </MudButton>
+                                }
+                            </MudItem>
+                            <MudExpansionPanels MultiExpansion="true" Elevation="0">
+                                @foreach (var group in subjectMentors.Groups)
+                                {
+                                    <MudExpansionPanel Text="@group.GroupName">
+                                        @foreach (var lector in group.Mentors.Where(m=>m.IsLector))
+                                        {
+                                            <MudText><MudChip Color="Color.Primary">Lector</MudChip> @lector.FirstName @lector.SecondName </MudText>
+                                        }
+
+                                        @foreach (var practiceMentor in group.Mentors.Where(m=>!m.IsLector))
+                                        {
+                                            @if (_currentUser.IsAdmin)
+                                            {
+                                                <MudText><MudChip Tag="new MentorIdentifier() { GroupSubjectId = group.Id, Mentor = practiceMentor }" Color="Color.Secondary" OnClose="RemoveMentor">Practice</MudChip> @practiceMentor.FirstName @practiceMentor.SecondName</MudText>
+                                            }
+                                            else
+                                            {
+                                                <MudText><MudChip Color="Color.Secondary">Practice</MudChip> @practiceMentor.FirstName @practiceMentor.SecondName</MudText>
+                                            }
+                                        }
+                                    </MudExpansionPanel>
+                                }
+                            </MudExpansionPanels>
+                        </MudContainer>
+                    </MudGrid>
+                }
+            }
+        </MudItem>
+    </MudGrid>
+</MudContainer>

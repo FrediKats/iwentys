@@ -74,10 +74,10 @@ namespace Iwentys.Domain.Guilds
             GuildType = GuildType.Created;
         }
 
-        public List<GuildMemberImpactDto> GetImpact()
-        {
-            return Members.Select(member => new GuildMemberImpactDto(member)).ToList();
-        }
+        //public List<GuildMemberImpactDto> GetImpact()
+        //{
+        //    return Members.Select(member => new GuildMemberImpactDto(member)).ToList();
+        //}
 
         public GuildMentor EnsureIsGuildMentor(IwentysUser user)
         {
@@ -90,18 +90,18 @@ namespace Iwentys.Domain.Guilds
         }
 
         //TODO: rework
-        public async Task<List<GuildMemberImpactDto>> GetMemberImpacts(IGithubUserApiAccessor githubUserApiAccessor)
-        {
-            //FYI: optimization is need
-            var result = new List<GuildMemberImpactDto>();
-            foreach (GuildMember member in Members)
-            {
-                ContributionFullInfo contributionFullInfo = await githubUserApiAccessor.FindUserContributionOrEmpty(member.Member);
-                result.Add(new GuildMemberImpactDto(new IwentysUserInfoDto(member.Member), member.MemberType, contributionFullInfo));
-            }
+        //public async Task<List<GuildMemberImpactDto>> GetMemberImpacts(IGithubUserApiAccessor githubUserApiAccessor)
+        //{
+        //    //FYI: optimization is need
+        //    var result = new List<GuildMemberImpactDto>();
+        //    foreach (GuildMember member in Members)
+        //    {
+        //        ContributionFullInfo contributionFullInfo = await githubUserApiAccessor.FindUserContributionOrEmpty(member.Member);
+        //        result.Add(new GuildMemberImpactDto(new IwentysUserInfoDto(member.Member), member.MemberType, contributionFullInfo));
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
         public GuildMember EnterGuild(IwentysUser user, GuildMember guildMember, GuildLastLeave lastLeave)
         {

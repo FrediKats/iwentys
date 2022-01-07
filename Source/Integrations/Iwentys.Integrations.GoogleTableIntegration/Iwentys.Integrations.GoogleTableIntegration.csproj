@@ -1,13 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <EnableNETAnalyzers>false</EnableNETAnalyzers>
     <AnalysisLevel>5.0</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.51.0.2315" />
+    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.55.0.2371" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <EnableNETAnalyzers>false</EnableNETAnalyzers>
     <AnalysisLevel>5.0</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bogus" Version="33.0.2" />
+    <PackageReference Include="Bogus" Version="33.1.1" />
   </ItemGroup>
 
   <ItemGroup>

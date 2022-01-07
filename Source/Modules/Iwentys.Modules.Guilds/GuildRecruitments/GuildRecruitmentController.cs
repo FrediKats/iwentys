@@ -1,7 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Domain.Guilds.Models;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.Application.Controllers.GuildRecruitments;
+using Iwentys.Modules.Guilds.Dtos;
+using Iwentys.Modules.Guilds.GuildRecruitments.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

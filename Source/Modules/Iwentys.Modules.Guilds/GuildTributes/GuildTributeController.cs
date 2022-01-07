@@ -3,7 +3,8 @@ using System.Threading.Tasks;
 using Iwentys.Domain.Guilds.Models;
 using Iwentys.Domain.PeerReview.Dto;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.Application.Controllers.GuildTributes;
+using Iwentys.Modules.Guilds.Dtos;
+using Iwentys.Modules.Guilds.GuildTributes.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

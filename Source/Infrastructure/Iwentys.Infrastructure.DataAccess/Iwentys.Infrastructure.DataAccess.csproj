@@ -1,20 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <EnableNETAnalyzers>false</EnableNETAnalyzers>
     <AnalysisLevel>5.0</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LanguageExt.Core" Version="3.4.15" />
-    <PackageReference Include="MediatR" Version="9.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.AutoHistory" Version="5.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.6">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="morelinq" Version="3.3.2" />
+    <PackageReference Include="MediatR" Version="10.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Iwentys.Domain.AccountManagement.Dto;
 using Iwentys.Domain.Raids;
+using Iwentys.Modules.AccountManagement.Dtos;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Raids.Dtos
+namespace Iwentys.Modules.Gamification.Raids.Dtos
 {
     public class RaidProfileDto
     {

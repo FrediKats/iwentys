@@ -3,13 +3,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Domain.Study;
-using Iwentys.Infrastructure.Configuration.Options;
+using Iwentys.Infrastructure.Application.Options;
 using Iwentys.Infrastructure.DataAccess;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Iwentys.Infrastructure.Application.Controllers.BackgroundServices
+namespace Iwentys.Infrastructure.Application.BackgroundServices
 {
     public class MarkUpdateBackgroundService : BackgroundService
     {

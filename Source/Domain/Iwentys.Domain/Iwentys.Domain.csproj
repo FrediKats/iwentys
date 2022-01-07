@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <EnableNETAnalyzers>false</EnableNETAnalyzers>
     <AnalysisLevel>5.0</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LanguageExt.Core" Version="3.4.15" />
+    <ProjectReference Include="..\Iwentys.Common\Iwentys.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Iwentys.Common\Iwentys.Common.csproj" />
+    <Folder Include="AccountManagement\Mentors" />
   </ItemGroup>
 </Project>

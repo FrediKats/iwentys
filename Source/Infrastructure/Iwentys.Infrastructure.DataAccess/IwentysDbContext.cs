@@ -142,7 +142,9 @@ namespace Iwentys.Infrastructure.DataAccess
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<SubjectActivity> SubjectActivities { get; set; }
         public DbSet<GroupSubject> GroupSubjects { get; set; }
+        public DbSet<GroupSubjectMentor> GroupSubjectMentors { get; set; }
         public DbSet<StudyCourse> StudyCourses { get; set; }
+
         #endregion
 
         #region IStudySubjectAssignmentsDbContext
@@ -153,8 +155,6 @@ namespace Iwentys.Infrastructure.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.EnableAutoHistory(null);
-
             modelBuilder.OnAchievementModelCreating();
             modelBuilder.OnAssignmentsModelCreating();
             modelBuilder.OnCompaniesModelCreating();

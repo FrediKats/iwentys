@@ -33,17 +33,11 @@
                                 <MudText Typo="Typo.body2">
                                     Approved (@_submit.ApproveTimeUtc)
                                 </MudText>
-                                <MudText Typo="Typo.body2">
-                                    Comment: (@_submit.Comment)
-                                </MudText>
                                 break;
 
                             case SubmitState.Rejected:
                                 <MudText Typo="Typo.body2">
                                     Rejected (@_submit.RejectTimeUtc)
-                                </MudText>
-                                <MudText Typo="Typo.body2">
-                                    Comment: (@_submit.Comment)
                                 </MudText>
                                 break;
 
@@ -63,6 +57,7 @@
                         <MudText Typo="Typo.body2">Previous reviewer: @_reviewer.FirstName @_reviewer.SecondName</MudText>
                         <MudText Typo="Typo.body2">Review time: @(_submit.RejectTimeUtc ?? _submit.ApproveTimeUtc)</MudText>
                         <MudText Typo="Typo.body2">Review verdict: @_submit.State</MudText>
+                        <MudText Typo="Typo.body2">Comment: @_submit.Comment</MudText>
                         @if (_submit.State is SubmitState.Approved)
                         {
                             <MudText Typo="Typo.body2">Points: @_submit.Points</MudText>

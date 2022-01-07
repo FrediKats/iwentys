@@ -1,4 +1,4 @@
-﻿@page "/subject/{SubjectId:int}/assignments"
+@page "/subject/{SubjectId:int}/assignments"
 @using Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.Components
 @using Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.StudentPages.Components
 
@@ -28,7 +28,7 @@
                                                 <SubjectAssignmentHeadingComponent Assignment="@subjectAssignment"></SubjectAssignmentHeadingComponent>
                                             </TitleContent>
                                             <ChildContent>
-                                                <SubjectAssignmentContentComponent Assignment="@subjectAssignment"></SubjectAssignmentContentComponent>
+                                                <SubjectAssignmentContentComponent Assignment="@subjectAssignment" IsStudentAssignment ="@true"></SubjectAssignmentContentComponent>
                                             </ChildContent>
                                         </MudExpansionPanel>
                                     </MudCardContent>

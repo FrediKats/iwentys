@@ -1,15 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <EnableNETAnalyzers>false</EnableNETAnalyzers>
     <AnalysisLevel>5.0</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentResults" Version="2.4.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.AutoHistory" Version="5.0.0" />
+    <PackageReference Include="FluentResults" Version="2.5.0" />
   </ItemGroup>
 
   <ItemGroup>

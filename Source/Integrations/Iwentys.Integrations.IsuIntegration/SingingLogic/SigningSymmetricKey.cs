@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using Iwentys.Endpoints.Api.Source.Tokens;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Iwentys.Integrations.IsuIntegration.SingingLogic

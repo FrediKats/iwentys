@@ -18,18 +18,18 @@ namespace Iwentys.Domain.Guilds
             _githubUserApiAccessor = githubUserApiAccessor;
         }
 
-        public TournamentLeaderboardDto GetLeaderboard()
-        {
-            Dictionary<GuildProfileShortInfoDto, int> result = _tournament
-                .Teams
-                .ToDictionary(g => new GuildProfileShortInfoDto(g.Guild), t => CountGuildRating(t.Guild));
+        //public TournamentLeaderboardDto GetLeaderboard()
+        //{
+        //    Dictionary<GuildProfileShortInfoDto, int> result = _tournament
+        //        .Teams
+        //        .ToDictionary(g => new GuildProfileShortInfoDto(g.Guild), t => CountGuildRating(t.Guild));
 
-            return new TournamentLeaderboardDto
-            {
-                Tournament = _tournament,
-                Result = result
-            };
-        }
+        //    return new TournamentLeaderboardDto
+        //    {
+        //        Tournament = _tournament,
+        //        Result = result
+        //    };
+        //}
 
         public void RewardWinners()
         {
@@ -61,14 +61,14 @@ namespace Iwentys.Domain.Guilds
             }
         }
 
-        private int CountGuildRating(Guild guild)
-        {
-            //TODO: remove result
-            List<GuildMemberImpactDto> users = guild.GetMemberImpacts(_githubUserApiAccessor).Result;
+        //private int CountGuildRating(Guild guild)
+        //{
+        //    //TODO: remove result
+        //    List<GuildMemberImpactDto> users = guild.GetMemberImpacts(_githubUserApiAccessor).Result;
 
-            return users
-                .Select(userData => userData.Contribution.GetActivityForPeriod(_tournament.StartTime, _tournament.EndTime))
-                .Sum();
-        }
+        //    return users
+        //        .Select(userData => userData.Contribution.GetActivityForPeriod(_tournament.StartTime, _tournament.EndTime))
+        //        .Sum();
+        //}
     }
 }

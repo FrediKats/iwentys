@@ -11,6 +11,7 @@ namespace Iwentys.Domain.SubjectAssignments
         public int Id { get; set; }
         public DateTime SubmitTimeUtc { get; set; }
         public string StudentDescription { get; set; }
+        public string StudentPRLink { get; set; }
         public string RepositoryOwner { get; set; }
         public string RepositoryName { get; set; }
 
@@ -52,6 +53,7 @@ namespace Iwentys.Domain.SubjectAssignments
             SubjectAssignmentId = subjectAssignment.Id;
             SubmitTimeUtc = DateTime.UtcNow;
             StudentDescription = arguments.StudentDescription;
+            StudentPRLink = arguments.StudentPRLink;
             RepositoryOwner = arguments.RepositoryOwner;
             RepositoryName = arguments.RepositoryName;
         }

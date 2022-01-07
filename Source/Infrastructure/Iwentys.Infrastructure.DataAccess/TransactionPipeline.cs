@@ -1,16 +1,14 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.DataAccess
 {
-    public class TransactionPipeline<TDbContext, TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TDbContext : DbContext
+    public class TransactionPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
-        private readonly TDbContext _context;
+        private readonly IwentysDbContext _context;
 
-        public TransactionPipeline(TDbContext context)
+        public TransactionPipeline(IwentysDbContext context)
         {
             _context = context;
         }
@@ -23,7 +21,7 @@ namespace Iwentys.Infrastructure.DataAccess
             TResponse response = await next();
 
             await _context.SaveChangesAsync(cancellationToken);
-            //await tx.CommitAsync(cancellationToken);
+            // await tx.CommitAsync(cancellationToken);
 
             return response;
         }

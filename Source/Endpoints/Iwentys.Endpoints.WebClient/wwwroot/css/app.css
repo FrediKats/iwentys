@@ -1,6 +1,16 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 @import url('bootstrap/bootstrap-icons.css');
 
+/*Костыль SubjectAssignmentSubmitJournalPage.razor.scss*/
+.range-picker-dialog-button {
+    max-width: 0;
+}
+
+.range-picker-dialog-button svg {
+    max-width: 0;
+}
+/*Костыль SubjectAssignmentSubmitJournalPage.razor.scss*/
+
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }

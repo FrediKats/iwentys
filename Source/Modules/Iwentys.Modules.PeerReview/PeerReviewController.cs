@@ -3,7 +3,8 @@ using System.Threading.Tasks;
 using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.PeerReview.Dto;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.Application.Controllers.PeerReview;
+using Iwentys.Modules.PeerReview.Dtos;
+using Iwentys.Modules.PeerReview.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
