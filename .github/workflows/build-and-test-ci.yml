@@ -1,11 +1,9 @@
 name: .NET
 
 on:
-  push:
-    branches: [ master, dev ]
   pull_request:
     branches: [ master, dev ]
-
+    types: [opened, synchronize, reopened]
 jobs:
   build:
     runs-on: ubuntu-latest
