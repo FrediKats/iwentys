@@ -8,8 +8,8 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
 {
     public partial class SubjectAssignmentSubmitJournalPage
     {
-        private IEnumerable<SubjectAssignmentSubmitDto> _subjectAssignmentSubmits;
-        private IEnumerable<SubjectAssignmentSubmitDto> _tableSubjectAssignmentSubmits;
+        private ICollection<SubjectAssignmentSubmitDto> _subjectAssignmentSubmits;
+        private ICollection<SubjectAssignmentSubmitDto> _tableSubjectAssignmentSubmits;
         private string _searchString = "";
         private string _stateSelectorValue = "";
 
@@ -21,6 +21,7 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
             {
                 SubjectId = SubjectId
             });
+
             _tableSubjectAssignmentSubmits = new List<SubjectAssignmentSubmitDto>(_subjectAssignmentSubmits);
         }
 
@@ -33,34 +34,43 @@ namespace Iwentys.Endpoints.WebClient.Modules.SubjectAssignments.MentorPages
             _navigationManager.NavigateTo($"/subject/{SubjectId}/management/assignments/submits/{submit.Id}");
         }
         
-
         private bool IsMatchedWithSearchRequest(SubjectAssignmentSubmitDto assignment)
         {
-            bool DateRangeIsOk(DateRange dateRange, DateTime? date){
-                if (dateRange == null || dateRange.End == null && dateRange.Start == null)
-                {
-                    return true;
-                }
-                if (date != null && dateRange.Start.Value.Date <= date.Value.Date && dateRange.End.Value.Date >= date.Value.Date)
-                {
-                    return true;
-                }
-                return false;
-            }
-            
-            bool searched = string.IsNullOrWhiteSpace(_searchString) ||
-                            assignment.SubjectAssignmentTitle.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
-                            assignment.Student.SecondName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
-                            assignment.Student.FirstName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
-                            $"{assignment.SubmitTimeUtc} {assignment.RejectTimeUtc} {assignment.ApproveTimeUtc}".Contains(_searchString, StringComparison.OrdinalIgnoreCase);
+            bool searched = IsMatchedWithSearchString(assignment);
+
             bool dateRangeIsOk = DateRangeIsOk(_approveDatePicker.DateRange, assignment.ApproveTimeUtc) &&
                                  DateRangeIsOk(_rejectDatePicker.DateRange, assignment.RejectTimeUtc) &&
                                  DateRangeIsOk(_submitDatePicker.DateRange, assignment.SubmitTimeUtc);
+
             bool selectStateIsOk = assignment.State.ToString().Equals(_stateSelectorValue) ||
                                    string.IsNullOrEmpty(_stateSelectorValue);
             
             
             return searched && dateRangeIsOk && selectStateIsOk;
+        }
+
+        private bool IsMatchedWithSearchString(SubjectAssignmentSubmitDto assignment)
+        {
+            return string.IsNullOrWhiteSpace(_searchString) ||
+                   assignment.SubjectAssignmentTitle.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+                   assignment.Student.SecondName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+                   assignment.Student.FirstName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+                   $"{assignment.SubmitTimeUtc} {assignment.RejectTimeUtc} {assignment.ApproveTimeUtc}".Contains(_searchString, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private bool DateRangeIsOk(DateRange dateRange, DateTime? date)
+        {
+            if (dateRange == null || dateRange.End == null && dateRange.Start == null)
+            {
+                return true;
+            }
+
+            if (date != null && dateRange.Start.Value.Date <= date.Value.Date && dateRange.End.Value.Date >= date.Value.Date)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

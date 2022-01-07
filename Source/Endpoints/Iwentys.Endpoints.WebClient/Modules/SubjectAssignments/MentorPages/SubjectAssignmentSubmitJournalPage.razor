@@ -13,7 +13,7 @@
         @if (_subjectAssignmentSubmits is not null)
         {
             <MudItem xs="12" sm="12" md="12">
-                <MudTable @ref="table" T="SubjectAssignmentSubmitDto"
+                <MudTable @ref="_table" T="SubjectAssignmentSubmitDto"
                           Items="@_tableSubjectAssignmentSubmits"
                           OnRowClick="@(arg => OnRowClicked(arg))"
                           class="dark-elevation-01"
@@ -103,7 +103,7 @@
     MudDateRangePicker _submitDatePicker = new MudDateRangePicker();
     MudDateRangePicker _approveDatePicker = new MudDateRangePicker();
     MudDateRangePicker _rejectDatePicker = new MudDateRangePicker();
-    MudTable<SubjectAssignmentSubmitDto> table;
+    MudTable<SubjectAssignmentSubmitDto> _table;
     
     private void OnRowClicked(TableRowClickEventArgs<SubjectAssignmentSubmitDto> obj)
     {
