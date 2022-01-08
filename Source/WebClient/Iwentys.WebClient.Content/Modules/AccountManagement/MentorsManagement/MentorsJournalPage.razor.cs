@@ -1,9 +1,8 @@
 ﻿using Iwentys.Sdk;
-using Iwentys.WebClient.Content.Modules.AccountManagement.MentorsManagement.Extensions;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace Iwentys.WebClient.Content.Modules.AccountManagement.MentorsManagement
+namespace Iwentys.WebClient.Content
 {
     public partial class MentorsJournalPage
     {
@@ -37,9 +36,8 @@ namespace Iwentys.WebClient.Content.Modules.AccountManagement.MentorsManagement
 
         protected override async Task OnInitializedAsync()
         {
-            await base.OnInitializedAsync();
-            _currentUser = await StudentClient.GetSelfAsync();
-            _allSubjectsMentors = await MentorsManagementClient.GetAllAsync();
+            _currentUser = await _studentClient.GetSelfAsync();
+            _allSubjectsMentors = await _mentorsManagementClient.GetAllAsync();
 
             _currentUserSubjects = GetCurrentUserSubjects();
             _subjectsMentorsToShow = _allSubjectsMentors;
@@ -51,7 +49,7 @@ namespace Iwentys.WebClient.Content.Modules.AccountManagement.MentorsManagement
 
             try
             {
-                MentorsManagementClient.RemoveMentorFromGroupAsync(mentorToDeleteIdentifier.GroupSubjectId, mentorToDeleteIdentifier.Mentor.Id);
+                _mentorsManagementClient.RemoveMentorFromGroupAsync(mentorToDeleteIdentifier.GroupSubjectId, mentorToDeleteIdentifier.Mentor.Id);
 
                 var group = GetGroupByMentor(mentorToDeleteIdentifier);
 

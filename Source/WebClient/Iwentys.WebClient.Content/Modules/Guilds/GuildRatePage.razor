@@ -1,0 +1,33 @@
+﻿@page "/guild/rate"
+
+@namespace Iwentys.WebClient.Content
+
+<div class="text-center">
+    <h3>Рейтинг Гильдий</h3>
+    <MudButton OnClick="@ForceUpdate">
+        Force update
+    </MudButton>
+    @if (_guildProfiles is not null)
+    {
+        <div class="container-fluid d-flex flex-column">
+            @foreach (GuildProfileDto guild in _guildProfiles)
+            {
+                <a href=@LinkToProfile(guild)>
+                    <div class="guild-rating-row dark-elevation-01">
+                        <div class="d-flex flex-row">
+                            <div class="col-md-2">
+                                <img src=@guild.ImmageUrl class="guild-logo" />
+                            </div>
+
+                            <div class="col-md-8">
+                                <h4>@guild.Title (Rate: @guild.GuildRating)</h4>
+
+                                <p>Some bio @guild.Bio</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    }
+</div>

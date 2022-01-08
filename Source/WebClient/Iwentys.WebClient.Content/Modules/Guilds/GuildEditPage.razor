@@ -1,0 +1,18 @@
+﻿@page "/guild/profile/{GuildId:int}/edit"
+
+@namespace Iwentys.WebClient.Content
+
+<h3>GuildEditPage</h3>
+
+@if (_guild is not null)
+{
+    <GuildMemberListComponent GuildProfile="@_guild"></GuildMemberListComponent>
+}
+
+@code
+{
+    [Parameter]
+    public int GuildId { get; set; }
+
+    private GuildProfileDto _guild;
+}

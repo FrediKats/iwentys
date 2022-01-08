@@ -1,7 +1,7 @@
 ﻿using Iwentys.Sdk;
 using MudBlazor;
 
-namespace Iwentys.WebClient.Content.Modules.SubjectAssignments.MentorPages
+namespace Iwentys.WebClient.Content
 {
     public partial class SubjectAssignmentSubmitJournalPage
     {

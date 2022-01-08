@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Iwentys.Sdk;
 
-namespace Iwentys.WebClient.Content.Modules.SubjectAssignments.MentorPages
+namespace Iwentys.WebClient.Content
 {
     public partial class SubjectAssignmentUpdatePage
     {
@@ -22,8 +22,7 @@ namespace Iwentys.WebClient.Content.Modules.SubjectAssignments.MentorPages
         protected override async Task OnInitializedAsync()
         {
             var assignments = await _mentorSubjectAssignmentClient.GetMentorSubjectAssignmentsAsync();
-            var assignment = assignments
-                .SelectMany(s => s.Assignments)
+            var assignment = Enumerable.SelectMany<SubjectAssignmentJournalItemDto, SubjectAssignmentDto>(assignments, s => s.Assignments)
                 .First(a => a.Id == SubjectAssignmentId);
 
             _arguments = new Arguments

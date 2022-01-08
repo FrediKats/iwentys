@@ -47,13 +47,16 @@ namespace Iwentys.WebClient
         public static void RegisterClients(IServiceCollection service)
         {
             service.AddScoped<StudentClient>();
+            service.AddScoped<SubjectClient>();
             service.AddScoped<StudyGroupClient>();
+            service.AddScoped<AssignmentClient>();
 
 
             service.AddScoped<MentorSubjectAssignmentClient>();
             service.AddScoped<MentorSubjectAssignmentSubmitClient>();
             service.AddScoped<StudentSubjectAssignmentClient>();
             service.AddScoped<StudentSubjectAssignmentSubmitClient>();
+            service.AddScoped<MentorsManagementClient>();
         }
     }
 }

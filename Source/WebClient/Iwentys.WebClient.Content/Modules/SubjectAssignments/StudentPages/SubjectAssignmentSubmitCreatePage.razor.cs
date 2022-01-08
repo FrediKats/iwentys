@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Iwentys.Sdk;
 
-namespace Iwentys.WebClient.Content.Modules.SubjectAssignments.StudentPages
+namespace Iwentys.WebClient.Content
 {
     public partial class SubjectAssignmentSubmitCreatePage
     {
@@ -21,7 +21,7 @@ namespace Iwentys.WebClient.Content.Modules.SubjectAssignments.StudentPages
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            _subjectAssignments = (await _studentSubjectAssignmentClient.GetStudentSubjectAssignmentsAsync(SubjectId)).ToList();
+            _subjectAssignments = Enumerable.ToList<SubjectAssignmentDto>((await _studentSubjectAssignmentClient.GetStudentSubjectAssignmentsAsync(SubjectId)));
         }
 
         public async Task SendSubmit()

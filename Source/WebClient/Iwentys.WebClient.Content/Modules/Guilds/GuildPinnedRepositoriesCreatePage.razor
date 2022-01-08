@@ -1,0 +1,27 @@
+﻿@page "/guild/{GuildId:int}/create-pinned"
+
+@namespace Iwentys.WebClient.Content
+
+<h3>PinnedrepositoryCreatePage</h3>
+
+<div class="container-fluid d-flex flex-row">
+    <div class="col-md-6 d-flex flex-column">
+        <h5>Create assignment</h5>
+
+        <p>
+            <MudTextField @bind-Value="@_owner" Label="Title"></MudTextField>
+        </p>
+
+        <p>
+            <MudTextField @bind-Value="@_repositoryName" Label="Description"></MudTextField>
+        </p>
+
+        <MudButton OnClick="@AddPin">Create</MudButton>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public int GuildId { get; set; }
+}

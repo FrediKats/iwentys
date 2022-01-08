@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace Iwentys.WebClient.Content.Modules.AccountManagement.MentorsManagement
+namespace Iwentys.WebClient.Content
 {
     public partial class AddMentorPage
     {
@@ -23,8 +23,7 @@ namespace Iwentys.WebClient.Content.Modules.AccountManagement.MentorsManagement
 
         protected override async Task OnInitializedAsync()
         {
-            await base.OnInitializedAsync();
-            _subjectProfile = await SubjectClient.GetSubjectByIdAsync(SubjectId);
+            _subjectProfile = await _subjectClient.GetSubjectByIdAsync(SubjectId);
         }
 
         private void ShowError(string message)
@@ -41,7 +40,7 @@ namespace Iwentys.WebClient.Content.Modules.AccountManagement.MentorsManagement
             }
             try
             {
-                var group = await StudyGroupClient.GetByGroupNameAsync(_groupName);
+                var group = await _studyGroupClient.GetByGroupNameAsync(_groupName);
                 _groups.Add(new Group()
                 {
                     Name = group.GroupName,
@@ -80,14 +79,13 @@ namespace Iwentys.WebClient.Content.Modules.AccountManagement.MentorsManagement
 
             try
             {
-                await MentorsManagementClient.AddMentorAsync(createArgs);
+                await _mentorsManagementClient.AddMentorAsync(createArgs);
                 _navigationManager.NavigateTo("/account-management/mentors/");
             }
             catch (ApiException)
             {
                 ShowError("Error while adding mentor.");
             }
-
         }
     }
 }

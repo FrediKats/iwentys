@@ -1,0 +1,40 @@
+﻿@namespace Iwentys.WebClient.Content
+
+<div class="card-list-element">
+    <MudCard Class="dark-elevation-02">
+        <MudCardContent>
+            <div class="card-list-element-content">
+                @if (Tribute.State == TributeState.Completed)
+                {
+                    <MudText Typo="Typo.h6">
+                        @Tribute.Project.Name (by @Tribute.Project.AuthorUsername)
+                    </MudText>
+                }
+                @if (Tribute.State != TributeState.Completed)
+                {
+                    <MudText Typo="Typo.h6">
+                        @Tribute.Project.Name
+                    </MudText>
+                }
+
+                <MudText Typo="Typo.body2">
+                    Creation time: @Tribute.CreationTimeUtc
+                </MudText>
+                @if (Tribute.Mark is not null)
+                {
+                    <MudText Typo="Typo.h6">
+                        Mark: @Tribute.Mark (review by @Tribute.Mentor.GithubUsername). Last update: @Tribute.LastUpdateTimeUtc
+                    </MudText>
+                }
+            </div>
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton OnClick=@Complete>Complete</MudButton>
+        </MudCardActions>
+    </MudCard>
+</div>
+
+@code {
+    [Parameter]
+    public TributeInfoResponse Tribute { get; set; }
+}

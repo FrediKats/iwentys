@@ -1,5 +1,8 @@
-﻿<MudText Typo="Typo.body1">Deadline: @Assignment.DeadlineTimeUtc</MudText>
+﻿@namespace Iwentys.WebClient.Content
+
+<MudText Typo="Typo.body1">Deadline: @Assignment.DeadlineTimeUtc</MudText>
 <MudText Typo="Typo.body1">@Assignment.Description</MudText>
+
 @if (IsStudentAssignment)
  {
   <MudButton Link="@Assignment.Link">

@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Iwentys.Sdk;
-using Iwentys.WebClient.Content.Modules.SubjectAssignments.MentorPages.Components;
 
-namespace Iwentys.WebClient.Content.Modules.SubjectAssignments.MentorPages
+namespace Iwentys.WebClient.Content
 {
     public partial class SubjectAssignmentSubmitPage
     {

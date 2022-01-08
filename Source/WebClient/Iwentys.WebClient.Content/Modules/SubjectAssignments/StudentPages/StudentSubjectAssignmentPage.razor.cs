@@ -1,6 +1,6 @@
 ﻿using Iwentys.Sdk;
 
-namespace Iwentys.WebClient.Content.Modules.SubjectAssignments.StudentPages
+namespace Iwentys.WebClient.Content
 {
     public partial class StudentSubjectAssignmentPage
     {
@@ -20,7 +20,7 @@ namespace Iwentys.WebClient.Content.Modules.SubjectAssignments.StudentPages
         {
             await base.OnInitializedAsync();
 
-            _self = await StudentClient.GetSelfAsync();
+            _self = await _studentClient.GetSelfAsync();
             _subjectAssignments = await _studentSubjectAssignmentClient.GetStudentSubjectAssignmentsAsync(SubjectId);
             _subjectAssignmentSubmits = await _studentSubjectAssignmentClient.GetStudentSubjectAssignmentSubmitsAsync(SubjectId);
         }

@@ -1,6 +1,6 @@
 ﻿using Iwentys.Sdk;
 
-namespace Iwentys.WebClient.Content.Modules.SubjectAssignments.MentorPages.Components
+namespace Iwentys.WebClient.Content
 {
     public partial class MentorSubjectAssignmentComponent
     {

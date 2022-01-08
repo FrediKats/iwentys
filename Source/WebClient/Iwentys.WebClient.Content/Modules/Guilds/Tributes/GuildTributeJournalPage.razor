@@ -1,0 +1,25 @@
+﻿@page "/guild/{GuildId:int}/tribute"
+
+@namespace Iwentys.WebClient.Content
+
+<div class="container-fluid d-flex flex-row">
+    <div class="col-md-6 d-flex flex-column">
+        <h3>Guild tributes</h3>
+        @if (_guild is not null)
+        {
+            <div class="container-fluid d-flex flex-column">
+                @foreach (var tribute in _tributes)
+                {
+                    <TributeCardComponent Tribute=@tribute></TributeCardComponent>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public int GuildId { get; set; }
+
+}

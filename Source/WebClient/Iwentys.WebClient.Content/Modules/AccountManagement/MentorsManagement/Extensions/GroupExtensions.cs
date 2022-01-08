@@ -1,6 +1,6 @@
 ﻿using Iwentys.Sdk;
 
-namespace Iwentys.WebClient.Content.Modules.AccountManagement.MentorsManagement.Extensions
+namespace Iwentys.WebClient.Content
 {
     public static class GroupExtensions
     {
