@@ -2,7 +2,7 @@
 using System.Linq;
 using Google.Apis.Sheets.v4.Data;
 
-namespace Iwentys.Integrations.GoogleTableIntegration.TeacherInfoParse
+namespace Iwentys.GoogleTableIntegration.TeacherInfoParse
 {
     public class SubjectTeacherParser : ITableRequest<List<SubjectTeacherInfo>>
     {

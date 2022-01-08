@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Iwentys.DataAccess;
 using Iwentys.Domain.InterestTags;
-using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
 namespace Iwentys.AccountManagement

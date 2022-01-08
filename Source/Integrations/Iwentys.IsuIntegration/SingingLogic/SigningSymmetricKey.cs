@@ -2,7 +2,7 @@
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Iwentys.Integrations.IsuIntegration.SingingLogic
+namespace Iwentys.IsuIntegration.SingingLogic
 {
     public class SigningSymmetricKey : IJwtSigningEncodingKey, IJwtSigningDecodingKey
     {

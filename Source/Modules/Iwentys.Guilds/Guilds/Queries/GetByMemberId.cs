@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Iwentys.Common;
 using Iwentys.DataAccess;
-using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
 namespace Iwentys.Guilds

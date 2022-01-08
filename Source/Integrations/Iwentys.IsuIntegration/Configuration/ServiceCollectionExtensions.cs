@@ -1,8 +1,8 @@
-﻿using Iwentys.Integrations.IsuIntegration.Models;
+﻿using Iwentys.IsuIntegration.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Integrations.IsuIntegration.Configuration
+namespace Iwentys.IsuIntegration.Configuration
 {
     public static class ServiceCollectionExtensions
     {

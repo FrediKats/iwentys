@@ -1,6 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 
-namespace Iwentys.Integrations.IsuIntegration.SingingLogic
+namespace Iwentys.IsuIntegration.SingingLogic
 {
     public interface IJwtSigningDecodingKey
     {

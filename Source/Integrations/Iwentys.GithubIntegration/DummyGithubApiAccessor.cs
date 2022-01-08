@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Domain.GithubIntegration;
 
-namespace Iwentys.Integrations.GithubIntegration
+namespace Iwentys.GithubIntegration
 {
     public class DummyGithubApiAccessor : IGithubApiAccessor
     {

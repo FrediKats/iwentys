@@ -10,7 +10,7 @@ using Octokit;
 using ContributionsInfo = Iwentys.Domain.GithubIntegration.ContributionsInfo;
 using YearActivityInfo = Iwentys.Domain.GithubIntegration.YearActivityInfo;
 
-namespace Iwentys.Integrations.GithubIntegration
+namespace Iwentys.GithubIntegration
 {
     public class GithubApiAccessor : IGithubApiAccessor
     {

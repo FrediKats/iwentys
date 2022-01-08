@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Iwentys.Integrations.IsuIntegration.Models
+namespace Iwentys.IsuIntegration.Models
 {
     public class IsuApplicationOptions
     {

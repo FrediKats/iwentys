@@ -2,7 +2,6 @@
 using Iwentys.DataAccess;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments;
-using Iwentys.Infrastructure.DataAccess;
 
 namespace Iwentys.SubjectAssignments
 {

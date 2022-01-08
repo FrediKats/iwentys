@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using Iwentys.DataAccess;
 using Iwentys.DataAccess.Seeding;
-using Iwentys.Integrations.IsuIntegration.Configuration;
+using Iwentys.IsuIntegration.Configuration;
 using Iwentys.WebService.Application;
 using Iwentys.WebService.AuthComponents;
 using Microsoft.AspNetCore.Builder;

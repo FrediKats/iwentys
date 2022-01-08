@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.DataAccess;
-using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
 namespace Iwentys.AccountManagement

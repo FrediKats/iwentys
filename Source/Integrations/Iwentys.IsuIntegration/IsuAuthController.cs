@@ -1,12 +1,12 @@
 ﻿using System.Text.Json;
 using System.Threading.Tasks;
-using Iwentys.Integrations.IsuIntegration.Models;
-using Iwentys.Integrations.IsuIntegration.SingingLogic;
+using Iwentys.IsuIntegration.Models;
+using Iwentys.IsuIntegration.SingingLogic;
 using Microsoft.AspNetCore.Mvc;
 using Tef.IsuIntegrator;
 using Tef.IsuIntegrator.Responses;
 
-namespace Iwentys.Integrations.IsuIntegration
+namespace Iwentys.IsuIntegration
 {
     [Route("api/[controller]")]
     [ApiController]

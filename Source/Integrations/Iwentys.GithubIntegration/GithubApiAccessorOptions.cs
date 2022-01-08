@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Integrations.GithubIntegration
+﻿namespace Iwentys.GithubIntegration
 {
     public class GithubApiAccessorOptions
     {

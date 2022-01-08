@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Integrations.IsuIntegration.Models
+﻿namespace Iwentys.IsuIntegration.Models
 {
     public class IsuAuthResponse
     {

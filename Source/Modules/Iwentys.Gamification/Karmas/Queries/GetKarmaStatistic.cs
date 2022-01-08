@@ -2,7 +2,6 @@
 using System.Linq;
 using Iwentys.DataAccess;
 using Iwentys.Domain.Karmas;
-using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
 namespace Iwentys.Gamification

@@ -2,7 +2,6 @@
 using System.Linq;
 using Iwentys.DataAccess;
 using Iwentys.Domain.Guilds;
-using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

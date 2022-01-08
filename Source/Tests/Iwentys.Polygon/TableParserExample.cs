@@ -5,8 +5,8 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Iwentys.Domain.Study;
-using Iwentys.Integrations.GoogleTableIntegration;
-using Iwentys.Integrations.GoogleTableIntegration.Marks;
+using Iwentys.GoogleTableIntegration;
+using Iwentys.GoogleTableIntegration.Marks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 

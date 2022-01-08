@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using FluentResults;
 using Iwentys.DataAccess;
 using Iwentys.Domain.Study;
-using Iwentys.Integrations.GoogleTableIntegration;
-using Iwentys.Integrations.GoogleTableIntegration.Marks;
+using Iwentys.GoogleTableIntegration;
+using Iwentys.GoogleTableIntegration.Marks;
 using Microsoft.Extensions.Logging;
 
 namespace Iwentys.WebService.Application
@@ -40,7 +40,7 @@ namespace Iwentys.WebService.Application
                     .SingleOrDefault(s => IsMatchedWithStudent(subjectScore, s.Student)
                                           && s.GroupSubject.SubjectId == groupSubjectData.SubjectId);
 
-                if (!Integrations.GoogleTableIntegration.Tools.ParseInAnyCulture(subjectScore.Score, out double pointsCount))
+                if (!Tools.ParseInAnyCulture(subjectScore.Score, out double pointsCount))
                 {
                     pointsCount = 0;
                     _logger.LogWarning($"Cannot parse value: student:{subjectScore.Name}, subjectId:{groupSubjectData.SubjectId}, groupId:{groupSubjectData.StudyGroupId}");

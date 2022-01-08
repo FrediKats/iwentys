@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Integrations.GoogleTableIntegration.TeacherInfoParse
+﻿namespace Iwentys.GoogleTableIntegration.TeacherInfoParse
 {
     public class SubjectTeacherInfo
     {

@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Iwentys.Common;
 using Iwentys.DataAccess;
 using Iwentys.Domain.InterestTags;
-using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
