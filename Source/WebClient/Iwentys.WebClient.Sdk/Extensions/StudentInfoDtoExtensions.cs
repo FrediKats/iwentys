@@ -1,6 +1,6 @@
 ﻿using Iwentys.Sdk;
 
-namespace Iwentys.Endpoints.Sdk.Extensions
+namespace Iwentys.WebClient.Sdk
 {
     public static class StudentInfoDtoExtensions
     {

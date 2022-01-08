@@ -5,6 +5,7 @@ using Blazor.Extensions.Logging;
 using Blazored.LocalStorage;
 using Iwentys.Sdk;
 using Iwentys.WebClient.IdentityAuthorization;
+using Iwentys.WebClient.Sdk;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,7 +35,7 @@ namespace Iwentys.WebClient
             builder.Services.AddVxFormGenerator();
 
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("Iwentys.Endpoint.ServerAPI"));
-            RegisterClients(builder.Services);
+            builder.Services.RegisterSwaggerClients();
 
             builder.Services.AddLogging(b => b
                 .AddBrowserConsole()
@@ -42,21 +43,6 @@ namespace Iwentys.WebClient
             );
 
             return builder.Build().RunAsync();
-        }
-
-        public static void RegisterClients(IServiceCollection service)
-        {
-            service.AddScoped<StudentClient>();
-            service.AddScoped<SubjectClient>();
-            service.AddScoped<StudyGroupClient>();
-            service.AddScoped<AssignmentClient>();
-
-
-            service.AddScoped<MentorSubjectAssignmentClient>();
-            service.AddScoped<MentorSubjectAssignmentSubmitClient>();
-            service.AddScoped<StudentSubjectAssignmentClient>();
-            service.AddScoped<StudentSubjectAssignmentSubmitClient>();
-            service.AddScoped<MentorsManagementClient>();
         }
     }
 }

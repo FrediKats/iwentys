@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\css\CommonElementStyle.scss" />
+    <Content Remove="wwwroot\css\GlobalStyle.css" />
+    <Content Remove="wwwroot\css\GlobalStyle.scss" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Iwentys.WebClient.Content.csproj.DotSettings" />
   </ItemGroup>
 
@@ -28,7 +34,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <None Include="wwwroot\css\CommonElementStyle.scss" />
+    <None Include="wwwroot\css\GlobalStyle.css" />
+    <None Include="wwwroot\css\GlobalStyle.scss" />
   </ItemGroup>
 
   <ItemGroup>

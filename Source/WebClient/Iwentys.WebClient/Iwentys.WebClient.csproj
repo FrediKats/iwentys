@@ -7,12 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\css\CommonElementStyle.scss" />
-    <None Include="wwwroot\css\GlobalStyle.css" />
-    <None Include="wwwroot\css\GlobalStyle.scss" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Blazor.Extensions.Logging" Version="2.0.4" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.1.5" />
     <PackageReference Include="ChartJs.Blazor" Version="1.1.0" />
