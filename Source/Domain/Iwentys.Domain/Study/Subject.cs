@@ -14,6 +14,7 @@ namespace Iwentys.Domain.Study
         public string Title { get; init; }
 
         public virtual ICollection<GroupSubject> GroupSubjects { get; set; }
+
         public virtual ICollection<SubjectAssignment> Assignments { get; set; }
 
         public Subject()
