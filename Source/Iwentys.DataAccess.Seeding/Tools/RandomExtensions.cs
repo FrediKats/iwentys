@@ -1,6 +1,6 @@
 ﻿using Bogus;
 
-namespace Iwentys.Infrastructure.DataAccess.Seeding.Tools
+namespace Iwentys.DataAccess.Seeding
 {
     public static class RandomExtensions
     {

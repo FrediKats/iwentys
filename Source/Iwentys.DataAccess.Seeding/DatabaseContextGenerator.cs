@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Common;
-using Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.DataAccess.Seeding
+namespace Iwentys.DataAccess.Seeding
 {
     public class DatabaseContextGenerator : IDbContextSeeder
     {

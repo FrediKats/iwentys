@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Iwentys.DataAccess;
 using Iwentys.Domain.Gamification;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;

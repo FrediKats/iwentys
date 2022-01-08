@@ -1,8 +1,9 @@
 using System.Text.Json.Serialization;
+using Iwentys.DataAccess;
+using Iwentys.DataAccess.Seeding;
 using Iwentys.Endpoints.Api.Authorization;
 using Iwentys.Infrastructure.Application.Middlewares;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Infrastructure.DataAccess.Seeding;
 using Iwentys.Integrations.IsuIntegration.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;

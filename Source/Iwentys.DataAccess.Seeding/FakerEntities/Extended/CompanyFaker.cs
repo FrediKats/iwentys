@@ -1,7 +1,7 @@
 ﻿using Bogus;
 using Iwentys.Domain.Companies;
 
-namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Extended
+namespace Iwentys.DataAccess.Seeding
 {
     public class CompanyFaker
     {

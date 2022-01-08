@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Iwentys.DataAccess;
 using Iwentys.Domain.SubjectAssignments;
 using Iwentys.Infrastructure.DataAccess;
 

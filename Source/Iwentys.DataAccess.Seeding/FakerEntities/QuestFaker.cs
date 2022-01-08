@@ -2,7 +2,7 @@
 using Bogus;
 using Iwentys.Domain.Quests;
 
-namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities
+namespace Iwentys.DataAccess.Seeding
 {
     public class QuestFaker
     {

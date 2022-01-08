@@ -1,5 +1,5 @@
-﻿using Iwentys.Domain.Study;
-using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
+﻿using Iwentys.DataAccess.Seeding;
+using Iwentys.Domain.Study;
 
 namespace Iwentys.Tests.TestCaseContexts
 {

@@ -15,11 +15,10 @@ using Iwentys.Domain.Quests;
 using Iwentys.Domain.Raids;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments;
-using Iwentys.Infrastructure.DataAccess.Subcontext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Iwentys.Infrastructure.DataAccess
+namespace Iwentys.DataAccess
 {
     public class IwentysDbContext : DbContext,
         IAccountManagementDbContext,

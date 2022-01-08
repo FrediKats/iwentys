@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Iwentys.Common;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.DataAccess
+namespace Iwentys.DataAccess
 {
     public static class DbContextExtensions
     {

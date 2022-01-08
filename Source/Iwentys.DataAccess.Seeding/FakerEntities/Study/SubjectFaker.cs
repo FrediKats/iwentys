@@ -1,7 +1,7 @@
 ﻿using Bogus;
 using Iwentys.Domain.Study;
 
-namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study
+namespace Iwentys.DataAccess.Seeding
 {
     public class SubjectFaker : Faker<Subject>
     {

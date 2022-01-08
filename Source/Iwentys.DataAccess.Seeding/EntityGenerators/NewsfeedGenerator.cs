@@ -3,10 +3,9 @@ using System.Linq;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Newsfeeds;
 using Iwentys.Domain.Study;
-using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
+namespace Iwentys.DataAccess.Seeding
 {
     public class NewsfeedGenerator : IEntityGenerator
     {

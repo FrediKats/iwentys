@@ -1,8 +1,8 @@
 ﻿using System.Linq;
+using Iwentys.DataAccess.Seeding;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
-using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Guilds;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 

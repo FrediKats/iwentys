@@ -2,10 +2,9 @@
 using System.Linq;
 using Iwentys.Domain.Quests;
 using Iwentys.Domain.Study;
-using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
+namespace Iwentys.DataAccess.Seeding
 {
     public class QuestGenerator : IEntityGenerator
     {

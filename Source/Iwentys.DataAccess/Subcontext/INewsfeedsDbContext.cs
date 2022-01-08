@@ -1,7 +1,7 @@
 ﻿using Iwentys.Domain.Newsfeeds;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.DataAccess.Subcontext
+namespace Iwentys.DataAccess
 {
     public interface INewsfeedsDbContext
     {

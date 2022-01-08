@@ -4,11 +4,9 @@ using System.Linq;
 using Bogus;
 using Iwentys.Common;
 using Iwentys.Domain.Study;
-using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
-using Iwentys.Infrastructure.DataAccess.Seeding.Tools;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
+namespace Iwentys.DataAccess.Seeding
 {
     public class StudentGenerator : IEntityGenerator
     {

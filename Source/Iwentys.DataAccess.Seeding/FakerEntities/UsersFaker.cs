@@ -2,7 +2,7 @@
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 
-namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities
+namespace Iwentys.DataAccess.Seeding
 {
     public class UsersFaker
     {

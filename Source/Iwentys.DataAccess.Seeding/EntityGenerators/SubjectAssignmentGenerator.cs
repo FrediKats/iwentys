@@ -2,11 +2,9 @@
 using System.Linq;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments;
-using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study;
-using Iwentys.Infrastructure.DataAccess.Seeding.Tools;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
+namespace Iwentys.DataAccess.Seeding
 {
     public class SubjectAssignmentGenerator : IEntityGenerator
     {

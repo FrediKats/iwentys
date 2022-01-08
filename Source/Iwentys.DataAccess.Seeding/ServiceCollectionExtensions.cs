@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Infrastructure.DataAccess.Seeding
+namespace Iwentys.DataAccess.Seeding
 {
     public static class ServiceCollectionExtensions
     {

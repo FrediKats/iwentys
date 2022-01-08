@@ -3,12 +3,9 @@ using System.Linq;
 using Iwentys.Common;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
-using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
-using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study;
-using Iwentys.Infrastructure.DataAccess.Seeding.Tools;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
+namespace Iwentys.DataAccess.Seeding
 {
     public class StudyEntitiesGenerator : IEntityGenerator
     {

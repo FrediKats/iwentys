@@ -2,7 +2,7 @@
 using Bogus;
 using Iwentys.Domain.Guilds;
 
-namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Guilds
+namespace Iwentys.DataAccess.Seeding
 {
     public class TournamentFaker
     {

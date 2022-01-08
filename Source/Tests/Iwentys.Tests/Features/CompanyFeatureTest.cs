@@ -1,8 +1,7 @@
 ﻿using System.Linq;
+using Iwentys.DataAccess.Seeding;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Companies;
-using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
-using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Extended;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 

@@ -2,7 +2,7 @@
 using Bogus;
 using Iwentys.Domain.Raids;
 
-namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Raids
+namespace Iwentys.DataAccess.Seeding
 {
     public class RaidFaker
     {

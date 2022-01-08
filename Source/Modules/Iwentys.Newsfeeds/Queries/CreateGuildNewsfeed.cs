@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Iwentys.DataAccess;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Newsfeeds;
 using Iwentys.Domain.Study;

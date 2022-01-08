@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentResults;
+using Iwentys.DataAccess;
 using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Integrations.GoogleTableIntegration;

@@ -1,7 +1,7 @@
 ﻿using Iwentys.Domain.Quests;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.DataAccess.Subcontext
+namespace Iwentys.DataAccess
 {
     public interface IQuestsDbContext
     {

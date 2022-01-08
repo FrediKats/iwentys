@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Duende.IdentityServer.EntityFramework.Options;
+using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Infrastructure.DataAccess;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Common;
+using Iwentys.DataAccess;
 using Iwentys.Domain.Assignments;
 using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.Application;

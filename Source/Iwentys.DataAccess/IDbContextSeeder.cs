@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.DataAccess
+namespace Iwentys.DataAccess
 {
     public interface IDbContextSeeder
     {

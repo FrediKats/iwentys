@@ -2,6 +2,7 @@
 using Iwentys.Domain.GithubIntegration;
 using System;
 using Iwentys.AccountManagement;
+using Iwentys.DataAccess;
 using Iwentys.Gamification;
 using Iwentys.Guilds;
 using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;

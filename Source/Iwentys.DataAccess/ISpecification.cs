@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Iwentys.Infrastructure.DataAccess
+namespace Iwentys.DataAccess
 {
     public interface ISpecification<T, TResult>
     {

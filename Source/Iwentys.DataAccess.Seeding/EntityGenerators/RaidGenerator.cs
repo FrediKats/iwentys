@@ -2,10 +2,9 @@
 using System.Linq;
 using Iwentys.Domain.Raids;
 using Iwentys.Domain.Study;
-using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Raids;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators
+namespace Iwentys.DataAccess.Seeding
 {
     public class RaidGenerator : IEntityGenerator
     {

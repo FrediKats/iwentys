@@ -2,7 +2,7 @@
 using Bogus;
 using Iwentys.Domain.SubjectAssignments;
 
-namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study
+namespace Iwentys.DataAccess.Seeding
 {
     public class SubjectAssignmentFaker
     {

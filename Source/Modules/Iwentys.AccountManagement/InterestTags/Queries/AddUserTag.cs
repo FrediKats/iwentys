@@ -1,4 +1,5 @@
-﻿using Iwentys.Domain.InterestTags;
+﻿using Iwentys.DataAccess;
+using Iwentys.Domain.InterestTags;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
