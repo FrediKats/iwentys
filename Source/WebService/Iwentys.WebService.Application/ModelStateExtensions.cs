@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Iwentys.Infrastructure.Application
+namespace Iwentys.WebService.Application
 {
     public static class ModelStateExtensions
     {

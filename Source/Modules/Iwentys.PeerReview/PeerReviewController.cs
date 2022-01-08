@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.PeerReview;
-using Iwentys.Infrastructure.Application;
+using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Iwentys.Domain.GithubIntegration;
 
-namespace Iwentys.Infrastructure.Application
+namespace Iwentys.WebService.Application
 {
     public class MappingProfile : Profile
     {

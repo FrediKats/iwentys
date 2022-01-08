@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iwentys.Infrastructure.Application.Options
+namespace Iwentys.WebService.Application
 {
     public class ApplicationOptions
     {

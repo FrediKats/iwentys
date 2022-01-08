@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Iwentys.Endpoints.Api.Authorization
+namespace Iwentys.WebService.AuthComponents
 {
     public class JwtApplicationOptions
     {

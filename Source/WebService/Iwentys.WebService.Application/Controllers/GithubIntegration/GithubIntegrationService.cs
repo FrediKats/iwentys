@@ -1,8 +1,7 @@
 ﻿using Iwentys.DataAccess;
 using Iwentys.Domain.GithubIntegration;
-using Iwentys.Infrastructure.DataAccess;
 
-namespace Iwentys.Infrastructure.Application.Controllers.GithubIntegration
+namespace Iwentys.WebService.Application
 {
     public class GithubIntegrationService
     {

@@ -6,8 +6,7 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Achievements;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Quests;
-using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.DataAccess;
+using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

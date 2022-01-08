@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.DataAccess;
-using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
-using Iwentys.Infrastructure.DataAccess;
+using Iwentys.WebService.Application;
 using MediatR;
 
 namespace Iwentys.Gamification

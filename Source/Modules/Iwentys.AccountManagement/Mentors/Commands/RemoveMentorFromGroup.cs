@@ -3,8 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Common;
 using Iwentys.DataAccess;
-using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.DataAccess;
+using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

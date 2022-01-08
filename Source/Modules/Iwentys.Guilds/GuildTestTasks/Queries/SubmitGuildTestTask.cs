@@ -5,9 +5,7 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.PeerReview;
-using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
-using Iwentys.Infrastructure.DataAccess;
+using Iwentys.WebService.Application;
 using MediatR;
 
 namespace Iwentys.Guilds

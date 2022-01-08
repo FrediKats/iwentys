@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Domain.SubjectAssignments;
-using Iwentys.Infrastructure.Application;
+using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

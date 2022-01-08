@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Infrastructure.Application
+﻿namespace Iwentys.WebService.Application
 {
     public sealed class AuthorizedUser
     {

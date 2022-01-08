@@ -3,8 +3,7 @@ using System.Linq;
 using Iwentys.Common;
 using Iwentys.DataAccess;
 using Iwentys.Domain.Study;
-using Iwentys.Infrastructure.Application.Repositories;
-using Iwentys.Infrastructure.DataAccess;
+using Iwentys.WebService.Application;
 using MediatR;
 
 namespace Iwentys.Gamification

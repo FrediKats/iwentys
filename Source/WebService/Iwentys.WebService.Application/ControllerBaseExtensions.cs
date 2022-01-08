@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Infrastructure.Application
+namespace Iwentys.WebService.Application
 {
     public static class ControllerBaseExtensions
     {

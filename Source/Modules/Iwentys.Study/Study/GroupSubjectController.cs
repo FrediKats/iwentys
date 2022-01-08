@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Infrastructure.Application;
+using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Iwentys.Infrastructure.Application.Middlewares
+namespace Iwentys.WebService.Application
 {
     public class ModelStateFilter : IAsyncActionFilter
     {

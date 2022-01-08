@@ -1,6 +1,6 @@
 ﻿using Iwentys.Common;
 using Iwentys.Domain.Guilds;
-using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
+using Iwentys.WebService.Application;
 
 namespace Iwentys.Guilds
 {

@@ -1,6 +1,5 @@
 ﻿using Iwentys.DataAccess.Seeding;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Infrastructure.Application;
 
 namespace Iwentys.Tests.TestCaseContexts
 {

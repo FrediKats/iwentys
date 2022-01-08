@@ -3,10 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.DataAccess;
 using Iwentys.Domain.GithubIntegration;
-using Iwentys.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Controllers.GithubIntegration
+namespace Iwentys.WebService.Application
 {
     public class GithubRepositoryApiAccessor
     {

@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Iwentys.WebService.Application.csproj.DotSettings" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="Kysect.ItmoScheduleSdk" Version="1.0.6" />
     <PackageReference Include="MediatR" Version="10.0.0" />

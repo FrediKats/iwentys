@@ -4,8 +4,7 @@ using System.Threading.Tasks;
 using Iwentys.Common;
 using Iwentys.DataAccess;
 using Iwentys.Domain.Study;
-using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.DataAccess;
+using Iwentys.WebService.Application;
 using MediatR;
 
 namespace Iwentys.Study

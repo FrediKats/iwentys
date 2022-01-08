@@ -1,14 +1,12 @@
-﻿using System.Linq;
-using Duende.IdentityServer.EntityFramework.Options;
+﻿using Duende.IdentityServer.EntityFramework.Options;
 using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Infrastructure.DataAccess;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace Iwentys.Endpoints.Api.Authorization
+namespace Iwentys.WebService.AuthComponents
 {
     public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     {

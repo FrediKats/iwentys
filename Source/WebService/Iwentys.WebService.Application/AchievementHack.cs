@@ -3,9 +3,8 @@ using System.Threading.Tasks;
 using Iwentys.DataAccess;
 using Iwentys.Domain.Achievements;
 using Iwentys.Domain.Gamification;
-using Iwentys.Infrastructure.DataAccess;
 
-namespace Iwentys.Infrastructure.Application
+namespace Iwentys.WebService.Application
 {
     public class AchievementHack
     {

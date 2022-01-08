@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Endpoints.Api.Authorization
+namespace Iwentys.WebService.AuthComponents
 {
     public static class AuthorizationServiceExtensions
     {

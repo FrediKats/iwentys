@@ -5,10 +5,9 @@ using Iwentys.Common;
 using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.GithubIntegration;
-using Iwentys.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Infrastructure.Application.Controllers.GithubIntegration
+namespace Iwentys.WebService.Application
 {
     public class GithubUserApiAccessor : IGithubUserApiAccessor
     {

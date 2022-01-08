@@ -1,9 +1,8 @@
 ﻿using System.Linq;
 using Iwentys.DataAccess;
 using Iwentys.Domain.Study;
-using Iwentys.Infrastructure.DataAccess;
 
-namespace Iwentys.Infrastructure.Application.Repositories
+namespace Iwentys.WebService.Application
 {
     public static class GroupSubjectExtensions
     {

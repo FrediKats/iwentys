@@ -4,7 +4,7 @@ using Iwentys.Common;
 using Iwentys.Domain.GithubIntegration;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Infrastructure.Application.Controllers.GithubIntegration
+namespace Iwentys.WebService.Application
 {
     [Route("api/[controller]")]
     [ApiController]
