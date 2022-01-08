@@ -4,11 +4,11 @@
 
 @if (_hasReview)
 {
-    <ConfirmationModal Title="Are you sure?" @ref="_confirmationModal" OnConfirm="@(async()=> await Confirm())" OnCancel="@(()=>_confirmationModal.Hide())">
+    <Iwentys.WebClient.Modules.SubjectAssignments.MentorPages.Components.ConfirmationModal Title="Are you sure?" @ref="_confirmationModal" OnConfirm="@(async()=> await Confirm())" OnCancel="@(()=>_confirmationModal.Hide())">
         <ChildContent>
             <MudText Typo="Typo.body1">You are going to rewrite @_reviewer.FirstName @_reviewer.SecondName review, are you sure?</MudText>
         </ChildContent>
-    </ConfirmationModal>
+    </Iwentys.WebClient.Modules.SubjectAssignments.MentorPages.Components.ConfirmationModal>
 }
 <MudContainer>
     <MudGrid>

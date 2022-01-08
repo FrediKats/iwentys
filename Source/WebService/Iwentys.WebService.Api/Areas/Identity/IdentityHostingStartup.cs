@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Iwentys.WebService.Api.Areas.Identity;
+using Microsoft.AspNetCore.Hosting;
 
-[assembly: HostingStartup(typeof(Iwentys.Endpoints.Api.Areas.Identity.IdentityHostingStartup))]
-namespace Iwentys.Endpoints.Api.Areas.Identity
+[assembly: HostingStartup(typeof(IdentityHostingStartup))]
+namespace Iwentys.WebService.Api.Areas.Identity
 {
     public class IdentityHostingStartup : IHostingStartup
     {

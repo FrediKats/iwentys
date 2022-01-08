@@ -53,5 +53,6 @@
     <ProjectReference Include="..\..\Modules\Iwentys.PeerReview\Iwentys.PeerReview.csproj" />
     <ProjectReference Include="..\..\Modules\Iwentys.Study\Iwentys.Study.csproj" />
     <ProjectReference Include="..\..\Modules\Iwentys.SubjectAssignments\Iwentys.SubjectAssignments.csproj" />
+    <ProjectReference Include="..\..\WebClient\Iwentys.WebClient\Iwentys.WebClient.csproj" />
   </ItemGroup>
 </Project>
