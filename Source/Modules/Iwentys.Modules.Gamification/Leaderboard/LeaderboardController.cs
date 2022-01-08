@@ -21,6 +21,7 @@ namespace Iwentys.Modules.Gamification.Leaderboard
             _mediator = mediator;
         }
 
+        // TODO: Ask if it possible to make pagination using only one template
         [HttpGet("study")]
         public async Task<ActionResult<List<StudyLeaderboardRowDto>>> GetStudyRating(
             int? subjectId,
@@ -54,7 +55,10 @@ namespace Iwentys.Modules.Gamification.Leaderboard
         }
 
         [HttpGet("coding")]
-        public async Task<ActionResult<List<StudyLeaderboardRowDto>>> GetCodingRating([FromQuery] int? courseId, [FromQuery] int skip = 0, [FromQuery] int take = 20)
+        public async Task<ActionResult<List<StudyLeaderboardRowDto>>> GetCodingRating(
+            [FromQuery] int? courseId,
+            [FromQuery] int skip = 0,
+            [FromQuery] int take = 20)
         {
             GetCodingRating.Response response = await _mediator.Send(new GetCodingRating.Query(courseId, skip, take));
             return Ok(response.Rating);

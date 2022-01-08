@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Domain.Study.Models;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Extensions;
+using Iwentys.Infrastructure.Application.Filters;
+using Iwentys.Modules.AccountManagement.Dtos.Mentors;
 using Iwentys.Modules.AccountManagement.StudentProfile.Dtos;
 using Iwentys.Modules.AccountManagement.StudentProfile.Queries;
 using MediatR;
@@ -21,10 +25,16 @@ namespace Iwentys.Modules.AccountManagement.StudentProfile
         }
 
         [HttpGet(nameof(Get))]
-        public async Task<ActionResult<List<StudentInfoDto>>> Get()
+        public async Task<ActionResult<List<StudentInfoDto>>> Get(
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             GetStudents.Response response = await _mediator.Send(new GetStudents.Query());
-            return Ok(response.Students);
+            
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<StudentInfoDto>
+                .ToIndexViewModel(response.Students, paginationFilter));
         }
 
         [HttpGet(nameof(GetSelf))]

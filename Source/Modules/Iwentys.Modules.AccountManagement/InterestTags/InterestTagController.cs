@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.InterestTags.Dto;
+using Iwentys.Infrastructure.Application.Extensions;
+using Iwentys.Infrastructure.Application.Filters;
 using Iwentys.Modules.AccountManagement.InterestTags.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,17 +22,30 @@ namespace Iwentys.Modules.AccountManagement.InterestTags
         }
 
         [HttpGet(nameof(Get))]
-        public async Task<ActionResult<List<InterestTagDto>>> Get()
+        public async Task<ActionResult<List<InterestTagDto>>> Get(
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             GetAllTags.Response response = await _mediator.Send(new GetAllTags.Query());
-            return Ok(response.Tags);
+
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<InterestTagDto>
+                .ToIndexViewModel(response.Tags, paginationFilter));
         }
 
         [HttpGet(nameof(GetByStudentId))]
-        public async Task<ActionResult<List<InterestTagDto>>> GetByStudentId(int studentId)
+        public async Task<ActionResult<List<InterestTagDto>>> GetByStudentId(
+            [FromQuery] int studentId,
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             GetUserTags.Response response = await _mediator.Send(new GetUserTags.Query(studentId));
-            return Ok(response.Tags);
+
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<InterestTagDto>
+                .ToIndexViewModel(response.Tags, paginationFilter));
         }
 
         [HttpGet(nameof(Add))]

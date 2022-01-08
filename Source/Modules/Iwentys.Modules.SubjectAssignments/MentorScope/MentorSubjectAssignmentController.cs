@@ -2,6 +2,9 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.SubjectAssignments.Models;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Extensions;
+using Iwentys.Infrastructure.Application.Filters;
+using Iwentys.Modules.Study.Study.Dtos;
 using Iwentys.Modules.SubjectAssignments.Dtos;
 using Iwentys.Modules.SubjectAssignments.MentorScope.Queries;
 using MediatR;
@@ -54,11 +57,17 @@ namespace Iwentys.Modules.SubjectAssignments.MentorScope
 
         [HttpGet(nameof(GetMentorSubjectAssignments))]
         [Produces("application/json")]
-        public async Task<ActionResult<List<SubjectAssignmentJournalItemDto>>> GetMentorSubjectAssignments()
+        public async Task<ActionResult<List<SubjectAssignmentJournalItemDto>>> GetMentorSubjectAssignments(
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             GetMentorSubjectAssignments.Response response = await _mediator.Send(new GetMentorSubjectAssignments.Query(authorizedUser));
-            return Ok(response.SubjectAssignments);
+
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<SubjectAssignmentJournalItemDto>
+                .ToIndexViewModel(response.SubjectAssignments, paginationFilter));
         }
     }
 }

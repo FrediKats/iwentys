@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.Study.Enums;
 using Iwentys.Domain.Study.Models;
+using Iwentys.Infrastructure.Application.Extensions;
+using Iwentys.Infrastructure.Application.Filters;
 using Iwentys.Modules.Study.Study.Dtos;
 using Iwentys.Modules.Study.Study.Queries;
 using MediatR;
@@ -21,12 +23,19 @@ namespace Iwentys.Modules.Study.Study
         }
 
         [HttpGet(nameof(SearchSubjects))]
-        public async Task<ActionResult<List<SubjectProfileDto>>> SearchSubjects(int? courseId, StudySemester? semester)
+        public async Task<ActionResult<List<SubjectProfileDto>>> SearchSubjects(
+            [FromQuery] int? courseId, 
+            [FromQuery] StudySemester? semester,
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             var studySearchParameters = new StudySearchParametersDto(null, null, courseId, semester, 0, 20);
             SearchSubjects.Response response = await _mediator.Send(new SearchSubjects.Query(studySearchParameters));
 
-            return Ok(response.Subjects);
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<SubjectProfileDto>
+                .ToIndexViewModel(response.Subjects, paginationFilter));
         }
 
         [HttpGet(nameof(GetSubjectById))]
@@ -37,10 +46,17 @@ namespace Iwentys.Modules.Study.Study
         }
 
         [HttpGet(nameof(GetSubjectsByGroupId))]
-        public async Task<ActionResult<List<SubjectProfileDto>>> GetSubjectsByGroupId(int groupId)
+        public async Task<ActionResult<List<SubjectProfileDto>>> GetSubjectsByGroupId(
+            [FromQuery] int groupId,
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             GetSubjectsByGroupId.Response response = await _mediator.Send(new GetSubjectsByGroupId.Query(groupId));
-            return Ok(response.Subjects);
+
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<SubjectProfileDto>
+                .ToIndexViewModel(response.Subjects, paginationFilter));
         }
     }
 }

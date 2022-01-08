@@ -1,12 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement.Mentors.Dto;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Extensions;
+using Iwentys.Infrastructure.Application.Filters;
 using Iwentys.Modules.AccountManagement.Dtos.Mentors;
 using Iwentys.Modules.AccountManagement.Mentors.Commands;
 using Iwentys.Modules.AccountManagement.Mentors.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Iwentys.Modules.AccountManagement.Mentors
 {
@@ -22,11 +26,17 @@ namespace Iwentys.Modules.AccountManagement.Mentors
         }
 
         [HttpGet(nameof(GetAll))]
-        public async Task<ActionResult<IReadOnlyList<SubjectMentorsDto>>> GetAll()
+        public async Task<ActionResult<IReadOnlyList<SubjectMentorsDto>>> GetAll(
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             var subjectsMentors = await _mediator.Send(new GetAllSubjectsMentors.Query(authorizedUser));
-            return Ok(subjectsMentors.SubjectMentors);
+
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<SubjectMentorsDto>
+                .ToIndexViewModel(subjectsMentors.SubjectMentors.ToList(), paginationFilter));
         }
 
         [HttpGet("by-group-subject/{id}")]

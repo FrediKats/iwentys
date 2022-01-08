@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Extensions;
+using Iwentys.Infrastructure.Application.Filters;
 using Iwentys.Modules.Study.Study.Dtos;
 using Iwentys.Modules.Study.Study.Queries;
 using MediatR;
@@ -21,10 +23,17 @@ namespace Iwentys.Modules.Study.Study
 
 
         [HttpGet(nameof(GetByCourseId))]
-        public async Task<ActionResult<List<GroupProfileResponseDto>>> GetByCourseId([FromQuery] int? courseId)
+        public async Task<ActionResult<List<GroupProfileResponseDto>>> GetByCourseId(
+            [FromQuery] int? courseId,
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             GetStudyGroupByCourseId.Response response = await _mediator.Send(new GetStudyGroupByCourseId.Query(courseId));
-            return Ok(response.Groups);
+
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<GroupProfileResponseDto>
+                .ToIndexViewModel(response.Groups, paginationFilter));
         }
 
         [HttpGet(nameof(GetByGroupName))]

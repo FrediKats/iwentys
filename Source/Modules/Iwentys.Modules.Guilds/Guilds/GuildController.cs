@@ -36,6 +36,7 @@ namespace Iwentys.Modules.Guilds.Guilds
             return Ok(response.Guild);
         }
 
+        // TODO: Ask if it possible to make one pagination template 
         [HttpGet(nameof(GetRanked))]
         public async Task<ActionResult<List<GuildProfileDto>>> GetRanked([FromQuery] int skip = 0, [FromQuery] int take = 20)
         {

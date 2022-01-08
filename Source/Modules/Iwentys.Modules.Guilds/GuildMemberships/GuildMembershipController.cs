@@ -2,6 +2,8 @@
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Extensions;
+using Iwentys.Infrastructure.Application.Filters;
 using Iwentys.Modules.Guilds.GuildMemberships.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -44,19 +46,33 @@ namespace Iwentys.Modules.Guilds.GuildMemberships
         }
 
         [HttpGet(nameof(GetRequests))]
-        public async Task<ActionResult<GuildMember[]>> GetRequests(int guildId)
+        public async Task<ActionResult<GuildMember[]>> GetRequests(
+            [FromQuery] int guildId,
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             GetGuildRequests.Response response = await _mediator.Send(new GetGuildRequests.Query(user, guildId));
-            return Ok(response.GuildMembers);
+
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<GuildMember>
+                .ToIndexViewModel(response.GuildMembers, paginationFilter));
         }
 
         [HttpGet(nameof(GetBlocked))]
-        public async Task<ActionResult<GuildMember[]>> GetBlocked(int guildId)
+        public async Task<ActionResult<GuildMember[]>> GetBlocked(
+            [FromQuery] int guildId,
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             GetGuildBlocked.Response response = await _mediator.Send(new GetGuildBlocked.Query(user, guildId));
-            return Ok(response.GuildMembers);
+
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<GuildMember>
+                .ToIndexViewModel(response.GuildMembers, paginationFilter));
         }
 
         [HttpPut(nameof(BlockMember))]

@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Iwentys.Domain.Achievements.Dto;
 using Iwentys.Domain.Quests.Dto;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Extensions;
+using Iwentys.Infrastructure.Application.Filters;
 using Iwentys.Modules.Gamification.Quests.Dtos;
 using Iwentys.Modules.Gamification.Quests.Queries;
 using MediatR;
@@ -29,35 +32,59 @@ namespace Iwentys.Modules.Gamification.Quests
         }
 
         [HttpGet(nameof(GetCreatedByUser))]
-        public async Task<ActionResult<List<QuestInfoDto>>> GetCreatedByUser()
+        public async Task<ActionResult<List<QuestInfoDto>>> GetCreatedByUser(
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             GetCreatedByUser.Response response = await _mediator.Send(new GetCreatedByUser.Query(user));
-            return Ok(response.QuestInfos);
+
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<QuestInfoDto>
+                .ToIndexViewModel(response.QuestInfos, paginationFilter));
         }
 
         [HttpGet(nameof(GetCompletedByUser))]
-        public async Task<ActionResult<List<QuestInfoDto>>> GetCompletedByUser()
+        public async Task<ActionResult<List<QuestInfoDto>>> GetCompletedByUser(
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             GetCompletedByUser.Response response = await _mediator.Send(new GetCompletedByUser.Query(user));
-            return Ok(response.QuestInfos);
+
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<QuestInfoDto>
+                .ToIndexViewModel(response.QuestInfos, paginationFilter));
         }
 
         [HttpGet(nameof(GetActive))]
-        public async Task<ActionResult<List<QuestInfoDto>>> GetActive()
+        public async Task<ActionResult<List<QuestInfoDto>>> GetActive(
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             GetActive.Response response = await _mediator.Send(new GetActive.Query(user));
-            return Ok(response.QuestInfos);
+
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<QuestInfoDto>
+                .ToIndexViewModel(response.QuestInfos, paginationFilter));
         }
 
         [HttpGet(nameof(GetArchived))]
-        public async Task<ActionResult<List<QuestInfoDto>>> GetArchived()
+        public async Task<ActionResult<List<QuestInfoDto>>> GetArchived(
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             GetArchived.Response response = await _mediator.Send(new GetArchived.Query(user));
-            return Ok(response.QuestInfos);
+
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<QuestInfoDto>
+                .ToIndexViewModel(response.QuestInfos, paginationFilter));
         }
 
         [HttpPost(nameof(Create))]
@@ -93,11 +120,17 @@ namespace Iwentys.Modules.Gamification.Quests
         }
 
         [HttpGet(nameof(GetQuestExecutorRating))]
-        public async Task<ActionResult<List<QuestRatingRow>>> GetQuestExecutorRating()
+        public async Task<ActionResult<List<QuestRatingRow>>> GetQuestExecutorRating(
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             GetQuestExecutorRating.Response response = await _mediator.Send(new GetQuestExecutorRating.Query(user));
-            return Ok(response.QuestRatingRows);
+
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<QuestRatingRow>
+                .ToIndexViewModel(response.QuestRatingRows, paginationFilter));
         }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Guilds.Models;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Extensions;
+using Iwentys.Infrastructure.Application.Filters;
 using Iwentys.Modules.Guilds.GuildTestTasks.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -20,10 +23,17 @@ namespace Iwentys.Modules.Guilds.GuildTestTasks
         }
 
         [HttpGet(nameof(GetByGuildId))]
-        public async Task<ActionResult<List<GuildTestTaskInfoResponse>>> GetByGuildId([FromQuery] int guildId)
+        public async Task<ActionResult<List<GuildTestTaskInfoResponse>>> GetByGuildId(
+            [FromQuery] int guildId,
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             GetGuildTestTaskSubmits.Response response = await _mediator.Send(new GetGuildTestTaskSubmits.Query(guildId));
-            return Ok(response.Submits);
+
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<GuildTestTaskInfoResponse>
+                .ToIndexViewModel(response.Submits, paginationFilter));
         }
 
         [HttpPut(nameof(Accept))]

@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.PeerReview.Dto;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Extensions;
+using Iwentys.Infrastructure.Application.Filters;
 using Iwentys.Modules.PeerReview.Dtos;
 using Iwentys.Modules.PeerReview.Queries;
 using MediatR;
@@ -21,21 +23,32 @@ namespace Iwentys.Modules.PeerReview
             _mediator = mediator;
         }
 
-
         [HttpGet(nameof(GetProjectReviewRequests))]
-        public async Task<ActionResult<List<ProjectReviewRequestInfoDto>>> GetProjectReviewRequests()
+        public async Task<ActionResult<List<ProjectReviewRequestInfoDto>>> GetProjectReviewRequests(
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             GetProjectReviewRequests.Response response = await _mediator.Send(new GetProjectReviewRequests.Query(authorizedUser));
-            return Ok(response.Requests);
+
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<ProjectReviewRequestInfoDto>
+                .ToIndexViewModel(response.Requests, paginationFilter));
         }
 
         [HttpGet(nameof(GetAvailableForReviewProject))]
-        public async Task<ActionResult<List<GithubRepositoryInfoDto>>> GetAvailableForReviewProject()
+        public async Task<ActionResult<List<GithubRepositoryInfoDto>>> GetAvailableForReviewProject(
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             GetAvailableForReviewProject.Response response = await _mediator.Send(new GetAvailableForReviewProject.Query(authorizedUser));
-            return Ok(response.Result);
+
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<GithubRepositoryInfoDto>
+                .ToIndexViewModel(response.Result, paginationFilter));
         }
 
         [HttpPost(nameof(CreateReviewRequest))]

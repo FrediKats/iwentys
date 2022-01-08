@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.Guilds.Models;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Extensions;
+using Iwentys.Infrastructure.Application.Filters;
 using Iwentys.Modules.Guilds.Dtos;
 using Iwentys.Modules.Guilds.Tournaments.Queries;
 using MediatR;
@@ -21,11 +23,17 @@ namespace Iwentys.Modules.Guilds.Tournaments
         }
 
         [HttpGet(nameof(Get))]
-        public async Task<ActionResult<List<TournamentInfoResponse>>> Get()
+        public async Task<ActionResult<List<TournamentInfoResponse>>> Get(
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             GetTournaments.Response response = await _mediator.Send(new GetTournaments.Query(user));
-            return Ok(response.Tournaments);
+
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<TournamentInfoResponse>
+                .ToIndexViewModel(response.Tournaments, paginationFilter));
         }
 
         [HttpGet(nameof(GetById))]

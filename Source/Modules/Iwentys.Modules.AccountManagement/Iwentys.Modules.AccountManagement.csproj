@@ -8,4 +8,8 @@
     <ProjectReference Include="..\..\Infrastructure\Iwentys.Infrastructure.Application\Iwentys.Infrastructure.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dtos\Extensions" />
+  </ItemGroup>
+
 </Project>

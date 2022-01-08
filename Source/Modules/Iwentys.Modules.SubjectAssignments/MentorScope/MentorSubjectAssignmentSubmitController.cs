@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.SubjectAssignments.Models;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Extensions;
+using Iwentys.Infrastructure.Application.Filters;
 using Iwentys.Modules.SubjectAssignments.Dtos;
 using Iwentys.Modules.SubjectAssignments.MentorScope.Queries;
 using Iwentys.Modules.SubjectAssignments.StudentScope.Queries;
@@ -22,11 +24,18 @@ namespace Iwentys.Modules.SubjectAssignments.MentorScope
         }
 
         [HttpPost(nameof(SearchSubjectAssignmentSubmits))]
-        public async Task<ActionResult<List<SubjectAssignmentSubmitDto>>> SearchSubjectAssignmentSubmits(SubjectAssignmentSubmitSearchArguments arguments)
+        public async Task<ActionResult<List<SubjectAssignmentSubmitDto>>> SearchSubjectAssignmentSubmits(
+            [FromQuery] SubjectAssignmentSubmitSearchArguments arguments,
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             AuthorizedUser authorizedUser = this.TryAuthWithToken();
             SearchSubjectAssignmentSubmits.Response response = await _mediator.Send(new SearchSubjectAssignmentSubmits.Query(arguments, authorizedUser));
-            return Ok(response.Submits);
+
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<SubjectAssignmentSubmitDto>
+                .ToIndexViewModel(response.Submits, paginationFilter));
         }
 
         [HttpGet(nameof(GetById))]

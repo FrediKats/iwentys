@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Iwentys.Domain.Guilds.Models;
 using Iwentys.Domain.PeerReview.Dto;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Extensions;
+using Iwentys.Infrastructure.Application.Filters;
 using Iwentys.Modules.Guilds.Dtos;
 using Iwentys.Modules.Guilds.GuildTributes.Queries;
 using MediatR;
@@ -30,27 +32,46 @@ namespace Iwentys.Modules.Guilds.GuildTributes
         }
 
         [HttpGet(nameof(GetPendingTributes))]
-        public async Task<ActionResult<List<TributeInfoResponse>>> GetPendingTributes()
+        public async Task<ActionResult<List<TributeInfoResponse>>> GetPendingTributes(
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             GetPendingTributes.Response response = await _mediator.Send(new GetPendingTributes.Query(user));
-            return Ok(response.Tributes);
+
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<TributeInfoResponse>
+                .ToIndexViewModel(response.Tributes, paginationFilter));
         }
 
         [HttpGet(nameof(GetStudentTributeResult))]
-        public async Task<ActionResult<List<TributeInfoResponse>>> GetStudentTributeResult()
+        public async Task<ActionResult<List<TributeInfoResponse>>> GetStudentTributeResult(
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             GetStudentTributeResult.Response response = await _mediator.Send(new GetStudentTributeResult.Query(user));
-            return Ok(response.Tributes);
+
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<TributeInfoResponse>
+                .ToIndexViewModel(response.Tributes, paginationFilter));
         }
 
         [HttpGet(nameof(GetByGuildId))]
-        public async Task<ActionResult<List<TributeInfoResponse>>> GetByGuildId(int guildId)
+        public async Task<ActionResult<List<TributeInfoResponse>>> GetByGuildId(
+            [FromQuery ]int guildId,
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             GetGuildTributes.Response response = await _mediator.Send(new GetGuildTributes.Query(user, guildId));
-            return Ok(response.Tribute);
+
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<TributeInfoResponse>
+                .ToIndexViewModel(response.Tribute, paginationFilter));
         }
 
         [HttpPost(nameof(Create))]

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Iwentys.Infrastructure.Application.Extensions;
+using Iwentys.Infrastructure.Application.Filters;
 using Iwentys.Modules.Companies.Dtos;
 using Iwentys.Modules.Companies.Queries;
 using MediatR;
@@ -19,10 +21,16 @@ namespace Iwentys.Modules.Companies
         }
 
         [HttpGet(nameof(Get))]
-        public async Task<ActionResult<List<CompanyInfoDto>>> Get()
+        public async Task<ActionResult<List<CompanyInfoDto>>> Get(
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             GetCompanies.Response response = await _mediator.Send(new GetCompanies.Query());
-            return Ok(response.Companies);
+
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<CompanyInfoDto>
+                .ToIndexViewModel(response.Companies, paginationFilter));
         }
 
         [HttpGet(nameof(GetById))]

@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Domain.Assignments.Models;
 using Iwentys.Infrastructure.Application;
+using Iwentys.Infrastructure.Application.Extensions;
+using Iwentys.Infrastructure.Application.Filters;
+using Iwentys.Modules.AccountManagement.StudentProfile.Dtos;
 using Iwentys.Modules.Assignments.Dtos;
 using Iwentys.Modules.Assignments.Queries;
 using MediatR;
@@ -21,11 +25,17 @@ namespace Iwentys.Modules.Assignments
         }
 
         [HttpGet(nameof(Get))]
-        public async Task<ActionResult<List<AssignmentInfoDto>>> Get()
+        public async Task<ActionResult<List<AssignmentInfoDto>>> Get(
+            [FromQuery] int takeAmount,
+            [FromQuery] int pageNumber)
         {
             AuthorizedUser user = this.TryAuthWithToken();
             GetStudentAssignment.Response response = await _mediator.Send(new GetStudentAssignment.Query(user));
-            return Ok(response.AssignmentInfos);
+            
+            var paginationFilter = new PaginationFilter(takeAmount, pageNumber);
+
+            return Ok(IndexViewModelExtensions<AssignmentInfoDto>
+                .ToIndexViewModel(response.AssignmentInfos, paginationFilter));
         }
 
         [HttpPost(nameof(Create))]
