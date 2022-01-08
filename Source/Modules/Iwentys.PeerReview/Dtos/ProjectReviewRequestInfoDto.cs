@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.PeerReview;
 
-namespace Iwentys.Modules.PeerReview.Dtos
+namespace Iwentys.PeerReview
 {
     public class ProjectReviewRequestInfoDto
     {

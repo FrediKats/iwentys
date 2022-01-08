@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Iwentys.AccountManagement;
 using Iwentys.Domain.Companies;
-using Iwentys.Modules.AccountManagement.Dtos;
 
-namespace Iwentys.Modules.Companies.Dtos
+namespace Iwentys.Companies
 {
     public record CompanyWorkRequestDto
     {

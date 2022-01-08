@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Domain.InterestTags;
-using Iwentys.Modules.AccountManagement.InterestTags.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Modules.AccountManagement.InterestTags
+namespace Iwentys.AccountManagement
 {
     [Route("api/InterestTag")]
     [ApiController]

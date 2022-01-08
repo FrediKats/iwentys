@@ -2,12 +2,10 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.Guilds;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Modules.Guilds.Dtos;
-using Iwentys.Modules.Guilds.Tournaments.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Modules.Guilds.Tournaments
+namespace Iwentys.Guilds
 {
     [Route("api/tournaments")]
     [ApiController]

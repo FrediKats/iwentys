@@ -8,11 +8,10 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.PeerReview;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.PeerReview.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.PeerReview.Queries
+namespace Iwentys.PeerReview
 {
     public class GetProjectReviewRequests
     {

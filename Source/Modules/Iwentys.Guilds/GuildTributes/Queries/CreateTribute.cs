@@ -8,11 +8,10 @@ using Iwentys.Domain.PeerReview;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.Guilds.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.Guilds.GuildTributes.Queries
+namespace Iwentys.Guilds
 {
     public class CreateTribute
     {

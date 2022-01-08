@@ -10,7 +10,7 @@ using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.Assignments.Queries
+namespace Iwentys.Assignments
 {
     public static class DeleteAssignment
     {

@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using Iwentys.Domain.Study;
 
-namespace Iwentys.Modules.Study.Study.Dtos
+namespace Iwentys.Study
 {
     public class StudyCourseInfoDto
     {

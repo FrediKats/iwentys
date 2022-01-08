@@ -1,8 +1,8 @@
 ﻿using System;
+using Iwentys.AccountManagement;
 using Iwentys.Domain.Quests;
-using Iwentys.Modules.AccountManagement.Dtos;
 
-namespace Iwentys.Modules.Gamification.Quests.Dtos
+namespace Iwentys.Gamification
 {
     public class QuestResponseInfoDto
     {

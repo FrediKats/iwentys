@@ -2,11 +2,8 @@
 using AutoMapper;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
-using Iwentys.Modules.AccountManagement.Dtos;
-using Iwentys.Modules.AccountManagement.Dtos.Mentors;
-using Iwentys.Modules.AccountManagement.StudentProfile.Dtos;
 
-namespace Iwentys.Modules.AccountManagement
+namespace Iwentys.AccountManagement
 {
     public class AccountManagementMappingProfile : Profile
     {

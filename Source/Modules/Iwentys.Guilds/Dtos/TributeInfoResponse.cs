@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Iwentys.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Study;
-using Iwentys.Modules.AccountManagement.Dtos;
 
-namespace Iwentys.Modules.Guilds.Dtos
+namespace Iwentys.Guilds
 {
     public class TributeInfoResponse
     {

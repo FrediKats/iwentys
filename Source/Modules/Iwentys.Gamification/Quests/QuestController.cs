@@ -2,12 +2,10 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.Quests;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Modules.Gamification.Quests.Dtos;
-using Iwentys.Modules.Gamification.Quests.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Modules.Gamification.Quests
+namespace Iwentys.Gamification
 {
     [Route("api/quests")]
     [ApiController]

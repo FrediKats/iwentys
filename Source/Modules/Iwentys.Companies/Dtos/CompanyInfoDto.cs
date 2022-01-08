@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Iwentys.AccountManagement;
 using Iwentys.Common;
 using Iwentys.Domain.Companies;
-using Iwentys.Modules.AccountManagement.Dtos;
 
-namespace Iwentys.Modules.Companies.Dtos
+namespace Iwentys.Companies
 {
     public record CompanyInfoDto
     {

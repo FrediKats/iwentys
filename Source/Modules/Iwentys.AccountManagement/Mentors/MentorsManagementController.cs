@@ -2,13 +2,10 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Modules.AccountManagement.Dtos.Mentors;
-using Iwentys.Modules.AccountManagement.Mentors.Commands;
-using Iwentys.Modules.AccountManagement.Mentors.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Modules.AccountManagement.Mentors
+namespace Iwentys.AccountManagement
 {
     [Route("api/account-management/mentors")]
     [ApiController]

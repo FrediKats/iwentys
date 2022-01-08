@@ -7,7 +7,7 @@ using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.AccountManagement.InterestTags.Queries
+namespace Iwentys.AccountManagement
 {
     public class GetAllTags
     {

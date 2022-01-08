@@ -4,7 +4,7 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.Guilds
+namespace Iwentys.Guilds
 {
     public class GuildRepository
     {

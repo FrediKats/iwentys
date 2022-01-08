@@ -2,7 +2,7 @@
 using Iwentys.Domain.Guilds;
 using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
 
-namespace Iwentys.Modules.Guilds
+namespace Iwentys.Guilds
 {
     public static class TournamentDomainHelper
     {

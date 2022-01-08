@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Iwentys.Modules.AccountManagement.Dtos.Mentors
+namespace Iwentys.AccountManagement
 {
     public record SubjectMentorsDto
     {

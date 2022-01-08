@@ -2,16 +2,15 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Iwentys.AccountManagement;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Quests;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.AccountManagement.Dtos;
-using Iwentys.Modules.Gamification.Quests.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.Gamification.Quests.Queries
+namespace Iwentys.Gamification
 {
     public static class GetQuestExecutorRating
     {

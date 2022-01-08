@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Iwentys.AccountManagement;
 using Iwentys.Domain.SubjectAssignments;
-using Iwentys.Modules.AccountManagement.Dtos;
 
-namespace Iwentys.Modules.SubjectAssignments.Dtos
+namespace Iwentys.SubjectAssignments
 {
     public class SubjectAssignmentDto
     {

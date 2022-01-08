@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace Iwentys.Modules.Study
+namespace Iwentys.Study
 {
     public class StudyMappingProfile : Profile
     {

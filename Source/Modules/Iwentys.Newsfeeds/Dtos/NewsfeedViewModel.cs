@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Iwentys.AccountManagement;
 using Iwentys.Domain.Newsfeeds;
-using Iwentys.Modules.AccountManagement.Dtos;
 
-namespace Iwentys.Modules.Newsfeeds.Dtos
+namespace Iwentys.Newsfeeds
 {
     public class NewsfeedViewModel
     {

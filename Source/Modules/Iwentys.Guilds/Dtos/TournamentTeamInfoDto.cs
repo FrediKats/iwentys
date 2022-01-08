@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Domain.Guilds;
 
-namespace Iwentys.Modules.Guilds.Dtos
+namespace Iwentys.Guilds
 {
     public class TournamentTeamInfoDto
     {

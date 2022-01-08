@@ -4,7 +4,7 @@ using Iwentys.Domain.Achievements;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Modules.Gamification.Achievements.Queries
+namespace Iwentys.Gamification
 {
     public class GetByGuildId
     {

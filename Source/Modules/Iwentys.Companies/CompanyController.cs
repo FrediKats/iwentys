@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Modules.Companies.Dtos;
-using Iwentys.Modules.Companies.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Modules.Companies
+namespace Iwentys.Companies
 {
     [Route("api/companies")]
     [ApiController]

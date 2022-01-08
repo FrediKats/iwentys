@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Iwentys.Domain.Guilds;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.Guilds
+namespace Iwentys.Guilds
 {
     public static class GuildRepositoryExtensions
     {

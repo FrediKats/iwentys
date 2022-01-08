@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using Iwentys.Domain.PeerReview;
-using Iwentys.Modules.PeerReview.Dtos;
 
-namespace Iwentys.Modules.PeerReview
+namespace Iwentys.PeerReview
 {
     public class PeerReviewMappingProfile : Profile
     {

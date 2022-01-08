@@ -7,11 +7,10 @@ using Iwentys.Common;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.AccountManagement.Dtos.Mentors;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.AccountManagement.Mentors.Queries
+namespace Iwentys.AccountManagement
 {
     public class GetAllSubjectsMentors
     {

@@ -6,7 +6,7 @@ using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Modules.Gamification.Karmas.Queries
+namespace Iwentys.Gamification
 {
     public static class SendKarma
     {

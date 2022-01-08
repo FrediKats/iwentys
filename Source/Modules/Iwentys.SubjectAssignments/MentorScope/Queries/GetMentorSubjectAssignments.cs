@@ -8,11 +8,10 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.SubjectAssignments.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.SubjectAssignments.MentorScope.Queries
+namespace Iwentys.SubjectAssignments
 {
     public class GetMentorSubjectAssignments
     {

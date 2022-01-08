@@ -1,9 +1,8 @@
-﻿using Iwentys.Modules.SubjectAssignments.MentorScope;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Modules.SubjectAssignments
+namespace Iwentys.SubjectAssignments
 {
     public static class ServiceCollectionExtensions
     {

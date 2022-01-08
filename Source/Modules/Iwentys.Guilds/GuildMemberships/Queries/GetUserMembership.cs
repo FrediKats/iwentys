@@ -7,7 +7,7 @@ using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Modules.Guilds.GuildMemberships.Queries
+namespace Iwentys.Guilds
 {
     public class GetUserMembership
     {

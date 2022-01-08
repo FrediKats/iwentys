@@ -7,12 +7,10 @@ using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.SubjectAssignments.Dtos;
-using Iwentys.Modules.SubjectAssignments.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.SubjectAssignments.MentorScope.Queries
+namespace Iwentys.SubjectAssignments
 {
     public static class SearchSubjectAssignmentSubmits
     {

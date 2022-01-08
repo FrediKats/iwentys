@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Domain.Guilds;
 
-namespace Iwentys.Modules.Guilds.Dtos
+namespace Iwentys.Guilds
 {
     public class TournamentInfoResponse
     {

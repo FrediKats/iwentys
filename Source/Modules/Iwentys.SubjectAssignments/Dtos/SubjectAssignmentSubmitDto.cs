@@ -1,8 +1,8 @@
 ﻿using System;
+using Iwentys.AccountManagement;
 using Iwentys.Domain.SubjectAssignments;
-using Iwentys.Modules.AccountManagement.StudentProfile.Dtos;
 
-namespace Iwentys.Modules.SubjectAssignments.Dtos
+namespace Iwentys.SubjectAssignments
 {
     public class SubjectAssignmentSubmitDto
     {

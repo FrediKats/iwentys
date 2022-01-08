@@ -3,11 +3,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.SubjectAssignments.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.SubjectAssignments.StudentScope.Queries
+namespace Iwentys.SubjectAssignments
 {
     public class GetSubjectAssignmentSubmit
     {

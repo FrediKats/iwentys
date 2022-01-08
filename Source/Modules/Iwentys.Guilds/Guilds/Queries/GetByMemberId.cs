@@ -2,10 +2,9 @@
 using System.Threading.Tasks;
 using Iwentys.Common;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.Guilds.Dtos;
 using MediatR;
 
-namespace Iwentys.Modules.Guilds.Guilds.Queries
+namespace Iwentys.Guilds
 {
     public class GetByMemberId
     {

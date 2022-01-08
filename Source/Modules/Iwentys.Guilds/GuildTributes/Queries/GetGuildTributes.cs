@@ -3,10 +3,9 @@ using System.Linq;
 using Iwentys.Domain.Guilds;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.Guilds.Dtos;
 using MediatR;
 
-namespace Iwentys.Modules.Guilds.GuildTributes.Queries
+namespace Iwentys.Guilds
 {
     public class GetGuildTributes
     {

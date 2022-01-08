@@ -1,9 +1,8 @@
-﻿using Iwentys.Modules.Study.Study;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Modules.Study
+namespace Iwentys.Study
 {
     public static class ServiceCollectionExtensions
     {

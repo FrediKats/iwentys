@@ -4,7 +4,7 @@ using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Modules.Guilds.Tournaments.Queries
+namespace Iwentys.Guilds
 {
     public static class RegisterToTournament
     {

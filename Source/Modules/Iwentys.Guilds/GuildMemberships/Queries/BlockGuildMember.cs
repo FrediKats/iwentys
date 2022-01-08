@@ -4,10 +4,9 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.Guilds;
 using MediatR;
 
-namespace Iwentys.Modules.Guilds.GuildMemberships.Queries
+namespace Iwentys.Guilds
 {
     public class BlockGuildMember
     {

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Modules.PeerReview
+namespace Iwentys.PeerReview
 {
     public static class ServiceCollectionExtensions
     {

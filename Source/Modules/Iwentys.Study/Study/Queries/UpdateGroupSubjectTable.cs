@@ -3,11 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Common;
 using Iwentys.Domain.Study;
+using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.Study.Study.Dtos;
 using MediatR;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Study
+namespace Iwentys.Study
 {
     public class UpdateGroupSubjectTable
     {

@@ -1,11 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Domain.Guilds;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Modules.Guilds.GuildMemberships.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Modules.Guilds.GuildMemberships
+namespace Iwentys.Guilds
 {
     [Route("api/GuildMembership")]
     [ApiController]

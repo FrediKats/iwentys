@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Iwentys.AccountManagement;
 using Iwentys.Domain.Study;
-using Iwentys.Modules.AccountManagement.StudentProfile.Dtos;
 
-namespace Iwentys.Modules.Gamification.Leaderboard.Dtos
+namespace Iwentys.Gamification
 {
     public record StudyLeaderboardRowDto
     {

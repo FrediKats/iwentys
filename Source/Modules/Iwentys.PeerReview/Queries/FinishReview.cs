@@ -6,7 +6,7 @@ using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Modules.PeerReview.Queries
+namespace Iwentys.PeerReview
 {
     public class FinishReview
     {

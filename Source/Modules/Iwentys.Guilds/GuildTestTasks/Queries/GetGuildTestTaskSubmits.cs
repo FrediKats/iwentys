@@ -5,7 +5,7 @@ using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.Guilds.GuildTestTasks.Queries
+namespace Iwentys.Guilds
 {
     public static class GetGuildTestTaskSubmits
     {

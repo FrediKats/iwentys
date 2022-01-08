@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments;
-using Iwentys.Modules.SubjectAssignments.Dtos;
 
-namespace Iwentys.Modules.SubjectAssignments
+namespace Iwentys.SubjectAssignments
 {
     public class SubjectAssignmentMappingProfile : Profile
     {

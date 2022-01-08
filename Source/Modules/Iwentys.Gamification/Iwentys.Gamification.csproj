@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Iwentys.Gamification.csproj.DotSettings" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\WebService\Iwentys.WebService.Application\Iwentys.WebService.Application.csproj" />
     <ProjectReference Include="..\Iwentys.AccountManagement\Iwentys.AccountManagement.csproj" />
   </ItemGroup>

@@ -3,11 +3,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.Companies.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.Companies.Queries
+namespace Iwentys.Companies
 {
     public static class GetCompanies
     {

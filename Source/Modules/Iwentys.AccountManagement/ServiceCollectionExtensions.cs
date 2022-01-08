@@ -1,9 +1,8 @@
-﻿using Iwentys.Modules.AccountManagement.StudentProfile;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Modules.AccountManagement
+namespace Iwentys.AccountManagement
 {
     public static class ServiceCollectionExtensions
     {

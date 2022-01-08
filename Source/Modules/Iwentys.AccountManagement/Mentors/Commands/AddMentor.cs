@@ -10,7 +10,7 @@ using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.AccountManagement.Mentors.Commands
+namespace Iwentys.AccountManagement
 {
     public class AddMentor
     {

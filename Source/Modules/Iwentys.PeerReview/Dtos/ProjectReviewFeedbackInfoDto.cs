@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Iwentys.AccountManagement;
 using Iwentys.Domain.PeerReview;
-using Iwentys.Modules.AccountManagement.Dtos;
 
-namespace Iwentys.Modules.PeerReview.Dtos
+namespace Iwentys.PeerReview
 {
     public class ProjectReviewFeedbackInfoDto
     {

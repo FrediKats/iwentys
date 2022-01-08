@@ -1,6 +1,6 @@
 ﻿using Iwentys.Domain.Guilds;
 
-namespace Iwentys.Modules.Guilds.Dtos
+namespace Iwentys.Guilds
 {
     public class GuildProfileShortInfoDto
     {

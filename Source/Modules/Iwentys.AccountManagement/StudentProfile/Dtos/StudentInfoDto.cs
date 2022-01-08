@@ -1,7 +1,6 @@
 ﻿using Iwentys.Domain.Study;
-using Iwentys.Modules.AccountManagement.Dtos;
 
-namespace Iwentys.Modules.AccountManagement.StudentProfile.Dtos
+namespace Iwentys.AccountManagement
 {
     public class StudentInfoDto : IwentysUserInfoDto
     {

@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Infrastructure.Application.Controllers.Study;
-using Iwentys.Modules.Study.Study.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Modules.Study.Study
+namespace Iwentys.Study
 {
     [Route("api/[controller]")]
     [ApiController]

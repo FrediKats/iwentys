@@ -6,7 +6,7 @@ using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Modules.Guilds.Tournaments.Queries
+namespace Iwentys.Guilds
 {
     public static class ForceTournamentResultUpdate
     {

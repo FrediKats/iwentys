@@ -6,11 +6,10 @@ using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.PeerReview;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.PeerReview.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Iwentys.Modules.PeerReview.Queries
+namespace Iwentys.PeerReview
 {
     public class CreateReviewRequest
     {

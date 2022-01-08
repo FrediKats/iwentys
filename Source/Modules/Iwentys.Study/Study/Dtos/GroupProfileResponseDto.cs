@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Iwentys.AccountManagement;
 using Iwentys.Domain.Study;
-using Iwentys.Modules.AccountManagement.StudentProfile.Dtos;
 
-namespace Iwentys.Modules.Study.Study.Dtos
+namespace Iwentys.Study
 {
     public record GroupProfileResponseDto
     {

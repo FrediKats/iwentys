@@ -6,7 +6,7 @@ using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Modules.SubjectAssignments.MentorScope.Queries
+namespace Iwentys.SubjectAssignments
 {
     public static class SendSubmitFeedback
     {

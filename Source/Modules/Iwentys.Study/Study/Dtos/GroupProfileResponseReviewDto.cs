@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using Iwentys.Domain.Study;
 
-namespace Iwentys.Infrastructure.Application.Controllers.Study.Dtos
+namespace Iwentys.Study
 {
     public record GroupProfileResponsePreviewDto
     {

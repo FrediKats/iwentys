@@ -6,11 +6,10 @@ using Iwentys.Domain.Newsfeeds;
 using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.Newsfeeds.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.Newsfeeds.Queries
+namespace Iwentys.Newsfeeds
 {
     public static class CreateSubjectNewsfeed
     {

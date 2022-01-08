@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Iwentys.Modules.Guilds.Dtos
+namespace Iwentys.Guilds
 {
     public record GuildMemberLeaderBoardDto
     {

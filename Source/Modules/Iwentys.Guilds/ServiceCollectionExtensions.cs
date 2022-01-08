@@ -1,9 +1,8 @@
-﻿using Iwentys.Modules.Guilds.Guilds;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Modules.Guilds
+namespace Iwentys.Guilds
 {
     public static class ServiceCollectionExtensions
     {

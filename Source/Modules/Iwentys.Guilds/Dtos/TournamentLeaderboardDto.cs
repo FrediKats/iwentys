@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Domain.Guilds;
 
-namespace Iwentys.Modules.Guilds.Dtos
+namespace Iwentys.Guilds
 {
     public class TournamentLeaderboardDto
     {

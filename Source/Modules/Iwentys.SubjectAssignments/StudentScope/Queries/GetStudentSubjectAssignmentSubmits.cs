@@ -5,12 +5,10 @@ using System.Threading.Tasks;
 using Iwentys.Domain.SubjectAssignments;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.SubjectAssignments.Dtos;
-using Iwentys.Modules.SubjectAssignments.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.SubjectAssignments.StudentScope.Queries
+namespace Iwentys.SubjectAssignments
 {
     public static class GetStudentSubjectAssignmentSubmits
     {

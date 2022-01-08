@@ -2,7 +2,7 @@
 using Iwentys.Domain.SubjectAssignments;
 using Iwentys.Infrastructure.DataAccess;
 
-namespace Iwentys.Modules.SubjectAssignments.Repositories
+namespace Iwentys.SubjectAssignments
 {
     public static class SubjectAssignmentSubmitRepository
     {

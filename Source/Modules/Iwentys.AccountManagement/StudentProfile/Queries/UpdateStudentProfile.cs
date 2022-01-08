@@ -8,7 +8,7 @@ using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.AccountManagement.StudentProfile.Queries
+namespace Iwentys.AccountManagement
 {
     public class UpdateStudentProfile
     {

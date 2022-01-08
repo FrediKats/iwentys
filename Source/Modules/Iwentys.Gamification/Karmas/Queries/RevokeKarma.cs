@@ -7,7 +7,7 @@ using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.Gamification.Karmas.Queries
+namespace Iwentys.Gamification
 {
     public static class RevokeKarma
     {

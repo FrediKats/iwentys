@@ -9,7 +9,7 @@ using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.PeerReview.Queries
+namespace Iwentys.PeerReview
 {
     public static class GetAvailableForReviewProject
     {

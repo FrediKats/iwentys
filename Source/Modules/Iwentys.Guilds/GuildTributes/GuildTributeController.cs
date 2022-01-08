@@ -3,12 +3,10 @@ using System.Threading.Tasks;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.PeerReview;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Modules.Guilds.Dtos;
-using Iwentys.Modules.Guilds.GuildTributes.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Modules.Guilds.GuildTributes
+namespace Iwentys.Guilds
 {
     [Route("api/GuildTribute")]
     [ApiController]

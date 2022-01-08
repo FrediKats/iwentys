@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Iwentys.AccountManagement;
 using Iwentys.Domain.Guilds;
-using Iwentys.Modules.AccountManagement.Dtos;
 
-namespace Iwentys.Modules.Guilds.Dtos
+namespace Iwentys.Guilds
 {
     public class GuildRecruitmentInfoDto
     {

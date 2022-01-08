@@ -2,12 +2,10 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.SubjectAssignments;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Modules.SubjectAssignments.Dtos;
-using Iwentys.Modules.SubjectAssignments.MentorScope.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Modules.SubjectAssignments.MentorScope
+namespace Iwentys.SubjectAssignments
 {
     [Route("api/subject-assignment/mentor")]
     [ApiController]

@@ -2,11 +2,10 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.AccountManagement.StudentProfile.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.AccountManagement.StudentProfile.Queries
+namespace Iwentys.AccountManagement
 {
     public class GetStudentById
     {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Iwentys.AccountManagement;
 using Iwentys.Domain.Assignments;
 using Iwentys.Domain.Study;
-using Iwentys.Modules.AccountManagement.Dtos;
 
-namespace Iwentys.Modules.Assignments.Dtos
+namespace Iwentys.Assignments
 {
     public record AssignmentInfoDto
     {

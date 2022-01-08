@@ -9,7 +9,7 @@ using Iwentys.Infrastructure.Application.Controllers.GithubIntegration;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Modules.Guilds.GuildTestTasks.Queries
+namespace Iwentys.Guilds
 {
     public static class SubmitGuildTestTask
     {

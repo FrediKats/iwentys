@@ -6,11 +6,10 @@ using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.Application.Repositories;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.Gamification.Leaderboard.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.Gamification.Leaderboard.Queries
+namespace Iwentys.Gamification
 {
     public static class CourseRatingForceRefresh
     {

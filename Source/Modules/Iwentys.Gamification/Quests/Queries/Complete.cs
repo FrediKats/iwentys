@@ -7,11 +7,10 @@ using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Quests;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.Gamification.Quests.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.Gamification.Quests.Queries
+namespace Iwentys.Gamification
 {
     public class Complete
     {

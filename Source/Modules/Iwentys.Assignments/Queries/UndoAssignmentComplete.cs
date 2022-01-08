@@ -6,7 +6,7 @@ using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Modules.Assignments.Queries
+namespace Iwentys.Assignments
 {
     public static class UndoAssignmentComplete
     {

@@ -6,7 +6,7 @@ using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Modules.Study.Study.Queries
+namespace Iwentys.Study
 {
     public class MakeGroupAdmin
     {

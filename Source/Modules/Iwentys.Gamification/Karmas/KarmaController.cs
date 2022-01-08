@@ -1,10 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Modules.Gamification.Karmas.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Modules.Gamification.Karmas
+namespace Iwentys.Gamification
 {
     [Route("api/karma")]
     [ApiController]

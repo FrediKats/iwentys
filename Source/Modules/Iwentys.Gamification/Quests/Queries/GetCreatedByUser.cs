@@ -4,11 +4,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.Gamification.Quests.Dtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Modules.Gamification.Quests.Queries
+namespace Iwentys.Gamification
 {
     public static class GetCreatedByUser
     {

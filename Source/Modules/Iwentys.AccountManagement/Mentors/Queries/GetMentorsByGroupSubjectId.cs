@@ -6,10 +6,9 @@ using Iwentys.Common;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
-using Iwentys.Modules.AccountManagement.Dtos.Mentors;
 using MediatR;
 
-namespace Iwentys.Modules.AccountManagement.Mentors.Queries
+namespace Iwentys.AccountManagement
 {
     public class GetMentorsByGroupSubjectId
     {

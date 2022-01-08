@@ -1,9 +1,8 @@
-﻿using Iwentys.Modules.Gamification.Quests;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Modules.Gamification
+namespace Iwentys.Gamification
 {
     public static class ServiceCollectionExtensions
     {

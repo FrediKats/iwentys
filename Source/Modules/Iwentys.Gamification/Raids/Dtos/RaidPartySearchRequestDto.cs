@@ -1,7 +1,7 @@
-﻿using Iwentys.Domain.Raids;
-using Iwentys.Modules.AccountManagement.Dtos;
+﻿using Iwentys.AccountManagement;
+using Iwentys.Domain.Raids;
 
-namespace Iwentys.Modules.Gamification.Raids.Dtos
+namespace Iwentys.Gamification
 {
     public class RaidPartySearchRequestDto
     {

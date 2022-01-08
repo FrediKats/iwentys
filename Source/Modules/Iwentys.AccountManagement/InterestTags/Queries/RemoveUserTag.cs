@@ -4,7 +4,7 @@ using Iwentys.Domain.InterestTags;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 
-namespace Iwentys.Modules.AccountManagement.InterestTags.Queries
+namespace Iwentys.AccountManagement
 {
     public class RemoveUserTag
     {

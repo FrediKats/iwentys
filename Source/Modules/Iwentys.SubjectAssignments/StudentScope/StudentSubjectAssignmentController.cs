@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Infrastructure.Application;
-using Iwentys.Modules.SubjectAssignments.Dtos;
-using Iwentys.Modules.SubjectAssignments.StudentScope.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Modules.SubjectAssignments.StudentScope
+namespace Iwentys.SubjectAssignments
 {
     [Route("api/subject-assignment/student")]
     [ApiController]

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
 using Iwentys.Domain.Study;
-using Iwentys.Infrastructure.Application.Controllers.Study.Dtos;
 
-namespace Iwentys.Modules.Study.Study.Dtos
+namespace Iwentys.Study
 {
     public class GroupSubjectInfoDto
     {
