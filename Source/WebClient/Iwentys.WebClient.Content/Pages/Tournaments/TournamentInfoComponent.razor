@@ -1,0 +1,26 @@
+﻿@inherits Iwentys.WebClient.Content.Shared.DependencyInjectionPage
+
+@using Iwentys.Sdk
+
+<div>
+    <MudCard Class="dark-elevation-02">
+        <MudCardContent>
+            <div class="card-list-element-content">
+                <MudText Typo="Typo.h6">
+                    @Tournament.Name
+                </MudText>
+                <MudText Typo="Typo.body2">
+                    @Tournament.Description
+                </MudText>
+            </div>
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton Link=@LinkToTournamentProfile(Tournament)>Open</MudButton>
+        </MudCardActions>
+    </MudCard>
+</div>
+
+@code {
+    [Parameter]
+    public TournamentInfoResponse Tournament { get; set; }
+}

@@ -1,0 +1,21 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.Extensions.Logging
+
+@using Iwentys.Endpoints.Sdk.Extensions
+@using Iwentys.Sdk
+@using Iwentys.WebClient.Content.Shared
+
+@using MudBlazor
+@using VxFormGenerator.Core
+
+@inject NavigationManager _navigationManager
+
+@inject StudentClient _studentClient
+@inject StudyGroupClient _studyGroupClient
+
+@inject MentorSubjectAssignmentClient _mentorSubjectAssignmentClient
+@inject MentorSubjectAssignmentSubmitClient _mentorSubjectAssignmentSubmitClient
+@inject StudentSubjectAssignmentClient _studentSubjectAssignmentClient
+@inject StudentSubjectAssignmentSubmitClient _studentSubjectAssignmentSubmitClient

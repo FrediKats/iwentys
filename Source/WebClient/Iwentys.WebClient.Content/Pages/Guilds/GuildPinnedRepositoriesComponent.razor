@@ -1,0 +1,35 @@
+﻿@namespace Iwentys.WebClient.Content.Pages.Guilds
+
+@inherits DependencyInjectionPage
+
+<div class="text-center">
+    <MudText Typo="Typo.h5">Репозитории</MudText>
+
+    <div class="container-fluid d-flex flex-column">
+        @foreach (GithubRepositoryInfoDto repository in GuildProfile.PinnedRepositories)
+        {
+
+            <MudNavLink class="d-flex flex-row justify-content-md-between">
+                <NavLink href=@repository.Url>
+                    <div class="col-md-10">
+                        <MudText Typo="Typo.body2">@repository.GithubLikeTitle()</MudText>
+
+                        <MudText Typo="Typo.body2">@repository.Description</MudText>
+                    </div>
+                </NavLink>
+
+                <MudButton OnClick=@(async () => await RemovePin(repository.Id)) class="col-md-2">X</MudButton>
+            </MudNavLink>
+        }
+    </div>
+
+    <MudButton Link=@LinkToPinCreating>Запинить</MudButton>
+</div>
+
+@code {
+
+    [Parameter]
+    public GuildProfileDto GuildProfile { get; set; }
+
+    private string LinkToPinCreating => $"guild/{GuildProfile.Id}/create-pinned";
+}

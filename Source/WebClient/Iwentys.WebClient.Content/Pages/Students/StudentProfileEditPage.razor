@@ -1,0 +1,20 @@
+﻿@page "/student/profile/edit"
+
+@inherits Iwentys.WebClient.Content.Shared.DependencyInjectionPage
+
+<div class="container-fluid d-flex flex-row">
+    <div class="col-md-6 d-flex flex-column dark-elevation-01">
+        <h5>Create assignment</h5>
+
+        <p>
+            <MudTextField @bind-Value="@_githubUsername" Label="Github" Class="input-element"></MudTextField>
+        </p>
+        
+        <MudButton OnClick="@(async () => await OnSave())" class="dark-elevation-04">Create</MudButton>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int? StudentId { get; set; }
+}

@@ -64,6 +64,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Domain", "Iwentys.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.WebService.AuthComponents", "WebService\Iwentys.WebService.AuthComponents\Iwentys.WebService.AuthComponents.csproj", "{2676CE31-3BFC-46CD-814F-3C842853E2AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.WebClient.Content", "WebClient\Iwentys.WebClient.Content\Iwentys.WebClient.Content.csproj", "{F4DA9CC0-9505-4EB1-8FAD-215A7F14B27D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -162,6 +164,10 @@ Global
 		{2676CE31-3BFC-46CD-814F-3C842853E2AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2676CE31-3BFC-46CD-814F-3C842853E2AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2676CE31-3BFC-46CD-814F-3C842853E2AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4DA9CC0-9505-4EB1-8FAD-215A7F14B27D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4DA9CC0-9505-4EB1-8FAD-215A7F14B27D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4DA9CC0-9505-4EB1-8FAD-215A7F14B27D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4DA9CC0-9505-4EB1-8FAD-215A7F14B27D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -186,6 +192,7 @@ Global
 		{3C52E2A1-928E-4260-B4E7-9741A9CE2EA8} = {BB936B68-A8B0-4747-8EAB-67A096AEA9AC}
 		{8C3A47AE-23E0-40BF-B5D6-A024638D9E7A} = {BB936B68-A8B0-4747-8EAB-67A096AEA9AC}
 		{2676CE31-3BFC-46CD-814F-3C842853E2AE} = {BB936B68-A8B0-4747-8EAB-67A096AEA9AC}
+		{F4DA9CC0-9505-4EB1-8FAD-215A7F14B27D} = {5529F3CB-3C30-4B64-B08E-48C8F3933481}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C699E386-11E7-4ABB-9AD6-C676F3CA2061}

@@ -1,0 +1,43 @@
+﻿@page "/guild/{GuildId:int}/tribute/{TributeId:int}/response"
+
+@inherits Iwentys.WebClient.Content.Shared.DependencyInjectionPage
+
+<h3>CreateTributeResponsePage</h3>
+
+<div class="container-fluid d-flex flex-row">
+
+    <div class="col-md-6 d-flex flex-column dark-elevation-01">
+        @if (_tribute is not null)
+        {
+            <h5>Mark tribute</h5>
+            <p>
+                <MudText Typo="Typo.body2">@_tribute.Project.Name</MudText>
+                <MudText Typo="Typo.body2">@_tribute.Project.Description</MudText>
+                <MudText Typo="Typo.body2">@_tribute.Project.Url</MudText>
+            </p>
+            <div class="input-form-component">
+                <p>
+                    <MudTextField @bind-Value="@_comment" Label="Comment" Class="input-element" FullWidth="true"></MudTextField>
+                </p>
+
+                <p>
+                    <MudTextField @bind-Value="@_difficultLevel" Label="Difficult" Class="input-element" FullWidth="true"></MudTextField>
+                </p>
+
+                <p>
+                    <MudTextField @bind-Value="@_mark" Label="Mark" Class="input-element" FullWidth="true"></MudTextField>
+                </p>
+            </div>
+
+            <MudButton OnClick="@(async () => await CreateResponse())" class="dark-elevation-04">Create</MudButton>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int GuildId { get; set; }
+
+    [Parameter]
+    public int TributeId { get; set; }
+}
