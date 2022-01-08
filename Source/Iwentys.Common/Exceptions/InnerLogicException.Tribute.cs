@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
-using Iwentys.Common.ExceptionMessages;
 
-namespace Iwentys.Common.Exceptions
+namespace Iwentys.Common
 {
     public partial class InnerLogicException
     {

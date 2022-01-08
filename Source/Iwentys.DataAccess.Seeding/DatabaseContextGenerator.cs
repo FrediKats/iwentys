@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Iwentys.Common.Tools;
+using Iwentys.Common;
 using Iwentys.Infrastructure.DataAccess.Seeding.EntityGenerators;
 using Microsoft.EntityFrameworkCore;
 

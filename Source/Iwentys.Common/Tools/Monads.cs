@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Iwentys.Common.Tools
+namespace Iwentys.Common
 {
     public static class Monads
     {

@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Iwentys.Common.Exceptions;
+using Iwentys.Common;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds.Enums;
 

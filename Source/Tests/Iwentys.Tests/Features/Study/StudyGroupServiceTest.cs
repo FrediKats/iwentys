@@ -1,4 +1,4 @@
-﻿using Iwentys.Common.Exceptions;
+﻿using Iwentys.Common;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study;

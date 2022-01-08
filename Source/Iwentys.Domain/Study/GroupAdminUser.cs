@@ -1,4 +1,4 @@
-﻿using Iwentys.Common.Exceptions;
+﻿using Iwentys.Common;
 
 namespace Iwentys.Domain.Study
 {

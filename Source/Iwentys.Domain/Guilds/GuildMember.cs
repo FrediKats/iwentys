@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Iwentys.Common.Exceptions;
+using Iwentys.Common;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds.Enums;
 

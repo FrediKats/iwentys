@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Iwentys.Common.Exceptions;
+using Iwentys.Common;
 using Iwentys.Domain.Guilds;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;

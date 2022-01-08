@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Iwentys.Common.Exceptions;
+using Iwentys.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.DataAccess

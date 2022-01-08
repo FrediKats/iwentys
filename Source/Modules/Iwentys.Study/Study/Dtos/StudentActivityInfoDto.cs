@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Iwentys.Common.Tools;
+using Iwentys.Common;
 using Iwentys.Domain.Study;
 
 namespace Iwentys.Modules.Study.Study.Dtos

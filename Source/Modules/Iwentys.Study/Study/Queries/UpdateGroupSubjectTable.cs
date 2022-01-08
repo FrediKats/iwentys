@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Common.Exceptions;
+using Iwentys.Common;
 using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Modules.Study.Study.Dtos;

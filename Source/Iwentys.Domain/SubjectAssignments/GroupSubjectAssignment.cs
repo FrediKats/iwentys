@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Iwentys.Common.Exceptions;
+using Iwentys.Common;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments.Models;
 

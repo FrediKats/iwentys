@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Iwentys.Common.Exceptions
+namespace Iwentys.Common
 {
     public partial class InnerLogicException
     {
@@ -8,7 +8,7 @@ namespace Iwentys.Common.Exceptions
         {
             public static InnerLogicException GithubAlreadyUser(string githubUsername)
             {
-                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, ExceptionMessages.StudentExceptionMessages.GithubAlreadyUser, githubUsername));
+                return new InnerLogicException(string.Format(CultureInfo.InvariantCulture, StudentExceptionMessages.GithubAlreadyUser, githubUsername));
             }
         }
     }

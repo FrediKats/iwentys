@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json;
-using Iwentys.Common.Tools;
+using Iwentys.Common;
 
 namespace Iwentys.Domain.Study
 {

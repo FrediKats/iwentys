@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using Iwentys.Common.Exceptions;
+using Iwentys.Common;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.PeerReview;

@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Common.Exceptions;
+using Iwentys.Common;
 
 namespace Iwentys.Domain.AccountManagement
 {

@@ -1,4 +1,4 @@
-﻿using Iwentys.Common.Exceptions;
+﻿using Iwentys.Common;
 using Iwentys.Domain.AccountManagement;
 
 namespace Iwentys.Domain.Raids

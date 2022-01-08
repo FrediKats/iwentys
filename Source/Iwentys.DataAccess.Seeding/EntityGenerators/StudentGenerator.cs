@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Bogus;
-using Iwentys.Common.Tools;
+using Iwentys.Common;
 using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
 using Iwentys.Infrastructure.DataAccess.Seeding.Tools;

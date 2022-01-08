@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Common.Tools;
 using Iwentys.Domain.Study;
 using Iwentys.Modules.AccountManagement.StudentProfile.Dtos;
 

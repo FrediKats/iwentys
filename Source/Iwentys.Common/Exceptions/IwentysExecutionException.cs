@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Iwentys.Common.Exceptions
+namespace Iwentys.Common
 {
     [Serializable]
     public class IwentysExecutionException : IwentysException

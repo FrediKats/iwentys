@@ -8,10 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Iwentys.Common.ExceptionMessages {
-    using System;
-    
-    
+namespace Iwentys.Common {
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>

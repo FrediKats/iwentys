@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Common.Exceptions
+﻿namespace Iwentys.Common
 {
     public partial class InnerLogicException
     {
