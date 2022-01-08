@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Iwentys.Domain.GithubIntegration.Models
+namespace Iwentys.Domain.GithubIntegration
 {
     public class CodingActivityInfoResponse
     {

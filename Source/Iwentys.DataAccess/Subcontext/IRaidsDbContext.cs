@@ -1,5 +1,4 @@
 ﻿using Iwentys.Domain.Raids;
-using Iwentys.Domain.Raids.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.Infrastructure.DataAccess.Subcontext

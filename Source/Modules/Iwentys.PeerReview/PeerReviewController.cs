@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Domain.GithubIntegration.Models;
-using Iwentys.Domain.PeerReview.Dto;
+using Iwentys.Domain.GithubIntegration;
+using Iwentys.Domain.PeerReview;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Modules.PeerReview.Dtos;
 using Iwentys.Modules.PeerReview.Queries;

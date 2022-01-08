@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Iwentys.Domain.Guilds.Enums
+namespace Iwentys.Domain.Guilds
 {
     public enum GuildMemberType
     {

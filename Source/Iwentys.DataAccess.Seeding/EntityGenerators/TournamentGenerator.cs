@@ -4,7 +4,6 @@ using System.Linq;
 using Bogus;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
-using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 

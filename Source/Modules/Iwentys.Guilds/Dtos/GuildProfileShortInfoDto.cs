@@ -1,5 +1,4 @@
 ﻿using Iwentys.Domain.Guilds;
-using Iwentys.Domain.Guilds.Enums;
 
 namespace Iwentys.Modules.Guilds.Dtos
 {

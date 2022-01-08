@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
-using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;

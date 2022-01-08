@@ -1,7 +1,6 @@
 ﻿using System;
-using Iwentys.Domain.Guilds.Enums;
 
-namespace Iwentys.Domain.Guilds.Models
+namespace Iwentys.Domain.Guilds
 {
     public record ActiveTributeResponseDto
     {

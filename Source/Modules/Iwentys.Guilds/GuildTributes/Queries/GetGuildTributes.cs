@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Domain.Guilds.Enums;
+using Iwentys.Domain.Guilds;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Modules.Guilds.Dtos;

@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Text.Json.Serialization;
 
-namespace Iwentys.Domain.Achievements.Dto
+namespace Iwentys.Domain.Achievements
 {
     public class AchievementInfoDto
     {

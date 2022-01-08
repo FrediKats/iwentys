@@ -1,7 +1,7 @@
 ﻿using System;
 using Iwentys.Domain.AccountManagement;
 
-namespace Iwentys.Domain.Raids.Models
+namespace Iwentys.Domain.Raids
 {
     public class RaidPartySearchRequest
     {

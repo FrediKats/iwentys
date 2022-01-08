@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Domain.PeerReview.Dto
+﻿namespace Iwentys.Domain.PeerReview
 {
     public class ReviewRequestCreateArguments
     {

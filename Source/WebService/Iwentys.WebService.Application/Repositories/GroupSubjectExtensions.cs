@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Iwentys.Domain.Study;
-using Iwentys.Domain.Study.Models;
 using Iwentys.Infrastructure.DataAccess;
 
 namespace Iwentys.Infrastructure.Application.Repositories

@@ -1,6 +1,5 @@
 ﻿using System;
 using Iwentys.Domain.Guilds;
-using Iwentys.Domain.Newsfeeds.Dto;
 
 namespace Iwentys.Domain.Newsfeeds
 {

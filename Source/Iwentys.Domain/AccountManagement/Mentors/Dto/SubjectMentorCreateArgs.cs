@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Iwentys.Domain.AccountManagement.Mentors.Dto
+namespace Iwentys.Domain.AccountManagement
 {
     public class SubjectMentorCreateArgs
     {

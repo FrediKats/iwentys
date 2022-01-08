@@ -1,6 +1,5 @@
 ﻿using System;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Quests.Dto;
 
 namespace Iwentys.Domain.Quests
 {

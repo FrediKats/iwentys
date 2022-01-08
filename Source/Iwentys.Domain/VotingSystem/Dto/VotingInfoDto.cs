@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Iwentys.Domain.AccountManagement;
 
-namespace Iwentys.Domain.VotingSystem.Dto
+namespace Iwentys.Domain.VotingSystem
 {
     public class VotingInfoDto
     {

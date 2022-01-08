@@ -1,6 +1,4 @@
-﻿using Iwentys.Domain.Study.Enums;
-
-namespace Iwentys.Domain.Study.Models
+﻿namespace Iwentys.Domain.Study
 {
     public record StudySearchParametersDto
     {

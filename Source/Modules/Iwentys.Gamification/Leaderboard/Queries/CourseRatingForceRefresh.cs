@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Study;
-using Iwentys.Domain.Study.Models;
 using Iwentys.Infrastructure.Application.Repositories;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Modules.Gamification.Leaderboard.Dtos;

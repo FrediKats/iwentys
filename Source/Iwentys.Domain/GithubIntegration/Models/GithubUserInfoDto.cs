@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Domain.GithubIntegration.Models
+﻿namespace Iwentys.Domain.GithubIntegration
 {
     public record GithubUserInfoDto
     {

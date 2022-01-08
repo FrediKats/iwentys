@@ -1,6 +1,5 @@
-﻿using Iwentys.Domain.GithubIntegration.Models;
+﻿using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
-using Iwentys.Domain.Guilds.Enums;
 using Iwentys.Modules.AccountManagement.Dtos;
 
 namespace Iwentys.Modules.Guilds.Dtos

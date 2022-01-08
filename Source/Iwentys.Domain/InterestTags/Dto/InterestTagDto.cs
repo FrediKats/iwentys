@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace Iwentys.Domain.InterestTags.Dto
+namespace Iwentys.Domain.InterestTags
 {
     public class InterestTagDto
     {

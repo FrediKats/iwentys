@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using Iwentys.Domain.GithubIntegration;
-using Iwentys.Domain.GithubIntegration.Models;
 
 namespace Iwentys.Domain.Guilds
 {

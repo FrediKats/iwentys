@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Domain.Raids;
-using Iwentys.Domain.Raids.Models;
 using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Raids;
 using Microsoft.EntityFrameworkCore;

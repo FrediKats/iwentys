@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Domain.Guilds;
-using Iwentys.Domain.Guilds.Enums;
 
 namespace Iwentys.Modules.Guilds.Dtos
 {

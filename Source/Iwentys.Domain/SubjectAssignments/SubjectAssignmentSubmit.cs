@@ -1,8 +1,6 @@
 ﻿using System;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
-using Iwentys.Domain.SubjectAssignments.Enums;
-using Iwentys.Domain.SubjectAssignments.Models;
 
 namespace Iwentys.Domain.SubjectAssignments
 {

@@ -1,7 +1,6 @@
 ﻿using System;
 using Bogus;
 using Iwentys.Domain.Quests;
-using Iwentys.Domain.Quests.Dto;
 
 namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities
 {

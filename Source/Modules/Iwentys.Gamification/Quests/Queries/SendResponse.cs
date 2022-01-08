@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Quests;
-using Iwentys.Domain.Quests.Dto;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Modules.Gamification.Quests.Dtos;

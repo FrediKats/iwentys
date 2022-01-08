@@ -1,4 +1,4 @@
-﻿using Iwentys.Domain.Raids.Models;
+﻿using Iwentys.Domain.Raids;
 using Iwentys.Modules.AccountManagement.Dtos;
 
 namespace Iwentys.Modules.Gamification.Raids.Dtos

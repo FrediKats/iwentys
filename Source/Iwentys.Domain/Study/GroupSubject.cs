@@ -5,7 +5,6 @@ using System.Text.Json;
 using FluentResults;
 using Iwentys.Common;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Study.Enums;
 
 namespace Iwentys.Domain.Study
 {

@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Domain.Guilds.Models
+﻿namespace Iwentys.Domain.Guilds
 {
     public class TributeCompleteRequest
     {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Study.Enums;
 using Iwentys.Domain.SubjectAssignments;
 
 namespace Iwentys.Domain.Study

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Domain.Achievements.Dto;
+using Iwentys.Domain.Achievements;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 

@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Domain.GithubIntegration;
-using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 

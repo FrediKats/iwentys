@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Iwentys.Domain.VotingSystem.Dto
+namespace Iwentys.Domain.VotingSystem
 {
     public class VotingCreateDto
     {

@@ -13,7 +13,6 @@ using Iwentys.Domain.Newsfeeds;
 using Iwentys.Domain.PeerReview;
 using Iwentys.Domain.Quests;
 using Iwentys.Domain.Raids;
-using Iwentys.Domain.Raids.Models;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments;
 using Iwentys.Infrastructure.DataAccess.Subcontext;

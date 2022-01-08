@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Iwentys.Domain.GithubIntegration.Models;
+using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.Application.BackgroundServices;

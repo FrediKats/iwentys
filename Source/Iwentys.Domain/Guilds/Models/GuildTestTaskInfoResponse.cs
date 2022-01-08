@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Iwentys.Domain.Guilds.Enums;
 
-namespace Iwentys.Domain.Guilds.Models
+namespace Iwentys.Domain.Guilds
 {
     public class GuildTestTaskInfoResponse
     {

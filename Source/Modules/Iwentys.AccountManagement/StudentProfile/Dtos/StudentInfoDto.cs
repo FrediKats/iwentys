@@ -1,5 +1,4 @@
 ﻿using Iwentys.Domain.Study;
-using Iwentys.Domain.Study.Enums;
 using Iwentys.Modules.AccountManagement.Dtos;
 
 namespace Iwentys.Modules.AccountManagement.StudentProfile.Dtos

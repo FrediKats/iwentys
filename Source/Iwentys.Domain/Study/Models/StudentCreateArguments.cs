@@ -1,7 +1,6 @@
-﻿using Iwentys.Domain.AccountManagement.Dto;
-using Iwentys.Domain.Study.Enums;
+﻿using Iwentys.Domain.AccountManagement;
 
-namespace Iwentys.Domain.Study.Models
+namespace Iwentys.Domain.Study
 {
     public class StudentCreateArguments : IwentysUserCreateArguments
     {

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Common;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Guilds.Models;
 
 namespace Iwentys.Domain.Guilds
 {

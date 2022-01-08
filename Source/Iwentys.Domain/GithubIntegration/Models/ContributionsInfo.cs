@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iwentys.Domain.GithubIntegration.Models
+namespace Iwentys.Domain.GithubIntegration
 {
     public class ContributionsInfo
     {

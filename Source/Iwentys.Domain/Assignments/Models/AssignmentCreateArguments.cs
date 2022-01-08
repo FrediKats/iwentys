@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iwentys.Domain.Assignments.Models
+namespace Iwentys.Domain.Assignments
 {
     public record AssignmentCreateArguments
     {

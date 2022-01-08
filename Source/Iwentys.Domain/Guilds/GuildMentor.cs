@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Iwentys.Common;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Guilds.Enums;
 
 namespace Iwentys.Domain.Guilds
 {

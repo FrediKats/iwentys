@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Domain.Assignments.Enums
+﻿namespace Iwentys.Domain.Assignments
 {
     public enum AssignmentSubmitState
     {

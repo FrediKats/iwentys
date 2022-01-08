@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.SubjectAssignments;
-using Iwentys.Domain.SubjectAssignments.Models;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Modules.SubjectAssignments.Dtos;

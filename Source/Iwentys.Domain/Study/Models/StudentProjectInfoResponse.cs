@@ -1,6 +1,6 @@
 ﻿using Iwentys.Domain.GithubIntegration;
 
-namespace Iwentys.Domain.Study.Models
+namespace Iwentys.Domain.Study
 {
     public class StudentProjectInfoResponse
     {

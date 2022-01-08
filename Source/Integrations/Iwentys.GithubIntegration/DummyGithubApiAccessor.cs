@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Domain.GithubIntegration;
-using Iwentys.Domain.GithubIntegration.Models;
 
 namespace Iwentys.Integrations.GithubIntegration
 {

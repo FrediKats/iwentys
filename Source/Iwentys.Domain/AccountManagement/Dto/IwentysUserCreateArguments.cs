@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Domain.AccountManagement.Dto
+﻿namespace Iwentys.Domain.AccountManagement
 {
     public class IwentysUserCreateArguments : UniversitySystemUserCreateArguments
     {

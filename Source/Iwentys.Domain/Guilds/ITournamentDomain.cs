@@ -1,6 +1,4 @@
-﻿using Iwentys.Domain.Guilds.Models;
-
-namespace Iwentys.Domain.Guilds
+﻿namespace Iwentys.Domain.Guilds
 {
     public interface ITournamentDomain
     {

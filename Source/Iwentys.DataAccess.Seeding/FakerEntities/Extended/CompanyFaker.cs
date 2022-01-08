@@ -1,5 +1,5 @@
 ﻿using Bogus;
-using Iwentys.Domain.Companies.Dto;
+using Iwentys.Domain.Companies;
 
 namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Extended
 {

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.Common;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Quests.Dto;
 
 namespace Iwentys.Domain.Quests
 {

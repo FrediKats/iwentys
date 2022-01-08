@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.PeerReview;
-using Iwentys.Domain.PeerReview.Dto;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Modules.PeerReview.Dtos;

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Iwentys.Domain.SubjectAssignments.Models
+namespace Iwentys.Domain.SubjectAssignments
 {
     public class SubjectAssignmentSubmitCreateArguments
     {

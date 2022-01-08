@@ -6,8 +6,6 @@ using Iwentys.Common;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
-using Iwentys.Domain.Guilds.Enums;
-using Iwentys.Domain.PeerReview.Dto;
 
 namespace Iwentys.Domain.PeerReview
 {

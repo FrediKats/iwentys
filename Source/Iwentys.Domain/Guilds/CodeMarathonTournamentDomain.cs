@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Iwentys.Common;
 using Iwentys.Domain.GithubIntegration;
-using Iwentys.Domain.GithubIntegration.Models;
-using Iwentys.Domain.Guilds.Models;
 
 namespace Iwentys.Domain.Guilds
 {

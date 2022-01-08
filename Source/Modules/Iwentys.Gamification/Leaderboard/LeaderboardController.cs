@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Domain.Gamification;
-using Iwentys.Domain.Study.Enums;
+using Iwentys.Domain.Study;
 using Iwentys.Modules.Gamification.Leaderboard.Dtos;
 using Iwentys.Modules.Gamification.Leaderboard.Queries;
 using MediatR;

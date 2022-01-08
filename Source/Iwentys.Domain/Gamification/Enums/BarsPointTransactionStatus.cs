@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Domain.Gamification.Enums
+﻿namespace Iwentys.Domain.Gamification
 {
     public enum BarsPointTransactionStatus
     {

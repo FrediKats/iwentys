@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Iwentys.Domain.Guilds.Models;
+using Iwentys.Domain.Guilds;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

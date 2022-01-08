@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iwentys.Domain.Guilds.Models
+namespace Iwentys.Domain.Guilds
 {
     public class CreateTournamentArguments
     {

@@ -1,7 +1,6 @@
 ﻿using System;
 using Bogus;
 using Iwentys.Domain.Newsfeeds;
-using Iwentys.Domain.Newsfeeds.Dto;
 
 namespace Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities
 {

@@ -3,8 +3,6 @@ using System.Linq;
 using Bogus;
 using Iwentys.Common;
 using Iwentys.Domain.Study;
-using Iwentys.Domain.Study.Enums;
-using Iwentys.Domain.Study.Models;
 using Iwentys.Modules.Gamification.Leaderboard.Dtos;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;

@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments;
-using Iwentys.Domain.SubjectAssignments.Enums;
 using Iwentys.Infrastructure.DataAccess;
 
 namespace Iwentys.Modules.SubjectAssignments.Specifications

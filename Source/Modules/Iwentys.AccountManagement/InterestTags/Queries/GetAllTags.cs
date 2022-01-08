@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Common;
 using Iwentys.Domain.InterestTags;
-using Iwentys.Domain.InterestTags.Dto;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

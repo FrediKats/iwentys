@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iwentys.Common;
 using Iwentys.Domain.GithubIntegration;
-using Iwentys.Domain.GithubIntegration.Models;
 using Kysect.GithubActivityAnalyzer.ApiAccessor;
 using Kysect.GithubActivityAnalyzer.ApiAccessor.ApiResponses;
 using Octokit;
+using ContributionsInfo = Iwentys.Domain.GithubIntegration.ContributionsInfo;
+using YearActivityInfo = Iwentys.Domain.GithubIntegration.YearActivityInfo;
 
 namespace Iwentys.Integrations.GithubIntegration
 {
@@ -87,8 +88,8 @@ namespace Iwentys.Integrations.GithubIntegration
         {
             return new CodingActivityInfo()
             {
-                Years = new List<Domain.GithubIntegration.Models.YearActivityInfo>(),
-                Contributions = activity.Contributions.Select(x => new Domain.GithubIntegration.Models.ContributionsInfo(x.Date, x.Count)).ToList()
+                Years = new List<YearActivityInfo>(),
+                Contributions = activity.Contributions.Select(x => new ContributionsInfo(x.Date, x.Count)).ToList()
             };
         }
     }

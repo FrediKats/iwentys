@@ -4,7 +4,6 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Achievements;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Guilds;
-using Iwentys.Domain.Guilds.Models;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;

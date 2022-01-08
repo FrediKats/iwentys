@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Domain.Quests.Dto
+﻿namespace Iwentys.Domain.Quests
 {
     public class QuestCompleteArguments
     {

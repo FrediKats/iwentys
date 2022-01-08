@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Common;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Study.Models;
+using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;
 using MediatR;

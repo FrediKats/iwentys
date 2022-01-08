@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Domain.Assignments.Models;
+using Iwentys.Domain.Assignments;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Modules.Assignments.Dtos;
 using Iwentys.Modules.Assignments.Queries;

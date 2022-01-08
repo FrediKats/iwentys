@@ -1,5 +1,4 @@
 ﻿using System;
-using Iwentys.Domain.AccountManagement.Dto;
 
 namespace Iwentys.Domain.AccountManagement
 {

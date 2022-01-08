@@ -3,7 +3,6 @@ using System.Linq;
 using Iwentys.Common;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
-using Iwentys.Domain.Study.Enums;
 using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
 using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities.Study;
 using Iwentys.Infrastructure.DataAccess.Seeding.Tools;

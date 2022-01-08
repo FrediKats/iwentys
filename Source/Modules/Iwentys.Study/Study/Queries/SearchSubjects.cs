@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Iwentys.Domain.Study.Models;
+using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.Application.Repositories;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Modules.Study.Study.Dtos;

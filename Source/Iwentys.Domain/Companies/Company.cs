@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Common;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Companies.Dto;
 
 namespace Iwentys.Domain.Companies
 {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Domain.AccountManagement.Mentors.Dto;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Modules.AccountManagement.Dtos.Mentors;
 using Iwentys.Modules.AccountManagement.Mentors.Commands;

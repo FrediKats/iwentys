@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Common;
-using Iwentys.Domain.AccountManagement.Mentors.Dto;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;

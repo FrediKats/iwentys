@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Assignments.Models;
 using Iwentys.Domain.Study;
 
 namespace Iwentys.Domain.Assignments

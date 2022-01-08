@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Domain.Guilds.Models;
-using Iwentys.Domain.PeerReview.Dto;
+using Iwentys.Domain.Guilds;
+using Iwentys.Domain.PeerReview;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Modules.Guilds.Dtos;
 using Iwentys.Modules.Guilds.GuildTributes.Queries;

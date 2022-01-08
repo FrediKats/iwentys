@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Iwentys.Domain.GithubIntegration;
-using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
 using Iwentys.Infrastructure.DataAccess.Seeding.Tools;

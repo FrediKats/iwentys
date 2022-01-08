@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Domain.Companies.Dto
+﻿namespace Iwentys.Domain.Companies
 {
     public class CompanyCreateArguments
     {

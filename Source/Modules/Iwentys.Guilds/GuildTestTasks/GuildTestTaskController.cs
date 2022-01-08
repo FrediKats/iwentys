@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Domain.Guilds.Models;
+using Iwentys.Domain.Guilds;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Modules.Guilds.GuildTestTasks.Queries;
 using MediatR;

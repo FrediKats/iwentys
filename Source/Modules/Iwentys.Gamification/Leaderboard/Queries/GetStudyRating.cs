@@ -2,8 +2,6 @@
 using System.Linq;
 using Iwentys.Common;
 using Iwentys.Domain.Study;
-using Iwentys.Domain.Study.Enums;
-using Iwentys.Domain.Study.Models;
 using Iwentys.Infrastructure.Application.Repositories;
 using Iwentys.Infrastructure.DataAccess;
 using Iwentys.Modules.Gamification.Leaderboard.Dtos;

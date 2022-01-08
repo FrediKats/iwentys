@@ -1,8 +1,6 @@
 ﻿using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.GithubIntegration;
-using Iwentys.Domain.GithubIntegration.Models;
 using Iwentys.Domain.PeerReview;
-using Iwentys.Domain.PeerReview.Dto;
 using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;

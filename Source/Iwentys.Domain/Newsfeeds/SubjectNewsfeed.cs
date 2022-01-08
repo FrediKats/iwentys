@@ -1,6 +1,5 @@
 ﻿using System;
 using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Newsfeeds.Dto;
 using Iwentys.Domain.Study;
 
 namespace Iwentys.Domain.Newsfeeds

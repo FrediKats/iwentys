@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Iwentys.Domain.SubjectAssignments.Enums;
 
-namespace Iwentys.Domain.SubjectAssignments.Models
+namespace Iwentys.Domain.SubjectAssignments
 {
     public class SubjectAssignmentSubmitFeedbackArguments
     {

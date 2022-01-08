@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Domain.InterestTags.Dto;
+using Iwentys.Domain.InterestTags;
 using Iwentys.Modules.AccountManagement.InterestTags.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

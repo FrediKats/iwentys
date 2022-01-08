@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Iwentys.Domain.SubjectAssignments;
-using Iwentys.Domain.SubjectAssignments.Models;
 using Iwentys.Infrastructure.DataAccess;
 
 namespace Iwentys.Modules.SubjectAssignments.Repositories

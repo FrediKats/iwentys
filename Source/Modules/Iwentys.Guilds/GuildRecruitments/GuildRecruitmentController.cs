@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Iwentys.Domain.Guilds.Models;
+using Iwentys.Domain.Guilds;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Modules.Guilds.Dtos;
 using Iwentys.Modules.Guilds.GuildRecruitments.Queries;

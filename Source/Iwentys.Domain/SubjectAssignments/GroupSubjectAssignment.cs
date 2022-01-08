@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Iwentys.Common;
 using Iwentys.Domain.Study;
-using Iwentys.Domain.SubjectAssignments.Models;
 
 namespace Iwentys.Domain.SubjectAssignments
 {

@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Domain.Newsfeeds.Dto
+﻿namespace Iwentys.Domain.Newsfeeds
 {
     public class NewsfeedCreateViewModel
     {

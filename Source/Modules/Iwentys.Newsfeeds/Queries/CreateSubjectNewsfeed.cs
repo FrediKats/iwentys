@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Newsfeeds;
-using Iwentys.Domain.Newsfeeds.Dto;
 using Iwentys.Domain.Study;
 using Iwentys.Infrastructure.Application;
 using Iwentys.Infrastructure.DataAccess;

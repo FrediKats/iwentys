@@ -1,4 +1,4 @@
-﻿namespace Iwentys.Domain.SubjectAssignments.Enums
+﻿namespace Iwentys.Domain.SubjectAssignments
 {
     public enum FeedbackType
     {

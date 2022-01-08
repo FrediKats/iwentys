@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Iwentys.Common;
 using Iwentys.Domain.GithubIntegration;
-using Iwentys.Domain.GithubIntegration.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.Infrastructure.Application.Controllers.GithubIntegration
