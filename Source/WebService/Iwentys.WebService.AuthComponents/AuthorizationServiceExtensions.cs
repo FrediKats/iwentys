@@ -23,6 +23,7 @@ namespace Iwentys.Endpoints.Api.Authorization
                 .AddIdentityServerJwt();
 
             services.AddIdentityServer()
+                //.AddClients(configuration)
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
             services
