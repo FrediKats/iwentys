@@ -1,0 +1,44 @@
+﻿@namespace Iwentys.WebClient.Content
+
+@if (displayConfirmation)
+{
+    <div class="modal-backdrop show"></div>
+
+    <div class="modal fade show" id="confirmationModal" style="display: block;" tabindex="-1" role="dialog" aria-labelledby="confirmationModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@Title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="OnCancel">
+                        <span aria-hidden="true" style="color: #E0E0FF;">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @ChildContent
+                </div>
+                <div class="modal-footer">
+                    <MudButton Variant="Variant.Filled" Color="Color.Info" @onclick="OnCancel">Close</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Error" @onclick="OnConfirm">Confirm</MudButton>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@code
+{
+    bool displayConfirmation = false;
+    
+    [Parameter]
+    public string Title { get; set; } = "Are you sure?";
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    [Parameter]
+    public EventCallback OnConfirm { get; set; }
+    [Parameter]
+    public EventCallback OnCancel { get; set; }
+
+    public void Show() => displayConfirmation = true;
+    public void Hide() => displayConfirmation = false;
+}

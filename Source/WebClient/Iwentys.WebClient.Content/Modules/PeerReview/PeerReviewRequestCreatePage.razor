@@ -1,0 +1,29 @@
+﻿@page "/peer-review/create"
+
+@namespace Iwentys.WebClient.Content
+
+<h3>PeerReviewRequestCreatePage</h3>
+
+@if (_availableForReviewProject is not null)
+{
+    <div class="d-flex input-form-component dark-elevation-01">
+        <p>Select project</p>
+        <p>
+            <MudSelect @bind-Value="@_selectedProject" Class="input-element" FullWidth="true">
+                @foreach (GithubRepositoryInfoDto item in _availableForReviewProject.Where(p => p is not null))
+                {
+                    <MudSelectItem Value="@item">@item.GithubLikeTitle()</MudSelectItem>
+                }
+            </MudSelect>
+        </p>
+
+        <p>
+            <MudTextField @bind-Value="@_description" Label="Description" Class="input-element"></MudTextField>
+        </p>
+        <MudButton OnClick=@(async () => await CreateRequest())>Create</MudButton>
+    </div>
+}
+
+@code {
+
+}

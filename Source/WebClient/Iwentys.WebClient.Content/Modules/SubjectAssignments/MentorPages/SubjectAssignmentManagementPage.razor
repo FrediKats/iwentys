@@ -1,0 +1,28 @@
+﻿@page "/subject/assignment-management/mentor"
+
+@namespace Iwentys.WebClient.Content
+@attribute [Authorize]
+
+@inject ILogger<SubjectAssignmentManagementPage> _logger
+
+<MudContainer>
+    <MudGrid>
+        <MudItem xs="12" sm="12" md="12">
+            <MudText Align="Align.Center" Typo="Typo.h4">Subject assignments</MudText>
+        </MudItem>
+
+        @if (_subjectAssignments is not null)
+        {
+            <MudItem xs="12" sm="12" md="12">
+                <MudList>
+                    @foreach (SubjectAssignmentJournalItemDto subjectAssignment in _subjectAssignments)
+                    {
+                        <MudListItem>
+                            <MentorSubjectAssignmentComponent SubjectAssignment="@subjectAssignment"/>
+                        </MudListItem>
+                    }
+                </MudList>
+            </MudItem>
+        }
+    </MudGrid>
+</MudContainer>

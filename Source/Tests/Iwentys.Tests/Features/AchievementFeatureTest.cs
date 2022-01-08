@@ -1,10 +1,9 @@
 ﻿using NUnit.Framework;
 
-namespace Iwentys.Tests.Features
-{
-    [TestFixture]
-    public class AchievementFeatureTest
-    {
+namespace Iwentys.Tests.Features;
 
-    }
+[TestFixture]
+public class AchievementFeatureTest
+{
+
 }

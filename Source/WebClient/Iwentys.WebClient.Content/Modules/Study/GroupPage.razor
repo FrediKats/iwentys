@@ -1,0 +1,48 @@
+﻿@page "/group/profile/{GroupName}"
+
+@namespace Iwentys.WebClient.Content
+
+<h2>Group page: @GroupName</h2>
+
+@if (_groupProfile is not null)
+{
+    <div class="container-fluid d-flex flex-row">
+        <div class="col-md-6 d-flex flex-column">
+            @if (_groupProfile.GroupAdmin is not null)
+            {
+                <NavLink class="nav-link" href=@LinkToStudentProfile(_groupProfile.GroupAdmin)>
+                    <MudCard>
+                        Староста: @_groupProfile.GroupAdmin.GetFullName()
+                    </MudCard>
+                </NavLink>
+            }
+
+            <MudText Typo="Typo.h6">Students</MudText>
+            <MudNavMenu>
+                @foreach (StudentInfoDto student in _groupProfile.Students.Where(s => s.Id != _groupProfile.GroupAdmin?.Id))
+                {
+                    <MudNavLink Href=@LinkToStudentProfile(student)>
+                        @student.GetFullName()
+                    </MudNavLink>
+                }
+            </MudNavMenu>
+        </div>
+
+        <div class="col-md-6 d-flex flex-column">
+            <MudText Typo="Typo.h6">Subjects</MudText>
+            <MudNavMenu>
+                @foreach (SubjectProfileDto subject in _groupProfile.Subjects)
+                {
+                    <MudNavLink Href=@LinkToSubjectProfile(subject)>
+                        @subject.Name
+                    </MudNavLink>
+                }
+            </MudNavMenu>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string GroupName { get; set; }
+}

@@ -1,53 +1,51 @@
-﻿using Iwentys.Domain.AccountManagement;
+﻿using Iwentys.DataAccess.Seeding;
+using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Quests;
-using Iwentys.Domain.Quests.Dto;
-using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
-namespace Iwentys.Tests.Features
+namespace Iwentys.Tests.Features;
+
+[TestFixture]
+public class QuestServiceTest
 {
-    [TestFixture]
-    public class QuestServiceTest
+    [Test]
+    public void CreateQuest_ReturnAsActive()
     {
-        [Test]
-        public void CreateQuest_ReturnAsActive()
-        {
-            TestCaseContext testCase = TestCaseContext.Case();
-            IwentysUser user = testCase.AccountManagementTestCaseContext.WithIwentysUser();
+        TestCaseContext testCase = TestCaseContext.Case();
+        IwentysUser user = testCase.AccountManagementTestCaseContext.WithIwentysUser();
 
-            var quest = Quest.New(user, QuestFaker.Instance.CreateQuestRequest(50));
+        var quest = Quest.New(user, QuestFaker.Instance.CreateQuestRequest(50));
 
-            Assert.IsTrue(quest.State == QuestState.Active);
-        }
+        Assert.IsTrue(quest.State == QuestState.Active);
+    }
 
-        [Test]
-        public void CompleteQuest()
-        {
-            TestCaseContext testCase = TestCaseContext.Case();
-            IwentysUser questCreator = testCase.AccountManagementTestCaseContext.WithIwentysUser();
-            IwentysUser questExecutor = testCase.AccountManagementTestCaseContext.WithIwentysUser();
-            int executorPointsCount = questExecutor.BarsPoints;
+    [Test]
+    public void CompleteQuest()
+    {
+        TestCaseContext testCase = TestCaseContext.Case();
+        IwentysUser questCreator = testCase.AccountManagementTestCaseContext.WithIwentysUser();
+        IwentysUser questExecutor = testCase.AccountManagementTestCaseContext.WithIwentysUser();
+        int executorPointsCount = questExecutor.BarsPoints;
 
-            var quest = Quest.New(questCreator, QuestFaker.Instance.CreateQuestRequest(50));
+        var quest = Quest.New(questCreator, QuestFaker.Instance.CreateQuestRequest(50));
 
-            quest.CreateResponse(questExecutor, new QuestResponseCreateArguments());
-            quest.MakeCompleted(questCreator, questExecutor, new QuestCompleteArguments() { UserId = questExecutor.Id, Mark = 5 });
+        quest.CreateResponse(questExecutor, new QuestResponseCreateArguments());
+        quest.MakeCompleted(questCreator, questExecutor, new QuestCompleteArguments() { UserId = questExecutor.Id, Mark = 5 });
 
-            Assert.AreEqual(QuestState.Completed, quest.State);
-        }
+        Assert.AreEqual(QuestState.Completed, quest.State);
+    }
 
-        [Test]
-        public void RevokeQuest_EnsureCorrectPointsCount()
-        {
-            TestCaseContext testCase = TestCaseContext.Case();
-            IwentysUser questCreator = testCase.AccountManagementTestCaseContext.WithIwentysUser();
-            int pointsCountBefore = questCreator.BarsPoints;
+    [Test]
+    public void RevokeQuest_EnsureCorrectPointsCount()
+    {
+        TestCaseContext testCase = TestCaseContext.Case();
+        IwentysUser questCreator = testCase.AccountManagementTestCaseContext.WithIwentysUser();
+        int pointsCountBefore = questCreator.BarsPoints;
 
-            var quest = Quest.New(questCreator, QuestFaker.Instance.CreateQuestRequest(50));
-            quest.Revoke(questCreator);
+        var quest = Quest.New(questCreator, QuestFaker.Instance.CreateQuestRequest(50));
+        quest.Revoke(questCreator);
 
-            Assert.AreEqual(pointsCountBefore, questCreator.BarsPoints);
-        }
+        Assert.AreEqual(pointsCountBefore, questCreator.BarsPoints);
     }
 }

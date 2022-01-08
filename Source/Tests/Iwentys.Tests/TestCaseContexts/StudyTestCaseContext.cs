@@ -1,20 +1,18 @@
-﻿using Iwentys.Domain.Study;
-using Iwentys.Domain.Study.Models;
-using Iwentys.Infrastructure.DataAccess.Seeding.FakerEntities;
+﻿using Iwentys.DataAccess.Seeding;
+using Iwentys.Domain.Study;
 
-namespace Iwentys.Tests.TestCaseContexts
+namespace Iwentys.Tests.TestCaseContexts;
+
+public class StudyTestCaseContext
 {
-    public class StudyTestCaseContext
+    public Student WithNewStudentAsStudent(StudyGroup studyGroup)
     {
-        public Student WithNewStudentAsStudent(StudyGroup studyGroup)
-        {
-            StudentCreateArguments createArguments = UsersFaker.Instance.Students.Generate();
-            createArguments.Id = UsersFaker.Instance.GetIdentifier();
-            createArguments.GroupId = studyGroup.Id;
+        StudentCreateArguments createArguments = UsersFaker.Instance.Students.Generate();
+        createArguments.Id = UsersFaker.Instance.GetIdentifier();
+        createArguments.GroupId = studyGroup.Id;
 
-            var student = Student.Create(createArguments);
-            studyGroup.AddStudent(student);
-            return student;
-        }
+        var student = Student.Create(createArguments);
+        studyGroup.AddStudent(student);
+        return student;
     }
 }
