@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Iwentys.WebClient.Content\Iwentys.WebClient.Content.csproj" />
     <ProjectReference Include="..\Iwentys.WebClient.Sdk\Iwentys.WebClient.Sdk.csproj" />
   </ItemGroup>
 </Project>
