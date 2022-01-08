@@ -3,17 +3,18 @@ using System.Linq;
 using Iwentys.Infrastructure.Application.Filters;
 using Iwentys.Infrastructure.Application.ViewModels;
 
-namespace Iwentys.Infrastructure.Application.Extensions;
-
-public static class IndexViewModelExtensions<T>
+namespace Iwentys.Infrastructure.Application.Extensions
 {
-    public static IndexViewModel<T> ToIndexViewModel(ICollection<T> items, PaginationFilter paginationFilter)
+    public static class IndexViewModelExtensions<T>
     {
-        return new IndexViewModel<T>
+        public static IndexViewModel<T> ToIndexViewModel(ICollection<T> items, PaginationFilter paginationFilter)
         {
-            PageViewModel = new (items.Count, paginationFilter.Page, paginationFilter.Take),
-            Items = items.Skip((paginationFilter.Page - 1) * paginationFilter.Take)
-                .Take(paginationFilter.Take).ToList(),
-        };
+            return new IndexViewModel<T>
+            {
+                PageViewModel = new (items.Count, paginationFilter.Page, paginationFilter.Take),
+                Items = items.Skip((paginationFilter.Page - 1) * paginationFilter.Take)
+                    .Take(paginationFilter.Take).ToList(),
+            };
+        }
     }
 }
