@@ -2,47 +2,46 @@
 using Iwentys.Common;
 using Iwentys.Domain.AccountManagement;
 
-namespace Iwentys.Domain.Companies
+namespace Iwentys.Domain.Companies;
+
+public class Company
 {
-    public class Company
+    public int Id { get; init; }
+    public string Name { get; init; }
+    public double Latitude { get; init; }
+    public double Longitude { get; init; }
+
+    public virtual List<CompanyWorker> Workers { get; init; }
+
+    public Company()
     {
-        public int Id { get; init; }
-        public string Name { get; init; }
-        public double Latitude { get; init; }
-        public double Longitude { get; init; }
+        Workers = new List<CompanyWorker>();
+    }
 
-        public virtual List<CompanyWorker> Workers { get; init; }
+    public static Company Create(IwentysUser creator, CompanyCreateArguments createArguments)
+    {
+        creator.EnsureIsAdmin();
 
-        public Company()
+        return new Company
         {
-            Workers = new List<CompanyWorker>();
-        }
+            Name = createArguments.Name,
+            Latitude = createArguments.Latitude,
+            Longitude = createArguments.Longitude
+        };
+    }
 
-        public static Company Create(IwentysUser creator, CompanyCreateArguments createArguments)
+    public CompanyWorker NewRequest(IwentysUser worker, CompanyWorker currentWorkerState)
+    {
+        if (currentWorkerState is not null)
+            throw new InnerLogicException("Student already request adding to company");
+
+        var newWorker = new CompanyWorker
         {
-            creator.EnsureIsAdmin();
-
-            return new Company
-            {
-                Name = createArguments.Name,
-                Latitude = createArguments.Latitude,
-                Longitude = createArguments.Longitude
-            };
-        }
-
-        public CompanyWorker NewRequest(IwentysUser worker, CompanyWorker currentWorkerState)
-        {
-            if (currentWorkerState is not null)
-                throw new InnerLogicException("Student already request adding to company");
-
-            var newWorker = new CompanyWorker
-            {
-                Company = this,
-                Worker = worker,
-                Type = CompanyWorkerType.Requested
-            };
-            Workers.Add(newWorker);
-            return newWorker;
-        }
+            Company = this,
+            Worker = worker,
+            Type = CompanyWorkerType.Requested
+        };
+        Workers.Add(newWorker);
+        return newWorker;
     }
 }

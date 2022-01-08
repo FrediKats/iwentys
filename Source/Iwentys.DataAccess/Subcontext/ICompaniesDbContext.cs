@@ -1,21 +1,20 @@
 ﻿using Iwentys.Domain.Companies;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.DataAccess
+namespace Iwentys.DataAccess;
+
+public interface ICompaniesDbContext
 {
-    public interface ICompaniesDbContext
-    {
-        public DbSet<Company> Companies { get; set; }
-        public DbSet<CompanyWorker> CompanyWorkers { get; set; }
-    }
+    public DbSet<Company> Companies { get; set; }
+    public DbSet<CompanyWorker> CompanyWorkers { get; set; }
+}
 
-    public static class CompaniesDbContextExtensions
+public static class CompaniesDbContextExtensions
+{
+    public static void OnCompaniesModelCreating(this ModelBuilder modelBuilder)
     {
-        public static void OnCompaniesModelCreating(this ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<CompanyWorker>().HasKey(g => new { g.CompanyId, g.WorkerId });
+        modelBuilder.Entity<CompanyWorker>().HasKey(g => new { g.CompanyId, g.WorkerId });
 
-            modelBuilder.Entity<CompanyWorker>().HasIndex(g => g.WorkerId).IsUnique();
-        }
+        modelBuilder.Entity<CompanyWorker>().HasIndex(g => g.WorkerId).IsUnique();
     }
 }

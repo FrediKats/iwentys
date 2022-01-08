@@ -8,51 +8,50 @@ using Iwentys.Domain.Study;
 using Iwentys.WebService.Application;
 using MediatR;
 
-namespace Iwentys.Assignments
+namespace Iwentys.Assignments;
+
+public static class CreateAssignment
 {
-    public static class CreateAssignment
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
-        {
-            public AuthorizedUser User { get; }
-            public AssignmentCreateArguments AssignmentCreateArguments { get; }
+        public AuthorizedUser User { get; }
+        public AssignmentCreateArguments AssignmentCreateArguments { get; }
 
-            public Query(AuthorizedUser user, AssignmentCreateArguments assignmentCreateArguments)
-            {
-                User = user;
-                AssignmentCreateArguments = assignmentCreateArguments;
-            }
+        public Query(AuthorizedUser user, AssignmentCreateArguments assignmentCreateArguments)
+        {
+            User = user;
+            AssignmentCreateArguments = assignmentCreateArguments;
+        }
+    }
+
+    public class Response
+    {
+        public Response(List<AssignmentInfoDto> assignmentInfos)
+        {
+            AssignmentInfos = assignmentInfos;
         }
 
-        public class Response
-        {
-            public Response(List<AssignmentInfoDto> assignmentInfos)
-            {
-                AssignmentInfos = assignmentInfos;
-            }
+        public List<AssignmentInfoDto> AssignmentInfos { get; set; }
+    }
 
-            public List<AssignmentInfoDto> AssignmentInfos { get; set; }
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
+        {
+            _context = context;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            private readonly IwentysDbContext _context;
+            Student author = await _context.Students.GetById(request.User.Id);
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+            List<StudentAssignment> assignments = StudentAssignment.Create(author, request.AssignmentCreateArguments);
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Student author = await _context.Students.GetById(request.User.Id);
+            _context.StudentAssignments.AddRange(assignments);
 
-                List<StudentAssignment> assignments = StudentAssignment.Create(author, request.AssignmentCreateArguments);
-
-                _context.StudentAssignments.AddRange(assignments);
-
-                return new Response(assignments.Select(a => new AssignmentInfoDto(a)).ToList());
-            }
+            return new Response(assignments.Select(a => new AssignmentInfoDto(a)).ToList());
         }
     }
 }

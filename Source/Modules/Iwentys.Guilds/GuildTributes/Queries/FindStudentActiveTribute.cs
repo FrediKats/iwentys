@@ -6,51 +6,50 @@ using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Guilds
+namespace Iwentys.Guilds;
+
+public class FindStudentActiveTribute
 {
-    public class FindStudentActiveTribute
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(AuthorizedUser user)
         {
-            public Query(AuthorizedUser user)
-            {
-                User = user;
-            }
-
-            public AuthorizedUser User { get; set; }
+            User = user;
         }
 
-        public class Response
-        {
-            public Response(TributeInfoResponse tribute)
-            {
-                Tribute = tribute;
-            }
+        public AuthorizedUser User { get; set; }
+    }
 
-            public TributeInfoResponse Tribute { get; set; }
+    public class Response
+    {
+        public Response(TributeInfoResponse tribute)
+        {
+            Tribute = tribute;
         }
 
-        public class Handler : RequestHandler<Query, Response>
+        public TributeInfoResponse Tribute { get; set; }
+    }
+
+    public class Handler : RequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
         {
-            private readonly IwentysDbContext _context;
+            _context = context;
+        }
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+        protected override Response Handle(Query request)
+        {
+            IwentysUser student = _context.IwentysUsers.GetById(request.User.Id).Result;
+            TributeInfoResponse tributeInfoResponse = _context
+                .Tributes
+                .Where(Tribute.IsActive)
+                .Where(Tribute.BelongTo(student))
+                .Select(TributeInfoResponse.FromEntity)
+                .SingleOrDefaultAsync().Result;
 
-            protected override Response Handle(Query request)
-            {
-                IwentysUser student = _context.IwentysUsers.GetById(request.User.Id).Result;
-                TributeInfoResponse tributeInfoResponse = _context
-                    .Tributes
-                    .Where(Tribute.IsActive)
-                    .Where(Tribute.BelongTo(student))
-                    .Select(TributeInfoResponse.FromEntity)
-                    .SingleOrDefaultAsync().Result;
-
-                return new Response(tributeInfoResponse);
-            }
+            return new Response(tributeInfoResponse);
         }
     }
 }

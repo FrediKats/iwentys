@@ -1,10 +1,9 @@
-﻿namespace Iwentys.WebClient.Content
+﻿namespace Iwentys.WebClient.Content;
+
+public partial class GuildEditPage
 {
-    public partial class GuildEditPage
+    protected override async Task OnInitializedAsync()
     {
-        protected override async Task OnInitializedAsync()
-        {
-            _guild = await _guildClient.GetAsync(GuildId);
-        }
+        _guild = await _guildClient.GetAsync(GuildId);
     }
 }

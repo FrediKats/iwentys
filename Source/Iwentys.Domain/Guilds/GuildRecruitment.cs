@@ -2,42 +2,41 @@
 using Iwentys.Common;
 using Iwentys.Domain.AccountManagement;
 
-namespace Iwentys.Domain.Guilds
+namespace Iwentys.Domain.Guilds;
+
+public class GuildRecruitment
 {
-    public class GuildRecruitment
-    {
-        public int Id { get; init; }
+    public int Id { get; init; }
 
-        public int AuthorId { get; set; }
-        public virtual IwentysUser Author { get; set; }
+    public int AuthorId { get; set; }
+    public virtual IwentysUser Author { get; set; }
 
-        public int GuildId { get; init; }
-        public virtual Guild Guild { get; init; }
+    public int GuildId { get; init; }
+    public virtual Guild Guild { get; init; }
 
-        public string Description { get; init; }
-        public bool IsActive { get; set; }
+    public string Description { get; init; }
+    public bool IsActive { get; set; }
         
-        public virtual List<GuildRecruitmentMember> RecruitmentMembers { get; init; }
+    public virtual List<GuildRecruitmentMember> RecruitmentMembers { get; init; }
 
-        public static GuildRecruitment Create(IwentysUser user, Guild guild, GuildRecruitmentCreateArguments createArguments)
+    public static GuildRecruitment Create(IwentysUser user, Guild guild, GuildRecruitmentCreateArguments createArguments)
+    {
+        user.EnsureIsGuildMentor(guild);
+
+        return new GuildRecruitment
         {
-            user.EnsureIsGuildMentor(guild);
+            GuildId = guild.Id,
+            AuthorId = user.Id,
+            Description = createArguments.Description,
+            IsActive = true
+        };
+    }
 
-            return new GuildRecruitment
-            {
-                GuildId = guild.Id,
-                AuthorId = user.Id,
-                Description = createArguments.Description,
-                IsActive = true
-            };
-        }
+    public void Close(GuildMentor mentor)
+    {
+        if (!IsActive)
+            throw new InnerLogicException("Already closed");
 
-        public void Close(GuildMentor mentor)
-        {
-            if (!IsActive)
-                throw new InnerLogicException("Already closed");
-
-            IsActive = false;
-        }
+        IsActive = false;
     }
 }

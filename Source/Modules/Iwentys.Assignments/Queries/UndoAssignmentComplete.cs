@@ -6,46 +6,45 @@ using Iwentys.Domain.Study;
 using Iwentys.WebService.Application;
 using MediatR;
 
-namespace Iwentys.Assignments
+namespace Iwentys.Assignments;
+
+public static class UndoAssignmentComplete
 {
-    public static class UndoAssignmentComplete
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
-        {
-            public AuthorizedUser User { get; }
-            public int AssignmentId { get; }
+        public AuthorizedUser User { get; }
+        public int AssignmentId { get; }
 
-            public Query(AuthorizedUser user, int assignmentId)
-            {
-                User = user;
-                AssignmentId = assignmentId;
-            }
+        public Query(AuthorizedUser user, int assignmentId)
+        {
+            User = user;
+            AssignmentId = assignmentId;
+        }
+    }
+
+    public class Response
+    {
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
+        {
+            _context = context;
         }
 
-        public class Response
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-        }
+            Student student = await _context.Students.GetById(request.User.Id);
+            Assignment assignment = await _context.Assignments.GetById(request.AssignmentId);
 
-        public class Handler : IRequestHandler<Query, Response>
-        {
-            private readonly IwentysDbContext _context;
+            StudentAssignment studentAssignment = assignment.MarkUncompleted(student);
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+            _context.StudentAssignments.Update(studentAssignment);
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Student student = await _context.Students.GetById(request.User.Id);
-                Assignment assignment = await _context.Assignments.GetById(request.AssignmentId);
-
-                StudentAssignment studentAssignment = assignment.MarkUncompleted(student);
-
-                _context.StudentAssignments.Update(studentAssignment);
-
-                return new Response();
-            }
+            return new Response();
         }
     }
 }

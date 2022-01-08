@@ -6,49 +6,48 @@ using Iwentys.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Study
+namespace Iwentys.Study;
+
+public class GetGroupSubjectByMentorId
 {
-    public class GetGroupSubjectByMentorId
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
-        {
-            public int? MentorId { get; set; }
+        public int? MentorId { get; set; }
 
-            public Query(int? mentorId)
-            {
-                MentorId = mentorId;
-            }
+        public Query(int? mentorId)
+        {
+            MentorId = mentorId;
+        }
+    }
+
+    public class Response
+    {
+        public Response(List<GroupSubjectInfoDto> groups)
+        {
+            Groups = groups;
         }
 
-        public class Response
-        {
-            public Response(List<GroupSubjectInfoDto> groups)
-            {
-                Groups = groups;
-            }
+        public List<GroupSubjectInfoDto> Groups { get; set; }
+    }
 
-            public List<GroupSubjectInfoDto> Groups { get; set; }
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
+        {
+            _context = context;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            private readonly IwentysDbContext _context;
+            List<GroupSubjectInfoDto> result = await _context
+                .GroupSubjects
+                .WhereIf(request.MentorId, gs => gs.Mentors.Any(m => m.UserId == request.MentorId))
+                .Select(GroupSubjectInfoDto.FromEntity)
+                .ToListAsync();
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
-
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                List<GroupSubjectInfoDto> result = await _context
-                    .GroupSubjects
-                    .WhereIf(request.MentorId, gs => gs.Mentors.Any(m => m.UserId == request.MentorId))
-                    .Select(GroupSubjectInfoDto.FromEntity)
-                    .ToListAsync();
-
-                return new Response(result);
-            }
+            return new Response(result);
         }
     }
 }

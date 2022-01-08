@@ -1,10 +1,9 @@
-﻿namespace Iwentys.WebClient.Content
+﻿namespace Iwentys.WebClient.Content;
+
+public partial class TributeCardComponent
 {
-    public partial class TributeCardComponent
+    public void Complete()
     {
-        public void Complete()
-        {
-            _navigationManager.NavigateTo($"/guild/{Tribute.GuildId}/tribute/{Tribute.Project.Id}/response");
-        }
+        _navigationManager.NavigateTo($"/guild/{Tribute.GuildId}/tribute/{Tribute.Project.Id}/response");
     }
 }

@@ -1,12 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.DataAccess.Seeding
+namespace Iwentys.DataAccess.Seeding;
+
+public static class ServiceCollectionExtensions
 {
-    public static class ServiceCollectionExtensions
+    public static IServiceCollection AddIwentysSeeder(this IServiceCollection services)
     {
-        public static IServiceCollection AddIwentysSeeder(this IServiceCollection services)
-        {
-            return services.AddScoped<IDbContextSeeder, DatabaseContextGenerator>();
-        }
+        return services.AddScoped<IDbContextSeeder, DatabaseContextGenerator>();
     }
 }

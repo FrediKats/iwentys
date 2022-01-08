@@ -1,7 +1,6 @@
-﻿namespace Iwentys.GithubIntegration
+﻿namespace Iwentys.GithubIntegration;
+
+public class GithubApiAccessorOptions
 {
-    public class GithubApiAccessorOptions
-    {
-        public string Token { get; set; }
-    }
+    public string Token { get; set; }
 }

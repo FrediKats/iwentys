@@ -1,9 +1,8 @@
 ﻿using Iwentys.Sdk;
 
-namespace Iwentys.WebClient.Content
+namespace Iwentys.WebClient.Content;
+
+public partial class TournamentInfoComponent
 {
-    public partial class TournamentInfoComponent
-    {
-        private string LinkToTournamentProfile(TournamentInfoResponse tournamentInfo) => $"/tournaments/profile/{tournamentInfo.Id}";
-    }
+    private string LinkToTournamentProfile(TournamentInfoResponse tournamentInfo) => $"/tournaments/profile/{tournamentInfo.Id}";
 }

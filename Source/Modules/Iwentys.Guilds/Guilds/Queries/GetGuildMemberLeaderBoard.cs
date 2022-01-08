@@ -5,46 +5,45 @@ using Iwentys.DataAccess;
 using Iwentys.Domain.Guilds;
 using MediatR;
 
-namespace Iwentys.Guilds
+namespace Iwentys.Guilds;
+
+public class GetGuildMemberLeaderBoard
 {
-    public class GetGuildMemberLeaderBoard
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(int guildId)
         {
-            public Query(int guildId)
-            {
-                GuildId = guildId;
-            }
-
-            public int GuildId { get; set; }
+            GuildId = guildId;
         }
 
-        public class Response
-        {
-            public Response(GuildMemberLeaderBoardDto guildMemberLeaderBoard)
-            {
-                GuildMemberLeaderBoard = guildMemberLeaderBoard;
-            }
+        public int GuildId { get; set; }
+    }
 
-            public GuildMemberLeaderBoardDto GuildMemberLeaderBoard { get; set; }
+    public class Response
+    {
+        public Response(GuildMemberLeaderBoardDto guildMemberLeaderBoard)
+        {
+            GuildMemberLeaderBoard = guildMemberLeaderBoard;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public GuildMemberLeaderBoardDto GuildMemberLeaderBoard { get; set; }
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
         {
-            private readonly IwentysDbContext _context;
+            _context = context;
+        }
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+        {
+            Guild guild = await _context.Guilds.GetById(request.GuildId);
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Guild guild = await _context.Guilds.GetById(request.GuildId);
-
-                //return new Response(new GuildMemberLeaderBoardDto(guild.GetImpact()));
-                return new Response(new GuildMemberLeaderBoardDto(new List<GuildMemberImpactDto>()));
-            }
+            //return new Response(new GuildMemberLeaderBoardDto(guild.GetImpact()));
+            return new Response(new GuildMemberLeaderBoardDto(new List<GuildMemberImpactDto>()));
         }
     }
 }

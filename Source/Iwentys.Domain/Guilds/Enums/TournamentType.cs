@@ -1,7 +1,6 @@
-﻿namespace Iwentys.Domain.Guilds
+﻿namespace Iwentys.Domain.Guilds;
+
+public enum TournamentType
 {
-    public enum TournamentType
-    {
-        CodeMarathon = 1
-    }
+    CodeMarathon = 1
 }

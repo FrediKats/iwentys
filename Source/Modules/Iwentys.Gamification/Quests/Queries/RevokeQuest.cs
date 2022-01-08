@@ -8,60 +8,59 @@ using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Gamification
+namespace Iwentys.Gamification;
+
+public class RevokeQuest
 {
-    public class RevokeQuest
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
-        {
-            public int QuestId { get; set; }
-            public AuthorizedUser AuthorizedUser { get; set; }
+        public int QuestId { get; set; }
+        public AuthorizedUser AuthorizedUser { get; set; }
 
-            public Query(int questId, AuthorizedUser authorizedUser)
-            {
-                QuestId = questId;
-                AuthorizedUser = authorizedUser;
-            }
+        public Query(int questId, AuthorizedUser authorizedUser)
+        {
+            QuestId = questId;
+            AuthorizedUser = authorizedUser;
+        }
+    }
+
+    public class Response
+    {
+        public Response(QuestInfoDto questInfo)
+        {
+            QuestInfo = questInfo;
         }
 
-        public class Response
-        {
-            public Response(QuestInfoDto questInfo)
-            {
-                QuestInfo = questInfo;
-            }
+        public QuestInfoDto QuestInfo { get; set; }
+    }
 
-            public QuestInfoDto QuestInfo { get; set; }
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
+        {
+            _context = context;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            private readonly IwentysDbContext _context;
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+            IwentysUser author = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
+            Quest quest = await _context.Quests.GetById(request.QuestId);
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
+            quest.Revoke(author);
 
-                IwentysUser author = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
-                Quest quest = await _context.Quests.GetById(request.QuestId);
+            _context.IwentysUsers.Update(author);
+            _context.Quests.Update(quest);
 
-                quest.Revoke(author);
+            QuestInfoDto result = await _context
+                .Quests
+                .Where(q => q.Id == request.QuestId)
+                .Select(QuestInfoDto.FromEntity)
+                .FirstAsync();
 
-                _context.IwentysUsers.Update(author);
-                _context.Quests.Update(quest);
-
-                QuestInfoDto result = await _context
-                    .Quests
-                    .Where(q => q.Id == request.QuestId)
-                    .Select(QuestInfoDto.FromEntity)
-                    .FirstAsync();
-
-                return new Response(result);
-            }
+            return new Response(result);
         }
     }
 }

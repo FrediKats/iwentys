@@ -7,55 +7,54 @@ using Iwentys.Domain.SubjectAssignments;
 using Iwentys.WebService.Application;
 using MediatR;
 
-namespace Iwentys.SubjectAssignments
+namespace Iwentys.SubjectAssignments;
+
+public static class UpdateSubjectAssignment
 {
-    public static class UpdateSubjectAssignment
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(AuthorizedUser authorizedUser, SubjectAssignmentUpdateArguments arguments)
         {
-            public Query(AuthorizedUser authorizedUser, SubjectAssignmentUpdateArguments arguments)
-            {
-                Arguments = arguments;
-                AuthorizedUser = authorizedUser;
-            }
-
-            public AuthorizedUser AuthorizedUser { get; set; }
-            public SubjectAssignmentUpdateArguments Arguments { get; set; }
+            Arguments = arguments;
+            AuthorizedUser = authorizedUser;
         }
 
-        public class Response
-        {
-            public Response(SubjectAssignmentDto subjectAssignment)
-            {
-                SubjectAssignment = subjectAssignment;
-            }
+        public AuthorizedUser AuthorizedUser { get; set; }
+        public SubjectAssignmentUpdateArguments Arguments { get; set; }
+    }
 
-            public SubjectAssignmentDto SubjectAssignment { get; set; }
+    public class Response
+    {
+        public Response(SubjectAssignmentDto subjectAssignment)
+        {
+            SubjectAssignment = subjectAssignment;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public SubjectAssignmentDto SubjectAssignment { get; set; }
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+        private readonly IMapper _mapper;
+
+
+        public Handler(IwentysDbContext context, IMapper mapper)
         {
-            private readonly IwentysDbContext _context;
-            private readonly IMapper _mapper;
+            _context = context;
+            _mapper = mapper;
+        }
 
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+        {
+            SubjectAssignment subjectAssignment = await _context.SubjectAssignments.GetById(request.Arguments.SubjectAssignmentId);
+            IwentysUser creator = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
 
-            public Handler(IwentysDbContext context, IMapper mapper)
-            {
-                _context = context;
-                _mapper = mapper;
-            }
+            subjectAssignment.Update(creator, request.Arguments);
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                SubjectAssignment subjectAssignment = await _context.SubjectAssignments.GetById(request.Arguments.SubjectAssignmentId);
-                IwentysUser creator = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
+            _context.SubjectAssignments.Update(subjectAssignment);
 
-                subjectAssignment.Update(creator, request.Arguments);
-
-                _context.SubjectAssignments.Update(subjectAssignment);
-
-                return new Response(_mapper.Map<SubjectAssignmentDto>(subjectAssignment));
-            }
+            return new Response(_mapper.Map<SubjectAssignmentDto>(subjectAssignment));
         }
     }
 }

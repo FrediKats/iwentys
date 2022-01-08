@@ -4,21 +4,20 @@ using Kysect.ItmoScheduleSdk;
 using Kysect.ItmoScheduleSdk.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.WebService.Application
-{
-    [Route("api/schedule")]
-    [ApiController]
-    public class ScheduleController : ControllerBase
-    {
-        public readonly ItmoApiProvider ApiProvider = new ItmoApiProvider();
+namespace Iwentys.WebService.Application;
 
-        [HttpGet("today/{group}")]
-        [ProducesDefaultResponseType]
-        public async Task<ActionResult<ScheduleItemModel>> GetToday(string group)
-        {
-            //TODO: try parse with valid exception
-            GroupScheduleModel schedule = await ApiProvider.ScheduleApi.GetGroupScheduleAsync(new GroupName(group).Name);
-            return Ok(schedule.Schedule);
-        }
+[Route("api/schedule")]
+[ApiController]
+public class ScheduleController : ControllerBase
+{
+    public readonly ItmoApiProvider ApiProvider = new ItmoApiProvider();
+
+    [HttpGet("today/{group}")]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult<ScheduleItemModel>> GetToday(string group)
+    {
+        //TODO: try parse with valid exception
+        GroupScheduleModel schedule = await ApiProvider.ScheduleApi.GetGroupScheduleAsync(new GroupName(group).Name);
+        return Ok(schedule.Schedule);
     }
 }

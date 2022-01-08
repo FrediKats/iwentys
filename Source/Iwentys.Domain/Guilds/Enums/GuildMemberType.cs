@@ -1,42 +1,41 @@
 ﻿using System.Linq;
 
-namespace Iwentys.Domain.Guilds
+namespace Iwentys.Domain.Guilds;
+
+public enum GuildMemberType
 {
-    public enum GuildMemberType
+    Requested = 1,
+    Member = 2,
+    Mentor = 3,
+    Creator = 4,
+    Blocked = 5
+}
+
+public static class GuildMemberTypeExtension
+{
+    public static bool IsMember(this GuildMemberType guildMemberType)
     {
-        Requested = 1,
-        Member = 2,
-        Mentor = 3,
-        Creator = 4,
-        Blocked = 5
+        return guildMemberType == GuildMemberType.Creator ||
+               guildMemberType == GuildMemberType.Mentor ||
+               guildMemberType == GuildMemberType.Member;
     }
 
-    public static class GuildMemberTypeExtension
+    public static IQueryable<GuildMember> WhereIsMember(this IQueryable<GuildMember> queryable)
     {
-        public static bool IsMember(this GuildMemberType guildMemberType)
-        {
-            return guildMemberType == GuildMemberType.Creator ||
-                   guildMemberType == GuildMemberType.Mentor ||
-                   guildMemberType == GuildMemberType.Member;
-        }
+        return queryable.Where(gm => gm.MemberType == GuildMemberType.Creator ||
+                                     gm.MemberType == GuildMemberType.Mentor ||
+                                     gm.MemberType == GuildMemberType.Member);
+    }
 
-        public static IQueryable<GuildMember> WhereIsMember(this IQueryable<GuildMember> queryable)
-        {
-            return queryable.Where(gm => gm.MemberType == GuildMemberType.Creator ||
-                                         gm.MemberType == GuildMemberType.Mentor ||
-                                         gm.MemberType == GuildMemberType.Member);
-        }
+    public static IQueryable<GuildMember> WhereIsMentor(this IQueryable<GuildMember> queryable)
+    {
+        return queryable.Where(gm => gm.MemberType == GuildMemberType.Creator ||
+                                     gm.MemberType == GuildMemberType.Mentor);
+    }
 
-        public static IQueryable<GuildMember> WhereIsMentor(this IQueryable<GuildMember> queryable)
-        {
-            return queryable.Where(gm => gm.MemberType == GuildMemberType.Creator ||
-                                         gm.MemberType == GuildMemberType.Mentor);
-        }
-
-        public static bool IsMentor(this GuildMemberType guildMemberType)
-        {
-            return guildMemberType == GuildMemberType.Creator ||
-                   guildMemberType == GuildMemberType.Mentor;
-        }
+    public static bool IsMentor(this GuildMemberType guildMemberType)
+    {
+        return guildMemberType == GuildMemberType.Creator ||
+               guildMemberType == GuildMemberType.Mentor;
     }
 }

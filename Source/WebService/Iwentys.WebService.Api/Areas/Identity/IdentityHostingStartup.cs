@@ -2,14 +2,13 @@
 using Microsoft.AspNetCore.Hosting;
 
 [assembly: HostingStartup(typeof(IdentityHostingStartup))]
-namespace Iwentys.WebService.Api.Areas.Identity
+namespace Iwentys.WebService.Api.Areas.Identity;
+
+public class IdentityHostingStartup : IHostingStartup
 {
-    public class IdentityHostingStartup : IHostingStartup
+    public void Configure(IWebHostBuilder builder)
     {
-        public void Configure(IWebHostBuilder builder)
-        {
-            builder.ConfigureServices((context, services) => {
-            });
-        }
+        builder.ConfigureServices((context, services) => {
+        });
     }
 }

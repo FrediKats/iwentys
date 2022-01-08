@@ -1,8 +1,7 @@
-﻿namespace Iwentys.Domain.Guilds
+﻿namespace Iwentys.Domain.Guilds;
+
+public enum CodeMarathonAllowedMembersType
 {
-    public enum CodeMarathonAllowedMembersType
-    {
-        All,
-        WithoutMentors
-    }
+    All,
+    WithoutMentors
 }

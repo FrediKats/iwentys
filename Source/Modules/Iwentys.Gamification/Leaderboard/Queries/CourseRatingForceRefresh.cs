@@ -9,73 +9,72 @@ using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Gamification
+namespace Iwentys.Gamification;
+
+public static class CourseRatingForceRefresh
 {
-    public static class CourseRatingForceRefresh
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(int courseId)
         {
-            public Query(int courseId)
-            {
-                CourseId = courseId;
-            }
-
-            public int CourseId { get; set; }
+            CourseId = courseId;
         }
 
-        public class Response
+        public int CourseId { get; set; }
+    }
+
+    public class Response
+    {
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
         {
+            _context = context;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            private readonly IwentysDbContext _context;
+            List<CourseLeaderboardRow> oldRows = await _context
+                .CourseLeaderboardRows
+                .Where(clr => clr.CourseId == request.CourseId)
+                .ToListAsync();
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+            List<SubjectActivity> result = _context
+                .GetStudentActivities(new StudySearchParametersDto { CourseId = request.CourseId })
+                .ToList();
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                List<CourseLeaderboardRow> oldRows = await _context
-                    .CourseLeaderboardRows
-                    .Where(clr => clr.CourseId == request.CourseId)
-                    .ToListAsync();
+            List<CourseLeaderboardRow> newRows = Create(request.CourseId, result, oldRows);
 
-                List<SubjectActivity> result = _context
-                    .GetStudentActivities(new StudySearchParametersDto { CourseId = request.CourseId })
-                    .ToList();
+            _context.CourseLeaderboardRows.RemoveRange(oldRows);
+            _context.CourseLeaderboardRows.AddRange(newRows);
+            return new Response();
+        }
 
-                List<CourseLeaderboardRow> newRows = Create(request.CourseId, result, oldRows);
+        public static List<CourseLeaderboardRow> Create(int courseId, List<SubjectActivity> rows, List<CourseLeaderboardRow> oldRows)
+        {
+            Dictionary<int, int> mapToOld = oldRows.ToDictionary(v => v.StudentId, v => v.Position);
 
-                _context.CourseLeaderboardRows.RemoveRange(oldRows);
-                _context.CourseLeaderboardRows.AddRange(newRows);
-                return new Response();
-            }
+            return rows
+                .GroupBy(r => r.StudentId)
+                .Select(g => new StudyLeaderboardRowDto(g.ToList()))
+                .OrderByDescending(a => a.Activity)
+                .Take(50)
+                .OrderByDescending(r => r.Activity)
+                .Select((r, position) => CreateRow(r, courseId, position, mapToOld))
+                .ToList();
+        }
 
-            public static List<CourseLeaderboardRow> Create(int courseId, List<SubjectActivity> rows, List<CourseLeaderboardRow> oldRows)
-            {
-                Dictionary<int, int> mapToOld = oldRows.ToDictionary(v => v.StudentId, v => v.Position);
+        private static CourseLeaderboardRow CreateRow(StudyLeaderboardRowDto row, int courseId, int position, Dictionary<int, int> mapToOld)
+        {
+            int? oldPosition = null;
+            if (mapToOld.TryGetValue(row.Student.Id, out var value))
+                oldPosition = value;
 
-                return rows
-                    .GroupBy(r => r.StudentId)
-                    .Select(g => new StudyLeaderboardRowDto(g.ToList()))
-                    .OrderByDescending(a => a.Activity)
-                    .Take(50)
-                    .OrderByDescending(r => r.Activity)
-                    .Select((r, position) => CreateRow(r, courseId, position, mapToOld))
-                    .ToList();
-            }
-
-            private static CourseLeaderboardRow CreateRow(StudyLeaderboardRowDto row, int courseId, int position, Dictionary<int, int> mapToOld)
-            {
-                int? oldPosition = null;
-                if (mapToOld.TryGetValue(row.Student.Id, out var value))
-                    oldPosition = value;
-
-                return new CourseLeaderboardRow { Position = position + 1, CourseId = courseId, StudentId = row.Student.Id, OldPosition = oldPosition };
-            }
+            return new CourseLeaderboardRow { Position = position + 1, CourseId = courseId, StudentId = row.Student.Id, OldPosition = oldPosition };
         }
     }
 }

@@ -7,47 +7,46 @@ using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Gamification
+namespace Iwentys.Gamification;
+
+public static class GetCreatedByUser
 {
-    public static class GetCreatedByUser
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public AuthorizedUser AuthorizedUser { get; set; }
+        public Query(AuthorizedUser authorizedUser)
         {
-            public AuthorizedUser AuthorizedUser { get; set; }
-            public Query(AuthorizedUser authorizedUser)
-            {
-                AuthorizedUser = authorizedUser;
-            }
+            AuthorizedUser = authorizedUser;
+        }
+    }
+
+    public class Response
+    {
+        public Response(List<QuestInfoDto> questInfos)
+        {
+            QuestInfos = questInfos;
         }
 
-        public class Response
-        {
-            public Response(List<QuestInfoDto> questInfos)
-            {
-                QuestInfos = questInfos;
-            }
+        public List<QuestInfoDto> QuestInfos { get; set; }
+    }
 
-            public List<QuestInfoDto> QuestInfos { get; set; }
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
+        {
+            _context = context;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            private readonly IwentysDbContext _context;
+            List<QuestInfoDto> result = await _context.Quests
+                .Where(q => q.AuthorId == request.AuthorizedUser.Id)
+                .Select(QuestInfoDto.FromEntity)
+                .ToListAsync();
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
-
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                List<QuestInfoDto> result = await _context.Quests
-                    .Where(q => q.AuthorId == request.AuthorizedUser.Id)
-                    .Select(QuestInfoDto.FromEntity)
-                    .ToListAsync();
-
-                return new Response(result);
-            }
+            return new Response(result);
         }
     }
 }

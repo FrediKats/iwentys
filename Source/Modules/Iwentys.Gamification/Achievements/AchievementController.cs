@@ -4,31 +4,30 @@ using Iwentys.Domain.Achievements;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Gamification
+namespace Iwentys.Gamification;
+
+[Route("api/achievements")]
+[ApiController]
+public class AchievementController : ControllerBase
 {
-    [Route("api/achievements")]
-    [ApiController]
-    public class AchievementController : ControllerBase
+    private readonly IMediator _mediator;
+
+    public AchievementController(IMediator mediator)
     {
-        private readonly IMediator _mediator;
+        _mediator = mediator;
+    }
 
-        public AchievementController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+    [HttpGet(nameof(GetByStudentId))]
+    public async Task<ActionResult<List<AchievementInfoDto>>> GetByStudentId(int studentId)
+    {
+        GetByStudentId.Response response = await _mediator.Send(new GetByStudentId.Query(studentId));
+        return Ok(response.Achievements);
+    }
 
-        [HttpGet(nameof(GetByStudentId))]
-        public async Task<ActionResult<List<AchievementInfoDto>>> GetByStudentId(int studentId)
-        {
-            GetByStudentId.Response response = await _mediator.Send(new GetByStudentId.Query(studentId));
-            return Ok(response.Achievements);
-        }
-
-        [HttpGet(nameof(GetByGuildId))]
-        public async Task<ActionResult<List<AchievementInfoDto>>> GetByGuildId(int guildId)
-        {
-            GetByGuildId.Response response = await _mediator.Send(new GetByGuildId.Query(guildId));
-            return Ok(response.Achievements);
-        }
+    [HttpGet(nameof(GetByGuildId))]
+    public async Task<ActionResult<List<AchievementInfoDto>>> GetByGuildId(int guildId)
+    {
+        GetByGuildId.Response response = await _mediator.Send(new GetByGuildId.Query(guildId));
+        return Ok(response.Achievements);
     }
 }

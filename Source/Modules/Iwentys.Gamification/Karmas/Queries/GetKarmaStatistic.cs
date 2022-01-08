@@ -4,51 +4,50 @@ using Iwentys.DataAccess;
 using Iwentys.Domain.Karmas;
 using MediatR;
 
-namespace Iwentys.Gamification
+namespace Iwentys.Gamification;
+
+public static class GetKarmaStatistic
 {
-    public static class GetKarmaStatistic
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
-        {
-            public int StudentId { get; set; }
+        public int StudentId { get; set; }
 
-            public Query(int studentId)
-            {
-                StudentId = studentId;
-            }
+        public Query(int studentId)
+        {
+            StudentId = studentId;
+        }
+    }
+
+    public class Response
+    {
+        public int StudentId { get; set; }
+        public int Karma { get; set; }
+
+        public List<int> UpVotes { get; set; }
+    }
+
+    public class Handler : RequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
+        {
+            _context = context;
         }
 
-        public class Response
+        protected override Response Handle(Query request)
         {
-            public int StudentId { get; set; }
-            public int Karma { get; set; }
+            List<KarmaUpVote> karmaUpVotes = _context
+                .KarmaUpVotes
+                .Where(karma => karma.TargetId == request.StudentId)
+                .ToList();
 
-            public List<int> UpVotes { get; set; }
-        }
-
-        public class Handler : RequestHandler<Query, Response>
-        {
-            private readonly IwentysDbContext _context;
-
-            public Handler(IwentysDbContext context)
+            return new Response
             {
-                _context = context;
-            }
-
-            protected override Response Handle(Query request)
-            {
-                List<KarmaUpVote> karmaUpVotes = _context
-                    .KarmaUpVotes
-                    .Where(karma => karma.TargetId == request.StudentId)
-                    .ToList();
-
-                return new Response
-                {
-                    StudentId = request.StudentId,
-                    Karma = karmaUpVotes.Count,
-                    UpVotes = karmaUpVotes.Select(u => u.AuthorId).ToList()
-                };
-            }
+                StudentId = request.StudentId,
+                Karma = karmaUpVotes.Count,
+                UpVotes = karmaUpVotes.Select(u => u.AuthorId).ToList()
+            };
         }
     }
 }

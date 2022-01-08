@@ -1,28 +1,27 @@
 ﻿using Iwentys.Sdk;
 
-namespace Iwentys.WebClient.Content
+namespace Iwentys.WebClient.Content;
+
+public partial class QuestProfilePage
 {
-    public partial class QuestProfilePage
+    private QuestInfoDto _quest;
+
+    protected override async Task OnInitializedAsync()
     {
-        private QuestInfoDto _quest;
+        await base.OnInitializedAsync();
 
-        protected override async Task OnInitializedAsync()
+        _quest = await _questClient.GetByIdAsync(QuestId);
+    }
+
+    private async Task AcceptQuestResponse(QuestResponseInfoDto questResponse)
+    {
+        var arguments = new QuestCompleteArguments
         {
-            await base.OnInitializedAsync();
+            UserId = questResponse.Student.Id,
+            //TODO: implement selecting mark
+            Mark = 5
+        };
 
-            _quest = await _questClient.GetByIdAsync(QuestId);
-        }
-
-        private async Task AcceptQuestResponse(QuestResponseInfoDto questResponse)
-        {
-            var arguments = new QuestCompleteArguments
-            {
-                UserId = questResponse.Student.Id,
-                //TODO: implement selecting mark
-                Mark = 5
-            };
-
-            await _questClient.CompleteAsync(_quest.Id, arguments);
-        }
+        await _questClient.CompleteAsync(_quest.Id, arguments);
     }
 }

@@ -3,47 +3,46 @@ using Iwentys.DataAccess;
 using Iwentys.Domain.Gamification;
 using MediatR;
 
-namespace Iwentys.Gamification
+namespace Iwentys.Gamification;
+
+public static class FindStudentLeaderboardPosition
 {
-    public static class FindStudentLeaderboardPosition
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(int studentId)
         {
-            public Query(int studentId)
-            {
-                StudentId = studentId;
-            }
-
-            public int StudentId { get; set; }
+            StudentId = studentId;
         }
 
-        public class Response
-        {
-            public Response(CourseLeaderboardRow position)
-            {
-                Position = position;
-            }
+        public int StudentId { get; set; }
+    }
 
-            public CourseLeaderboardRow Position { get; set; }
+    public class Response
+    {
+        public Response(CourseLeaderboardRow position)
+        {
+            Position = position;
         }
 
-        public class Handler : RequestHandler<Query, Response>
+        public CourseLeaderboardRow Position { get; set; }
+    }
+
+    public class Handler : RequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
         {
-            private readonly IwentysDbContext _context;
+            _context = context;
+        }
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+        protected override Response Handle(Query request)
+        {
+            CourseLeaderboardRow result = _context
+                .CourseLeaderboardRows
+                .FirstOrDefault(clr => clr.StudentId == request.StudentId);
 
-            protected override Response Handle(Query request)
-            {
-                CourseLeaderboardRow result = _context
-                    .CourseLeaderboardRows
-                    .FirstOrDefault(clr => clr.StudentId == request.StudentId);
-
-                return new Response(result);
-            }
+            return new Response(result);
         }
     }
 }

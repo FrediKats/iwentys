@@ -1,21 +1,20 @@
 ﻿using Iwentys.Sdk;
 
-namespace Iwentys.WebClient.Content
+namespace Iwentys.WebClient.Content;
+
+public partial class GuildNewsfeedCreatePage
 {
-    public partial class GuildNewsfeedCreatePage
+    private string _title;
+    private string _description;
+
+    private async Task ExecuteCreateNewsfeed()
     {
-        private string _title;
-        private string _description;
-
-        private async Task ExecuteCreateNewsfeed()
+        await _newsfeedClient.CreateGuildNewsfeedAsync(GuildId, new NewsfeedCreateViewModel
         {
-            await _newsfeedClient.CreateGuildNewsfeedAsync(GuildId, new NewsfeedCreateViewModel
-            {
-                Title = _title,
-                Content = _description
-            });
+            Title = _title,
+            Content = _description
+        });
 
-            _navigationManager.NavigateTo($"/guild/profile/{GuildId}");
-        }
+        _navigationManager.NavigateTo($"/guild/profile/{GuildId}");
     }
 }

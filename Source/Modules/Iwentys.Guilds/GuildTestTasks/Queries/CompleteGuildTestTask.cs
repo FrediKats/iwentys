@@ -8,57 +8,56 @@ using Iwentys.Domain.Guilds;
 using Iwentys.WebService.Application;
 using MediatR;
 
-namespace Iwentys.Guilds
+namespace Iwentys.Guilds;
+
+public static class CompleteGuildTestTask
 {
-    public static class CompleteGuildTestTask
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(int guildId, AuthorizedUser user, int taskSolveOwnerId)
         {
-            public Query(int guildId, AuthorizedUser user, int taskSolveOwnerId)
-            {
-                GuildId = guildId;
-                User = user;
-                TaskSolveOwnerId = taskSolveOwnerId;
-            }
-
-            public AuthorizedUser User { get; set; }
-            public int GuildId { get; set; }
-            public int TaskSolveOwnerId { get; set; }
+            GuildId = guildId;
+            User = user;
+            TaskSolveOwnerId = taskSolveOwnerId;
         }
 
-        public class Response
-        {
-            public Response(GuildTestTaskInfoResponse testTaskInfo)
-            {
-                TestTaskInfo = testTaskInfo;
-            }
+        public AuthorizedUser User { get; set; }
+        public int GuildId { get; set; }
+        public int TaskSolveOwnerId { get; set; }
+    }
 
-            public GuildTestTaskInfoResponse TestTaskInfo { get; set; }
+    public class Response
+    {
+        public Response(GuildTestTaskInfoResponse testTaskInfo)
+        {
+            TestTaskInfo = testTaskInfo;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public GuildTestTaskInfoResponse TestTaskInfo { get; set; }
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+        private readonly AchievementProvider _achievementProvider;
+
+        public Handler(IwentysDbContext context, AchievementProvider achievementProvider)
         {
-            private readonly IwentysDbContext _context;
-            private readonly AchievementProvider _achievementProvider;
+            _context = context;
+            _achievementProvider = achievementProvider;
+        }
 
-            public Handler(IwentysDbContext context, AchievementProvider achievementProvider)
-            {
-                _context = context;
-                _achievementProvider = achievementProvider;
-            }
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+        {
+            IwentysUser review = await _context.IwentysUsers.GetById(request.User.Id);
+            GuildTestTaskSolution testTask = await _context.GuildTestTaskSolvingInfos.GetSingle(t => t.AuthorId == request.TaskSolveOwnerId && t.GuildId == request.GuildId);
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                IwentysUser review = await _context.IwentysUsers.GetById(request.User.Id);
-                GuildTestTaskSolution testTask = await _context.GuildTestTaskSolvingInfos.GetSingle(t => t.AuthorId == request.TaskSolveOwnerId && t.GuildId == request.GuildId);
+            testTask.SetCompleted(review);
+            _achievementProvider.AchieveForStudent(AchievementList.TestTaskDone, request.TaskSolveOwnerId);
+            await AchievementHack.ProcessAchievement(_achievementProvider, _context);
 
-                testTask.SetCompleted(review);
-                _achievementProvider.AchieveForStudent(AchievementList.TestTaskDone, request.TaskSolveOwnerId);
-                await AchievementHack.ProcessAchievement(_achievementProvider, _context);
-
-                _context.GuildTestTaskSolvingInfos.Update(testTask);
-                return new Response(GuildTestTaskInfoResponse.Wrap(testTask));
-            }
+            _context.GuildTestTaskSolvingInfos.Update(testTask);
+            return new Response(GuildTestTaskInfoResponse.Wrap(testTask));
         }
     }
 }

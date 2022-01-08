@@ -8,51 +8,50 @@ using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.AccountManagement
+namespace Iwentys.AccountManagement;
+
+public class UpdateStudentProfile
 {
-    public class UpdateStudentProfile
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(AuthorizedUser authorizedUser, StudentUpdateRequestDto studentUpdateRequest)
         {
-            public Query(AuthorizedUser authorizedUser, StudentUpdateRequestDto studentUpdateRequest)
-            {
-                AuthorizedUser = authorizedUser;
-                StudentUpdateRequest = studentUpdateRequest;
-            }
-
-            public AuthorizedUser AuthorizedUser { get; set; }
-            public StudentUpdateRequestDto StudentUpdateRequest { get; set; }
+            AuthorizedUser = authorizedUser;
+            StudentUpdateRequest = studentUpdateRequest;
         }
 
-        public class Response
+        public AuthorizedUser AuthorizedUser { get; set; }
+        public StudentUpdateRequestDto StudentUpdateRequest { get; set; }
+    }
+
+    public class Response
+    {
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
         {
+            _context = context;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            private readonly IwentysDbContext _context;
+            //TODO: move to domain
+            bool isUsernameUsed = await _context.IwentysUsers.AnyAsync(s => s.GithubUsername == request.StudentUpdateRequest.GithubUsername);
+            if (isUsernameUsed)
+                throw InnerLogicException.StudentExceptions.GithubAlreadyUser(request.StudentUpdateRequest.GithubUsername);
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+            //throw new NotImplementedException("Need to validate github credentials");
+            IwentysUser user = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
+            user.GithubUsername = request.StudentUpdateRequest.GithubUsername;
+            _context.IwentysUsers.Update(user);
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                //TODO: move to domain
-                bool isUsernameUsed = await _context.IwentysUsers.AnyAsync(s => s.GithubUsername == request.StudentUpdateRequest.GithubUsername);
-                if (isUsernameUsed)
-                    throw InnerLogicException.StudentExceptions.GithubAlreadyUser(request.StudentUpdateRequest.GithubUsername);
+            //await _achievementProvider.AchieveForStudent(AchievementList.AddGithubAchievement, user.Id);
 
-                //throw new NotImplementedException("Need to validate github credentials");
-                IwentysUser user = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
-                user.GithubUsername = request.StudentUpdateRequest.GithubUsername;
-                _context.IwentysUsers.Update(user);
-
-                //await _achievementProvider.AchieveForStudent(AchievementList.AddGithubAchievement, user.Id);
-
-                return new Response();
-            }
+            return new Response();
         }
     }
 }

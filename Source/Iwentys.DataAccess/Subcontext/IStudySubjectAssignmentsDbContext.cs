@@ -1,19 +1,18 @@
 ﻿using Iwentys.Domain.SubjectAssignments;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.DataAccess
+namespace Iwentys.DataAccess;
+
+public interface IStudySubjectAssignmentsDbContext
 {
-    public interface IStudySubjectAssignmentsDbContext
+    public DbSet<GroupSubjectAssignment> GroupSubjectAssignments { get; set; }
+    public DbSet<SubjectAssignment> SubjectAssignments { get; set; }
+    public DbSet<SubjectAssignmentSubmit> SubjectAssignmentSubmits { get; set; }
+}
+public static class StudySubjectAssignmentsDbContextExtensions
+{
+    public static void OnStudySubjectAssignmentsModelCreating(this ModelBuilder modelBuilder)
     {
-        public DbSet<GroupSubjectAssignment> GroupSubjectAssignments { get; set; }
-        public DbSet<SubjectAssignment> SubjectAssignments { get; set; }
-        public DbSet<SubjectAssignmentSubmit> SubjectAssignmentSubmits { get; set; }
-    }
-    public static class StudySubjectAssignmentsDbContextExtensions
-    {
-        public static void OnStudySubjectAssignmentsModelCreating(this ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<GroupSubjectAssignment>().HasKey(gsa => new { gsa.GroupId, gsa.SubjectAssignmentId });
-        }
+        modelBuilder.Entity<GroupSubjectAssignment>().HasKey(gsa => new { gsa.GroupId, gsa.SubjectAssignmentId });
     }
 }

@@ -1,73 +1,72 @@
 ﻿using Iwentys.Sdk;
 using MudBlazor;
 
-namespace Iwentys.WebClient.Content
+namespace Iwentys.WebClient.Content;
+
+public partial class SubjectAssignmentSubmitJournalPage
 {
-    public partial class SubjectAssignmentSubmitJournalPage
+    private ICollection<SubjectAssignmentSubmitDto> _subjectAssignmentSubmits;
+    private ICollection<SubjectAssignmentSubmitDto> _tableSubjectAssignmentSubmits;
+    private string _searchString = "";
+    private string _stateSelectorValue = "";
+
+    protected override async Task OnInitializedAsync()
     {
-        private ICollection<SubjectAssignmentSubmitDto> _subjectAssignmentSubmits;
-        private ICollection<SubjectAssignmentSubmitDto> _tableSubjectAssignmentSubmits;
-        private string _searchString = "";
-        private string _stateSelectorValue = "";
+        await base.OnInitializedAsync();
 
-        protected override async Task OnInitializedAsync()
+        _subjectAssignmentSubmits = await _mentorSubjectAssignmentSubmitClient.SearchSubjectAssignmentSubmitsAsync(new SubjectAssignmentSubmitSearchArguments
         {
-            await base.OnInitializedAsync();
+            SubjectId = SubjectId
+        });
 
-            _subjectAssignmentSubmits = await _mentorSubjectAssignmentSubmitClient.SearchSubjectAssignmentSubmitsAsync(new SubjectAssignmentSubmitSearchArguments
-            {
-                SubjectId = SubjectId
-            });
+        _tableSubjectAssignmentSubmits = new List<SubjectAssignmentSubmitDto>(_subjectAssignmentSubmits);
+    }
 
-            _tableSubjectAssignmentSubmits = new List<SubjectAssignmentSubmitDto>(_subjectAssignmentSubmits);
-        }
+    private void NavigateToSubmitPage(object row)
+    {
+        //TODO: replace exception
+        if (row is not SubjectAssignmentSubmitDto submit)
+            throw new Exception("Something goes wrong.");
 
-        private void NavigateToSubmitPage(object row)
-        {
-            //TODO: replace exception
-            if (row is not SubjectAssignmentSubmitDto submit)
-                throw new Exception("Something goes wrong.");
-
-            _navigationManager.NavigateTo($"/subject/{SubjectId}/management/assignments/submits/{submit.Id}");
-        }
+        _navigationManager.NavigateTo($"/subject/{SubjectId}/management/assignments/submits/{submit.Id}");
+    }
         
-        private bool IsMatchedWithSearchRequest(SubjectAssignmentSubmitDto assignment)
-        {
-            bool searched = IsMatchedWithSearchString(assignment);
+    private bool IsMatchedWithSearchRequest(SubjectAssignmentSubmitDto assignment)
+    {
+        bool searched = IsMatchedWithSearchString(assignment);
 
-            bool dateRangeIsOk = DateRangeIsOk(_approveDatePicker.DateRange, assignment.ApproveTimeUtc) &&
-                                 DateRangeIsOk(_rejectDatePicker.DateRange, assignment.RejectTimeUtc) &&
-                                 DateRangeIsOk(_submitDatePicker.DateRange, assignment.SubmitTimeUtc);
+        bool dateRangeIsOk = DateRangeIsOk(_approveDatePicker.DateRange, assignment.ApproveTimeUtc) &&
+                             DateRangeIsOk(_rejectDatePicker.DateRange, assignment.RejectTimeUtc) &&
+                             DateRangeIsOk(_submitDatePicker.DateRange, assignment.SubmitTimeUtc);
 
-            bool selectStateIsOk = assignment.State.ToString().Equals(_stateSelectorValue) ||
-                                   string.IsNullOrEmpty(_stateSelectorValue);
+        bool selectStateIsOk = assignment.State.ToString().Equals(_stateSelectorValue) ||
+                               string.IsNullOrEmpty(_stateSelectorValue);
             
             
-            return searched && dateRangeIsOk && selectStateIsOk;
-        }
+        return searched && dateRangeIsOk && selectStateIsOk;
+    }
 
-        private bool IsMatchedWithSearchString(SubjectAssignmentSubmitDto assignment)
+    private bool IsMatchedWithSearchString(SubjectAssignmentSubmitDto assignment)
+    {
+        return string.IsNullOrWhiteSpace(_searchString) ||
+               assignment.SubjectAssignmentTitle.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+               assignment.Student.SecondName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+               assignment.Student.FirstName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+               $"{assignment.SubmitTimeUtc} {assignment.RejectTimeUtc} {assignment.ApproveTimeUtc}".Contains(_searchString, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private bool DateRangeIsOk(DateRange dateRange, DateTime? date)
+    {
+        if (dateRange == null || dateRange.End == null && dateRange.Start == null)
         {
-            return string.IsNullOrWhiteSpace(_searchString) ||
-                   assignment.SubjectAssignmentTitle.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
-                   assignment.Student.SecondName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
-                   assignment.Student.FirstName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
-                   $"{assignment.SubmitTimeUtc} {assignment.RejectTimeUtc} {assignment.ApproveTimeUtc}".Contains(_searchString, StringComparison.OrdinalIgnoreCase);
+            return true;
         }
 
-        private bool DateRangeIsOk(DateRange dateRange, DateTime? date)
+        if (date != null && dateRange.Start.Value.Date <= date.Value.Date && dateRange.End.Value.Date >= date.Value.Date)
         {
-            if (dateRange == null || dateRange.End == null && dateRange.Start == null)
-            {
-                return true;
-            }
-
-            if (date != null && dateRange.Start.Value.Date <= date.Value.Date && dateRange.End.Value.Date >= date.Value.Date)
-            {
-                return true;
-            }
-
-            return false;
+            return true;
         }
+
+        return false;
     }
 }

@@ -1,10 +1,9 @@
 ﻿using Iwentys.Domain.Gamification;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.DataAccess
+namespace Iwentys.DataAccess;
+
+public interface IEconomyDbContext
 {
-    public interface IEconomyDbContext
-    {
-        public DbSet<BarsPointTransaction> BarsPointTransactionLogs { get; set; }
-    }
+    public DbSet<BarsPointTransaction> BarsPointTransactionLogs { get; set; }
 }

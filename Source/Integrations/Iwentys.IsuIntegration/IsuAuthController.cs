@@ -6,39 +6,38 @@ using Microsoft.AspNetCore.Mvc;
 using Tef.IsuIntegrator;
 using Tef.IsuIntegrator.Responses;
 
-namespace Iwentys.IsuIntegration
+namespace Iwentys.IsuIntegration;
+
+[Route("api/[controller]")]
+[ApiController]
+public class IsuAuthController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class IsuAuthController : ControllerBase
+    private readonly IsuApiAccessor _isuApiAccessor;
+    //TODO: fix null value
+    private readonly string _jwtIssuer = null;
+
+    public IsuAuthController(IsuApplicationOptions isuApplicationOptions)
     {
-        private readonly IsuApiAccessor _isuApiAccessor;
-        //TODO: fix null value
-        private readonly string _jwtIssuer = null;
+        _isuApiAccessor = new IsuApiAccessor(isuApplicationOptions.IsuClientId, isuApplicationOptions.IsuClientSecret, isuApplicationOptions.IsuRedirection);
+    }
 
-        public IsuAuthController(IsuApplicationOptions isuApplicationOptions)
+    //TODO: I'm no sure it is work. We missed IJwtSigningEncodingKey registration
+    [HttpGet]
+    public async Task<ActionResult<IsuAuthResponse>> Get(string code, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
+    {
+        AuthorizeResponse authResponse = await _isuApiAccessor.Authorize(code);
+        if (!authResponse.IsSuccess)
+            return BadRequest(authResponse.ErrorResponse);
+
+        IsuUserDataResponse userData = await _isuApiAccessor.GetUserData(authResponse.TokenResponse.AccessToken);
+
+        IwentysAuthResponse token = TokenGenerator.Generate(userData.Id, signingEncodingKey, _jwtIssuer);
+        var response = new IsuAuthResponse
         {
-            _isuApiAccessor = new IsuApiAccessor(isuApplicationOptions.IsuClientId, isuApplicationOptions.IsuClientSecret, isuApplicationOptions.IsuRedirection);
-        }
+            Token = token.Token,
+            User = JsonSerializer.Serialize(userData)
+        };
 
-        //TODO: I'm no sure it is work. We missed IJwtSigningEncodingKey registration
-        [HttpGet]
-        public async Task<ActionResult<IsuAuthResponse>> Get(string code, [FromServices] IJwtSigningEncodingKey signingEncodingKey)
-        {
-            AuthorizeResponse authResponse = await _isuApiAccessor.Authorize(code);
-            if (!authResponse.IsSuccess)
-                return BadRequest(authResponse.ErrorResponse);
-
-            IsuUserDataResponse userData = await _isuApiAccessor.GetUserData(authResponse.TokenResponse.AccessToken);
-
-            IwentysAuthResponse token = TokenGenerator.Generate(userData.Id, signingEncodingKey, _jwtIssuer);
-            var response = new IsuAuthResponse
-            {
-                Token = token.Token,
-                User = JsonSerializer.Serialize(userData)
-            };
-
-            return Ok(response);
-        }
+        return Ok(response);
     }
 }

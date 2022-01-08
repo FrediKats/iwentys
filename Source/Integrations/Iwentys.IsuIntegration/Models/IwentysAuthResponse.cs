@@ -1,7 +1,6 @@
-﻿namespace Iwentys.IsuIntegration.Models
+﻿namespace Iwentys.IsuIntegration.Models;
+
+public class IwentysAuthResponse
 {
-    public class IwentysAuthResponse
-    {
-        public string Token { get; set; }
-    }
+    public string Token { get; set; }
 }

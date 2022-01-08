@@ -1,9 +1,8 @@
-﻿namespace Iwentys.Domain.PeerReview
+﻿namespace Iwentys.Domain.PeerReview;
+
+public enum ReviewFeedbackSummary
 {
-    public enum ReviewFeedbackSummary
-    {
-        LooksGoodToMe = 1,
-        WithComments,
-        NeedWork
-    }
+    LooksGoodToMe = 1,
+    WithComments,
+    NeedWork
 }

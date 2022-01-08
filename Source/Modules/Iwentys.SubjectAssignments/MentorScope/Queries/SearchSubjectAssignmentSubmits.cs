@@ -10,56 +10,55 @@ using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.SubjectAssignments
+namespace Iwentys.SubjectAssignments;
+
+public static class SearchSubjectAssignmentSubmits
 {
-    public static class SearchSubjectAssignmentSubmits
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(SubjectAssignmentSubmitSearchArguments searchArguments, AuthorizedUser authorizedUser)
         {
-            public Query(SubjectAssignmentSubmitSearchArguments searchArguments, AuthorizedUser authorizedUser)
-            {
-                SearchArguments = searchArguments;
-                AuthorizedUser = authorizedUser;
-            }
-
-            public SubjectAssignmentSubmitSearchArguments SearchArguments { get; set; }
-            public AuthorizedUser AuthorizedUser { get; set; }
+            SearchArguments = searchArguments;
+            AuthorizedUser = authorizedUser;
         }
 
-        public class Response
+        public SubjectAssignmentSubmitSearchArguments SearchArguments { get; set; }
+        public AuthorizedUser AuthorizedUser { get; set; }
+    }
+
+    public class Response
+    {
+        public Response(List<SubjectAssignmentSubmitDto> submits)
         {
-            public Response(List<SubjectAssignmentSubmitDto> submits)
-            {
-                Submits = submits;
-            }
-
-            public List<SubjectAssignmentSubmitDto> Submits { get; set; }
-
+            Submits = submits;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public List<SubjectAssignmentSubmitDto> Submits { get; set; }
+
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
         {
-            private readonly IwentysDbContext _context;
+            _context = context;
+        }
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+        {
+            Subject subject = await _context.Subjects.GetById(request.SearchArguments.SubjectId);
+            IwentysUser iwentysUser = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
+            //TODO: move to domain
+            iwentysUser.EnsureIsMentor(subject);
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Subject subject = await _context.Subjects.GetById(request.SearchArguments.SubjectId);
-                IwentysUser iwentysUser = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
-                //TODO: move to domain
-                iwentysUser.EnsureIsMentor(subject);
+            List<SubjectAssignmentSubmitDto> submits = await SubjectAssignmentSubmitRepository
+                .ApplySearch(_context.SubjectAssignmentSubmits, request.SearchArguments)
+                .Select(sas => new SubjectAssignmentSubmitDto(sas))
+                .ToListAsync(cancellationToken);
 
-                List<SubjectAssignmentSubmitDto> submits = await SubjectAssignmentSubmitRepository
-                    .ApplySearch(_context.SubjectAssignmentSubmits, request.SearchArguments)
-                    .Select(sas => new SubjectAssignmentSubmitDto(sas))
-                    .ToListAsync(cancellationToken);
-
-                return new Response(submits);
-            }
+            return new Response(submits);
         }
     }
 }

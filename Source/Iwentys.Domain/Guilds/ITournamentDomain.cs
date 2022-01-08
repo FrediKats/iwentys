@@ -1,9 +1,8 @@
-﻿namespace Iwentys.Domain.Guilds
+﻿namespace Iwentys.Domain.Guilds;
+
+public interface ITournamentDomain
 {
-    public interface ITournamentDomain
-    {
-        //TournamentLeaderboardDto GetLeaderboard();
-        void RewardWinners();
-        void UpdateResult();
-    }
+    //TournamentLeaderboardDto GetLeaderboard();
+    void RewardWinners();
+    void UpdateResult();
 }

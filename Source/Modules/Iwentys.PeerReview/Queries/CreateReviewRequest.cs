@@ -9,57 +9,56 @@ using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Iwentys.PeerReview
+namespace Iwentys.PeerReview;
+
+public class CreateReviewRequest
 {
-    public class CreateReviewRequest
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(AuthorizedUser authorizedUser, ReviewRequestCreateArguments arguments)
         {
-            public Query(AuthorizedUser authorizedUser, ReviewRequestCreateArguments arguments)
-            {
-                AuthorizedUser = authorizedUser;
-                Arguments = arguments;
-            }
-
-            public AuthorizedUser AuthorizedUser { get; set; }
-            public ReviewRequestCreateArguments Arguments { get; set; }
+            AuthorizedUser = authorizedUser;
+            Arguments = arguments;
         }
 
-        public class Response
-        {
-            public ProjectReviewRequestInfoDto Result { get; }
+        public AuthorizedUser AuthorizedUser { get; set; }
+        public ReviewRequestCreateArguments Arguments { get; set; }
+    }
 
-            public Response(ProjectReviewRequestInfoDto result)
-            {
-                Result = result;
-            }
+    public class Response
+    {
+        public ProjectReviewRequestInfoDto Result { get; }
+
+        public Response(ProjectReviewRequestInfoDto result)
+        {
+            Result = result;
+        }
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
+        {
+            _context = context;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            private readonly IwentysDbContext _context;
+            GithubProject githubProject = await _context.StudentProjects.GetById(request.Arguments.ProjectId);
+            IwentysUser user = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+            var projectReviewRequest = ProjectReviewRequest.Create(user, githubProject, request.Arguments);
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                GithubProject githubProject = await _context.StudentProjects.GetById(request.Arguments.ProjectId);
-                IwentysUser user = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
-
-                var projectReviewRequest = ProjectReviewRequest.Create(user, githubProject, request.Arguments);
-
-                EntityEntry<ProjectReviewRequest> createRequest = _context.ProjectReviewRequests.Add(projectReviewRequest);
+            EntityEntry<ProjectReviewRequest> createRequest = _context.ProjectReviewRequests.Add(projectReviewRequest);
                 
-                ProjectReviewRequestInfoDto result = _context
-                    .ProjectReviewRequests
-                    .Select(ProjectReviewRequestInfoDto.FromEntity)
-                    .First(p => p.Id == createRequest.Entity.Id);
+            ProjectReviewRequestInfoDto result = _context
+                .ProjectReviewRequests
+                .Select(ProjectReviewRequestInfoDto.FromEntity)
+                .First(p => p.Id == createRequest.Entity.Id);
 
-                return new Response(result);
-            }
+            return new Response(result);
         }
     }
 }

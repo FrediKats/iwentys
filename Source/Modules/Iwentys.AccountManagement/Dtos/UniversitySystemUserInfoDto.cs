@@ -1,30 +1,29 @@
 ﻿using Iwentys.Domain.AccountManagement;
 
-namespace Iwentys.AccountManagement
+namespace Iwentys.AccountManagement;
+
+public class UniversitySystemUserInfoDto
 {
-    public class UniversitySystemUserInfoDto
+    public UniversitySystemUserInfoDto(UniversitySystemUser user) : this()
     {
-        public UniversitySystemUserInfoDto(UniversitySystemUser user) : this()
-        {
-            Id = user.Id;
-            FirstName = user.FirstName;
-            MiddleName = user.MiddleName;
-            SecondName = user.SecondName;
-        }
+        Id = user.Id;
+        FirstName = user.FirstName;
+        MiddleName = user.MiddleName;
+        SecondName = user.SecondName;
+    }
 
-        public UniversitySystemUserInfoDto()
-        {
-        }
+    public UniversitySystemUserInfoDto()
+    {
+    }
 
-        public int Id { get; init; }
+    public int Id { get; init; }
 
-        public string FirstName { get; init; }
-        public string MiddleName { get; init; }
-        public string SecondName { get; init; }
+    public string FirstName { get; init; }
+    public string MiddleName { get; init; }
+    public string SecondName { get; init; }
 
-        public string GetFullName()
-        {
-            return $"{FirstName} {SecondName}";
-        }
+    public string GetFullName()
+    {
+        return $"{FirstName} {SecondName}";
     }
 }

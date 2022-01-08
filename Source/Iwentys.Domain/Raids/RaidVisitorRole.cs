@@ -1,9 +1,8 @@
-﻿namespace Iwentys.Domain.Raids
+﻿namespace Iwentys.Domain.Raids;
+
+public enum RaidVisitorRole
 {
-    public enum RaidVisitorRole
-    {
-        Pending = 1,
-        Approved,
-        Manager
-    }
+    Pending = 1,
+    Approved,
+    Manager
 }

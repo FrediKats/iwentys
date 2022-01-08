@@ -1,7 +1,6 @@
-﻿namespace Iwentys.Domain.Raids
+﻿namespace Iwentys.Domain.Raids;
+
+public class RaidPartySearchRequestArguments
 {
-    public class RaidPartySearchRequestArguments
-    {
-        public string Description { get; set; }
-    }
+    public string Description { get; set; }
 }

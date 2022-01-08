@@ -1,9 +1,8 @@
 ﻿using Bogus;
 
-namespace Iwentys.DataAccess.Seeding
+namespace Iwentys.DataAccess.Seeding;
+
+public static class RandomExtensions
 {
-    public static class RandomExtensions
-    {
-        public static readonly Faker Instance = new Faker();
-    }
+    public static readonly Faker Instance = new Faker();
 }

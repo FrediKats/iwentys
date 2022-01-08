@@ -13,36 +13,35 @@ using Microsoft.Extensions.Logging;
 using MudBlazor.Services;
 using VxFormGenerator.Settings.Bootstrap;
 
-namespace Iwentys.WebClient
+namespace Iwentys.WebClient;
+
+public class Program
 {
-    public class Program
+    public static Task Main(string[] args)
     {
-        public static Task Main(string[] args)
-        {
 
-            var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.RootComponents.Add<App>("#app");
+        var builder = WebAssemblyHostBuilder.CreateDefault(args);
+        builder.RootComponents.Add<App>("#app");
 
-            builder.Services
-                .AddHttpClient("Iwentys.Endpoint.ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
-                .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
-            builder.Services
-                .AddApiAuthorization()
-                .AddAccountClaimsPrincipalFactory<CustomUserFactory>();
+        builder.Services
+            .AddHttpClient("Iwentys.Endpoint.ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
+            .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
+        builder.Services
+            .AddApiAuthorization()
+            .AddAccountClaimsPrincipalFactory<CustomUserFactory>();
 
-            builder.Services.AddMudServices();
-            builder.Services.AddBlazoredLocalStorage();
-            builder.Services.AddVxFormGenerator();
+        builder.Services.AddMudServices();
+        builder.Services.AddBlazoredLocalStorage();
+        builder.Services.AddVxFormGenerator();
 
-            builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("Iwentys.Endpoint.ServerAPI"));
-            builder.Services.RegisterSwaggerClients();
+        builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("Iwentys.Endpoint.ServerAPI"));
+        builder.Services.RegisterSwaggerClients();
 
-            builder.Services.AddLogging(b => b
-                .AddBrowserConsole()
-                .SetMinimumLevel(LogLevel.Information)
-            );
+        builder.Services.AddLogging(b => b
+            .AddBrowserConsole()
+            .SetMinimumLevel(LogLevel.Information)
+        );
 
-            return builder.Build().RunAsync();
-        }
+        return builder.Build().RunAsync();
     }
 }

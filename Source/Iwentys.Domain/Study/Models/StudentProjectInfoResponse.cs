@@ -1,25 +1,24 @@
 ﻿using Iwentys.Domain.GithubIntegration;
 
-namespace Iwentys.Domain.Study
-{
-    public class StudentProjectInfoResponse
-    {
-        public long Id { get; set; }
-        public string Url { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string AuthorUsername { get; set; }
+namespace Iwentys.Domain.Study;
 
-        public static StudentProjectInfoResponse Wrap(GithubProject project)
+public class StudentProjectInfoResponse
+{
+    public long Id { get; set; }
+    public string Url { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public string AuthorUsername { get; set; }
+
+    public static StudentProjectInfoResponse Wrap(GithubProject project)
+    {
+        return new StudentProjectInfoResponse
         {
-            return new StudentProjectInfoResponse
-            {
-                Id = project.Id,
-                Url = project.FullUrl,
-                Name = project.Name,
-                Description = project.Description,
-                AuthorUsername = project.Owner
-            };
-        }
+            Id = project.Id,
+            Url = project.FullUrl,
+            Name = project.Name,
+            Description = project.Description,
+            AuthorUsername = project.Owner
+        };
     }
 }

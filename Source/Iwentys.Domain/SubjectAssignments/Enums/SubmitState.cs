@@ -1,10 +1,9 @@
-﻿namespace Iwentys.Domain.SubjectAssignments
+﻿namespace Iwentys.Domain.SubjectAssignments;
+
+public enum SubmitState
 {
-    public enum SubmitState
-    {
-        Created,
-        Closed,
-        Approved,
-        Rejected,
-    }
+    Created,
+    Closed,
+    Approved,
+    Rejected,
 }

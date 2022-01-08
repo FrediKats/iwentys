@@ -1,8 +1,7 @@
-﻿namespace Iwentys.Domain.Study
+﻿namespace Iwentys.Domain.Study;
+
+public class StudyProgram
 {
-    public class StudyProgram
-    {
-        public int Id { get; init; }
-        public string Name { get; init; }
-    }
+    public int Id { get; init; }
+    public string Name { get; init; }
 }

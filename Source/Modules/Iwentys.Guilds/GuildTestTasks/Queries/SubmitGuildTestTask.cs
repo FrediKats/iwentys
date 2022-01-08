@@ -8,60 +8,59 @@ using Iwentys.Domain.PeerReview;
 using Iwentys.WebService.Application;
 using MediatR;
 
-namespace Iwentys.Guilds
+namespace Iwentys.Guilds;
+
+public static class SubmitGuildTestTask
 {
-    public static class SubmitGuildTestTask
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(AuthorizedUser user, int guildId, string projectOwner, string projectName)
         {
-            public Query(AuthorizedUser user, int guildId, string projectOwner, string projectName)
-            {
-                User = user;
-                GuildId = guildId;
-                ProjectOwner = projectOwner;
-                ProjectName = projectName;
-            }
-
-            public AuthorizedUser User { get; set; }
-            public int GuildId { get; set; }
-            public string ProjectOwner { get; set; }
-            public string ProjectName { get; set; }
+            User = user;
+            GuildId = guildId;
+            ProjectOwner = projectOwner;
+            ProjectName = projectName;
         }
 
-        public class Response
-        {
-            public Response(GuildTestTaskInfoResponse testTaskInfo)
-            {
-                TestTaskInfo = testTaskInfo;
-            }
+        public AuthorizedUser User { get; set; }
+        public int GuildId { get; set; }
+        public string ProjectOwner { get; set; }
+        public string ProjectName { get; set; }
+    }
 
-            public GuildTestTaskInfoResponse TestTaskInfo { get; set; }
+    public class Response
+    {
+        public Response(GuildTestTaskInfoResponse testTaskInfo)
+        {
+            TestTaskInfo = testTaskInfo;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public GuildTestTaskInfoResponse TestTaskInfo { get; set; }
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+        private readonly GithubIntegrationService _githubIntegrationService;
+
+        public Handler(IwentysDbContext context, GithubIntegrationService githubIntegrationService)
         {
-            private readonly IwentysDbContext _context;
-            private readonly GithubIntegrationService _githubIntegrationService;
+            _context = context;
+            _githubIntegrationService = githubIntegrationService;
+        }
 
-            public Handler(IwentysDbContext context, GithubIntegrationService githubIntegrationService)
-            {
-                _context = context;
-                _githubIntegrationService = githubIntegrationService;
-            }
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+        {
+            Guild guild = await _context.Guilds.GetById(request.GuildId);
+            IwentysUser user = await _context.IwentysUsers.GetById(request.User.Id);
+            GithubProject githubRepositoryInfoDto = _githubIntegrationService.Repository.GetRepositoryAsProject(request.ProjectOwner, request.ProjectName).Result;
+            GuildTestTaskSolution testTaskSolution = await _context.GuildTestTaskSolvingInfos.GetSingle(t => t.AuthorId == request.User.Id && t.GuildId == request.GuildId);
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Guild guild = await _context.Guilds.GetById(request.GuildId);
-                IwentysUser user = await _context.IwentysUsers.GetById(request.User.Id);
-                GithubProject githubRepositoryInfoDto = _githubIntegrationService.Repository.GetRepositoryAsProject(request.ProjectOwner, request.ProjectName).Result;
-                GuildTestTaskSolution testTaskSolution = await _context.GuildTestTaskSolvingInfos.GetSingle(t => t.AuthorId == request.User.Id && t.GuildId == request.GuildId);
+            ProjectReviewRequest reviewRequest = ProjectReviewRequest.CreateGuildReviewRequest(user, githubRepositoryInfoDto, testTaskSolution, guild);
 
-                ProjectReviewRequest reviewRequest = ProjectReviewRequest.CreateGuildReviewRequest(user, githubRepositoryInfoDto, testTaskSolution, guild);
-
-                _context.GuildTestTaskSolvingInfos.Update(testTaskSolution);
-                _context.ProjectReviewRequests.Add(reviewRequest);
-                return new Response(GuildTestTaskInfoResponse.Wrap(testTaskSolution));
-            }
+            _context.GuildTestTaskSolvingInfos.Update(testTaskSolution);
+            _context.ProjectReviewRequests.Add(reviewRequest);
+            return new Response(GuildTestTaskInfoResponse.Wrap(testTaskSolution));
         }
     }
 }

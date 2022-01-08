@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using Iwentys.Domain.PeerReview;
 
-namespace Iwentys.PeerReview
+namespace Iwentys.PeerReview;
+
+public class PeerReviewMappingProfile : Profile
 {
-    public class PeerReviewMappingProfile : Profile
+    public PeerReviewMappingProfile()
     {
-        public PeerReviewMappingProfile()
-        {
-            CreateMap<ProjectReviewFeedback, ProjectReviewFeedbackInfoDto>();
-        }
+        CreateMap<ProjectReviewFeedback, ProjectReviewFeedbackInfoDto>();
     }
 }

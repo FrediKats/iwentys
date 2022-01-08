@@ -9,63 +9,62 @@ using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Gamification
+namespace Iwentys.Gamification;
+
+public class SendResponse
 {
-    public class SendResponse
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
-        {
-            public int QuestId { get; set; }
-            public AuthorizedUser AuthorizedUser { get; set; }
-            public QuestResponseCreateArguments Arguments { get; set; }
+        public int QuestId { get; set; }
+        public AuthorizedUser AuthorizedUser { get; set; }
+        public QuestResponseCreateArguments Arguments { get; set; }
 
-            public Query(int questId, AuthorizedUser authorizedUser, QuestResponseCreateArguments arguments)
-            {
-                QuestId = questId;
-                AuthorizedUser = authorizedUser;
-                Arguments = arguments;
-            }
+        public Query(int questId, AuthorizedUser authorizedUser, QuestResponseCreateArguments arguments)
+        {
+            QuestId = questId;
+            AuthorizedUser = authorizedUser;
+            Arguments = arguments;
+        }
+    }
+
+    public class Response
+    {
+        public Response(QuestInfoDto questInfo)
+        {
+            QuestInfo = questInfo;
         }
 
-        public class Response
-        {
-            public Response(QuestInfoDto questInfo)
-            {
-                QuestInfo = questInfo;
-            }
+        public QuestInfoDto QuestInfo { get; set; }
+    }
 
-            public QuestInfoDto QuestInfo { get; set; }
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly AchievementProvider _achievementProvider;
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context, AchievementProvider achievementProvider)
+        {
+            _context = context;
+            _achievementProvider = achievementProvider;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            private readonly AchievementProvider _achievementProvider;
-            private readonly IwentysDbContext _context;
+            IwentysUser student = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
 
-            public Handler(IwentysDbContext context, AchievementProvider achievementProvider)
-            {
-                _context = context;
-                _achievementProvider = achievementProvider;
-            }
+            Quest quest = await _context.Quests.GetById(request.QuestId);
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                IwentysUser student = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
+            QuestResponse questResponseEntity = quest.CreateResponse(student, request.Arguments);
 
-                Quest quest = await _context.Quests.GetById(request.QuestId);
+            _context.QuestResponses.Add(questResponseEntity);
 
-                QuestResponse questResponseEntity = quest.CreateResponse(student, request.Arguments);
+            QuestInfoDto result = await _context
+                .Quests
+                .Where(q => q.Id == request.QuestId)
+                .Select(QuestInfoDto.FromEntity)
+                .FirstAsync();
 
-                _context.QuestResponses.Add(questResponseEntity);
-
-                QuestInfoDto result = await _context
-                    .Quests
-                    .Where(q => q.Id == request.QuestId)
-                    .Select(QuestInfoDto.FromEntity)
-                    .FirstAsync();
-
-                return new Response(result);
-            }
+            return new Response(result);
         }
     }
 }

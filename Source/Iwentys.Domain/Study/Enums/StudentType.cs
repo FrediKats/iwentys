@@ -1,9 +1,8 @@
-﻿namespace Iwentys.Domain.Study
+﻿namespace Iwentys.Domain.Study;
+
+public enum StudentType
 {
-    public enum StudentType
-    {
-        OtherOrUndefined = 0,
-        Budgetary,
-        Contract
-    }
+    OtherOrUndefined = 0,
+    Budgetary,
+    Contract
 }

@@ -9,69 +9,68 @@ using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Newsfeeds
+namespace Iwentys.Newsfeeds;
+
+public static class CreateSubjectNewsfeed
 {
-    public static class CreateSubjectNewsfeed
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
-        {
-            public NewsfeedCreateViewModel CreateViewModel { get; }
-            public AuthorizedUser AuthorizedUser { get; }
-            public int SubjectId { get; }
+        public NewsfeedCreateViewModel CreateViewModel { get; }
+        public AuthorizedUser AuthorizedUser { get; }
+        public int SubjectId { get; }
 
-            public Query(NewsfeedCreateViewModel createViewModel, AuthorizedUser authorizedUser, int subjectId)
-            {
-                CreateViewModel = createViewModel;
-                AuthorizedUser = authorizedUser;
-                SubjectId = subjectId;
-            }
+        public Query(NewsfeedCreateViewModel createViewModel, AuthorizedUser authorizedUser, int subjectId)
+        {
+            CreateViewModel = createViewModel;
+            AuthorizedUser = authorizedUser;
+            SubjectId = subjectId;
+        }
+    }
+
+    public class Response
+    {
+        public Response(NewsfeedViewModel newsfeeds)
+        {
+            Newsfeeds = newsfeeds;
         }
 
-        public class Response
-        {
-            public Response(NewsfeedViewModel newsfeeds)
-            {
-                Newsfeeds = newsfeeds;
-            }
+        public NewsfeedViewModel Newsfeeds { get; }
+    }
 
-            public NewsfeedViewModel Newsfeeds { get; }
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
+        {
+            _context = context;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            private readonly IwentysDbContext _context;
+            IwentysUser author = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
+            Subject subject = await _context.Subjects.GetById(request.SubjectId);
 
-            public Handler(IwentysDbContext context)
+            SubjectNewsfeed newsfeedEntity;
+            if (author.CheckIsAdmin(out SystemAdminUser admin))
             {
-                _context = context;
+                newsfeedEntity = SubjectNewsfeed.CreateAsSystemAdmin(request.CreateViewModel, admin, subject);
+            }
+            else
+            {
+                Student student = await _context.Students.GetById(author.Id);
+                newsfeedEntity = SubjectNewsfeed.CreateAsGroupAdmin(request.CreateViewModel, student.EnsureIsGroupAdmin(), subject);
             }
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                IwentysUser author = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
-                Subject subject = await _context.Subjects.GetById(request.SubjectId);
+            _context.SubjectNewsfeeds.Add(newsfeedEntity);
 
-                SubjectNewsfeed newsfeedEntity;
-                if (author.CheckIsAdmin(out SystemAdminUser admin))
-                {
-                    newsfeedEntity = SubjectNewsfeed.CreateAsSystemAdmin(request.CreateViewModel, admin, subject);
-                }
-                else
-                {
-                    Student student = await _context.Students.GetById(author.Id);
-                    newsfeedEntity = SubjectNewsfeed.CreateAsGroupAdmin(request.CreateViewModel, student.EnsureIsGroupAdmin(), subject);
-                }
+            NewsfeedViewModel result = await _context
+                .Newsfeeds
+                .Where(n => n.Id == newsfeedEntity.NewsfeedId)
+                .Select(NewsfeedViewModel.FromEntity)
+                .SingleAsync();
 
-                _context.SubjectNewsfeeds.Add(newsfeedEntity);
-
-                NewsfeedViewModel result = await _context
-                    .Newsfeeds
-                    .Where(n => n.Id == newsfeedEntity.NewsfeedId)
-                    .Select(NewsfeedViewModel.FromEntity)
-                    .SingleAsync();
-
-                return new Response(result);
-            }
+            return new Response(result);
         }
     }
 }

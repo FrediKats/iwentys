@@ -10,53 +10,52 @@ using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Assignments
+namespace Iwentys.Assignments;
+
+public static class DeleteAssignment
 {
-    public static class DeleteAssignment
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
-        {
-            public AuthorizedUser User { get; }
-            public int AssignmentId { get; }
+        public AuthorizedUser User { get; }
+        public int AssignmentId { get; }
 
-            public Query(AuthorizedUser user, int assignmentId)
-            {
-                User = user;
-                AssignmentId = assignmentId;
-            }
+        public Query(AuthorizedUser user, int assignmentId)
+        {
+            User = user;
+            AssignmentId = assignmentId;
+        }
+    }
+
+    public class Response
+    {
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
+        {
+            _context = context;
         }
 
-        public class Response
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-        }
+            Student student = await _context.Students.GetById(request.User.Id);
+            Assignment assignment = await _context.Assignments.GetById(request.AssignmentId);
 
-        public class Handler : IRequestHandler<Query, Response>
-        {
-            private readonly IwentysDbContext _context;
+            if (student.Id != assignment.AuthorId)
+                throw InnerLogicException.AssignmentExceptions.IsNotAssignmentCreator(assignment.Id, student.Id);
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+            //FYI: it's coz for dropped cascade. Need to rework after adding cascade deleting
+            List<StudentAssignment> studentAssignments = await _context.StudentAssignments
+                .Where(sa => sa.AssignmentId == request.AssignmentId)
+                .ToListAsync();
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Student student = await _context.Students.GetById(request.User.Id);
-                Assignment assignment = await _context.Assignments.GetById(request.AssignmentId);
+            _context.StudentAssignments.RemoveRange(studentAssignments);
+            _context.Assignments.Remove(assignment);
 
-                if (student.Id != assignment.AuthorId)
-                    throw InnerLogicException.AssignmentExceptions.IsNotAssignmentCreator(assignment.Id, student.Id);
-
-                //FYI: it's coz for dropped cascade. Need to rework after adding cascade deleting
-                List<StudentAssignment> studentAssignments = await _context.StudentAssignments
-                    .Where(sa => sa.AssignmentId == request.AssignmentId)
-                    .ToListAsync();
-
-                _context.StudentAssignments.RemoveRange(studentAssignments);
-                _context.Assignments.Remove(assignment);
-
-                return new Response();
-            }
+            return new Response();
         }
     }
 }

@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 
-namespace Iwentys.Study
+namespace Iwentys.Study;
+
+public class StudyMappingProfile : Profile
 {
-    public class StudyMappingProfile : Profile
+    public StudyMappingProfile()
     {
-        public StudyMappingProfile()
-        {
-        }
     }
 }

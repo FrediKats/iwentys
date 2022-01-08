@@ -1,8 +1,7 @@
-﻿namespace Iwentys.Domain.Gamification
+﻿namespace Iwentys.Domain.Gamification;
+
+public enum BarsPointTransactionStatus
 {
-    public enum BarsPointTransactionStatus
-    {
-        Completed = 1,
-        Failed = 2
-    }
+    Completed = 1,
+    Failed = 2
 }

@@ -2,26 +2,25 @@
 using Iwentys.Common;
 using Iwentys.Domain.Study;
 
-namespace Iwentys.Study
+namespace Iwentys.Study;
+
+public record StudentActivityInfoDto
 {
-    public record StudentActivityInfoDto
+    public StudentActivityInfoDto(List<SubjectActivity> activity)
+        : this(activity.SelectToList(s => new SubjectActivityInfoResponseDto(s)))
     {
-        public StudentActivityInfoDto(List<SubjectActivity> activity)
-            : this(activity.SelectToList(s => new SubjectActivityInfoResponseDto(s)))
-        {
-        }
-
-        public StudentActivityInfoDto(List<SubjectActivityInfoResponseDto> activity) : this()
-        {
-            Activity = activity;
-        }
-
-        public StudentActivityInfoDto()
-        {
-        }
-
-        public List<SubjectActivityInfoResponseDto> Activity { get; init; }
-        //public int StudyLeaderBoardPlace { get; set; }
-        //public int CodingLeaderBoardPlace { get; set; }
     }
+
+    public StudentActivityInfoDto(List<SubjectActivityInfoResponseDto> activity) : this()
+    {
+        Activity = activity;
+    }
+
+    public StudentActivityInfoDto()
+    {
+    }
+
+    public List<SubjectActivityInfoResponseDto> Activity { get; init; }
+    //public int StudyLeaderBoardPlace { get; set; }
+    //public int CodingLeaderBoardPlace { get; set; }
 }

@@ -1,21 +1,20 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Iwentys.WebService.Application
-{
-    public class TokenApplicationOptions
-    {
-        public string GoogleServiceToken { get; set; }
-        public string GithubToken { get; set; }
-        public string TelegramToken { get; set; }
+namespace Iwentys.WebService.Application;
 
-        public static TokenApplicationOptions Load(IConfiguration configuration)
+public class TokenApplicationOptions
+{
+    public string GoogleServiceToken { get; set; }
+    public string GithubToken { get; set; }
+    public string TelegramToken { get; set; }
+
+    public static TokenApplicationOptions Load(IConfiguration configuration)
+    {
+        return new TokenApplicationOptions()
         {
-            return new TokenApplicationOptions()
-            {
-                GoogleServiceToken = configuration["GoogleTableCredentials"],
-                GithubToken = configuration["GithubToken"],
-                TelegramToken = configuration["TelegramToken"]
-            };
-        }
+            GoogleServiceToken = configuration["GoogleTableCredentials"],
+            GithubToken = configuration["GithubToken"],
+            TelegramToken = configuration["TelegramToken"]
+        };
     }
 }

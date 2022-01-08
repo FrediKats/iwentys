@@ -1,8 +1,7 @@
-﻿namespace Iwentys.Domain.Guilds
+﻿namespace Iwentys.Domain.Guilds;
+
+public enum GuildType
 {
-    public enum GuildType
-    {
-        Pending = 1,
-        Created = 2
-    }
+    Pending = 1,
+    Created = 2
 }

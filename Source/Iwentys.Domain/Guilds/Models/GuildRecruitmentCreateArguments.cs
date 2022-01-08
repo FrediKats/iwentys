@@ -1,9 +1,8 @@
-﻿namespace Iwentys.Domain.Guilds
-{
-    public class GuildRecruitmentCreateArguments
-    {
-        public string Description { get; init; }
+﻿namespace Iwentys.Domain.Guilds;
 
-        //TODO: add project id
-    }
+public class GuildRecruitmentCreateArguments
+{
+    public string Description { get; init; }
+
+    //TODO: add project id
 }

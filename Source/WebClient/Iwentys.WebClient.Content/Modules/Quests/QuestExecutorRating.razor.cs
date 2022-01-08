@@ -1,18 +1,17 @@
 ﻿using Iwentys.Sdk;
 
-namespace Iwentys.WebClient.Content
+namespace Iwentys.WebClient.Content;
+
+public partial class QuestExecutorRating
 {
-    public partial class QuestExecutorRating
+    private ICollection<QuestRatingRow> _questExecutorRating;
+
+    protected override async Task OnInitializedAsync()
     {
-        private ICollection<QuestRatingRow> _questExecutorRating;
-
-        protected override async Task OnInitializedAsync()
-        {
-            await base.OnInitializedAsync();
-            _questExecutorRating = await _questClient.GetQuestExecutorRatingAsync();
-        }
-
-        private string LinkToProfile(IwentysUserInfoDto user) => $"student/profile/{user.Id}";
-
+        await base.OnInitializedAsync();
+        _questExecutorRating = await _questClient.GetQuestExecutorRatingAsync();
     }
+
+    private string LinkToProfile(IwentysUserInfoDto user) => $"student/profile/{user.Id}";
+
 }

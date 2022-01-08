@@ -1,8 +1,7 @@
-﻿namespace Iwentys.Domain.PeerReview
+﻿namespace Iwentys.Domain.PeerReview;
+
+public enum ProjectReviewState
 {
-    public enum ProjectReviewState
-    {
-        Requested = 1,
-        Finished
-    }
+    Requested = 1,
+    Finished
 }

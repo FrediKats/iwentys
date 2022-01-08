@@ -6,55 +6,54 @@ using Iwentys.Common;
 using Iwentys.Domain.Study;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.DataAccess.Seeding
+namespace Iwentys.DataAccess.Seeding;
+
+public class StudentGenerator : IEntityGenerator
 {
-    public class StudentGenerator : IEntityGenerator
+    private const int StudentCount = 200;
+
+    public StudentGenerator(List<StudyGroup> studyGroups)
     {
-        private const int StudentCount = 200;
+        Students = UsersFaker.Instance.Students
+            .Generate(StudentCount)
+            .SelectToList(Student.Create);
 
-        public StudentGenerator(List<StudyGroup> studyGroups)
+        Students.ForEach(s => s.Id = UsersFaker.Instance.GetIdentifier());
+
+        Students.Add(new Student
         {
-            Students = UsersFaker.Instance.Students
-                .Generate(StudentCount)
-                .SelectToList(Student.Create);
+            Id = 228617,
+            FirstName = "Фреди",
+            MiddleName = "Кисикович",
+            SecondName = "Катс",
+            IsAdmin = true,
+            GithubUsername = "InRedikaWB",
+            CreationTime = DateTime.UtcNow,
+            LastOnlineTime = DateTime.UtcNow,
+            BarsPoints = short.MaxValue,
+            AvatarUrl = new Faker().Image.PicsumUrl()
+        });
 
-            Students.ForEach(s => s.Id = UsersFaker.Instance.GetIdentifier());
+        foreach (Student student in Students) student.GroupId = RandomExtensions.Instance.PickRandom(studyGroups).Id;
 
-            Students.Add(new Student
+        Students
+            .GroupBy(s => s.GroupId)
+            .Select(g => g.FirstOrDefault())
+            .Where(s => s is not null)
+            .ToList()
+            .ForEach(s =>
             {
-                Id = 228617,
-                FirstName = "Фреди",
-                MiddleName = "Кисикович",
-                SecondName = "Катс",
-                IsAdmin = true,
-                GithubUsername = "InRedikaWB",
-                CreationTime = DateTime.UtcNow,
-                LastOnlineTime = DateTime.UtcNow,
-                BarsPoints = short.MaxValue,
-                AvatarUrl = new Faker().Image.PicsumUrl()
+                StudyGroup studyGroup = studyGroups.First();
+                studyGroup.GroupAdminId = s.Id;
             });
 
-            foreach (Student student in Students) student.GroupId = RandomExtensions.Instance.PickRandom(studyGroups).Id;
+        Students.First(sgm => sgm.Id == 228617).GroupId = studyGroups.First(g => g.GroupName.Contains("3505")).Id;
+    }
 
-            Students
-                .GroupBy(s => s.GroupId)
-                .Select(g => g.FirstOrDefault())
-                .Where(s => s is not null)
-                .ToList()
-                .ForEach(s =>
-                {
-                    StudyGroup studyGroup = studyGroups.First();
-                    studyGroup.GroupAdminId = s.Id;
-                });
+    public List<Student> Students { get; set; }
 
-            Students.First(sgm => sgm.Id == 228617).GroupId = studyGroups.First(g => g.GroupName.Contains("3505")).Id;
-        }
-
-        public List<Student> Students { get; set; }
-
-        public void Seed(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Student>().HasData(Students);
-        }
+    public void Seed(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Student>().HasData(Students);
     }
 }

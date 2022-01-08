@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.DataAccess
+namespace Iwentys.DataAccess;
+
+public interface IDbContextSeeder
 {
-    public interface IDbContextSeeder
-    {
-        void Seed(ModelBuilder modelBuilder);
-    }
+    void Seed(ModelBuilder modelBuilder);
 }

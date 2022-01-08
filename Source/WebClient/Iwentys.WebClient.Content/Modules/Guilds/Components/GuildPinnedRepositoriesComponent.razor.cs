@@ -1,11 +1,10 @@
-﻿namespace Iwentys.WebClient.Content
+﻿namespace Iwentys.WebClient.Content;
+
+public partial class GuildPinnedRepositoriesComponent
 {
-    public partial class GuildPinnedRepositoriesComponent
+    public async Task RemovePin(long repositoryId)
     {
-        public async Task RemovePin(long repositoryId)
-        {
-            //TODO: not implemented
-            GuildProfile = await _guildClient.GetAsync(GuildProfile.Id);
-        }
+        //TODO: not implemented
+        GuildProfile = await _guildClient.GetAsync(GuildProfile.Id);
     }
 }

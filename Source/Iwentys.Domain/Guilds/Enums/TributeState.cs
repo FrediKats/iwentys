@@ -1,9 +1,8 @@
-﻿namespace Iwentys.Domain.Guilds
+﻿namespace Iwentys.Domain.Guilds;
+
+public enum TributeState
 {
-    public enum TributeState
-    {
-        Active = 1,
-        Canceled,
-        Completed
-    }
+    Active = 1,
+    Canceled,
+    Completed
 }

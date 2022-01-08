@@ -1,21 +1,20 @@
 ﻿using Iwentys.Domain.Guilds;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.DataAccess
-{
-    public interface IGuildsTournamentsDbContext
-    {
-        public DbSet<Tournament> Tournaments { get; set; }
-        public DbSet<TournamentParticipantTeam> TournamentParticipantTeams { get; set; }
-        public DbSet<TournamentTeamMember> TournamentTeamMembers { get; set; }
-        public DbSet<CodeMarathonTournament> CodeMarathonTournaments { get; set; }
-    }
+namespace Iwentys.DataAccess;
 
-    public static class GuildsTournamentsDbContextExtensions
+public interface IGuildsTournamentsDbContext
+{
+    public DbSet<Tournament> Tournaments { get; set; }
+    public DbSet<TournamentParticipantTeam> TournamentParticipantTeams { get; set; }
+    public DbSet<TournamentTeamMember> TournamentTeamMembers { get; set; }
+    public DbSet<CodeMarathonTournament> CodeMarathonTournaments { get; set; }
+}
+
+public static class GuildsTournamentsDbContextExtensions
+{
+    public static void OnGuildsTournamentsModelCreating(this ModelBuilder modelBuilder)
     {
-        public static void OnGuildsTournamentsModelCreating(this ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<TournamentTeamMember>().HasKey(g => new { g.TeamId, g.MemberId });
-        }
+        modelBuilder.Entity<TournamentTeamMember>().HasKey(g => new { g.TeamId, g.MemberId });
     }
 }

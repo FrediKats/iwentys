@@ -1,9 +1,8 @@
 ﻿using System.Linq;
 
-namespace Iwentys.DataAccess
+namespace Iwentys.DataAccess;
+
+public interface ISpecification<T, TResult>
 {
-    public interface ISpecification<T, TResult>
-    {
-        IQueryable<TResult> Specify(IQueryable<T> queryable);
-    }
+    IQueryable<TResult> Specify(IQueryable<T> queryable);
 }

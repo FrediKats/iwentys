@@ -3,31 +3,30 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Iwentys.Companies
+namespace Iwentys.Companies;
+
+[Route("api/companies")]
+[ApiController]
+public class CompanyController : ControllerBase
 {
-    [Route("api/companies")]
-    [ApiController]
-    public class CompanyController : ControllerBase
+    private readonly IMediator _mediator;
+
+    public CompanyController(IMediator mediator)
     {
-        private readonly IMediator _mediator;
+        _mediator = mediator;
+    }
 
-        public CompanyController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+    [HttpGet(nameof(Get))]
+    public async Task<ActionResult<List<CompanyInfoDto>>> Get()
+    {
+        GetCompanies.Response response = await _mediator.Send(new GetCompanies.Query());
+        return Ok(response.Companies);
+    }
 
-        [HttpGet(nameof(Get))]
-        public async Task<ActionResult<List<CompanyInfoDto>>> Get()
-        {
-            GetCompanies.Response response = await _mediator.Send(new GetCompanies.Query());
-            return Ok(response.Companies);
-        }
-
-        [HttpGet(nameof(GetById))]
-        public async Task<ActionResult<CompanyInfoDto>> GetById(int id)
-        {
-            GetCompaniesById.Response response = await _mediator.Send(new GetCompaniesById.Query(id));
-            return Ok(response.Company);
-        }
+    [HttpGet(nameof(GetById))]
+    public async Task<ActionResult<CompanyInfoDto>> GetById(int id)
+    {
+        GetCompaniesById.Response response = await _mediator.Send(new GetCompaniesById.Query(id));
+        return Ok(response.Company);
     }
 }

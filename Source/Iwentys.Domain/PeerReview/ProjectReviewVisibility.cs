@@ -1,8 +1,7 @@
-﻿namespace Iwentys.Domain.PeerReview
+﻿namespace Iwentys.Domain.PeerReview;
+
+public enum ProjectReviewVisibility
 {
-    public enum ProjectReviewVisibility
-    {
-        Open,
-        Closed
-    }
+    Open,
+    Closed
 }

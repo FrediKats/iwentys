@@ -5,49 +5,48 @@ using Iwentys.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.AccountManagement
+namespace Iwentys.AccountManagement;
+
+public class GetStudentById
 {
-    public class GetStudentById
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(int studentId)
         {
-            public Query(int studentId)
-            {
-                StudentId = studentId;
-            }
-
-            public int StudentId { get; set; }
+            StudentId = studentId;
         }
 
-        public class Response
-        {
-            public Response(StudentInfoDto student)
-            {
-                Student = student;
-            }
+        public int StudentId { get; set; }
+    }
 
-            public StudentInfoDto Student { get; set; }
+    public class Response
+    {
+        public Response(StudentInfoDto student)
+        {
+            Student = student;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public StudentInfoDto Student { get; set; }
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+        private readonly IMapper _mapper;
+
+        public Handler(IwentysDbContext context, IMapper mapper)
         {
-            private readonly IwentysDbContext _context;
-            private readonly IMapper _mapper;
+            _context = context;
+            _mapper = mapper;
+        }
 
-            public Handler(IwentysDbContext context, IMapper mapper)
-            {
-                _context = context;
-                _mapper = mapper;
-            }
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+        {
+            StudentInfoDto result = await _mapper
+                .ProjectTo<StudentInfoDto>(_context.Students)
+                .FirstAsync(s => s.Id == request.StudentId);
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                StudentInfoDto result = await _mapper
-                    .ProjectTo<StudentInfoDto>(_context.Students)
-                    .FirstAsync(s => s.Id == request.StudentId);
-
-                return new Response(result);
-            }
+            return new Response(result);
         }
     }
 }

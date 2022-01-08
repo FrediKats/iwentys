@@ -5,51 +5,50 @@ using Iwentys.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Study
+namespace Iwentys.Study;
+
+public class GetStudyGroupByStudent
 {
-    public class GetStudyGroupByStudent
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(int studentId)
         {
-            public Query(int studentId)
-            {
-                StudentId = studentId;
-            }
-
-            public int StudentId { get; set; }
-
+            StudentId = studentId;
         }
 
-        public class Response
-        {
-            public Response(GroupProfileResponseDto @group)
-            {
-                Group = @group;
-            }
+        public int StudentId { get; set; }
 
-            public GroupProfileResponseDto Group { get; set; }
+    }
+
+    public class Response
+    {
+        public Response(GroupProfileResponseDto @group)
+        {
+            Group = @group;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public GroupProfileResponseDto Group { get; set; }
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
         {
-            private readonly IwentysDbContext _context;
+            _context = context;
+        }
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+        {
+            GroupProfileResponseDto result = await _context
+                .Students
+                .Where(sgm => sgm.Id == request.StudentId)
+                .Select(sgm => sgm.Group)
+                .Select(GroupProfileResponseDto.FromEntity)
+                .SingleOrDefaultAsync();
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                GroupProfileResponseDto result = await _context
-                    .Students
-                    .Where(sgm => sgm.Id == request.StudentId)
-                    .Select(sgm => sgm.Group)
-                    .Select(GroupProfileResponseDto.FromEntity)
-                    .SingleOrDefaultAsync();
-
-                return new Response(result);
-            }
+            return new Response(result);
         }
     }
 }

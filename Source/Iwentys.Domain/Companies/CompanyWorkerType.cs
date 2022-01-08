@@ -1,8 +1,7 @@
-﻿namespace Iwentys.Domain.Companies
+﻿namespace Iwentys.Domain.Companies;
+
+public enum CompanyWorkerType
 {
-    public enum CompanyWorkerType
-    {
-        Requested = 1,
-        Accepted = 2
-    }
+    Requested = 1,
+    Accepted = 2
 }

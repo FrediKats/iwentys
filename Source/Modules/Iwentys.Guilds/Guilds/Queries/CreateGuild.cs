@@ -6,51 +6,50 @@ using Iwentys.Domain.Guilds;
 using Iwentys.WebService.Application;
 using MediatR;
 
-namespace Iwentys.Guilds
+namespace Iwentys.Guilds;
+
+public static class CreateGuild
 {
-    public static class CreateGuild
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
-        {
-            public GuildCreateRequestDto Arguments { get; set; }
-            public AuthorizedUser AuthorizedUser { get; set; }
+        public GuildCreateRequestDto Arguments { get; set; }
+        public AuthorizedUser AuthorizedUser { get; set; }
 
-            public Query(GuildCreateRequestDto arguments, AuthorizedUser authorizedUser)
-            {
-                Arguments = arguments;
-                AuthorizedUser = authorizedUser;
-            }
+        public Query(GuildCreateRequestDto arguments, AuthorizedUser authorizedUser)
+        {
+            Arguments = arguments;
+            AuthorizedUser = authorizedUser;
+        }
+    }
+
+    public class Response
+    {
+        public Response(GuildProfileShortInfoDto guild)
+        {
+            Guild = guild;
         }
 
-        public class Response
-        {
-            public Response(GuildProfileShortInfoDto guild)
-            {
-                Guild = guild;
-            }
+        public GuildProfileShortInfoDto Guild { get; set; }
+    }
 
-            public GuildProfileShortInfoDto Guild { get; set; }
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
+        {
+            _context = context;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            private readonly IwentysDbContext _context;
+            IwentysUser creator = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
+            Guild userCurrentGuild = await _context.GuildMembers.ReadForStudent(creator.Id);
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+            var createdGuild = Guild.Create(creator, userCurrentGuild, request.Arguments);
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                IwentysUser creator = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
-                Guild userCurrentGuild = await _context.GuildMembers.ReadForStudent(creator.Id);
-
-                var createdGuild = Guild.Create(creator, userCurrentGuild, request.Arguments);
-
-                _context.Guilds.Add(createdGuild);
-                return new Response(new GuildProfileShortInfoDto(createdGuild));
-            }
+            _context.Guilds.Add(createdGuild);
+            return new Response(new GuildProfileShortInfoDto(createdGuild));
         }
     }
 }

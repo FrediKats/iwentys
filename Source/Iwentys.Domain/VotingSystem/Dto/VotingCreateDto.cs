@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Iwentys.Domain.VotingSystem
+namespace Iwentys.Domain.VotingSystem;
+
+public class VotingCreateDto
 {
-    public class VotingCreateDto
-    {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime DueTo { get; set; }
-        public List<string> Variants { get; set; }
-    }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public DateTime StartTime { get; set; }
+    public DateTime DueTo { get; set; }
+    public List<string> Variants { get; set; }
 }

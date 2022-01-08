@@ -1,8 +1,7 @@
-﻿namespace Iwentys.Domain.SubjectAssignments
+﻿namespace Iwentys.Domain.SubjectAssignments;
+
+public enum FeedbackType
 {
-    public enum FeedbackType
-    {
-        Approve,
-        Reject
-    }
+    Approve,
+    Reject
 }

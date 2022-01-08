@@ -6,43 +6,42 @@ using Iwentys.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Companies
+namespace Iwentys.Companies;
+
+public static class GetCompanies
 {
-    public static class GetCompanies
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
-        {
 
+    }
+
+    public class Response
+    {
+        public Response(List<CompanyInfoDto> companies)
+        {
+            Companies = companies;
         }
 
-        public class Response
-        {
-            public Response(List<CompanyInfoDto> companies)
-            {
-                Companies = companies;
-            }
+        public List<CompanyInfoDto> Companies { get; set; }
+    }
 
-            public List<CompanyInfoDto> Companies { get; set; }
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
+        {
+            _context = context;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            private readonly IwentysDbContext _context;
+            List<CompanyInfoDto> result = await _context
+                .Companies
+                .Select(entity => new CompanyInfoDto(entity))
+                .ToListAsync(cancellationToken);
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
-
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                List<CompanyInfoDto> result = await _context
-                    .Companies
-                    .Select(entity => new CompanyInfoDto(entity))
-                    .ToListAsync(cancellationToken);
-
-                return new Response(result);
-            }
+            return new Response(result);
         }
     }
 }

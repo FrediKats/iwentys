@@ -1,11 +1,10 @@
-﻿namespace Iwentys.Domain.Study
-{
-    public class StudyCourse
-    {
-        public int Id { get; init; }
-        public virtual StudentGraduationYear GraduationYear { get; init; }
+﻿namespace Iwentys.Domain.Study;
 
-        public int StudyProgramId { get; init; }
-        public virtual StudyProgram StudyProgram { get; init; }
-    }
+public class StudyCourse
+{
+    public int Id { get; init; }
+    public virtual StudentGraduationYear GraduationYear { get; init; }
+
+    public int StudyProgramId { get; init; }
+    public virtual StudyProgram StudyProgram { get; init; }
 }

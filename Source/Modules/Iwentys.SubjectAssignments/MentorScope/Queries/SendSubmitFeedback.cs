@@ -6,46 +6,45 @@ using Iwentys.Domain.SubjectAssignments;
 using Iwentys.WebService.Application;
 using MediatR;
 
-namespace Iwentys.SubjectAssignments
+namespace Iwentys.SubjectAssignments;
+
+public static class SendSubmitFeedback
 {
-    public static class SendSubmitFeedback
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(AuthorizedUser authorizedUser, SubjectAssignmentSubmitFeedbackArguments arguments)
         {
-            public Query(AuthorizedUser authorizedUser, SubjectAssignmentSubmitFeedbackArguments arguments)
-            {
-                Arguments = arguments;
-                AuthorizedUser = authorizedUser;
-            }
-
-            public SubjectAssignmentSubmitFeedbackArguments Arguments { get; set; }
-            public AuthorizedUser AuthorizedUser { get; set; }
+            Arguments = arguments;
+            AuthorizedUser = authorizedUser;
         }
 
-        public class Response
+        public SubjectAssignmentSubmitFeedbackArguments Arguments { get; set; }
+        public AuthorizedUser AuthorizedUser { get; set; }
+    }
+
+    public class Response
+    {
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
         {
+            _context = context;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            private readonly IwentysDbContext _context;
+            SubjectAssignmentSubmit subjectAssignmentSubmit = await _context.SubjectAssignmentSubmits.GetById(request.Arguments.SubjectAssignmentSubmitId);
+            IwentysUser iwentysUser = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+            subjectAssignmentSubmit.AddFeedback(iwentysUser, request.Arguments);
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                SubjectAssignmentSubmit subjectAssignmentSubmit = await _context.SubjectAssignmentSubmits.GetById(request.Arguments.SubjectAssignmentSubmitId);
-                IwentysUser iwentysUser = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
+            _context.SubjectAssignmentSubmits.Update(subjectAssignmentSubmit);
 
-                subjectAssignmentSubmit.AddFeedback(iwentysUser, request.Arguments);
-
-                _context.SubjectAssignmentSubmits.Update(subjectAssignmentSubmit);
-
-                return new Response();
-            }
+            return new Response();
         }
     }
 }

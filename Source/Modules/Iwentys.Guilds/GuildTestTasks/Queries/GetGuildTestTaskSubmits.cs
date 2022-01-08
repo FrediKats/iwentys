@@ -5,49 +5,48 @@ using Iwentys.Domain.Guilds;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Guilds
+namespace Iwentys.Guilds;
+
+public static class GetGuildTestTaskSubmits
 {
-    public static class GetGuildTestTaskSubmits
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(int guildId)
         {
-            public Query(int guildId)
-            {
-                GuildId = guildId;
-            }
-
-            public int GuildId { get; set; }
+            GuildId = guildId;
         }
 
-        public class Response
-        {
-            public Response(List<GuildTestTaskInfoResponse> submits)
-            {
-                Submits = submits;
-            }
+        public int GuildId { get; set; }
+    }
 
-            public List<GuildTestTaskInfoResponse> Submits { get; set; }
+    public class Response
+    {
+        public Response(List<GuildTestTaskInfoResponse> submits)
+        {
+            Submits = submits;
         }
 
-        public class Handler : RequestHandler<Query, Response>
+        public List<GuildTestTaskInfoResponse> Submits { get; set; }
+    }
+
+    public class Handler : RequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
         {
-            private readonly IwentysDbContext _context;
+            _context = context;
+        }
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+        protected override Response Handle(Query request)
+        {
+            List<GuildTestTaskInfoResponse> result = _context
+                .GuildTestTaskSolvingInfos
+                .Where(t => t.GuildId == request.GuildId)
+                .Select(GuildTestTaskInfoResponse.FromEntity)
+                .ToListAsync().Result;
 
-            protected override Response Handle(Query request)
-            {
-                List<GuildTestTaskInfoResponse> result = _context
-                    .GuildTestTaskSolvingInfos
-                    .Where(t => t.GuildId == request.GuildId)
-                    .Select(GuildTestTaskInfoResponse.FromEntity)
-                    .ToListAsync().Result;
-
-                return new Response(result);
-            }
+            return new Response(result);
         }
     }
 }

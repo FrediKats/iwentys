@@ -2,94 +2,93 @@
 using Bogus;
 using Iwentys.Domain.SubjectAssignments;
 
-namespace Iwentys.DataAccess.Seeding
+namespace Iwentys.DataAccess.Seeding;
+
+public class SubjectAssignmentFaker
 {
-    public class SubjectAssignmentFaker
+    public static readonly SubjectAssignmentFaker Instance = new SubjectAssignmentFaker();
+
+    private readonly Faker _faker = new Faker();
+
+    public SubjectAssignment Create(int subjectId, int authorId)
     {
-        public static readonly SubjectAssignmentFaker Instance = new SubjectAssignmentFaker();
-
-        private readonly Faker _faker = new Faker();
-
-        public SubjectAssignment Create(int subjectId, int authorId)
+        var id = _faker.IndexVariable++ + 1;
+        return new SubjectAssignment
         {
-            var id = _faker.IndexVariable++ + 1;
-            return new SubjectAssignment
-            {
-                Id = id,
-                Title = $"Homework #{id}",
-                Description = _faker.Lorem.Paragraph(),
-                Link = _faker.Internet.Url(),
-                DeadlineTimeUtc = DateTime.UtcNow.AddMonths(1),
-                Position = 1,
-                SubjectId = subjectId,
-                AuthorId = authorId,
-                AvailabilityState = AvailabilityState.Visible
-            };
-        }
+            Id = id,
+            Title = $"Homework #{id}",
+            Description = _faker.Lorem.Paragraph(),
+            Link = _faker.Internet.Url(),
+            DeadlineTimeUtc = DateTime.UtcNow.AddMonths(1),
+            Position = 1,
+            SubjectId = subjectId,
+            AuthorId = authorId,
+            AvailabilityState = AvailabilityState.Visible
+        };
+    }
 
-        public SubjectAssignmentSubmit CreateSubjectAssignmentSubmit(int subjectAssignmentId, int studentId)
+    public SubjectAssignmentSubmit CreateSubjectAssignmentSubmit(int subjectAssignmentId, int studentId)
+    {
+        return new SubjectAssignmentSubmit
         {
-            return new SubjectAssignmentSubmit
-            {
-                Id = _faker.IndexVariable++ + 1,
-                SubjectAssignmentId = subjectAssignmentId,
-                StudentId = studentId,
-                SubmitTimeUtc = DateTime.UtcNow,
-                StudentPRLink = $"https://github.com/{subjectAssignmentId}/{_faker.Lorem.Word()}",
-                StudentDescription = _faker.Lorem.Paragraph(1),
-            };
-        }
+            Id = _faker.IndexVariable++ + 1,
+            SubjectAssignmentId = subjectAssignmentId,
+            StudentId = studentId,
+            SubmitTimeUtc = DateTime.UtcNow,
+            StudentPRLink = $"https://github.com/{subjectAssignmentId}/{_faker.Lorem.Word()}",
+            StudentDescription = _faker.Lorem.Paragraph(1),
+        };
+    }
 
-        public SubjectAssignmentSubmit CreateSubjectAssignmentSubmitWithFeedback(int subjectAssignmentId, int studentId)
+    public SubjectAssignmentSubmit CreateSubjectAssignmentSubmitWithFeedback(int subjectAssignmentId, int studentId)
+    {
+        return new SubjectAssignmentSubmit
         {
-            return new SubjectAssignmentSubmit
-            {
-                Id = _faker.IndexVariable++ + 1,
-                SubjectAssignmentId = subjectAssignmentId,
-                StudentId = studentId,
-                SubmitTimeUtc = DateTime.UtcNow,
-                StudentDescription = _faker.Lorem.Paragraph(1),
-                StudentPRLink = $"https://github.com/{subjectAssignmentId}/{_faker.Lorem.Word()}",
-                ReviewerId = 228617,
-                Comment = _faker.Lorem.Paragraph(1),
-                Points = 5,
-                ApproveTimeUtc = DateTime.UtcNow,
-            };
-        }
+            Id = _faker.IndexVariable++ + 1,
+            SubjectAssignmentId = subjectAssignmentId,
+            StudentId = studentId,
+            SubmitTimeUtc = DateTime.UtcNow,
+            StudentDescription = _faker.Lorem.Paragraph(1),
+            StudentPRLink = $"https://github.com/{subjectAssignmentId}/{_faker.Lorem.Word()}",
+            ReviewerId = 228617,
+            Comment = _faker.Lorem.Paragraph(1),
+            Points = 5,
+            ApproveTimeUtc = DateTime.UtcNow,
+        };
+    }
 
-        public SubjectAssignmentSubmitFeedbackArguments CreateFeedback(int submitId, FeedbackType feedbackType = FeedbackType.Approve)
+    public SubjectAssignmentSubmitFeedbackArguments CreateFeedback(int submitId, FeedbackType feedbackType = FeedbackType.Approve)
+    {
+        return new SubjectAssignmentSubmitFeedbackArguments
         {
-            return new SubjectAssignmentSubmitFeedbackArguments
-            {
-                Comment = _faker.Lorem.Paragraph(1),
-                FeedbackType = feedbackType,
-                Points = 0,
-                SubjectAssignmentSubmitId = submitId
-            };
-        }
+            Comment = _faker.Lorem.Paragraph(1),
+            FeedbackType = feedbackType,
+            Points = 0,
+            SubjectAssignmentSubmitId = submitId
+        };
+    }
 
-        public SubjectAssignmentSubmitCreateArguments CreateSubjectAssignmentSubmitCreateArguments(int assignmentId)
+    public SubjectAssignmentSubmitCreateArguments CreateSubjectAssignmentSubmitCreateArguments(int assignmentId)
+    {
+        return new SubjectAssignmentSubmitCreateArguments
         {
-            return new SubjectAssignmentSubmitCreateArguments
-            {
-                StudentPRLink = $"https://github.com/{assignmentId}/{_faker.Lorem.Word()}",
-                StudentDescription = _faker.Lorem.Paragraph(1),
-                SubjectAssignmentId = assignmentId
-            };
-        }
+            StudentPRLink = $"https://github.com/{assignmentId}/{_faker.Lorem.Word()}",
+            StudentDescription = _faker.Lorem.Paragraph(1),
+            SubjectAssignmentId = assignmentId
+        };
+    }
 
-        public SubjectAssignmentCreateArguments CreateSubjectAssignmentCreateArguments(int subjectId)
+    public SubjectAssignmentCreateArguments CreateSubjectAssignmentCreateArguments(int subjectId)
+    {
+        return new SubjectAssignmentCreateArguments
         {
-            return new SubjectAssignmentCreateArguments
-            {
-                SubjectId = subjectId,
-                Title = _faker.Lorem.Word(),
-                Description = _faker.Lorem.Paragraph(1),
-                Link = _faker.Internet.Url(),
-                DeadlineUtc = DateTime.UtcNow.AddDays(1),
-                Position = 1,
-                AvailabilityState = AvailabilityState.Visible
-            };
-        }
+            SubjectId = subjectId,
+            Title = _faker.Lorem.Word(),
+            Description = _faker.Lorem.Paragraph(1),
+            Link = _faker.Internet.Url(),
+            DeadlineUtc = DateTime.UtcNow.AddDays(1),
+            Position = 1,
+            AvailabilityState = AvailabilityState.Visible
+        };
     }
 }

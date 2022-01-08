@@ -6,46 +6,45 @@ using Iwentys.Domain.Study;
 using Iwentys.WebService.Application;
 using MediatR;
 
-namespace Iwentys.Study
+namespace Iwentys.Study;
+
+public class MakeGroupAdmin
 {
-    public class MakeGroupAdmin
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
-        {
-            public AuthorizedUser Initiator { get; set; }
-            public int NewGroupAdminId { get; set; }
+        public AuthorizedUser Initiator { get; set; }
+        public int NewGroupAdminId { get; set; }
 
-            public Query(AuthorizedUser initiator, int newGroupAdminId)
-            {
-                Initiator = initiator;
-                NewGroupAdminId = newGroupAdminId;
-            }
+        public Query(AuthorizedUser initiator, int newGroupAdminId)
+        {
+            Initiator = initiator;
+            NewGroupAdminId = newGroupAdminId;
+        }
+    }
+
+    public class Response
+    {
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
+        {
+            _context = context;
         }
 
-        public class Response
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-        }
+            IwentysUser initiatorProfile = await _context.IwentysUsers.GetById(request.Initiator.Id);
+            Student newGroupAdminProfile = await _context.Students.GetById(request.NewGroupAdminId);
 
-        public class Handler : IRequestHandler<Query, Response>
-        {
-            private readonly IwentysDbContext _context;
+            StudyGroup studyGroup = StudyGroup.MakeGroupAdmin(initiatorProfile, newGroupAdminProfile);
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+            _context.StudyGroups.Update(studyGroup);
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                IwentysUser initiatorProfile = await _context.IwentysUsers.GetById(request.Initiator.Id);
-                Student newGroupAdminProfile = await _context.Students.GetById(request.NewGroupAdminId);
-
-                StudyGroup studyGroup = StudyGroup.MakeGroupAdmin(initiatorProfile, newGroupAdminProfile);
-
-                _context.StudyGroups.Update(studyGroup);
-
-                return new Response();
-            }
+            return new Response();
         }
     }
 }

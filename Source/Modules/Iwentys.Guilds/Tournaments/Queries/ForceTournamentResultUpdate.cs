@@ -5,47 +5,46 @@ using Iwentys.Domain.Guilds;
 using Iwentys.WebService.Application;
 using MediatR;
 
-namespace Iwentys.Guilds
+namespace Iwentys.Guilds;
+
+public static class ForceTournamentResultUpdate
 {
-    public static class ForceTournamentResultUpdate
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(AuthorizedUser user, int tournamentId)
         {
-            public Query(AuthorizedUser user, int tournamentId)
-            {
-                User = user;
-                TournamentId = tournamentId;
-            }
-
-            public AuthorizedUser User { get; set; }
-            public int TournamentId { get; set; }
+            User = user;
+            TournamentId = tournamentId;
         }
 
-        public class Response
+        public AuthorizedUser User { get; set; }
+        public int TournamentId { get; set; }
+    }
+
+    public class Response
+    {
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+        private readonly GithubIntegrationService _githubIntegrationService;
+
+        public Handler(IwentysDbContext context, GithubIntegrationService githubIntegrationService)
         {
+            _context = context;
+            _githubIntegrationService = githubIntegrationService;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            private readonly IwentysDbContext _context;
-            private readonly GithubIntegrationService _githubIntegrationService;
+            Tournament tournamentEntity = await _context.Tournaments.GetById(request.TournamentId);
 
-            public Handler(IwentysDbContext context, GithubIntegrationService githubIntegrationService)
-            {
-                _context = context;
-                _githubIntegrationService = githubIntegrationService;
-            }
+            ITournamentDomain tournamentDomain = tournamentEntity.WrapToDomain(_githubIntegrationService);
+            tournamentDomain.UpdateResult();
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Tournament tournamentEntity = await _context.Tournaments.GetById(request.TournamentId);
-
-                ITournamentDomain tournamentDomain = tournamentEntity.WrapToDomain(_githubIntegrationService);
-                tournamentDomain.UpdateResult();
-
-                _context.Tournaments.Update(tournamentEntity);
-                return new Response();
-            }
+            _context.Tournaments.Update(tournamentEntity);
+            return new Response();
         }
     }
 }

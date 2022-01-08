@@ -5,49 +5,48 @@ using Iwentys.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Guilds
+namespace Iwentys.Guilds;
+
+public class GetGuildById
 {
-    public class GetGuildById
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(int guildId)
         {
-            public Query(int guildId)
-            {
-                GuildId = guildId;
-            }
-
-            public int GuildId { get; set; }
+            GuildId = guildId;
         }
 
-        public class Response
-        {
-            public Response(GuildProfileDto guild)
-            {
-                Guild = guild;
-            }
+        public int GuildId { get; set; }
+    }
 
-            public GuildProfileDto Guild { get; set; }
+    public class Response
+    {
+        public Response(GuildProfileDto guild)
+        {
+            Guild = guild;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public GuildProfileDto Guild { get; set; }
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
         {
-            private readonly IwentysDbContext _context;
+            _context = context;
+        }
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+        {
+            GuildProfileDto guildProfileDto = await _context
+                .Guilds
+                .Where(g => g.Id == request.GuildId)
+                .Select(GuildProfileDto.FromEntity)
+                .SingleAsync(cancellationToken);
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                GuildProfileDto guildProfileDto = await _context
-                    .Guilds
-                    .Where(g => g.Id == request.GuildId)
-                    .Select(GuildProfileDto.FromEntity)
-                    .SingleAsync(cancellationToken);
-
-                return new Response(guildProfileDto);
-            }
+            return new Response(guildProfileDto);
         }
     }
 }

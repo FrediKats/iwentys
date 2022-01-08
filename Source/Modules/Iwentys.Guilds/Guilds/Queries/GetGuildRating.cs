@@ -3,54 +3,53 @@ using System.Linq;
 using Iwentys.DataAccess;
 using MediatR;
 
-namespace Iwentys.Guilds
+namespace Iwentys.Guilds;
+
+public class GetGuildRating
 {
-    public class GetGuildRating
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(int skip, int take)
         {
-            public Query(int skip, int take)
-            {
-                Skip = skip;
-                Take = take;
-            }
-
-            public int Skip { get; set; }
-            public int Take { get; set; }
+            Skip = skip;
+            Take = take;
         }
 
-        public class Response
-        {
-            public Response(List<GuildProfileDto> guilds)
-            {
-                Guilds = guilds;
-            }
+        public int Skip { get; set; }
+        public int Take { get; set; }
+    }
 
-            public List<GuildProfileDto> Guilds { get; set; }
+    public class Response
+    {
+        public Response(List<GuildProfileDto> guilds)
+        {
+            Guilds = guilds;
         }
 
-        public class Handler : RequestHandler<Query, Response>
+        public List<GuildProfileDto> Guilds { get; set; }
+    }
+
+    public class Handler : RequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
         {
-            private readonly IwentysDbContext _context;
+            _context = context;
+        }
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+        protected override Response Handle(Query request)
+        {
+            List<GuildProfileDto> result = _context
+                .Guilds
+                .Skip(request.Skip)
+                .Take(request.Take)
+                .Select(GuildProfileDto.FromEntity)
+                .ToList()
+                .OrderByDescending(g => g.GuildRating)
+                .ToList();
 
-            protected override Response Handle(Query request)
-            {
-                List<GuildProfileDto> result = _context
-                    .Guilds
-                    .Skip(request.Skip)
-                    .Take(request.Take)
-                    .Select(GuildProfileDto.FromEntity)
-                    .ToList()
-                    .OrderByDescending(g => g.GuildRating)
-                    .ToList();
-
-                return new Response(result);
-            }
+            return new Response(result);
         }
     }
 }

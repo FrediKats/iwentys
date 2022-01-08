@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Iwentys.Common
+namespace Iwentys.Common;
+
+[Serializable]
+public class IwentysExecutionException : IwentysException
 {
-    [Serializable]
-    public class IwentysExecutionException : IwentysException
+    public IwentysExecutionException()
     {
-        public IwentysExecutionException()
-        {
-        }
+    }
 
-        public IwentysExecutionException(string message) : base(message)
-        {
-        }
+    public IwentysExecutionException(string message) : base(message)
+    {
+    }
 
-        public IwentysExecutionException(string message, Exception inner) : base(message, inner)
-        {
-        }
+    public IwentysExecutionException(string message, Exception inner) : base(message, inner)
+    {
+    }
 
-        protected IwentysExecutionException(
-            SerializationInfo info,
-            StreamingContext context) : base(info, context)
-        {
-        }
+    protected IwentysExecutionException(
+        SerializationInfo info,
+        StreamingContext context) : base(info, context)
+    {
     }
 }

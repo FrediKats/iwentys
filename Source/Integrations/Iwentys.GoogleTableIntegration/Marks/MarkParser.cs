@@ -4,44 +4,43 @@ using Google.Apis.Sheets.v4.Data;
 using Iwentys.Domain.Study;
 using Microsoft.Extensions.Logging;
 
-namespace Iwentys.GoogleTableIntegration.Marks
+namespace Iwentys.GoogleTableIntegration.Marks;
+
+public class MarkParser : ITableRequest<List<StudentSubjectScore>>
 {
-    public class MarkParser : ITableRequest<List<StudentSubjectScore>>
+    private readonly TableStringHelper _helper;
+
+    private readonly ILogger _logger;
+
+    public MarkParser(GoogleTableData tableData, ILogger logger)
     {
-        private readonly TableStringHelper _helper;
+        _logger = logger;
+        _helper = new TableStringHelper(tableData);
+    }
 
-        private readonly ILogger _logger;
+    public string Id => _helper.Id;
+    public string Range => _helper.Range;
 
-        public MarkParser(GoogleTableData tableData, ILogger logger)
+    public List<StudentSubjectScore> Parse(ValueRange values)
+    {
+        var result = new List<StudentSubjectScore>();
+        foreach (IList<object> row in values.Values)
         {
-            _logger = logger;
-            _helper = new TableStringHelper(tableData);
-        }
-
-        public string Id => _helper.Id;
-        public string Range => _helper.Range;
-
-        public List<StudentSubjectScore> Parse(ValueRange values)
-        {
-            var result = new List<StudentSubjectScore>();
-            foreach (IList<object> row in values.Values)
+            object name = row[_helper.NameColumnNum];
+            object score = row[_helper.ScoreColumnNum];
+            if (name is not null && score is not null)
             {
-                object name = row[_helper.NameColumnNum];
-                object score = row[_helper.ScoreColumnNum];
-                if (name is not null && score is not null)
-                {
-                    string fullName = string.Join(" ", _helper.NameColumns.Select(c => row[c]));
+                string fullName = string.Join(" ", _helper.NameColumns.Select(c => row[c]));
 
-                    result.Add(new StudentSubjectScore(fullName,
-                        score.ToString()));
-                }
-                else
-                {
-                    _logger.LogWarning($"Missed data while parsing google table: tableId:{_helper.Id}");
-                }
+                result.Add(new StudentSubjectScore(fullName,
+                    score.ToString()));
             }
-
-            return result;
+            else
+            {
+                _logger.LogWarning($"Missed data while parsing google table: tableId:{_helper.Id}");
+            }
         }
+
+        return result;
     }
 }

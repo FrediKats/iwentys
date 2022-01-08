@@ -1,16 +1,15 @@
-﻿namespace Iwentys.Domain.Study
+﻿namespace Iwentys.Domain.Study;
+
+public record StudentUpdateRequestDto
 {
-    public record StudentUpdateRequestDto
+    public StudentUpdateRequestDto(string githubUsername)
     {
-        public StudentUpdateRequestDto(string githubUsername)
-        {
-            GithubUsername = githubUsername;
-        }
-
-        public StudentUpdateRequestDto()
-        {
-        }
-
-        public string GithubUsername { get; init; }
+        GithubUsername = githubUsername;
     }
+
+    public StudentUpdateRequestDto()
+    {
+    }
+
+    public string GithubUsername { get; init; }
 }

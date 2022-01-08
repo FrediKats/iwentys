@@ -1,9 +1,8 @@
-﻿namespace Iwentys.Domain.Assignments
+﻿namespace Iwentys.Domain.Assignments;
+
+public enum AssignmentSubmitState
 {
-    public enum AssignmentSubmitState
-    {
-        Open,
-        Approved,
-        Rejected
-    }
+    Open,
+    Approved,
+    Rejected
 }

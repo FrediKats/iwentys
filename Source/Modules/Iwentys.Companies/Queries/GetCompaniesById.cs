@@ -5,50 +5,49 @@ using Iwentys.DataAccess;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Companies
+namespace Iwentys.Companies;
+
+public static class GetCompaniesById
 {
-    public static class GetCompaniesById
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
-        {
-            public int CompanyId { get; set; }
+        public int CompanyId { get; set; }
 
-            public Query(int companyId)
-            {
-                CompanyId = companyId;
-            }
+        public Query(int companyId)
+        {
+            CompanyId = companyId;
+        }
+    }
+
+    public class Response
+    {
+        public Response(CompanyInfoDto company)
+        {
+            Company = company;
         }
 
-        public class Response
-        {
-            public Response(CompanyInfoDto company)
-            {
-                Company = company;
-            }
+        public CompanyInfoDto Company { get; set; }
+    }
 
-            public CompanyInfoDto Company { get; set; }
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
+        {
+            _context = context;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            private readonly IwentysDbContext _context;
+            CompanyInfoDto result = await _context
+                .Companies
+                .Where(c => c.Id == request.CompanyId)
+                .Select(entity => new CompanyInfoDto(entity))
+                .FirstAsync();
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
-
-
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                CompanyInfoDto result = await _context
-                    .Companies
-                    .Where(c => c.Id == request.CompanyId)
-                    .Select(entity => new CompanyInfoDto(entity))
-                    .FirstAsync();
-
-                return new Response(result);
-            }
+            return new Response(result);
         }
     }
 }

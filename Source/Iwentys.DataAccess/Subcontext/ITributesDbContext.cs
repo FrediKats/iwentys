@@ -1,7 +1,6 @@
-﻿namespace Iwentys.DataAccess
+﻿namespace Iwentys.DataAccess;
+
+public interface ITributesDbContext
 {
-    public interface ITributesDbContext
-    {
         
-    }
 }

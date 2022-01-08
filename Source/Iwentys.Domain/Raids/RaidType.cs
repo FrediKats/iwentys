@@ -1,9 +1,8 @@
-﻿namespace Iwentys.Domain.Raids
+﻿namespace Iwentys.Domain.Raids;
+
+public enum RaidType
 {
-    public enum RaidType
-    {
-        PublicLecture = 1,
-        Hackathon,
-        Courses
-    }
+    PublicLecture = 1,
+    Hackathon,
+    Courses
 }

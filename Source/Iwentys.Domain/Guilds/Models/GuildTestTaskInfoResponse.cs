@@ -1,34 +1,21 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace Iwentys.Domain.Guilds
+namespace Iwentys.Domain.Guilds;
+
+public class GuildTestTaskInfoResponse
 {
-    public class GuildTestTaskInfoResponse
-    {
-        public int StudentId { get; set; }
-        public DateTime StartTimeUtc { get; set; }
-        public DateTime? SubmitTimeUtc { get; set; }
-        public int? ProjectReviewRequestId { get; set; }
-        public DateTime? CompleteTimeUtc { get; set; }
+    public int StudentId { get; set; }
+    public DateTime StartTimeUtc { get; set; }
+    public DateTime? SubmitTimeUtc { get; set; }
+    public int? ProjectReviewRequestId { get; set; }
+    public DateTime? CompleteTimeUtc { get; set; }
 
-        public GuildTestTaskState TestTaskState { get; set; }
+    public GuildTestTaskState TestTaskState { get; set; }
 
-        public static Expression<Func<GuildTestTaskSolution, GuildTestTaskInfoResponse>> FromEntity =>
-            testTask =>
-                new GuildTestTaskInfoResponse
-                {
-                    StudentId = testTask.AuthorId,
-                    StartTimeUtc = testTask.StartTimeUtc,
-                    SubmitTimeUtc = testTask.SubmitTimeUtc,
-                    ProjectReviewRequestId = testTask.ProjectReviewRequestId,
-                    CompleteTimeUtc = testTask.CompleteTimeUtc,
-                    TestTaskState = testTask.GetState()
-                };
-
-
-        public static GuildTestTaskInfoResponse Wrap(GuildTestTaskSolution testTask)
-        {
-            return new GuildTestTaskInfoResponse
+    public static Expression<Func<GuildTestTaskSolution, GuildTestTaskInfoResponse>> FromEntity =>
+        testTask =>
+            new GuildTestTaskInfoResponse
             {
                 StudentId = testTask.AuthorId,
                 StartTimeUtc = testTask.StartTimeUtc,
@@ -37,6 +24,18 @@ namespace Iwentys.Domain.Guilds
                 CompleteTimeUtc = testTask.CompleteTimeUtc,
                 TestTaskState = testTask.GetState()
             };
-        }
+
+
+    public static GuildTestTaskInfoResponse Wrap(GuildTestTaskSolution testTask)
+    {
+        return new GuildTestTaskInfoResponse
+        {
+            StudentId = testTask.AuthorId,
+            StartTimeUtc = testTask.StartTimeUtc,
+            SubmitTimeUtc = testTask.SubmitTimeUtc,
+            ProjectReviewRequestId = testTask.ProjectReviewRequestId,
+            CompleteTimeUtc = testTask.CompleteTimeUtc,
+            TestTaskState = testTask.GetState()
+        };
     }
 }

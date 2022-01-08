@@ -1,16 +1,15 @@
 ﻿using Iwentys.Sdk;
 
-namespace Iwentys.WebClient.Content
+namespace Iwentys.WebClient.Content;
+
+public partial class TournamentJournalPage
 {
-    public partial class TournamentJournalPage
+    private ICollection<TournamentInfoResponse> _tournaments;
+
+    protected override async Task OnInitializedAsync()
     {
-        private ICollection<TournamentInfoResponse> _tournaments;
+        await base.OnInitializedAsync();
 
-        protected override async Task OnInitializedAsync()
-        {
-            await base.OnInitializedAsync();
-
-            _tournaments = await _tournamentClient.GetAsync();
-        }
+        _tournaments = await _tournamentClient.GetAsync();
     }
 }

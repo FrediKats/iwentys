@@ -8,62 +8,61 @@ using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.SubjectAssignments
+namespace Iwentys.SubjectAssignments;
+
+public static class CreateSubmit
 {
-    public static class CreateSubmit
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(AuthorizedUser authorizedUser, SubjectAssignmentSubmitCreateArguments arguments)
         {
-            public Query(AuthorizedUser authorizedUser, SubjectAssignmentSubmitCreateArguments arguments)
-            {
-                Arguments = arguments;
-                AuthorizedUser = authorizedUser;
-            }
-
-            public SubjectAssignmentSubmitCreateArguments Arguments { get; set; }
-            public AuthorizedUser AuthorizedUser { get; set; }
+            Arguments = arguments;
+            AuthorizedUser = authorizedUser;
         }
 
-        public class Response
-        {
-            public Response(SubjectAssignmentSubmitDto submit)
-            {
-                Submit = submit;
-            }
+        public SubjectAssignmentSubmitCreateArguments Arguments { get; set; }
+        public AuthorizedUser AuthorizedUser { get; set; }
+    }
 
-            public SubjectAssignmentSubmitDto Submit { get; set; }
+    public class Response
+    {
+        public Response(SubjectAssignmentSubmitDto submit)
+        {
+            Submit = submit;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public SubjectAssignmentSubmitDto Submit { get; set; }
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
         {
-            private readonly IwentysDbContext _context;
+            _context = context;
+        }
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+        {
+            Student student = await _context.Students.GetById(request.AuthorizedUser.Id);
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Student student = await _context.Students.GetById(request.AuthorizedUser.Id);
+            GroupSubjectAssignment groupSubjectAssignment = await _context
+                .GroupSubjectAssignments
+                .FirstAsync(gsa => gsa.SubjectAssignmentId == request.Arguments.SubjectAssignmentId
+                                   && gsa.GroupId == student.GroupId);
 
-                GroupSubjectAssignment groupSubjectAssignment = await _context
-                    .GroupSubjectAssignments
-                    .FirstAsync(gsa => gsa.SubjectAssignmentId == request.Arguments.SubjectAssignmentId
-                                       && gsa.GroupId == student.GroupId);
+            SubjectAssignmentSubmit subjectAssignmentSubmit = groupSubjectAssignment.CreateSubmit(student, request.Arguments);
 
-                SubjectAssignmentSubmit subjectAssignmentSubmit = groupSubjectAssignment.CreateSubmit(student, request.Arguments);
+            _context.SubjectAssignmentSubmits.Add(subjectAssignmentSubmit);
+            await _context.SaveChangesAsync();
+            SubjectAssignmentSubmitDto result = await _context
+                .SubjectAssignmentSubmits
+                .Where(sas => sas.Id == subjectAssignmentSubmit.Id)
+                .Select(sas => new SubjectAssignmentSubmitDto(sas))
+                .SingleAsync();
 
-                _context.SubjectAssignmentSubmits.Add(subjectAssignmentSubmit);
-                await _context.SaveChangesAsync();
-                SubjectAssignmentSubmitDto result = await _context
-                    .SubjectAssignmentSubmits
-                    .Where(sas => sas.Id == subjectAssignmentSubmit.Id)
-                    .Select(sas => new SubjectAssignmentSubmitDto(sas))
-                    .SingleAsync();
-
-                return new Response(result);
-            }
+            return new Response(result);
         }
     }
 }

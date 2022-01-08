@@ -1,28 +1,27 @@
 ﻿using Bogus;
 using Iwentys.Domain.GithubIntegration;
 
-namespace Iwentys.DataAccess.Seeding
+namespace Iwentys.DataAccess.Seeding;
+
+public class GithubRepositoryFaker
 {
-    public class GithubRepositoryFaker
+    public static readonly GithubRepositoryFaker Instance = new GithubRepositoryFaker();
+
+    private readonly Faker _faker = new Faker();
+
+    public GithubRepositoryInfoDto Generate(string githubUsername)
     {
-        public static readonly GithubRepositoryFaker Instance = new GithubRepositoryFaker();
+        return new GithubRepositoryInfoDto(
+            GetId(),
+            githubUsername,
+            _faker.Company.CompanyName(),
+            _faker.Lorem.Paragraph(),
+            _faker.Internet.Url(),
+            _faker.Random.Int(0, 100));
+    }
 
-        private readonly Faker _faker = new Faker();
-
-        public GithubRepositoryInfoDto Generate(string githubUsername)
-        {
-            return new GithubRepositoryInfoDto(
-                GetId(),
-                githubUsername,
-                _faker.Company.CompanyName(),
-                _faker.Lorem.Paragraph(),
-                _faker.Internet.Url(),
-                _faker.Random.Int(0, 100));
-        }
-
-        public long GetId()
-        {
-            return _faker.IndexVariable++ + 1;
-        }
+    public long GetId()
+    {
+        return _faker.IndexVariable++ + 1;
     }
 }

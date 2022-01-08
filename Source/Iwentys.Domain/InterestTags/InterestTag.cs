@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace Iwentys.Domain.InterestTags
-{
-    public class InterestTag
-    {
-        public int Id { get; init; }
-        public string Title { get; init; }
+namespace Iwentys.Domain.InterestTags;
 
-        public virtual ICollection<UserInterestTag> UserInterestTags { get; init; }
-    }
+public class InterestTag
+{
+    public int Id { get; init; }
+    public string Title { get; init; }
+
+    public virtual ICollection<UserInterestTag> UserInterestTags { get; init; }
 }

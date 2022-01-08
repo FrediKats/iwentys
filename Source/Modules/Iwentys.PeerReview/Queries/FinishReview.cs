@@ -6,45 +6,44 @@ using Iwentys.Domain.PeerReview;
 using Iwentys.WebService.Application;
 using MediatR;
 
-namespace Iwentys.PeerReview
+namespace Iwentys.PeerReview;
+
+public class FinishReview
 {
-    public class FinishReview
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(AuthorizedUser authorizedUser, int reviewRequestId)
         {
-            public Query(AuthorizedUser authorizedUser, int reviewRequestId)
-            {
-                AuthorizedUser = authorizedUser;
-                ReviewRequestId = reviewRequestId;
-            }
-
-            public AuthorizedUser AuthorizedUser { get; set; }
-            public int ReviewRequestId { get; set; }
+            AuthorizedUser = authorizedUser;
+            ReviewRequestId = reviewRequestId;
         }
 
-        public class Response
+        public AuthorizedUser AuthorizedUser { get; set; }
+        public int ReviewRequestId { get; set; }
+    }
+
+    public class Response
+    {
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
         {
+            _context = context;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            private readonly IwentysDbContext _context;
+            IwentysUser user = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
+            ProjectReviewRequest projectReviewRequest = await _context.ProjectReviewRequests.GetById(request.ReviewRequestId);
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+            projectReviewRequest.FinishReview(user);
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                IwentysUser user = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
-                ProjectReviewRequest projectReviewRequest = await _context.ProjectReviewRequests.GetById(request.ReviewRequestId);
-
-                projectReviewRequest.FinishReview(user);
-
-                _context.ProjectReviewRequests.Update(projectReviewRequest);
-                return new Response();
-            }
+            _context.ProjectReviewRequests.Update(projectReviewRequest);
+            return new Response();
         }
     }
 }

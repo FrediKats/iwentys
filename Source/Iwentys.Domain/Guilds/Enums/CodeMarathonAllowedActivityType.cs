@@ -1,8 +1,7 @@
-﻿namespace Iwentys.Domain.Guilds
+﻿namespace Iwentys.Domain.Guilds;
+
+public enum CodeMarathonAllowedActivityType
 {
-    public enum CodeMarathonAllowedActivityType
-    {
-        All,
-        OrganizationOnly
-    }
+    All,
+    OrganizationOnly
 }

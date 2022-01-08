@@ -3,42 +3,41 @@ using System.Linq;
 using Iwentys.DataAccess;
 using MediatR;
 
-namespace Iwentys.AccountManagement
+namespace Iwentys.AccountManagement;
+
+public static class GetStudents
 {
-    public static class GetStudents
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+    }
+
+    public class Response
+    {
+        public Response(List<StudentInfoDto> students)
         {
+            Students = students;
         }
 
-        public class Response
-        {
-            public Response(List<StudentInfoDto> students)
-            {
-                Students = students;
-            }
+        public List<StudentInfoDto> Students { get; set; }
+    }
 
-            public List<StudentInfoDto> Students { get; set; }
+    public class Handler : RequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
+        {
+            _context = context;
         }
 
-        public class Handler : RequestHandler<Query, Response>
+        protected override Response Handle(Query request)
         {
-            private readonly IwentysDbContext _context;
+            List<StudentInfoDto> result = _context
+                .Students
+                .Select(s => new StudentInfoDto(s))
+                .ToList();
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
-
-            protected override Response Handle(Query request)
-            {
-                List<StudentInfoDto> result = _context
-                    .Students
-                    .Select(s => new StudentInfoDto(s))
-                    .ToList();
-
-                return new Response(result);
-            }
+            return new Response(result);
         }
     }
 }

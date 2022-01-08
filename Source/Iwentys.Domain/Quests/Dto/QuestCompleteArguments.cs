@@ -1,8 +1,7 @@
-﻿namespace Iwentys.Domain.Quests
+﻿namespace Iwentys.Domain.Quests;
+
+public class QuestCompleteArguments
 {
-    public class QuestCompleteArguments
-    {
-        public int UserId { get; set; }
-        public int Mark { get; set; }
-    }
+    public int UserId { get; set; }
+    public int Mark { get; set; }
 }

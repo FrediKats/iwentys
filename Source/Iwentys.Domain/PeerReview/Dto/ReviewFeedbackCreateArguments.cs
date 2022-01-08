@@ -1,8 +1,7 @@
-﻿namespace Iwentys.Domain.PeerReview
+﻿namespace Iwentys.Domain.PeerReview;
+
+public class ReviewFeedbackCreateArguments
 {
-    public class ReviewFeedbackCreateArguments
-    {
-        public string Description { get; set; }
-        public ReviewFeedbackSummary Summary { get; set; }
-    }
+    public string Description { get; set; }
+    public ReviewFeedbackSummary Summary { get; set; }
 }

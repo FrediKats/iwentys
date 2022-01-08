@@ -9,61 +9,60 @@ using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Newsfeeds
+namespace Iwentys.Newsfeeds;
+
+public class CreateGuildNewsfeed
 {
-    public class CreateGuildNewsfeed
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
-        {
-            public NewsfeedCreateViewModel CreateViewModel { get; }
-            public AuthorizedUser AuthorizedUser { get; }
-            public int GuildId { get; }
+        public NewsfeedCreateViewModel CreateViewModel { get; }
+        public AuthorizedUser AuthorizedUser { get; }
+        public int GuildId { get; }
 
-            public Query(NewsfeedCreateViewModel createViewModel, AuthorizedUser authorizedUser, int guildId)
-            {
-                CreateViewModel = createViewModel;
-                AuthorizedUser = authorizedUser;
-                GuildId = guildId;
-            }
+        public Query(NewsfeedCreateViewModel createViewModel, AuthorizedUser authorizedUser, int guildId)
+        {
+            CreateViewModel = createViewModel;
+            AuthorizedUser = authorizedUser;
+            GuildId = guildId;
+        }
+    }
+
+    public class Response
+    {
+        public Response(NewsfeedViewModel newsfeeds)
+        {
+            Newsfeeds = newsfeeds;
         }
 
-        public class Response
-        {
-            public Response(NewsfeedViewModel newsfeeds)
-            {
-                Newsfeeds = newsfeeds;
-            }
+        public NewsfeedViewModel Newsfeeds { get; }
+    }
 
-            public NewsfeedViewModel Newsfeeds { get; }
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
+        {
+            _context = context;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            private readonly IwentysDbContext _context;
+            Student author = await _context.Students.GetById(request.AuthorizedUser.Id);
+            Guild guild = await _context.Guilds.GetById(request.GuildId);
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+            GuildMentor mentor = author.EnsureIsGuildMentor(guild);
+            var newsfeedEntity = GuildNewsfeed.Create(request.CreateViewModel, mentor, guild);
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Student author = await _context.Students.GetById(request.AuthorizedUser.Id);
-                Guild guild = await _context.Guilds.GetById(request.GuildId);
+            _context.GuildNewsfeeds.Add(newsfeedEntity);
 
-                GuildMentor mentor = author.EnsureIsGuildMentor(guild);
-                var newsfeedEntity = GuildNewsfeed.Create(request.CreateViewModel, mentor, guild);
+            NewsfeedViewModel result = await _context
+                .Newsfeeds
+                .Where(n => n.Id == newsfeedEntity.NewsfeedId)
+                .Select(NewsfeedViewModel.FromEntity)
+                .SingleAsync();
 
-                _context.GuildNewsfeeds.Add(newsfeedEntity);
-
-                NewsfeedViewModel result = await _context
-                    .Newsfeeds
-                    .Where(n => n.Id == newsfeedEntity.NewsfeedId)
-                    .Select(NewsfeedViewModel.FromEntity)
-                    .SingleAsync();
-
-                return new Response(result);
-            }
+            return new Response(result);
         }
     }
 }

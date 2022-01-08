@@ -1,23 +1,22 @@
 ﻿using Iwentys.Domain.AccountManagement;
 
-namespace Iwentys.Domain.Study
+namespace Iwentys.Domain.Study;
+
+public class StudentCreateArguments : IwentysUserCreateArguments
 {
-    public class StudentCreateArguments : IwentysUserCreateArguments
+    public StudentCreateArguments(int? id, string firstName, string middleName, string secondName, bool isAdmin, string githubUsername, int barsPoints, string avatarUrl, StudentType type, string group, int groupId)
+        : base(id, firstName, middleName, secondName, isAdmin, githubUsername, barsPoints, avatarUrl)
     {
-        public StudentCreateArguments(int? id, string firstName, string middleName, string secondName, bool isAdmin, string githubUsername, int barsPoints, string avatarUrl, StudentType type, string group, int groupId)
-            : base(id, firstName, middleName, secondName, isAdmin, githubUsername, barsPoints, avatarUrl)
-        {
-            Type = type;
-            Group = group;
-            GroupId = groupId;
-        }
-
-        public StudentCreateArguments()
-        {
-        }
-
-        public StudentType Type { get; init; }
-        public string Group { get; init; }
-        public int GroupId { get; set; }
+        Type = type;
+        Group = group;
+        GroupId = groupId;
     }
+
+    public StudentCreateArguments()
+    {
+    }
+
+    public StudentType Type { get; init; }
+    public string Group { get; init; }
+    public int GroupId { get; set; }
 }

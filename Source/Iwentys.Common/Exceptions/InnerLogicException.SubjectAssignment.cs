@@ -1,13 +1,12 @@
-﻿namespace Iwentys.Common
+﻿namespace Iwentys.Common;
+
+public partial class InnerLogicException
 {
-    public partial class InnerLogicException
+    public static class SubjectAssignmentException
     {
-        public static class SubjectAssignmentException
+        public static InnerLogicException StudentIsNotAssignedToSubject(int studentId, int subjectId)
         {
-            public static InnerLogicException StudentIsNotAssignedToSubject(int studentId, int subjectId)
-            {
-                throw new InnerLogicException($"Student is not assigned to subject. Student: {studentId}, Subject:{subjectId}");
-            }
+            throw new InnerLogicException($"Student is not assigned to subject. Student: {studentId}, Subject:{subjectId}");
         }
     }
 }

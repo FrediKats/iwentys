@@ -7,52 +7,51 @@ using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Newsfeeds
+namespace Iwentys.Newsfeeds;
+
+public class GetSubjectNewsfeeds
 {
-    public class GetSubjectNewsfeeds
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
-        {
-            public AuthorizedUser AuthorizedUser { get; }
-            public int SubjectId { get; }
+        public AuthorizedUser AuthorizedUser { get; }
+        public int SubjectId { get; }
 
-            public Query(AuthorizedUser authorizedUser, int subjectId)
-            {
-                AuthorizedUser = authorizedUser;
-                SubjectId = subjectId;
-            }
+        public Query(AuthorizedUser authorizedUser, int subjectId)
+        {
+            AuthorizedUser = authorizedUser;
+            SubjectId = subjectId;
+        }
+    }
+
+    public class Response
+    {
+        public List<NewsfeedViewModel> Newsfeeds { get; set; }
+
+        public Response(List<NewsfeedViewModel> newsfeeds)
+        {
+            Newsfeeds = newsfeeds;
         }
 
-        public class Response
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
         {
-            public List<NewsfeedViewModel> Newsfeeds { get; set; }
-
-            public Response(List<NewsfeedViewModel> newsfeeds)
-            {
-                Newsfeeds = newsfeeds;
-            }
-
+            _context = context;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            private readonly IwentysDbContext _context;
+            List<NewsfeedViewModel> result = await _context
+                .SubjectNewsfeeds
+                .Where(sn => sn.SubjectId == request.SubjectId)
+                .Select(NewsfeedViewModel.FromSubjectEntity)
+                .ToListAsync();
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
-
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                List<NewsfeedViewModel> result = await _context
-                    .SubjectNewsfeeds
-                    .Where(sn => sn.SubjectId == request.SubjectId)
-                    .Select(NewsfeedViewModel.FromSubjectEntity)
-                    .ToListAsync();
-
-                return new Response(result);
-            }
+            return new Response(result);
         }
     }
 }

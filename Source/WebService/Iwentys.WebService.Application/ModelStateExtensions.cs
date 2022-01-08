@@ -2,13 +2,12 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Iwentys.WebService.Application
+namespace Iwentys.WebService.Application;
+
+public static class ModelStateExtensions
 {
-    public static class ModelStateExtensions
+    public static string GetErrorsString(this ModelStateDictionary modelState)
     {
-        public static string GetErrorsString(this ModelStateDictionary modelState)
-        {
-            return String.Join("\n",modelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage)));
-        }
+        return String.Join("\n",modelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage)));
     }
 }

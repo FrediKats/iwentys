@@ -10,68 +10,67 @@ using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Gamification
+namespace Iwentys.Gamification;
+
+public class Complete
 {
-    public class Complete
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
-        {
-            public int QuestId { get; set; }
-            public AuthorizedUser AuthorizedUser { get; set; }
-            public QuestCompleteArguments Arguments { get; set; }
+        public int QuestId { get; set; }
+        public AuthorizedUser AuthorizedUser { get; set; }
+        public QuestCompleteArguments Arguments { get; set; }
 
-            public Query(int questId, AuthorizedUser authorizedUser, QuestCompleteArguments arguments)
-            {
-                QuestId = questId;
-                AuthorizedUser = authorizedUser;
-                Arguments = arguments;
-            }
+        public Query(int questId, AuthorizedUser authorizedUser, QuestCompleteArguments arguments)
+        {
+            QuestId = questId;
+            AuthorizedUser = authorizedUser;
+            Arguments = arguments;
+        }
+    }
+
+    public class Response
+    {
+        public Response(QuestInfoDto questInfo)
+        {
+            QuestInfo = questInfo;
         }
 
-        public class Response
-        {
-            public Response(QuestInfoDto questInfo)
-            {
-                QuestInfo = questInfo;
-            }
+        public QuestInfoDto QuestInfo { get; set; }
+    }
 
-            public QuestInfoDto QuestInfo { get; set; }
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly AchievementProvider _achievementProvider;
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context, AchievementProvider achievementProvider)
+        {
+            _context = context;
+            _achievementProvider = achievementProvider;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            private readonly AchievementProvider _achievementProvider;
-            private readonly IwentysDbContext _context;
+            Quest quest = await _context.Quests.GetById(request.QuestId);
+            IwentysUser executor = await _context.IwentysUsers.GetById(request.Arguments.UserId);
+            IwentysUser student = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
 
-            public Handler(IwentysDbContext context, AchievementProvider achievementProvider)
-            {
-                _context = context;
-                _achievementProvider = achievementProvider;
-            }
+            quest.MakeCompleted(student, executor, request.Arguments);
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Quest quest = await _context.Quests.GetById(request.QuestId);
-                IwentysUser executor = await _context.IwentysUsers.GetById(request.Arguments.UserId);
-                IwentysUser student = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
+            _context.Quests.Update(quest);
+            BarsPointTransaction transaction = BarsPointTransaction.ReceiveFromSystem(executor, quest.Price);
 
-                quest.MakeCompleted(student, executor, request.Arguments);
+            _context.BarsPointTransactionLogs.Add(transaction);
+            _context.IwentysUsers.Update(executor);
+            _achievementProvider.AchieveForStudent(AchievementList.QuestComplete, executor.Id);
+            await AchievementHack.ProcessAchievement(_achievementProvider, _context);
+            QuestInfoDto result = await _context
+                .Quests
+                .Where(q => q.Id == request.QuestId)
+                .Select(QuestInfoDto.FromEntity)
+                .FirstAsync();
 
-                _context.Quests.Update(quest);
-                BarsPointTransaction transaction = BarsPointTransaction.ReceiveFromSystem(executor, quest.Price);
-
-                _context.BarsPointTransactionLogs.Add(transaction);
-                _context.IwentysUsers.Update(executor);
-                _achievementProvider.AchieveForStudent(AchievementList.QuestComplete, executor.Id);
-                await AchievementHack.ProcessAchievement(_achievementProvider, _context);
-                QuestInfoDto result = await _context
-                    .Quests
-                    .Where(q => q.Id == request.QuestId)
-                    .Select(QuestInfoDto.FromEntity)
-                    .FirstAsync();
-
-                return new Response(result);
-            }
+            return new Response(result);
         }
     }
 }

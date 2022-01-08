@@ -1,9 +1,8 @@
-﻿namespace Iwentys.Domain.Guilds
+﻿namespace Iwentys.Domain.Guilds;
+
+public enum GuildTestTaskState
 {
-    public enum GuildTestTaskState
-    {
-        Started = 1,
-        Submitted,
-        Completed
-    }
+    Started = 1,
+    Submitted,
+    Completed
 }

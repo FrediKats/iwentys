@@ -6,52 +6,51 @@ using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.SubjectAssignments
+namespace Iwentys.SubjectAssignments;
+
+public class GetSubjectAssignmentSubmit
 {
-    public class GetSubjectAssignmentSubmit
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(int subjectAssignmentSubmitId, AuthorizedUser authorizedUser)
         {
-            public Query(int subjectAssignmentSubmitId, AuthorizedUser authorizedUser)
-            {
-                SubjectAssignmentSubmitId = subjectAssignmentSubmitId;
-                AuthorizedUser = authorizedUser;
-            }
-
-            public int SubjectAssignmentSubmitId { get; set; }
-            public AuthorizedUser AuthorizedUser { get; set; }
+            SubjectAssignmentSubmitId = subjectAssignmentSubmitId;
+            AuthorizedUser = authorizedUser;
         }
 
-        public class Response
+        public int SubjectAssignmentSubmitId { get; set; }
+        public AuthorizedUser AuthorizedUser { get; set; }
+    }
+
+    public class Response
+    {
+        public Response(SubjectAssignmentSubmitDto submit)
         {
-            public Response(SubjectAssignmentSubmitDto submit)
-            {
-                Submit = submit;
-            }
-
-            public SubjectAssignmentSubmitDto Submit { get; set; }
-
+            Submit = submit;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public SubjectAssignmentSubmitDto Submit { get; set; }
+
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
         {
-            private readonly IwentysDbContext _context;
+            _context = context;
+        }
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+        {
+            SubjectAssignmentSubmitDto result = await _context
+                .SubjectAssignmentSubmits
+                .Where(sas => sas.Id == request.SubjectAssignmentSubmitId)
+                .Select(sas => new SubjectAssignmentSubmitDto(sas))
+                .SingleAsync();
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                SubjectAssignmentSubmitDto result = await _context
-                    .SubjectAssignmentSubmits
-                    .Where(sas => sas.Id == request.SubjectAssignmentSubmitId)
-                    .Select(sas => new SubjectAssignmentSubmitDto(sas))
-                    .SingleAsync();
-
-                return new Response(result);
-            }
+            return new Response(result);
         }
     }
 }

@@ -6,51 +6,50 @@ using Iwentys.Domain.Study;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Study
+namespace Iwentys.Study;
+
+public class GetStudyGroupByName
 {
-    public class GetStudyGroupByName
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(string groupName)
         {
-            public Query(string groupName)
-            {
-                GroupName = groupName;
-            }
-
-            public string GroupName { get; set; }
-
+            GroupName = groupName;
         }
 
-        public class Response
-        {
-            public Response(GroupProfileResponseDto @group)
-            {
-                Group = @group;
-            }
+        public string GroupName { get; set; }
 
-            public GroupProfileResponseDto Group { get; set; }
+    }
+
+    public class Response
+    {
+        public Response(GroupProfileResponseDto @group)
+        {
+            Group = @group;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public GroupProfileResponseDto Group { get; set; }
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
         {
-            private readonly IwentysDbContext _context;
+            _context = context;
+        }
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+        {
+            var name = new GroupName(request.GroupName);
+            var result = await _context
+                .StudyGroups
+                .Where(StudyGroup.IsMatch(name))
+                .Select(GroupProfileResponseDto.FromEntity)
+                .SingleAsync();
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                var name = new GroupName(request.GroupName);
-                var result = await _context
-                    .StudyGroups
-                    .Where(StudyGroup.IsMatch(name))
-                    .Select(GroupProfileResponseDto.FromEntity)
-                    .SingleAsync();
-
-                return new Response(result);
-            }
+            return new Response(result);
         }
     }
 }

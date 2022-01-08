@@ -1,44 +1,43 @@
 ﻿using Iwentys.Common;
 using Iwentys.Domain.AccountManagement;
 
-namespace Iwentys.Domain.Raids
+namespace Iwentys.Domain.Raids;
+
+public class RaidVisitor
 {
-    public class RaidVisitor
+    public int RaidId { get; set; }
+    public virtual Raid Raid { get; set; }
+
+    public int VisitorId { get; set; }
+    public virtual IwentysUser Visitor { get; set; }
+
+    public RaidVisitorRole Role { get; set; }
+
+    public static RaidVisitor CreateForLecture(int raidId, int visitorId)
     {
-        public int RaidId { get; set; }
-        public virtual Raid Raid { get; set; }
-
-        public int VisitorId { get; set; }
-        public virtual IwentysUser Visitor { get; set; }
-
-        public RaidVisitorRole Role { get; set; }
-
-        public static RaidVisitor CreateForLecture(int raidId, int visitorId)
+        return new RaidVisitor
         {
-            return new RaidVisitor
-            {
-                RaidId = raidId,
-                VisitorId = visitorId,
-                Role = RaidVisitorRole.Approved
-            };
-        }
+            RaidId = raidId,
+            VisitorId = visitorId,
+            Role = RaidVisitorRole.Approved
+        };
+    }
 
-        public static RaidVisitor CreateRequest(int raidId, int visitorId)
+    public static RaidVisitor CreateRequest(int raidId, int visitorId)
+    {
+        return new RaidVisitor
         {
-            return new RaidVisitor
-            {
-                RaidId = raidId,
-                VisitorId = visitorId,
-                Role = RaidVisitorRole.Pending
-            };
-        }
+            RaidId = raidId,
+            VisitorId = visitorId,
+            Role = RaidVisitorRole.Pending
+        };
+    }
 
-        public void Approve()
-        {
-            if (Role != RaidVisitorRole.Pending)
-                throw InnerLogicException.RaidExceptions.RequestIsNotActual(RaidId, VisitorId);
+    public void Approve()
+    {
+        if (Role != RaidVisitorRole.Pending)
+            throw InnerLogicException.RaidExceptions.RequestIsNotActual(RaidId, VisitorId);
 
-            Role = RaidVisitorRole.Approved;
-        }
+        Role = RaidVisitorRole.Approved;
     }
 }

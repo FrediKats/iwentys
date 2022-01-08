@@ -1,23 +1,22 @@
 ﻿using Iwentys.Domain.InterestTags;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.DataAccess
+namespace Iwentys.DataAccess;
+
+public interface IInterestTagsDbContext
 {
-    public interface IInterestTagsDbContext
-    {
-        public DbSet<InterestTag> InterestTags { get; set; }
-        public DbSet<UserInterestTag> UserInterestTags { get; set; }
-        //TODO: move to .Raids?
-        public DbSet<RaidInterestTag> RaidInterestTags { get; set; }
+    public DbSet<InterestTag> InterestTags { get; set; }
+    public DbSet<UserInterestTag> UserInterestTags { get; set; }
+    //TODO: move to .Raids?
+    public DbSet<RaidInterestTag> RaidInterestTags { get; set; }
 
-    }
+}
 
-    public static class InterestTagsDbContextExtensions
+public static class InterestTagsDbContextExtensions
+{
+    public static void OnInterestTagsModelCreating(this ModelBuilder modelBuilder)
     {
-        public static void OnInterestTagsModelCreating(this ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<UserInterestTag>().HasKey(g => new { StudentId = g.UserId, g.InterestTagId });
-            modelBuilder.Entity<RaidInterestTag>().HasKey(rv => new { rv.RaidId, rv.InterestTagId });
-        }
+        modelBuilder.Entity<UserInterestTag>().HasKey(g => new { StudentId = g.UserId, g.InterestTagId });
+        modelBuilder.Entity<RaidInterestTag>().HasKey(rv => new { rv.RaidId, rv.InterestTagId });
     }
 }

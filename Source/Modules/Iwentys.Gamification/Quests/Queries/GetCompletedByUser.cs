@@ -9,50 +9,49 @@ using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.Gamification
+namespace Iwentys.Gamification;
+
+public class GetCompletedByUser
 {
-    public class GetCompletedByUser
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
-        {
-            public AuthorizedUser AuthorizedUser { get; set; }
+        public AuthorizedUser AuthorizedUser { get; set; }
 
-            public Query(AuthorizedUser authorizedUser)
-            {
-                AuthorizedUser = authorizedUser;
-            }
+        public Query(AuthorizedUser authorizedUser)
+        {
+            AuthorizedUser = authorizedUser;
+        }
+    }
+
+    public class Response
+    {
+        public Response(List<QuestInfoDto> questInfos)
+        {
+            QuestInfos = questInfos;
         }
 
-        public class Response
-        {
-            public Response(List<QuestInfoDto> questInfos)
-            {
-                QuestInfos = questInfos;
-            }
+        public List<QuestInfoDto> QuestInfos { get; set; }
+    }
 
-            public List<QuestInfoDto> QuestInfos { get; set; }
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
+        {
+            _context = context;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            private readonly IwentysDbContext _context;
+            IwentysUser user = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+            List<QuestInfoDto> result = await _context.Quests
+                .Where(Quest.IsCompletedBy(user))
+                .Select(QuestInfoDto.FromEntity)
+                .ToListAsync();
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                IwentysUser user = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
-
-                List<QuestInfoDto> result = await _context.Quests
-                    .Where(Quest.IsCompletedBy(user))
-                    .Select(QuestInfoDto.FromEntity)
-                    .ToListAsync();
-
-                return new Response(result);
-            }
+            return new Response(result);
         }
     }
 }

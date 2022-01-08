@@ -1,8 +1,7 @@
-﻿namespace Iwentys.Domain.Guilds
+﻿namespace Iwentys.Domain.Guilds;
+
+public enum GuildHiringPolicy
 {
-    public enum GuildHiringPolicy
-    {
-        Open = 1,
-        Close = 2
-    }
+    Open = 1,
+    Close = 2
 }

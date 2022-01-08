@@ -1,23 +1,22 @@
 ﻿using Iwentys.Sdk;
 
-namespace Iwentys.WebClient.Content
-{
-    public partial class QuestCreatePage
-    {
-        private string _title;
-        private string _description;
-        private int _price;
-        private DateTime? _deadline;
+namespace Iwentys.WebClient.Content;
 
-        private async Task SendCreateRequest()
+public partial class QuestCreatePage
+{
+    private string _title;
+    private string _description;
+    private int _price;
+    private DateTime? _deadline;
+
+    private async Task SendCreateRequest()
+    {
+        await _questClient.CreateAsync(new CreateQuestRequest
         {
-            await _questClient.CreateAsync(new CreateQuestRequest
-            {
-                Title = _title,
-                Deadline = _deadline,
-                Description = _description,
-                Price = _price
-            });
-        }
+            Title = _title,
+            Deadline = _deadline,
+            Description = _description,
+            Price = _price
+        });
     }
 }

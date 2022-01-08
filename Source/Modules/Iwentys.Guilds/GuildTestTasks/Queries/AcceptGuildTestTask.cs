@@ -7,53 +7,52 @@ using Iwentys.Domain.Guilds;
 using Iwentys.WebService.Application;
 using MediatR;
 
-namespace Iwentys.Guilds
+namespace Iwentys.Guilds;
+
+public static class AcceptGuildTestTask
 {
-    public static class AcceptGuildTestTask
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(int guildId, AuthorizedUser user)
         {
-            public Query(int guildId, AuthorizedUser user)
-            {
-                GuildId = guildId;
-                User = user;
-            }
-
-            public AuthorizedUser User { get; set; }
-            public int GuildId { get; set; }
+            GuildId = guildId;
+            User = user;
         }
 
-        public class Response
-        {
-            public Response(GuildTestTaskInfoResponse testTaskInfo)
-            {
-                TestTaskInfo = testTaskInfo;
-            }
+        public AuthorizedUser User { get; set; }
+        public int GuildId { get; set; }
+    }
 
-            public GuildTestTaskInfoResponse TestTaskInfo { get; set; }
+    public class Response
+    {
+        public Response(GuildTestTaskInfoResponse testTaskInfo)
+        {
+            TestTaskInfo = testTaskInfo;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public GuildTestTaskInfoResponse TestTaskInfo { get; set; }
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
         {
-            private readonly IwentysDbContext _context;
+            _context = context;
+        }
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+        {
+            IwentysUser author = await _context.IwentysUsers.GetById(request.User.Id);
+            Guild authorGuild = await _context.GuildMembers.ReadForStudent(request.User.Id);
+            if (authorGuild is null || authorGuild.Id != request.GuildId)
+                throw InnerLogicException.GuildExceptions.IsNotGuildMember(request.User.Id, request.GuildId);
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                IwentysUser author = await _context.IwentysUsers.GetById(request.User.Id);
-                Guild authorGuild = await _context.GuildMembers.ReadForStudent(request.User.Id);
-                if (authorGuild is null || authorGuild.Id != request.GuildId)
-                    throw InnerLogicException.GuildExceptions.IsNotGuildMember(request.User.Id, request.GuildId);
+            var testTaskSolution = GuildTestTaskSolution.Create(authorGuild, author);
 
-                var testTaskSolution = GuildTestTaskSolution.Create(authorGuild, author);
-
-                _context.GuildTestTaskSolvingInfos.Add(testTaskSolution);
-                return new Response(GuildTestTaskInfoResponse.Wrap(testTaskSolution));
-            }
+            _context.GuildTestTaskSolvingInfos.Add(testTaskSolution);
+            return new Response(GuildTestTaskInfoResponse.Wrap(testTaskSolution));
         }
     }
 }

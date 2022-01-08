@@ -2,47 +2,46 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Iwentys.Domain.GithubIntegration
+namespace Iwentys.Domain.GithubIntegration;
+
+public class ContributionFullInfo
 {
-    public class ContributionFullInfo
+    public CodingActivityInfo RawActivity { get; set; }
+    public int Total => PerMonthActivity().Sum(a => a.Count);
+
+    public static ContributionFullInfo Empty => new ContributionFullInfo
     {
-        public CodingActivityInfo RawActivity { get; set; }
-        public int Total => PerMonthActivity().Sum(a => a.Count);
-
-        public static ContributionFullInfo Empty => new ContributionFullInfo
+        RawActivity = new CodingActivityInfo
         {
-            RawActivity = new CodingActivityInfo
-            {
-                Contributions = new List<ContributionsInfo>(),
-                Years = new List<YearActivityInfo>()
-            }
-        };
-
-        public List<ContributionsInfo> PerMonthActivity()
-        {
-            return RawActivity
-                .Contributions
-                .Where(c => IsBelongToActivityPeriod(c.Date))
-                .GroupBy(c => c.Date.AddDays(-c.Date.Day))
-                .Take(12)
-                .Select(c => new ContributionsInfo(c.Key, c.Sum(_ => _.Count)))
-                .ToList();
+            Contributions = new List<ContributionsInfo>(),
+            Years = new List<YearActivityInfo>()
         }
+    };
 
-        public int GetActivityForPeriod(DateTime from, DateTime to)
-        {
-            return RawActivity
-                .Contributions
-                .Where(c => c.Date >= from && c.Date <= to)
-                .Sum(c => c.Count);
-        }
+    public List<ContributionsInfo> PerMonthActivity()
+    {
+        return RawActivity
+            .Contributions
+            .Where(c => IsBelongToActivityPeriod(c.Date))
+            .GroupBy(c => c.Date.AddDays(-c.Date.Day))
+            .Take(12)
+            .Select(c => new ContributionsInfo(c.Key, c.Sum(_ => _.Count)))
+            .ToList();
+    }
 
-        public bool IsBelongToActivityPeriod(DateTime date)
-        {
-            DateTime currentMonthStart = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1);
-            DateTime currentActivityPeriodStart = currentMonthStart.AddMonths(-11);
+    public int GetActivityForPeriod(DateTime from, DateTime to)
+    {
+        return RawActivity
+            .Contributions
+            .Where(c => c.Date >= from && c.Date <= to)
+            .Sum(c => c.Count);
+    }
 
-            return date >= currentActivityPeriodStart;
-        }
+    public bool IsBelongToActivityPeriod(DateTime date)
+    {
+        DateTime currentMonthStart = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1);
+        DateTime currentActivityPeriodStart = currentMonthStart.AddMonths(-11);
+
+        return date >= currentActivityPeriodStart;
     }
 }

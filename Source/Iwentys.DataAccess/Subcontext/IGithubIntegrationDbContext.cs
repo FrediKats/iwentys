@@ -1,11 +1,10 @@
 ﻿using Iwentys.Domain.GithubIntegration;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.DataAccess
+namespace Iwentys.DataAccess;
+
+public interface IGithubIntegrationDbContext
 {
-    public interface IGithubIntegrationDbContext
-    {
-        public DbSet<GithubProject> StudentProjects { get; set; }
-        public DbSet<GithubUser> GithubUsersData { get; set; }
-    }
+    public DbSet<GithubProject> StudentProjects { get; set; }
+    public DbSet<GithubUser> GithubUsersData { get; set; }
 }

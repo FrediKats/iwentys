@@ -11,65 +11,64 @@ using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.SubjectAssignments
+namespace Iwentys.SubjectAssignments;
+
+public class GetMentorSubjectAssignments
 {
-    public class GetMentorSubjectAssignments
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(AuthorizedUser user)
         {
-            public Query(AuthorizedUser user)
-            {
-                User = user;
-            }
-
-            public AuthorizedUser User { get; set; }
+            User = user;
         }
 
-        public class Response
-        {
-            public Response(List<SubjectAssignmentJournalItemDto> subjectAssignments)
-            {
-                SubjectAssignments = subjectAssignments;
-            }
+        public AuthorizedUser User { get; set; }
+    }
 
-            public List<SubjectAssignmentJournalItemDto> SubjectAssignments { get; set; }
+    public class Response
+    {
+        public Response(List<SubjectAssignmentJournalItemDto> subjectAssignments)
+        {
+            SubjectAssignments = subjectAssignments;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public List<SubjectAssignmentJournalItemDto> SubjectAssignments { get; set; }
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+        private readonly IMapper _mapper;
+
+
+        public Handler(IwentysDbContext context, IMapper mapper)
         {
-            private readonly IwentysDbContext _context;
-            private readonly IMapper _mapper;
+            _context = context;
+            _mapper = mapper;
+        }
 
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+        {
+            IwentysUser user = await _context.IwentysUsers.GetById(request.User.Id);
 
-            public Handler(IwentysDbContext context, IMapper mapper)
+            if (user.IsAdmin)
             {
-                _context = context;
-                _mapper = mapper;
+                List<SubjectAssignmentJournalItemDto> assignments = await _context
+                    .Subjects
+                    .ProjectTo<SubjectAssignmentJournalItemDto>(_mapper.ConfigurationProvider)
+                    .ToListAsync();
+
+                return new Response(assignments);
             }
-
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+            else
             {
-                IwentysUser user = await _context.IwentysUsers.GetById(request.User.Id);
+                List<SubjectAssignmentJournalItemDto> assignments = await _context
+                    .Subjects
+                    .Where(Subject.IsAllowedFor(user.Id))
+                    .ProjectTo<SubjectAssignmentJournalItemDto>(_mapper.ConfigurationProvider)
+                    .ToListAsync();
 
-                if (user.IsAdmin)
-                {
-                    List<SubjectAssignmentJournalItemDto> assignments = await _context
-                        .Subjects
-                        .ProjectTo<SubjectAssignmentJournalItemDto>(_mapper.ConfigurationProvider)
-                        .ToListAsync();
-
-                    return new Response(assignments);
-                }
-                else
-                {
-                    List<SubjectAssignmentJournalItemDto> assignments = await _context
-                        .Subjects
-                        .Where(Subject.IsAllowedFor(user.Id))
-                        .ProjectTo<SubjectAssignmentJournalItemDto>(_mapper.ConfigurationProvider)
-                        .ToListAsync();
-
-                    return new Response(assignments);
-                }
+                return new Response(assignments);
             }
         }
     }

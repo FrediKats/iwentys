@@ -5,52 +5,51 @@ using Iwentys.Domain.Guilds;
 using Iwentys.WebService.Application;
 using MediatR;
 
-namespace Iwentys.Guilds
+namespace Iwentys.Guilds;
+
+public class GetGuildTributes
 {
-    public class GetGuildTributes
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(AuthorizedUser user, int guildId)
         {
-            public Query(AuthorizedUser user, int guildId)
-            {
-                User = user;
-                GuildId = guildId;
-            }
-
-            public AuthorizedUser User { get; set; }
-            public int GuildId { get; set; }
+            User = user;
+            GuildId = guildId;
         }
 
-        public class Response
-        {
-            public Response(List<TributeInfoResponse> tribute)
-            {
-                Tribute = tribute;
-            }
+        public AuthorizedUser User { get; set; }
+        public int GuildId { get; set; }
+    }
 
-            public List<TributeInfoResponse> Tribute { get; set; }
+    public class Response
+    {
+        public Response(List<TributeInfoResponse> tribute)
+        {
+            Tribute = tribute;
         }
 
-        public class Handler : RequestHandler<Query, Response>
+        public List<TributeInfoResponse> Tribute { get; set; }
+    }
+
+    public class Handler : RequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
         {
-            private readonly IwentysDbContext _context;
+            _context = context;
+        }
 
-            public Handler(IwentysDbContext context)
-            {
-                _context = context;
-            }
+        protected override Response Handle(Query request)
+        {
+            List<TributeInfoResponse> responses = _context
+                .Tributes
+                .Where(t => t.GuildId == request.GuildId)
+                .Where(t => t.State == TributeState.Active)
+                .Select(TributeInfoResponse.FromEntity)
+                .ToList();
 
-            protected override Response Handle(Query request)
-            {
-                List<TributeInfoResponse> responses = _context
-                    .Tributes
-                    .Where(t => t.GuildId == request.GuildId)
-                    .Where(t => t.State == TributeState.Active)
-                    .Select(TributeInfoResponse.FromEntity)
-                    .ToList();
-
-                return new Response(responses);
-            }
+            return new Response(responses);
         }
     }
 }

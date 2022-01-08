@@ -7,65 +7,64 @@ using Iwentys.Domain.Study;
 using Iwentys.WebService.Application;
 using MediatR;
 
-namespace Iwentys.Study
+namespace Iwentys.Study;
+
+public class UpdateGroupSubjectTable
 {
-    public class UpdateGroupSubjectTable
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(AuthorizedUser authorizedUser, int studyGroupId, int subjectId, string tableLink)
         {
-            public Query(AuthorizedUser authorizedUser, int studyGroupId, int subjectId, string tableLink)
-            {
-                AuthorizedUser = authorizedUser;
-                StudyGroupId = studyGroupId;
-                SubjectId = subjectId;
-                TableLink = tableLink;
-            }
-
-            public AuthorizedUser AuthorizedUser { get; set; }
-            public int StudyGroupId { get; set; }
-            public int SubjectId { get; set; }
-            public string TableLink { get; set; }
+            AuthorizedUser = authorizedUser;
+            StudyGroupId = studyGroupId;
+            SubjectId = subjectId;
+            TableLink = tableLink;
         }
 
-        public class Response
-        {
-            public GroupSubjectInfoDto Result { get; }
+        public AuthorizedUser AuthorizedUser { get; set; }
+        public int StudyGroupId { get; set; }
+        public int SubjectId { get; set; }
+        public string TableLink { get; set; }
+    }
 
-            public Response(GroupSubjectInfoDto result)
-            {
-                Result = result;
-            }
+    public class Response
+    {
+        public GroupSubjectInfoDto Result { get; }
+
+        public Response(GroupSubjectInfoDto result)
+        {
+            Result = result;
+        }
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+
+        public Handler(IwentysDbContext context)
+        {
+            _context = context;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            private readonly IwentysDbContext _context;
+            var groupSubject = _context
+                .GroupSubjects
+                .FirstOrDefault(gs => gs.StudyGroupId == request.StudyGroupId
+                                      && gs.SubjectId == request.SubjectId);
 
-            public Handler(IwentysDbContext context)
+            if (groupSubject == null)
             {
-                _context = context;
+                throw EntityNotFoundException.Create(typeof(GroupSubject), request.SubjectId, request.StudyGroupId);
             }
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                var groupSubject = _context
-                    .GroupSubjects
-                    .FirstOrDefault(gs => gs.StudyGroupId == request.StudyGroupId
-                                          && gs.SubjectId == request.SubjectId);
+            groupSubject.TableLink = request.TableLink;
 
-                if (groupSubject == null)
-                {
-                    throw EntityNotFoundException.Create(typeof(GroupSubject), request.SubjectId, request.StudyGroupId);
-                }
+            _context.GroupSubjects.Update(groupSubject);
 
-                groupSubject.TableLink = request.TableLink;
+            await _context.SaveChangesAsync();
 
-                _context.GroupSubjects.Update(groupSubject);
-
-                await _context.SaveChangesAsync();
-
-                return new Response(new GroupSubjectInfoDto(groupSubject));
-            }
+            return new Response(new GroupSubjectInfoDto(groupSubject));
         }
     }
 }

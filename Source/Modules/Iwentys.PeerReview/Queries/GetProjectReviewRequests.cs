@@ -11,54 +11,53 @@ using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iwentys.PeerReview
+namespace Iwentys.PeerReview;
+
+public class GetProjectReviewRequests
 {
-    public class GetProjectReviewRequests
+    public class Query : IRequest<Response>
     {
-        public class Query : IRequest<Response>
+        public Query(AuthorizedUser authorizedUser)
         {
-            public Query(AuthorizedUser authorizedUser)
-            {
-                AuthorizedUser = authorizedUser;
-            }
-
-            public AuthorizedUser AuthorizedUser { get; set; }
+            AuthorizedUser = authorizedUser;
         }
 
-        public class Response
-        {
-            public Response(List<ProjectReviewRequestInfoDto> requests)
-            {
-                Requests = requests;
-            }
+        public AuthorizedUser AuthorizedUser { get; set; }
+    }
 
-            public List<ProjectReviewRequestInfoDto> Requests { get; set; }
+    public class Response
+    {
+        public Response(List<ProjectReviewRequestInfoDto> requests)
+        {
+            Requests = requests;
         }
 
-        public class Handler : IRequestHandler<Query, Response>
+        public List<ProjectReviewRequestInfoDto> Requests { get; set; }
+    }
+
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly IwentysDbContext _context;
+        private readonly IMapper _mapper;
+
+        public Handler(IwentysDbContext context, IMapper mapper)
         {
-            private readonly IwentysDbContext _context;
-            private readonly IMapper _mapper;
-
-            public Handler(IwentysDbContext context, IMapper mapper)
-            {
-                _context = context;
-                _mapper = mapper;
-            }
+            _context = context;
+            _mapper = mapper;
+        }
 
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-            {
-                IwentysUser user = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+        {
+            IwentysUser user = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
 
-                List<ProjectReviewRequestInfoDto> result = await _context
-                    .ProjectReviewRequests
-                    .Where(ProjectReviewRequest.IsVisibleTo(user))
-                    .ProjectTo<ProjectReviewRequestInfoDto>(_mapper.ConfigurationProvider)
-                    .ToListAsync(cancellationToken);
+            List<ProjectReviewRequestInfoDto> result = await _context
+                .ProjectReviewRequests
+                .Where(ProjectReviewRequest.IsVisibleTo(user))
+                .ProjectTo<ProjectReviewRequestInfoDto>(_mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
 
-                return new Response(result);
-            }
+            return new Response(result);
         }
     }
 }
