@@ -1,5 +1,4 @@
-﻿using Iwentys.AccountManagement;
-using Iwentys.EntityManager.Domain;
+﻿using Iwentys.EntityManager.Domain;
 
 namespace Iwentys.EntityManager.WebApi;
 

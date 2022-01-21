@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Iwentys.EntityManager.DataAccess;
 
-public class IwentysEntityManagerDbContext : DbContext
+public class IwentysEntityManagerDbContext : DbContext, IAccountManagementDbContext, IStudyDbContext
 {
     public DbSet<IwentysUser> IwentysUsers { get; set; }
     public DbSet<UniversitySystemUser> UniversitySystemUsers { get; set; }
@@ -25,6 +25,8 @@ public class IwentysEntityManagerDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.OnStudyModelCreating();
+
         RemoveCascadeDeleting(modelBuilder);
         base.OnModelCreating(modelBuilder);
     }

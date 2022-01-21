@@ -1,6 +1,6 @@
 ﻿using Iwentys.EntityManager.Domain.Accounts;
 
-namespace Iwentys.AccountManagement;
+namespace Iwentys.EntityManager.WebApi;
 
 public class IwentysUserInfoDto : UniversitySystemUserInfoDto
 {
