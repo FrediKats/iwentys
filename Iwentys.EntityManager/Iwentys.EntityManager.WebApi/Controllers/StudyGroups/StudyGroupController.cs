@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.EntityManager.WebApi;
 
-[Route("api/[controller]")]
+[Route("api/study-group")]
 [ApiController]
 public class StudyGroupController : ControllerBase
 {
