@@ -43,7 +43,10 @@
       "queryNullValue": "",
       "className": "{controller}Client",
       "operationGenerationMode": "MultipleClientsFromFirstTagAndPathSegments",
-      "additionalNamespaceUsages": [],
+      "additionalNamespaceUsages": [
+        "Iwentys.EntityManager.PublicTypes",
+        "Iwentys.EntityManager.WebApiDtos"
+      ],
       "additionalContractNamespaceUsages": [],
       "generateOptionalParameters": false,
       "generateJsonMethods": false,
