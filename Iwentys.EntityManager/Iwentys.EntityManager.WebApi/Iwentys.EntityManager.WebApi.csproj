@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Iwentys.EntityManager.DataAccess\Iwentys.EntityManager.DataAccess.csproj" />
+    <ProjectReference Include="..\Iwentys.EntityManager.DataSeeding\Iwentys.EntityManager.DataSeeding.csproj" />
     <ProjectReference Include="..\Iwentys.EntityManager.WebApiDtos\Iwentys.EntityManager.WebApiDtos.csproj" />
   </ItemGroup>
 

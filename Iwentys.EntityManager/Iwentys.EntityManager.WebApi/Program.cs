@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Iwentys.EntityManager.DataAccess;
+using Iwentys.EntityManager.DataSeeding;
 using Iwentys.EntityManager.WebApi;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -14,12 +15,16 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<IwentysEntityManagerDbContext>(o => o
     .UseLazyLoadingProxies()
-    .UseInMemoryDatabase("InMemoryIwentysEntityManager.db"));
+    .UseInMemoryDatabase("InMemoryIwentysEntityManager.db")
+    .EnableSensitiveDataLogging()
+    .EnableDetailedErrors());
 
 builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionPipeline<,>));
 builder.Services.AddScoped<DbContext, IwentysEntityManagerDbContext>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddScoped<IDbContextSeeder, DatabaseContextGenerator>();
 
 var app = builder.Build();
 

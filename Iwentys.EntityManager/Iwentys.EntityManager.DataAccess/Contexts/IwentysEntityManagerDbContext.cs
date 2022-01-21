@@ -7,6 +7,8 @@ namespace Iwentys.EntityManager.DataAccess;
 
 public class IwentysEntityManagerDbContext : DbContext, IAccountManagementDbContext, IStudyDbContext
 {
+    private readonly IDbContextSeeder _dbContextSeeder;
+
     public DbSet<IwentysUser> IwentysUsers { get; set; }
     public DbSet<UniversitySystemUser> UniversitySystemUsers { get; set; }
 
@@ -19,13 +21,16 @@ public class IwentysEntityManagerDbContext : DbContext, IAccountManagementDbCont
     public DbSet<GroupSubjectMentor> GroupSubjectMentors { get; set; }
     public DbSet<StudyCourse> StudyCourses { get; set; }
 
-    public IwentysEntityManagerDbContext(DbContextOptions<IwentysEntityManagerDbContext> options) : base(options)
+    public IwentysEntityManagerDbContext(DbContextOptions<IwentysEntityManagerDbContext> options, IDbContextSeeder dbContextSeeder) : base(options)
     {
+        _dbContextSeeder = dbContextSeeder;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.OnStudyModelCreating();
+
+        _dbContextSeeder.Seed(modelBuilder);
 
         RemoveCascadeDeleting(modelBuilder);
         base.OnModelCreating(modelBuilder);
