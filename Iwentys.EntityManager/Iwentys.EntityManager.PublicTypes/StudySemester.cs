@@ -1,4 +1,4 @@
-﻿namespace Iwentys.EntityManager.Domain;
+﻿namespace Iwentys.EntityManager.PublicTypes;
 
 public enum StudySemester
 {

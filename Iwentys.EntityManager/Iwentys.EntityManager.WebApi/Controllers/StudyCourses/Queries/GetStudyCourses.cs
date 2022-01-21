@@ -1,4 +1,7 @@
-﻿using Iwentys.EntityManager.DataAccess;
+﻿using System.Linq.Expressions;
+using Iwentys.EntityManager.DataAccess;
+using Iwentys.EntityManager.Domain;
+using Iwentys.EntityManager.WebApiDtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,7 +25,11 @@ public class GetStudyCourses
         {
             List<StudyCourseInfoDto> result = await _context
                 .StudyCourses
-                .Select(StudyCourseInfoDto.FromEntity)
+                .Select(entity => new StudyCourseInfoDto
+                {
+                    CourseId = entity.Id,
+                    CourseTitle = entity.StudyProgram.Name + " " + entity.GraduationYear
+                })
                 .ToListAsync();
 
             return new Response(result);

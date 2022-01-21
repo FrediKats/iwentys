@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Iwentys.EntityManager.PublicTypes\Iwentys.EntityManager.PublicTypes.csproj" />
+    <ProjectReference Include="..\Iwentys.EntityManager.WebApiDtos\Iwentys.EntityManager.WebApiDtos.csproj" />
+  </ItemGroup>
+
 </Project>

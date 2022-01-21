@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using Iwentys.EntityManager.Domain.Accounts;
+using Iwentys.EntityManager.PublicTypes;
 
 namespace Iwentys.EntityManager.Domain;
 

@@ -1,6 +1,6 @@
-﻿using Iwentys.EntityManager.Domain;
+﻿using Iwentys.EntityManager.PublicTypes;
 
-namespace Iwentys.EntityManager.WebApi;
+namespace Iwentys.EntityManager.WebApiDtos;
 
 public class StudentInfoDto : IwentysUserInfoDto
 {
@@ -9,12 +9,6 @@ public class StudentInfoDto : IwentysUserInfoDto
 
     //public string SocialStatus { get; set; }
     //public string AdditionalLink { get; set; }
-
-    public StudentInfoDto(Student student) : base(student)
-    {
-        Type = student.Type;
-        GroupId = student.GroupId;
-    }
 
     public StudentInfoDto()
     {

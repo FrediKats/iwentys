@@ -1,4 +1,7 @@
-﻿using Iwentys.EntityManager.DataAccess;
+﻿using System.Linq.Expressions;
+using Iwentys.EntityManager.DataAccess;
+using Iwentys.EntityManager.Domain;
+using Iwentys.EntityManager.WebApiDtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,7 +27,18 @@ public class GetStudyGroupByStudent
                 .Students
                 .Where(sgm => sgm.Id == request.StudentId)
                 .Select(sgm => sgm.Group)
-                .Select(GroupProfileResponseDto.FromEntity)
+                .Select(entity => new GroupProfileResponseDto
+                {
+                    Id = entity.Id,
+                    GroupName = entity.GroupName,
+                    GroupAdminId = entity.GroupAdminId,
+                    Students = entity.Students.Select(s => new StudentInfoDto()).ToList(),
+                    Subjects = entity.GroupSubjects.Select(gs => new SubjectProfileDto
+                    {
+                        Id = gs.Subject.Id,
+                        Name = gs.Subject.Title
+                    }).ToList()
+                })
                 .SingleOrDefaultAsync();
 
             return new Response(result);

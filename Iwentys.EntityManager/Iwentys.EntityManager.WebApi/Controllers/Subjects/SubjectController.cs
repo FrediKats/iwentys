@@ -1,4 +1,6 @@
 ﻿using Iwentys.EntityManager.Domain;
+using Iwentys.EntityManager.PublicTypes;
+using Iwentys.EntityManager.WebApiDtos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

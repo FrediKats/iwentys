@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Iwentys.EntityManager.WebApiDtos;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.EntityManager.WebApi;

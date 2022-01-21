@@ -1,4 +1,5 @@
 ﻿using Iwentys.EntityManager.Domain;
+using Iwentys.EntityManager.PublicTypes;
 
 namespace Iwentys.EntityManager.WebApi;
 

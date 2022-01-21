@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.EntityManager.Commo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.EntityManager.ApiClient", "Iwentys.EntityManager.ApiClient\Iwentys.EntityManager.ApiClient.csproj", "{B80719B0-20F7-44AF-886F-D334D174DF3A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.EntityManager.WebApiDtos", "Iwentys.EntityManager.WebApiDtos\Iwentys.EntityManager.WebApiDtos.csproj", "{0AF6C827-1F01-4964-B8AF-D72BE9A82940}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.EntityManager.PublicTypes", "Iwentys.EntityManager.PublicTypes\Iwentys.EntityManager.PublicTypes.csproj", "{4212651D-39F8-4997-8E9C-50DBF43EDA43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{B80719B0-20F7-44AF-886F-D334D174DF3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B80719B0-20F7-44AF-886F-D334D174DF3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B80719B0-20F7-44AF-886F-D334D174DF3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AF6C827-1F01-4964-B8AF-D72BE9A82940}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AF6C827-1F01-4964-B8AF-D72BE9A82940}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AF6C827-1F01-4964-B8AF-D72BE9A82940}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AF6C827-1F01-4964-B8AF-D72BE9A82940}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4212651D-39F8-4997-8E9C-50DBF43EDA43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4212651D-39F8-4997-8E9C-50DBF43EDA43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4212651D-39F8-4997-8E9C-50DBF43EDA43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4212651D-39F8-4997-8E9C-50DBF43EDA43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

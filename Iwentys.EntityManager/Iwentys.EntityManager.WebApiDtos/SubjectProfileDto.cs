@@ -1,13 +1,7 @@
-﻿using Iwentys.EntityManager.Domain;
-
-namespace Iwentys.EntityManager.WebApi;
+﻿namespace Iwentys.EntityManager.WebApiDtos;
 
 public record SubjectProfileDto
 {
-    public SubjectProfileDto(Subject entity) : this(entity.Id, entity.Title)
-    {
-    }
-
     public SubjectProfileDto(int id, string name) : this()
     {
         Id = id;

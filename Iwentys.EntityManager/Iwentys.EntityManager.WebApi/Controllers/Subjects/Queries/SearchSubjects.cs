@@ -1,4 +1,5 @@
 ﻿using Iwentys.EntityManager.DataAccess;
+using Iwentys.EntityManager.WebApiDtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,7 +24,7 @@ public class SearchSubjects
             List<SubjectProfileDto> result = await _context
                 .GroupSubjects
                 .SearchSubjects(request.SearchParametersDto)
-                .Select(entity => new SubjectProfileDto(entity))
+                .Select(entity => new SubjectProfileDto(entity.Id, entity.Title))
                 .ToListAsync();
 
             return new Response(result);
