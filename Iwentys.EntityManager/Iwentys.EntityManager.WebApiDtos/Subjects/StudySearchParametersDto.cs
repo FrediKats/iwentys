@@ -1,11 +1,10 @@
-﻿using Iwentys.EntityManager.Domain;
-using Iwentys.EntityManager.PublicTypes;
+﻿using Iwentys.EntityManager.PublicTypes;
 
-namespace Iwentys.EntityManager.WebApi;
+namespace Iwentys.EntityManager.WebApiDtos;
 
-public record StudySearchParametersDto
+public record SubjectSearchParametersDto
 {
-    public StudySearchParametersDto(int? groupId, int? subjectId, int? courseId, StudySemester? studySemester, int skip, int take)
+    public SubjectSearchParametersDto(int? groupId, int? subjectId, int? courseId, StudySemester? studySemester, int skip, int take)
         : this()
     {
         GroupId = groupId;
@@ -16,7 +15,7 @@ public record StudySearchParametersDto
         Take = take;
     }
 
-    public StudySearchParametersDto()
+    public SubjectSearchParametersDto()
     {
     }
 
@@ -27,8 +26,8 @@ public record StudySearchParametersDto
     public int Skip { get; init; }
     public int Take { get; init; }
 
-    public static StudySearchParametersDto ForGroup(int groupId)
+    public static SubjectSearchParametersDto ForGroup(int groupId)
     {
-        return new StudySearchParametersDto(groupId, null, null, null, 0, 20);
+        return new SubjectSearchParametersDto(groupId, null, null, null, 0, 20);
     }
 }

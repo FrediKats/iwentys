@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Iwentys.EntityManager.WebApiDtos.csproj.DotSettings" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Iwentys.EntityManager.PublicTypes\Iwentys.EntityManager.PublicTypes.csproj" />
   </ItemGroup>
 

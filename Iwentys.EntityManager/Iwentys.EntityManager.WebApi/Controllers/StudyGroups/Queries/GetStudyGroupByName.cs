@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Iwentys.EntityManager.DataAccess;
 using Iwentys.EntityManager.Domain;
 using Iwentys.EntityManager.WebApiDtos;
@@ -10,15 +11,17 @@ namespace Iwentys.EntityManager.WebApi;
 public class GetStudyGroupByName
 {
     public record Query(string GroupName) : IRequest<Response>;
-    public record Response(GroupProfileResponseDto Group);
+    public record Response(StudyGroupProfileResponseDto StudyGroup);
 
     public class Handler : IRequestHandler<Query, Response>
     {
         private readonly IwentysEntityManagerDbContext _context;
+        private readonly IMapper _mapper;
 
-        public Handler(IwentysEntityManagerDbContext context)
+        public Handler(IwentysEntityManagerDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
@@ -27,18 +30,7 @@ public class GetStudyGroupByName
             var result = await _context
                 .StudyGroups
                 .Where(StudyGroup.IsMatch(name))
-                .Select(entity => new GroupProfileResponseDto
-                {
-                    Id = entity.Id,
-                    GroupName = entity.GroupName,
-                    GroupAdminId = entity.GroupAdminId,
-                    Students = entity.Students.Select(s => new StudentInfoDto()).ToList(),
-                    Subjects = entity.GroupSubjects.Select(gs => new SubjectProfileDto
-                    {
-                        Id = gs.Subject.Id,
-                        Name = gs.Subject.Title
-                    }).ToList()
-                })
+                .ProjectTo<StudyGroupProfileResponseDto>(_mapper.ConfigurationProvider)
                 .SingleAsync();
 
             return new Response(result);

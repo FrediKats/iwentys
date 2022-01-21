@@ -1,6 +1,6 @@
-﻿using System.Linq.Expressions;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Iwentys.EntityManager.DataAccess;
-using Iwentys.EntityManager.Domain;
 using Iwentys.EntityManager.WebApiDtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -10,34 +10,25 @@ namespace Iwentys.EntityManager.WebApi;
 public class GetStudyGroupByCourseId
 {
     public record Query(int? CourseId) : IRequest<Response>;
-    public record Response(List<GroupProfileResponseDto> Groups);
+    public record Response(List<StudyGroupProfileResponseDto> Groups);
 
     public class Handler : IRequestHandler<Query, Response>
     {
         private readonly IwentysEntityManagerDbContext _context;
+        private readonly IMapper _mapper;
 
-        public Handler(IwentysEntityManagerDbContext context)
+        public Handler(IwentysEntityManagerDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            List<GroupProfileResponseDto> result = await _context
+            List<StudyGroupProfileResponseDto> result = await _context
                 .StudyGroups
                 .WhereIf(request.CourseId, gs => gs.StudyCourseId == request.CourseId)
-                .Select(entity => new GroupProfileResponseDto
-                {
-                    Id = entity.Id,
-                    GroupName = entity.GroupName,
-                    GroupAdminId = entity.GroupAdminId,
-                    Students = entity.Students.Select(s => new StudentInfoDto()).ToList(),
-                    Subjects = entity.GroupSubjects.Select(gs => new SubjectProfileDto
-                    {
-                        Id = gs.Subject.Id,
-                        Name = gs.Subject.Title
-                    }).ToList()
-                })
+                .ProjectTo<StudyGroupProfileResponseDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
 
             return new Response(result);

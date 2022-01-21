@@ -735,7 +735,7 @@ namespace Iwentys.EntityManager.ApiClient
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyCollection<GroupProfileResponseDto>> GetByCourseIdAsync(int? courseId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyCollection<StudyGroupProfileResponseDto>> GetByCourseIdAsync(int? courseId)
         {
             return GetByCourseIdAsync(courseId, System.Threading.CancellationToken.None);
         }
@@ -743,7 +743,7 @@ namespace Iwentys.EntityManager.ApiClient
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyCollection<GroupProfileResponseDto>> GetByCourseIdAsync(int? courseId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyCollection<StudyGroupProfileResponseDto>> GetByCourseIdAsync(int? courseId, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/study-group/GetByCourseId?");
@@ -785,7 +785,7 @@ namespace Iwentys.EntityManager.ApiClient
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.IReadOnlyCollection<GroupProfileResponseDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.IReadOnlyCollection<StudyGroupProfileResponseDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -814,7 +814,7 @@ namespace Iwentys.EntityManager.ApiClient
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<GroupProfileResponseDto> GetByGroupNameAsync(string groupName)
+        public virtual System.Threading.Tasks.Task<StudyGroupProfileResponseDto> GetByGroupNameAsync(string groupName)
         {
             return GetByGroupNameAsync(groupName, System.Threading.CancellationToken.None);
         }
@@ -822,7 +822,7 @@ namespace Iwentys.EntityManager.ApiClient
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<GroupProfileResponseDto> GetByGroupNameAsync(string groupName, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<StudyGroupProfileResponseDto> GetByGroupNameAsync(string groupName, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/study-group/GetByGroupName?");
@@ -864,7 +864,7 @@ namespace Iwentys.EntityManager.ApiClient
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<GroupProfileResponseDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<StudyGroupProfileResponseDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -893,7 +893,7 @@ namespace Iwentys.EntityManager.ApiClient
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<GroupProfileResponseDto> GetByStudentIdAsync(int? studentId)
+        public virtual System.Threading.Tasks.Task<StudyGroupProfileResponseDto> GetByStudentIdAsync(int? studentId)
         {
             return GetByStudentIdAsync(studentId, System.Threading.CancellationToken.None);
         }
@@ -901,7 +901,7 @@ namespace Iwentys.EntityManager.ApiClient
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<GroupProfileResponseDto> GetByStudentIdAsync(int? studentId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<StudyGroupProfileResponseDto> GetByStudentIdAsync(int? studentId, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/study-group/GetByStudentId?");
@@ -943,7 +943,7 @@ namespace Iwentys.EntityManager.ApiClient
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<GroupProfileResponseDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<StudyGroupProfileResponseDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);

@@ -4,11 +4,7 @@ public class GroupSubjectInfoDto
 {
     public SubjectProfileDto Subject { get; init; }
 
-    public GroupProfileResponsePreviewDto StudyGroup { get; init; }
+    public StudyGroupProfileResponsePreviewDto StudyGroup { get; init; }
 
     public string TableLink { get; set; }
-
-    public GroupSubjectInfoDto()
-    {
-    }
 }

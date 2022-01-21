@@ -1,11 +1,12 @@
 ﻿using Iwentys.EntityManager.DataAccess;
 using Iwentys.EntityManager.Domain;
+using Iwentys.EntityManager.WebApiDtos;
 
 namespace Iwentys.EntityManager.WebApi;
 
 public static class GroupSubjectExtensions
 {
-    public static IQueryable<Subject> SearchSubjects(this IQueryable<GroupSubject> query, StudySearchParametersDto searchParametersDto)
+    public static IQueryable<Subject> SearchSubjects(this IQueryable<GroupSubject> query, SubjectSearchParametersDto searchParametersDto)
     {
         IQueryable<Subject> newQuery = query
             .WhereIf(searchParametersDto.GroupId, gs => gs.StudyGroupId == searchParametersDto.GroupId)

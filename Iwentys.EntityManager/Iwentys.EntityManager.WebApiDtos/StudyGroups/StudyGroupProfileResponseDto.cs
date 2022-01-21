@@ -1,6 +1,6 @@
 ﻿namespace Iwentys.EntityManager.WebApiDtos;
 
-public record GroupProfileResponseDto
+public record StudyGroupProfileResponseDto
 {
     public int Id { get; init; }
     public string GroupName { get; init; }
@@ -9,8 +9,4 @@ public record GroupProfileResponseDto
     public List<SubjectProfileDto> Subjects { get; init; }
 
     public StudentInfoDto GroupAdmin => GroupAdminId is null ? null : Students.Find(s => s.Id == GroupAdminId);
-
-    public GroupProfileResponseDto()
-    {
-    }
 }

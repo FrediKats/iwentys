@@ -9,8 +9,4 @@ public class StudentInfoDto : IwentysUserInfoDto
 
     //public string SocialStatus { get; set; }
     //public string AdditionalLink { get; set; }
-
-    public StudentInfoDto()
-    {
-    }
 }

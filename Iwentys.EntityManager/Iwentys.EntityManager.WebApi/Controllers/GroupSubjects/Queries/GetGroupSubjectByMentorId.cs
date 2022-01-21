@@ -1,6 +1,6 @@
-﻿using System.Linq.Expressions;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Iwentys.EntityManager.DataAccess;
-using Iwentys.EntityManager.Domain;
 using Iwentys.EntityManager.WebApiDtos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -15,10 +15,12 @@ public class GetGroupSubjectByMentorId
     public class Handler : IRequestHandler<Query, Response>
     {
         private readonly IwentysEntityManagerDbContext _context;
+        private readonly IMapper _mapper;
 
-        public Handler(IwentysEntityManagerDbContext context)
+        public Handler(IwentysEntityManagerDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
@@ -26,21 +28,7 @@ public class GetGroupSubjectByMentorId
             List<GroupSubjectInfoDto> result = await _context
                 .GroupSubjects
                 .WhereIf(request.MentorId, gs => gs.Mentors.Any(m => m.UserId == request.MentorId))
-                .Select(entity => new GroupSubjectInfoDto
-                {
-                    Subject = new SubjectProfileDto
-                    {
-                        Id = entity.Subject.Id,
-                        Name = entity.Subject.Title
-                    },
-                    StudyGroup = new GroupProfileResponsePreviewDto
-                    {
-                        Id = entity.StudyGroup.Id,
-                        GroupName = entity.StudyGroup.GroupName,
-                        GroupAdminId = entity.StudyGroup.GroupAdminId,
-        },
-                    TableLink = entity.TableLink,
-                })
+                .ProjectTo<GroupSubjectInfoDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
 
             return new Response(result);

@@ -28,8 +28,4 @@
     <ProjectReference Include="..\Iwentys.EntityManager.WebApiDtos\Iwentys.EntityManager.WebApiDtos.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\GroupSubjects\Dtos\" />
-  </ItemGroup>
-
 </Project>

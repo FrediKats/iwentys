@@ -17,24 +17,24 @@ public class StudyGroupController : ControllerBase
 
 
     [HttpGet(nameof(GetByCourseId))]
-    public async Task<ActionResult<List<GroupProfileResponseDto>>> GetByCourseId([FromQuery] int? courseId)
+    public async Task<ActionResult<List<StudyGroupProfileResponseDto>>> GetByCourseId([FromQuery] int? courseId)
     {
         GetStudyGroupByCourseId.Response response = await _mediator.Send(new GetStudyGroupByCourseId.Query(courseId));
         return Ok(response.Groups);
     }
 
     [HttpGet(nameof(GetByGroupName))]
-    public async Task<ActionResult<GroupProfileResponseDto>> GetByGroupName(string groupName)
+    public async Task<ActionResult<StudyGroupProfileResponseDto>> GetByGroupName(string groupName)
     {
         GetStudyGroupByName.Response response = await _mediator.Send(new GetStudyGroupByName.Query(groupName));
-        return Ok(response.Group);
+        return Ok(response.StudyGroup);
     }
 
     [HttpGet(nameof(GetByStudentId))]
-    public async Task<ActionResult<GroupProfileResponseDto>> GetByStudentId(int studentId)
+    public async Task<ActionResult<StudyGroupProfileResponseDto>> GetByStudentId(int studentId)
     {
         GetStudyGroupByStudent.Response response = await _mediator.Send(new GetStudyGroupByStudent.Query(studentId));
-        GroupProfileResponseDto result = response.Group;
+        StudyGroupProfileResponseDto result = response.StudyGroup;
         if (result is null)
             return NotFound();
 

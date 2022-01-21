@@ -1,5 +1,4 @@
-﻿using Iwentys.EntityManager.Domain;
-using Iwentys.EntityManager.PublicTypes;
+﻿using Iwentys.EntityManager.PublicTypes;
 using Iwentys.EntityManager.WebApiDtos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +19,7 @@ public class SubjectController : ControllerBase
     [HttpGet(nameof(SearchSubjects))]
     public async Task<ActionResult<List<SubjectProfileDto>>> SearchSubjects(int? courseId, StudySemester? semester)
     {
-        var studySearchParameters = new StudySearchParametersDto(null, null, courseId, semester, 0, 20);
+        var studySearchParameters = new SubjectSearchParametersDto(null, null, courseId, semester, 0, 20);
         SearchSubjects.Response response = await _mediator.Send(new SearchSubjects.Query(studySearchParameters));
 
         return Ok(response.Subjects);
