@@ -36,7 +36,6 @@ public class IwentysDbContext : DbContext,
     IPeerReviewDbContext,
     IQuestsDbContext,
     IRaidsDbContext,
-    IStudyDbContext,
     IStudySubjectAssignmentsDbContext
 
 {

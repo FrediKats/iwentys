@@ -95,7 +95,7 @@ public class StudyEntitiesGenerator : IEntityGenerator
             .Range(firstGroup, lastGroup - firstGroup + 1)
             .Select(g => new StudyGroup
             {
-                StudyCourseId = courseId,
+                CourseId = courseId,
                 GroupName = $"M3{course}{g:00}"
             })
             .ToList();

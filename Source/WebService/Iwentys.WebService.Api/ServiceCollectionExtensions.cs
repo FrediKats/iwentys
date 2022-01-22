@@ -3,6 +3,7 @@ using Iwentys.Domain.GithubIntegration;
 using System;
 using Iwentys.AccountManagement;
 using Iwentys.DataAccess;
+using Iwentys.EntityManager.ApiClient;
 using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.Gamification;
 using Iwentys.GithubIntegration;

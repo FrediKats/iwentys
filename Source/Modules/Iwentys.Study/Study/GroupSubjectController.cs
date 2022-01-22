@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Iwentys.EntityManager.ApiClient;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using IwentysEntityManagerApiClient = Iwentys.EntityManagerServiceIntegration.IwentysEntityManagerApiClient;
 
 namespace Iwentys.Study;
 

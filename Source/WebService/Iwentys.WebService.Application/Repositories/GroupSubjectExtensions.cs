@@ -12,7 +12,7 @@ public static class GroupSubjectExtensions
             .WhereIf(searchParametersDto.GroupId, gs => gs.StudyGroupId == searchParametersDto.GroupId)
             .WhereIf(searchParametersDto.StudySemester, gs => gs.StudySemester == searchParametersDto.StudySemester)
             .WhereIf(searchParametersDto.SubjectId, gs => gs.SubjectId == searchParametersDto.SubjectId)
-            .WhereIf(searchParametersDto.CourseId, gs => gs.StudyGroup.StudyCourseId == searchParametersDto.CourseId)
+            .WhereIf(searchParametersDto.CourseId, gs => gs.StudyGroup.CourseId == searchParametersDto.CourseId)
             .Select(s => s.Subject)
             .Distinct();
 

@@ -6,7 +6,6 @@ using Iwentys.Domain.Guilds;
 using Iwentys.EntityManager.ApiClient;
 using Iwentys.WebService.Application;
 using MediatR;
-using IwentysEntityManagerApiClient = Iwentys.EntityManagerServiceIntegration.IwentysEntityManagerApiClient;
 
 namespace Iwentys.Guilds;
 

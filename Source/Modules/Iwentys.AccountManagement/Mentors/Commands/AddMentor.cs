@@ -11,7 +11,6 @@ using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using IwentysEntityManagerApiClient = Iwentys.EntityManagerServiceIntegration.IwentysEntityManagerApiClient;
 
 namespace Iwentys.AccountManagement;
 

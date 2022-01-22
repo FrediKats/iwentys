@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Iwentys.EntityManager.ApiClient;
 
 namespace Iwentys.EntityManagerServiceIntegration;
 

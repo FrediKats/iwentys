@@ -24,7 +24,7 @@ public static class StudyDbContextExtensions
         query = query
             .WhereIf(searchParametersDto.GroupId, q => q.StudyGroups.Id == searchParametersDto.GroupId)
             .WhereIf(searchParametersDto.SubjectId, q => q.GroupSubjects.SubjectId == searchParametersDto.SubjectId)
-            .WhereIf(searchParametersDto.CourseId, q => q.StudyGroups.StudyCourseId == searchParametersDto.CourseId)
+            .WhereIf(searchParametersDto.CourseId, q => q.StudyGroups.CourseId == searchParametersDto.CourseId)
             .WhereIf(searchParametersDto.StudySemester, q => q.GroupSubjects.StudySemester == searchParametersDto.StudySemester);
 
         return query

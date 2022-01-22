@@ -28,4 +28,20 @@ public class TypedStudentProfileClient
         StudentInfoDto student = await _client.GetByIdAsync(id);
         return _mapper.Map<Student>(student);
     }
+
+    public async Task<IReadOnlyCollection<Student>> GetByCourseIdAsync(int courseId)
+    {
+        IReadOnlyCollection<StudentInfoDto> studentInfoDtos = await _client.GetByCourseIdAsync(courseId);
+        return studentInfoDtos
+            .Select(s => _mapper.Map<Student>(s))
+            .ToList();
+    }
+
+    public async Task<IReadOnlyCollection<Student>> GetByGroupIdAsync(int groupId)
+    {
+        IReadOnlyCollection<StudentInfoDto> studentInfoDtos = await _client.GetByGroupIdAsync(groupId);
+        return studentInfoDtos
+            .Select(s => _mapper.Map<Student>(s))
+            .ToList();
+    }
 }

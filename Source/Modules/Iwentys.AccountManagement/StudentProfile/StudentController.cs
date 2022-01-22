@@ -5,7 +5,6 @@ using Iwentys.EntityManager.ApiClient;
 using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using IwentysEntityManagerApiClient = Iwentys.EntityManagerServiceIntegration.IwentysEntityManagerApiClient;
 
 namespace Iwentys.AccountManagement;
 
