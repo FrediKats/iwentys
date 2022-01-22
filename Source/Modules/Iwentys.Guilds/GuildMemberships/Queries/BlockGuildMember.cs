@@ -3,8 +3,10 @@ using System.Threading.Tasks;
 using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
+using Iwentys.EntityManager.ApiClient;
 using Iwentys.WebService.Application;
 using MediatR;
+using IwentysEntityManagerApiClient = Iwentys.WebService.Application.IwentysEntityManagerApiClient;
 
 namespace Iwentys.Guilds;
 
@@ -32,10 +34,12 @@ public class BlockGuildMember
     public class Handler : IRequestHandler<Query, Response>
     {
         private readonly IwentysDbContext _context;
+        private readonly IwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext context)
+        public Handler(IwentysDbContext context, IwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)

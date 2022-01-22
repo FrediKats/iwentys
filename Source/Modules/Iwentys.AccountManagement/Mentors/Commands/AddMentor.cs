@@ -29,15 +29,18 @@ public class AddMentor
     public class Handler : IRequestHandler<Command>
     {
         private readonly IwentysDbContext _dbContext;
+        private readonly IwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext context)
+        public Handler(IwentysDbContext context, IwentysEntityManagerApiClient entityManagerApiClient)
         {
             _dbContext = context;
+            _entityManagerApiClient = entityManagerApiClient;
         }
                 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            var user = await _dbContext.IwentysUsers.GetById(request.AuthorizedUser.Id);
+            EntityManager.ApiClient.IwentysUserInfoDto response = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.AuthorizedUser.Id, cancellationToken);
+            IwentysUser user = EntityManagerApiDtoMapper.Map(response);
 
             if (!user.IsAdmin)
                 throw InnerLogicException.NotEnoughPermissionFor(user.Id);

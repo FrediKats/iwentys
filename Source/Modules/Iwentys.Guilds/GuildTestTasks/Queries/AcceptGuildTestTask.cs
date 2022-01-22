@@ -4,8 +4,10 @@ using Iwentys.Common;
 using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
+using Iwentys.EntityManager.ApiClient;
 using Iwentys.WebService.Application;
 using MediatR;
+using IwentysEntityManagerApiClient = Iwentys.WebService.Application.IwentysEntityManagerApiClient;
 
 namespace Iwentys.Guilds;
 
@@ -36,15 +38,18 @@ public static class AcceptGuildTestTask
     public class Handler : IRequestHandler<Query, Response>
     {
         private readonly IwentysDbContext _context;
+        private readonly IwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext context)
+        public Handler(IwentysDbContext context, IwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            IwentysUser author = await _context.IwentysUsers.GetById(request.User.Id);
+            IwentysUserInfoDto user = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.User.Id, cancellationToken);
+            IwentysUser author = EntityManagerApiDtoMapper.Map(user);
             Guild authorGuild = await _context.GuildMembers.ReadForStudent(request.User.Id);
             if (authorGuild is null || authorGuild.Id != request.GuildId)
                 throw InnerLogicException.GuildExceptions.IsNotGuildMember(request.User.Id, request.GuildId);
