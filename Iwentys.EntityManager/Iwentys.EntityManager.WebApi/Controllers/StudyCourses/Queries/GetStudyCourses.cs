@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Iwentys.EntityManager.DataAccess;
 using Iwentys.EntityManager.WebApiDtos;
 using MediatR;
@@ -27,7 +26,7 @@ public class GetStudyCourses
         {
             List<StudyCourseInfoDto> result = await _context
                 .StudyCourses
-                .ProjectTo< StudyCourseInfoDto>(_mapper.ConfigurationProvider)
+                .Select(c => new StudyCourseInfoDto{CourseId = c.Id, CourseTitle = c.StudyProgram.Name + " " + c.GraduationYear})
                 .ToListAsync();
 
             return new Response(result);

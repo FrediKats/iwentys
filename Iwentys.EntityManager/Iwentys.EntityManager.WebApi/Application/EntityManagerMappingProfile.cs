@@ -14,9 +14,8 @@ public class EntityManagerMappingProfile : Profile
 
         CreateMap<Subject, SubjectProfileDto>();
         CreateMap<StudyGroup, StudyGroupProfileResponsePreviewDto>();
+        CreateMap<StudyGroup, StudyGroupProfileResponseDto>();
         CreateMap<GroupSubject, GroupSubjectInfoDto>();
-
-        CreateMap<StudyCourse, StudyCourseInfoDto>();
 
         CreateMapForMentors();
     }

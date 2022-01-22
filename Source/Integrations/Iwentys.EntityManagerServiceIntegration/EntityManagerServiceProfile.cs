@@ -10,6 +10,7 @@ public class EntityManagerServiceProfile : Profile
     public EntityManagerServiceProfile()
     {
         CreateMap<Student, StudentInfoDto>();
+        CreateMap<StudentInfoDto, Student>();
         CreateMap<IwentysUserInfoDto, IwentysUser>();
     }
 }
