@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Iwentys.Common;
 using Iwentys.DataAccess;
-using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
+using Iwentys.EntityManager.ApiClient;
 using Iwentys.WebService.Application;
 using MediatR;
 
@@ -32,19 +32,21 @@ public class AcceptGuildRequest
     public class Handler : IRequestHandler<Query, Response>
     {
         private readonly IwentysDbContext _context;
+        private readonly IwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext context)
+        public Handler(IwentysDbContext context, IwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            IwentysUser student = await _context.IwentysUsers.GetById(request.User.Id);
+            IwentysUserInfoDto user = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.User.Id, cancellationToken);
             Guild guild = await _context.Guilds.GetById(request.GuildId);
             GuildMember member = guild.Members.Find(m => m.MemberId == request.MemberForAccepting) ?? throw EntityNotFoundException.Create(typeof(GuildMember), request.MemberForAccepting);
 
-            GuildMentor guildMentor = student.EnsureIsGuildMentor(guild);
+            GuildMentor guildMentor = GuildMentorUserExtensions.EnsureIsGuildMentor(guild, user.Id);
             member.Approve(guildMentor);
 
             _context.GuildMembers.Update(member);

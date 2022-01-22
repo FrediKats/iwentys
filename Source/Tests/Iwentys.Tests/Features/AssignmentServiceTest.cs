@@ -18,7 +18,7 @@ public class AssignmentServiceTest
         StudyGroup studyGroup = StudyGroupFaker.Instance.CreateGroup();
         Student student = testCase.StudyTestCaseContext.WithNewStudentAsStudent(studyGroup);
 
-        List<StudentAssignment> assignments = StudentAssignment.Create(student, AssignmentFaker.Instance.CreateAssignmentCreateArguments());
+        List<StudentAssignment> assignments = StudentAssignment.Create(student, AssignmentFaker.Instance.CreateAssignmentCreateArguments(), studyGroup.Students);
 
         Assert.IsNotNull(assignments.Any());
     }
@@ -30,7 +30,7 @@ public class AssignmentServiceTest
         StudyGroup studyGroup = StudyGroupFaker.Instance.CreateGroup();
         Student student = testCase.StudyTestCaseContext.WithNewStudentAsStudent(studyGroup);
 
-        List<StudentAssignment> assignments = StudentAssignment.Create(student, AssignmentFaker.Instance.CreateAssignmentCreateArguments());
+        List<StudentAssignment> assignments = StudentAssignment.Create(student, AssignmentFaker.Instance.CreateAssignmentCreateArguments(), studyGroup.Students);
         StudentAssignment studentAssignment = assignments.First();
         studentAssignment.MarkCompleted();
 

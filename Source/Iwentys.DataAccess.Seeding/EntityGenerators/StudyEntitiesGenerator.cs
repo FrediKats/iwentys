@@ -14,8 +14,6 @@ public class StudyEntitiesGenerator : IEntityGenerator
 
     private const int TeacherCount = 20;
     private const int SubjectCount = 8;
-    private const StudySemester CurrentSemester = StudySemester.Y20H1;
-
     public StudyEntitiesGenerator()
     {
         Teachers = UsersFaker.Instance.UniversitySystemUsers
@@ -24,55 +22,27 @@ public class StudyEntitiesGenerator : IEntityGenerator
         Teachers.ForEach(t => t.Id = UsersFaker.Instance.GetIdentifier());
 
         Subjects = SubjectFaker.Instance.Generate(SubjectCount);
-        StudyPrograms = new List<StudyProgram> {new StudyProgram {Id = 1, Name = "ИС"}};
-        StudyCourses = new List<StudyCourse>
-        {
-            Create.IsCourse(StudentGraduationYear.Y20),
-            Create.IsCourse(StudentGraduationYear.Y21),
-            Create.IsCourse(StudentGraduationYear.Y22),
-            Create.IsCourse(StudentGraduationYear.Y23),
-            Create.IsCourse(StudentGraduationYear.Y24)
-        };
 
         StudyGroups = ReadGroups();
         GroupSubjects = new List<GroupSubject>();
-        GroupSubjectMentors = new List<GroupSubjectMentor>();
         foreach (Subject subject in Subjects)
         foreach (StudyGroup studyGroup in StudyGroups)
         {
             GroupSubjects.Add(CreateGroupSubjectEntity(studyGroup, subject));
-
-            GroupSubjectMentors.Add(new GroupSubjectMentor()
-            {
-                IsLector = true,
-                UserId = MentorId,
-                GroupSubjectId = GroupSubjects.Last().Id
-            });
-            GroupSubjectMentors.Add(new GroupSubjectMentor()
-            {
-                UserId = MentorId,
-                GroupSubjectId = GroupSubjects.Last().Id
-            });
         }
     }
 
-    public List<StudyCourse> StudyCourses { get; set; }
-    public List<StudyProgram> StudyPrograms { get; set; }
     public List<Subject> Subjects { get; set; }
     public List<GroupSubject> GroupSubjects { get; set; }
     public List<StudyGroup> StudyGroups { get; set; }
     public List<UniversitySystemUser> Teachers { get; set; }
-    public List<GroupSubjectMentor> GroupSubjectMentors { get; set; }
 
     public void Seed(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<StudyProgram>().HasData(StudyPrograms);
-        modelBuilder.Entity<StudyCourse>().HasData(StudyCourses);
         modelBuilder.Entity<StudyGroup>().HasData(StudyGroups);
         modelBuilder.Entity<UniversitySystemUser>().HasData(Teachers);
         modelBuilder.Entity<Subject>().HasData(Subjects);
         modelBuilder.Entity<GroupSubject>().HasData(GroupSubjects);
-        modelBuilder.Entity<GroupSubjectMentor>().HasData(GroupSubjectMentors);
     }
 
     private GroupSubject CreateGroupSubjectEntity(StudyGroup group, Subject subject)
@@ -83,7 +53,6 @@ public class StudyEntitiesGenerator : IEntityGenerator
             Id = Create.GroupSubjectIdentifierGenerator.Next(),
             SubjectId = subject.Id,
             StudyGroupId = group.Id,
-            StudySemester = CurrentSemester
         };
     }
 
@@ -108,7 +77,7 @@ public class StudyEntitiesGenerator : IEntityGenerator
             .Range(firstGroup, lastGroup - firstGroup + 1)
             .Select(g => new StudyGroup
             {
-                StudyCourseId = courseId,
+                CourseId = courseId,
                 GroupName = $"M3{course}{g:00}"
             })
             .ToList();
@@ -118,15 +87,5 @@ public class StudyEntitiesGenerator : IEntityGenerator
     {
         private static readonly IdentifierGenerator CourseIdentifierGenerator = new IdentifierGenerator();
         public static readonly IdentifierGenerator GroupSubjectIdentifierGenerator = new IdentifierGenerator();
-
-        public static StudyCourse IsCourse(StudentGraduationYear year)
-        {
-            return new StudyCourse
-            {
-                Id = CourseIdentifierGenerator.Next(),
-                GraduationYear = year,
-                StudyProgramId = 1
-            };
-        }
     }
 }

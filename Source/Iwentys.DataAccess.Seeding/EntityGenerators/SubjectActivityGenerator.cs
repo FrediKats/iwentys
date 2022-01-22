@@ -16,8 +16,8 @@ public class SubjectActivityGenerator : IEntityGenerator
             {
                 SubjectActivityEntities.Add(new SubjectActivity
                 {
-                    GroupSubjectId = groupSubjectEntity.Id,
                     StudentId = student.Id,
+                    SubjectId = groupSubjectEntity.SubjectId,
                     Points = RandomExtensions.Instance.Random.Double() * 100
                 });
             }

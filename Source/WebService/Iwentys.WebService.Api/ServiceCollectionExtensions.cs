@@ -3,6 +3,8 @@ using Iwentys.Domain.GithubIntegration;
 using System;
 using Iwentys.AccountManagement;
 using Iwentys.DataAccess;
+using Iwentys.EntityManager.ApiClient;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.Gamification;
 using Iwentys.GithubIntegration;
 using Iwentys.Guilds;
@@ -46,6 +48,15 @@ public static class ServiceCollectionExtensions
             .AddPeerReviewModule()
             .AddStudyModule()
             .AddSubjectAssignmentsModule();
+
+        return services;
+    }
+
+    public static IServiceCollection AddIwentysEntityManagerIntegration(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddHttpClient<IwentysEntityManagerApiClient>("Iwentys.EntityManager", client => client.BaseAddress = new Uri(configuration.GetSection("IwentysServiceAddress")["EntityManager"]));
+        services.AddSingleton<TypedIwentysEntityManagerApiClient>();
+        services.AddScoped<EntityManagerDatabaseSynchronization>();
 
         return services;
     }

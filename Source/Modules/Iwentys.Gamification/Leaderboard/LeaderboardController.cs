@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Study;
+using Iwentys.EntityManager.ApiClient;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

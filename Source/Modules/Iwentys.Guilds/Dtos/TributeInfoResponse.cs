@@ -3,6 +3,9 @@ using System.Linq.Expressions;
 using Iwentys.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Study;
+using Iwentys.EntityManager.ApiClient;
+using Iwentys.EntityManagerServiceIntegration;
+using Iwentys.WebService.Application;
 
 namespace Iwentys.Guilds;
 
@@ -38,7 +41,7 @@ public class TributeInfoResponse
                 Mark = project.Mark,
                 CreationTimeUtc = project.CreationTimeUtc,
                 LastUpdateTimeUtc = project.LastUpdateTimeUtc,
-                Mentor = project.Mentor == null ? null : new IwentysUserInfoDto(project.Mentor)
+                Mentor = project.Mentor == null ? null : EntityManagerApiDtoMapper.Map(project.Mentor)
             };
 
     public static TributeInfoResponse Wrap(Tribute project)
@@ -52,7 +55,7 @@ public class TributeInfoResponse
             Mark = project.Mark,
             CreationTimeUtc = project.CreationTimeUtc,
             LastUpdateTimeUtc = project.LastUpdateTimeUtc,
-            Mentor = project.Mentor is null ? null : new IwentysUserInfoDto(project.Mentor)
+            Mentor = project.Mentor is null ? null : EntityManagerApiDtoMapper.Map(project.Mentor)
         };
     }
 }

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Karmas;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 
@@ -29,16 +30,18 @@ public static class SendKarma
     public class Handler : IRequestHandler<Query, Response>
     {
         private readonly IwentysDbContext _context;
+        private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext context)
+        public Handler(IwentysDbContext context, TypedIwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            IwentysUser author = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
-            IwentysUser target = await _context.IwentysUsers.GetById(request.StudentId);
+            IwentysUser author = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.AuthorizedUser.Id);
+            IwentysUser target = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.StudentId);
 
             var karmaUpVote = KarmaUpVote.Create(author, target);
 

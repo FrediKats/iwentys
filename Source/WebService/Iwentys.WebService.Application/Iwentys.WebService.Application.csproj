@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Integrations\Iwentys.EntityManagerServiceIntegration\Iwentys.EntityManagerServiceIntegration.csproj" />
     <ProjectReference Include="..\..\Integrations\Iwentys.GithubIntegration\Iwentys.GithubIntegration.csproj" />
     <ProjectReference Include="..\..\Integrations\Iwentys.GoogleTableIntegration\Iwentys.GoogleTableIntegration.csproj" />
     <ProjectReference Include="..\..\Integrations\Iwentys.IsuIntegration\Iwentys.IsuIntegration.csproj" />

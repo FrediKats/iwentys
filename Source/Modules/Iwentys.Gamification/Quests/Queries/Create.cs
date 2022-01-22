@@ -6,6 +6,7 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Achievements;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Quests;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -40,20 +41,22 @@ public class Create
     {
         private readonly AchievementProvider _achievementProvider;
         private readonly IwentysDbContext _context;
+        private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext context, AchievementProvider achievementProvider)
+        public Handler(IwentysDbContext context, AchievementProvider achievementProvider, TypedIwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
             _achievementProvider = achievementProvider;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            IwentysUser student = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
+            IwentysUser student = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.AuthorizedUser.Id);
             var quest = Quest.New(student, request.Arguments);
 
             _context.Quests.Add(quest);
-            _context.IwentysUsers.Update(student);
+            _entityManagerApiClient.IwentysUserProfiles.Update(student);
 
             _achievementProvider.AchieveForStudent(AchievementList.QuestCreator, request.AuthorizedUser.Id);
             await AchievementHack.ProcessAchievement(_achievementProvider, _context);

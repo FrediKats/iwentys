@@ -17,11 +17,11 @@ public class StudentAssignment
     public int StudentId { get; init; }
     public virtual Student Student { get; init; }
 
-    public static List<StudentAssignment> Create(Student author, AssignmentCreateArguments createArguments)
+    public static List<StudentAssignment> Create(Student author, AssignmentCreateArguments createArguments, IReadOnlyCollection<Student> groupMembers)
     {
         if (createArguments.ForStudyGroup)
         {
-            return CreateForGroup(author.EnsureIsGroupAdmin(), createArguments);
+            return CreateForGroup(author, createArguments, groupMembers);
         }
         else
         {
@@ -42,10 +42,9 @@ public class StudentAssignment
         return studentAssignmentEntity;
     }
 
-    public static List<StudentAssignment> CreateForGroup(GroupAdminUser groupAdmin, AssignmentCreateArguments createArguments)
+    public static List<StudentAssignment> CreateForGroup(Student author, AssignmentCreateArguments createArguments, IReadOnlyCollection<Student> groupMembers)
     {
-        var assignment = Assignment.Create(groupAdmin.Student, createArguments);
-        List<Student> groupMembers = groupAdmin.Student.Group.Students;
+        var assignment = Assignment.Create(author, createArguments);
 
         List<StudentAssignment> studentAssignments = groupMembers.SelectToList(s => new StudentAssignment
         {

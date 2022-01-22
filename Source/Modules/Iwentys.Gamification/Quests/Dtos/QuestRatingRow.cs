@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Iwentys.AccountManagement;
+using Iwentys.EntityManager.ApiClient;
 
 namespace Iwentys.Gamification;
 

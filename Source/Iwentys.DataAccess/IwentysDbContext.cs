@@ -36,7 +36,6 @@ public class IwentysDbContext : DbContext,
     IPeerReviewDbContext,
     IQuestsDbContext,
     IRaidsDbContext,
-    IStudyDbContext,
     IStudySubjectAssignmentsDbContext
 
 {
@@ -135,14 +134,10 @@ public class IwentysDbContext : DbContext,
 
     #region IStudyDbContext
     public DbSet<Student> Students { get; set; }
-    public DbSet<StudyGroup> StudyGroups { get; set; }
-    public DbSet<StudyProgram> StudyPrograms { get; set; }
-    public DbSet<Subject> Subjects { get; set; }
-    public DbSet<SubjectActivity> SubjectActivities { get; set; }
-    public DbSet<GroupSubject> GroupSubjects { get; set; }
-    public DbSet<GroupSubjectMentor> GroupSubjectMentors { get; set; }
-    public DbSet<StudyCourse> StudyCourses { get; set; }
 
+    public DbSet<SubjectActivity> SubjectActivities { get; set; }
+    public DbSet<GroupActivityTable> GroupActivityTables { get; set; }
+    public DbSet<StudentPosition> StudentPositions { get; set; }
     #endregion
 
     #region IStudySubjectAssignmentsDbContext

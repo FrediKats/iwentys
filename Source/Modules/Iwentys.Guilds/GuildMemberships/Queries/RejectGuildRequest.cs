@@ -4,6 +4,7 @@ using Iwentys.Common;
 using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 
@@ -33,17 +34,19 @@ public class RejectGuildRequest
     public class Handler : IRequestHandler<Query, Response>
     {
         private readonly IwentysDbContext _context;
+        private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext context)
+        public Handler(IwentysDbContext context, TypedIwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            IwentysUser initiator = await _context.IwentysUsers.GetById(request.User.Id);
+            IwentysUser initiator = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.User.Id);
             Guild guild = await _context.Guilds.GetById(request.GuildId);
-            IwentysUser iwentysUser = await _context.IwentysUsers.GetById(request.MemberId);
+            IwentysUser iwentysUser = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.MemberId);
             GuildLastLeave guildLastLeave = await GuildRepository.Get(iwentysUser, _context.GuildLastLeaves);
 
             GuildMember member = guild.Members.Find(m => m.MemberId == request.MemberId);

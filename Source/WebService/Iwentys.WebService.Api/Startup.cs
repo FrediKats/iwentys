@@ -1,6 +1,8 @@
 using System.Text.Json.Serialization;
 using Iwentys.DataAccess;
 using Iwentys.DataAccess.Seeding;
+using Iwentys.Endpoints.Api;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.IsuIntegration.Configuration;
 using Iwentys.WebService.Application;
 using Iwentys.WebService.AuthComponents;
@@ -10,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Endpoints.Api;
+namespace Iwentys.WebService.Api;
 
 public class Startup
 {
@@ -43,6 +45,7 @@ public class Startup
             .AddIwentysDatabase()
             .AddIwentysSeeder()
             .AddIwentysMediatorHandlers()
+            .AddIwentysEntityManagerIntegration(Configuration)
             .AddIwentysServices()
             .AddAutoMapperConfig()
             .AddIwentysModules();
@@ -67,15 +70,22 @@ public class Startup
 
         app.UseRouting();
 
-        //TODO: for test propose
-        db.Database.EnsureDeleted();
-        db.Database.EnsureCreated();
+        using (IServiceScope serviceScope = app.ApplicationServices.CreateScope())
+        {
+            var iwentysEntityManagerApiClient = serviceScope.ServiceProvider.GetRequiredService<TypedIwentysEntityManagerApiClient>();
 
-        app.ConfigureIdentityFramework();
-        applicationDbContext.Database.EnsureDeleted();
-        applicationDbContext.Database.EnsureCreated();
-        applicationDbContext.SeedUsers(userManager, db);
+            //TODO: for test propose
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
+            var databaseSynchronization = new EntityManagerDatabaseSynchronization(db, iwentysEntityManagerApiClient);
+            databaseSynchronization.UpdateStudentGroup().Wait();
 
+            app.ConfigureIdentityFramework();
+            applicationDbContext.Database.EnsureDeleted();
+            applicationDbContext.Database.EnsureCreated();
+            applicationDbContext.SeedUsers(userManager, iwentysEntityManagerApiClient);
+        }
+        
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapRazorPages();

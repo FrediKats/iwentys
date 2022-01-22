@@ -43,11 +43,10 @@ public static class CourseRatingForceRefresh
                 .Where(clr => clr.CourseId == request.CourseId)
                 .ToListAsync();
 
-            List<SubjectActivity> result = _context
-                .GetStudentActivities(new StudySearchParametersDto { CourseId = request.CourseId })
-                .ToList();
+            IReadOnlyCollection<SubjectActivity> result = await _context
+                .GetStudentActivities(new StudySearchParametersDto { CourseId = request.CourseId });
 
-            List<CourseLeaderboardRow> newRows = Create(request.CourseId, result, oldRows);
+            List<CourseLeaderboardRow> newRows = Create(request.CourseId, result.ToList(), oldRows);
 
             _context.CourseLeaderboardRows.RemoveRange(oldRows);
             _context.CourseLeaderboardRows.AddRange(newRows);
@@ -60,7 +59,7 @@ public static class CourseRatingForceRefresh
 
             return rows
                 .GroupBy(r => r.StudentId)
-                .Select(g => new StudyLeaderboardRowDto(g.ToList()))
+                .Select(g => new StudyLeaderboardRowDtoWithoutStudent(g.ToList()))
                 .OrderByDescending(a => a.Activity)
                 .Take(50)
                 .OrderByDescending(r => r.Activity)
@@ -68,13 +67,13 @@ public static class CourseRatingForceRefresh
                 .ToList();
         }
 
-        private static CourseLeaderboardRow CreateRow(StudyLeaderboardRowDto row, int courseId, int position, Dictionary<int, int> mapToOld)
+        private static CourseLeaderboardRow CreateRow(StudyLeaderboardRowDtoWithoutStudent row, int courseId, int position, Dictionary<int, int> mapToOld)
         {
             int? oldPosition = null;
-            if (mapToOld.TryGetValue(row.Student.Id, out var value))
+            if (mapToOld.TryGetValue(row.StudentId, out var value))
                 oldPosition = value;
 
-            return new CourseLeaderboardRow { Position = position + 1, CourseId = courseId, StudentId = row.Student.Id, OldPosition = oldPosition };
+            return new CourseLeaderboardRow { Position = position + 1, CourseId = courseId, StudentId = row.StudentId, OldPosition = oldPosition };
         }
     }
 }

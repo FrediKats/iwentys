@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.WebService.Application;
+using Iwentys.EntityManager.ApiClient;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,43 +11,32 @@ namespace Iwentys.Study;
 public class StudyGroupController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly IwentysEntityManagerApiClient _entityManagerApiClient;
 
-    public StudyGroupController(IMediator mediator)
+    public StudyGroupController(IMediator mediator, IwentysEntityManagerApiClient entityManagerApiClient)
     {
         _mediator = mediator;
+        _entityManagerApiClient = entityManagerApiClient;
     }
-
 
     [HttpGet(nameof(GetByCourseId))]
-    public async Task<ActionResult<List<GroupProfileResponseDto>>> GetByCourseId([FromQuery] int? courseId)
+    public async Task<ActionResult<List<StudyGroupProfileResponseDto>>> GetByCourseId([FromQuery] int? courseId)
     {
-        GetStudyGroupByCourseId.Response response = await _mediator.Send(new GetStudyGroupByCourseId.Query(courseId));
-        return Ok(response.Groups);
-    }
-
-    [HttpGet(nameof(GetByGroupName))]
-    public async Task<ActionResult<GroupProfileResponseDto>> GetByGroupName(string groupName)
-    {
-        GetStudyGroupByName.Response response = await _mediator.Send(new GetStudyGroupByName.Query(groupName));
-        return Ok(response.Group);
-    }
-
-    [HttpGet(nameof(GetByStudentId))]
-    public async Task<ActionResult<GroupProfileResponseDto>> GetByStudentId(int studentId)
-    {
-        GetStudyGroupByStudent.Response response = await _mediator.Send(new GetStudyGroupByStudent.Query(studentId));
-        GroupProfileResponseDto result = response.Group;
-        if (result is null)
-            return NotFound();
-
+        IReadOnlyCollection<StudyGroupProfileResponseDto> result = await _entityManagerApiClient.StudyGroups.GetByCourseIdAsync(courseId);
         return Ok(result);
     }
 
-    [HttpGet(nameof(MakeGroupAdmin))]
-    public async Task<ActionResult> MakeGroupAdmin(int newGroupAdminId)
+    [HttpGet(nameof(GetByGroupName))]
+    public async Task<ActionResult<StudyGroupProfileResponseDto>> GetByGroupName(string groupName)
     {
-        AuthorizedUser authorizedUser = this.TryAuthWithToken();
-        MakeGroupAdmin.Response response = await _mediator.Send(new MakeGroupAdmin.Query(authorizedUser, newGroupAdminId));
-        return Ok();
+        StudyGroupProfileResponseDto result = await _entityManagerApiClient.StudyGroups.GetByGroupNameAsync(groupName);
+        return Ok(result);
+    }
+
+    [HttpGet(nameof(GetByStudentId))]
+    public async Task<ActionResult<StudyGroupProfileResponseDto>> GetByStudentId(int studentId)
+    {
+        StudyGroupProfileResponseDto result = await _entityManagerApiClient.StudyGroups.GetByStudentIdAsync(studentId);
+        return Ok(result);
     }
 }

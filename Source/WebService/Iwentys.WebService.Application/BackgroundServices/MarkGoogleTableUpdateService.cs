@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FluentResults;
 using Iwentys.DataAccess;
 using Iwentys.Domain.Study;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.GoogleTableIntegration;
 using Iwentys.GoogleTableIntegration.Marks;
 using Microsoft.Extensions.Logging;
@@ -15,45 +15,44 @@ public class MarkGoogleTableUpdateService
     private readonly IwentysDbContext _context;
     private readonly ILogger _logger;
     private readonly TableParser _tableParser;
+    private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-    public MarkGoogleTableUpdateService(ILogger logger, string serviceToken, IwentysDbContext context)
+    public MarkGoogleTableUpdateService(ILogger logger, string serviceToken, IwentysDbContext context, TypedIwentysEntityManagerApiClient entityManagerApiClient)
     {
         _logger = logger;
         _context = context;
+        _entityManagerApiClient = entityManagerApiClient;
         _tableParser = TableParser.Create(_logger, serviceToken);
     }
 
-    public async Task UpdateSubjectActivityForGroup(GroupSubject groupSubjectData)
+    public async Task UpdateSubjectActivityForGroup(GroupActivityTable groupActivityTable)
     {
-        Result<GoogleTableData> googleTableData = groupSubjectData.TryGetGoogleTableDataConfig();
-        if (googleTableData.IsFailed)
+        if (!GoogleTableData.TryCreate(groupActivityTable.SerializedGoogleTableConfig, out var googleTableData))
         {
-            _logger.LogError(googleTableData.ToString());
             return;
         }
 
         List<SubjectActivity> activities = _context.SubjectActivities.ToList();
+        IReadOnlyCollection<Student> students = await _entityManagerApiClient.StudentProfiles.GetAsync();
 
-        foreach (StudentSubjectScore subjectScore in _tableParser.Execute(new MarkParser(googleTableData.Value, _logger)))
+        foreach (StudentSubjectScore subjectScore in _tableParser.Execute(new MarkParser(googleTableData, _logger)))
         {
             SubjectActivity activity = activities
-                .SingleOrDefault(s => IsMatchedWithStudent(subjectScore, s.Student)
-                                      && s.GroupSubject.SubjectId == groupSubjectData.SubjectId);
+                .SingleOrDefault(sa => IsMatchedWithStudent(subjectScore, students.Single(s => s.Id == sa.StudentId))
+                                      && sa.SubjectId == groupActivityTable.SubjectId);
 
             if (!Tools.ParseInAnyCulture(subjectScore.Score, out double pointsCount))
             {
                 pointsCount = 0;
-                _logger.LogWarning($"Cannot parse value: student:{subjectScore.Name}, subjectId:{groupSubjectData.SubjectId}, groupId:{groupSubjectData.StudyGroupId}");
+                _logger.LogWarning($"Cannot parse value: student:{subjectScore.Name}, subjectId:{groupActivityTable.SubjectId}, groupId:{groupActivityTable.GroupId}");
             }
 
             if (activity is null)
             {
-                _logger.LogWarning($"Subject info was not found: student:{subjectScore.Name}, subjectId:{groupSubjectData.SubjectId}, groupId:{groupSubjectData.StudyGroupId}");
+                _logger.LogWarning($"Subject info was not found: student:{subjectScore.Name}, subjectId:{groupActivityTable.SubjectId}, groupId:{groupActivityTable.GroupId}");
 
-                Student studentProfile = _context
-                    .Students
-                    .FirstOrDefault(s => subjectScore.Name.Contains(s.FirstName)
-                                         && subjectScore.Name.Contains(s.SecondName));
+                Student studentProfile = students.FirstOrDefault(s => subjectScore.Name.Contains(s.FirstName)
+                                                                      && subjectScore.Name.Contains(s.SecondName));
 
                 if (studentProfile is null)
                 {
@@ -64,7 +63,7 @@ public class MarkGoogleTableUpdateService
                 _context.SubjectActivities.Add(new SubjectActivity
                 {
                     StudentId = studentProfile.Id,
-                    GroupSubjectId = groupSubjectData.Id,
+                    SubjectId = groupActivityTable.SubjectId,
                     Points = pointsCount
                 });
                 await _context.SaveChangesAsync();

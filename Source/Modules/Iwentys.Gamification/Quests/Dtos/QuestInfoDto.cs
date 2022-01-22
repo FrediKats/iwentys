@@ -4,6 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.AccountManagement;
 using Iwentys.Domain.Quests;
+using Iwentys.EntityManager.ApiClient;
+using Iwentys.EntityManagerServiceIntegration;
+using Iwentys.WebService.Application;
 
 namespace Iwentys.Gamification;
 
@@ -52,8 +55,8 @@ public record QuestInfoDto
             Deadline = entity.Deadline,
             State = entity.State,
             IsOutdated = entity.IsOutdated,
-            Author = new IwentysUserInfoDto(entity.Author),
-            Executor = entity.Executor == null ? null : new IwentysUserInfoDto(entity.Executor),
+            Author = EntityManagerApiDtoMapper.Map(entity.Author),
+            Executor = entity.Executor == null ? null : EntityManagerApiDtoMapper.Map(entity.Executor),
             ResponseInfos = entity.Responses.Select(qr => new QuestResponseInfoDto(qr)).ToList()
         };
 }

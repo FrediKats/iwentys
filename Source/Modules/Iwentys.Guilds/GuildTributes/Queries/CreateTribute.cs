@@ -6,6 +6,7 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.PeerReview;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -40,16 +41,18 @@ public class CreateTribute
     {
         private readonly IwentysDbContext _context;
         private readonly GithubIntegrationService _githubIntegrationService;
+        private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext context, GithubIntegrationService githubIntegrationService)
+        public Handler(IwentysDbContext context, GithubIntegrationService githubIntegrationService, TypedIwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
             _githubIntegrationService = githubIntegrationService;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         protected override Response Handle(Query request)
         {
-            IwentysUser student = _context.IwentysUsers.GetById(request.User.Id).Result;
+            IwentysUser student = _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.User.Id).Result;
             GithubRepositoryInfoDto githubProject = _githubIntegrationService.Repository.GetRepository(request.Arguments.Owner, request.Arguments.RepositoryName).Result;
             GithubProject project = GetOrCreate(githubProject, student).Result;
             Guild guild = _context.GuildMembers.ReadForStudent(student.Id).Result;

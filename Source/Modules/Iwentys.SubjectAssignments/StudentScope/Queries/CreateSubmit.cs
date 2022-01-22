@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Iwentys.DataAccess;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -37,15 +38,17 @@ public static class CreateSubmit
     public class Handler : IRequestHandler<Query, Response>
     {
         private readonly IwentysDbContext _context;
+        private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext context)
+        public Handler(IwentysDbContext context, TypedIwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            Student student = await _context.Students.GetById(request.AuthorizedUser.Id);
+            Student student = await _entityManagerApiClient.StudentProfiles.GetByIdAsync(request.AuthorizedUser.Id);
 
             GroupSubjectAssignment groupSubjectAssignment = await _context
                 .GroupSubjectAssignments

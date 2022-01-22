@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Iwentys.EntityManager.ApiClient;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,16 +11,18 @@ namespace Iwentys.Study;
 public class StudyCourseController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly IwentysEntityManagerApiClient _entityManagerApiClient;
 
-    public StudyCourseController(IMediator mediator)
+    public StudyCourseController(IMediator mediator, IwentysEntityManagerApiClient entityManagerApiClient)
     {
         _mediator = mediator;
+        _entityManagerApiClient = entityManagerApiClient;
     }
 
     [HttpGet]
     public async Task<ActionResult<List<StudyCourseInfoDto>>> Get()
     {
-        GetStudyCourses.Response response = await _mediator.Send(new GetStudyCourses.Query());
-        return Ok(response.Courses);
+        IReadOnlyCollection<StudyCourseInfoDto> result = await _entityManagerApiClient.StudyCourses.StudyCoursesAsync();
+        return Ok(result);
     }
 }

@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Iwentys.DataAccess;
-using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Study;
+using Iwentys.EntityManager.ApiClient;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -39,37 +39,38 @@ public class GetMentorSubjectAssignments
     {
         private readonly IwentysDbContext _context;
         private readonly IMapper _mapper;
+        private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
 
-        public Handler(IwentysDbContext context, IMapper mapper)
+        public Handler(IwentysDbContext context, IMapper mapper, TypedIwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
             _mapper = mapper;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            IwentysUser user = await _context.IwentysUsers.GetById(request.User.Id);
+            //TODO: optimization?
+            IReadOnlyCollection<SubjectTeachersDto> subjectTeachers = await _entityManagerApiClient.Teachers.Client.GetAllAsync();
 
-            if (user.IsAdmin)
+            var results = new List<SubjectAssignmentJournalItemDto>();
+            foreach (SubjectTeachersDto subjectTeachersDto in subjectTeachers)
             {
-                List<SubjectAssignmentJournalItemDto> assignments = await _context
-                    .Subjects
-                    .ProjectTo<SubjectAssignmentJournalItemDto>(_mapper.ConfigurationProvider)
+                List<SubjectAssignmentDto> assignmentDtos = await _context
+                    .SubjectAssignments
+                    .Where(sa => sa.SubjectId == subjectTeachersDto.SubjectId)
+                    .ProjectTo<SubjectAssignmentDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();
 
-                return new Response(assignments);
+                results.Add(new SubjectAssignmentJournalItemDto
+                {
+                    Id = subjectTeachersDto.SubjectId,
+                    Title = subjectTeachersDto.Name,
+                    Assignments = assignmentDtos
+                });
             }
-            else
-            {
-                List<SubjectAssignmentJournalItemDto> assignments = await _context
-                    .Subjects
-                    .Where(Subject.IsAllowedFor(user.Id))
-                    .ProjectTo<SubjectAssignmentJournalItemDto>(_mapper.ConfigurationProvider)
-                    .ToListAsync();
-
-                return new Response(assignments);
-            }
+            return new Response(results);
         }
     }
 }

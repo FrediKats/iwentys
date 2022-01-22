@@ -58,10 +58,8 @@ public class SubjectAssignmentSubmit
 
     public void AddFeedback(IwentysUser iwentysUser, SubjectAssignmentSubmitFeedbackArguments arguments)
     {
-        SubjectMentor mentor = iwentysUser.EnsureIsMentor(SubjectAssignment.Subject);
-
-        ReviewerId = mentor.Mentor.Id;
-        Reviewer = mentor.Mentor;
+        ReviewerId = iwentysUser.Id;
+        Reviewer = iwentysUser;
             
         switch (arguments.FeedbackType)
         {

@@ -2,10 +2,12 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Iwentys.Common;
 using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -40,18 +42,19 @@ public static class SearchSubjectAssignmentSubmits
     public class Handler : IRequestHandler<Query, Response>
     {
         private readonly IwentysDbContext _context;
+        private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext context)
+        public Handler(IwentysDbContext context, TypedIwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            Subject subject = await _context.Subjects.GetById(request.SearchArguments.SubjectId);
-            IwentysUser iwentysUser = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
-            //TODO: move to domain
-            iwentysUser.EnsureIsMentor(subject);
+            bool hasPermission = await _entityManagerApiClient.Teachers.Client.IsUserHasTeacherPermissionForSubjectAsync(request.AuthorizedUser.Id, request.SearchArguments.SubjectId);
+            if (!hasPermission)
+                throw InnerLogicException.StudyExceptions.UserHasNotTeacherPermission(request.AuthorizedUser.Id);
 
             List<SubjectAssignmentSubmitDto> submits = await SubjectAssignmentSubmitRepository
                 .ApplySearch(_context.SubjectAssignmentSubmits, request.SearchArguments)

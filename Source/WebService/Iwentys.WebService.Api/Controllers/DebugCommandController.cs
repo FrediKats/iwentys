@@ -4,13 +4,14 @@ using Iwentys.DataAccess;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Study;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using StackExchange.Exceptional;
 
-namespace Iwentys.Endpoints.Api.Controllers;
+namespace Iwentys.WebService.Api.Controllers;
 
 [Route("api/DebugCommand")]
 [ApiController]
@@ -20,14 +21,18 @@ public class DebugCommandController : ControllerBase
     private readonly GithubIntegrationService _githubIntegrationService;
     private readonly ILogger<DebugCommandController> _logger;
     private readonly IwentysDbContext _context;
+    private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
+    private readonly EntityManagerDatabaseSynchronization _entityManagerDatabaseSynchronization;
 
-    public DebugCommandController(ILogger<DebugCommandController> logger, TokenApplicationOptions tokenApplicationOptions, IwentysDbContext context, GithubIntegrationService githubIntegrationService)
+    public DebugCommandController(ILogger<DebugCommandController> logger, TokenApplicationOptions tokenApplicationOptions, IwentysDbContext context, GithubIntegrationService githubIntegrationService, TypedIwentysEntityManagerApiClient entityManagerApiClient, EntityManagerDatabaseSynchronization entityManagerDatabaseSynchronization)
     {
         _logger = logger;
         _context = context;
 
         _githubIntegrationService = githubIntegrationService;
-        _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(_logger, tokenApplicationOptions.GoogleServiceToken, _context);
+        _entityManagerApiClient = entityManagerApiClient;
+        _entityManagerDatabaseSynchronization = entityManagerDatabaseSynchronization;
+        _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(_logger, tokenApplicationOptions.GoogleServiceToken, _context, _entityManagerApiClient);
     }
 
     //[HttpPost("UpdateSubjectActivityData")]
@@ -39,9 +44,9 @@ public class DebugCommandController : ControllerBase
     [HttpPost("UpdateSubjectActivityForGroup")]
     public async Task<ActionResult> UpdateSubjectActivityForGroup(int subjectId, int groupId)
     {
-        GroupSubject groupSubjectData = _context
-            .GroupSubjects
-            .FirstOrDefault(s => s.SubjectId == subjectId && s.StudyGroupId == groupId);
+        GroupActivityTable groupSubjectData = _context
+            .GroupActivityTables
+            .FirstOrDefault(s => s.SubjectId == subjectId && s.GroupId == groupId);
 
         if (groupSubjectData is null)
         {
@@ -79,6 +84,13 @@ public class DebugCommandController : ControllerBase
     //    List<SubjectTeacherInfo> result = tableParser.Execute(subjectTeacherParser);
     //    return Ok(result);
     //}
+
+    [HttpGet("update-student-group")]
+    public async Task<ActionResult> UpdateStudentGroup()
+    {
+        await _entityManagerDatabaseSynchronization.UpdateStudentGroup();
+        return Ok();
+    }
 
     [HttpGet("~/errors/log/{path?}/{subPath?}", Name = "ErrorLog")]
     public async Task Exceptions() => await ExceptionalMiddleware.HandleRequestAsync(HttpContext);

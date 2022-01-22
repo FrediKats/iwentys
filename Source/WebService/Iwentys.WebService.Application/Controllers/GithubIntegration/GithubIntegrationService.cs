@@ -1,5 +1,6 @@
 ﻿using Iwentys.DataAccess;
 using Iwentys.Domain.GithubIntegration;
+using Iwentys.EntityManagerServiceIntegration;
 
 namespace Iwentys.WebService.Application;
 
@@ -9,10 +10,10 @@ public class GithubIntegrationService
     public readonly GithubRepositoryApiAccessor Repository;
     public readonly GithubUserApiAccessor User;
 
-    public GithubIntegrationService(IGithubApiAccessor githubApiAccessor, IwentysDbContext context)
+    public GithubIntegrationService(IGithubApiAccessor githubApiAccessor, IwentysDbContext context, TypedIwentysEntityManagerApiClient entityManagerApiClient)
     {
         _githubApiAccessor = githubApiAccessor;
-        User = new GithubUserApiAccessor(githubApiAccessor, context);
+        User = new GithubUserApiAccessor(githubApiAccessor, context, entityManagerApiClient);
         Repository = new GithubRepositoryApiAccessor(githubApiAccessor, User, context);
     }
 

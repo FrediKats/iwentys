@@ -2,6 +2,9 @@
 using System.Linq.Expressions;
 using Iwentys.AccountManagement;
 using Iwentys.Domain.PeerReview;
+using Iwentys.EntityManager.ApiClient;
+using Iwentys.EntityManagerServiceIntegration;
+using Iwentys.WebService.Application;
 
 namespace Iwentys.PeerReview;
 
@@ -13,7 +16,7 @@ public class ProjectReviewFeedbackInfoDto
         Description = reviewFeedback.Description;
         CreationTimeUtc = reviewFeedback.CreationTimeUtc;
         Summary = reviewFeedback.Summary;
-        Author = new IwentysUserInfoDto(reviewFeedback.Author);
+        Author = EntityManagerApiDtoMapper.Map(reviewFeedback.Author);
     }
 
     public ProjectReviewFeedbackInfoDto()
@@ -34,6 +37,6 @@ public class ProjectReviewFeedbackInfoDto
             Description = entity.Description,
             CreationTimeUtc = entity.CreationTimeUtc,
             Summary = entity.Summary,
-            Author = new IwentysUserInfoDto(entity.Author)
+            Author = EntityManagerApiDtoMapper.Map(entity.Author)
         };
 }

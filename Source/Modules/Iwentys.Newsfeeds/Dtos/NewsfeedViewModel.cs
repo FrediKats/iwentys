@@ -2,6 +2,9 @@
 using System.Linq.Expressions;
 using Iwentys.AccountManagement;
 using Iwentys.Domain.Newsfeeds;
+using Iwentys.EntityManager.ApiClient;
+using Iwentys.EntityManagerServiceIntegration;
+using Iwentys.WebService.Application;
 
 namespace Iwentys.Newsfeeds;
 
@@ -24,7 +27,7 @@ public class NewsfeedViewModel
                 Content = entity.Newsfeed.Content,
                 CreationTimeUtc = entity.Newsfeed.CreationTimeUtc,
                 SourceLink = entity.Newsfeed.SourceLink,
-                Author = new IwentysUserInfoDto(entity.Newsfeed.Author)
+                Author = EntityManagerApiDtoMapper.Map(entity.Newsfeed.Author)
             };
 
     public static Expression<Func<GuildNewsfeed, NewsfeedViewModel>> FromGuildEntity =>
@@ -36,7 +39,7 @@ public class NewsfeedViewModel
                 Content = entity.Newsfeed.Content,
                 CreationTimeUtc = entity.Newsfeed.CreationTimeUtc,
                 SourceLink = entity.Newsfeed.SourceLink,
-                Author = new IwentysUserInfoDto(entity.Newsfeed.Author)
+                Author = EntityManagerApiDtoMapper.Map(entity.Newsfeed.Author)
             };
 
     public static Expression<Func<Newsfeed, NewsfeedViewModel>> FromEntity =>
@@ -48,6 +51,6 @@ public class NewsfeedViewModel
                 Content = entity.Content,
                 CreationTimeUtc = entity.CreationTimeUtc,
                 SourceLink = entity.SourceLink,
-                Author = new IwentysUserInfoDto(entity.Author)
+                Author = EntityManagerApiDtoMapper.Map(entity.Author)
             };
 }

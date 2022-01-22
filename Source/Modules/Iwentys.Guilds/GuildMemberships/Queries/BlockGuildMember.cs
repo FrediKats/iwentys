@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
+using Iwentys.EntityManager.ApiClient;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 
@@ -32,19 +34,24 @@ public class BlockGuildMember
     public class Handler : IRequestHandler<Query, Response>
     {
         private readonly IwentysDbContext _context;
+        private readonly IwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext context)
+        public Handler(IwentysDbContext context, IwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            IwentysUser editorStudentAccount = await _context.IwentysUsers.GetById(request.User.Id);
+            IwentysUserInfoDto editorFromApi = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.User.Id, cancellationToken);
+            IwentysUser editorStudentAccount = EntityManagerApiDtoMapper.Map(editorFromApi);
+            IwentysUserInfoDto memberFromApi = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.MemberId, cancellationToken);
+            IwentysUser memberToKickAccount = EntityManagerApiDtoMapper.Map(memberFromApi);
+
             Guild guild = await _context.Guilds.GetById(request.GuildId);
             GuildMember memberToKick = guild.EnsureMemberCanRestrictPermissionForOther(editorStudentAccount, request.MemberId);
-            IwentysUser iwentysUser = await _context.IwentysUsers.GetById(request.User.Id);
-            GuildLastLeave guildLastLeave = await GuildRepository.Get(iwentysUser, _context.GuildLastLeaves);
+            GuildLastLeave guildLastLeave = await GuildRepository.Get(memberToKickAccount, _context.GuildLastLeaves);
 
             memberToKick.MarkBlocked(guildLastLeave);
 

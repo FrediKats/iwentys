@@ -4,6 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.AccountManagement;
 using Iwentys.Domain.Guilds;
+using Iwentys.EntityManager.ApiClient;
+using Iwentys.EntityManagerServiceIntegration;
+using Iwentys.WebService.Application;
 
 namespace Iwentys.Guilds;
 
@@ -21,9 +24,9 @@ public class GuildRecruitmentInfoDto
         entity => new GuildRecruitmentInfoDto
         {
             Id = entity.Id,
-            Author = new IwentysUserInfoDto(entity.Author),
+            Author = EntityManagerApiDtoMapper.Map(entity.Author),
             Description = entity.Description,
             IsActive = entity.IsActive,
-            RecruitmentMembers = entity.RecruitmentMembers.Select(m => new IwentysUserInfoDto(m.Member)).ToList()
+            RecruitmentMembers = entity.RecruitmentMembers.Select(m => EntityManagerApiDtoMapper.Map(m.Member)).ToList()
         };
 }

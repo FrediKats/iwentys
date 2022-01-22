@@ -62,9 +62,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.DataAccess.Seeding"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.Domain", "Iwentys.Domain\Iwentys.Domain.csproj", "{2446EF01-57D2-455E-A09E-63F89771345D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.WebService.AuthComponents", "WebService\Iwentys.WebService.AuthComponents\Iwentys.WebService.AuthComponents.csproj", "{2676CE31-3BFC-46CD-814F-3C842853E2AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.WebService.AuthComponents", "WebService\Iwentys.WebService.AuthComponents\Iwentys.WebService.AuthComponents.csproj", "{2676CE31-3BFC-46CD-814F-3C842853E2AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.WebClient.Content", "WebClient\Iwentys.WebClient.Content\Iwentys.WebClient.Content.csproj", "{F4DA9CC0-9505-4EB1-8FAD-215A7F14B27D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iwentys.WebClient.Content", "WebClient\Iwentys.WebClient.Content\Iwentys.WebClient.Content.csproj", "{F4DA9CC0-9505-4EB1-8FAD-215A7F14B27D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwentys.EntityManagerServiceIntegration", "Integrations\Iwentys.EntityManagerServiceIntegration\Iwentys.EntityManagerServiceIntegration.csproj", "{29203AF1-898C-47D8-B591-0D25F3FB6887}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -168,6 +170,10 @@ Global
 		{F4DA9CC0-9505-4EB1-8FAD-215A7F14B27D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4DA9CC0-9505-4EB1-8FAD-215A7F14B27D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4DA9CC0-9505-4EB1-8FAD-215A7F14B27D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29203AF1-898C-47D8-B591-0D25F3FB6887}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29203AF1-898C-47D8-B591-0D25F3FB6887}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29203AF1-898C-47D8-B591-0D25F3FB6887}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29203AF1-898C-47D8-B591-0D25F3FB6887}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -193,6 +199,7 @@ Global
 		{8C3A47AE-23E0-40BF-B5D6-A024638D9E7A} = {BB936B68-A8B0-4747-8EAB-67A096AEA9AC}
 		{2676CE31-3BFC-46CD-814F-3C842853E2AE} = {BB936B68-A8B0-4747-8EAB-67A096AEA9AC}
 		{F4DA9CC0-9505-4EB1-8FAD-215A7F14B27D} = {5529F3CB-3C30-4B64-B08E-48C8F3933481}
+		{29203AF1-898C-47D8-B591-0D25F3FB6887} = {BB1BEF54-98D3-408D-AEF5-C049E49192BE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C699E386-11E7-4ABB-9AD6-C676F3CA2061}

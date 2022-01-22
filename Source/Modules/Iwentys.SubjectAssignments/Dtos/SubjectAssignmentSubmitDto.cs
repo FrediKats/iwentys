@@ -1,6 +1,8 @@
 ﻿using System;
-using Iwentys.AccountManagement;
 using Iwentys.Domain.SubjectAssignments;
+using Iwentys.EntityManager.ApiClient;
+using Iwentys.EntityManagerServiceIntegration;
+using Iwentys.WebService.Application;
 
 namespace Iwentys.SubjectAssignments;
 
@@ -9,7 +11,7 @@ public class SubjectAssignmentSubmitDto
     public SubjectAssignmentSubmitDto(SubjectAssignmentSubmit submit) : this()
     {
         Id = submit.Id;
-        Student = new StudentInfoDto(submit.Student);
+        Student = EntityManagerApiDtoMapper.Map(submit.Student);
         StudentDescription = submit.StudentDescription;
         StudentPRLink = submit.StudentPRLink;
         SubmitTimeUtc = submit.SubmitTimeUtc;

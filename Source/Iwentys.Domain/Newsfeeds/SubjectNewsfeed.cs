@@ -7,22 +7,21 @@ namespace Iwentys.Domain.Newsfeeds;
 public class SubjectNewsfeed
 {
     public int SubjectId { get; init; }
-    public virtual Subject Subject { get; init; }
 
     public int NewsfeedId { get; init; }
     public virtual Newsfeed Newsfeed { get; init; }
 
-    public static SubjectNewsfeed CreateAsSystemAdmin(NewsfeedCreateViewModel createViewModel, SystemAdminUser admin, Subject subject)
+    public static SubjectNewsfeed CreateAsSystemAdmin(NewsfeedCreateViewModel createViewModel, SystemAdminUser admin, int subjectId)
     {
-        return Create(createViewModel, subject, admin.User.Id);
+        return Create(createViewModel, subjectId, admin.User.Id);
     }
 
-    public static SubjectNewsfeed CreateAsGroupAdmin(NewsfeedCreateViewModel createViewModel, GroupAdminUser groupAdmin, Subject subject)
+    public static SubjectNewsfeed CreateAsGroupAdmin(NewsfeedCreateViewModel createViewModel, Student student, int subjectId)
     {
-        return Create(createViewModel, subject, groupAdmin.Student.Id);
+        return Create(createViewModel, subjectId, student.Id);
     }
 
-    private static SubjectNewsfeed Create(NewsfeedCreateViewModel createViewModel, Subject subject, int authorId)
+    private static SubjectNewsfeed Create(NewsfeedCreateViewModel createViewModel, int subjectId, int authorId)
     {
         var newsfeed = new Newsfeed
         {
@@ -35,7 +34,7 @@ public class SubjectNewsfeed
         var subjectNewsfeed = new SubjectNewsfeed
         {
             Newsfeed = newsfeed,
-            SubjectId = subject.Id
+            SubjectId = subjectId
         };
 
         return subjectNewsfeed;

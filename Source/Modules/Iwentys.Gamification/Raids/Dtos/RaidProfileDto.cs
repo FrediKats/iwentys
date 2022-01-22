@@ -4,6 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using Iwentys.AccountManagement;
 using Iwentys.Domain.Raids;
+using Iwentys.EntityManager.ApiClient;
+using Iwentys.EntityManagerServiceIntegration;
+using Iwentys.WebService.Application;
 
 namespace Iwentys.Gamification;
 
@@ -32,8 +35,8 @@ public class RaidProfileDto
             StartTime = entity.StartTimeUtc,
             EndTime = entity.EndTimeUtc,
             RaidType = entity.RaidType,
-            Author = new IwentysUserInfoDto(entity.Author),
-            Visitors = entity.Visitors.Select(s => new IwentysUserInfoDto(s.Visitor)).ToList(),
+            Author = EntityManagerApiDtoMapper.Map(entity.Author),
+            Visitors = entity.Visitors.Select(s => EntityManagerApiDtoMapper.Map(s.Visitor)).ToList(),
             PartySearchRequests = entity.PartySearchRequests.Select(t => new RaidPartySearchRequestDto(t)).ToList()
         };
 }

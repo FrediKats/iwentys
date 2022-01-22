@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Iwentys.AccountManagement;
 using Iwentys.Domain.SubjectAssignments;
+using Iwentys.EntityManager.ApiClient;
 
 namespace Iwentys.SubjectAssignments;
 

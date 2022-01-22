@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Domain.AccountManagement;
+using Iwentys.EntityManager.ApiClient;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iwentys.AccountManagement;
@@ -11,42 +11,42 @@ namespace Iwentys.AccountManagement;
 [ApiController]
 public class MentorsManagementController : ControllerBase
 {
-    private readonly IMediator _mediator;
+    private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-    public MentorsManagementController(IMediator mediator)
+    public MentorsManagementController(TypedIwentysEntityManagerApiClient entityManagerApiClient)
     {
-        _mediator = mediator;
+        _entityManagerApiClient = entityManagerApiClient;
     }
 
     [HttpGet(nameof(GetAll))]
     public async Task<ActionResult<IReadOnlyList<SubjectMentorsDto>>> GetAll()
     {
         AuthorizedUser authorizedUser = this.TryAuthWithToken();
-        var subjectsMentors = await _mediator.Send(new GetAllSubjectsMentors.Query(authorizedUser));
-        return Ok(subjectsMentors.SubjectMentors);
+        IReadOnlyCollection<SubjectTeachersDto> result = await _entityManagerApiClient.Teachers.Client.GetAllAsync();
+        return Ok(result);
     }
 
-    [HttpGet("by-group-subject/{id}")]
-    public async Task<ActionResult<GroupMentorsDto>> GetByGroupSubject(int id)
+    [HttpGet("by-group-subject/{groupSubjectId}")]
+    public async Task<ActionResult<GroupMentorsDto>> GetByGroupSubject(int groupSubjectId)
     {
         AuthorizedUser authorizedUser = this.TryAuthWithToken();
-        var groupMentors = await _mediator.Send(new GetMentorsByGroupSubjectId.Query(authorizedUser,id));
-        return Ok(groupMentors.GroupMentors);
+        GroupTeachersDto result = await _entityManagerApiClient.Teachers.Client.ByGroupSubjectAsync(groupSubjectId);
+        return Ok(result);
     }
 
     [HttpDelete(nameof(RemoveMentorFromGroup))]
     public async Task<ActionResult> RemoveMentorFromGroup([FromQuery] int groupSubjectId, [FromQuery] int mentorId)
     {
         AuthorizedUser authorizedUser = this.TryAuthWithToken();
-        await _mediator.Send(new RemoveMentorFromGroup.Command(authorizedUser, groupSubjectId, mentorId));
+        await _entityManagerApiClient.Teachers.Client.RemoveMentorFromGroupAsync(groupSubjectId, mentorId);
         return Ok();
     }
 
     [HttpPost(nameof(AddMentor))]
-    public async Task<ActionResult> AddMentor([FromBody] SubjectMentorCreateArgs args)
+    public async Task<ActionResult> AddMentor([FromBody] SubjectTeacherCreateArgs args)
     {
         AuthorizedUser authorizedUser = this.TryAuthWithToken();
-        await _mediator.Send(new AddMentor.Command(authorizedUser, args));
+        await _entityManagerApiClient.Teachers.Client.AddMentorAsync(args);
         return Ok();
     }
 }

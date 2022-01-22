@@ -1,6 +1,9 @@
 ﻿using Iwentys.AccountManagement;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
+using Iwentys.EntityManager.ApiClient;
+using Iwentys.EntityManagerServiceIntegration;
+using Iwentys.WebService.Application;
 
 namespace Iwentys.Guilds;
 
@@ -29,7 +32,7 @@ public record GuildMemberImpactDto
 
     public GuildMemberImpactDto(GuildMember member)
     {
-        StudentInfoDto = new IwentysUserInfoDto(member.Member);
+        StudentInfoDto = EntityManagerApiDtoMapper.Map(member.Member);
         MemberType = member.MemberType;
         TotalRate = member.MemberImpact;
     }

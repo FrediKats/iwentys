@@ -5,6 +5,7 @@ using Iwentys.Common;
 using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.GithubIntegration;
+using Iwentys.EntityManagerServiceIntegration;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.WebService.Application;
@@ -13,16 +14,18 @@ public class GithubUserApiAccessor : IGithubUserApiAccessor
 {
     private readonly IGithubApiAccessor _githubApiAccessor;
     private readonly IwentysDbContext _context;
+    private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-    public GithubUserApiAccessor(IGithubApiAccessor githubApiAccessor, IwentysDbContext context)
+    public GithubUserApiAccessor(IGithubApiAccessor githubApiAccessor, IwentysDbContext context, TypedIwentysEntityManagerApiClient entityManagerApiClient)
     {
         _githubApiAccessor = githubApiAccessor;
         _context = context;
+        _entityManagerApiClient = entityManagerApiClient;
     }
 
     public async Task<GithubUser> CreateOrUpdate(int studentId)
     {
-        IwentysUser student = await _context.IwentysUsers.GetById(studentId);
+        IwentysUser student = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(studentId);
         GithubUser githubUserData = _context.GithubUsersData.SingleOrDefault(gh => gh.IwentysUserId == studentId);
         var exists = true;
 
@@ -140,7 +143,7 @@ public class GithubUserApiAccessor : IGithubUserApiAccessor
 
     private async Task<IwentysUser> EnsureStudentWithGithub(int studentId)
     {
-        IwentysUser student = await _context.IwentysUsers.FindAsync(studentId);
+        IwentysUser student = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(studentId);
         if (student.GithubUsername is null)
             throw new InnerLogicException("Student do not link github");
         return student;
@@ -148,7 +151,8 @@ public class GithubUserApiAccessor : IGithubUserApiAccessor
 
     private async Task<IwentysUser> EnsureStudentWithGithub(string githubUsername)
     {
-        IwentysUser iwentysUser = await _context.IwentysUsers.SingleAsync(s => s.GithubUsername == githubUsername);
+        IReadOnlyCollection<IwentysUser> users = await _entityManagerApiClient.IwentysUserProfiles.GetAsync();
+        IwentysUser iwentysUser = users.Single(s => s.GithubUsername == githubUsername);
         if (iwentysUser.GithubUsername is null)
             throw new InnerLogicException("Student do not link github");
         return iwentysUser;

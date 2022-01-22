@@ -6,6 +6,7 @@ using Iwentys.AccountManagement;
 using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Quests;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -37,10 +38,12 @@ public static class GetQuestExecutorRating
     public class Handler : IRequestHandler<Query, Response>
     {
         private readonly IwentysDbContext _context;
+        private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext context)
+        public Handler(IwentysDbContext context, TypedIwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
@@ -52,9 +55,9 @@ public static class GetQuestExecutorRating
                 .Select(g => new QuestRatingRow { UserId = g.Key.Value, Marks = g.ToList() })
                 .ToList();
 
-            List<IwentysUser> users = await _context.IwentysUsers.ToListAsync();
+            IReadOnlyCollection<IwentysUser> users = await _entityManagerApiClient.IwentysUserProfiles.GetAsync();
             //TODO: hack
-            result.ForEach(r => { r.User = new IwentysUserInfoDto(users.First(u => u.Id == r.UserId)); });
+            result.ForEach(r => { r.User = EntityManagerApiDtoMapper.Map(users.First(u => u.Id == r.UserId)); });
 
             return new Response(result);
         }

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>Kysect.Iwentys.EntityManager.ApiClient</PackageId>
+    <Authors>Kysect</Authors>
+    <Company>Kysect</Company>
+    <Version>0.0.5</Version>
+  </PropertyGroup>
+
+</Project>
