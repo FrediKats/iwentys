@@ -52,11 +52,12 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddIwentysServiceClients(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddIwentysEntityManagerIntegration(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddHttpClient<IwentysEntityManagerApiClient>("Iwentys.EntityManager", client => client.BaseAddress = new Uri(configuration.GetSection("IwentysServiceAddress")["EntityManager"]));
         services.AddHttpClient<TypedIwentysEntityManagerApiClient>("Iwentys.EntityManager", client => client.BaseAddress = new Uri(configuration.GetSection("IwentysServiceAddress")["EntityManager"]));
         services.AddScoped<TypedIwentysEntityManagerApiClient>();
+        services.AddScoped<EntityManagerDatabaseSynchronization>();
 
         return services;
     }

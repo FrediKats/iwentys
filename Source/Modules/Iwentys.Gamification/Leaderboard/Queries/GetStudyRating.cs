@@ -63,7 +63,7 @@ public class GetStudyRating
             if (searchParametersDto.CourseId is null && searchParametersDto.GroupId is null)
                 throw new IwentysExecutionException("One of StudySearchParametersDto fields: CourseId or GroupId should be null");
 
-            List<SubjectActivity> result = _context.GetStudentActivities(searchParametersDto).ToList();
+            IReadOnlyCollection<SubjectActivity> result = await _context.GetStudentActivities(searchParametersDto);
 
             List<StudyLeaderboardRowDtoWithoutStudent> leaders = result
                 .GroupBy(r => r.StudentId)

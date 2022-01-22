@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Iwentys.DataAccess\Iwentys.DataAccess.csproj" />
     <ProjectReference Include="..\..\Iwentys.Domain\Iwentys.Domain.csproj" />
   </ItemGroup>
 

@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Iwentys.DataAccess;
 using Iwentys.DataAccess.Seeding;
+using Iwentys.Endpoints.Api;
 using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.IsuIntegration.Configuration;
 using Iwentys.WebService.Application;
@@ -11,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Iwentys.Endpoints.Api;
+namespace Iwentys.WebService.Api;
 
 public class Startup
 {
@@ -44,7 +45,7 @@ public class Startup
             .AddIwentysDatabase()
             .AddIwentysSeeder()
             .AddIwentysMediatorHandlers()
-            .AddIwentysServiceClients(Configuration)
+            .AddIwentysEntityManagerIntegration(Configuration)
             .AddIwentysServices()
             .AddAutoMapperConfig()
             .AddIwentysModules();
@@ -72,6 +73,8 @@ public class Startup
         //TODO: for test propose
         db.Database.EnsureDeleted();
         db.Database.EnsureCreated();
+        var databaseSynchronization = new EntityManagerDatabaseSynchronization(db, entityManagerApiClient);
+        databaseSynchronization.UpdateStudentGroup().Wait();
 
         app.ConfigureIdentityFramework();
         applicationDbContext.Database.EnsureDeleted();

@@ -43,11 +43,10 @@ public static class CourseRatingForceRefresh
                 .Where(clr => clr.CourseId == request.CourseId)
                 .ToListAsync();
 
-            List<SubjectActivity> result = _context
-                .GetStudentActivities(new StudySearchParametersDto { CourseId = request.CourseId })
-                .ToList();
+            IReadOnlyCollection<SubjectActivity> result = await _context
+                .GetStudentActivities(new StudySearchParametersDto { CourseId = request.CourseId });
 
-            List<CourseLeaderboardRow> newRows = Create(request.CourseId, result, oldRows);
+            List<CourseLeaderboardRow> newRows = Create(request.CourseId, result.ToList(), oldRows);
 
             _context.CourseLeaderboardRows.RemoveRange(oldRows);
             _context.CourseLeaderboardRows.AddRange(newRows);
