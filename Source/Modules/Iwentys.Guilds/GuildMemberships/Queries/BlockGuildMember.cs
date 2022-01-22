@@ -44,11 +44,14 @@ public class BlockGuildMember
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            IwentysUser editorStudentAccount = await _context.IwentysUsers.GetById(request.User.Id);
+            IwentysUserInfoDto editorFromApi = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.User.Id, cancellationToken);
+            IwentysUser editorStudentAccount = EntityManagerApiDtoMapper.Map(editorFromApi);
+            IwentysUserInfoDto memberFromApi = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.MemberId, cancellationToken);
+            IwentysUser memberToKickAccount = EntityManagerApiDtoMapper.Map(memberFromApi);
+
             Guild guild = await _context.Guilds.GetById(request.GuildId);
             GuildMember memberToKick = guild.EnsureMemberCanRestrictPermissionForOther(editorStudentAccount, request.MemberId);
-            IwentysUser iwentysUser = await _context.IwentysUsers.GetById(request.User.Id);
-            GuildLastLeave guildLastLeave = await GuildRepository.Get(iwentysUser, _context.GuildLastLeaves);
+            GuildLastLeave guildLastLeave = await GuildRepository.Get(memberToKickAccount, _context.GuildLastLeaves);
 
             memberToKick.MarkBlocked(guildLastLeave);
 

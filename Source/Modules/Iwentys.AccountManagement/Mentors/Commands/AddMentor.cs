@@ -6,9 +6,11 @@ using Iwentys.Common;
 using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
+using Iwentys.EntityManager.ApiClient;
 using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using IwentysEntityManagerApiClient = Iwentys.WebService.Application.IwentysEntityManagerApiClient;
 
 namespace Iwentys.AccountManagement;
 
@@ -39,14 +41,14 @@ public class AddMentor
                 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            EntityManager.ApiClient.IwentysUserInfoDto response = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.AuthorizedUser.Id, cancellationToken);
-            IwentysUser user = EntityManagerApiDtoMapper.Map(response);
+            IwentysUserInfoDto userFromApi = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.AuthorizedUser.Id, cancellationToken);
+            IwentysUser user = EntityManagerApiDtoMapper.Map(userFromApi);
 
             if (!user.IsAdmin)
                 throw InnerLogicException.NotEnoughPermissionFor(user.Id);
                 
-            var practiceMentor = await _dbContext.IwentysUsers.FirstOrDefaultAsync(
-                s => s.Id == request.Args.MentorId,cancellationToken);
+            IwentysUserInfoDto mentorFromApi = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.Args.MentorId, cancellationToken);
+            IwentysUser practiceMentor = EntityManagerApiDtoMapper.Map(mentorFromApi);
 
             if (practiceMentor is null)
                 throw new ArgumentException("Invalid mentor", nameof(request.Args.MentorId));
