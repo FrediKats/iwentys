@@ -8,7 +8,7 @@
     <PackageId>Kysect.Iwentys.EntityManager.ApiClient</PackageId>
     <Authors>Kysect</Authors>
     <Company>Kysect</Company>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
   </PropertyGroup>
 
 </Project>
