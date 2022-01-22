@@ -80,7 +80,7 @@ public class Guild
         if (membership is null)
             throw InnerLogicException.GuildExceptions.IsNotGuildMember(user.Id, Id);
 
-        return new GuildMentor(user, this, membership.MemberType);
+        return new GuildMentor(user.Id, this, membership.MemberType);
     }
 
     //TODO: rework
