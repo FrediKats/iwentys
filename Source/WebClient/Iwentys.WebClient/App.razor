@@ -2,7 +2,7 @@
 @using System.Reflection
 
 <CascadingAuthenticationState>
-	<Router AppAssembly="@typeof(Program).Assembly" AdditionalAssemblies="_extraAssemblies">
+	<Router AppAssembly="@typeof(Program).Assembly">
 		<Found Context="routeData">
 			<AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
 				<NotAuthorized>
@@ -26,10 +26,4 @@
 </CascadingAuthenticationState>
 
 @code{
-
-	private List<Assembly> _extraAssemblies = new List<Assembly>()
-	{
-		typeof(LoginDisplay).Assembly
-	};
-
 }
