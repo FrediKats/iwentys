@@ -6,6 +6,8 @@ using Iwentys.AccountManagement;
 using Iwentys.Common;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
+using Iwentys.EntityManager.ApiClient;
+using Iwentys.WebService.Application;
 
 namespace Iwentys.Guilds;
 
@@ -17,7 +19,7 @@ public class GuildProfileDto : GuildProfileShortInfoDto
 
     public GuildProfileDto(Guild guild) : base(guild)
     {
-        Leader = guild.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => new IwentysUserInfoDto(s));
+        Leader = guild.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member.To(s => EntityManagerApiDtoMapper.Map(s));
         TestTasks = guild.TestTasks.SelectToList(GuildTestTaskInfoResponse.Wrap);
     }
 
@@ -31,7 +33,7 @@ public class GuildProfileDto : GuildProfileShortInfoDto
             TestTaskLink = entity.TestTaskLink,
             HiringPolicy = entity.HiringPolicy,
             GuildType = entity.GuildType,
-            Leader = new IwentysUserInfoDto(entity.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member),
+            Leader = EntityManagerApiDtoMapper.Map(entity.Members.Single(m => m.MemberType == GuildMemberType.Creator).Member),
             TestTasks = entity.TestTasks.Select(testTask => GuildTestTaskInfoResponse.Wrap(testTask)).ToList(),
             PinnedRepositories = entity.PinnedProjects.Select(p => new GithubRepositoryInfoDto(p.Project)).ToList(),
             GuildRatingList = entity.Members.Select(m => m.MemberImpact).ToList()

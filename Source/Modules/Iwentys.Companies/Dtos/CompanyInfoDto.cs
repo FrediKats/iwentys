@@ -3,6 +3,8 @@ using System.Linq;
 using Iwentys.AccountManagement;
 using Iwentys.Common;
 using Iwentys.Domain.Companies;
+using Iwentys.EntityManager.ApiClient;
+using Iwentys.WebService.Application;
 
 namespace Iwentys.Companies;
 
@@ -14,7 +16,7 @@ public record CompanyInfoDto
             company.Name,
             company.Latitude,
             company.Longitude,
-            company.Workers?.Where(w => w.Type == CompanyWorkerType.Accepted).SelectToList(w => new IwentysUserInfoDto(w.Worker)))
+            company.Workers?.Where(w => w.Type == CompanyWorkerType.Accepted).SelectToList(w => EntityManagerApiDtoMapper.Map(w.Worker)))
     {
     }
 

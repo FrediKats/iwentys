@@ -2,6 +2,8 @@
 using System.Linq.Expressions;
 using Iwentys.AccountManagement;
 using Iwentys.Domain.Companies;
+using Iwentys.EntityManager.ApiClient;
+using Iwentys.WebService.Application;
 
 namespace Iwentys.Companies;
 
@@ -25,7 +27,7 @@ public record CompanyWorkRequestDto
                 Id = entity.Company.Id,
                 Name = entity.Company.Name
             },
-            Worker = new IwentysUserInfoDto(entity.Worker)
+            Worker = EntityManagerApiDtoMapper.Map(entity.Worker)
         };
 
     public CompanyInfoDto Company { get; init; }

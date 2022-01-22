@@ -1,6 +1,8 @@
 ﻿using System;
 using Iwentys.AccountManagement;
 using Iwentys.Domain.Quests;
+using Iwentys.EntityManager.ApiClient;
+using Iwentys.WebService.Application;
 
 namespace Iwentys.Gamification;
 
@@ -8,7 +10,7 @@ public class QuestResponseInfoDto
 {
     public QuestResponseInfoDto(QuestResponse questResponse) : this()
     {
-        Student = new IwentysUserInfoDto(questResponse.Student);
+        Student = EntityManagerApiDtoMapper.Map(questResponse.Student);
         ResponseTime = questResponse.ResponseTime;
         Description = questResponse.Description;
     }

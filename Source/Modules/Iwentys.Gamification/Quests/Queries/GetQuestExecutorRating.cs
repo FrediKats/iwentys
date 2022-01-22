@@ -54,7 +54,7 @@ public static class GetQuestExecutorRating
 
             List<IwentysUser> users = await _context.IwentysUsers.ToListAsync();
             //TODO: hack
-            result.ForEach(r => { r.User = new IwentysUserInfoDto(users.First(u => u.Id == r.UserId)); });
+            result.ForEach(r => { r.User = EntityManagerApiDtoMapper.Map(users.First(u => u.Id == r.UserId)); });
 
             return new Response(result);
         }

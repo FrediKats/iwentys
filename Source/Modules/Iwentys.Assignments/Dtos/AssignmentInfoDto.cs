@@ -3,6 +3,8 @@ using System.Linq.Expressions;
 using Iwentys.AccountManagement;
 using Iwentys.Domain.Assignments;
 using Iwentys.Domain.Study;
+using Iwentys.EntityManager.ApiClient;
+using Iwentys.WebService.Application;
 
 namespace Iwentys.Assignments;
 
@@ -27,7 +29,7 @@ public record AssignmentInfoDto
             studentAssignment.Assignment.Description,
             studentAssignment.Assignment.CreationTimeUtc,
             studentAssignment.Assignment.DeadlineTimeUtc,
-            new IwentysUserInfoDto(studentAssignment.Assignment.Author),
+            EntityManagerApiDtoMapper.Map(studentAssignment.Assignment.Author),
             studentAssignment.Assignment.Subject,
             studentAssignment.IsCompleted)
     {
@@ -45,7 +47,7 @@ public record AssignmentInfoDto
             Description = entity.Assignment.Description,
             CreationTimeUtc = entity.Assignment.CreationTimeUtc,
             DeadlineTimeUtc = entity.Assignment.DeadlineTimeUtc,
-            Creator = new IwentysUserInfoDto(entity.Assignment.Author),
+            Creator = EntityManagerApiDtoMapper.Map(entity.Assignment.Author),
             IsCompeted = entity.IsCompleted
         };
 

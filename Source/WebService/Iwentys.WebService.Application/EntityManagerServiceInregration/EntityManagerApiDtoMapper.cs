@@ -5,7 +5,7 @@ using Iwentys.EntityManager.ApiClient;
 
 namespace Iwentys.WebService.Application;
 
-public class EntityManagerApiDtoMapper
+public static class EntityManagerApiDtoMapper
 {
     private static readonly IMapper Mapper;
 
@@ -18,6 +18,11 @@ public class EntityManagerApiDtoMapper
         });
 
         Mapper = new Mapper(config);
+    }
+
+    public static IwentysUserInfoDto Map(IwentysUser user)
+    {
+        return Mapper.Map<IwentysUserInfoDto>(user);
     }
 
     public static IwentysUser Map(IwentysUserInfoDto dto)
