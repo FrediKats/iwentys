@@ -20,7 +20,7 @@ public class SubjectAssignmentTest
         StudyGroup studyGroup = StudyGroupFaker.Instance.CreateGroup();
         SubjectAssignmentCreateArguments arguments = SubjectAssignmentFaker.Instance.CreateSubjectAssignmentCreateArguments(subject.Id);
 
-        GroupSubject groupSubject = subject.AddGroup(studyGroup, StudySemesterExtensions.GetDefault());
+        GroupSubject groupSubject = subject.AddGroup(studyGroup.Id, StudySemesterExtensions.GetDefault());
         var subjectAssignment = SubjectAssignment.Create(admin, subject, arguments);
         GroupSubjectAssignment groupSubjectAssignment = subjectAssignment.AddAssignmentForGroup(admin, groupSubject);
 
@@ -37,7 +37,7 @@ public class SubjectAssignmentTest
         StudyGroup studyGroup = StudyGroupFaker.Instance.CreateGroup();
         SubjectAssignmentCreateArguments arguments = SubjectAssignmentFaker.Instance.CreateSubjectAssignmentCreateArguments(subject.Id);
 
-        GroupSubject groupSubject = subject.AddGroup(studyGroup, StudySemesterExtensions.GetDefault());
+        GroupSubject groupSubject = subject.AddGroup(studyGroup.Id, StudySemesterExtensions.GetDefault());
         var subjectAssignment = SubjectAssignment.Create(admin, subject, arguments);
         GroupSubjectAssignment groupSubjectAssignment = subjectAssignment.AddAssignmentForGroup(admin, groupSubject);
 
@@ -59,7 +59,7 @@ public class SubjectAssignmentTest
         StudyGroup studyGroup = StudyGroupFaker.Instance.CreateGroup();
         SubjectAssignmentCreateArguments arguments = SubjectAssignmentFaker.Instance.CreateSubjectAssignmentCreateArguments(subject.Id);
 
-        GroupSubject groupSubject = subject.AddGroup(studyGroup, StudySemesterExtensions.GetDefault());
+        GroupSubject groupSubject = subject.AddGroup(studyGroup.Id, StudySemesterExtensions.GetDefault());
         var subjectAssignment = SubjectAssignment.Create(admin, subject, arguments);
         GroupSubjectAssignment groupSubjectAssignment = subjectAssignment.AddAssignmentForGroup(admin, groupSubject);
 

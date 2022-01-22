@@ -10,7 +10,6 @@ public class GroupSubjectAssignment
     public virtual SubjectAssignment SubjectAssignment { get; set; }
 
     public int GroupId { get; set; }
-    public virtual StudyGroup Group { get; set; }
 
     public virtual ICollection<SubjectAssignmentSubmit> SubjectAssignmentSubmits { get; set; }
 
@@ -21,7 +20,7 @@ public class GroupSubjectAssignment
 
     public SubjectAssignmentSubmit CreateSubmit(Student student, SubjectAssignmentSubmitCreateArguments arguments)
     {
-        if (student.GroupId != Group.Id)
+        if (student.GroupId != GroupId)
             throw InnerLogicException.SubjectAssignmentException.StudentIsNotAssignedToSubject(student.Id, SubjectAssignment.Id);
 
         var subjectAssignmentSubmit = new SubjectAssignmentSubmit(student, SubjectAssignment, arguments);

@@ -96,7 +96,7 @@ public class SubjectAssignment
 
         var groupSubjectAssignment = new GroupSubjectAssignment
         {
-            Group = group.StudyGroup,
+            GroupId = group.StudyGroupId,
             SubjectAssignment = this
         };
         GroupSubjectAssignments.Add(groupSubjectAssignment);

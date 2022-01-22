@@ -17,9 +17,9 @@ public class Subject
         Assignments = new List<SubjectAssignment>();
     }
 
-    public GroupSubject AddGroup(StudyGroup studyGroup, StudySemester studySemester)
+    public GroupSubject AddGroup(int studyGroupId, StudySemester studySemester)
     {
-        var groupSubject = new GroupSubject(this, studyGroup, studySemester);
+        var groupSubject = new GroupSubject(this, studyGroupId, studySemester);
         GroupSubjects.Add(groupSubject);
         return groupSubject;
     }

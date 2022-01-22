@@ -18,11 +18,6 @@ public class StudyGroup
     public virtual List<Student> Students { get; set; }
     public virtual List<GroupSubject> GroupSubjects { get; set; }
 
-    public static Expression<Func<StudyGroup, bool>> IsMatch(GroupName groupName)
-    {
-        return studyGroup => studyGroup.GroupName == groupName.Name;
-    }
-
     public StudyGroup()
     {
         Students = new List<Student>();

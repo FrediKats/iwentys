@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
 using FluentResults;
-using Iwentys.Common;
 
 namespace Iwentys.Domain.Study;
 
@@ -16,19 +13,17 @@ public class GroupSubject
     public StudySemester StudySemester { get; init; }
 
     public int StudyGroupId { get; init; }
-    public virtual StudyGroup StudyGroup { get; init; }
 
     public GroupSubject()
     {
     }
 
     //TODO: enable nullability
-    public GroupSubject(Subject subject, StudyGroup studyGroup, StudySemester studySemester)
+    public GroupSubject(Subject subject, int studyGroupId, StudySemester studySemester)
     {
         Subject = subject;
         SubjectId = subject.Id;
-        StudyGroup = studyGroup;
-        StudyGroupId = studyGroup.Id;
+        StudyGroupId = studyGroupId;
         StudySemester = studySemester;
     }
 
