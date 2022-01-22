@@ -2,6 +2,8 @@
 using System.Linq;
 using Iwentys.AccountManagement;
 using Iwentys.Domain.Study;
+using Iwentys.EntityManager.ApiClient;
+using Iwentys.WebService.Application;
 
 namespace Iwentys.Gamification;
 
@@ -11,12 +13,12 @@ public record StudyLeaderboardRowDto
     public double Activity { get; init; }
 
     public StudyLeaderboardRowDto(Student student, int githubActivity)
-        : this(new StudentInfoDto(student), githubActivity)
+        : this(EntityManagerApiDtoMapper.Map(student), githubActivity)
     {
     }
 
     public StudyLeaderboardRowDto(List<SubjectActivity> activity)
-        : this(new StudentInfoDto(activity.First().Student), activity.Sum(a => a.Points))
+        : this(EntityManagerApiDtoMapper.Map(activity.First().Student), activity.Sum(a => a.Points))
     {
     }
 

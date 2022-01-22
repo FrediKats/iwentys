@@ -1,24 +1,32 @@
-﻿using Iwentys.Domain.AccountManagement;
+﻿using AutoMapper;
+using Iwentys.Domain.AccountManagement;
+using Iwentys.Domain.Study;
 using Iwentys.EntityManager.ApiClient;
 
 namespace Iwentys.WebService.Application;
 
 public class EntityManagerApiDtoMapper
 {
+    private static readonly IMapper Mapper;
+
+    static EntityManagerApiDtoMapper()
+    {
+        var config = new MapperConfiguration(cfg =>
+        {
+            cfg.CreateMap<Student, StudentInfoDto>();
+            cfg.CreateMap<IwentysUserInfoDto, IwentysUser>();
+        });
+
+        Mapper = new Mapper(config);
+    }
+
     public static IwentysUser Map(IwentysUserInfoDto dto)
     {
-        return new IwentysUser()
-        {
-            Id = dto.Id,
-            AvatarUrl = dto.AvatarUrl,
-            CreationTime = dto.CreationTime,
-            FirstName = dto.FirstName,
-            GithubUsername = dto.GithubUsername,
-            IsAdmin = dto.IsAdmin,
-            LastOnlineTime = dto.LastOnlineTime,
-            MiddleName = dto.MiddleName,
-            SecondName = dto.SecondName,
-            BarsPoints = 0
-        };
+        return Mapper.Map<IwentysUser>(dto);
+    }
+
+    public static StudentInfoDto Map(Student student)
+    {
+        return Mapper.Map<StudentInfoDto>(student);
     }
 }

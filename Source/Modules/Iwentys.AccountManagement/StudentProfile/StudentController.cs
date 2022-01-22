@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.Domain.Study;
+using Iwentys.EntityManager.ApiClient;
 using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using IwentysEntityManagerApiClient = Iwentys.WebService.Application.IwentysEntityManagerApiClient;
 
 namespace Iwentys.AccountManagement;
 
@@ -12,17 +14,19 @@ namespace Iwentys.AccountManagement;
 public class StudentController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly IwentysEntityManagerApiClient _entityManagerApiClient;
 
-    public StudentController(IMediator mediator)
+    public StudentController(IMediator mediator, IwentysEntityManagerApiClient entityManagerApiClient)
     {
         _mediator = mediator;
+        _entityManagerApiClient = entityManagerApiClient;
     }
 
     [HttpGet(nameof(Get))]
     public async Task<ActionResult<List<StudentInfoDto>>> Get()
     {
-        GetStudents.Response response = await _mediator.Send(new GetStudents.Query());
-        return Ok(response.Students);
+        IReadOnlyCollection<StudentInfoDto> result = await _entityManagerApiClient.StudentProfiles.GetAsync();
+        return Ok(result);
     }
 
     [HttpGet(nameof(GetSelf))]
@@ -37,8 +41,8 @@ public class StudentController : ControllerBase
     [HttpGet(nameof(GetById))]
     public async Task<ActionResult<StudentInfoDto>> GetById(int id)
     {
-        GetStudentById.Response response = await _mediator.Send(new GetStudentById.Query(id));
-        return Ok(response.Student);
+        StudentInfoDto result = await _entityManagerApiClient.StudentProfiles.GetByIdAsync(id);
+        return Ok(result);
     }
 
     [HttpPut(nameof(UpdateProfile))]

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Iwentys.DataAccess;
+using Iwentys.EntityManager.ApiClient;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

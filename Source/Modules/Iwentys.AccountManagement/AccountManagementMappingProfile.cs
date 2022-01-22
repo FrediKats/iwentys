@@ -2,6 +2,7 @@
 using AutoMapper;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
+using Iwentys.EntityManager.ApiClient;
 
 namespace Iwentys.AccountManagement;
 
