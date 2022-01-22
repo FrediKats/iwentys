@@ -10,7 +10,7 @@ public interface IStudyDbContext
     public DbSet<StudyProgram> StudyPrograms { get; set; }
     public DbSet<Subject> Subjects { get; set; }
     public DbSet<GroupSubject> GroupSubjects { get; set; }
-    public DbSet<GroupSubjectMentor> GroupSubjectMentors { get; set; }
+    public DbSet<GroupSubjectTeacher> GroupSubjectMentors { get; set; }
     public DbSet<StudyCourse> StudyCourses { get; set; }
 }
 
@@ -18,6 +18,6 @@ public static class StudyDbContextExtensions
 {
     public static void OnStudyModelCreating(this ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<GroupSubjectMentor>().HasKey(gsm => new { gsm.UserId, gsm.GroupSubjectId, gsm.IsLector });
+        modelBuilder.Entity<GroupSubjectTeacher>().HasKey(gsm => new { UserId = gsm.TeacherId, gsm.GroupSubjectId, gsm.TeacherType });
     }
 }

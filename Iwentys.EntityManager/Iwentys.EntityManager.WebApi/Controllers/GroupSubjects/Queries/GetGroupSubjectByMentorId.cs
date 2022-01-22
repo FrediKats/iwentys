@@ -27,7 +27,7 @@ public class GetGroupSubjectByMentorId
         {
             List<GroupSubjectInfoDto> result = await _context
                 .GroupSubjects
-                .WhereIf(request.MentorId, gs => gs.Mentors.Any(m => m.UserId == request.MentorId))
+                .WhereIf(request.MentorId, gs => gs.Teachers.Any(m => m.TeacherId == request.MentorId))
                 .ProjectTo<GroupSubjectInfoDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
 

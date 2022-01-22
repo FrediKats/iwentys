@@ -17,7 +17,7 @@ public class IwentysEntityManagerDbContext : DbContext, IAccountManagementDbCont
     public DbSet<StudyProgram> StudyPrograms { get; set; }
     public DbSet<Subject> Subjects { get; set; }
     public DbSet<GroupSubject> GroupSubjects { get; set; }
-    public DbSet<GroupSubjectMentor> GroupSubjectMentors { get; set; }
+    public DbSet<GroupSubjectTeacher> GroupSubjectMentors { get; set; }
     public DbSet<StudyCourse> StudyCourses { get; set; }
 
     public IwentysEntityManagerDbContext(DbContextOptions<IwentysEntityManagerDbContext> options, IDbContextSeeder dbContextSeeder) : base(options)

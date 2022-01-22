@@ -20,7 +20,7 @@ public class StudyEntitiesGenerator : IEntityGenerator
     public List<GroupSubject> GroupSubjects { get; set; }
     public List<StudyGroup> StudyGroups { get; set; }
     public List<UniversitySystemUser> Teachers { get; set; }
-    public List<GroupSubjectMentor> GroupSubjectMentors { get; set; }
+    public List<GroupSubjectTeacher> GroupSubjectMentors { get; set; }
     public StudyEntitiesGenerator()
     {
         Teachers = UsersFaker.Instance.UniversitySystemUsers
@@ -43,7 +43,7 @@ public class StudyEntitiesGenerator : IEntityGenerator
             StudyGroups.AddRange(CourseGroup(course.Id, (int)course.GraduationYear, 12));
 
         GroupSubjects = new List<GroupSubject>();
-        GroupSubjectMentors = new List<GroupSubjectMentor>();
+        GroupSubjectMentors = new List<GroupSubjectTeacher>();
         foreach (Subject subject in Subjects)
         foreach (StudyGroup studyGroup in StudyGroups)
         {
@@ -55,16 +55,16 @@ public class StudyEntitiesGenerator : IEntityGenerator
                 StudySemester = CurrentSemester
             });
 
-            GroupSubjectMentors.Add(new GroupSubjectMentor()
+            GroupSubjectMentors.Add(new GroupSubjectTeacher()
             {
-                IsLector = true,
-                UserId = MentorId,
+                TeacherId = MentorId,
+                TeacherType = TeacherType.Lecturer,
                 GroupSubjectId = GroupSubjects.Last().Id
             });
 
-            GroupSubjectMentors.Add(new GroupSubjectMentor()
+            GroupSubjectMentors.Add(new GroupSubjectTeacher()
             {
-                UserId = MentorId,
+                TeacherId = MentorId,
                 GroupSubjectId = GroupSubjects.Last().Id
             });
         }
@@ -78,7 +78,7 @@ public class StudyEntitiesGenerator : IEntityGenerator
         modelBuilder.Entity<UniversitySystemUser>().HasData(Teachers);
         modelBuilder.Entity<Subject>().HasData(Subjects);
         modelBuilder.Entity<GroupSubject>().HasData(GroupSubjects);
-        modelBuilder.Entity<GroupSubjectMentor>().HasData(GroupSubjectMentors);
+        modelBuilder.Entity<GroupSubjectTeacher>().HasData(GroupSubjectMentors);
     }
 
     public static List<StudyGroup> CourseGroup(int courseId, int course, int groupCount)

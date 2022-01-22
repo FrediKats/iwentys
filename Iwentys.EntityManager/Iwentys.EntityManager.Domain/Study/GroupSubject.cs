@@ -15,52 +15,55 @@ public class GroupSubject
     public int StudyGroupId { get; init; }
     public virtual StudyGroup StudyGroup { get; init; }
 
-    public virtual List<GroupSubjectMentor> Mentors { get; init; }
-
-    public int? PracticeMentorId { get; init; }
-    public virtual UniversitySystemUser PracticeMentor { get; init; }
+    public virtual List<GroupSubjectTeacher> Teachers { get; init; }
         
     public GroupSubject()
     {
     }
 
     //TODO: enable nullability
-    public GroupSubject(Subject subject, StudyGroup studyGroup, StudySemester studySemester, IwentysUser lectorMentor)
+    public GroupSubject(Subject subject, StudyGroup studyGroup, StudySemester studySemester, IwentysUser lecturer)
     {
         Subject = subject;
         SubjectId = subject.Id;
         StudyGroup = studyGroup;
         StudyGroupId = studyGroup.Id;
         StudySemester = studySemester;
-        Mentors = new List<GroupSubjectMentor>()
+        Teachers = new List<GroupSubjectTeacher>
         {
-            new GroupSubjectMentor()
+            new GroupSubjectTeacher
             {
-                IsLector = true,
-                User = lectorMentor
+                Teacher = lecturer,
+                TeacherType = TeacherType.Lecturer
             }
         };
     }
 
     public void AddPracticeMentor(IwentysUser practiceMentor)
     {
-        if (!IsPracticeMentor(practiceMentor))
+        AddTeacher(practiceMentor, TeacherType.Practice);
+    }
+
+    public void AddTeacher(IwentysUser teacher, TeacherType teacherType)
+    {
+        if (!IsUserAlreadyAdded(teacher, teacherType))
         {
             throw new IwentysException("User is already practice mentor");
         }
 
-        Mentors.Add(new GroupSubjectMentor()
+        Teachers.Add(new GroupSubjectTeacher
         {
             GroupSubjectId = Id,
-            UserId = practiceMentor.Id
+            TeacherId = teacher.Id,
+            TeacherType = teacherType
         });
     }
 
-    private bool IsPracticeMentor(IwentysUser mentor)
-        => Mentors.All(pm => !pm.IsLector || pm.UserId != mentor.Id);
+    private bool IsUserAlreadyAdded(IwentysUser teacher, TeacherType teacherType)
+        => !Teachers.Any(t => t.TeacherId == teacher.Id && t.TeacherType == teacherType);
 
     public bool HasMentorPermission(IwentysUser user)
     {
-        return Mentors.Any(pm=>pm.UserId == user.Id);
+        return Teachers.Any(t=> t.TeacherId == user.Id);
     }
 }

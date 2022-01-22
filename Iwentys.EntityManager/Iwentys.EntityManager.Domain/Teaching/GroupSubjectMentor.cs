@@ -2,13 +2,13 @@
 
 namespace Iwentys.EntityManager.Domain;
 
-public class GroupSubjectMentor
+public class GroupSubjectTeacher
 {
-    public bool IsLector { get; set; }
-        
-    public int UserId { get; set; }
-    public virtual IwentysUser User { get; set; }
+    public int TeacherId { get; set; }
+    public virtual IwentysUser Teacher { get; set; }
 
     public int GroupSubjectId { get; set; }
     public virtual GroupSubject GroupSubject { get; set; }
+
+    public TeacherType TeacherType { get; set; }
 }

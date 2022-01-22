@@ -31,6 +31,6 @@ public class Subject
 
     public static Expression<Func<Subject, bool>> IsAllowedFor(int userId)
     {
-        return s => s.GroupSubjects.Any(gs => gs.Mentors.Any(pm=>pm.UserId == userId));
+        return s => s.GroupSubjects.Any(gs => gs.Teachers.Any(pm=>pm.TeacherId == userId));
     }
 }
