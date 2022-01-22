@@ -8,7 +8,6 @@ using Iwentys.Domain.Study;
 using Iwentys.EntityManager.ApiClient;
 using Iwentys.WebService.Application;
 using MediatR;
-using StudySemester = Iwentys.Domain.Study.StudySemester;
 
 namespace Iwentys.Gamification;
 

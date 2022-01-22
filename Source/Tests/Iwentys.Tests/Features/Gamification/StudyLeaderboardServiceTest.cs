@@ -33,7 +33,6 @@ public class StudyLeaderboardServiceTest
         {
             StudyGroupId = studyGroup.Id,
             SubjectId = subject.Id,
-            StudySemester = StudySemester.Y21H1,
             // LectorMentorId = teacher?.Id
         };
 

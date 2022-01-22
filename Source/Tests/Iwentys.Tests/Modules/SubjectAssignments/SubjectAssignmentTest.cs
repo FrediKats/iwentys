@@ -2,6 +2,7 @@
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.Domain.SubjectAssignments;
+using Iwentys.EntityManager.ApiClient;
 using Iwentys.Tests.TestCaseContexts;
 using NUnit.Framework;
 
@@ -20,8 +21,8 @@ public class SubjectAssignmentTest
         StudyGroup studyGroup = StudyGroupFaker.Instance.CreateGroup();
         SubjectAssignmentCreateArguments arguments = SubjectAssignmentFaker.Instance.CreateSubjectAssignmentCreateArguments(subject.Id);
 
-        StudySemester studySemester = StudySemesterExtensions.GetDefault();
-        var groupSubject1 = new GroupSubject(subject.Id, studyGroup.Id, studySemester);
+        StudySemester studySemester = StudySemester.Y21H1;
+        var groupSubject1 = new GroupSubject(subject.Id, studyGroup.Id);
         GroupSubject groupSubject = groupSubject1;
         var subjectAssignment = SubjectAssignment.Create(admin, subject.Id, arguments);
         GroupSubjectAssignment groupSubjectAssignment = subjectAssignment.AddAssignmentForGroup(admin, groupSubject.StudyGroupId);
@@ -39,8 +40,8 @@ public class SubjectAssignmentTest
         StudyGroup studyGroup = StudyGroupFaker.Instance.CreateGroup();
         SubjectAssignmentCreateArguments arguments = SubjectAssignmentFaker.Instance.CreateSubjectAssignmentCreateArguments(subject.Id);
 
-        StudySemester studySemester = StudySemesterExtensions.GetDefault();
-        var groupSubject1 = new GroupSubject(subject.Id, studyGroup.Id, studySemester);
+        StudySemester studySemester = StudySemester.Y21H1;
+        var groupSubject1 = new GroupSubject(subject.Id, studyGroup.Id);
         GroupSubject groupSubject = groupSubject1;
         var subjectAssignment = SubjectAssignment.Create(admin, subject.Id, arguments);
         GroupSubjectAssignment groupSubjectAssignment = subjectAssignment.AddAssignmentForGroup(admin, groupSubject.StudyGroupId);
@@ -63,8 +64,8 @@ public class SubjectAssignmentTest
         StudyGroup studyGroup = StudyGroupFaker.Instance.CreateGroup();
         SubjectAssignmentCreateArguments arguments = SubjectAssignmentFaker.Instance.CreateSubjectAssignmentCreateArguments(subject.Id);
 
-        StudySemester studySemester = StudySemesterExtensions.GetDefault();
-        var groupSubject1 = new GroupSubject(subject.Id, studyGroup.Id, studySemester);
+        StudySemester studySemester = StudySemester.Y21H1;
+        var groupSubject1 = new GroupSubject(subject.Id, studyGroup.Id);
         GroupSubject groupSubject = groupSubject1;
         var subjectAssignment = SubjectAssignment.Create(admin, subject.Id, arguments);
         GroupSubjectAssignment groupSubjectAssignment = subjectAssignment.AddAssignmentForGroup(admin, groupSubject.StudyGroupId);

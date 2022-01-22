@@ -1,4 +1,6 @@
-﻿namespace Iwentys.Domain.Study;
+﻿using Iwentys.EntityManager.ApiClient;
+
+namespace Iwentys.Domain.Study;
 
 public record StudySearchParametersDto
 {

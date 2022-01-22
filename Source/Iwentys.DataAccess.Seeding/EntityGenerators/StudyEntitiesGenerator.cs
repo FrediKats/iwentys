@@ -14,8 +14,6 @@ public class StudyEntitiesGenerator : IEntityGenerator
 
     private const int TeacherCount = 20;
     private const int SubjectCount = 8;
-    private const StudySemester CurrentSemester = StudySemester.Y20H1;
-
     public StudyEntitiesGenerator()
     {
         Teachers = UsersFaker.Instance.UniversitySystemUsers
@@ -55,7 +53,6 @@ public class StudyEntitiesGenerator : IEntityGenerator
             Id = Create.GroupSubjectIdentifierGenerator.Next(),
             SubjectId = subject.Id,
             StudyGroupId = group.Id,
-            StudySemester = CurrentSemester
         };
     }
 
