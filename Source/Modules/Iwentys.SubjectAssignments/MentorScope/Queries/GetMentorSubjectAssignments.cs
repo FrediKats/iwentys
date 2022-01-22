@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Iwentys.DataAccess;
-using Iwentys.Domain.AccountManagement;
-using Iwentys.Domain.Study;
 using Iwentys.EntityManager.ApiClient;
 using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
@@ -55,36 +51,26 @@ public class GetMentorSubjectAssignments
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            IwentysUser user = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.User.Id);
+            //TODO: optimization?
+            IReadOnlyCollection<SubjectTeachersDto> subjectTeachers = await _entityManagerApiClient.Teachers.Client.GetAllAsync();
 
-            if (user.IsAdmin)
+            var results = new List<SubjectAssignmentJournalItemDto>();
+            foreach (SubjectTeachersDto subjectTeachersDto in subjectTeachers)
             {
-                List<SubjectAssignmentJournalItemDto> assignments = await _context
-                    .Subjects
-                    .ProjectTo<SubjectAssignmentJournalItemDto>(_mapper.ConfigurationProvider)
+                List<SubjectAssignmentDto> assignmentDtos = await _context
+                    .SubjectAssignments
+                    .Where(sa => sa.SubjectId == subjectTeachersDto.SubjectId)
+                    .ProjectTo<SubjectAssignmentDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();
 
-                return new Response(assignments);
+                results.Add(new SubjectAssignmentJournalItemDto
+                {
+                    Id = subjectTeachersDto.SubjectId,
+                    Title = subjectTeachersDto.Name,
+                    Assignments = assignmentDtos
+                });
             }
-            else
-            {
-                //TODO: optimization?
-                IReadOnlyCollection<SubjectTeachersDto> subjectTeachers = await _entityManagerApiClient.Teachers.Client.GetAllAsync();
-                HashSet<int> allowedSubject = subjectTeachers
-                    .Where(st => st.GroupTeachers.Any(gt => gt.Teachers.Any(t => t.TeacherType != TeacherType.None && t.Id == request.User.Id)))
-                    .Select(st => st.SubjectId)
-                    .ToHashSet();
-
-                Expression<Func<Subject, bool>> isAllowedSubject = (s) => allowedSubject.Contains(s.Id);
-
-                List<SubjectAssignmentJournalItemDto> assignments = await _context
-                    .Subjects
-                    .Where(isAllowedSubject)
-                    .ProjectTo<SubjectAssignmentJournalItemDto>(_mapper.ConfigurationProvider)
-                    .ToListAsync();
-
-                return new Response(assignments);
-            }
+            return new Response(results);
         }
     }
 }

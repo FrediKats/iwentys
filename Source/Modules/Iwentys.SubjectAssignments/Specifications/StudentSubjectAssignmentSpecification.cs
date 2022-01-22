@@ -21,7 +21,7 @@ public class StudentSubjectAssignmentSpecification : ISpecification<GroupSubject
         return queryable
             .Where(gsa => gsa.GroupId == _student.GroupId)
             .Select(gsa => gsa.SubjectAssignment)
-            .Where(gsa => gsa.Subject.Id == _subjectId)
+            .Where(gsa => gsa.SubjectId == _subjectId)
             .Where(sa => sa.AvailabilityState == AvailabilityState.Visible);
     }
 }

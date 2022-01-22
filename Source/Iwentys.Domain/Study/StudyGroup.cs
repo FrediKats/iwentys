@@ -16,12 +16,10 @@ public class StudyGroup
     public int CourseId { get; set; }
 
     public virtual List<Student> Students { get; set; }
-    public virtual List<GroupSubject> GroupSubjects { get; set; }
 
     public StudyGroup()
     {
         Students = new List<Student>();
-        GroupSubjects = new List<GroupSubject>();
     }
 
     public void AddStudent(Student student)

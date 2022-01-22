@@ -52,14 +52,13 @@ public static class CreateSubjectAssignment
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            Subject subject = await _context.Subjects.GetById(request.Arguments.SubjectId);
             IwentysUser creator = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.AuthorizedUser.Id);
 
             bool hasPermission = await _entityManagerApiClient.Teachers.HasTeacherPermissionAsync(request.AuthorizedUser.Id, request.Arguments.SubjectId);
             if (!hasPermission)
                 throw InnerLogicException.StudyExceptions.UserHasNotTeacherPermission(request.AuthorizedUser.Id);
 
-            var subjectAssignment = SubjectAssignment.Create(creator, subject, request.Arguments);
+            var subjectAssignment = SubjectAssignment.Create(creator, request.Arguments.SubjectId, request.Arguments);
 
             _context.SubjectAssignments.Add(subjectAssignment);
 

@@ -19,7 +19,6 @@ public class SubjectAssignment
     public AvailabilityState AvailabilityState { get; set; }
 
     public int SubjectId { get; set; }
-    public virtual Subject Subject { get; set; }
 
     public int AuthorId { get; set; }
     public virtual IwentysUser Author { get; set; }
@@ -67,14 +66,13 @@ public class SubjectAssignment
         AvailabilityState = AvailabilityState.Visible;
     }
         
-    public static SubjectAssignment Create(IwentysUser user, Subject subject, SubjectAssignmentCreateArguments arguments)
+    public static SubjectAssignment Create(IwentysUser user, int subjectId, SubjectAssignmentCreateArguments arguments)
     {
         var subjectAssignment = new SubjectAssignment
         {
             Title = arguments.Title,
             Description = arguments.Description,
-            SubjectId = subject.Id,
-            Subject = subject,
+            SubjectId = subjectId,
 
             Author = user,
             AuthorId = user.Id,

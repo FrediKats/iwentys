@@ -19,7 +19,6 @@ public class Assignment
     public virtual IwentysUser Author { get; init; }
 
     public int? SubjectId { get; init; }
-    public virtual Subject Subject { get; init; }
 
     public virtual ICollection<StudentAssignment> StudentAssignments { get; init; }
 

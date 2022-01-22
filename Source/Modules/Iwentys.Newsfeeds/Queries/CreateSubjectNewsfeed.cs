@@ -54,12 +54,11 @@ public static class CreateSubjectNewsfeed
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
             IwentysUser author = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.AuthorizedUser.Id);
-            Subject subject = await _context.Subjects.GetById(request.SubjectId);
 
             SubjectNewsfeed newsfeedEntity;
             if (author.CheckIsAdmin(out SystemAdminUser admin))
             {
-                newsfeedEntity = SubjectNewsfeed.CreateAsSystemAdmin(request.CreateViewModel, admin, subject);
+                newsfeedEntity = SubjectNewsfeed.CreateAsSystemAdmin(request.CreateViewModel, admin, request.SubjectId);
             }
             else
             {
@@ -71,7 +70,7 @@ public static class CreateSubjectNewsfeed
                 if (studyGroup.GroupAdminId != author.Id)
                     throw InnerLogicException.StudyExceptions.UserIsNotGroupAdmin(student.Id);
 
-                newsfeedEntity = SubjectNewsfeed.CreateAsGroupAdmin(request.CreateViewModel, student, subject);
+                newsfeedEntity = SubjectNewsfeed.CreateAsGroupAdmin(request.CreateViewModel, student, request.SubjectId);
             }
 
             _context.SubjectNewsfeeds.Add(newsfeedEntity);

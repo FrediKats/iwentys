@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Iwentys.AccountManagement;
 using Iwentys.Domain.Assignments;
-using Iwentys.Domain.Study;
 using Iwentys.EntityManager.ApiClient;
 using Iwentys.EntityManagerServiceIntegration;
-using Iwentys.WebService.Application;
 
 namespace Iwentys.Assignments;
 
 public record AssignmentInfoDto
 {
-    public AssignmentInfoDto(int id, string title, string description, DateTime creationTimeUtc, DateTime? deadlineTimeUtc, IwentysUserInfoDto creator, Subject subject, bool isCompeted)
+    public AssignmentInfoDto(int id, string title, string description, DateTime creationTimeUtc, DateTime? deadlineTimeUtc, IwentysUserInfoDto creator, SubjectProfileDto subject, bool isCompeted)
     {
         Id = id;
         Title = title;
@@ -23,7 +20,7 @@ public record AssignmentInfoDto
         IsCompeted = isCompeted;
     }
 
-    public AssignmentInfoDto(StudentAssignment studentAssignment)
+    public AssignmentInfoDto(StudentAssignment studentAssignment, SubjectProfileDto subject)
         : this(
             studentAssignment.Assignment.Id,
             studentAssignment.Assignment.Title,
@@ -31,7 +28,7 @@ public record AssignmentInfoDto
             studentAssignment.Assignment.CreationTimeUtc,
             studentAssignment.Assignment.DeadlineTimeUtc,
             EntityManagerApiDtoMapper.Map(studentAssignment.Assignment.Author),
-            studentAssignment.Assignment.Subject,
+            subject,
             studentAssignment.IsCompleted)
     {
     }
@@ -58,6 +55,6 @@ public record AssignmentInfoDto
     public DateTime CreationTimeUtc { get; init; }
     public DateTime? DeadlineTimeUtc { get; init; }
     public IwentysUserInfoDto Creator { get; init; }
-    public Subject Subject { get; init; }
+    public SubjectProfileDto Subject { get; init; }
     public bool IsCompeted { get; init; }
 }

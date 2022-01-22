@@ -54,11 +54,13 @@ public static class CreateAssignment
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
             Student author = await _entityManagerApiClient.StudentProfiles.GetByIdAsync(request.User.Id);
+            SubjectProfileDto subject = await _entityManagerApiClient.Client.Subjects.GetSubjectByIdAsync(request.AssignmentCreateArguments.SubjectId);
+
             if (!request.AssignmentCreateArguments.ForStudyGroup)
             {
                 var studentAssignment = StudentAssignment.CreateSingle(author, request.AssignmentCreateArguments);
                 _context.StudentAssignments.Add(studentAssignment);
-                return new Response(new List<AssignmentInfoDto> {new AssignmentInfoDto(studentAssignment)});
+                return new Response(new List<AssignmentInfoDto> {new AssignmentInfoDto(studentAssignment, subject)});
             }
 
             if (author.GroupId is null)
@@ -76,7 +78,7 @@ public static class CreateAssignment
             List<StudentAssignment> assignments = StudentAssignment.Create(author, request.AssignmentCreateArguments, students);
             _context.StudentAssignments.AddRange(assignments);
 
-            return new Response(assignments.Select(a => new AssignmentInfoDto(a)).ToList());
+            return new Response(assignments.Select(a => new AssignmentInfoDto(a, subject)).ToList());
         }
     }
 }
