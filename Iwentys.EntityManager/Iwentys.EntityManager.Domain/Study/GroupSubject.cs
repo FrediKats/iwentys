@@ -59,7 +59,7 @@ public class GroupSubject
     }
 
     private bool IsUserAlreadyAdded(IwentysUser teacher, TeacherType teacherType)
-        => !Teachers.Any(t => t.TeacherId == teacher.Id && t.TeacherType == teacherType);
+        => !Teachers.Any(t => t.TeacherId == teacher.Id && t.TeacherType.HasFlag(teacherType));
 
     public bool HasTeacherPermission(IwentysUser user)
     {

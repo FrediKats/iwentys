@@ -1,4 +1,6 @@
-﻿namespace Iwentys.EntityManager.Domain;
+﻿using Iwentys.EntityManager.PublicTypes;
+
+namespace Iwentys.EntityManager.Domain;
 
 public class GroupSubjectTeacher
 {
