@@ -16,10 +16,10 @@ public class GroupSubjectController : ControllerBase
     }
 
 
-    [HttpGet(nameof(GetGroupSubjectByMentorId))]
-    public async Task<ActionResult<List<GroupSubjectInfoDto>>> GetGroupSubjectByMentorId(int mentorId)
+    [HttpGet(nameof(GetGroupSubjectByTeacherId))]
+    public async Task<ActionResult<List<GroupSubjectInfoDto>>> GetGroupSubjectByTeacherId(int teacherId)
     {
-        GetGroupSubjectByMentorId.Response response = await _mediator.Send(new GetGroupSubjectByMentorId.Query(mentorId));
+        GetGroupSubjectByTeacherId.Response response = await _mediator.Send(new GetGroupSubjectByTeacherId.Query(teacherId));
         return Ok(response.Groups);
     }
 }

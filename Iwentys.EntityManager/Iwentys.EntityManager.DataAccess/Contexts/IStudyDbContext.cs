@@ -10,7 +10,7 @@ public interface IStudyDbContext
     public DbSet<StudyProgram> StudyPrograms { get; set; }
     public DbSet<Subject> Subjects { get; set; }
     public DbSet<GroupSubject> GroupSubjects { get; set; }
-    public DbSet<GroupSubjectTeacher> GroupSubjectMentors { get; set; }
+    public DbSet<GroupSubjectTeacher> GroupSubjectTeacher { get; set; }
     public DbSet<StudyCourse> StudyCourses { get; set; }
 }
 

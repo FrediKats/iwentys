@@ -11,7 +11,7 @@ public class DatabaseContextGenerator : IDbContextSeeder
     {
         _generators = new List<IEntityGenerator>();
         StudyEntitiesGenerator studyEntitiesGenerator = Register(new StudyEntitiesGenerator());
-        StudentGenerator studentGenerator = Register(new StudentGenerator(studyEntitiesGenerator.StudyGroups));
+        Register(new StudentGenerator(studyEntitiesGenerator.StudyGroups));
     }
 
     public void Seed(ModelBuilder modelBuilder)

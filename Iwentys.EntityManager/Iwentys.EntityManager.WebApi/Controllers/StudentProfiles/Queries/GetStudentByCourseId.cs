@@ -30,7 +30,7 @@ public static class GetStudentByCourseId
                 .Where(g => g.StudyCourseId == request.CourseId)
                 .SelectMany(g => g.Students)
                 .ProjectTo<StudentInfoDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+                .ToListAsync(cancellationToken: cancellationToken);
             
             return new Response(result);
         }

@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using Iwentys.EntityManager.Domain.Accounts;
 using Iwentys.EntityManager.PublicTypes;
 
 namespace Iwentys.EntityManager.Domain;
@@ -16,17 +15,12 @@ public class Subject
         GroupSubjects = new List<GroupSubject>();
     }
 
-    public GroupSubject AddGroup(StudyGroup studyGroup, StudySemester studySemester, IwentysUser lector = null, IwentysUser practice = null)
+    public GroupSubject AddGroup(StudyGroup studyGroup, StudySemester studySemester, IwentysUser lecturer = null, IwentysUser practice = null)
     {
-        var groupSubject = new GroupSubject(this, studyGroup, studySemester, lector);
-        groupSubject.AddPracticeMentor(practice);
+        var groupSubject = new GroupSubject(this, studyGroup, studySemester, lecturer);
+        groupSubject.AddPracticeTeacher(practice);
         GroupSubjects.Add(groupSubject);
         return groupSubject;
-    }
-
-    public bool HasMentorPermission(IwentysUser user)
-    {
-        return GroupSubjects.Any(gs => gs.HasMentorPermission(user));
     }
 
     public static Expression<Func<Subject, bool>> IsAllowedFor(int userId)

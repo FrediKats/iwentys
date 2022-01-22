@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Iwentys.EntityManager.Domain.Accounts;
+namespace Iwentys.EntityManager.Domain;
 
 public class UniversitySystemUser
 {

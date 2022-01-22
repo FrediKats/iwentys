@@ -1,5 +1,5 @@
 ﻿using System.Linq.Expressions;
-using Iwentys.EntityManager.Domain.Accounts;
+using Iwentys.EntityManager.Common;
 
 namespace Iwentys.EntityManager.Domain;
 
@@ -32,12 +32,10 @@ public class StudyGroup
     {
         if (newGroupAdmin.Group is null)
         {
-            //TODO: add exception
+            throw new InnerLogicException($"Cannot set user {newGroupAdmin.Id} group admin. User do not have study group.");
         }
-        else
-        {
-            newGroupAdmin.Group.MakeAdmin(initiatorProfile, newGroupAdmin);
-        }
+
+        newGroupAdmin.Group.MakeAdmin(initiatorProfile, newGroupAdmin);
 
         return newGroupAdmin.Group;
     }
@@ -49,7 +47,7 @@ public class StudyGroup
 
     public void MakeAdmin(IwentysUser initiatorProfile, Student newGroupAdmin)
     {
-        SystemAdminUser admin = initiatorProfile.EnsureIsAdmin();
+        initiatorProfile.EnsureIsAdmin();
         GroupAdminId = newGroupAdmin.Id;
     }
 }

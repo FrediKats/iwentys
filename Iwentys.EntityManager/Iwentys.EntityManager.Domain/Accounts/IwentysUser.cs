@@ -1,4 +1,4 @@
-﻿namespace Iwentys.EntityManager.Domain.Accounts;
+﻿namespace Iwentys.EntityManager.Domain;
 
 public class IwentysUser : UniversitySystemUser
 {

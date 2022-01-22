@@ -1,6 +1,5 @@
 ﻿using Iwentys.EntityManager.Common;
 using Iwentys.EntityManager.Domain;
-using Iwentys.EntityManager.Domain.Accounts;
 using Iwentys.EntityManager.PublicTypes;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +7,7 @@ namespace Iwentys.EntityManager.DataSeeding;
 
 public class StudyEntitiesGenerator : IEntityGenerator
 {
-    private const int MentorId = 228617;
+    private const int TeacherId = 228617;
 
     private const int TeacherCount = 20;
     private const int SubjectCount = 8;
@@ -20,7 +19,7 @@ public class StudyEntitiesGenerator : IEntityGenerator
     public List<GroupSubject> GroupSubjects { get; set; }
     public List<StudyGroup> StudyGroups { get; set; }
     public List<UniversitySystemUser> Teachers { get; set; }
-    public List<GroupSubjectTeacher> GroupSubjectMentors { get; set; }
+    public List<GroupSubjectTeacher> GroupSubjectTeachers { get; set; }
     public StudyEntitiesGenerator()
     {
         Teachers = UsersFaker.Instance.UniversitySystemUsers
@@ -43,7 +42,7 @@ public class StudyEntitiesGenerator : IEntityGenerator
             StudyGroups.AddRange(CourseGroup(course.Id, (int)course.GraduationYear, 12));
 
         GroupSubjects = new List<GroupSubject>();
-        GroupSubjectMentors = new List<GroupSubjectTeacher>();
+        GroupSubjectTeachers = new List<GroupSubjectTeacher>();
         foreach (Subject subject in Subjects)
         foreach (StudyGroup studyGroup in StudyGroups)
         {
@@ -55,16 +54,16 @@ public class StudyEntitiesGenerator : IEntityGenerator
                 StudySemester = CurrentSemester
             });
 
-            GroupSubjectMentors.Add(new GroupSubjectTeacher()
+            GroupSubjectTeachers.Add(new GroupSubjectTeacher()
             {
-                TeacherId = MentorId,
+                TeacherId = TeacherId,
                 TeacherType = TeacherType.Lecturer,
                 GroupSubjectId = GroupSubjects.Last().Id
             });
 
-            GroupSubjectMentors.Add(new GroupSubjectTeacher()
+            GroupSubjectTeachers.Add(new GroupSubjectTeacher()
             {
-                TeacherId = MentorId,
+                TeacherId = TeacherId,
                 GroupSubjectId = GroupSubjects.Last().Id
             });
         }
@@ -78,7 +77,7 @@ public class StudyEntitiesGenerator : IEntityGenerator
         modelBuilder.Entity<UniversitySystemUser>().HasData(Teachers);
         modelBuilder.Entity<Subject>().HasData(Subjects);
         modelBuilder.Entity<GroupSubject>().HasData(GroupSubjects);
-        modelBuilder.Entity<GroupSubjectTeacher>().HasData(GroupSubjectMentors);
+        modelBuilder.Entity<GroupSubjectTeacher>().HasData(GroupSubjectTeachers);
     }
 
     public static List<StudyGroup> CourseGroup(int courseId, int course, int groupCount)

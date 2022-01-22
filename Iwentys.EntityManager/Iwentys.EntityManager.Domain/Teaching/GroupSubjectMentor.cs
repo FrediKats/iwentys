@@ -1,6 +1,4 @@
-﻿using Iwentys.EntityManager.Domain.Accounts;
-
-namespace Iwentys.EntityManager.Domain;
+﻿namespace Iwentys.EntityManager.Domain;
 
 public class GroupSubjectTeacher
 {

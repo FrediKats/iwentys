@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Iwentys.EntityManager.Domain;
-using Iwentys.EntityManager.Domain.Accounts;
 using Iwentys.EntityManager.WebApiDtos;
 
 namespace Iwentys.EntityManager.WebApi;

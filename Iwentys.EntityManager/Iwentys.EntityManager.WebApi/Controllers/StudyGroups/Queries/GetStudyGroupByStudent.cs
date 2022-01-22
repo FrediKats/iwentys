@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.EntityManager.WebApi;
 
-public class GetStudyGroupByStudent
+public static class GetStudyGroupByStudent
 {
     public record Query(int StudentId) : IRequest<Response>;
     public record Response(StudyGroupProfileResponseDto StudyGroup);
@@ -25,12 +25,12 @@ public class GetStudyGroupByStudent
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            StudyGroupProfileResponseDto? result = await _context
+            StudyGroupProfileResponseDto result = await _context
                 .Students
                 .Where(sgm => sgm.Id == request.StudentId)
                 .Select(sgm => sgm.Group)
                 .ProjectTo<StudyGroupProfileResponseDto>(_mapper.ConfigurationProvider)
-                .SingleOrDefaultAsync();
+                .SingleOrDefaultAsync(cancellationToken: cancellationToken);
 
             return new Response(result);
         }

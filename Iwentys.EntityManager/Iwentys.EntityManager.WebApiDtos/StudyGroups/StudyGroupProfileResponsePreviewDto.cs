@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Iwentys.EntityManager.WebApiDtos;
+﻿namespace Iwentys.EntityManager.WebApiDtos;
 
 public record StudyGroupProfileResponsePreviewDto
 {

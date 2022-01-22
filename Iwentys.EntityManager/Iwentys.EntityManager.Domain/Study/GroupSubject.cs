@@ -1,5 +1,4 @@
 ﻿using Iwentys.EntityManager.Common;
-using Iwentys.EntityManager.Domain.Accounts;
 using Iwentys.EntityManager.PublicTypes;
 
 namespace Iwentys.EntityManager.Domain;
@@ -39,16 +38,16 @@ public class GroupSubject
         };
     }
 
-    public void AddPracticeMentor(IwentysUser practiceMentor)
+    public void AddPracticeTeacher(IwentysUser practiceTeacher)
     {
-        AddTeacher(practiceMentor, TeacherType.Practice);
+        AddTeacher(practiceTeacher, TeacherType.Practice);
     }
 
     public void AddTeacher(IwentysUser teacher, TeacherType teacherType)
     {
         if (!IsUserAlreadyAdded(teacher, teacherType))
         {
-            throw new IwentysException("User is already practice mentor");
+            throw new IwentysException("User is already practice teacher");
         }
 
         Teachers.Add(new GroupSubjectTeacher
@@ -62,7 +61,7 @@ public class GroupSubject
     private bool IsUserAlreadyAdded(IwentysUser teacher, TeacherType teacherType)
         => !Teachers.Any(t => t.TeacherId == teacher.Id && t.TeacherType == teacherType);
 
-    public bool HasMentorPermission(IwentysUser user)
+    public bool HasTeacherPermission(IwentysUser user)
     {
         return Teachers.Any(t=> t.TeacherId == user.Id);
     }

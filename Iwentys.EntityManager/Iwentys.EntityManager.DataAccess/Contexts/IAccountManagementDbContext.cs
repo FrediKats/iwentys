@@ -1,4 +1,4 @@
-﻿using Iwentys.EntityManager.Domain.Accounts;
+﻿using Iwentys.EntityManager.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.EntityManager.DataAccess;

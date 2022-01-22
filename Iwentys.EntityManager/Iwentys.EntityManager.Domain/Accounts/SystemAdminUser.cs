@@ -1,6 +1,6 @@
 ﻿using Iwentys.EntityManager.Common;
 
-namespace Iwentys.EntityManager.Domain.Accounts;
+namespace Iwentys.EntityManager.Domain;
 
 public class SystemAdminUser
 {
@@ -17,18 +17,6 @@ public class SystemAdminUser
 
 public static class SystemAdminUserExtensions
 {
-    public static bool CheckIsAdmin(this IwentysUser profile, out SystemAdminUser user)
-    {
-        if (profile.IsAdmin)
-        {
-            user = new SystemAdminUser(profile);
-            return true;
-        }
-
-        user = null;
-        return false;
-    }
-
     public static SystemAdminUser EnsureIsAdmin(this IwentysUser profile)
     {
         return new SystemAdminUser(profile);

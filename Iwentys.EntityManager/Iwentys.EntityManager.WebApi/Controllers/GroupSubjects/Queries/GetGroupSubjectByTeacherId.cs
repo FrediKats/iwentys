@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iwentys.EntityManager.WebApi;
 
-public class GetGroupSubjectByMentorId
+public static class GetGroupSubjectByTeacherId
 {
-    public record Query(int? MentorId) : IRequest<Response>;
+    public record Query(int? TeacherId) : IRequest<Response>;
     public record Response(List<GroupSubjectInfoDto> Groups);
 
     public class Handler : IRequestHandler<Query, Response>
@@ -27,9 +27,9 @@ public class GetGroupSubjectByMentorId
         {
             List<GroupSubjectInfoDto> result = await _context
                 .GroupSubjects
-                .WhereIf(request.MentorId, gs => gs.Teachers.Any(m => m.TeacherId == request.MentorId))
+                .WhereIf(request.TeacherId, gs => gs.Teachers.Any(m => m.TeacherId == request.TeacherId))
                 .ProjectTo<GroupSubjectInfoDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+                .ToListAsync(cancellationToken: cancellationToken);
 
             return new Response(result);
         }

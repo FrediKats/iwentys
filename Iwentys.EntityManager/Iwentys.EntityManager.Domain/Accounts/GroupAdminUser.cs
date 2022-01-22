@@ -17,11 +17,3 @@ public class GroupAdminUser
 
     public Student Student { get; }
 }
-
-public static class GroupAdminUserExtensions
-{
-    public static GroupAdminUser EnsureIsGroupAdmin(this Student profile)
-    {
-        return new GroupAdminUser(profile, profile.Group);
-    }
-}
