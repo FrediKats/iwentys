@@ -46,7 +46,7 @@
       "additionalContractNamespaceUsages": [],
       "generateOptionalParameters": false,
       "generateJsonMethods": false,
-      "enforceFlagEnums": false,
+      "enforceFlagEnums": true,
       "parameterArrayType": "System.Collections.Generic.IReadOnlyCollection",
       "parameterDictionaryType": "System.Collections.Generic.IDictionary",
       "responseArrayType": "System.Collections.Generic.IReadOnlyCollection",

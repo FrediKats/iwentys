@@ -45,21 +45,21 @@ namespace Iwentys.EntityManager.ApiClient
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyCollection<GroupSubjectInfoDto>> GetGroupSubjectByMentorIdAsync(int? mentorId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyCollection<GroupSubjectInfoDto>> GetGroupSubjectByTeacherIdAsync(int? teacherId)
         {
-            return GetGroupSubjectByMentorIdAsync(mentorId, System.Threading.CancellationToken.None);
+            return GetGroupSubjectByTeacherIdAsync(teacherId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyCollection<GroupSubjectInfoDto>> GetGroupSubjectByMentorIdAsync(int? mentorId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyCollection<GroupSubjectInfoDto>> GetGroupSubjectByTeacherIdAsync(int? teacherId, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/group-subject/GetGroupSubjectByMentorId?");
-            if (mentorId != null)
+            urlBuilder_.Append("api/group-subject/GetGroupSubjectByTeacherId?");
+            if (teacherId != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("mentorId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(mentorId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(System.Uri.EscapeDataString("teacherId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(teacherId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -1506,12 +1506,12 @@ namespace Iwentys.EntityManager.ApiClient
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial class SubjectClient 
+    public partial class TeacherClient 
     {
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<System.Text.Json.JsonSerializerOptions> _settings;
 
-        public SubjectClient(System.Net.Http.HttpClient httpClient)
+        public TeacherClient(System.Net.Http.HttpClient httpClient)
         {
             _httpClient = httpClient;
             _settings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(CreateSerializerSettings);
@@ -1534,27 +1534,18 @@ namespace Iwentys.EntityManager.ApiClient
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyCollection<SubjectProfileDto>> SearchSubjectsAsync(int? courseId, StudySemester? semester)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyCollection<SubjectTeachersDto>> GetAllAsync()
         {
-            return SearchSubjectsAsync(courseId, semester, System.Threading.CancellationToken.None);
+            return GetAllAsync(System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyCollection<SubjectProfileDto>> SearchSubjectsAsync(int? courseId, StudySemester? semester, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyCollection<SubjectTeachersDto>> GetAllAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/Subject/SearchSubjects?");
-            if (courseId != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("courseId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(courseId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (semester != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("semester") + "=").Append(System.Uri.EscapeDataString(ConvertToString(semester, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Length--;
+            urlBuilder_.Append("api/teachers/GetAll");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -1588,7 +1579,7 @@ namespace Iwentys.EntityManager.ApiClient
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.IReadOnlyCollection<SubjectProfileDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.IReadOnlyCollection<SubjectTeachersDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1617,18 +1608,248 @@ namespace Iwentys.EntityManager.ApiClient
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<SubjectProfileDto> GetSubjectByIdAsync(int? subjectId)
+        public virtual System.Threading.Tasks.Task<GroupTeachersDto> ByGroupSubjectAsync(int id)
         {
-            return GetSubjectByIdAsync(subjectId, System.Threading.CancellationToken.None);
+            return ByGroupSubjectAsync(id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SubjectProfileDto> GetSubjectByIdAsync(int? subjectId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<GroupTeachersDto> ByGroupSubjectAsync(int id, System.Threading.CancellationToken cancellationToken)
+        {
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append("api/teachers/by-group-subject/{id}");
+            urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<GroupTeachersDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task RemoveMentorFromGroupAsync(int? groupSubjectId, int? mentorId)
+        {
+            return RemoveMentorFromGroupAsync(groupSubjectId, mentorId, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task RemoveMentorFromGroupAsync(int? groupSubjectId, int? mentorId, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/Subject/GetSubjectById?");
+            urlBuilder_.Append("api/teachers/RemoveMentorFromGroup?");
+            if (groupSubjectId != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("groupSubjectId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(groupSubjectId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (mentorId != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("mentorId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(mentorId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("DELETE");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task AddMentorAsync(SubjectTeacherCreateArgs body)
+        {
+            return AddMentorAsync(body, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task AddMentorAsync(SubjectTeacherCreateArgs body, System.Threading.CancellationToken cancellationToken)
+        {
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append("api/teachers/AddMentor");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var content_ = new System.Net.Http.StringContent(System.Text.Json.JsonSerializer.Serialize(body, _settings.Value));
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<TeacherType> GetUserTeacherTypeForSubjectAsync(int? userId, int? subjectId)
+        {
+            return GetUserTeacherTypeForSubjectAsync(userId, subjectId, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<TeacherType> GetUserTeacherTypeForSubjectAsync(int? userId, int? subjectId, System.Threading.CancellationToken cancellationToken)
+        {
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append("api/teachers/GetUserTeacherTypeForSubject?");
+            if (userId != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("userId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
             if (subjectId != null)
             {
                 urlBuilder_.Append(System.Uri.EscapeDataString("subjectId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(subjectId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
@@ -1641,7 +1862,8 @@ namespace Iwentys.EntityManager.ApiClient
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "text/plain");
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -1667,7 +1889,7 @@ namespace Iwentys.EntityManager.ApiClient
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<SubjectProfileDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<TeacherType>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1696,21 +1918,25 @@ namespace Iwentys.EntityManager.ApiClient
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyCollection<SubjectProfileDto>> GetSubjectsByGroupIdAsync(int? groupId)
+        public virtual System.Threading.Tasks.Task<bool> IsUserHasTeacherPermissionForSubjectAsync(int? userId, int? subjectId)
         {
-            return GetSubjectsByGroupIdAsync(groupId, System.Threading.CancellationToken.None);
+            return IsUserHasTeacherPermissionForSubjectAsync(userId, subjectId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyCollection<SubjectProfileDto>> GetSubjectsByGroupIdAsync(int? groupId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<bool> IsUserHasTeacherPermissionForSubjectAsync(int? userId, int? subjectId, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/Subject/GetSubjectsByGroupId?");
-            if (groupId != null)
+            urlBuilder_.Append("api/teachers/IsUserHasTeacherPermissionForSubject?");
+            if (userId != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("groupId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(groupId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(System.Uri.EscapeDataString("userId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (subjectId != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("subjectId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(subjectId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -1720,7 +1946,8 @@ namespace Iwentys.EntityManager.ApiClient
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "text/plain");
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -1746,7 +1973,7 @@ namespace Iwentys.EntityManager.ApiClient
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.IReadOnlyCollection<SubjectProfileDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<bool>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1889,6 +2116,21 @@ namespace Iwentys.EntityManager.ApiClient
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class GroupTeachersDto
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("groupId")]
+        public int GroupId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("groupName")]
+        public string GroupName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("teachers")]
+        public System.Collections.Generic.IReadOnlyCollection<TeacherDto> Teachers { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class IwentysUserInfoDto
     {
 
@@ -1962,17 +2204,18 @@ namespace Iwentys.EntityManager.ApiClient
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
+    [System.Flags]
     public enum StudentType
     {
 
         [System.Runtime.Serialization.EnumMember(Value = @"OtherOrUndefined")]
-        OtherOrUndefined = 0,
+        OtherOrUndefined = 1,
 
         [System.Runtime.Serialization.EnumMember(Value = @"Budgetary")]
-        Budgetary = 1,
+        Budgetary = 2,
 
         [System.Runtime.Serialization.EnumMember(Value = @"Contract")]
-        Contract = 2,
+        Contract = 4,
 
     }
 
@@ -2028,24 +2271,6 @@ namespace Iwentys.EntityManager.ApiClient
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
-    public enum StudySemester
-    {
-
-        [System.Runtime.Serialization.EnumMember(Value = @"Y19H2")]
-        Y19H2 = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"Y20H1")]
-        Y20H1 = 1,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"Y20H2")]
-        Y20H2 = 2,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"Y21H1")]
-        Y21H1 = 3,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class SubjectProfileDto
     {
 
@@ -2054,6 +2279,81 @@ namespace Iwentys.EntityManager.ApiClient
 
         [System.Text.Json.Serialization.JsonPropertyName("title")]
         public string Title { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class SubjectTeacherCreateArgs
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("subjectId")]
+        public int SubjectId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("teacherId")]
+        public int TeacherId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("teacherType")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
+        public TeacherType TeacherType { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("groupSubjectIds")]
+        public System.Collections.Generic.IReadOnlyCollection<int> GroupSubjectIds { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class SubjectTeachersDto
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("subjectId")]
+        public int SubjectId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("name")]
+        public string Name { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("groupTeachers")]
+        public System.Collections.Generic.IReadOnlyCollection<GroupTeachersDto> GroupTeachers { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class TeacherDto
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("id")]
+        public int Id { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("teacherType")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
+        public TeacherType TeacherType { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("firstName")]
+        public string FirstName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("middleName")]
+        public string MiddleName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("secondName")]
+        public string SecondName { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
+    [System.Flags]
+    public enum TeacherType
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"None")]
+        None = 1,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Lecturer")]
+        Lecturer = 2,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Practice")]
+        Practice = 4,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Mentor")]
+        Mentor = 8,
 
     }
 
