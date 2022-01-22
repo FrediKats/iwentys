@@ -51,7 +51,7 @@ public class TeacherController : ControllerBase
         return Ok(response.TeacherType);
     }
 
-    [HttpPost(nameof(GetUserTeacherTypeForSubject))]
+    [HttpPost(nameof(IsUserHasTeacherPermissionForSubject))]
     public async Task<ActionResult<bool>> IsUserHasTeacherPermissionForSubject(int userId, int subjectId)
     {
         GetUserTeacherTypeForSubject.Response response = await _mediator.Send(new GetUserTeacherTypeForSubject.Query(userId, subjectId));
