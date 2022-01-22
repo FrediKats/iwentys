@@ -35,7 +35,6 @@ public class SubjectAssignment
 
     public void Update(IwentysUser user, SubjectAssignmentUpdateArguments arguments)
     {
-        user.EnsureIsMentor(Subject);
         //TODO: add exception type
         if (Id != arguments.SubjectAssignmentId)
             throw new InnerLogicException("SubjectAssignment: existed entity's ID != arguments.SubjectAssignmentId");
@@ -54,7 +53,6 @@ public class SubjectAssignment
         
     public void Delete(IwentysUser user)
     {
-        user.EnsureIsMentor(Subject);
         if (AvailabilityState == AvailabilityState.Deleted)
             throw new InnerLogicException("SubjectAssignment already deleted");
         LastUpdateTimeUtc = DateTime.Now;
@@ -63,7 +61,6 @@ public class SubjectAssignment
         
     public void Recover(IwentysUser user)
     {
-        user.EnsureIsMentor(Subject);
         if (AvailabilityState != AvailabilityState.Deleted)
             throw new InnerLogicException("Can't recover no deleted subjectAssignment");
         LastUpdateTimeUtc = DateTime.Now;
@@ -72,7 +69,6 @@ public class SubjectAssignment
         
     public static SubjectAssignment Create(IwentysUser user, Subject subject, SubjectAssignmentCreateArguments arguments)
     {
-        SubjectMentor mentor = user.EnsureIsMentor(subject);
         var subjectAssignment = new SubjectAssignment
         {
             Title = arguments.Title,
@@ -81,7 +77,7 @@ public class SubjectAssignment
             Subject = subject,
 
             Author = user,
-            AuthorId = mentor.Mentor.Id,
+            AuthorId = user.Id,
             CreationTimeUtc = DateTime.UtcNow,
             LastUpdateTimeUtc = DateTime.UtcNow,
             DeadlineTimeUtc = arguments.DeadlineUtc,
@@ -94,7 +90,6 @@ public class SubjectAssignment
 
     public GroupSubjectAssignment AddAssignmentForGroup(IwentysUser user, GroupSubject group)
     {
-        SubjectMentor mentor = user.EnsureIsMentor(Subject);
         //TODO: add correct exception
         if (SubjectId != group.SubjectId)
             throw new Exception();

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Iwentys.EntityManager.ApiClient;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using StudySemester = Iwentys.EntityManager.ApiClient.StudySemester;
 
 namespace Iwentys.Study;
 
@@ -20,7 +21,7 @@ public class SubjectController : ControllerBase
     }
 
     [HttpGet(nameof(SearchSubjects))]
-    public async Task<ActionResult<List<SubjectProfileDto>>> SearchSubjects(int? courseId, StudySemester? semester)
+    public async Task<ActionResult<List<SubjectProfileDto>>> SearchSubjects(int? courseId, StudySemester semester)
     {
         IReadOnlyCollection<SubjectProfileDto> result = await _entityManagerApiClient.Subjects.SearchSubjectsAsync(courseId, semester);
         return Ok(result);

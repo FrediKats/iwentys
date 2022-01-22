@@ -23,7 +23,7 @@ public class GroupSubjectController : ControllerBase
     [HttpGet(nameof(GetGroupSubjectByMentorId))]
     public async Task<ActionResult<List<GroupSubjectInfoDto>>> GetGroupSubjectByMentorId(int mentorId)
     {
-        IReadOnlyCollection<GroupSubjectInfoDto> result = await _entityManagerApiClient.GroupSubjects.GetGroupSubjectByMentorIdAsync(mentorId);
+        IReadOnlyCollection<GroupSubjectInfoDto> result = await _entityManagerApiClient.GroupSubjects.GetGroupSubjectByTeacherIdAsync(mentorId);
         return Ok(result);
     }
 }

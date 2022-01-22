@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="AccountManagement\Mentors" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Iwentys.Common\Iwentys.Common.csproj" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Iwentys.Common;
 using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
@@ -53,6 +54,10 @@ public static class CreateSubjectAssignment
         {
             Subject subject = await _context.Subjects.GetById(request.Arguments.SubjectId);
             IwentysUser creator = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.AuthorizedUser.Id);
+
+            bool hasPermission = await _entityManagerApiClient.Teachers.HasTeacherPermissionAsync(request.AuthorizedUser.Id, request.Arguments.SubjectId);
+            if (!hasPermission)
+                throw InnerLogicException.StudyExceptions.UserHasNotTeacherPermission(request.AuthorizedUser.Id);
 
             var subjectAssignment = SubjectAssignment.Create(creator, subject, request.Arguments);
 

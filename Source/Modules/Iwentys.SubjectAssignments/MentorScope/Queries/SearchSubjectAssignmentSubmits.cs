@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Iwentys.Common;
 using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
@@ -51,10 +52,9 @@ public static class SearchSubjectAssignmentSubmits
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            Subject subject = await _context.Subjects.GetById(request.SearchArguments.SubjectId);
-            IwentysUser iwentysUser = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.AuthorizedUser.Id);
-            //TODO: move to domain
-            iwentysUser.EnsureIsMentor(subject);
+            bool hasPermission = await _entityManagerApiClient.Teachers.Client.IsUserHasTeacherPermissionForSubjectAsync(request.AuthorizedUser.Id, request.SearchArguments.SubjectId);
+            if (!hasPermission)
+                throw InnerLogicException.StudyExceptions.UserHasNotTeacherPermission(request.AuthorizedUser.Id);
 
             List<SubjectAssignmentSubmitDto> submits = await SubjectAssignmentSubmitRepository
                 .ApplySearch(_context.SubjectAssignmentSubmits, request.SearchArguments)

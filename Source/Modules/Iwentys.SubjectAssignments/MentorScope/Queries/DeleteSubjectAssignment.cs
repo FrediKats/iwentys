@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Iwentys.Common;
 using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.SubjectAssignments;
@@ -52,6 +53,10 @@ public static class DeleteSubjectAssignment
         {
             SubjectAssignment subjectAssignment = await _context.SubjectAssignments.GetById(request.SubjectAssignmentId);
             IwentysUser creator = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.AuthorizedUser.Id);
+
+            bool hasPermission = await _entityManagerApiClient.Teachers.HasTeacherPermissionAsync(request.AuthorizedUser.Id, subjectAssignment.SubjectId);
+            if (!hasPermission)
+                throw InnerLogicException.StudyExceptions.UserHasNotTeacherPermission(request.AuthorizedUser.Id);
 
             subjectAssignment.Delete(creator);
 

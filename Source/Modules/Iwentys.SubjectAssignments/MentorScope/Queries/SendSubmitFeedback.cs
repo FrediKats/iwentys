@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Iwentys.Common;
 using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.SubjectAssignments;
@@ -42,6 +43,10 @@ public static class SendSubmitFeedback
         {
             SubjectAssignmentSubmit subjectAssignmentSubmit = await _context.SubjectAssignmentSubmits.GetById(request.Arguments.SubjectAssignmentSubmitId);
             IwentysUser iwentysUser = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.AuthorizedUser.Id);
+
+            bool hasPermission = await _entityManagerApiClient.Teachers.HasTeacherPermissionAsync(request.AuthorizedUser.Id, subjectAssignmentSubmit.SubjectAssignment.SubjectId);
+            if (!hasPermission)
+                throw InnerLogicException.StudyExceptions.UserHasNotTeacherPermission(request.AuthorizedUser.Id);
 
             subjectAssignmentSubmit.AddFeedback(iwentysUser, request.Arguments);
 

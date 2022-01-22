@@ -11,10 +11,12 @@ public class TypedIwentysEntityManagerApiClient
     //public StudyGroupClient StudyGroups { get; set; }
     //public SubjectClient Subjects { get; set; }
     public TypedIwentysUserProfileClient IwentysUserProfiles { get; set; }
+    public TypedTeacherClient Teachers { get; set; }
 
-    public TypedIwentysEntityManagerApiClient(IwentysEntityManagerApiClient client, IMapper mapper)
+    public TypedIwentysEntityManagerApiClient(IwentysEntityManagerApiClient client, IMapper mapper, HttpClient httpClient)
     {
         StudentProfiles = new TypedStudentProfileClient(client.StudentProfiles, mapper);
         IwentysUserProfiles = new TypedIwentysUserProfileClient(client.IwentysUserProfiles, mapper);
+        Teachers = new TypedTeacherClient(client.Teachers);
     }
 }
