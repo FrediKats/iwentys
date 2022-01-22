@@ -55,8 +55,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddIwentysEntityManagerIntegration(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddHttpClient<IwentysEntityManagerApiClient>("Iwentys.EntityManager", client => client.BaseAddress = new Uri(configuration.GetSection("IwentysServiceAddress")["EntityManager"]));
-        services.AddHttpClient<TypedIwentysEntityManagerApiClient>("Iwentys.EntityManager", client => client.BaseAddress = new Uri(configuration.GetSection("IwentysServiceAddress")["EntityManager"]));
-        services.AddScoped<TypedIwentysEntityManagerApiClient>();
+        services.AddSingleton<TypedIwentysEntityManagerApiClient>();
         services.AddScoped<EntityManagerDatabaseSynchronization>();
 
         return services;

@@ -51,7 +51,7 @@ public class Startup
             .AddIwentysModules();
     }
 
-    public void Configure(IApplicationBuilder app, IwentysDbContext db, ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager, TypedIwentysEntityManagerApiClient entityManagerApiClient)
+    public void Configure(IApplicationBuilder app, IwentysDbContext db, ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager)
     {
         app.UseExceptional();
         app.UseMigrationsEndPoint();
@@ -70,17 +70,22 @@ public class Startup
 
         app.UseRouting();
 
-        //TODO: for test propose
-        db.Database.EnsureDeleted();
-        db.Database.EnsureCreated();
-        var databaseSynchronization = new EntityManagerDatabaseSynchronization(db, entityManagerApiClient);
-        databaseSynchronization.UpdateStudentGroup().Wait();
+        using (IServiceScope serviceScope = app.ApplicationServices.CreateScope())
+        {
+            var iwentysEntityManagerApiClient = serviceScope.ServiceProvider.GetRequiredService<TypedIwentysEntityManagerApiClient>();
 
-        app.ConfigureIdentityFramework();
-        applicationDbContext.Database.EnsureDeleted();
-        applicationDbContext.Database.EnsureCreated();
-        applicationDbContext.SeedUsers(userManager, entityManagerApiClient);
+            //TODO: for test propose
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
+            var databaseSynchronization = new EntityManagerDatabaseSynchronization(db, iwentysEntityManagerApiClient);
+            databaseSynchronization.UpdateStudentGroup().Wait();
 
+            app.ConfigureIdentityFramework();
+            applicationDbContext.Database.EnsureDeleted();
+            applicationDbContext.Database.EnsureCreated();
+            applicationDbContext.SeedUsers(userManager, iwentysEntityManagerApiClient);
+        }
+        
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapRazorPages();

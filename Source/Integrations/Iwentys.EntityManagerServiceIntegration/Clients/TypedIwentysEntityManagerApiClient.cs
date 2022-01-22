@@ -15,7 +15,7 @@ public class TypedIwentysEntityManagerApiClient
     public TypedIwentysUserProfileClient IwentysUserProfiles { get; set; }
     public TypedTeacherClient Teachers { get; set; }
 
-    public TypedIwentysEntityManagerApiClient(IwentysEntityManagerApiClient client, IMapper mapper, HttpClient httpClient)
+    public TypedIwentysEntityManagerApiClient(IwentysEntityManagerApiClient client, IMapper mapper)
     {
         Client = client;
         StudentProfiles = new TypedStudentProfileClient(client.StudentProfiles, mapper);

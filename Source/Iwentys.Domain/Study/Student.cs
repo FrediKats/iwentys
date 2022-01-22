@@ -22,16 +22,6 @@ public class Student : IwentysUser
     public StudentType Type { get; init; }
     public int? GroupId { get; set; }
 
-    public static Student CreateFromIsu(int id, string firstName, string secondName)
-    {
-        return CreateFromIsu(id, firstName, null, secondName);
-    }
-
-    public static Student CreateFromIsu(int id, string firstName, string middleName, string secondName)
-    {
-        return new Student(id, firstName, middleName, secondName);
-    }
-
     public static Student Create(StudentCreateArguments createArguments)
     {
         return new Student(id: createArguments.Id ?? 0, firstName: createArguments.FirstName, middleName: createArguments.MiddleName, secondName: createArguments.SecondName)
