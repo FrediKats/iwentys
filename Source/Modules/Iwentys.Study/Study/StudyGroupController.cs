@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Iwentys.EntityManager.ApiClient;
 using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using IwentysEntityManagerApiClient = Iwentys.WebService.Application.IwentysEntityManagerApiClient;
 
 namespace Iwentys.Study;
 
@@ -11,35 +13,32 @@ namespace Iwentys.Study;
 public class StudyGroupController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly IwentysEntityManagerApiClient _entityManagerApiClient;
 
-    public StudyGroupController(IMediator mediator)
+    public StudyGroupController(IMediator mediator, IwentysEntityManagerApiClient entityManagerApiClient)
     {
         _mediator = mediator;
+        _entityManagerApiClient = entityManagerApiClient;
     }
 
-
     [HttpGet(nameof(GetByCourseId))]
-    public async Task<ActionResult<List<GroupProfileResponseDto>>> GetByCourseId([FromQuery] int? courseId)
+    public async Task<ActionResult<List<StudyGroupProfileResponseDto>>> GetByCourseId([FromQuery] int? courseId)
     {
-        GetStudyGroupByCourseId.Response response = await _mediator.Send(new GetStudyGroupByCourseId.Query(courseId));
-        return Ok(response.Groups);
+        IReadOnlyCollection<StudyGroupProfileResponseDto> result = await _entityManagerApiClient.StudyGroups.GetByCourseIdAsync(courseId);
+        return Ok(result);
     }
 
     [HttpGet(nameof(GetByGroupName))]
-    public async Task<ActionResult<GroupProfileResponseDto>> GetByGroupName(string groupName)
+    public async Task<ActionResult<StudyGroupProfileResponseDto>> GetByGroupName(string groupName)
     {
-        GetStudyGroupByName.Response response = await _mediator.Send(new GetStudyGroupByName.Query(groupName));
-        return Ok(response.Group);
+        StudyGroupProfileResponseDto result = await _entityManagerApiClient.StudyGroups.GetByGroupNameAsync(groupName);
+        return Ok(result);
     }
 
     [HttpGet(nameof(GetByStudentId))]
-    public async Task<ActionResult<GroupProfileResponseDto>> GetByStudentId(int studentId)
+    public async Task<ActionResult<StudyGroupProfileResponseDto>> GetByStudentId(int studentId)
     {
-        GetStudyGroupByStudent.Response response = await _mediator.Send(new GetStudyGroupByStudent.Query(studentId));
-        GroupProfileResponseDto result = response.Group;
-        if (result is null)
-            return NotFound();
-
+        StudyGroupProfileResponseDto result = await _entityManagerApiClient.StudyGroups.GetByStudentIdAsync(studentId);
         return Ok(result);
     }
 

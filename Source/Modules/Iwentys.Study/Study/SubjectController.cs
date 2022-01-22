@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Iwentys.Domain.Study;
+using Iwentys.EntityManager.ApiClient;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using IwentysEntityManagerApiClient = Iwentys.WebService.Application.IwentysEntityManagerApiClient;
 
 namespace Iwentys.Study;
 
@@ -11,32 +12,32 @@ namespace Iwentys.Study;
 public class SubjectController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly IwentysEntityManagerApiClient _entityManagerApiClient;
 
-    public SubjectController(IMediator mediator)
+    public SubjectController(IMediator mediator, IwentysEntityManagerApiClient entityManagerApiClient)
     {
         _mediator = mediator;
+        _entityManagerApiClient = entityManagerApiClient;
     }
 
     [HttpGet(nameof(SearchSubjects))]
     public async Task<ActionResult<List<SubjectProfileDto>>> SearchSubjects(int? courseId, StudySemester? semester)
     {
-        var studySearchParameters = new StudySearchParametersDto(null, null, courseId, semester, 0, 20);
-        SearchSubjects.Response response = await _mediator.Send(new SearchSubjects.Query(studySearchParameters));
-
-        return Ok(response.Subjects);
+        IReadOnlyCollection<SubjectProfileDto> result = await _entityManagerApiClient.Subjects.SearchSubjectsAsync(courseId, semester);
+        return Ok(result);
     }
 
     [HttpGet(nameof(GetSubjectById))]
     public async Task<ActionResult<SubjectProfileDto>> GetSubjectById(int subjectId)
     {
-        GetSubjectById.Response response = await _mediator.Send(new GetSubjectById.Query(subjectId));
-        return Ok(response.Subject);
+        SubjectProfileDto subjectProfileDto = await _entityManagerApiClient.Subjects.GetSubjectByIdAsync(subjectId);
+        return Ok(subjectProfileDto);
     }
 
     [HttpGet(nameof(GetSubjectsByGroupId))]
     public async Task<ActionResult<List<SubjectProfileDto>>> GetSubjectsByGroupId(int groupId)
     {
-        GetSubjectsByGroupId.Response response = await _mediator.Send(new GetSubjectsByGroupId.Query(groupId));
-        return Ok(response.Subjects);
+        IReadOnlyCollection<SubjectProfileDto> subjectProfileDtos = await _entityManagerApiClient.Subjects.GetSubjectsByGroupIdAsync(groupId);
+        return Ok(subjectProfileDtos);
     }
 }
