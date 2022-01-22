@@ -5,6 +5,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Iwentys.DataAccess;
 using Iwentys.Domain.Study;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -39,17 +40,19 @@ public static class GetStudentSubjectAssignments
     {
         private readonly IwentysDbContext _context;
         private readonly IMapper _mapper;
+        private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
 
-        public Handler(IwentysDbContext context, IMapper mapper)
+        public Handler(IwentysDbContext context, IMapper mapper, TypedIwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
             _mapper = mapper;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            Student currentStudent = await _context.Students.GetById(request.User.Id);
+            Student currentStudent = await _entityManagerApiClient.StudentProfiles.GetByIdAsync(request.User.Id);
 
             List<SubjectAssignmentDto> subjectAssignmentDtos = await _context
                 .GroupSubjectAssignments

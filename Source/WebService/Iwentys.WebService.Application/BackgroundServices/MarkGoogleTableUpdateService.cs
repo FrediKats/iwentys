@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using FluentResults;
 using Iwentys.DataAccess;
 using Iwentys.Domain.Study;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.GoogleTableIntegration;
 using Iwentys.GoogleTableIntegration.Marks;
 using Microsoft.Extensions.Logging;
@@ -15,11 +16,13 @@ public class MarkGoogleTableUpdateService
     private readonly IwentysDbContext _context;
     private readonly ILogger _logger;
     private readonly TableParser _tableParser;
+    private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-    public MarkGoogleTableUpdateService(ILogger logger, string serviceToken, IwentysDbContext context)
+    public MarkGoogleTableUpdateService(ILogger logger, string serviceToken, IwentysDbContext context, TypedIwentysEntityManagerApiClient entityManagerApiClient)
     {
         _logger = logger;
         _context = context;
+        _entityManagerApiClient = entityManagerApiClient;
         _tableParser = TableParser.Create(_logger, serviceToken);
     }
 
@@ -33,6 +36,7 @@ public class MarkGoogleTableUpdateService
         }
 
         List<SubjectActivity> activities = _context.SubjectActivities.ToList();
+        IReadOnlyCollection<Student> students = await _entityManagerApiClient.StudentProfiles.GetAsync();
 
         foreach (StudentSubjectScore subjectScore in _tableParser.Execute(new MarkParser(googleTableData.Value, _logger)))
         {
@@ -50,10 +54,8 @@ public class MarkGoogleTableUpdateService
             {
                 _logger.LogWarning($"Subject info was not found: student:{subjectScore.Name}, subjectId:{groupSubjectData.SubjectId}, groupId:{groupSubjectData.StudyGroupId}");
 
-                Student studentProfile = _context
-                    .Students
-                    .FirstOrDefault(s => subjectScore.Name.Contains(s.FirstName)
-                                         && subjectScore.Name.Contains(s.SecondName));
+                Student studentProfile = students.FirstOrDefault(s => subjectScore.Name.Contains(s.FirstName)
+                                                                      && subjectScore.Name.Contains(s.SecondName));
 
                 if (studentProfile is null)
                 {

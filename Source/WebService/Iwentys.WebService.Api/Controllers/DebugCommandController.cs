@@ -4,6 +4,7 @@ using Iwentys.DataAccess;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Study;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,14 +21,16 @@ public class DebugCommandController : ControllerBase
     private readonly GithubIntegrationService _githubIntegrationService;
     private readonly ILogger<DebugCommandController> _logger;
     private readonly IwentysDbContext _context;
+    private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-    public DebugCommandController(ILogger<DebugCommandController> logger, TokenApplicationOptions tokenApplicationOptions, IwentysDbContext context, GithubIntegrationService githubIntegrationService)
+    public DebugCommandController(ILogger<DebugCommandController> logger, TokenApplicationOptions tokenApplicationOptions, IwentysDbContext context, GithubIntegrationService githubIntegrationService, TypedIwentysEntityManagerApiClient entityManagerApiClient)
     {
         _logger = logger;
         _context = context;
 
         _githubIntegrationService = githubIntegrationService;
-        _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(_logger, tokenApplicationOptions.GoogleServiceToken, _context);
+        _entityManagerApiClient = entityManagerApiClient;
+        _markGoogleTableUpdateService = new MarkGoogleTableUpdateService(_logger, tokenApplicationOptions.GoogleServiceToken, _context, _entityManagerApiClient);
     }
 
     //[HttpPost("UpdateSubjectActivityData")]

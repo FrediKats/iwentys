@@ -5,6 +5,7 @@ using Iwentys.DataAccess;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Newsfeeds;
 using Iwentys.Domain.Study;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -40,15 +41,17 @@ public class CreateGuildNewsfeed
     public class Handler : IRequestHandler<Query, Response>
     {
         private readonly IwentysDbContext _context;
+        private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext context)
+        public Handler(IwentysDbContext context, TypedIwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            Student author = await _context.Students.GetById(request.AuthorizedUser.Id);
+            Student author = await _entityManagerApiClient.StudentProfiles.GetByIdAsync(request.AuthorizedUser.Id);
             Guild guild = await _context.Guilds.GetById(request.GuildId);
 
             GuildMentor mentor = author.EnsureIsGuildMentor(guild);

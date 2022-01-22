@@ -41,7 +41,7 @@ public class MakeGroupAdmin
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
             IwentysUser initiatorProfile = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.Initiator.Id);
-            Student newGroupAdminProfile = await _context.Students.GetById(request.NewGroupAdminId);
+            Student newGroupAdminProfile = await _entityManagerApiClient.StudentProfiles.GetByIdAsync(request.NewGroupAdminId);
 
             StudyGroup studyGroup = StudyGroup.MakeGroupAdmin(initiatorProfile, newGroupAdminProfile);
 

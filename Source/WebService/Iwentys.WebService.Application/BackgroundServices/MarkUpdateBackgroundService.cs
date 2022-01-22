@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.DataAccess;
 using Iwentys.Domain.Study;
+using Iwentys.EntityManagerServiceIntegration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -36,8 +37,9 @@ public class MarkUpdateBackgroundService : BackgroundService
                 _logger.LogInformation("Execute MarkUpdateBackgroundService update");
 
                 var context = scope.ServiceProvider.GetRequiredService<IwentysDbContext>();
-                    
-                var googleTableUpdateService = new MarkGoogleTableUpdateService(_logger, _tokenApplicationOptions.GoogleServiceToken, context);
+                var entityManagerApiClient = scope.ServiceProvider.GetRequiredService<TypedIwentysEntityManagerApiClient>();
+
+                var googleTableUpdateService = new MarkGoogleTableUpdateService(_logger, _tokenApplicationOptions.GoogleServiceToken, context, entityManagerApiClient);
 
                 foreach (GroupSubject g in context.GroupSubjects.ToList())
                 {

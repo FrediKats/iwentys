@@ -61,7 +61,7 @@ public static class CreateSubjectNewsfeed
             }
             else
             {
-                Student student = await _context.Students.GetById(author.Id);
+                Student student = await _entityManagerApiClient.StudentProfiles.GetByIdAsync(author.Id);
                 newsfeedEntity = SubjectNewsfeed.CreateAsGroupAdmin(request.CreateViewModel, student.EnsureIsGroupAdmin(), subject);
             }
 

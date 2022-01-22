@@ -33,8 +33,8 @@ public class StudentController : ControllerBase
     public async Task<ActionResult<StudentInfoDto>> GetSelf()
     {
         AuthorizedUser user = this.TryAuthWithToken();
-        GetStudentById.Response response = await _mediator.Send(new GetStudentById.Query(user.Id));
-        return Ok(response.Student);
+        StudentInfoDto result = await _entityManagerApiClient.StudentProfiles.GetByIdAsync(user.Id);
+        return Ok(result);
     }
 
 

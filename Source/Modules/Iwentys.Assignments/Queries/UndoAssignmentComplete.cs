@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Iwentys.DataAccess;
 using Iwentys.Domain.Assignments;
 using Iwentys.Domain.Study;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 
@@ -29,15 +30,17 @@ public static class UndoAssignmentComplete
     public class Handler : IRequestHandler<Query, Response>
     {
         private readonly IwentysDbContext _context;
+        private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext context)
+        public Handler(IwentysDbContext context, TypedIwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            Student student = await _context.Students.GetById(request.User.Id);
+            Student student = await _entityManagerApiClient.StudentProfiles.GetByIdAsync(request.User.Id);
             Assignment assignment = await _context.Assignments.GetById(request.AssignmentId);
 
             StudentAssignment studentAssignment = assignment.MarkUncompleted(student);

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.DataAccess;
 using Iwentys.Domain.Study;
+using Iwentys.EntityManagerServiceIntegration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -35,7 +37,9 @@ public class GithubUpdateBackgroundService : BackgroundService
 
                 var context = scope.ServiceProvider.GetRequiredService<IwentysDbContext>();
                 var githubUserDataService = scope.ServiceProvider.GetRequiredService<GithubIntegrationService>();
-                foreach (Student student in context.Students.Where(s => s.GithubUsername != null))
+                var entityManagerApiClient = scope.ServiceProvider.GetRequiredService<TypedIwentysEntityManagerApiClient>();
+                IReadOnlyCollection<Student> students = await entityManagerApiClient.StudentProfiles.GetAsync();
+                foreach (Student student in students.Where(s => s.GithubUsername != null))
                 {
                     await githubUserDataService.User.CreateOrUpdate(student.Id);
                 }

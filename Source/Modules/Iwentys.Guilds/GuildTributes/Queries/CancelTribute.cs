@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 
@@ -35,15 +36,17 @@ public class CancelTribute
     public class Handler : IRequestHandler<Query, Response>
     {
         private readonly IwentysDbContext _context;
+        private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext context)
+        public Handler(IwentysDbContext context, TypedIwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            IwentysUser student = _context.Students.GetById(request.User.Id).Result;
+            IwentysUser student = _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.User.Id).Result;
             Tribute tribute = _context.Tributes.GetById(request.TributeId).Result;
 
             if (tribute.Project.OwnerUserId == request.User.Id)
