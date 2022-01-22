@@ -4,9 +4,6 @@
 // </auto-generated>
 //----------------------
 
-using Iwentys.EntityManager.PublicTypes;
-using Iwentys.EntityManager.WebApiDtos;
-
 #pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."
 #pragma warning disable 114 // Disable "CS0114 '{derivedDto}.RaisePropertyChanged(String)' hides inherited member 'dtoBase.RaisePropertyChanged(String)'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword."
 #pragma warning disable 472 // Disable "CS0472 The result of the expression is always 'false' since a value of type 'Int32' is never equal to 'null' of type 'Int32?'
@@ -1438,7 +1435,156 @@ namespace Iwentys.EntityManager.ApiClient
         }
     }
 
-    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class GroupSubjectInfoDto
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("subject")]
+        public SubjectProfileDto Subject { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("studyGroup")]
+        public StudyGroupProfileResponsePreviewDto StudyGroup { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("tableLink")]
+        public string TableLink { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class StudentInfoDto
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("id")]
+        public int Id { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("firstName")]
+        public string FirstName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("middleName")]
+        public string MiddleName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("secondName")]
+        public string SecondName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("isAdmin")]
+        public bool IsAdmin { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("githubUsername")]
+        public string GithubUsername { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("creationTime")]
+        public System.DateTime CreationTime { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("lastOnlineTime")]
+        public System.DateTime LastOnlineTime { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("avatarUrl")]
+        public string AvatarUrl { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("type")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
+        public StudentType Type { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("groupId")]
+        public int? GroupId { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
+    public enum StudentType
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"OtherOrUndefined")]
+        OtherOrUndefined = 0,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Budgetary")]
+        Budgetary = 1,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Contract")]
+        Contract = 2,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class StudyCourseInfoDto
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("courseId")]
+        public int CourseId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("courseTitle")]
+        public string CourseTitle { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class StudyGroupProfileResponseDto
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("id")]
+        public int Id { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("groupName")]
+        public string GroupName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("groupAdminId")]
+        public int? GroupAdminId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("students")]
+        public System.Collections.Generic.IReadOnlyCollection<StudentInfoDto> Students { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("subjects")]
+        public System.Collections.Generic.IReadOnlyCollection<SubjectProfileDto> Subjects { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("groupAdmin")]
+        public StudentInfoDto GroupAdmin { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class StudyGroupProfileResponsePreviewDto
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("id")]
+        public int Id { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("groupName")]
+        public string GroupName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("groupAdminId")]
+        public int? GroupAdminId { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
+    public enum StudySemester
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Y19H2")]
+        Y19H2 = 0,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Y20H1")]
+        Y20H1 = 1,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Y20H2")]
+        Y20H2 = 2,
+
+        [System.Runtime.Serialization.EnumMember(Value = @"Y21H1")]
+        Y21H1 = 3,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.5.0 (NJsonSchema v10.6.6.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class SubjectProfileDto
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("id")]
+        public int Id { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("title")]
+        public string Title { get; set; }
+
+    }
 
 
 

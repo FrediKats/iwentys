@@ -4,11 +4,11 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>Kysect.Iwentys.EntityManager.ApiClient</PackageId>
+    <Authors>Kysect</Authors>
+    <Company>Kysect</Company>
+    <Version>0.0.1</Version>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Iwentys.EntityManager.PublicTypes\Iwentys.EntityManager.PublicTypes.csproj" />
-    <ProjectReference Include="..\Iwentys.EntityManager.WebApiDtos\Iwentys.EntityManager.WebApiDtos.csproj" />
-  </ItemGroup>
 
 </Project>
