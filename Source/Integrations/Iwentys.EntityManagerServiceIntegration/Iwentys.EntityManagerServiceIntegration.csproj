@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Iwentys.EntityManagerServiceIntegration.csproj.DotSettings" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.0" />
     <PackageReference Include="Kysect.Iwentys.EntityManager.ApiClient" Version="0.0.2" />
   </ItemGroup>
