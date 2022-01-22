@@ -50,6 +50,14 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
+    public static IServiceCollection AddIwentysServiceClients(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddHttpClient<IwentysEntityManagerApiClient>("Iwentys.EntityManager", client => client.BaseAddress = new Uri(configuration.GetSection("IwentysServiceAddress")["EntityManager"]));
+        services.AddScoped<GithubIntegrationService>();
+
+        return services;
+    }
+
     public static IServiceCollection AddIwentysServices(this IServiceCollection services)
     {
         //FYI: replace after release

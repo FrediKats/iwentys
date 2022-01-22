@@ -43,6 +43,7 @@ public class Startup
             .AddIwentysDatabase()
             .AddIwentysSeeder()
             .AddIwentysMediatorHandlers()
+            .AddIwentysServiceClients(Configuration)
             .AddIwentysServices()
             .AddAutoMapperConfig()
             .AddIwentysModules();
