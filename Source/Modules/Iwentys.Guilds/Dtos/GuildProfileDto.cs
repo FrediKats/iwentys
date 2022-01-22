@@ -7,6 +7,7 @@ using Iwentys.Common;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
 using Iwentys.EntityManager.ApiClient;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 
 namespace Iwentys.Guilds;

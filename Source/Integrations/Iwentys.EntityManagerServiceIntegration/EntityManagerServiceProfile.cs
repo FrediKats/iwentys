@@ -3,7 +3,7 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.EntityManager.ApiClient;
 
-namespace Iwentys.WebService.Application;
+namespace Iwentys.EntityManagerServiceIntegration;
 
 public class EntityManagerServiceProfile : Profile
 {

@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.EntityManager.ApiClient;
 
-namespace Iwentys.WebService.Application;
+namespace Iwentys.EntityManagerServiceIntegration;
 
 public static class EntityManagerApiDtoMapper
 {

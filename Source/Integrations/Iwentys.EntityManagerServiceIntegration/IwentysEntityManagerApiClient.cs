@@ -1,7 +1,6 @@
 ﻿using Iwentys.EntityManager.ApiClient;
-using System.Net.Http;
 
-namespace Iwentys.WebService.Application;
+namespace Iwentys.EntityManagerServiceIntegration;
 
 public class IwentysEntityManagerApiClient
 {

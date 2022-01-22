@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper" Version="11.0.0" />
     <PackageReference Include="Kysect.ItmoScheduleSdk" Version="1.0.6" />
     <PackageReference Include="Kysect.Iwentys.EntityManager.ApiClient" Version="0.0.2" />
     <PackageReference Include="MediatR" Version="10.0.0" />
@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Integrations\Iwentys.EntityManagerServiceIntegration\Iwentys.EntityManagerServiceIntegration.csproj" />
     <ProjectReference Include="..\..\Integrations\Iwentys.GithubIntegration\Iwentys.GithubIntegration.csproj" />
     <ProjectReference Include="..\..\Integrations\Iwentys.GoogleTableIntegration\Iwentys.GoogleTableIntegration.csproj" />
     <ProjectReference Include="..\..\Integrations\Iwentys.IsuIntegration\Iwentys.IsuIntegration.csproj" />

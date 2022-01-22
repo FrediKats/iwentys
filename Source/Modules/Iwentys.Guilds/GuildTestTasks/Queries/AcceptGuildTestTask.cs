@@ -5,9 +5,10 @@ using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.EntityManager.ApiClient;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
-using IwentysEntityManagerApiClient = Iwentys.WebService.Application.IwentysEntityManagerApiClient;
+using IwentysEntityManagerApiClient = Iwentys.EntityManagerServiceIntegration.IwentysEntityManagerApiClient;
 
 namespace Iwentys.Guilds;
 

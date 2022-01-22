@@ -1,6 +1,7 @@
 ﻿using System;
 using Iwentys.Domain.SubjectAssignments;
 using Iwentys.EntityManager.ApiClient;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 
 namespace Iwentys.SubjectAssignments;

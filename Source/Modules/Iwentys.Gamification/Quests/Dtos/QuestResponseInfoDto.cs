@@ -2,6 +2,7 @@
 using Iwentys.AccountManagement;
 using Iwentys.Domain.Quests;
 using Iwentys.EntityManager.ApiClient;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 
 namespace Iwentys.Gamification;

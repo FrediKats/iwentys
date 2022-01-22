@@ -3,6 +3,7 @@ using System.Linq;
 using Iwentys.AccountManagement;
 using Iwentys.Domain.Study;
 using Iwentys.EntityManager.ApiClient;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 
 namespace Iwentys.Gamification;

@@ -4,6 +4,7 @@ using Iwentys.AccountManagement;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.Study;
 using Iwentys.EntityManager.ApiClient;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 
 namespace Iwentys.Guilds;

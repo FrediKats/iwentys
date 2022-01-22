@@ -4,6 +4,7 @@ using Iwentys.AccountManagement;
 using Iwentys.Common;
 using Iwentys.Domain.Companies;
 using Iwentys.EntityManager.ApiClient;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 
 namespace Iwentys.Companies;
