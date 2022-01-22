@@ -28,4 +28,18 @@ public class StudentProfileController : ControllerBase
         GetStudentById.Response response = await _mediator.Send(new GetStudentById.Query(id));
         return Ok(response.Student);
     }
+
+    [HttpGet(nameof(GetByGroupId))]
+    public async Task<ActionResult<IReadOnlyCollection<StudentInfoDto>>> GetByGroupId(int groupId)
+    {
+        GetStudentByGroupId.Response response = await _mediator.Send(new GetStudentByGroupId.Query(groupId));
+        return Ok(response.Students);
+    }
+
+    [HttpGet(nameof(GetByCourseId))]
+    public async Task<ActionResult<IReadOnlyCollection<StudentInfoDto>>> GetByCourseId(int courseId)
+    {
+        GetStudentByCourseId.Response response = await _mediator.Send(new GetStudentByCourseId.Query(courseId));
+        return Ok(response.Students);
+    }
 }

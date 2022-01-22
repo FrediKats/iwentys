@@ -7,6 +7,7 @@ public class IwentysEntityManagerApiClient
     public StudyCourseClient StudyCourses { get; set; }
     public StudyGroupClient StudyGroups { get; set; }
     public SubjectClient Subjects { get; set; }
+    public IwentysUserProfileClient IwentysUserProfiles { get; set; }
 
     public IwentysEntityManagerApiClient(HttpClient httpClient)
     {
@@ -15,5 +16,6 @@ public class IwentysEntityManagerApiClient
         StudyCourses = new StudyCourseClient(httpClient);
         StudyGroups = new StudyGroupClient(httpClient);
         Subjects = new SubjectClient(httpClient);
+        IwentysUserProfiles = new IwentysUserProfileClient(httpClient);
     }
 }
