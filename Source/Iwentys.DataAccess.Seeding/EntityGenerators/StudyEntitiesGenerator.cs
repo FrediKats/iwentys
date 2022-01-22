@@ -25,14 +25,6 @@ public class StudyEntitiesGenerator : IEntityGenerator
 
         Subjects = SubjectFaker.Instance.Generate(SubjectCount);
         StudyPrograms = new List<StudyProgram> {new StudyProgram {Id = 1, Name = "ИС"}};
-        StudyCourses = new List<StudyCourse>
-        {
-            Create.IsCourse(StudentGraduationYear.Y20),
-            Create.IsCourse(StudentGraduationYear.Y21),
-            Create.IsCourse(StudentGraduationYear.Y22),
-            Create.IsCourse(StudentGraduationYear.Y23),
-            Create.IsCourse(StudentGraduationYear.Y24)
-        };
 
         StudyGroups = ReadGroups();
         GroupSubjects = new List<GroupSubject>();
@@ -56,7 +48,6 @@ public class StudyEntitiesGenerator : IEntityGenerator
         }
     }
 
-    public List<StudyCourse> StudyCourses { get; set; }
     public List<StudyProgram> StudyPrograms { get; set; }
     public List<Subject> Subjects { get; set; }
     public List<GroupSubject> GroupSubjects { get; set; }
@@ -67,7 +58,6 @@ public class StudyEntitiesGenerator : IEntityGenerator
     public void Seed(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<StudyProgram>().HasData(StudyPrograms);
-        modelBuilder.Entity<StudyCourse>().HasData(StudyCourses);
         modelBuilder.Entity<StudyGroup>().HasData(StudyGroups);
         modelBuilder.Entity<UniversitySystemUser>().HasData(Teachers);
         modelBuilder.Entity<Subject>().HasData(Subjects);
@@ -118,15 +108,5 @@ public class StudyEntitiesGenerator : IEntityGenerator
     {
         private static readonly IdentifierGenerator CourseIdentifierGenerator = new IdentifierGenerator();
         public static readonly IdentifierGenerator GroupSubjectIdentifierGenerator = new IdentifierGenerator();
-
-        public static StudyCourse IsCourse(StudentGraduationYear year)
-        {
-            return new StudyCourse
-            {
-                Id = CourseIdentifierGenerator.Next(),
-                GraduationYear = year,
-                StudyProgramId = 1
-            };
-        }
     }
 }

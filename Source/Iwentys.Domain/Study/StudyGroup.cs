@@ -10,9 +10,6 @@ public class StudyGroup
     public int Id { get; set; }
     public string GroupName { get; init; }
 
-    public int StudyCourseId { get; init; }
-    public virtual StudyCourse StudyCourse { get; set; }
-
     public int? GroupAdminId { get; set; }
     //public Student GroupAdmin { get; set; }
 

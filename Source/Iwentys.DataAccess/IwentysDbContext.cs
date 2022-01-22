@@ -141,7 +141,6 @@ public class IwentysDbContext : DbContext,
     public DbSet<SubjectActivity> SubjectActivities { get; set; }
     public DbSet<GroupSubject> GroupSubjects { get; set; }
     public DbSet<GroupSubjectMentor> GroupSubjectMentors { get; set; }
-    public DbSet<StudyCourse> StudyCourses { get; set; }
 
     #endregion
 
