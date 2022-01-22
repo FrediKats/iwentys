@@ -41,11 +41,11 @@ public class MarkUpdateBackgroundService : BackgroundService
 
                 var googleTableUpdateService = new MarkGoogleTableUpdateService(_logger, _tokenApplicationOptions.GoogleServiceToken, context, entityManagerApiClient);
 
-                foreach (GroupSubject g in context.GroupSubjects.ToList())
+                foreach (GroupActivityTable groupActivityTable in context.GroupActivityTables.ToList())
                 {
                     try
                     {
-                        await googleTableUpdateService.UpdateSubjectActivityForGroup(g);
+                        await googleTableUpdateService.UpdateSubjectActivityForGroup(groupActivityTable);
                     }
                     catch (Exception e)
                     {

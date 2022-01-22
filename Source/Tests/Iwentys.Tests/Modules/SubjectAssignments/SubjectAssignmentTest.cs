@@ -22,7 +22,7 @@ public class SubjectAssignmentTest
 
         GroupSubject groupSubject = subject.AddGroup(studyGroup.Id, StudySemesterExtensions.GetDefault());
         var subjectAssignment = SubjectAssignment.Create(admin, subject, arguments);
-        GroupSubjectAssignment groupSubjectAssignment = subjectAssignment.AddAssignmentForGroup(admin, groupSubject);
+        GroupSubjectAssignment groupSubjectAssignment = subjectAssignment.AddAssignmentForGroup(admin, groupSubject.StudyGroupId);
 
         Assert.AreEqual(1, subjectAssignment.GroupSubjectAssignments.Count);
     }
@@ -39,7 +39,7 @@ public class SubjectAssignmentTest
 
         GroupSubject groupSubject = subject.AddGroup(studyGroup.Id, StudySemesterExtensions.GetDefault());
         var subjectAssignment = SubjectAssignment.Create(admin, subject, arguments);
-        GroupSubjectAssignment groupSubjectAssignment = subjectAssignment.AddAssignmentForGroup(admin, groupSubject);
+        GroupSubjectAssignment groupSubjectAssignment = subjectAssignment.AddAssignmentForGroup(admin, groupSubject.StudyGroupId);
 
 
         var student = Student.Create(UsersFaker.Instance.Students.Generate());
@@ -61,7 +61,7 @@ public class SubjectAssignmentTest
 
         GroupSubject groupSubject = subject.AddGroup(studyGroup.Id, StudySemesterExtensions.GetDefault());
         var subjectAssignment = SubjectAssignment.Create(admin, subject, arguments);
-        GroupSubjectAssignment groupSubjectAssignment = subjectAssignment.AddAssignmentForGroup(admin, groupSubject);
+        GroupSubjectAssignment groupSubjectAssignment = subjectAssignment.AddAssignmentForGroup(admin, groupSubject.StudyGroupId);
 
         var student = Student.Create(UsersFaker.Instance.Students.Generate());
         studyGroup.AddStudent(student);

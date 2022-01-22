@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FluentResults;
 using Iwentys.DataAccess;
 using Iwentys.Domain.Study;
 using Iwentys.EntityManagerServiceIntegration;
@@ -26,33 +25,31 @@ public class MarkGoogleTableUpdateService
         _tableParser = TableParser.Create(_logger, serviceToken);
     }
 
-    public async Task UpdateSubjectActivityForGroup(GroupSubject groupSubjectData)
+    public async Task UpdateSubjectActivityForGroup(GroupActivityTable groupActivityTable)
     {
-        Result<GoogleTableData> googleTableData = groupSubjectData.TryGetGoogleTableDataConfig();
-        if (googleTableData.IsFailed)
+        if (!GoogleTableData.TryCreate(groupActivityTable.SerializedGoogleTableConfig, out var googleTableData))
         {
-            _logger.LogError(googleTableData.ToString());
             return;
         }
 
         List<SubjectActivity> activities = _context.SubjectActivities.ToList();
         IReadOnlyCollection<Student> students = await _entityManagerApiClient.StudentProfiles.GetAsync();
 
-        foreach (StudentSubjectScore subjectScore in _tableParser.Execute(new MarkParser(googleTableData.Value, _logger)))
+        foreach (StudentSubjectScore subjectScore in _tableParser.Execute(new MarkParser(googleTableData, _logger)))
         {
             SubjectActivity activity = activities
                 .SingleOrDefault(sa => IsMatchedWithStudent(subjectScore, students.Single(s => s.Id == sa.StudentId))
-                                      && sa.SubjectId == groupSubjectData.SubjectId);
+                                      && sa.SubjectId == groupActivityTable.SubjectId);
 
             if (!Tools.ParseInAnyCulture(subjectScore.Score, out double pointsCount))
             {
                 pointsCount = 0;
-                _logger.LogWarning($"Cannot parse value: student:{subjectScore.Name}, subjectId:{groupSubjectData.SubjectId}, groupId:{groupSubjectData.StudyGroupId}");
+                _logger.LogWarning($"Cannot parse value: student:{subjectScore.Name}, subjectId:{groupActivityTable.SubjectId}, groupId:{groupActivityTable.GroupId}");
             }
 
             if (activity is null)
             {
-                _logger.LogWarning($"Subject info was not found: student:{subjectScore.Name}, subjectId:{groupSubjectData.SubjectId}, groupId:{groupSubjectData.StudyGroupId}");
+                _logger.LogWarning($"Subject info was not found: student:{subjectScore.Name}, subjectId:{groupActivityTable.SubjectId}, groupId:{groupActivityTable.GroupId}");
 
                 Student studentProfile = students.FirstOrDefault(s => subjectScore.Name.Contains(s.FirstName)
                                                                       && subjectScore.Name.Contains(s.SecondName));
@@ -66,7 +63,7 @@ public class MarkGoogleTableUpdateService
                 _context.SubjectActivities.Add(new SubjectActivity
                 {
                     StudentId = studentProfile.Id,
-                    SubjectId = groupSubjectData.SubjectId,
+                    SubjectId = groupActivityTable.SubjectId,
                     Points = pointsCount
                 });
                 await _context.SaveChangesAsync();

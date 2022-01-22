@@ -44,9 +44,9 @@ public class DebugCommandController : ControllerBase
     [HttpPost("UpdateSubjectActivityForGroup")]
     public async Task<ActionResult> UpdateSubjectActivityForGroup(int subjectId, int groupId)
     {
-        GroupSubject groupSubjectData = _context
-            .GroupSubjects
-            .FirstOrDefault(s => s.SubjectId == subjectId && s.StudyGroupId == groupId);
+        GroupActivityTable groupSubjectData = _context
+            .GroupActivityTables
+            .FirstOrDefault(s => s.SubjectId == subjectId && s.GroupId == groupId);
 
         if (groupSubjectData is null)
         {

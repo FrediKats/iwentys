@@ -88,15 +88,11 @@ public class SubjectAssignment
         return subjectAssignment;
     }
 
-    public GroupSubjectAssignment AddAssignmentForGroup(IwentysUser user, GroupSubject group)
+    public GroupSubjectAssignment AddAssignmentForGroup(IwentysUser user, int groupId)
     {
-        //TODO: add correct exception
-        if (SubjectId != group.SubjectId)
-            throw new Exception();
-
         var groupSubjectAssignment = new GroupSubjectAssignment
         {
-            GroupId = group.StudyGroupId,
+            GroupId = groupId,
             SubjectAssignment = this
         };
         GroupSubjectAssignments.Add(groupSubjectAssignment);

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Text.Json;
-using FluentResults;
-
-namespace Iwentys.Domain.Study;
+﻿namespace Iwentys.Domain.Study;
 
 public class GroupSubject
 {
@@ -25,23 +21,5 @@ public class GroupSubject
         SubjectId = subject.Id;
         StudyGroupId = studyGroupId;
         StudySemester = studySemester;
-    }
-
-    public string SerializedGoogleTableConfig { get; set; }
-
-    public Result<GoogleTableData> TryGetGoogleTableDataConfig()
-    {
-        if (SerializedGoogleTableConfig is null)
-            return Result.Fail<GoogleTableData>("Value is not set");
-
-        try
-        {
-            var googleTableData = JsonSerializer.Deserialize<GoogleTableData>(SerializedGoogleTableConfig);
-            return Result.Ok(googleTableData);
-        }
-        catch (Exception e)
-        {
-            return Result.Fail<GoogleTableData>(new Error("Data parse failed").CausedBy(e));
-        }
     }
 }
