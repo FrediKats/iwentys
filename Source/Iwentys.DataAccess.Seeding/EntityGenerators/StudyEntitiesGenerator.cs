@@ -24,7 +24,6 @@ public class StudyEntitiesGenerator : IEntityGenerator
         Teachers.ForEach(t => t.Id = UsersFaker.Instance.GetIdentifier());
 
         Subjects = SubjectFaker.Instance.Generate(SubjectCount);
-        StudyPrograms = new List<StudyProgram> {new StudyProgram {Id = 1, Name = "ИС"}};
 
         StudyGroups = ReadGroups();
         GroupSubjects = new List<GroupSubject>();
@@ -48,7 +47,6 @@ public class StudyEntitiesGenerator : IEntityGenerator
         }
     }
 
-    public List<StudyProgram> StudyPrograms { get; set; }
     public List<Subject> Subjects { get; set; }
     public List<GroupSubject> GroupSubjects { get; set; }
     public List<StudyGroup> StudyGroups { get; set; }
@@ -57,7 +55,6 @@ public class StudyEntitiesGenerator : IEntityGenerator
 
     public void Seed(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<StudyProgram>().HasData(StudyPrograms);
         modelBuilder.Entity<StudyGroup>().HasData(StudyGroups);
         modelBuilder.Entity<UniversitySystemUser>().HasData(Teachers);
         modelBuilder.Entity<Subject>().HasData(Subjects);
