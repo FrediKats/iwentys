@@ -1,10 +1,12 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Iwentys.Common;
 using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Newsfeeds;
 using Iwentys.Domain.Study;
+using Iwentys.EntityManager.ApiClient;
 using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
@@ -62,7 +64,14 @@ public static class CreateSubjectNewsfeed
             else
             {
                 Student student = await _entityManagerApiClient.StudentProfiles.GetByIdAsync(author.Id);
-                newsfeedEntity = SubjectNewsfeed.CreateAsGroupAdmin(request.CreateViewModel, student.EnsureIsGroupAdmin(), subject);
+                if (student.GroupId is null)
+                    throw InnerLogicException.StudyExceptions.UserIsNotGroupAdmin(student.Id);
+
+                StudyGroupProfileResponseDto studyGroup = await _entityManagerApiClient.Client.StudyGroups.GetByStudentIdAsync(author.Id);
+                if (studyGroup.GroupAdminId != author.Id)
+                    throw InnerLogicException.StudyExceptions.UserIsNotGroupAdmin(student.Id);
+
+                newsfeedEntity = SubjectNewsfeed.CreateAsGroupAdmin(request.CreateViewModel, student, subject);
             }
 
             _context.SubjectNewsfeeds.Add(newsfeedEntity);

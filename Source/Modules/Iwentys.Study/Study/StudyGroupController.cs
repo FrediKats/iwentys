@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iwentys.EntityManager.ApiClient;
-using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,13 +38,5 @@ public class StudyGroupController : ControllerBase
     {
         StudyGroupProfileResponseDto result = await _entityManagerApiClient.StudyGroups.GetByStudentIdAsync(studentId);
         return Ok(result);
-    }
-
-    [HttpGet(nameof(MakeGroupAdmin))]
-    public async Task<ActionResult> MakeGroupAdmin(int newGroupAdminId)
-    {
-        AuthorizedUser authorizedUser = this.TryAuthWithToken();
-        MakeGroupAdmin.Response response = await _mediator.Send(new MakeGroupAdmin.Query(authorizedUser, newGroupAdminId));
-        return Ok();
     }
 }

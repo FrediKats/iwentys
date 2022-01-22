@@ -17,9 +17,9 @@ public class SubjectNewsfeed
         return Create(createViewModel, subject, admin.User.Id);
     }
 
-    public static SubjectNewsfeed CreateAsGroupAdmin(NewsfeedCreateViewModel createViewModel, GroupAdminUser groupAdmin, Subject subject)
+    public static SubjectNewsfeed CreateAsGroupAdmin(NewsfeedCreateViewModel createViewModel, Student student, Subject subject)
     {
-        return Create(createViewModel, subject, groupAdmin.Student.Id);
+        return Create(createViewModel, subject, student.Id);
     }
 
     private static SubjectNewsfeed Create(NewsfeedCreateViewModel createViewModel, Subject subject, int authorId)

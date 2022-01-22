@@ -29,20 +29,6 @@ public class StudyGroup
         GroupSubjects = new List<GroupSubject>();
     }
 
-    public static StudyGroup MakeGroupAdmin(IwentysUser initiatorProfile, Student newGroupAdmin)
-    {
-        if (newGroupAdmin.Group is null)
-        {
-            //TODO: add exception
-        }
-        else
-        {
-            newGroupAdmin.Group.MakeAdmin(initiatorProfile, newGroupAdmin);
-        }
-
-        return newGroupAdmin.Group;
-    }
-
     public void AddStudent(Student student)
     {
         Students.Add(student);
