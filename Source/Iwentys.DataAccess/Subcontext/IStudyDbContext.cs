@@ -7,6 +7,6 @@ public static class StudyDbContextExtensions
 {
     public static void OnStudyModelCreating(this ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<SubjectActivity>().HasKey(s => new { s.GroupSubjectId, s.StudentId });
+        modelBuilder.Entity<SubjectActivity>().HasKey(s => new { s.SubjectId, s.StudentId });
     }
 }

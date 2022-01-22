@@ -41,8 +41,8 @@ public class MarkGoogleTableUpdateService
         foreach (StudentSubjectScore subjectScore in _tableParser.Execute(new MarkParser(googleTableData.Value, _logger)))
         {
             SubjectActivity activity = activities
-                .SingleOrDefault(s => IsMatchedWithStudent(subjectScore, s.Student)
-                                      && s.GroupSubject.SubjectId == groupSubjectData.SubjectId);
+                .SingleOrDefault(sa => IsMatchedWithStudent(subjectScore, students.Single(s => s.Id == sa.StudentId))
+                                      && sa.SubjectId == groupSubjectData.SubjectId);
 
             if (!Tools.ParseInAnyCulture(subjectScore.Score, out double pointsCount))
             {
@@ -66,7 +66,7 @@ public class MarkGoogleTableUpdateService
                 _context.SubjectActivities.Add(new SubjectActivity
                 {
                     StudentId = studentProfile.Id,
-                    GroupSubjectId = groupSubjectData.Id,
+                    SubjectId = groupSubjectData.SubjectId,
                     Points = pointsCount
                 });
                 await _context.SaveChangesAsync();
