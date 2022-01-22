@@ -6,6 +6,7 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Achievements;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Quests;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -42,26 +43,28 @@ public class Complete
     {
         private readonly AchievementProvider _achievementProvider;
         private readonly IwentysDbContext _context;
+        private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext context, AchievementProvider achievementProvider)
+        public Handler(IwentysDbContext context, AchievementProvider achievementProvider, TypedIwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
             _achievementProvider = achievementProvider;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
             Quest quest = await _context.Quests.GetById(request.QuestId);
-            IwentysUser executor = await _context.IwentysUsers.GetById(request.Arguments.UserId);
-            IwentysUser student = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
+            IwentysUser executor = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.Arguments.UserId);
+            IwentysUser author = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.AuthorizedUser.Id);
 
-            quest.MakeCompleted(student, executor, request.Arguments);
+            quest.MakeCompleted(author, executor, request.Arguments);
 
             _context.Quests.Update(quest);
             BarsPointTransaction transaction = BarsPointTransaction.ReceiveFromSystem(executor, quest.Price);
 
             _context.BarsPointTransactionLogs.Add(transaction);
-            _context.IwentysUsers.Update(executor);
+            _entityManagerApiClient.IwentysUserProfiles.Update(executor);
             _achievementProvider.AchieveForStudent(AchievementList.QuestComplete, executor.Id);
             await AchievementHack.ProcessAchievement(_achievementProvider, _context);
             QuestInfoDto result = await _context

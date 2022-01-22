@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Iwentys.DataAccess;
 using Iwentys.DataAccess.Seeding;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.IsuIntegration.Configuration;
 using Iwentys.WebService.Application;
 using Iwentys.WebService.AuthComponents;
@@ -49,7 +50,7 @@ public class Startup
             .AddIwentysModules();
     }
 
-    public void Configure(IApplicationBuilder app, IwentysDbContext db, ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager)
+    public void Configure(IApplicationBuilder app, IwentysDbContext db, ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager, TypedIwentysEntityManagerApiClient entityManagerApiClient)
     {
         app.UseExceptional();
         app.UseMigrationsEndPoint();
@@ -75,7 +76,7 @@ public class Startup
         app.ConfigureIdentityFramework();
         applicationDbContext.Database.EnsureDeleted();
         applicationDbContext.Database.EnsureCreated();
-        applicationDbContext.SeedUsers(userManager, db);
+        applicationDbContext.SeedUsers(userManager, entityManagerApiClient);
 
         app.UseEndpoints(endpoints =>
         {

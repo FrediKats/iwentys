@@ -5,6 +5,7 @@ using AutoMapper;
 using Iwentys.Common;
 using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 
@@ -37,16 +38,18 @@ public class GetMentorsByGroupSubjectId
     {
         private readonly IwentysDbContext _context;
         private readonly IMapper _mapper;
+        private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext context, IMapper mapper)
+        public Handler(IwentysDbContext context, IMapper mapper, TypedIwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
             _mapper = mapper;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            IwentysUser user = await _context.IwentysUsers.GetById(request.User.Id);
+            IwentysUser user = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.User.Id);
                 
             if (!user.IsAdmin && !_context.GroupSubjects.Any(gs => gs.HasMentorPermission(user)))
             {

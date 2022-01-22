@@ -5,6 +5,7 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.Guilds;
 using Iwentys.Domain.PeerReview;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 
@@ -42,17 +43,19 @@ public static class SubmitGuildTestTask
     {
         private readonly IwentysDbContext _context;
         private readonly GithubIntegrationService _githubIntegrationService;
+        private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext context, GithubIntegrationService githubIntegrationService)
+        public Handler(IwentysDbContext context, GithubIntegrationService githubIntegrationService, TypedIwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
             _githubIntegrationService = githubIntegrationService;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
             Guild guild = await _context.Guilds.GetById(request.GuildId);
-            IwentysUser user = await _context.IwentysUsers.GetById(request.User.Id);
+            IwentysUser user = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.User.Id);
             GithubProject githubRepositoryInfoDto = _githubIntegrationService.Repository.GetRepositoryAsProject(request.ProjectOwner, request.ProjectName).Result;
             GuildTestTaskSolution testTaskSolution = await _context.GuildTestTaskSolvingInfos.GetSingle(t => t.AuthorId == request.User.Id && t.GuildId == request.GuildId);
 

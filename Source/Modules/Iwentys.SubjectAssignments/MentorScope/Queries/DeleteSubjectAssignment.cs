@@ -4,6 +4,7 @@ using AutoMapper;
 using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.SubjectAssignments;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 
@@ -37,18 +38,20 @@ public static class DeleteSubjectAssignment
     {
         private readonly IwentysDbContext _context;
         private readonly IMapper _mapper;
+        private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
 
-        public Handler(IwentysDbContext context, IMapper mapper)
+        public Handler(IwentysDbContext context, IMapper mapper, TypedIwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
             _mapper = mapper;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
             SubjectAssignment subjectAssignment = await _context.SubjectAssignments.GetById(request.SubjectAssignmentId);
-            IwentysUser creator = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
+            IwentysUser creator = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.AuthorizedUser.Id);
 
             subjectAssignment.Delete(creator);
 

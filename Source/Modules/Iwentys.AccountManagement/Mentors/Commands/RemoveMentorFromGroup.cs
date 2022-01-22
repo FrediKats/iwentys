@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Iwentys.Common;
 using Iwentys.DataAccess;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -27,21 +28,23 @@ public class RemoveMentorFromGroup
         
     public class Handler : IRequestHandler<Command>
     {
-        private readonly IwentysDbContext _dbContext;
+        private readonly IwentysDbContext _context;
+        private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext dbContext)
+        public Handler(IwentysDbContext context, TypedIwentysEntityManagerApiClient entityManagerApiClient)
         {
-            _dbContext = dbContext;
+            _context = context;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            var user = await _dbContext.IwentysUsers.GetById(request.AuthorizedUser.Id);
+            var user = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.AuthorizedUser.Id);
 
             if (!user.IsAdmin)
                 throw InnerLogicException.NotEnoughPermissionFor(user.Id);
                 
-            var groupSubjectMentor = await _dbContext.GroupSubjectMentors.FirstOrDefaultAsync(gsm =>
+            var groupSubjectMentor = await _context.GroupSubjectMentors.FirstOrDefaultAsync(gsm =>
                 gsm.UserId == request.MentorId 
                 && gsm.GroupSubjectId == request.GroupSubjectId 
                 && !gsm.IsLector,cancellationToken);
@@ -49,8 +52,8 @@ public class RemoveMentorFromGroup
             if (groupSubjectMentor is null)
                 throw new ArgumentException("User is not mentor", nameof(request));
 
-            _dbContext.GroupSubjectMentors.Remove(groupSubjectMentor);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            _context.GroupSubjectMentors.Remove(groupSubjectMentor);
+            await _context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
     }

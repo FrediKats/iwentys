@@ -1,6 +1,6 @@
 ﻿using Duende.IdentityServer.EntityFramework.Options;
-using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
+using Iwentys.EntityManagerServiceIntegration;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -22,9 +22,10 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
         this.SeedRoles(builder);
     }
 
-    public void SeedUsers(UserManager<ApplicationUser> userManager, IwentysDbContext context)
+    public void SeedUsers(UserManager<ApplicationUser> userManager, TypedIwentysEntityManagerApiClient entityManagerApiClient)
     {
-        foreach (IwentysUser iwentysUser in context.IwentysUsers.ToList())
+        var iwentysUsers = entityManagerApiClient.IwentysUserProfiles.GetAsync().Result;
+        foreach (IwentysUser iwentysUser in iwentysUsers)
         {
             ApplicationUser user = new ApplicationUser
             {

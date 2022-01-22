@@ -5,6 +5,7 @@ using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.GithubIntegration;
 using Iwentys.Domain.PeerReview;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -38,16 +39,18 @@ public class CreateReviewRequest
     public class Handler : IRequestHandler<Query, Response>
     {
         private readonly IwentysDbContext _context;
+        private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext context)
+        public Handler(IwentysDbContext context, TypedIwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
             GithubProject githubProject = await _context.StudentProjects.GetById(request.Arguments.ProjectId);
-            IwentysUser user = await _context.IwentysUsers.GetById(request.AuthorizedUser.Id);
+            IwentysUser user = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.AuthorizedUser.Id);
 
             var projectReviewRequest = ProjectReviewRequest.Create(user, githubProject, request.Arguments);
 

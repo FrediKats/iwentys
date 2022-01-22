@@ -6,6 +6,7 @@ using AutoMapper;
 using Iwentys.Common;
 using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -38,16 +39,18 @@ public class GetAllSubjectsMentors
     {
         private readonly IwentysDbContext _context;
         private readonly IMapper _mapper;
+        private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext context, IMapper mapper)
+        public Handler(IwentysDbContext context, IMapper mapper, TypedIwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
             _mapper = mapper;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            IwentysUser user = await _context.IwentysUsers.GetById(request.User.Id);
+            IwentysUser user = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.User.Id);
                 
             var groupSubjects = await _context.GroupSubjects
                 .ToListAsync(cancellationToken);

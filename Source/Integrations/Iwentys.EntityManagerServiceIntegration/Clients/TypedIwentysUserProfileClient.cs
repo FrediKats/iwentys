@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Iwentys.Common;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.EntityManager.ApiClient;
 
@@ -27,5 +28,11 @@ public class TypedIwentysUserProfileClient
     {
         IwentysUserInfoDto user = await _client.GetByIdAsync(id);
         return _mapper.Map<IwentysUser>(user);
+    }
+
+    public void Update(IwentysUser user)
+    {
+        //TODO: move github update command to EntityManager service
+        throw new InnerLogicException("User update command is not available.");
     }
 }

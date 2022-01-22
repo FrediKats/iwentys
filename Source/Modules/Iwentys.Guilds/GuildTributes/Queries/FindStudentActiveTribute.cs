@@ -2,6 +2,7 @@
 using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Guilds;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -33,15 +34,17 @@ public class FindStudentActiveTribute
     public class Handler : RequestHandler<Query, Response>
     {
         private readonly IwentysDbContext _context;
+        private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext context)
+        public Handler(IwentysDbContext context, TypedIwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         protected override Response Handle(Query request)
         {
-            IwentysUser student = _context.IwentysUsers.GetById(request.User.Id).Result;
+            IwentysUser student = _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.User.Id).Result;
             TributeInfoResponse tributeInfoResponse = _context
                 .Tributes
                 .Where(Tribute.IsActive)

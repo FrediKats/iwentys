@@ -5,6 +5,7 @@ using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Achievements;
 using Iwentys.Domain.Gamification;
 using Iwentys.Domain.Guilds;
+using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
 
@@ -40,16 +41,18 @@ public static class CompleteGuildTestTask
     {
         private readonly IwentysDbContext _context;
         private readonly AchievementProvider _achievementProvider;
+        private readonly TypedIwentysEntityManagerApiClient _entityManagerApiClient;
 
-        public Handler(IwentysDbContext context, AchievementProvider achievementProvider)
+        public Handler(IwentysDbContext context, AchievementProvider achievementProvider, TypedIwentysEntityManagerApiClient entityManagerApiClient)
         {
             _context = context;
             _achievementProvider = achievementProvider;
+            _entityManagerApiClient = entityManagerApiClient;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            IwentysUser review = await _context.IwentysUsers.GetById(request.User.Id);
+            IwentysUser review = await _entityManagerApiClient.IwentysUserProfiles.GetByIdAsync(request.User.Id);
             GuildTestTaskSolution testTask = await _context.GuildTestTaskSolvingInfos.GetSingle(t => t.AuthorId == request.TaskSolveOwnerId && t.GuildId == request.GuildId);
 
             testTask.SetCompleted(review);
