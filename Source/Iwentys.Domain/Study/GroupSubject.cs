@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text.Json;
 using FluentResults;
 using Iwentys.Common;
-using Iwentys.Domain.AccountManagement;
 
 namespace Iwentys.Domain.Study;
 
@@ -19,51 +18,19 @@ public class GroupSubject
     public int StudyGroupId { get; init; }
     public virtual StudyGroup StudyGroup { get; init; }
 
-    public virtual List<GroupSubjectMentor> Mentors { get; init; }
-
-    public int? PracticeMentorId { get; init; }
-    public virtual UniversitySystemUser PracticeMentor { get; init; }
-        
-    public virtual string TableLink { get; set; }
-
     public GroupSubject()
     {
     }
 
     //TODO: enable nullability
-    public GroupSubject(Subject subject, StudyGroup studyGroup, StudySemester studySemester, IwentysUser lectorMentor)
+    public GroupSubject(Subject subject, StudyGroup studyGroup, StudySemester studySemester)
     {
         Subject = subject;
         SubjectId = subject.Id;
         StudyGroup = studyGroup;
         StudyGroupId = studyGroup.Id;
         StudySemester = studySemester;
-        Mentors = new List<GroupSubjectMentor>()
-        {
-            new GroupSubjectMentor()
-            {
-                IsLector = true,
-                User = lectorMentor
-            }
-        };
     }
-
-    public void AddPracticeMentor(IwentysUser practiceMentor)
-    {
-        if (!IsPracticeMentor(practiceMentor))
-        {
-            throw new IwentysException("User is already practice mentor");
-        }
-
-        Mentors.Add(new GroupSubjectMentor()
-        {
-            GroupSubjectId = Id,
-            UserId = practiceMentor.Id
-        });
-    }
-
-    private bool IsPracticeMentor(IwentysUser mentor)
-        => Mentors.All(pm => !pm.IsLector || pm.UserId != mentor.Id);
 
     public string SerializedGoogleTableConfig { get; set; }
 
@@ -81,10 +48,5 @@ public class GroupSubject
         {
             return Result.Fail<GoogleTableData>(new Error("Data parse failed").CausedBy(e));
         }
-    }
-
-    public bool HasMentorPermission(IwentysUser user)
-    {
-        return Mentors.Any(pm=>pm.UserId == user.Id);
     }
 }

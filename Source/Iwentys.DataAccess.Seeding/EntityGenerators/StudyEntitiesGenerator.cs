@@ -27,23 +27,10 @@ public class StudyEntitiesGenerator : IEntityGenerator
 
         StudyGroups = ReadGroups();
         GroupSubjects = new List<GroupSubject>();
-        GroupSubjectMentors = new List<GroupSubjectMentor>();
         foreach (Subject subject in Subjects)
         foreach (StudyGroup studyGroup in StudyGroups)
         {
             GroupSubjects.Add(CreateGroupSubjectEntity(studyGroup, subject));
-
-            GroupSubjectMentors.Add(new GroupSubjectMentor()
-            {
-                IsLector = true,
-                UserId = MentorId,
-                GroupSubjectId = GroupSubjects.Last().Id
-            });
-            GroupSubjectMentors.Add(new GroupSubjectMentor()
-            {
-                UserId = MentorId,
-                GroupSubjectId = GroupSubjects.Last().Id
-            });
         }
     }
 
@@ -51,7 +38,6 @@ public class StudyEntitiesGenerator : IEntityGenerator
     public List<GroupSubject> GroupSubjects { get; set; }
     public List<StudyGroup> StudyGroups { get; set; }
     public List<UniversitySystemUser> Teachers { get; set; }
-    public List<GroupSubjectMentor> GroupSubjectMentors { get; set; }
 
     public void Seed(ModelBuilder modelBuilder)
     {
@@ -59,7 +45,6 @@ public class StudyEntitiesGenerator : IEntityGenerator
         modelBuilder.Entity<UniversitySystemUser>().HasData(Teachers);
         modelBuilder.Entity<Subject>().HasData(Subjects);
         modelBuilder.Entity<GroupSubject>().HasData(GroupSubjects);
-        modelBuilder.Entity<GroupSubjectMentor>().HasData(GroupSubjectMentors);
     }
 
     private GroupSubject CreateGroupSubjectEntity(StudyGroup group, Subject subject)

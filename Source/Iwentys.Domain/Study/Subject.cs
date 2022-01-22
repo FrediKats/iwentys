@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using Iwentys.Domain.AccountManagement;
+﻿using System.Collections.Generic;
 using Iwentys.Domain.SubjectAssignments;
 
 namespace Iwentys.Domain.Study;
@@ -21,21 +17,10 @@ public class Subject
         Assignments = new List<SubjectAssignment>();
     }
 
-    public GroupSubject AddGroup(StudyGroup studyGroup, StudySemester studySemester, IwentysUser lector = null, IwentysUser practice = null)
+    public GroupSubject AddGroup(StudyGroup studyGroup, StudySemester studySemester)
     {
-        var groupSubject = new GroupSubject(this, studyGroup, studySemester, lector);
-        groupSubject.AddPracticeMentor(practice);
+        var groupSubject = new GroupSubject(this, studyGroup, studySemester);
         GroupSubjects.Add(groupSubject);
         return groupSubject;
-    }
-
-    public bool HasMentorPermission(IwentysUser user)
-    {
-        return GroupSubjects.Any(gs => gs.HasMentorPermission(user));
-    }
-
-    public static Expression<Func<Subject, bool>> IsAllowedFor(int userId)
-    {
-        return s => s.GroupSubjects.Any(gs => gs.Mentors.Any(pm=>pm.UserId == userId));
     }
 }

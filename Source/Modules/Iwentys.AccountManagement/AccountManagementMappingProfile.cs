@@ -38,19 +38,5 @@ public class AccountManagementMappingProfile : Profile
                 map =>
                     map.MapFrom(gs => gs.StudyGroup.GroupName));
         CreateMap<IwentysUser, MentorDto>();
-
-        CreateMap<GroupSubjectMentor, MentorDto>()
-            .ForMember(gs => gs.Id,
-                map =>
-                    map.MapFrom(gsm => gsm.UserId))
-            .ForMember(gs => gs.FirstName,
-                map =>
-                    map.MapFrom(gsm => gsm.User.FirstName))
-            .ForMember(gs => gs.MiddleName,
-                map =>
-                    map.MapFrom(gsm => gsm.User.MiddleName))
-            .ForMember(gs => gs.SecondName,
-                map =>
-                    map.MapFrom(gsm => gsm.User.SecondName));
     }
 }

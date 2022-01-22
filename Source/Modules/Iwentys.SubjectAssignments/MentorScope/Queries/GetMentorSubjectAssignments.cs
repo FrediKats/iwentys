@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -7,6 +9,7 @@ using AutoMapper.QueryableExtensions;
 using Iwentys.DataAccess;
 using Iwentys.Domain.AccountManagement;
 using Iwentys.Domain.Study;
+using Iwentys.EntityManager.ApiClient;
 using Iwentys.EntityManagerServiceIntegration;
 using Iwentys.WebService.Application;
 using MediatR;
@@ -65,9 +68,18 @@ public class GetMentorSubjectAssignments
             }
             else
             {
+                //TODO: optimization?
+                IReadOnlyCollection<SubjectTeachersDto> subjectTeachers = await _entityManagerApiClient.Teachers.Client.GetAllAsync();
+                HashSet<int> allowedSubject = subjectTeachers
+                    .Where(st => st.GroupTeachers.Any(gt => gt.Teachers.Any(t => t.TeacherType != TeacherType.None && t.Id == request.User.Id)))
+                    .Select(st => st.SubjectId)
+                    .ToHashSet();
+
+                Expression<Func<Subject, bool>> isAllowedSubject = (s) => allowedSubject.Contains(s.Id);
+
                 List<SubjectAssignmentJournalItemDto> assignments = await _context
                     .Subjects
-                    .Where(Subject.IsAllowedFor(user.Id))
+                    .Where(isAllowedSubject)
                     .ProjectTo<SubjectAssignmentJournalItemDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();
 
