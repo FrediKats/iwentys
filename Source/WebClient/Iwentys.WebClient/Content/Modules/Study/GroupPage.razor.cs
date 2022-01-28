@@ -5,7 +5,7 @@ namespace Iwentys.WebClient.Content;
 
 public partial class GroupPage
 {
-    private GroupProfileResponseDto _groupProfile;
+    private StudyGroupProfileResponseDto _groupProfile;
 
     protected override async Task OnInitializedAsync()
     {

@@ -14,7 +14,7 @@ public partial class AssignmentCreatePage
 
     private StudentInfoDto _currentStudent;
     private List<SubjectProfileDto> _subjects;
-    private GroupProfileResponseDto _studyGroup;
+    private StudyGroupProfileResponseDto _studyGroup;
     private SubjectProfileDto _selectedSubject;
 
     protected override async Task OnInitializedAsync()

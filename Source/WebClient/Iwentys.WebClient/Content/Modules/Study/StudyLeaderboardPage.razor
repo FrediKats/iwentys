@@ -49,7 +49,7 @@
             {
                 <p>
                     <MudSelect Class="input-element" @bind-Value="_selectedGroup">
-                        @foreach (GroupProfileResponseDto item in _groups)
+                        @foreach (StudyGroupProfileResponseDto item in _groups)
                         {
                             <MudSelectItem Value="@item">@item.GroupName</MudSelectItem>
                         }

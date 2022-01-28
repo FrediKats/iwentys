@@ -37,7 +37,7 @@
                 <MudSelect @bind-Value="@_selectedSubject" Class="input-element" FullWidth="true">
                     @foreach (var item in _subjects.Where(p => p is not null))
                     {
-                        <MudSelectItem Value="@item">@item.Name</MudSelectItem>
+                        <MudSelectItem Value="@item">@item.Title</MudSelectItem>
                     }
                 </MudSelect>
             </p>

@@ -35,7 +35,7 @@
                 @foreach (SubjectProfileDto subject in _groupProfile.Subjects)
                 {
                     <MudNavLink Href=@LinkToSubjectProfile(subject)>
-                        @subject.Name
+                        @subject.Title
                     </MudNavLink>
                 }
             </MudNavMenu>

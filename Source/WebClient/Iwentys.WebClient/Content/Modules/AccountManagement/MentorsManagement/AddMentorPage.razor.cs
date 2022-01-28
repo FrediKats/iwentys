@@ -15,11 +15,11 @@ public partial class AddMentorPage
         public string Name { get; set; }
         public int Id { get; set; }
     }
-        
+
     [Parameter] public int SubjectId { get; set; }
-        
+
     [Inject] public ISnackbar Snackbar { get; set; }
-        
+
     private int _mentorId;
     private string _groupName;
     private List<Group> _groups = new List<Group>();
@@ -58,7 +58,7 @@ public partial class AddMentorPage
             ShowError("Invalid group name");
         }
     }
-        
+
     private void RemoveGroup(MudChip chip)
     {
         int id = (int)chip.Tag;
@@ -74,9 +74,9 @@ public partial class AddMentorPage
             return;
         }
 
-        var createArgs = new SubjectMentorCreateArgs()
+        var createArgs = new SubjectTeacherCreateArgs()
         {
-            MentorId = _mentorId,
+            TeacherId = _mentorId,
             GroupSubjectIds = _groups.Select(g=>g.Id).ToList(),
             SubjectId = SubjectId
         };

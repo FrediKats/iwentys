@@ -8,10 +8,10 @@ namespace Iwentys.WebClient.Content;
 public partial class StudyLeaderboardPage
 {
     private List<StudyCourseInfoDto> _studyCourses;
-    private List<GroupProfileResponseDto> _groups;
+    private List<StudyGroupProfileResponseDto> _groups;
 
     public StudyCourseInfoDto _selectedCourse;
-    private GroupProfileResponseDto _selectedGroup;
+    private StudyGroupProfileResponseDto _selectedGroup;
     private ICollection<StudyLeaderboardRowDto> _studentProfiles;
 
     private string LinkToProfile(StudyLeaderboardRowDto rowDto) => $"student/profile/{rowDto.Student.Id}";
@@ -29,7 +29,7 @@ public partial class StudyLeaderboardPage
         _groups = (await _studyGroupClient.GetByCourseIdAsync(value.CourseId)).ToList();
     }
 
-    private async Task OnGroupSelect(GroupProfileResponseDto value)
+    private async Task OnGroupSelect(StudyGroupProfileResponseDto value)
     {
         _studentProfiles = await _leaderboardClient.StudyAsync(null, _selectedCourse.CourseId, value.Id, null, null, null);
     }

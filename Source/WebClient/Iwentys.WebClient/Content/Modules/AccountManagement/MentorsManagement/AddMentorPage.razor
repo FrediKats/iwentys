@@ -14,7 +14,7 @@
             <MudItem sm="12" md="12" lg="12">
                 <MudCard class="dark-elevation-01 p-2">
                     <MudForm>
-                        <MudTextField Value="_subjectProfile.Name" Variant="Variant.Text" Label="Subject" Disabled="true"/>
+                        <MudTextField Value="_subjectProfile.Title" Variant="Variant.Text" Label="Subject" Disabled="true"/>
                         <MudNumericField @bind-Value="_mentorId" HideSpinButtons="true" Label="Mentor Id" InputType="InputType.Number" Required="true"></MudNumericField>
                             <form @onsubmit="@(async () => await AddGroup())">
                                 <MudItem xs="12" sm="12" md="12" Class="d-flex flex-row align-self-center align-baseline">

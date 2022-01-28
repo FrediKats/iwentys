@@ -8,7 +8,7 @@ namespace Iwentys.WebClient.Content;
 public partial class StudentProfileInfoComponent
 {
     private GuildProfileDto _guild;
-    private GroupProfileResponseDto _group;
+    private StudyGroupProfileResponseDto _group;
     private StudentInfoDto _self;
     //TODO: i'm not sure it;s ok
     private Response _userKarmaStatistic;
@@ -47,7 +47,9 @@ public partial class StudentProfileInfoComponent
 
     private Task MakeGroupAdmin()
     {
-        return _studyGroupClient.MakeGroupAdminAsync(StudentProfile.Id);
+        // TODO: fix
+        // return _studyGroupClient.MakeGroupAdminAsync(StudentProfile.Id);
+        return Task.CompletedTask;
     }
 
     private bool IsCanSendKarma()
