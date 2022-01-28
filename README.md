@@ -9,7 +9,7 @@ Iwentys - это платформа для разработки микросер
 Во время запуска основного сервиса (Iwentys.WebService.Api) требуется поднять Iwentys.EntityManager.WebApi т.к. во время старта происходит синк данных между базами:
 
 ```
-dotnet run --project Iwentys.EntityManager/Iwentys.EntityManager.WebApi/Iwentys.EntityManager.WebApi.csproj
+dotnet run --project Iwentys.EntityManager/Source/Iwentys.EntityManager.WebApi/Iwentys.EntityManager.WebApi.csproj
 ```
 
 Нужно убедиться, что сервис запустился и можно запускать основной:
