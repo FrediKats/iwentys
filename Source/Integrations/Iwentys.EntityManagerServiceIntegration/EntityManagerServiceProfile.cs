@@ -11,6 +11,6 @@ public class EntityManagerServiceProfile : Profile
     {
         CreateMap<Student, StudentInfoDto>();
         CreateMap<StudentInfoDto, Student>();
-        CreateMap<IwentysUserInfoDto, IwentysUser>();
+        CreateMap<IwentysUserInfoDto, IwentysUser>().ReverseMap();
     }
 }
