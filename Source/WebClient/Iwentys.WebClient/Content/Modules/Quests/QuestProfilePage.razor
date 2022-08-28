@@ -1,0 +1,71 @@
+﻿@page "/quest/profile/{QuestId:int}"
+@using Iwentys.WebClient.Sdk
+
+@namespace Iwentys.WebClient.Content
+
+<div class="d-flex col-6 input-form-component">
+    @if (_quest is not null)
+    {
+        <MudText Typo="Typo.h3">
+            @_quest.Title
+        </MudText>
+        <MudText Typo="Typo.body1">
+            Price: @_quest.Price
+        </MudText>
+        <MudText Typo="Typo.body1">
+            Description: @_quest.Description
+        </MudText>
+
+        @switch (_quest.State)
+        {
+            case QuestState.Active:
+                <h5>Responses</h5>
+                <div class="justify-content-center">
+                    @foreach (QuestResponseInfoDto questResponse in _quest.ResponseInfos)
+                    {
+                        <div class="card-list-element">
+                            <MudCard>
+                                <MudCardContent>
+                                    <div class="card-list-element-content">
+                                        <MudText Typo="Typo.h6">
+                                            @questResponse.Student.GetFullName()
+                                        </MudText>
+                                        <MudText Typo="Typo.body2">
+                                            @questResponse.Description
+                                        </MudText>
+                                        <MudText Typo="Typo.body2">
+                                            @questResponse.ResponseTime
+                                        </MudText>
+                                    </div>
+                                </MudCardContent>
+                                <MudCardActions>
+                                    <MudButton OnClick=@(async () => await AcceptQuestResponse(questResponse))>Accept</MudButton>
+                                </MudCardActions>
+                            </MudCard>
+                        </div>
+                    }
+                </div>
+                break;
+
+            case QuestState.Completed:
+                <div>
+                    Completed by @_quest.Executor.GetFullName()
+                </div>
+                break;
+
+            case QuestState.Revoked:
+                <div>
+                    Revoked.
+                </div>
+                break;
+
+            default:
+                throw new ArgumentOutOfRangeException(nameof(QuestState), "Unsupported quest state");
+        }
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int QuestId { get; set; }
+}

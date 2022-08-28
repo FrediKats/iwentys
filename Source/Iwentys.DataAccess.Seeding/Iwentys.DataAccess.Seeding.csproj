@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <EnableNETAnalyzers>false</EnableNETAnalyzers>
+    <AnalysisLevel>5.0</AnalysisLevel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Iwentys.DataAccess.Seeding.csproj.DotSettings" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Bogus" Version="33.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="FakerEntities\Raids\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Iwentys.DataAccess\Iwentys.DataAccess.csproj" />
+  </ItemGroup>
+
+</Project>

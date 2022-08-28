@@ -1,0 +1,26 @@
+﻿@using Iwentys.WebClient.Sdk
+@namespace Iwentys.WebClient.Content
+
+<div class="container-fluid d-flex flex-column align-items-center">
+    <img src=@SelectedGuildProfile.ImmageUrl class="guild-logo" />
+
+    <MudText Typo="Typo.h4">@SelectedGuildProfile.Title</MudText>
+    <MudText Typo="Typo.body1">@SelectedGuildProfile.Bio</MudText>
+    <MudText Typo="Typo.body1">Лидер: <NavLink href=@LeaderProfileLink()>@SelectedGuildProfile.Leader.GetFullName()</NavLink></MudText>
+
+    <MudButton Link="@EditProfileLink()">Редактировать</MudButton>
+    <MudButton Link=@TributeJournalLink()>Трибьюты</MudButton>
+    @if (_membership is not null && _membership == UserMembershipState.Entered)
+    {
+        <MudButton OnClick=@LeaveGuild>Ливнуть</MudButton>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public GuildProfileDto SelectedGuildProfile { get; set; }
+
+    private string EditProfileLink() => $"guild/profile/{SelectedGuildProfile.Id}/edit";
+    private string LeaderProfileLink() => $"student/profile/{SelectedGuildProfile.Leader.Id}";
+    private string TributeJournalLink() => $"/guild/{SelectedGuildProfile.Id}/tribute";
+}

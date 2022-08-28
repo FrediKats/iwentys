@@ -1,0 +1,65 @@
+@page "/subject/{SubjectId:int}/assignments"
+
+@namespace Iwentys.WebClient.Content
+
+<MudContainer>
+    <MudGrid>
+        <MudItem xs="12" sm="12" md="12">
+            <MudText Align="Align.Left" Typo="Typo.h4">Assignments</MudText>
+            <MudSelect T="ViewMode" Label="View mode" @bind-Value="_currentViewMode">
+                <MudSelectItem Value="ViewMode.All"/>
+                <MudSelectItem Value="ViewMode.Completed"/>
+                <MudSelectItem Value="ViewMode.Uncompleted"/>
+            </MudSelect>
+            @if (_subjectAssignments is not null)
+            {
+                <MudList>
+                    @foreach (SubjectAssignmentDto subjectAssignment in _subjectAssignments)
+                    {
+                        @if (SubjectAssignmentSatisfyViewMode(subjectAssignment))
+                        {
+                            <div class="card-list-element">
+                                <MudCard Class="dark-elevation-01">
+                                    <MudCardContent>
+                                        <MudExpansionPanel>
+                                            <TitleContent>
+                                                <SubjectAssignmentHeadingComponent Assignment="@subjectAssignment"></SubjectAssignmentHeadingComponent>
+                                            </TitleContent>
+                                            <ChildContent>
+                                                <SubjectAssignmentContentComponent Assignment="@subjectAssignment" IsStudentAssignment ="@true"></SubjectAssignmentContentComponent>
+                                            </ChildContent>
+                                        </MudExpansionPanel>
+                                    </MudCardContent>
+                                </MudCard>
+                            </div>
+                        }
+                    }
+                </MudList>
+            }
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="12">
+            <div class="d-flex flex-row align-self-center align-baseline">
+                <MudText Align="Align.Center" Typo="Typo.h4">Submits</MudText>
+                <MudButton Link=@LinkToCreateSubmit() Class="align-self-center">
+                    <span class="oi oi-plus" title="add" aria-hidden="true"></span>
+                </MudButton>
+            </div>
+        </MudItem>
+
+        @if (_subjectAssignmentSubmits is not null)
+        {
+            <MudItem xs="12" sm="12" md="12">
+                @foreach (SubjectAssignmentSubmitDto submit in _subjectAssignmentSubmits)
+                {
+                    <SubjectAssignmentSubmitComponent Submit="@submit"></SubjectAssignmentSubmitComponent>
+                }
+            </MudItem>
+        }
+    </MudGrid>
+</MudContainer>
+
+@code {
+    [Parameter]
+    public int SubjectId { get; set; }
+}

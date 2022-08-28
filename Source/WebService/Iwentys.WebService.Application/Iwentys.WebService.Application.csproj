@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Iwentys.WebService.Application.csproj.DotSettings" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Kysect.ItmoScheduleSdk" Version="1.0.6" />
+    <PackageReference Include="MediatR" Version="10.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="6.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Integrations\Iwentys.EntityManagerServiceIntegration\Iwentys.EntityManagerServiceIntegration.csproj" />
+    <ProjectReference Include="..\..\Integrations\Iwentys.GithubIntegration\Iwentys.GithubIntegration.csproj" />
+    <ProjectReference Include="..\..\Integrations\Iwentys.GoogleTableIntegration\Iwentys.GoogleTableIntegration.csproj" />
+    <ProjectReference Include="..\..\Integrations\Iwentys.IsuIntegration\Iwentys.IsuIntegration.csproj" />
+    <ProjectReference Include="..\..\Iwentys.DataAccess.Seeding\Iwentys.DataAccess.Seeding.csproj" />
+    <ProjectReference Include="..\..\Iwentys.DataAccess\Iwentys.DataAccess.csproj" />
+  </ItemGroup>
+</Project>

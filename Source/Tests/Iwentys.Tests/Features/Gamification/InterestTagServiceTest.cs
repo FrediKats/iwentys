@@ -1,9 +1,8 @@
 ﻿using NUnit.Framework;
 
-namespace Iwentys.Tests.Features.Gamification
+namespace Iwentys.Tests.Features.Gamification;
+
+[TestFixture]
+public class InterestTagServiceTest
 {
-    [TestFixture]
-    public class InterestTagServiceTest
-    {
-    }
 }

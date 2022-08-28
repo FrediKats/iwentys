@@ -1,0 +1,53 @@
+﻿@page "/assignment"
+
+@namespace Iwentys.WebClient.Content
+
+<div class="container-fluid d-flex flex-row">
+    <div class="col-md-3 d-flex flex-column">
+        <MudButton Disabled="true">Все задачи</MudButton>
+        <MudButton Disabled="true">Персональные задачи</MudButton>
+        <MudButton Disabled="true">Календарь</MudButton>
+        <MudButton Link="/assignment/create">Добавить задачу</MudButton>
+    </div>
+
+    <div class="col-md-6 d-flex flex-column">
+        <h5>Assignment list</h5>
+        @if (_assignment is not null)
+        {
+            <div>
+                @foreach (AssignmentInfoDto assignment in _assignment)
+                {
+                    <div class="card-list-element">
+                        <MudCard Class="dark-elevation-01">
+                            <MudCardContent>
+                                <div class="card-list-element-content">
+                                    <MudText Typo="Typo.h6">
+                                        @assignment.Title @(assignment.DeadlineTimeUtc is not null ? assignment.DeadlineTimeUtc : "")
+                                    </MudText>
+                                </div>
+                            </MudCardContent>
+                            <MudCardActions>
+                                @if (assignment.IsCompeted)
+                                {
+                                    <MudButton OnClick=@(async () => await Delete(assignment.Id))>Delete</MudButton>
+                                    <MudButton OnClick=@(async () => await MakeUncompleted(assignment.Id))>Undo</MudButton>
+                                }
+
+                                @if (!assignment.IsCompeted)
+                                {
+                                    <MudButton OnClick=@(async () => await MakeCompleted(assignment.Id))>Complete</MudButton>
+                                    <MudButton OnClick=@(async () => await Delete(assignment.Id))>Delete</MudButton>
+                                }
+                            </MudCardActions>
+                        </MudCard>
+                    </div>
+
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+
+}

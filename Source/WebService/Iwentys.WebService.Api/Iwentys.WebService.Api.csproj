@@ -1,0 +1,58 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <EnableNETAnalyzers>false</EnableNETAnalyzers>
+    <AnalysisLevel>5.0</AnalysisLevel>
+    <UserSecretsId>Iwentys.Endpoint.Server-6A4DDF6B-8357-47F6-8BAF-5D53458924D0</UserSecretsId>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Logs\**" />
+    <Content Remove="Logs\**" />
+    <EmbeddedResource Remove="Logs\**" />
+    <None Remove="Logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="debug.log" />
+    <None Remove="identity.db" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="6.0.1" />
+    <PackageReference Include="Serilog" Version="2.10.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StackExchange.Exceptional.AspNetCore" Version="2.2.17" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Integrations\Iwentys.GithubIntegration\Iwentys.GithubIntegration.csproj" />
+    <ProjectReference Include="..\..\Integrations\Iwentys.GoogleTableIntegration\Iwentys.GoogleTableIntegration.csproj" />
+    <ProjectReference Include="..\..\Integrations\Iwentys.IsuIntegration\Iwentys.IsuIntegration.csproj" />
+    <ProjectReference Include="..\..\Modules\Iwentys.AccountManagement\Iwentys.AccountManagement.csproj" />
+    <ProjectReference Include="..\..\Modules\Iwentys.Assignments\Iwentys.Assignments.csproj" />
+    <ProjectReference Include="..\..\Modules\Iwentys.Companies\Iwentys.Companies.csproj" />
+    <ProjectReference Include="..\..\Modules\Iwentys.Gamification\Iwentys.Gamification.csproj" />
+    <ProjectReference Include="..\..\Modules\Iwentys.Guilds\Iwentys.Guilds.csproj" />
+    <ProjectReference Include="..\..\Modules\Iwentys.Newsfeeds\Iwentys.Newsfeeds.csproj" />
+    <ProjectReference Include="..\..\Modules\Iwentys.PeerReview\Iwentys.PeerReview.csproj" />
+    <ProjectReference Include="..\..\Modules\Iwentys.Study\Iwentys.Study.csproj" />
+    <ProjectReference Include="..\..\Modules\Iwentys.SubjectAssignments\Iwentys.SubjectAssignments.csproj" />
+    <ProjectReference Include="..\..\WebClient\Iwentys.WebClient\Iwentys.WebClient.csproj" />
+    <ProjectReference Include="..\Iwentys.WebService.AuthComponents\Iwentys.WebService.AuthComponents.csproj" />
+  </ItemGroup>
+</Project>

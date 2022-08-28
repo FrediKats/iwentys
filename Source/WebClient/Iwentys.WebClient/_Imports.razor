@@ -1,0 +1,51 @@
+﻿@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using System.Threading.Tasks;
+
+@using System.Net.Http
+@using System.Net.Http.Json
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.AspNetCore.Components.WebAssembly.Http
+@using Microsoft.Extensions.Logging
+@using Microsoft.JSInterop
+@using Iwentys.Sdk
+
+@using MudBlazor
+
+@using Iwentys.WebClient.Content
+
+@inject NavigationManager _navigationManager
+
+@inject StudentClient _studentClient
+@inject SubjectClient _subjectClient
+@inject StudyGroupClient _studyGroupClient
+@inject AssignmentClient _assignmentClient
+@inject NewsfeedClient _newsfeedClient
+@inject PeerReviewClient _peerReviewClient
+@inject QuestClient _questClient
+@inject KarmaClient _karmaClient
+@inject GithubClient _githubClient
+@inject LeaderboardClient _leaderboardClient
+@inject StudyCourseClient _studyCourseClient
+
+@inject MentorSubjectAssignmentClient _mentorSubjectAssignmentClient
+@inject MentorSubjectAssignmentSubmitClient _mentorSubjectAssignmentSubmitClient
+@inject StudentSubjectAssignmentClient _studentSubjectAssignmentClient
+@inject StudentSubjectAssignmentSubmitClient _studentSubjectAssignmentSubmitClient
+
+@inject MentorsManagementClient _mentorsManagementClient
+ 
+@inject GuildTributeClient _guildTributeClient
+@inject GuildClient _guildClient
+@inject GuildMembershipClient _guildMembershipClient
+@inject TournamentClient _tournamentClient
+@inject AchievementClient _achievementClient
+
+@inject DebugCommandClient _debugCommandClient
+
